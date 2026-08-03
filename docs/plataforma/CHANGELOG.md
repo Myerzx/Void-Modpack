@@ -14,7 +14,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - Launcher API Fastify somente leitura;
 - worker `modpack.build` limitado a `planId` opaco e executor injetado;
 - núcleo Java 17 do Forge Bridge com permissão, expiração, nonce e capabilities;
-- gate local com 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; auditoria de runtime sem vulnerabilidades.
+- gate local e [matriz Ubuntu/Windows 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360) aprovados com 149 casos no Linux, 147 aplicáveis no Windows e auditoria de runtime sem vulnerabilidades.
 
 ### Não habilitado
 

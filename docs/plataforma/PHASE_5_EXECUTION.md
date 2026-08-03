@@ -1,6 +1,6 @@
 # Contrato de execução da Fase 5 — build e launcher
 
-Status: implementação técnica concluída em isolamento em 2026-08-03; gate local aprovado. Publicação `stable`, instalação no Forge real e comando no jogo permanecem bloqueados até seus gates explícitos.
+Status: implementação técnica concluída em isolamento em 2026-08-03; gate local e matriz Windows/Linux aprovados. Publicação `stable`, instalação no Forge real e comando no jogo permanecem bloqueados até seus gates explícitos.
 
 ## Objetivo
 
@@ -181,4 +181,14 @@ Nenhum teste leu `Launcher/workspace/` ou `Servidor/workspace/`. Os artifacts us
 | Forge Bridge Java 17 | 3 | aprovados |
 | monorepo completo | 149 | 147 aprovados no Windows; 2 sockets Unix ignorados |
 
-`npm run check` passou com builds, typechecks, testes, Java 17, APIs e export estático do painel. `npm audit --omit=dev` encontrou zero vulnerabilidades de runtime. A matriz GitHub Windows/Linux permanece como o último gate de fechamento documental.
+`npm run check` passou com builds, typechecks, testes, Java 17, APIs e export estático do painel. `npm audit --omit=dev` encontrou zero vulnerabilidades de runtime.
+
+## Matriz final
+
+A [execução 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360) aprovou o gate completo e a auditoria de runtime:
+
+- `ubuntu-latest`: 149 casos aprovados, incluindo os dois sockets Unix e três cenários Java do Bridge;
+- `windows-latest`: 147 casos aprovados e os dois sockets Unix ignorados, incluindo três cenários Java do Bridge;
+- zero vulnerabilidades em dependências de runtime nos dois sistemas.
+
+Com a matriz verde, os dez critérios de conclusão técnica foram satisfeitos. O gate operacional permanece vermelho por decisão explícita, não por falha da implementação.

@@ -100,7 +100,7 @@ Status: concluída em isolamento em 2026-08-03. O gate local passou com 125 caso
 6. [x] Publicação, promoção e rollback — repositório local encapsulado, CAS por revisão e rollback somente para histórico do mesmo canal.
 7. [x] Forge Bridge e `/atualizar-modpack` — núcleo Java 17 implementado e testado; o adapter Forge e o comando permanecem desabilitados pelos gates reais.
 
-Status: conclusão técnica em isolamento em 2026-08-03. O gate local passou com 149 casos descobertos, 147 aprovados no Windows e dois casos Unix ignorados. A matriz Windows/Linux ainda precisa confirmar o fechamento antes do registro final.
+Status: conclusão técnica em isolamento em 2026-08-03. O gate local e a [matriz Windows/Linux 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360) passaram: 149 casos no Linux; 147 aprovados e dois sockets Unix ignorados no Windows; auditoria de runtime sem vulnerabilidades.
 
 Gate operacional: o canal `stable`, a instalação no Forge real e `/atualizar-modpack` continuam desabilitados até cliente-base compatível, cadeia de distribuição, importação limpa e compatibilidade de launch/conexão serem aprovados com evidência. Não existe bypass de força.
 

@@ -45,7 +45,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
 - Fase 3 concluída em isolamento: processo, console, métricas, backup consistente, restore isolado e configurações básicas com revisão anterior passaram na matriz Windows/Linux;
 - Fase 4 concluída em isolamento: inventário, classificação revisável, quarentena, arquivos autorizados, schemas genéricos e análise de conflitos passaram no gate local e na matriz Windows/Linux;
-- Fase 5 tecnicamente concluída em isolamento: worker por referência, build/sanitização, assinatura, storage imutável, canais, Launcher API, planner portátil, rollback e Bridge Java passaram no gate local; matriz final pendente;
+- Fase 5 tecnicamente concluída em isolamento: worker por referência, build/sanitização, assinatura, storage imutável, canais, Launcher API, planner portátil, rollback e Bridge Java passaram no gate local e na matriz Windows/Linux;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - `stable`, o adapter Forge real e `/atualizar-modpack` permanecem desabilitados até os gates P0 do cliente e da distribuição;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.

@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 5 — tecnicamente concluída em isolamento; gate local aprovado e matriz Windows/Linux pendente
+- Fase: 5 — tecnicamente concluída em isolamento; gate local e matriz Windows/Linux aprovados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -118,6 +118,7 @@
 - gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
 - gate local da Fase 5 aprovado: 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; build/typecheck de todos os workspaces, Java 17, Launcher API e export estático aprovados;
 - Fase 5 por componente: contratos 22, release 7, launcher protocol 4, Launcher API 3, build worker 4 e Forge Bridge 3 casos aprovados;
+- matriz CI de fechamento da Fase 5 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360); 149 casos passam no Linux e os 147 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
@@ -175,7 +176,7 @@
 
 ## Próximo recorte recomendado
 
-Primeiro fechar a matriz Windows/Linux da Fase 5 e registrar sua execução. Depois iniciar a Fase 6 item 1 como domínio puro de perfis por UUID e aliases, sem ler `usercache.json`, `usernamecache.json`, `whitelist.json`, chat, coordenadas ou qualquer arquivo do servidor privado. A importação real dependerá de política de privacidade, autenticação Minecraft e contrato próprio.
+Iniciar a Fase 6 item 1 como domínio puro de perfis por UUID e aliases, sem ler `usercache.json`, `usernamecache.json`, `whitelist.json`, chat, coordenadas ou qualquer arquivo do servidor privado. A importação real dependerá de política de privacidade, autenticação Minecraft e contrato próprio.
 
 ## Commits relevantes
 
