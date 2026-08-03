@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-03)
 
 ## Corpus Check
-- 265 files · ~103,413 words
+- 292 files · ~115,718 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2302 nodes · 3668 edges · 158 communities (142 shown, 16 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 54 edges (avg confidence: 0.69)
+- 2559 nodes · 4233 edges · 176 communities (159 shown, 17 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 57 edges (avg confidence: 0.69)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c4ff7a8f`
+- Built from commit: `0091a0af`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,7 +20,7 @@
 - Modelo Manifesto CurseForge
 - Platform Control Architecture
 - Fonte canonica Launcher/pack
-- Contratos compartilhados
+- Invariantes implementadas
 - export_server_summary.py
 - Gate de audit para alpha
 - Documentação do servidor
@@ -29,7 +29,7 @@
 - Licenciamento de ativos autorais
 - Documentacao do launcher
 - ADR-006 — Identidade VoidFall e início limitado da Fase 2
-- release-manifest.ts
+- common.ts
 - Plataforma/package.json
 - compilerOptions
 - contracts/package.json
@@ -42,9 +42,9 @@
 - authentication/package.json
 - authentication/src/index.ts
 - repositories.ts
-- Database
+- database.ts
 - 0001_foundation.sql
-- asIso
+- SessionRepository
 - compilerOptions
 - permissions/package.json
 - compilerOptions
@@ -117,8 +117,8 @@
 - MinecraftProcessController
 - configuration-schemas/package.json
 - Contrato de execução da Fase 5 — build e launcher
-- validateContract
-- NodeSpawnedProcess
+- moderation-case.ts
+- player-governance/src/types.ts
 - mod-catalog/src/types.ts
 - mod-catalog/package.json
 - mod-catalog/tsconfig.build.json
@@ -126,7 +126,7 @@
 - artifact-quarantine/src/service.ts
 - Q: Quais contratos e limites existentes devem orientar o item 1 da Fase 4, inventário e catálogo reconciliado?
 - artifact-quarantine/package.json
-- common.ts
+- validateContract
 - Q: Os contratos, o reconciliador, os testes e a documentação do item 1 da Fase 4 estão conectados no grafo?
 - Conclusão da Fase 4 — catálogo, artefatos, arquivos e schemas
 - artifact-quarantine/tsconfig.test.json
@@ -152,27 +152,45 @@
 - modpack-release/src/types.ts
 - modpack-release.test.ts
 - launcher-protocol/tsconfig.build.json
-- canonicalJsonBytes
+- signing.ts
 - launcher-api/package.json
 - launcher-protocol/package.json
 - java-tools.mjs
 - launcher-protocol/tsconfig.test.json
 - launcher-api/tsconfig.build.json
 - modpack-release/tsconfig.test.json
+- Fase 6 — jogadores, privacidade e auditoria
 - Q: Como concluir a Fase 5 inteira sem violar os gates de cliente, licença e publicação stable?
-- contracts/src/validation.ts
+- export-schemas.ts
+- audit-event.ts
+- player-profile.ts
+- audit-chain/package.json
+- audit-chain/tsconfig.test.json
+- player-governance/tsconfig.build.json
+- chain.ts
+- audit-chain/tsconfig.build.json
+- player-governance/package.json
+- dependencies
+- NodeSpawnedProcess
+- @voidfall/contracts
+- devDependencies
+- ./testing
+- scripts
+- scripts
+- 0003_audit_chain.sql
+- audit_events
 
 ## God Nodes (most connected - your core abstractions)
-1. `validateContract()` - 24 edges
-2. `ManagedMinecraftProcessAdapter` - 24 edges
-3. `semanticIssue()` - 22 edges
-4. `appendSemanticIssues()` - 21 edges
-5. `compilerOptions` - 21 edges
-6. `ProcessObservation` - 18 edges
-7. `FilesystemReleaseRepository` - 18 edges
-8. `MinecraftProcessController` - 17 edges
-9. `SpawnedProcess` - 16 edges
-10. `canonicalJsonBytes()` - 16 edges
+1. `validateContract()` - 29 edges
+2. `semanticIssue()` - 27 edges
+3. `appendSemanticIssues()` - 26 edges
+4. `ManagedMinecraftProcessAdapter` - 24 edges
+5. `immutable()` - 21 edges
+6. `compilerOptions` - 21 edges
+7. `canonicalTimestamp()` - 19 edges
+8. `assertUuid()` - 18 edges
+9. `ProcessObservation` - 18 edges
+10. `FilesystemReleaseRepository` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Management Platform Phase 1` --references--> `Platform Control Architecture`  [EXTRACTED]
@@ -196,7 +214,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (158 total, 16 thin omitted)
+## Communities (176 total, 17 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -218,9 +236,9 @@ Nodes (20): VoidFall Repository Operating Guide, Agent Scope and Minimum Handoff
 Cohesion: 0.20
 Nodes (10): Fonte canonica Launcher/pack, Isolamento futuro do servidor, Perfil original imutavel, Pipeline do launcher, Distribuicao por project/file IDs, Gate de arquivos acima de 95 MB, Quarentena de CtE Resources, CurseForge como primeiro artefato (+2 more)
 
-### Community 5 - "Contratos compartilhados"
-Cohesion: 0.12
-Nodes (15): `AgentEnvelope`, `AuditEvent`, `CatalogReconciliationReport`, Compatibilidade, Contratos compartilhados, Invariantes implementadas, `InventorySnapshot`, `Job` (+7 more)
+### Community 5 - "Invariantes implementadas"
+Cohesion: 0.10
+Nodes (20): `AgentEnvelope`, `AuditChainExportManifest`, `AuditEvent`, `CatalogReconciliationReport`, Compatibilidade, Contratos compartilhados, Invariantes implementadas, `InventorySnapshot` (+12 more)
 
 ### Community 6 - "export_server_summary.py"
 Cohesion: 0.44
@@ -246,9 +264,9 @@ Nodes (3): Agent Graph Query Workflow, Graphify All-Extras Installation, Portabl
 Cohesion: 0.29
 Nodes (6): ADR-006 — Identidade VoidFall e início limitado da Fase 2, Consequências, Contexto, Decisão, Motivo, Revisão futura
 
-### Community 25 - "release-manifest.ts"
-Cohesion: 0.19
-Nodes (16): BuildIdSchema, ContractSchemaVersion, RelativePathSchema, SemanticVersionSchema, Sha256Schema, SlugSchema, LauncherChannel, LauncherChannelSchema (+8 more)
+### Community 25 - "common.ts"
+Cohesion: 0.13
+Nodes (18): ActorRef, Base64UrlSchema, BuildIdSchema, JsonObject, JsonPrimitive, JsonValueSchema, RelativePathSchema, ResourceRef (+10 more)
 
 ### Community 26 - "Plataforma/package.json"
 Cohesion: 0.06
@@ -263,8 +281,8 @@ Cohesion: 0.09
 Nodes (22): ajv, ajv-formats, dependencies, ajv, ajv-formats, @sinclair/typebox, description, exports (+14 more)
 
 ### Community 29 - "database/package.json"
-Cohesion: 0.06
-Nodes (31): pg, dependencies, pg, @voidfall/authentication, @voidfall/contracts, @voidfall/permissions, description, devDependencies (+23 more)
+Cohesion: 0.22
+Nodes (8): description, files, license, name, private, type, version, migrations
 
 ### Community 30 - "compilerOptions"
 Cohesion: 0.14
@@ -295,12 +313,12 @@ Cohesion: 0.23
 Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOptions, hashOpaqueToken(), hashPassword(), isAgentEnvelopeFresh(), PASSWORD_OPTIONS, safeEqualHex() (+5 more)
 
 ### Community 37 - "repositories.ts"
-Cohesion: 0.14
+Cohesion: 0.13
 Nodes (11): ActiveSession, AgentRow, JobRow, PanelUser, PermissionRepository, RegisteredAgent, Repositories, ServerInstance (+3 more)
 
-### Community 38 - "Database"
-Cohesion: 0.18
-Nodes (9): Database, SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient() (+1 more)
+### Community 38 - "database.ts"
+Cohesion: 0.17
+Nodes (7): Database, SqlClient, SqlResult, MigrationRow, createPGliteTestDatabase(), pgliteClient(), PGliteQueryResult
 
 ### Community 39 - "0001_foundation.sql"
 Cohesion: 0.24
@@ -357,6 +375,10 @@ Nodes (34): @fastify/cookie, dependencies, fastify, @fastify/cookie, @fastify/he
 ### Community 57 - "control-api/tsconfig.build.json"
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 58 - "AuditRepository"
+Cohesion: 0.29
+Nodes (3): asIso(), AuditRepository, parseJson()
 
 ### Community 59 - "compilerOptions"
 Cohesion: 0.14
@@ -468,7 +490,7 @@ Nodes (14): Concorrência e consistência, Configurações básicas e revisões 
 
 ### Community 91 - "catalog-reconciliation.ts"
 Cohesion: 0.08
-Nodes (28): CatalogMatchState, CatalogMatchStateSchema, CatalogObservation, CatalogObservationSchema, CatalogReconciliationReport, CatalogReconciliationReportSchema, ReconciledArtifact, ReconciledArtifactSchema (+20 more)
+Nodes (29): CatalogMatchState, CatalogMatchStateSchema, CatalogObservation, CatalogObservationSchema, CatalogReconciliationReport, isStrictlySortedUnique(), observationKey(), ReconciledArtifact (+21 more)
 
 ### Community 92 - "Console limitado da Fase 3"
 Cohesion: 0.20
@@ -554,9 +576,13 @@ Nodes (13): description, exports, files, dist, license, name, private, scripts (
 Cohesion: 0.12
 Nodes (16): Arquitetura da entrega, Assinatura e identidade, Contrato de execução da Fase 5 — build e launcher, Fora de escopo, Forge Bridge, Gate de conclusão técnica, Gates, Gates de candidato (+8 more)
 
-### Community 114 - "validateContract"
-Cohesion: 0.15
-Nodes (22): validateAgentEnvelope(), validateAgentHeartbeatPayload(), validateAuditEvent(), isStrictlySortedUnique(), observationKey(), validateCatalogReconciliationReport(), validateForgeBuildRequest(), validateInventorySnapshot() (+14 more)
+### Community 114 - "moderation-case.ts"
+Cohesion: 0.07
+Nodes (28): AuditChainExportManifest, AuditChainExportManifestSchema, validateAuditChainExportManifest(), ActorRefSchema, SlugSchema, MinecraftGroupSchema, MinecraftPermissionBinding, MinecraftPermissionBindingSchema (+20 more)
+
+### Community 115 - "player-governance/src/types.ts"
+Cohesion: 0.07
+Nodes (49): assertActor(), assertOptions(), assertReason(), assertUuid(), canonicalTimestamp(), canonicalValue(), compareOrdinal(), fingerprint() (+41 more)
 
 ### Community 116 - "mod-catalog/src/types.ts"
 Cohesion: 0.05
@@ -586,9 +612,9 @@ Nodes (4): Answer, Outcome, Q: Quais contratos e limites existentes devem orient
 Cohesion: 0.14
 Nodes (13): description, exports, files, dist, license, name, private, scripts (+5 more)
 
-### Community 123 - "common.ts"
-Cohesion: 0.10
-Nodes (31): AgentEnvelope, AgentEnvelopeSchema, AgentHeartbeatPayload, AgentHeartbeatPayloadSchema, AuditEvent, AuditEventSchema, findForbiddenKey(), forbiddenAuditKeys (+23 more)
+### Community 123 - "validateContract"
+Cohesion: 0.13
+Nodes (29): AgentEnvelope, AgentEnvelopeSchema, AgentHeartbeatPayload, AgentHeartbeatPayloadSchema, validateAgentEnvelope(), validateAgentHeartbeatPayload(), ContractSchemaVersion, JsonObjectSchema (+21 more)
 
 ### Community 124 - "Q: Os contratos, o reconciliador, os testes e a documentação do item 1 da Fase 4 estão conectados no grafo?"
 Cohesion: 0.40
@@ -659,20 +685,20 @@ Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
 
 ### Community 143 - "launcher-api/src/app.ts"
-Cohesion: 0.05
-Nodes (35): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+27 more)
+Cohesion: 0.06
+Nodes (34): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+26 more)
 
 ### Community 144 - "filesystem-repository.ts"
-Cohesion: 0.14
-Nodes (20): signLauncherChannel(), ChannelMutationTarget, FilesystemReleaseRepository, isNodeError(), isWithin(), pathExists(), readBoundedFile(), RepositoryLayout (+12 more)
+Cohesion: 0.13
+Nodes (23): releaseFixture(), canonicalJsonBytes(), UnsignedLauncherChannel, ChannelMutationTarget, FilesystemReleaseRepository, isNodeError(), isWithin(), pathExists() (+15 more)
 
 ### Community 145 - "sanitization.ts"
-Cohesion: 0.27
-Nodes (11): decodeUtf8(), normalizedKey(), SanitizedArtifact, sanitizeJson(), sanitizeProperties(), sanitizeReleaseArtifact(), SENSITIVE_KEYS, validateAllowedKeys() (+3 more)
+Cohesion: 0.35
+Nodes (10): decodeUtf8(), normalizedKey(), SanitizedArtifact, sanitizeJson(), sanitizeProperties(), sanitizeReleaseArtifact(), SENSITIVE_KEYS, validateAllowedKeys() (+2 more)
 
 ### Community 146 - "modpack-release/src/types.ts"
-Cohesion: 0.12
-Nodes (15): CanonicalJsonObjectPolicy, ChannelMutationReceipt, DEFAULT_RELEASE_BUILD_LIMITS, ERROR_MESSAGES, ExactReviewedBytesPolicy, JavaPropertiesAllowlistPolicy, ReleaseBuildArtifact, ReleaseBuildErrorCode (+7 more)
+Cohesion: 0.13
+Nodes (14): CanonicalJsonObjectPolicy, ChannelMutationReceipt, DEFAULT_RELEASE_BUILD_LIMITS, ERROR_MESSAGES, ExactReviewedBytesPolicy, JavaPropertiesAllowlistPolicy, ReleaseBuildArtifact, ReleaseBuildErrorCode (+6 more)
 
 ### Community 147 - "modpack-release.test.ts"
 Cohesion: 0.27
@@ -682,9 +708,9 @@ Nodes (8): sha256Bytes(), PublishReleaseInput, ReleaseRepository, CapturingRepos
 Cohesion: 0.20
 Nodes (9): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json (+1 more)
 
-### Community 149 - "canonicalJsonBytes"
-Cohesion: 0.15
-Nodes (16): canonicalize(), canonicalJson(), canonicalJsonBytes(), CanonicalJsonValue, launcherChannelPayload(), unsignedChannel(), UnsignedLauncherChannel, verifyLauncherChannelSignature() (+8 more)
+### Community 149 - "signing.ts"
+Cohesion: 0.13
+Nodes (16): canonicalize(), canonicalJson(), CanonicalJsonValue, launcherChannelPayload(), signLauncherChannel(), unsignedChannel(), verifyLauncherChannelSignature(), Ed25519ReleaseSigner (+8 more)
 
 ### Community 150 - "launcher-api/package.json"
 Cohesion: 0.07
@@ -710,45 +736,105 @@ Nodes (9): compilerOptions, composite, outDir, rootDir, extends, include, src/**
 Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
 
+### Community 156 - "Fase 6 — jogadores, privacidade e auditoria"
+Cohesion: 0.13
+Nodes (14): Binding de grupos, Cadeia e exportação de auditoria, Classificação e minimização, Componentes, Contratos e invariantes, Fase 6 — jogadores, privacidade e auditoria, Gate técnico de conclusão, Gates externos preservados (+6 more)
+
 ### Community 157 - "Q: Como concluir a Fase 5 inteira sem violar os gates de cliente, licença e publicação stable?"
 Cohesion: 0.40
 Nodes (4): Answer, Outcome, Q: Como concluir a Fase 5 inteira sem violar os gates de cliente, licença e publicação stable?, Source Nodes
 
-### Community 158 - "contracts/src/validation.ts"
+### Community 158 - "export-schemas.ts"
+Cohesion: 0.17
+Nodes (10): CatalogReconciliationReportSchema, FileNameSchema, schemaDirectory, schemas, InventorySnapshotSchema, JobSchema, ModCatalogEntry, ModCatalogEntrySchema (+2 more)
+
+### Community 159 - "audit-event.ts"
+Cohesion: 0.31
+Nodes (8): AuditEvent, AuditEventSchema, findForbiddenKey(), forbiddenAuditKeys, normalizeKey(), validateAuditEvent(), JsonValue, UuidSchema
+
+### Community 160 - "player-profile.ts"
 Cohesion: 0.29
-Nodes (6): addFormats, ajv, getValidator(), mapAjvError(), require, validatorCache
+Nodes (7): IsoDateTimeSchema, MinecraftAlias, MinecraftAliasSchema, normalizeAlias(), PlayerProfile, PlayerProfileSchema, validatePlayerProfile()
+
+### Community 161 - "audit-chain/package.json"
+Cohesion: 0.17
+Nodes (11): description, exports, license, name, private, scripts, build, test (+3 more)
+
+### Community 162 - "audit-chain/tsconfig.test.json"
+Cohesion: 0.11
+Nodes (17): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json (+9 more)
+
+### Community 163 - "player-governance/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 164 - "chain.ts"
+Cohesion: 0.14
+Nodes (24): canonicalJson(), compareOrdinal(), freezeRecursive(), immutable(), sha256(), visit(), assertPartition(), assertSequence() (+16 more)
+
+### Community 165 - "audit-chain/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 166 - "player-governance/package.json"
+Cohesion: 0.18
+Nodes (10): files, description, exports, files, license, name, private, type (+2 more)
+
+### Community 167 - "dependencies"
+Cohesion: 0.22
+Nodes (9): pg, dependencies, pg, @voidfall/audit-chain, @voidfall/authentication, @voidfall/permissions, @voidfall/audit-chain, @voidfall/authentication (+1 more)
+
+### Community 169 - "@voidfall/contracts"
+Cohesion: 0.33
+Nodes (6): dependencies, @voidfall/contracts, @voidfall/contracts, dependencies, @voidfall/contracts, @voidfall/contracts
+
+### Community 170 - "devDependencies"
+Cohesion: 0.40
+Nodes (5): @electric-sql/pglite, devDependencies, @electric-sql/pglite, @types/pg, @types/pg
+
+### Community 171 - "./testing"
+Cohesion: 0.50
+Nodes (4): exports, ./testing, import, types
+
+### Community 172 - "scripts"
+Cohesion: 0.50
+Nodes (4): scripts, build, test, typecheck
+
+### Community 173 - "scripts"
+Cohesion: 0.50
+Nodes (4): scripts, build, test, typecheck
 
 ## Knowledge Gaps
-- **937 isolated node(s):** `Objetivo`, `Arquitetura da entrega`, `Trust boundaries`, `Plano de build fechado`, `Gates de candidato` (+932 more)
+- **1022 isolated node(s):** `Objetivo`, `Limite de confiança`, `Matriz de contratos`, ``Job``, ``AgentEnvelope`` (+1017 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Work-memory lessons
 
 **Preferred sources** — corroborated by past sessions; start here.
-- `FilesystemConfigurationService` (3× useful, score=2.995991999)
-- `ConfigurationRevisionManifest` (2× useful, score=1.997377114)
-- `RollbackConfigurationPlan` (2× useful, score=1.997377114)
-- `CatalogReconciliationReportSchema` (2× useful, score=1.996927357)
-- `mod-catalog.test.ts` (2× useful, score=1.996927357)
-- `ModCatalogEntrySchema` (2× useful, score=1.996709018)
-- `PHASE_3_CONFIGURATION_REVISIONS.md` (2× useful, score=1.996000605)
-- `ConfigurationResourceDefinition` (2× useful, score=1.996000605)
+- `FilesystemConfigurationService` (3× useful, score=2.993704476)
+- `ConfigurationRevisionManifest` (2× useful, score=1.995852061)
+- `RollbackConfigurationPlan` (2× useful, score=1.995852061)
+- `CatalogReconciliationReportSchema` (2× useful, score=1.995402648)
+- `mod-catalog.test.ts` (2× useful, score=1.995402648)
+- `ModCatalogEntrySchema` (2× useful, score=1.995184476)
+- `PHASE_3_CONFIGURATION_REVISIONS.md` (2× useful, score=1.994476603)
+- `ConfigurationResourceDefinition` (2× useful, score=1.994476603)
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `releaseFixture()` connect `launcher-api/src/app.ts` to `filesystem-repository.ts`, `builder.ts`?**
-  _High betweenness centrality (0.003) - this node is a cross-community bridge._
-- **What connects `Objetivo`, `Arquitetura da entrega`, `Trust boundaries` to the rest of the system?**
-  _937 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Contratos compartilhados` be split into smaller, more focused modules?**
-  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
+- **Why does `releaseFixture()` connect `filesystem-repository.ts` to `builder.ts`, `launcher-api/src/app.ts`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **What connects `Objetivo`, `Limite de confiança`, `Matriz de contratos` to the rest of the system?**
+  _1022 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Invariantes implementadas` be split into smaller, more focused modules?**
+  _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
+- **Should `common.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
 - **Should `Plataforma/package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
 - **Should `contracts/package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
-- **Should `database/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
