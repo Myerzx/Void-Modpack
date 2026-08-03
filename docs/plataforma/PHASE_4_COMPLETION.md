@@ -1,6 +1,6 @@
 # Conclusão da Fase 4 — catálogo, artefatos, arquivos e schemas
 
-Status: contrato de implementação aprovado para execução isolada em 2026-08-03.
+Status: itens 2 a 6 implementados em isolamento e gate local aprovado em 2026-08-03; matriz Windows/Linux pendente.
 
 ## Objetivo
 
@@ -135,3 +135,23 @@ A Fase 4 somente pode ser marcada como concluída quando:
 10. Graphify, roadmap, handoff e guia de agentes refletirem o estado final.
 
 Concluir esse gate significa que os núcleos existem e são testáveis em isolamento. Não significa que os dados reais do modpack foram classificados, que um upload público está disponível ou que o servidor pode ser editado pelo painel.
+
+## Resultado implementado
+
+- `@voidfall/mod-catalog`: classificação por revisão humana com concorrência otimista e análise determinística de dependências, duplicatas e conflitos;
+- `@voidfall/artifact-quarantine`: ingestão opaca de `.jar`/`.zip`, limite durante o stream, SHA-256, tamanho declarado, assinatura inicial, staging e identidade não sobrescrevível;
+- `@voidfall/authorized-files`: registro fechado de raízes/extensões, listagem limitada, leitura UTF-8, substituição com hash esperado, revisão anterior e recuperação;
+- `@voidfall/configuration-schemas`: schemas declarativos para cinco formatos, campos tipados, defaults, padrões fechados, histórico imutável em memória e validação de valores;
+- raiz do monorepo: os três novos pacotes entram no build ordenado e nos gates de workspace.
+
+## Validação local
+
+| Pacote | Casos | Resultado no Windows local |
+| --- | ---: | --- |
+| `@voidfall/mod-catalog` | 19 | 19 aprovados |
+| `@voidfall/artifact-quarantine` | 7 | 7 aprovados |
+| `@voidfall/authorized-files` | 8 | 8 aprovados |
+| `@voidfall/configuration-schemas` | 8 | 8 aprovados |
+| monorepo completo | 125 | 123 aprovados e 2 sockets Unix ignorados |
+
+`npm run check` passou com build, typecheck, testes e build dos aplicativos. `npm audit --omit=dev` encontrou zero vulnerabilidades de runtime. Os testes de filesystem usaram apenas raízes criadas em `os.tmpdir()` e não acessaram `Launcher/` nem `Servidor/workspace/`.

@@ -63,7 +63,7 @@ Gate: a Fase 3 foi concluída em isolamento. Force kill e restore operacional pe
 
 Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console, aceita somente dois IDs sem argumentos e produz snapshots de host/processo com fonte, unidade, qualidade e timestamp. `@voidfall/server-backup` opera apenas sobre raízes confiáveis de teste, exige uma guarda offline injetada e publica/restaura diretórios por staging verificado. `@voidfall/server-configuration` altera somente recursos Java Properties registrados em fixtures, publica a revisão anterior antes da troca e exige guarda offline, lock e hash esperado. CPU/RSS da JVM permanecem explicitamente indisponíveis. Histórico idempotente, exclusão e recibos ainda são locais à memória ou ao filesystem. Nenhum dos pacotes toca no servidor ou está conectado à Control API, ao agente ou ao painel.
 
-Status: concluída em 2026-08-03 dentro desses limites isolados. O próximo recorte é o item 1 da Fase 4.
+Status: concluída em 2026-08-03 dentro desses limites isolados. A Fase 4 foi implementada em seguida sem ampliar a integração operacional.
 
 ## Progresso por fase
 
@@ -74,7 +74,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 1 — planejamento | 100% | concluída |
 | 2 — fundação | 100% | 8 de 8 itens |
 | 3 — controle do Minecraft | 100% | 6 de 6 itens |
-| 4 — mods, arquivos e schemas | 17% | 1 de 6 itens |
+| 4 — mods, arquivos e schemas | 100% | 6 de 6 itens implementados; matriz final pendente |
 | 5 — build e launcher | 0% | 0 de 7 itens |
 | 6 — jogadores e auditoria | 0% | 0 de 6 itens |
 | 7 — configurações específicas | 0% | ainda não iniciada |
@@ -82,11 +82,13 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 ## Fase 4 — mods, arquivos e schemas
 
 1. [x] Inventário e catálogo reconciliado — concluído em isolamento no pacote `@voidfall/mod-catalog`: snapshots sanitizados, identidade por SHA-256 e relatório determinístico de conflitos/bloqueios; gate aprovado na [matriz Windows/Linux](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194), sem varredura do runtime ou aprovação automática.
-2. Classificação manual por lado e distribuição.
-3. Upload em quarantine e validação segura.
-4. File manager em raízes autorizadas.
-5. Schemas genéricos de configuração e histórico.
-6. Dependências, duplicatas e conflitos.
+2. [x] Classificação manual por lado e distribuição — revisão imutável, ator/motivo, hash esperado e transições conservadoras em `@voidfall/mod-catalog`.
+3. [x] Upload em quarantine e validação segura — streaming limitado, hash/tamanho, assinatura ZIP mínima e publicação sem overwrite em `@voidfall/artifact-quarantine`.
+4. [x] File manager em raízes autorizadas — listagem/leitura UTF-8 e substituição otimista com revisão anterior em `@voidfall/authorized-files`.
+5. [x] Schemas genéricos de configuração e histórico — definições declarativas, revisão em memória e validação estrita em `@voidfall/configuration-schemas`.
+6. [x] Dependências, duplicatas e conflitos — dependências ausentes, ciclos, runtimes, hashes, filenames, ranges não provados e conflitos revisados no catálogo.
+
+Status de fechamento: os seis itens estão implementados em isolamento e o gate local passou com 125 casos descobertos, 123 executados no Windows e dois casos específicos de socket Unix ignorados. A Fase 4 só será declarada formalmente concluída após a mesma revisão passar na matriz `ubuntu-latest`/`windows-latest`.
 
 ## Fase 5 — build e launcher
 

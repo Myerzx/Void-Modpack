@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2, all six Phase 3 items and Phase 4 item 1 are complete in isolation. Phase 4 items 2 through 6 are being completed as one bounded delivery under `docs/plataforma/PHASE_4_COMPLETION.md`. Content identity is SHA-256; logical identity remains the reviewed catalog ID. Inventory may suggest presence and side but must never approve logical identity, license, provenance or stable publication. Quarantine may stream opaque bytes but never extract or execute them. Authorized-file tests use only OS temp roots, and generic configuration schemas remain pure metadata. Do not scan private runtimes, inspect JAR contents, call providers, persist catalog/schema state, expose routes, or connect these packages to the API, agent, worker or panel. Existing Phase 3 operational restrictions remain in force.
+Phase 2, all six Phase 3 items and all six Phase 4 items are implemented in isolation. The Phase 4 local gate is complete; the Windows/Linux matrix is the remaining closure gate under `docs/plataforma/PHASE_4_COMPLETION.md`. Content identity is SHA-256; logical identity remains the reviewed catalog ID. Inventory may suggest presence and side but must never approve logical identity, license, provenance or stable publication. Quarantine may stream opaque bytes but never extract or execute them. Authorized-file tests use only OS temp roots, and generic configuration schemas remain pure metadata. Do not scan private runtimes, inspect JAR contents, call providers, persist catalog/schema state, expose routes, or connect these packages to the API, agent, worker or panel. Do not start Phase 5 until the Phase 4 matrix is green and the roadmap/handoff are closed. Existing Phase 3 operational restrictions remain in force.
 
 ## Ownership
 

@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 4 — item 1 concluído em isolamento; gate aprovado em Windows e Linux
+- Fase: 4 — seis itens implementados em isolamento; gate local aprovado, matriz Windows/Linux pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -60,6 +60,24 @@
   - sugestão de lado baseada apenas em presença ativa, sem sobrescrever revisão;
   - bloqueios ordenados para ausência, inatividade, lado, distribuição, revisão, runtime, filename e tamanho;
   - relatório profundamente imutável, sem filesystem, rede, JAR, banco ou efeito operacional;
+  - classificação humana limitada a lado, requisito, distribuição e estado de revisão;
+  - hash canônico esperado, ator, motivo e revisão imutável para impedir decisão sobre estado obsoleto;
+  - análise determinística de dependências ausentes, ciclos, ranges não provados, runtime, conteúdo duplicado, filename e conflitos revisados;
+- `@voidfall/artifact-quarantine` com:
+  - streaming opaco de `.jar`/`.zip` sem extração ou execução;
+  - limites durante a leitura, tamanho declarado, SHA-256 e assinatura inicial de container ZIP;
+  - raiz confiável, staging exclusivo, manifesto canônico, `fsync`, rename e conflito sem overwrite;
+  - rejeição de root/link inseguro e limpeza limitada ao staging da própria identidade;
+- `@voidfall/authorized-files` com:
+  - registro fechado de raízes, extensões e limites, sem path absoluto na operação;
+  - listagem limitada, leitura UTF-8 e rejeição de traversal, symlink/junction, hardlink e tipos especiais;
+  - substituição somente de arquivo existente com hash esperado e exclusão local por recurso;
+  - revisão imutável dos bytes anteriores preparada antes da troca, verificação e recuperação;
+- `@voidfall/configuration-schemas` com:
+  - metadata pura para Java Properties, JSON, TOML, YAML e CFG, sem parser ou acesso a arquivo;
+  - campos boolean, integer, number, string e enum, com limites, defaults e restart;
+  - patterns fechados, chaves estritas e validação determinística de valores;
+  - registro e histórico imutável em memória com hash esperado e limites explícitos;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -71,7 +89,7 @@
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
-8. Não tratar o codec inicial como editor Java Properties completo ou genérico; JSON/TOML/YAML, schemas de mods e paths públicos permanecem bloqueados.
+8. Não tratar schemas genéricos como adapters operacionais: JSON/TOML/YAML/CFG ainda não possuem parser, serializer, persistência, path público ou aplicação em arquivo real.
 9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
 10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
 
@@ -81,8 +99,12 @@
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
 - pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
 - pacote de contratos: build, typecheck, 18 casos e 7 JSON Schemas aprovados;
-- pacote de catálogo: build, typecheck e 12 casos aprovados;
-- gate local aprovado: 95 casos, typechecks e builds de todos os workspaces; 93 executados no Windows e 2 sockets Unix ignorados;
+- pacote de catálogo: build, typecheck e 19 casos aprovados;
+- pacote de quarentena: build, typecheck e 7 casos aprovados;
+- pacote de arquivos autorizados: build, typecheck e 8 casos aprovados;
+- pacote de schemas genéricos: build, typecheck e 8 casos aprovados;
+- gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
+- matriz CI de fechamento da Fase 4: pendente após publicação desta revisão;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
@@ -117,6 +139,14 @@
 - sugestão de lado por presença não prova compatibilidade de loader, comportamento em jogo ou necessidade de dependências;
 - o reconciliador é puro e não possui persistência, histórico, ator, autorização, auditoria, exportador, importador, API, painel ou integração com worker;
 - colisão de filename é conservadora e exige revisão humana; o pacote não tenta inferir versão pelo nome do arquivo;
+- classificação e análise do catálogo são puras e não possuem persistência, autorização ou trilha de auditoria durável;
+- ranges de versão são reportados como não provados; nenhum interpretador SemVer ou metadata interna de JAR foi introduzido;
+- a validação de quarentena comprova limite, hash, tamanho e assinatura inicial, mas não certifica a estrutura ZIP completa, malware, mod ID, licença ou compatibilidade;
+- quarentena não possui endpoint, retenção, antivírus, promoção, backend externo ou inspeção profunda;
+- o registro de raízes do file manager continua sendo uma entrada confiável de construção; não há descoberta, criação, delete, move, copy ou download público;
+- revisões de arquivo podem preservar segredos do conteúdo anterior e precisam de storage cifrado, retenção e autorização antes de uso operacional;
+- o manifesto de revisão de arquivo registra estado `prepared-before-replacement`; uma falha posterior exige correlação futura com auditoria e recibo antes de ser exibida como aplicada;
+- schemas genéricos e seu histórico vivem somente na memória e não leem, interpretam, serializam ou aplicam formatos reais;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -124,7 +154,7 @@
 
 ## Próximo recorte recomendado
 
-Iniciar o item 2 da Fase 4: classificação manual por lado e distribuição. Antes de classificar os artefatos reais, criar um exportador de cliente que produza SHA-256/tamanho e um importador revisado para `InventorySnapshot`; não usar filename como identidade e não promover licença por metadata do provedor.
+Fechar primeiro a matriz Windows/Linux desta revisão. Depois, iniciar o item 1 da Fase 5 somente como worker isolado e staging reproduzível, sem publicação, launcher real ou acesso ao runtime privado. A classificação dos artefatos reais continua bloqueada até existir exportador de cliente com SHA-256/tamanho e revisão de proveniência/licença.
 
 ## Commits relevantes
 
@@ -161,5 +191,10 @@ Iniciar o item 2 da Fase 4: classificação manual por lado e distribuição. An
 - `b7e274a` — testes de conflitos, bloqueios e determinismo.
 - `0a231cf` — validação local, limites e handoff do recorte;
 - `01ebbcd` — grafo atualizado da arquitetura de reconciliação.
+- `bb26aaf` — contrato único e limites de conclusão da Fase 4;
+- `71bfb4d` — classificação revisável e análise de dependências/conflitos;
+- `519926e` — quarentena opaca e limitada de artefatos;
+- `0481276` — arquivos versionados em raízes autorizadas;
+- `4a9085c` — schemas genéricos e histórico em memória.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
