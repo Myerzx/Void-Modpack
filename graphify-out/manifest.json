@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785781100.7239313,
-    "ast_hash": "dea66b2f31f970bfcd9d57f837b32c9a",
+    "mtime": 1785781349.172564,
+    "ast_hash": "73da042eda5ab0a0455dc7ed49078fba",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785781100.7234128,
-    "ast_hash": "62ad004cb57461211e6bfeb60efed6b6",
+    "mtime": 1785781349.1710494,
+    "ast_hash": "7f84a79d2dfcad588742728d812855c8",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785781106.8526914,
-    "ast_hash": "07cc876b8efed2694f0521ea7b181a85",
+    "mtime": 1785781349.172564,
+    "ast_hash": "4557b762c266a11ab5d867c7448daa19",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785781100.7227883,
-    "ast_hash": "01e44bfe046692144c048f692467a809",
+    "mtime": 1785781349.1705375,
+    "ast_hash": "fe831633ccb4b696987f1bc418fa8824",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -770,8 +770,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_3_CONSOLE.md": {
-    "mtime": 1785781120.30372,
-    "ast_hash": "058e61e39ae0c465cd454eca4d8b09fd",
+    "mtime": 1785781349.168453,
+    "ast_hash": "a2084fa782e75342c280176b06bca8b3",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/console.ts": {
