@@ -50,9 +50,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1785719399.3027208,
-    "ast_hash": "2df7953c992ade43e7cfc30ca1ca0d4a",
-    "semantic_hash": "2df7953c992ade43e7cfc30ca1ca0d4a"
+    "mtime": 1785728901.8949008,
+    "ast_hash": "7ad36e706524d8166204a4edac6e3bdb",
+    "semantic_hash": ""
   },
   "Launcher/README.md": {
     "mtime": 1785719202.1504438,
@@ -70,24 +70,24 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785721002.947932,
-    "ast_hash": "75c6222abbc517c55fd633ee2ff7ede0",
-    "semantic_hash": "75c6222abbc517c55fd633ee2ff7ede0"
+    "mtime": 1785728901.891889,
+    "ast_hash": "9adc76c7465f39400227869c35651f3e",
+    "semantic_hash": ""
   },
   "Servidor/README.md": {
-    "mtime": 1785719202.1519513,
-    "ast_hash": "90dfa38ee84b6db8f950fa02e4b7ea60",
-    "semantic_hash": "90dfa38ee84b6db8f950fa02e4b7ea60"
+    "mtime": 1785727368.7845335,
+    "ast_hash": "22772d6578f91cb0739fe137a1609162",
+    "semantic_hash": ""
   },
   "docs/README.md": {
-    "mtime": 1785721002.947932,
-    "ast_hash": "21860340f384c03cf2d835780a9c720e",
-    "semantic_hash": "21860340f384c03cf2d835780a9c720e"
+    "mtime": 1785728901.893396,
+    "ast_hash": "7e079873fa186b50e55bfbab0dcbe779",
+    "semantic_hash": ""
   },
   "docs/agentes/escopos.md": {
-    "mtime": 1785719202.1559782,
-    "ast_hash": "ad82586a3104ba747d0e3d142b5b3e61",
-    "semantic_hash": "ad82586a3104ba747d0e3d142b5b3e61"
+    "mtime": 1785728901.8949008,
+    "ast_hash": "5cce61d4b69b3010e074b384b110f2ee",
+    "semantic_hash": ""
   },
   "docs/launcher/README.md": {
     "mtime": 1785719202.153458,
@@ -133,5 +133,90 @@
     "mtime": 1785721002.949438,
     "ast_hash": "e06125db41d9cfb1f0534a95ec2980ca",
     "semantic_hash": "e06125db41d9cfb1f0534a95ec2980ca"
+  },
+  "Servidor/catalog/resumo-servidor.json": {
+    "mtime": 1785729071.5133693,
+    "ast_hash": "eac6cbe2893db61f137d55a9ba6beef5",
+    "semantic_hash": ""
+  },
+  "Servidor/tools/Export-ServerInventory.ps1": {
+    "mtime": 1785729064.2070794,
+    "ast_hash": "9bcdbb420ea51ef9a47731be6f377e43",
+    "semantic_hash": ""
+  },
+  "Servidor/tools/Test-ServerDocumentation.ps1": {
+    "mtime": 1785729064.2070794,
+    "ast_hash": "166afc23bf84eef5fd7c6cdc29bb8242",
+    "semantic_hash": ""
+  },
+  "Servidor/tools/export_server_summary.py": {
+    "mtime": 1785728658.6148696,
+    "ast_hash": "4df8adc43ce1141bc63ce6f7cf0af4a9",
+    "semantic_hash": ""
+  },
+  "docs/servidor/inventario/resumo-servidor.json": {
+    "mtime": 1785729071.5133693,
+    "ast_hash": "eac6cbe2893db61f137d55a9ba6beef5",
+    "semantic_hash": ""
+  },
+  "Servidor/AGENTS.md": {
+    "mtime": 1785727368.7845335,
+    "ast_hash": "641d2a48da3eb1bb9d2d1e39bf166b34",
+    "semantic_hash": ""
+  },
+  "Servidor/pack/README.md": {
+    "mtime": 1785727368.7845335,
+    "ast_hash": "88a9d58933e986d26ec02d2e84fc6330",
+    "semantic_hash": ""
+  },
+  "Servidor/source/README.md": {
+    "mtime": 1785727368.7860405,
+    "ast_hash": "ba47c8436b49da3e3a954d8aab173903",
+    "semantic_hash": ""
+  },
+  "Servidor/templates/user_jvm_args.example.txt": {
+    "mtime": 1785727368.787549,
+    "ast_hash": "b5b3492310af31e7f5e618bc6d25bc10",
+    "semantic_hash": ""
+  },
+  "docs/servidor/README.md": {
+    "mtime": 1785728844.7450156,
+    "ast_hash": "76d39cefd6293e0f07778648ef086d8d",
+    "semantic_hash": ""
+  },
+  "docs/servidor/arquitetura.md": {
+    "mtime": 1785728844.7450156,
+    "ast_hash": "7e214da0f3d779a365d17ca760cb7b4b",
+    "semantic_hash": ""
+  },
+  "docs/servidor/auditoria.md": {
+    "mtime": 1785728844.7450156,
+    "ast_hash": "6c6fb27918c8f8ef08af113b44c0c676",
+    "semantic_hash": ""
+  },
+  "docs/servidor/compatibilidade-cliente.md": {
+    "mtime": 1785728901.8888714,
+    "ast_hash": "6963c6e9a108662d72fb4d3f050c4122",
+    "semantic_hash": ""
+  },
+  "docs/servidor/operacao.md": {
+    "mtime": 1785728844.7465255,
+    "ast_hash": "fbaf82f34a2ff0aaae13091339c5f398",
+    "semantic_hash": ""
+  },
+  "docs/servidor/releases.md": {
+    "mtime": 1785728901.8888714,
+    "ast_hash": "0e61e8319e304a36320ab0e4eaf845be",
+    "semantic_hash": ""
+  },
+  "docs/servidor/seguranca.md": {
+    "mtime": 1785728844.7465255,
+    "ast_hash": "cd7310e8cffd48cdeda97724ae10c710",
+    "semantic_hash": ""
+  },
+  "docs/servidor/sistemas-customizados.md": {
+    "mtime": 1785728901.8888714,
+    "ast_hash": "cf4b885a4847f11b53112c26b8952324",
+    "semantic_hash": ""
   }
 }

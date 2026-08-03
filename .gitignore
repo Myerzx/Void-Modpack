@@ -56,6 +56,7 @@ desktop.ini
 /graphify-out/cost.json
 /graphify-out/watcher.pid
 /graphify-out/watcher.log
+/graphify-out/20??-??-??/
 
 # Python and editor state
 __pycache__/

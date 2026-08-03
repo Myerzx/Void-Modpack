@@ -40,7 +40,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "manifest.json"
     },
     {
@@ -51,7 +51,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_minecraft",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "minecraft"
     },
     {
@@ -62,7 +62,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_minecraft_version",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "version"
     },
     {
@@ -73,7 +73,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_minecraft_modloaders",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "modloaders"
     },
     {
@@ -84,7 +84,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_manifesttype",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "manifesttype"
     },
     {
@@ -95,7 +95,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_manifestversion",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "manifestversion"
     },
     {
@@ -106,7 +106,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_name",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "name"
     },
     {
@@ -117,7 +117,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_version",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "version"
     },
     {
@@ -128,7 +128,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_author",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "author"
     },
     {
@@ -139,7 +139,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_files",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "files"
     },
     {
@@ -150,7 +150,7 @@
       "_origin": "ast",
       "id": "launcher_pack_manifest_overrides",
       "community": 2,
-      "community_name": "CurseForge Manifest Structure",
+      "community_name": "manifest.json",
       "norm_label": "overrides"
     },
     {
@@ -161,7 +161,7 @@
       "_origin": "ast",
       "id": "launcher_tools_build_curseforgepackage",
       "community": 11,
-      "community_name": "CurseForge Build Tool",
+      "community_name": "Build-CurseForgePackage.ps1",
       "norm_label": "build-curseforgepackage.ps1"
     },
     {
@@ -172,7 +172,7 @@
       "_origin": "ast",
       "id": "launcher_tools_export_launcherinventory",
       "community": 12,
-      "community_name": "Inventory Export Tool",
+      "community_name": "Export-LauncherInventory.ps1",
       "norm_label": "export-launcherinventory.ps1"
     },
     {
@@ -183,7 +183,7 @@
       "_origin": "ast",
       "id": "launcher_tools_sync_packoverrides",
       "community": 13,
-      "community_name": "Override Sync Tool",
+      "community_name": "Sync-PackOverrides.ps1",
       "norm_label": "sync-packoverrides.ps1"
     },
     {
@@ -194,7 +194,7 @@
       "_origin": "ast",
       "id": "launcher_tools_test_launcherpack",
       "community": 8,
-      "community_name": "Pack Validation Logic",
+      "community_name": "Test-LauncherPack.ps1",
       "norm_label": "test-launcherpack.ps1"
     },
     {
@@ -205,7 +205,7 @@
       "_origin": "ast",
       "id": "launcher_tools_test_launcherpack_add_packerror",
       "community": 8,
-      "community_name": "Pack Validation Logic",
+      "community_name": "Test-LauncherPack.ps1",
       "norm_label": "add-packerror()"
     },
     {
@@ -216,8 +216,162 @@
       "_origin": "ast",
       "id": "launcher_tools_test_launcherpack_add_packwarning",
       "community": 8,
-      "community_name": "Pack Validation Logic",
+      "community_name": "Test-LauncherPack.ps1",
       "norm_label": "add-packwarning()"
+    },
+    {
+      "label": "Export-ServerInventory.ps1",
+      "file_type": "code",
+      "source_file": "Servidor/tools/Export-ServerInventory.ps1",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_tools_export_serverinventory",
+      "community": 27,
+      "community_name": "Export-ServerInventory.ps1",
+      "norm_label": "export-serverinventory.ps1"
+    },
+    {
+      "label": "Export-PortableCsv()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/Export-ServerInventory.ps1",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "servidor_tools_export_serverinventory_export_portablecsv",
+      "community": 27,
+      "community_name": "Export-ServerInventory.ps1",
+      "norm_label": "export-portablecsv()"
+    },
+    {
+      "label": "New-NameMap()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/Export-ServerInventory.ps1",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "servidor_tools_export_serverinventory_new_namemap",
+      "community": 27,
+      "community_name": "Export-ServerInventory.ps1",
+      "norm_label": "new-namemap()"
+    },
+    {
+      "label": "Test-ServerDocumentation.ps1",
+      "file_type": "code",
+      "source_file": "Servidor/tools/Test-ServerDocumentation.ps1",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_tools_test_serverdocumentation",
+      "community": 30,
+      "community_name": "Test-ServerDocumentation.ps1",
+      "norm_label": "test-serverdocumentation.ps1"
+    },
+    {
+      "label": "Add-ServerError()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/Test-ServerDocumentation.ps1",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "servidor_tools_test_serverdocumentation_add_servererror",
+      "community": 30,
+      "community_name": "Test-ServerDocumentation.ps1",
+      "norm_label": "add-servererror()"
+    },
+    {
+      "label": "export_server_summary.py",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "export_server_summary.py"
+    },
+    {
+      "label": "read_csv()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_read_csv",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "read_csv()"
+    },
+    {
+      "label": "Path",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "path",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "path"
+    },
+    {
+      "label": "read_properties()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_read_properties",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "read_properties()"
+    },
+    {
+      "label": "json_entry_count()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_json_entry_count",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "json_entry_count()"
+    },
+    {
+      "label": "bool_cell()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_bool_cell",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "bool_cell()"
+    },
+    {
+      "label": "directory_size()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_directory_size",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "directory_size()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_main",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "main()"
+    },
+    {
+      "label": "Build a sanitized JSON summary from the private server workspace. The script\u2026",
+      "file_type": "rationale",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_tools_export_server_summary_rationale_1",
+      "community": 20,
+      "community_name": "export_server_summary.py",
+      "norm_label": "build a sanitized json summary from the private server workspace. the script..."
     },
     {
       "label": "Install-GraphifyAutoSave.ps1",
@@ -227,7 +381,7 @@
       "_origin": "ast",
       "id": "tools_graphify_install_graphifyautosave",
       "community": 14,
-      "community_name": "Auto-Save Installer",
+      "community_name": "Install-GraphifyAutoSave.ps1",
       "norm_label": "install-graphifyautosave.ps1"
     },
     {
@@ -238,7 +392,7 @@
       "_origin": "ast",
       "id": "tools_graphify_start_graphifybackground",
       "community": 15,
-      "community_name": "Graph Watch Startup",
+      "community_name": "Start-GraphifyBackground.ps1",
       "norm_label": "start-graphifybackground.ps1"
     },
     {
@@ -249,7 +403,7 @@
       "_origin": "ast",
       "id": "tools_graphify_stop_graphifybackground",
       "community": 16,
-      "community_name": "Graph Watch Shutdown",
+      "community_name": "Stop-GraphifyBackground.ps1",
       "norm_label": "stop-graphifybackground.ps1"
     },
     {
@@ -260,7 +414,7 @@
       "_origin": "ast",
       "id": "tools_graphify_uninstall_graphifyautosave",
       "community": 17,
-      "community_name": "Auto-Save Uninstaller",
+      "community_name": "Uninstall-GraphifyAutoSave.ps1",
       "norm_label": "uninstall-graphifyautosave.ps1"
     },
     {
@@ -271,8 +425,591 @@
       "_origin": "ast",
       "id": "tools_graphify_watch_graph",
       "community": 18,
-      "community_name": "Graph Watch Runner",
+      "community_name": "Watch-Graph.ps1",
       "norm_label": "watch-graph.ps1"
+    },
+    {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_agents",
+      "community": 26,
+      "community_name": "Server agent guide",
+      "norm_label": "agents.md"
+    },
+    {
+      "label": "Server agent guide",
+      "file_type": "document",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_agents_server_agent_guide",
+      "community": 26,
+      "community_name": "Server agent guide",
+      "norm_label": "server agent guide"
+    },
+    {
+      "label": "Scope",
+      "file_type": "document",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "servidor_agents_scope",
+      "community": 26,
+      "community_name": "Server agent guide",
+      "norm_label": "scope"
+    },
+    {
+      "label": "Rules",
+      "file_type": "document",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "servidor_agents_rules",
+      "community": 26,
+      "community_name": "Server agent guide",
+      "norm_label": "rules"
+    },
+    {
+      "label": "pack/README.md",
+      "file_type": "document",
+      "source_file": "Servidor/pack/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_pack_readme",
+      "community": 28,
+      "community_name": "pack/README.md",
+      "norm_label": "pack/readme.md"
+    },
+    {
+      "label": "Pacote dedicado",
+      "file_type": "document",
+      "source_file": "Servidor/pack/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_pack_readme_pacote_dedicado",
+      "community": 28,
+      "community_name": "pack/README.md",
+      "norm_label": "pacote dedicado"
+    },
+    {
+      "label": "source/README.md",
+      "file_type": "document",
+      "source_file": "Servidor/source/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_source_readme",
+      "community": 29,
+      "community_name": "source/README.md",
+      "norm_label": "source/readme.md"
+    },
+    {
+      "label": "C\u00f3digo pr\u00f3prio",
+      "file_type": "document",
+      "source_file": "Servidor/source/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "servidor_source_readme_c\u00f3digo_pr\u00f3prio",
+      "community": 29,
+      "community_name": "source/README.md",
+      "norm_label": "codigo proprio"
+    },
+    {
+      "label": "servidor/README.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_readme",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "servidor/readme.md"
+    },
+    {
+      "label": "Documenta\u00e7\u00e3o do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_readme_documenta\u00e7\u00e3o_do_servidor",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "documentacao do servidor"
+    },
+    {
+      "label": "Leitura recomendada",
+      "file_type": "document",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "docs_servidor_readme_leitura_recomendada",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "leitura recomendada"
+    },
+    {
+      "label": "Perfil auditado",
+      "file_type": "document",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "docs_servidor_readme_perfil_auditado",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "perfil auditado"
+    },
+    {
+      "label": "arquitetura.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_arquitetura",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "arquitetura.md"
+    },
+    {
+      "label": "Arquitetura do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_arquitetura_arquitetura_do_servidor",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "arquitetura do servidor"
+    },
+    {
+      "label": "Camadas observadas",
+      "file_type": "document",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_arquitetura_camadas_observadas",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "camadas observadas"
+    },
+    {
+      "label": "Arquitetura can\u00f4nica do reposit\u00f3rio",
+      "file_type": "document",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "docs_servidor_arquitetura_arquitetura_can\u00f4nica_do_reposit\u00f3rio",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "arquitetura canonica do repositorio"
+    },
+    {
+      "label": "Limites de responsabilidade",
+      "file_type": "document",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "docs_servidor_arquitetura_limites_de_responsabilidade",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "limites de responsabilidade"
+    },
+    {
+      "label": "auditoria.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "auditoria.md"
+    },
+    {
+      "label": "Auditoria do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria_auditoria_do_servidor",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "auditoria do servidor"
+    },
+    {
+      "label": "Resultado executivo",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria_resultado_executivo",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "resultado executivo"
+    },
+    {
+      "label": "Evid\u00eancias",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria_evid\u00eancias",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "evidencias"
+    },
+    {
+      "label": "Riscos priorizados",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria_riscos_priorizados",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "riscos priorizados"
+    },
+    {
+      "label": "O que n\u00e3o foi publicado",
+      "file_type": "document",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "docs_servidor_auditoria_o_que_n\u00e3o_foi_publicado",
+      "community": 22,
+      "community_name": "Auditoria do servidor",
+      "norm_label": "o que nao foi publicado"
+    },
+    {
+      "label": "compatibilidade-cliente.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_compatibilidade_cliente",
+      "community": 23,
+      "community_name": "Compatibilidade do cliente",
+      "norm_label": "compatibilidade-cliente.md"
+    },
+    {
+      "label": "Compatibilidade do cliente",
+      "file_type": "document",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_compatibilidade_cliente_compatibilidade_do_cliente",
+      "community": 23,
+      "community_name": "Compatibilidade do cliente",
+      "norm_label": "compatibilidade do cliente"
+    },
+    {
+      "label": "Compara\u00e7\u00e3o por nome exato de JAR",
+      "file_type": "document",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_compatibilidade_cliente_compara\u00e7\u00e3o_por_nome_exato_de_jar",
+      "community": 23,
+      "community_name": "Compatibilidade do cliente",
+      "norm_label": "comparacao por nome exato de jar"
+    },
+    {
+      "label": "Conclus\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "docs_servidor_compatibilidade_cliente_conclus\u00e3o",
+      "community": 23,
+      "community_name": "Compatibilidade do cliente",
+      "norm_label": "conclusao"
+    },
+    {
+      "label": "Caminho para compatibilidade",
+      "file_type": "document",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "docs_servidor_compatibilidade_cliente_caminho_para_compatibilidade",
+      "community": 23,
+      "community_name": "Compatibilidade do cliente",
+      "norm_label": "caminho para compatibilidade"
+    },
+    {
+      "label": "operacao.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "operacao.md"
+    },
+    {
+      "label": "Opera\u00e7\u00e3o do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_opera\u00e7\u00e3o_do_servidor",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "operacao do servidor"
+    },
+    {
+      "label": "Requisitos conhecidos",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_requisitos_conhecidos",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "requisitos conhecidos"
+    },
+    {
+      "label": "Ciclo operacional recomendado",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_ciclo_operacional_recomendado",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "ciclo operacional recomendado"
+    },
+    {
+      "label": "Inicializa\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_inicializa\u00e7\u00e3o",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "inicializacao"
+    },
+    {
+      "label": "Parada",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_parada",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "parada"
+    },
+    {
+      "label": "Backup e restaura\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_backup_e_restaura\u00e7\u00e3o",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "backup e restauracao"
+    },
+    {
+      "label": "Evid\u00eancia atual",
+      "file_type": "document",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "docs_servidor_operacao_evid\u00eancia_atual",
+      "community": 21,
+      "community_name": "Ciclo operacional recomendado",
+      "norm_label": "evidencia atual"
+    },
+    {
+      "label": "releases.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_releases",
+      "community": 24,
+      "community_name": "Releases do servidor",
+      "norm_label": "releases.md"
+    },
+    {
+      "label": "Releases do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_releases_releases_do_servidor",
+      "community": 24,
+      "community_name": "Releases do servidor",
+      "norm_label": "releases do servidor"
+    },
+    {
+      "label": "Artefatos previstos",
+      "file_type": "document",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_releases_artefatos_previstos",
+      "community": 24,
+      "community_name": "Releases do servidor",
+      "norm_label": "artefatos previstos"
+    },
+    {
+      "label": "Gates obrigat\u00f3rios",
+      "file_type": "document",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "docs_servidor_releases_gates_obrigat\u00f3rios",
+      "community": 24,
+      "community_name": "Releases do servidor",
+      "norm_label": "gates obrigatorios"
+    },
+    {
+      "label": "Versionamento",
+      "file_type": "document",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "docs_servidor_releases_versionamento",
+      "community": 24,
+      "community_name": "Releases do servidor",
+      "norm_label": "versionamento"
+    },
+    {
+      "label": "seguranca.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_seguranca",
+      "community": 25,
+      "community_name": "Seguran\u00e7a do servidor",
+      "norm_label": "seguranca.md"
+    },
+    {
+      "label": "Seguran\u00e7a do servidor",
+      "file_type": "document",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_seguranca_seguran\u00e7a_do_servidor",
+      "community": 25,
+      "community_name": "Seguran\u00e7a do servidor",
+      "norm_label": "seguranca do servidor"
+    },
+    {
+      "label": "Estado encontrado",
+      "file_type": "document",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_seguranca_estado_encontrado",
+      "community": 25,
+      "community_name": "Seguran\u00e7a do servidor",
+      "norm_label": "estado encontrado"
+    },
+    {
+      "label": "Baseline antes de publicar",
+      "file_type": "document",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "docs_servidor_seguranca_baseline_antes_de_publicar",
+      "community": 25,
+      "community_name": "Seguran\u00e7a do servidor",
+      "norm_label": "baseline antes de publicar"
+    },
+    {
+      "label": "Verifica\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "docs_servidor_seguranca_verifica\u00e7\u00e3o",
+      "community": 25,
+      "community_name": "Seguran\u00e7a do servidor",
+      "norm_label": "verificacao"
+    },
+    {
+      "label": "sistemas-customizados.md",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "sistemas-customizados.md"
+    },
+    {
+      "label": "Sistemas customizados",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "sistemas customizados"
+    },
+    {
+      "label": "OpenLoader",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_openloader",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "openloader"
+    },
+    {
+      "label": "KubeJS",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_kubejs",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "kubejs"
+    },
+    {
+      "label": "Patch Forge local",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_patch_forge_local",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "patch forge local"
+    },
+    {
+      "label": "Stubs de compatibilidade",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_stubs_de_compatibilidade",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "stubs de compatibilidade"
+    },
+    {
+      "label": "Fac\u00e7\u00f5es e economia",
+      "file_type": "document",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "docs_servidor_sistemas_customizados_fac\u00e7\u00f5es_e_economia",
+      "community": 19,
+      "community_name": "servidor/README.md",
+      "norm_label": "faccoes e economia"
     },
     {
       "label": "Reproducible Launcher-Independent Modpack",
@@ -284,10 +1021,11 @@
       "author": null,
       "contributor": null,
       "rationale": "Every release must be reconstructible from manifests and reviewed overrides without coupling the modpack to one launcher.",
-      "id": "agents_reproducible_launcher_independent_modpack",
       "community": 5,
-      "community_name": "Launcher Server Boundaries",
-      "norm_label": "reproducible launcher-independent modpack"
+      "community_name": "Client-Server Scope Isolation",
+      "norm_label": "reproducible launcher-independent modpack",
+      "_origin": "semantic",
+      "id": "agents_reproducible_launcher_independent_modpack"
     },
     {
       "label": "Client-Server Scope Isolation",
@@ -299,10 +1037,11 @@
       "author": null,
       "contributor": null,
       "rationale": "Client and server work must remain isolated, with the server frozen until the user starts that phase.",
-      "id": "agents_client_server_scope_isolation",
       "community": 5,
-      "community_name": "Launcher Server Boundaries",
-      "norm_label": "client-server scope isolation"
+      "community_name": "Client-Server Scope Isolation",
+      "norm_label": "client-server scope isolation",
+      "_origin": "semantic",
+      "id": "agents_client_server_scope_isolation"
     },
     {
       "label": "Launcher Release Gates",
@@ -313,10 +1052,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "agents_release_gates",
       "community": 5,
-      "community_name": "Launcher Server Boundaries",
-      "norm_label": "launcher release gates"
+      "community_name": "Client-Server Scope Isolation",
+      "norm_label": "launcher release gates",
+      "_origin": "semantic",
+      "id": "agents_release_gates"
     },
     {
       "label": "Graphify Knowledge Graph",
@@ -327,10 +1067,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "agents_graphify_knowledge_graph",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "graphify knowledge graph"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "graphify knowledge graph",
+      "_origin": "semantic",
+      "id": "agents_graphify_knowledge_graph"
     },
     {
       "label": "VoidFall Launcher Client Source",
@@ -341,10 +1082,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_readme_launcher_client_source",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "voidfall launcher client source"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "voidfall launcher client source",
+      "_origin": "semantic",
+      "id": "launcher_readme_launcher_client_source"
     },
     {
       "label": "Canonical Pack Directory",
@@ -355,10 +1097,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_readme_canonical_pack_directory",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "canonical pack directory"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "canonical pack directory",
+      "_origin": "semantic",
+      "id": "launcher_readme_canonical_pack_directory"
     },
     {
       "label": "Sanitized Addon Catalog",
@@ -369,10 +1112,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_readme_sanitized_catalog",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "sanitized addon catalog"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "sanitized addon catalog",
+      "_origin": "semantic",
+      "id": "launcher_readme_sanitized_catalog"
     },
     {
       "label": "Immutable Evidence Profile",
@@ -383,10 +1127,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_readme_immutable_evidence_profile",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "immutable evidence profile"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "immutable evidence profile",
+      "_origin": "semantic",
+      "id": "launcher_readme_immutable_evidence_profile"
     },
     {
       "label": "Canonical CurseForge Pack Source",
@@ -398,10 +1143,11 @@
       "author": null,
       "contributor": null,
       "rationale": "The CurseForge package builder accepts this directory as its only input, excluding the raw profile.",
-      "id": "launcher_pack_readme_canonical_curseforge_pack_source",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "canonical curseforge pack source"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "canonical curseforge pack source",
+      "_origin": "semantic",
+      "id": "launcher_pack_readme_canonical_curseforge_pack_source"
     },
     {
       "label": "Sanitized Manifest",
@@ -412,10 +1158,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_pack_readme_sanitized_manifest",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "sanitized manifest"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "sanitized manifest",
+      "_origin": "semantic",
+      "id": "launcher_pack_readme_sanitized_manifest"
     },
     {
       "label": "Reviewed Portable Overrides",
@@ -426,10 +1173,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_pack_readme_reviewed_portable_overrides",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "reviewed portable overrides"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "reviewed portable overrides",
+      "_origin": "semantic",
+      "id": "launcher_pack_readme_reviewed_portable_overrides"
     },
     {
       "label": "Provider-Resolved CurseForge Assets",
@@ -440,10 +1188,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_pack_readme_provider_resolved_assets",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "provider-resolved curseforge assets"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "provider-resolved curseforge assets",
+      "_origin": "semantic",
+      "id": "launcher_pack_readme_provider_resolved_assets"
     },
     {
       "label": "Blocked Modrinth Export",
@@ -455,10 +1204,11 @@
       "author": null,
       "contributor": null,
       "rationale": "CurseForge-centric metadata cannot safely be converted into a valid mrpack by guessing CDN URLs.",
-      "id": "launcher_platforms_modrinth_readme_blocked_modrinth_export",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "blocked modrinth export"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "blocked modrinth export",
+      "_origin": "semantic",
+      "id": "launcher_platforms_modrinth_readme_blocked_modrinth_export"
     },
     {
       "label": "Valid mrpack Index",
@@ -469,10 +1219,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_platforms_modrinth_readme_valid_mrpack_index",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "valid mrpack index"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "valid mrpack index",
+      "_origin": "semantic",
+      "id": "launcher_platforms_modrinth_readme_valid_mrpack_index"
     },
     {
       "label": "Curated Addon Mapping",
@@ -483,10 +1234,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_platforms_modrinth_readme_curated_addon_mapping",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "curated addon mapping"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "curated addon mapping",
+      "_origin": "semantic",
+      "id": "launcher_platforms_modrinth_readme_curated_addon_mapping"
     },
     {
       "label": "Cross-Launcher mrpack Import Validation",
@@ -497,10 +1249,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "launcher_platforms_modrinth_readme_cross_launcher_import_validation",
       "community": 1,
-      "community_name": "Portable Launcher Model",
-      "norm_label": "cross-launcher mrpack import validation"
+      "community_name": "Canonical CurseForge Pack Source",
+      "norm_label": "cross-launcher mrpack import validation",
+      "_origin": "semantic",
+      "id": "launcher_platforms_modrinth_readme_cross_launcher_import_validation"
     },
     {
       "label": "Reserved Server Scope",
@@ -512,10 +1265,11 @@
       "author": null,
       "contributor": null,
       "rationale": "Agents must not add, migrate, or infer server configuration before the server phase is explicitly started.",
-      "id": "servidor_readme_reserved_server_scope",
       "community": 5,
-      "community_name": "Launcher Server Boundaries",
-      "norm_label": "reserved server scope"
+      "community_name": "Client-Server Scope Isolation",
+      "norm_label": "reserved server scope",
+      "_origin": "semantic",
+      "id": "servidor_readme_reserved_server_scope"
     },
     {
       "label": "Explicit User Activation",
@@ -526,10 +1280,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "servidor_readme_explicit_user_activation",
       "community": 5,
-      "community_name": "Launcher Server Boundaries",
-      "norm_label": "explicit user activation"
+      "community_name": "Client-Server Scope Isolation",
+      "norm_label": "explicit user activation",
+      "_origin": "semantic",
+      "id": "servidor_readme_explicit_user_activation"
     },
     {
       "label": "Coordenador",
@@ -540,10 +1295,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_agentes_escopos_coordenador",
       "community": 6,
-      "community_name": "Agent Responsibilities",
-      "norm_label": "coordenador"
+      "community_name": "Coordenador",
+      "norm_label": "coordenador",
+      "_origin": "semantic",
+      "id": "docs_agentes_escopos_coordenador"
     },
     {
       "label": "Agente do launcher",
@@ -554,10 +1310,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_agentes_escopos_agente_launcher",
       "community": 6,
-      "community_name": "Agent Responsibilities",
-      "norm_label": "agente do launcher"
+      "community_name": "Coordenador",
+      "norm_label": "agente do launcher",
+      "_origin": "semantic",
+      "id": "docs_agentes_escopos_agente_launcher"
     },
     {
       "label": "Agente de ativos/UI",
@@ -568,10 +1325,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_agentes_escopos_agente_ativos_ui",
       "community": 6,
-      "community_name": "Agent Responsibilities",
-      "norm_label": "agente de ativos/ui"
+      "community_name": "Coordenador",
+      "norm_label": "agente de ativos/ui",
+      "_origin": "semantic",
+      "id": "docs_agentes_escopos_agente_ativos_ui"
     },
     {
       "label": "Agente do servidor",
@@ -582,10 +1340,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_agentes_escopos_agente_servidor",
       "community": 6,
-      "community_name": "Agent Responsibilities",
-      "norm_label": "agente do servidor"
+      "community_name": "Coordenador",
+      "norm_label": "agente do servidor",
+      "_origin": "semantic",
+      "id": "docs_agentes_escopos_agente_servidor"
     },
     {
       "label": "Documentacao do launcher",
@@ -596,10 +1355,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_readme_documentacao_launcher",
       "community": 10,
-      "community_name": "Launcher Documentation",
-      "norm_label": "documentacao do launcher"
+      "community_name": "Documentacao do launcher",
+      "norm_label": "documentacao do launcher",
+      "_origin": "semantic",
+      "id": "docs_launcher_readme_documentacao_launcher"
     },
     {
       "label": "Bloqueio de pre-release",
@@ -610,10 +1370,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_readme_bloqueio_pre_release",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "bloqueio de pre-release"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "bloqueio de pre-release",
+      "_origin": "semantic",
+      "id": "docs_launcher_readme_bloqueio_pre_release"
     },
     {
       "label": "Perfil original imutavel",
@@ -624,10 +1385,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_arquitetura_perfil_original_imutavel",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "perfil original imutavel"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "perfil original imutavel",
+      "_origin": "semantic",
+      "id": "docs_launcher_arquitetura_perfil_original_imutavel"
     },
     {
       "label": "Fonte canonica Launcher/pack",
@@ -638,10 +1400,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_arquitetura_fonte_canonica_launcher_pack",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "fonte canonica launcher/pack"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "fonte canonica launcher/pack",
+      "_origin": "semantic",
+      "id": "docs_launcher_arquitetura_fonte_canonica_launcher_pack"
     },
     {
       "label": "Pipeline do launcher",
@@ -652,10 +1415,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_arquitetura_pipeline_launcher",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "pipeline do launcher"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "pipeline do launcher",
+      "_origin": "semantic",
+      "id": "docs_launcher_arquitetura_pipeline_launcher"
     },
     {
       "label": "Isolamento futuro do servidor",
@@ -666,10 +1430,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_arquitetura_isolamento_servidor",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "isolamento futuro do servidor"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "isolamento futuro do servidor",
+      "_origin": "semantic",
+      "id": "docs_launcher_arquitetura_isolamento_servidor"
     },
     {
       "label": "Distribuicao por project/file IDs",
@@ -680,10 +1445,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_assets_e_licencas_distribuicao_por_ids",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "distribuicao por project/file ids"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "distribuicao por project/file ids",
+      "_origin": "semantic",
+      "id": "docs_launcher_assets_e_licencas_distribuicao_por_ids"
     },
     {
       "label": "Quarentena de CtE Resources",
@@ -694,10 +1460,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_assets_e_licencas_quarentena_cte_resources",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "quarentena de cte resources"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "quarentena de cte resources",
+      "_origin": "semantic",
+      "id": "docs_launcher_assets_e_licencas_quarentena_cte_resources"
     },
     {
       "label": "Licenciamento de ativos autorais",
@@ -708,10 +1475,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_assets_e_licencas_licenciamento_ativos_autorais",
       "community": 9,
-      "community_name": "Asset Licensing",
-      "norm_label": "licenciamento de ativos autorais"
+      "community_name": "Licenciamento de ativos autorais",
+      "norm_label": "licenciamento de ativos autorais",
+      "_origin": "semantic",
+      "id": "docs_launcher_assets_e_licencas_licenciamento_ativos_autorais"
     },
     {
       "label": "Gate de arquivos acima de 95 MB",
@@ -722,10 +1490,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_assets_e_licencas_gate_95_mb",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "gate de arquivos acima de 95 mb"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "gate de arquivos acima de 95 mb",
+      "_origin": "semantic",
+      "id": "docs_launcher_assets_e_licencas_gate_95_mb"
     },
     {
       "label": "Divergencia entre manifesto e runtime",
@@ -736,10 +1505,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_auditoria_divergencia_manifesto_runtime",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "divergencia entre manifesto e runtime"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "divergencia entre manifesto e runtime",
+      "_origin": "semantic",
+      "id": "docs_launcher_auditoria_divergencia_manifesto_runtime"
     },
     {
       "label": "Falha de registros na criacao de mundo",
@@ -750,10 +1520,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_auditoria_falha_registros_mundo",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "falha de registros na criacao de mundo"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "falha de registros na criacao de mundo",
+      "_origin": "semantic",
+      "id": "docs_launcher_auditoria_falha_registros_mundo"
     },
     {
       "label": "Bloqueio de distribuicao de CtE Resources",
@@ -764,10 +1535,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_auditoria_bloqueio_cte_resources",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "bloqueio de distribuicao de cte resources"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "bloqueio de distribuicao de cte resources",
+      "_origin": "semantic",
+      "id": "docs_launcher_auditoria_bloqueio_cte_resources"
     },
     {
       "label": "Gate de audit para alpha",
@@ -778,10 +1550,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_auditoria_gate_alpha",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "gate de audit para alpha"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "gate de audit para alpha",
+      "_origin": "semantic",
+      "id": "docs_launcher_auditoria_gate_alpha"
     },
     {
       "label": "Fonte canonica independente de launcher",
@@ -792,10 +1565,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_portabilidade_fonte_independente_launcher",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "fonte canonica independente de launcher"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "fonte canonica independente de launcher",
+      "_origin": "semantic",
+      "id": "docs_launcher_portabilidade_fonte_independente_launcher"
     },
     {
       "label": "CurseForge como primeiro artefato",
@@ -806,10 +1580,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_portabilidade_artefato_curseforge",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "curseforge como primeiro artefato"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "curseforge como primeiro artefato",
+      "_origin": "semantic",
+      "id": "docs_launcher_portabilidade_artefato_curseforge"
     },
     {
       "label": "Bloqueio da exportacao mrpack",
@@ -820,10 +1595,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_portabilidade_bloqueio_mrpack",
       "community": 3,
-      "community_name": "Launcher Architecture Rules",
-      "norm_label": "bloqueio da exportacao mrpack"
+      "community_name": "Fonte canonica Launcher/pack",
+      "norm_label": "bloqueio da exportacao mrpack",
+      "_origin": "semantic",
+      "id": "docs_launcher_portabilidade_bloqueio_mrpack"
     },
     {
       "label": "Pipeline de release",
@@ -834,10 +1610,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_releases_pipeline_release",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "pipeline de release"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "pipeline de release",
+      "_origin": "semantic",
+      "id": "docs_launcher_releases_pipeline_release"
     },
     {
       "label": "Smoke tests obrigatorios",
@@ -848,10 +1625,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_releases_smoke_tests_obrigatorios",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "smoke tests obrigatorios"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "smoke tests obrigatorios",
+      "_origin": "semantic",
+      "id": "docs_launcher_releases_smoke_tests_obrigatorios"
     },
     {
       "label": "Estagios de versionamento",
@@ -862,10 +1640,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_launcher_releases_estagios_versionamento",
       "community": 4,
-      "community_name": "Release Audit Blockers",
-      "norm_label": "estagios de versionamento"
+      "community_name": "Gate de audit para alpha",
+      "norm_label": "estagios de versionamento",
+      "_origin": "semantic",
+      "id": "docs_launcher_releases_estagios_versionamento"
     },
     {
       "label": "VoidFall Repository",
@@ -876,10 +1655,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_voidfall_repository",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "voidfall repository"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "voidfall repository",
+      "_origin": "semantic",
+      "id": "readme_voidfall_repository"
     },
     {
       "label": "Client Launcher Phase",
@@ -890,10 +1670,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_client_launcher_phase",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "client launcher phase"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "client launcher phase",
+      "_origin": "semantic",
+      "id": "readme_client_launcher_phase"
     },
     {
       "label": "Reserved Server Phase",
@@ -904,10 +1685,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_reserved_server_phase",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "reserved server phase"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "reserved server phase",
+      "_origin": "semantic",
+      "id": "readme_reserved_server_phase"
     },
     {
       "label": "Release Readiness Blockers",
@@ -918,10 +1700,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_release_readiness_blockers",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "release readiness blockers"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "release readiness blockers",
+      "_origin": "semantic",
+      "id": "readme_release_readiness_blockers"
     },
     {
       "label": "Graphify Auto-Save Integration",
@@ -932,10 +1715,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_graphify_autosave_integration",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "graphify auto-save integration"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "graphify auto-save integration",
+      "_origin": "semantic",
+      "id": "readme_graphify_autosave_integration"
     },
     {
       "label": "Evidence Documentation Boundary",
@@ -946,10 +1730,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_readme_evidence_documentation_boundary",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "evidence documentation boundary"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "evidence documentation boundary",
+      "_origin": "semantic",
+      "id": "docs_readme_evidence_documentation_boundary"
     },
     {
       "label": "Publishable Client Files",
@@ -960,10 +1745,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_readme_publishable_client_files",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "publishable client files"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "publishable client files",
+      "_origin": "semantic",
+      "id": "docs_readme_publishable_client_files"
     },
     {
       "label": "Graphify Operations Documentation",
@@ -974,10 +1760,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_readme_graphify_operations_documentation",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "graphify operations documentation"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "graphify operations documentation",
+      "_origin": "semantic",
+      "id": "docs_readme_graphify_operations_documentation"
     },
     {
       "label": "Graphify All-Extras Installation",
@@ -988,10 +1775,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_graphify_all_extras_installation",
       "community": 7,
-      "community_name": "Graphify Operations Workflow",
-      "norm_label": "graphify all-extras installation"
+      "community_name": "Portable Knowledge Graph Outputs",
+      "norm_label": "graphify all-extras installation",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_graphify_all_extras_installation"
     },
     {
       "label": "Portable Knowledge Graph Outputs",
@@ -1002,10 +1790,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_portable_knowledge_graph_outputs",
       "community": 7,
-      "community_name": "Graphify Operations Workflow",
-      "norm_label": "portable knowledge graph outputs"
+      "community_name": "Portable Knowledge Graph Outputs",
+      "norm_label": "portable knowledge graph outputs",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_portable_knowledge_graph_outputs"
     },
     {
       "label": "Automatic Graph Persistence",
@@ -1016,10 +1805,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_automatic_graph_persistence",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "automatic graph persistence"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "automatic graph persistence",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_automatic_graph_persistence"
     },
     {
       "label": "File Change Watcher",
@@ -1030,10 +1820,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_file_change_watcher",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "file change watcher"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "file change watcher",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_file_change_watcher"
     },
     {
       "label": "Git Graph Hooks",
@@ -1044,10 +1835,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_git_graph_hooks",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "git graph hooks"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "git graph hooks",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_git_graph_hooks"
     },
     {
       "label": "Windows Logon Auto-Start Task",
@@ -1058,10 +1850,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_windows_logon_task",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "windows logon auto-start task"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "windows logon auto-start task",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_windows_logon_task"
     },
     {
       "label": "Semantic Refresh Marker",
@@ -1072,10 +1865,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_semantic_refresh_marker",
       "community": 0,
-      "community_name": "Graph Auto-Save System",
-      "norm_label": "semantic refresh marker"
+      "community_name": "Automatic Graph Persistence",
+      "norm_label": "semantic refresh marker",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_semantic_refresh_marker"
     },
     {
       "label": "Agent Graph Query Workflow",
@@ -1086,10 +1880,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "docs_graphify_readme_agent_graph_query_workflow",
       "community": 7,
-      "community_name": "Graphify Operations Workflow",
-      "norm_label": "agent graph query workflow"
+      "community_name": "Portable Knowledge Graph Outputs",
+      "norm_label": "agent graph query workflow",
+      "_origin": "semantic",
+      "id": "docs_graphify_readme_agent_graph_query_workflow"
     }
   ],
   "links": [
@@ -1226,12 +2021,770 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/Export-ServerInventory.ps1",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_serverinventory",
+      "target": "servidor_tools_export_serverinventory_export_portablecsv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/Export-ServerInventory.ps1",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_serverinventory",
+      "target": "servidor_tools_export_serverinventory_new_namemap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/Test-ServerDocumentation.ps1",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_test_serverdocumentation",
+      "target": "servidor_tools_test_serverdocumentation_add_servererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_bool_cell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_directory_size",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_json_entry_count",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_read_csv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary",
+      "target": "servidor_tools_export_server_summary_read_properties",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_rationale_1",
+      "target": "servidor_tools_export_server_summary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_main",
+      "target": "servidor_tools_export_server_summary_read_csv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_read_csv",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_directory_size",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_json_entry_count",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_read_properties",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_main",
+      "target": "servidor_tools_export_server_summary_read_properties",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L158",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_main",
+      "target": "servidor_tools_export_server_summary_json_entry_count",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_main",
+      "target": "servidor_tools_export_server_summary_bool_cell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/tools/export_server_summary.py",
+      "source_location": "L102",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_tools_export_server_summary_main",
+      "target": "servidor_tools_export_server_summary_directory_size",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_agents",
+      "target": "servidor_agents_server_agent_guide",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_agents_server_agent_guide",
+      "target": "servidor_agents_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/AGENTS.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_agents_server_agent_guide",
+      "target": "servidor_agents_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/pack/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_pack_readme",
+      "target": "servidor_pack_readme_pacote_dedicado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Servidor/source/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "servidor_source_readme",
+      "target": "servidor_source_readme_c\u00f3digo_pr\u00f3prio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_arquitetura",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_auditoria",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_compatibilidade_cliente",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_operacao",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_readme_documenta\u00e7\u00e3o_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_releases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_seguranca",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme",
+      "target": "docs_servidor_sistemas_customizados",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme_documenta\u00e7\u00e3o_do_servidor",
+      "target": "docs_servidor_readme_leitura_recomendada",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/README.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_readme_documenta\u00e7\u00e3o_do_servidor",
+      "target": "docs_servidor_readme_perfil_auditado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_arquitetura",
+      "target": "docs_servidor_arquitetura_arquitetura_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_arquitetura_arquitetura_do_servidor",
+      "target": "docs_servidor_arquitetura_arquitetura_can\u00f4nica_do_reposit\u00f3rio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_arquitetura_arquitetura_do_servidor",
+      "target": "docs_servidor_arquitetura_camadas_observadas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/arquitetura.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_arquitetura_arquitetura_do_servidor",
+      "target": "docs_servidor_arquitetura_limites_de_responsabilidade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_auditoria",
+      "target": "docs_servidor_auditoria_auditoria_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_auditoria_auditoria_do_servidor",
+      "target": "docs_servidor_auditoria_evid\u00eancias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_auditoria_auditoria_do_servidor",
+      "target": "docs_servidor_auditoria_o_que_n\u00e3o_foi_publicado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_auditoria_auditoria_do_servidor",
+      "target": "docs_servidor_auditoria_resultado_executivo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/auditoria.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_auditoria_auditoria_do_servidor",
+      "target": "docs_servidor_auditoria_riscos_priorizados",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_compatibilidade_cliente",
+      "target": "docs_servidor_compatibilidade_cliente_compatibilidade_do_cliente",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_compatibilidade_cliente_compatibilidade_do_cliente",
+      "target": "docs_servidor_compatibilidade_cliente_caminho_para_compatibilidade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_compatibilidade_cliente_compatibilidade_do_cliente",
+      "target": "docs_servidor_compatibilidade_cliente_compara\u00e7\u00e3o_por_nome_exato_de_jar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/compatibilidade-cliente.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_compatibilidade_cliente_compatibilidade_do_cliente",
+      "target": "docs_servidor_compatibilidade_cliente_conclus\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao",
+      "target": "docs_servidor_operacao_opera\u00e7\u00e3o_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_opera\u00e7\u00e3o_do_servidor",
+      "target": "docs_servidor_operacao_ciclo_operacional_recomendado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_opera\u00e7\u00e3o_do_servidor",
+      "target": "docs_servidor_operacao_evid\u00eancia_atual",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_opera\u00e7\u00e3o_do_servidor",
+      "target": "docs_servidor_operacao_requisitos_conhecidos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_ciclo_operacional_recomendado",
+      "target": "docs_servidor_operacao_backup_e_restaura\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_ciclo_operacional_recomendado",
+      "target": "docs_servidor_operacao_inicializa\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/operacao.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_operacao_ciclo_operacional_recomendado",
+      "target": "docs_servidor_operacao_parada",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_releases",
+      "target": "docs_servidor_releases_releases_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_releases_releases_do_servidor",
+      "target": "docs_servidor_releases_artefatos_previstos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_releases_releases_do_servidor",
+      "target": "docs_servidor_releases_gates_obrigat\u00f3rios",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/releases.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_releases_releases_do_servidor",
+      "target": "docs_servidor_releases_versionamento",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_seguranca",
+      "target": "docs_servidor_seguranca_seguran\u00e7a_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_seguranca_seguran\u00e7a_do_servidor",
+      "target": "docs_servidor_seguranca_baseline_antes_de_publicar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_seguranca_seguran\u00e7a_do_servidor",
+      "target": "docs_servidor_seguranca_estado_encontrado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/seguranca.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_seguranca_seguran\u00e7a_do_servidor",
+      "target": "docs_servidor_seguranca_verifica\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_fac\u00e7\u00f5es_e_economia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_kubejs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_openloader",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_patch_forge_local",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/servidor/sistemas-customizados.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_servidor_sistemas_customizados_sistemas_customizados",
+      "target": "docs_servidor_sistemas_customizados_stubs_de_compatibilidade",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "AGENTS.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "agents_client_server_scope_isolation",
       "target": "agents_reproducible_launcher_independent_modpack"
     },
@@ -1242,6 +2795,7 @@
       "source_file": "AGENTS.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "agents_release_gates",
       "target": "agents_reproducible_launcher_independent_modpack"
     },
@@ -1252,6 +2806,7 @@
       "source_file": "AGENTS.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "agents_client_server_scope_isolation",
       "target": "servidor_readme_reserved_server_scope"
     },
@@ -1262,6 +2817,7 @@
       "source_file": "AGENTS.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "agents_graphify_knowledge_graph",
       "target": "readme_voidfall_repository"
     },
@@ -1272,6 +2828,7 @@
       "source_file": "Launcher/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_readme_launcher_client_source",
       "target": "launcher_readme_canonical_pack_directory"
     },
@@ -1282,6 +2839,7 @@
       "source_file": "Launcher/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_readme_launcher_client_source",
       "target": "launcher_readme_immutable_evidence_profile"
     },
@@ -1292,6 +2850,7 @@
       "source_file": "Launcher/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_readme_launcher_client_source",
       "target": "launcher_readme_sanitized_catalog"
     },
@@ -1302,6 +2861,7 @@
       "source_file": "Launcher/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_readme_canonical_pack_directory",
       "target": "launcher_pack_readme_canonical_curseforge_pack_source"
     },
@@ -1312,6 +2872,7 @@
       "source_file": "Launcher/pack/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_pack_readme_canonical_curseforge_pack_source",
       "target": "launcher_pack_readme_provider_resolved_assets"
     },
@@ -1322,6 +2883,7 @@
       "source_file": "Launcher/pack/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_pack_readme_canonical_curseforge_pack_source",
       "target": "launcher_pack_readme_reviewed_portable_overrides"
     },
@@ -1332,6 +2894,7 @@
       "source_file": "Launcher/pack/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_pack_readme_canonical_curseforge_pack_source",
       "target": "launcher_pack_readme_sanitized_manifest"
     },
@@ -1342,6 +2905,7 @@
       "source_file": "Launcher/pack/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_pack_readme_sanitized_manifest",
       "target": "launcher_pack_readme_provider_resolved_assets"
     },
@@ -1352,6 +2916,7 @@
       "source_file": "Launcher/platforms/modrinth/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_platforms_modrinth_readme_blocked_modrinth_export",
       "target": "launcher_pack_readme_provider_resolved_assets"
     },
@@ -1362,6 +2927,7 @@
       "source_file": "Launcher/platforms/modrinth/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_platforms_modrinth_readme_cross_launcher_import_validation",
       "target": "launcher_platforms_modrinth_readme_blocked_modrinth_export"
     },
@@ -1372,6 +2938,7 @@
       "source_file": "Launcher/platforms/modrinth/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_platforms_modrinth_readme_curated_addon_mapping",
       "target": "launcher_platforms_modrinth_readme_blocked_modrinth_export"
     },
@@ -1382,6 +2949,7 @@
       "source_file": "Launcher/platforms/modrinth/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "launcher_platforms_modrinth_readme_valid_mrpack_index",
       "target": "launcher_platforms_modrinth_readme_blocked_modrinth_export"
     },
@@ -1392,6 +2960,7 @@
       "source_file": "Servidor/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "servidor_readme_reserved_server_scope",
       "target": "servidor_readme_explicit_user_activation"
     },
@@ -1402,6 +2971,7 @@
       "source_file": "docs/agentes/escopos.md",
       "source_location": "## Agente do servidor",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_agentes_escopos_agente_servidor",
       "target": "docs_agentes_escopos_coordenador"
     },
@@ -1412,6 +2982,7 @@
       "source_file": "docs/agentes/escopos.md",
       "source_location": "## Coordenador",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_agentes_escopos_coordenador",
       "target": "docs_agentes_escopos_agente_ativos_ui"
     },
@@ -1422,6 +2993,7 @@
       "source_file": "docs/agentes/escopos.md",
       "source_location": "## Coordenador",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_agentes_escopos_coordenador",
       "target": "docs_agentes_escopos_agente_launcher"
     },
@@ -1432,6 +3004,7 @@
       "source_file": "docs/launcher/README.md",
       "source_location": "Status",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_readme_bloqueio_pre_release",
       "target": "docs_launcher_auditoria_gate_alpha"
     },
@@ -1442,6 +3015,7 @@
       "source_file": "docs/launcher/README.md",
       "source_location": "Status",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_readme_bloqueio_pre_release",
       "target": "docs_launcher_releases_smoke_tests_obrigatorios"
     },
@@ -1452,6 +3026,7 @@
       "source_file": "docs/launcher/arquitetura.md",
       "source_location": "## Fluxo de dados",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_arquitetura_pipeline_launcher",
       "target": "docs_launcher_arquitetura_perfil_original_imutavel"
     },
@@ -1462,6 +3037,7 @@
       "source_file": "docs/launcher/arquitetura.md",
       "source_location": "## Separacao futura do servidor",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_arquitetura_isolamento_servidor",
       "target": "docs_launcher_arquitetura_fonte_canonica_launcher_pack"
     },
@@ -1472,6 +3048,7 @@
       "source_file": "docs/launcher/arquitetura.md",
       "source_location": "## Fluxo de dados",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_arquitetura_pipeline_launcher",
       "target": "docs_launcher_arquitetura_fonte_canonica_launcher_pack"
     },
@@ -1482,6 +3059,7 @@
       "source_file": "docs/launcher/portabilidade.md",
       "source_location": "## O que qualquer launcher significa",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_portabilidade_fonte_independente_launcher",
       "target": "docs_launcher_arquitetura_fonte_canonica_launcher_pack"
     },
@@ -1492,6 +3070,7 @@
       "source_file": "docs/launcher/portabilidade.md",
       "source_location": "## Estrategia adotada",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_portabilidade_artefato_curseforge",
       "target": "docs_launcher_assets_e_licencas_distribuicao_por_ids"
     },
@@ -1502,6 +3081,7 @@
       "source_file": "docs/launcher/assets-e-licencas.md",
       "source_location": "## Matriz auditada",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_assets_e_licencas_quarentena_cte_resources",
       "target": "docs_launcher_assets_e_licencas_gate_95_mb"
     },
@@ -1512,6 +3092,7 @@
       "source_file": "docs/launcher/portabilidade.md",
       "source_location": "## Texturas",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_portabilidade_bloqueio_mrpack",
       "target": "docs_launcher_assets_e_licencas_quarentena_cte_resources"
     },
@@ -1522,6 +3103,7 @@
       "source_file": "docs/launcher/auditoria.md",
       "source_location": "## Criterio para retirar o bloqueio",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_auditoria_gate_alpha",
       "target": "docs_launcher_auditoria_divergencia_manifesto_runtime"
     },
@@ -1532,6 +3114,7 @@
       "source_file": "docs/launcher/auditoria.md",
       "source_location": "## Criterio para retirar o bloqueio",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_auditoria_gate_alpha",
       "target": "docs_launcher_auditoria_falha_registros_mundo"
     },
@@ -1542,6 +3125,7 @@
       "source_file": "docs/launcher/auditoria.md",
       "source_location": "## Criterio para retirar o bloqueio",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_auditoria_gate_alpha",
       "target": "docs_launcher_auditoria_bloqueio_cte_resources"
     },
@@ -1552,6 +3136,7 @@
       "source_file": "docs/launcher/portabilidade.md",
       "source_location": "## Estrategia adotada",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_portabilidade_fonte_independente_launcher",
       "target": "docs_launcher_portabilidade_artefato_curseforge"
     },
@@ -1562,6 +3147,7 @@
       "source_file": "docs/launcher/portabilidade.md",
       "source_location": "## Estrategia adotada",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_portabilidade_fonte_independente_launcher",
       "target": "docs_launcher_portabilidade_bloqueio_mrpack"
     },
@@ -1572,6 +3158,7 @@
       "source_file": "docs/launcher/releases.md",
       "source_location": "## Preparacao",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_releases_pipeline_release",
       "target": "docs_launcher_releases_smoke_tests_obrigatorios"
     },
@@ -1582,6 +3169,7 @@
       "source_file": "docs/launcher/releases.md",
       "source_location": "## Versionamento",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_launcher_releases_estagios_versionamento",
       "target": "docs_launcher_releases_smoke_tests_obrigatorios"
     },
@@ -1592,6 +3180,7 @@
       "source_file": "README.md",
       "source_location": "# VoidFall",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_voidfall_repository",
       "target": "readme_client_launcher_phase"
     },
@@ -1602,6 +3191,7 @@
       "source_file": "README.md",
       "source_location": "## Estrutura",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_voidfall_repository",
       "target": "readme_graphify_autosave_integration"
     },
@@ -1612,6 +3202,7 @@
       "source_file": "README.md",
       "source_location": "## Estado atual",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_voidfall_repository",
       "target": "readme_release_readiness_blockers"
     },
@@ -1622,6 +3213,7 @@
       "source_file": "README.md",
       "source_location": "# VoidFall",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_voidfall_repository",
       "target": "readme_reserved_server_phase"
     },
@@ -1632,6 +3224,7 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_graphify_autosave_integration",
       "target": "docs_graphify_readme_automatic_graph_persistence"
     },
@@ -1642,6 +3235,7 @@
       "source_file": "docs/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_readme_evidence_documentation_boundary",
       "target": "docs_readme_graphify_operations_documentation"
     },
@@ -1652,6 +3246,7 @@
       "source_file": "docs/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_readme_evidence_documentation_boundary",
       "target": "docs_readme_publishable_client_files"
     },
@@ -1662,6 +3257,7 @@
       "source_file": "docs/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_readme_graphify_operations_documentation",
       "target": "docs_graphify_readme_automatic_graph_persistence"
     },
@@ -1672,6 +3268,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "# Graphify no VoidFall",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_graphify_all_extras_installation",
       "target": "docs_graphify_readme_portable_knowledge_graph_outputs"
     },
@@ -1682,6 +3279,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "## Limite conhecido",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_agent_graph_query_workflow",
       "target": "docs_graphify_readme_portable_knowledge_graph_outputs"
     },
@@ -1692,6 +3290,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "## Salvamento autom\u00e1tico",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_automatic_graph_persistence",
       "target": "docs_graphify_readme_file_change_watcher"
     },
@@ -1702,6 +3301,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "## Salvamento autom\u00e1tico",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_automatic_graph_persistence",
       "target": "docs_graphify_readme_git_graph_hooks"
     },
@@ -1712,6 +3312,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "## Salvamento autom\u00e1tico",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_automatic_graph_persistence",
       "target": "docs_graphify_readme_windows_logon_task"
     },
@@ -1722,6 +3323,7 @@
       "source_file": "docs/graphify/README.md",
       "source_location": "## Limite conhecido",
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "docs_graphify_readme_file_change_watcher",
       "target": "docs_graphify_readme_semantic_refresh_marker"
     }
@@ -1753,5 +3355,6 @@
       "confidence_score": 1.0,
       "source_file": "docs/graphify/README.md"
     }
-  ]
+  ],
+  "built_at_commit": "6e772232828f43353cb62a113c0dba0304b76410"
 }
