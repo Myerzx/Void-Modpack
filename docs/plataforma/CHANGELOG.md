@@ -25,6 +25,11 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - revalidação no runtime e exclusão sem fila entre efeitos de start, stop e comando;
 - fixture Java ampliada para comprovar os dois comandos sem acessar o servidor privado.
 - gate integral do console aprovado em Ubuntu e Windows na execução `30840780189`, com 53 testes e auditoria de runtime sem vulnerabilidades.
+- snapshot imutável de métricas com fonte, unidade, timestamp e qualidade `real`, `calculated` ou `unavailable`;
+- coleta portátil de memória, uptime e CPUs do host, além de estado, PID e uptime gerenciado do processo;
+- motivos tipados para ausência de PID/uptime e indisponibilidade honesta de CPU/RSS da JVM;
+- validação de amostras e relógios, testes determinísticos e transição comprovada na fixture Java descartável;
+- gate local aprovado com 58 testes e auditoria de runtime sem vulnerabilidades; matriz Ubuntu/Windows pendente.
 
 ### Não habilitado
 

@@ -1,6 +1,6 @@
 # Métricas limitadas da Fase 3
 
-Status: contrato planejado; implementação restrita a `@voidfall/minecraft-process`.
+Status: implementado e validado localmente em `@voidfall/minecraft-process`; matriz CI Ubuntu/Windows pendente.
 
 ## Objetivo do recorte
 
@@ -74,19 +74,27 @@ Adicionar qualquer uma dessas fontes exige contrato próprio, disponibilidade ex
 - nenhuma leitura acessa mundo, logs, configs, JAR ou diretório privado;
 - nenhuma integração com API, banco, agente ou painel neste recorte.
 
-## Matriz de testes planejada
+## Implementação
 
-1. provedor Node retorna memória, uptime e CPUs com valores válidos;
-2. amostra determinística preserva fonte, unidade, horário e qualidade;
-3. memória usada é calculada sem produzir valor negativo;
-4. NaN, infinito, negativos, CPUs fracionárias e `free > total` são recusados;
-5. estado offline produz métricas de processo indisponíveis, não zero;
-6. processo ativo expõe PID e uptime calculado;
-7. CPU/RSS permanecem indisponíveis mesmo com processo ativo;
-8. relógio anterior ao spawn é recusado;
-9. fixture Java comprova transição `not-running -> available -> not-running`;
-10. snapshot não expõe comando, path, ambiente, stdout ou dado privado.
+- `src/metrics.ts` define o snapshot, valida as amostras e coleta os valores portáteis por `node:os`;
+- `src/adapter.ts` registra o instante de spawn, limpa esse estado quando o processo termina e oferece `readMetrics()`;
+- o sampler do host pode ser injetado nos testes sem permitir que o chamador altere fonte, unidade ou qualidade;
+- o snapshot e seus objetos internos são congelados;
+- nenhum contrato foi exposto na Control API, no agente ou no painel.
+
+## Matriz de testes executada
+
+1. [x] provedor Node retorna memória, uptime e CPUs com valores válidos;
+2. [x] amostra determinística preserva fonte, unidade, horário e qualidade;
+3. [x] memória usada é calculada sem produzir valor negativo;
+4. [x] NaN, infinito, negativos, CPUs fracionárias e `free > total` são recusados;
+5. [x] estado offline produz métricas de processo indisponíveis, não zero;
+6. [x] processo ativo expõe PID e uptime calculado;
+7. [x] CPU/RSS permanecem indisponíveis mesmo com processo ativo;
+8. [x] relógio anterior ao spawn é recusado;
+9. [x] fixture Java comprova transição `not-running -> available -> not-running`;
+10. [x] snapshot não expõe comando, path, ambiente, stdout ou dado privado.
 
 ## Gate de saída
 
-O item 4 da Fase 3 só pode ser concluído após build, typecheck, gate integral, auditoria de runtime e matriz Ubuntu/Windows verdes. Persistência, agregação, alertas e exibição no painel permanecem recortes posteriores.
+Build, typecheck, 25 testes do pacote, gate integral com 58 testes e auditoria de runtime passaram localmente. O item 4 da Fase 3 só será concluído após a matriz Ubuntu/Windows ficar verde. Persistência, agregação, alertas e exibição no painel permanecem recortes posteriores.

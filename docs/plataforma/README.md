@@ -1,6 +1,6 @@
 # Plataforma VoidFall
 
-Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; a Fase 2 implementou e validou a fundação; os itens 1 e 2 da Fase 3 foram concluídos em um recorte sem integração operacional.
+Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; a Fase 2 implementou e validou a fundação; os itens 1 a 3 da Fase 3 foram concluídos e o item 4 está implementado em um recorte sem integração operacional.
 
 ## Ordem de leitura
 
@@ -38,7 +38,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 
 - identidade oficial: **VoidFall**;
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
-- Fase 3 em andamento em `@voidfall/minecraft-process`, com processo e console validados; o contrato de métricas está documentado e ainda não implementado;
+- Fase 3 em andamento em `@voidfall/minecraft-process`, com processo e console validados; as métricas estão implementadas e validadas localmente, com matriz CI pendente;
 - não existe execução de processo, console, backup, restore ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 

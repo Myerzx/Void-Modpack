@@ -55,13 +55,13 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 1. [x] Adaptadores Windows/Linux de processo — concluídos com runtime, PID, ambiente mínimo, saída limitada e stop gracioso; gate completo aprovado na matriz Ubuntu/Windows do GitHub.
 2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
 3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
-4. Métricas de host/processo e fonte exibida — **em andamento**: contrato honesto de disponibilidade documentado; implementação e validação ainda pendentes.
+4. Métricas de host/processo e fonte exibida — **em validação**: snapshot tipado implementado no pacote isolado, 25 testes do pacote e gate local com 58 testes aprovados; matriz Ubuntu/Windows pendente.
 5. Backup consistente e restore em ambiente isolado.
 6. Configurações básicas com revisão anterior.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
 
-Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console e aceita somente dois IDs sem argumentos. Histórico idempotente, exclusão e recibos ainda são locais à memória. Não toca no servidor e não está conectado à Control API ou ao agente.
+Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console, aceita somente dois IDs sem argumentos e produz snapshots de host/processo com fonte, unidade, qualidade e timestamp. CPU/RSS da JVM permanecem explicitamente indisponíveis. Histórico idempotente, exclusão e recibos ainda são locais à memória. Não toca no servidor e não está conectado à Control API, ao agente ou ao painel.
 
 ## Fase 4 — mods, arquivos e schemas
 

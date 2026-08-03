@@ -17,7 +17,7 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack and its future management
 - `Servidor/workspace/**`: immutable private server evidence. It is ignored and must never be edited, staged, or packaged.
 - `docs/servidor/**`: server architecture, audit, security, compatibility, operations, and release runbooks.
 - `docs/launcher/**`: client decisions, known defects, compatibility, assets, and release runbooks.
-- `Plataforma/**`: control-plane implementation root. Phase 2 is authorized only for the bounded foundation described in `docs/plataforma/ROADMAP.md`; keep application services absent until their gates are met.
+- `Plataforma/**`: control-plane implementation root. Phase 3 items 1–4 are implemented only inside the isolated process package; keep operational API/agent/panel integration absent until its gates are met.
 - `docs/plataforma/**`: platform context, architecture, contracts, data, security, roadmap, ADRs, and handoff.
 - `docs/agentes/**`: ownership and handoff conventions for agents.
 - `tools/graphify/**` and `graphify-out/**`: knowledge-graph automation and portable outputs.
