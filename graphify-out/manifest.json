@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785784494.9667876,
-    "ast_hash": "170987206a6232ad415578f01899c790",
+    "mtime": 1785784942.2354958,
+    "ast_hash": "5340e81f54efefeb4800340cf7a0e52a",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785784598.291281,
-    "ast_hash": "98713c451e21ffeebcaf79362df49e70",
+    "mtime": 1785784942.233988,
+    "ast_hash": "682c22ea8e9f55ed39f4839100d3b306",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785784494.9622586,
-    "ast_hash": "3cfa8415094bfadd79424a8727962a3d",
+    "mtime": 1785784942.233988,
+    "ast_hash": "fa658ea109ac13cb28220022b3e36f20",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785784494.9607506,
-    "ast_hash": "41ff8a620e2e3ffc96c3c88c727827d7",
+    "mtime": 1785784942.2324817,
+    "ast_hash": "7a2b963c6fc2d16e45d5b3473028b4bd",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -715,8 +715,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_2_VALIDATION.md": {
-    "mtime": 1785784494.9652789,
-    "ast_hash": "0c796cea09f702a3afbc77994bf31d06",
+    "mtime": 1785784942.2354958,
+    "ast_hash": "1d69477dd1a46b5b6953eb5a06df7dfe",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/adapter.ts": {
@@ -790,8 +790,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_3_BACKUP_RESTORE.md": {
-    "mtime": 1785784494.9607506,
-    "ast_hash": "ec85d5f91789437fd819a61d17649c07",
+    "mtime": 1785784942.2324817,
+    "ast_hash": "618d6f7b1aea6743e243e85f420583eb",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/package.json": {
@@ -837,6 +837,11 @@
   "Plataforma/packages/server-backup/tsconfig.test.json": {
     "mtime": 1785783488.4962893,
     "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260803_191808_como_o_backup_e_o_restore_isolado_da_fase_3_se_con.md": {
+    "mtime": 1785784688.28731,
+    "ast_hash": "75bc8fd4cb5fa87b14224271a5f40fc2",
     "semantic_hash": ""
   }
 }
