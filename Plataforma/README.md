@@ -1,8 +1,8 @@
 # Plataforma de gerenciamento
 
-Status: **Fase 4 — item 1 concluído em isolamento; classificação manual por lado e distribuição é o próximo recorte**.
+Status: **Fase 5 tecnicamente concluída em isolamento; publicação stable e comando no jogo bloqueados pelos gates P0**.
 
-Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. Os seis itens da Fase 3 passaram localmente e na matriz Windows/Linux somente contra fixtures descartáveis. O primeiro recorte da Fase 4 acrescenta contratos de inventário e reconciliação pura por hash; nenhuma operação foi ligada ao servidor real.
+Esta pasta é a raiz implementada do painel, das APIs, do agente, do worker, do Bridge e dos contratos da plataforma VoidFall. As Fases 2 a 5 foram implementadas em isolamento e validadas somente contra fixtures/diretórios temporários. Nenhuma operação foi ligada ao servidor ou launcher privado.
 
 ## Linguagens definidas
 
@@ -16,14 +16,18 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 ## Estrutura implementada
 
 - `apps/control-api`: Fastify, sessões opacas, CSRF, RBAC, auditoria e identidade do agente;
-- `apps/build-worker`: consumidor PostgreSQL limitado a `system.noop`;
+- `apps/build-worker`: consumidor PostgreSQL de `system.noop` e `modpack.build`, este limitado a um `planId` opaco e executor confiável injetado;
+- `apps/launcher-api`: leitura pública de canais, manifestos e artifacts assinados;
 - `apps/server-agent`: cliente outbound-only de registro e heartbeat Ed25519;
 - `apps/panel-web`: dashboard responsivo somente leitura, exportado como site estático;
 - `packages/contracts`, `authentication`, `permissions` e `database`: fundação compartilhada;
 - `packages/mod-catalog`: reconciliação determinística de snapshots sanitizados com o catálogo revisado, sem filesystem ou rede;
+- `packages/modpack-release`: build reproduzível, sanitização, Ed25519, artifacts imutáveis, promoção CAS e rollback;
+- `packages/launcher-protocol`: planner portátil com chave pinada e propriedade explícita dos arquivos gerenciados;
 - `packages/minecraft-process`: planos, runtime, adaptadores Windows/Linux, controlador idempotente e catálogo fechado de console, com parada graciosa, saída limitada e testes por fixture Java.
 - `packages/server-backup`: snapshots consistentes sob guarda offline e restore somente em destino isolado;
 - `packages/server-configuration`: Java Properties tipado com revisão anterior, recuperação e rollback versionado.
+- `integrations/forge-bridge`: núcleo Java 17 deny-by-default, ainda sem adapter/instalação Forge.
 
 ## Limite do recorte atual
 
@@ -32,6 +36,7 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 - não modificar `Launcher/`, `Servidor/workspace/` ou qualquer runtime privado;
 - não transformar filename, presença ou metadata de provedor em identidade lógica, lado ou licença aprovada;
 - não ligar ciclo de vida, leitura, comandos, backup ou configuração à API antes dos bloqueios do [roadmap](../docs/plataforma/ROADMAP.md);
+- não promover `stable` nem habilitar `/atualizar-modpack` antes de aprovar cliente-base, distribuição, importação limpa e compatibilidade;
 - usar apenas executável e diretório absolutos de configuração confiável, argv fixo e `shell: false`;
 - manter o dashboard como demonstração até existir telemetria real autenticada.
 

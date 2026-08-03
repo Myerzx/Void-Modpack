@@ -4,6 +4,8 @@
 
 Permitir atualização incremental, íntegra e recuperável em qualquer launcher que implemente o protocolo, sem assumir diretórios privados de CurseForge, Prism, Modrinth App ou outro produto.
 
+Status: contratos, assinatura/verificação, estado gerenciado, planner portátil e Launcher API somente leitura estão implementados e testados em isolamento. Nenhuma release real foi publicada.
+
 ## Endpoints públicos planejados
 
 - `GET /launcher/v1/channels/{channel}`: ponteiro assinado para a release atual.
@@ -79,7 +81,7 @@ Valores são ilustrativos e o domínio `.invalid` não é um endereço real.
 }
 ```
 
-O contrato inicial está implementado e versionado em `Plataforma/packages/contracts`. O build exporta `release-manifest.schema.json` para consumidores que não usam TypeScript. O payload assinado será JSON canônico excluindo o próprio campo `signature`; a canonicalização e a verificação criptográfica ainda dependem de implementação e revisão próprias.
+Os contratos estão implementados e versionados em `Plataforma/packages/contracts`. O build exporta `release-manifest.schema.json`, `launcher-channel.schema.json` e `launcher-managed-state.schema.json` para consumidores que não usam TypeScript. O payload assinado usa JSON canônico UTF-8 excluindo o próprio campo `signature`; assinatura e verificação Ed25519 estão em `@voidfall/modpack-release`, e o pin de chaves está em `@voidfall/launcher-protocol`.
 
 ## Algoritmo de atualização
 
@@ -119,3 +121,16 @@ Assim, screenshots, saves locais, opções pessoais e mods adicionados manualmen
 ## Compatibilidade entre launchers
 
 O protocolo não depende de metadados privados de um launcher. Adaptadores de exportação poderão gerar CurseForge, Modrinth ou pacote genérico a partir do mesmo catálogo, mas cada formato passa por testes próprios de importação. Uma exportação válida não certifica launch nem multiplayer.
+
+O adaptador oficial desta fase é `portable-v1`: ele recebe canal, manifesto e estado gerenciado anterior, verifica assinatura/revisão/coerência e devolve operações ordenadas `keep`, `download`, `replace` e `remove`. A remoção só é emitida quando o path existia no estado gerenciado e aparece em `removedPaths`; uma omissão ambígua bloqueia o plano.
+
+## Serviço executável
+
+`@voidfall/launcher-api` expõe somente:
+
+- `GET /health/live`;
+- `GET /launcher/v1/channels/{channel}`;
+- `GET /launcher/v1/releases/{version}/{buildId}/manifest`;
+- `GET /launcher/v1/artifacts/{artifactId}`.
+
+O serviço exige `VOIDFALL_RELEASE_REPOSITORY_ROOT` absoluto e `VOIDFALL_RELEASE_PUBLIC_KEYS_JSON` com chaves públicas Ed25519. A chave privada não pertence à API. Canal usa cache curto; manifestos e artifacts usam cache imutável e ETag derivado de SHA-256. Não existem rotas de upload, promoção, rollback ou execução nesse serviço.

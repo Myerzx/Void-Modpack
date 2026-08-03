@@ -2,6 +2,24 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-03 — Fase 5: build e launcher em isolamento
+
+### Adicionado
+
+- build por entradas explícitas, staging privado, sanitização versionada e limpeza em falha;
+- manifesto e canais em JSON canônico assinados por Ed25519;
+- repositório local encapsulado com artifacts SHA-256, releases imutáveis, CAS e rollback;
+- contratos portáteis de canal, estado gerenciado e intenção do Forge Bridge;
+- planner `portable-v1` com chave pinada e operações `keep/download/replace/remove`;
+- Launcher API Fastify somente leitura;
+- worker `modpack.build` limitado a `planId` opaco e executor injetado;
+- núcleo Java 17 do Forge Bridge com permissão, expiração, nonce e capabilities;
+- gate local com 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; auditoria de runtime sem vulnerabilidades.
+
+### Não habilitado
+
+Cliente real, publicação `stable`, adapter Forge, endpoint local do Bridge e `/atualizar-modpack`. Os gates de cliente-base, distribuição, importação e compatibilidade continuam obrigatórios e sem bypass.
+
 ## 2026-08-03 — Fase 4: inventário reconciliado
 
 ### Adicionado

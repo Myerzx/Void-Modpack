@@ -6,6 +6,8 @@ O cliente nasce de um catálogo canônico revisado, não de uma cópia do servid
 
 No estado atual, o launcher e o servidor têm somente 11 JARs com nome exato em comum. O primeiro trabalho da futura implementação será reconciliar o catálogo, não automatizar uma incompatibilidade.
 
+O núcleo técnico da Fase 5 está implementado em `@voidfall/modpack-release`. Ele opera somente sobre entradas explícitas e revisadas em raízes injetadas; não lê os workspaces privados nem transforma o runtime vivo em fonte canônica.
+
 ## Fonte canônica
 
 Cada arquivo candidato precisa de:
@@ -136,12 +138,10 @@ O worker grava release e manifesto imutáveis. A promoção usa compare-and-swap
 - releases ainda referenciadas por canal ou rollback: nunca removidas;
 - logs detalhados: retenção separada e redação de segredos.
 
-## Testes futuros
+## Cobertura implementada e testes operacionais futuros
 
-- unitários para classificação, sanitização, diff e paths;
-- contratos do catálogo e manifesto;
-- integração com staging temporário;
-- casos maliciosos de traversal, symlink, ZIP bomb e arquivo duplicado;
-- reprodutibilidade: mesma entrada produz mesma lista, hashes e payload assinado;
-- falha em cada etapa confirma limpeza e preservação da versão estável;
-- smoke test de importação, launch e conexão com o servidor compatível.
+- implementado: sanitização JSON/Properties, bytes exatos revisados, paths, hardlinks, hashes, tamanhos, catálogo, staging temporário e limpeza;
+- implementado: mesma entrada e chave produzem o mesmo manifesto e assinatura Ed25519;
+- implementado: artifacts imutáveis, conflito de release, promoção CAS e rollback de canal;
+- ainda obrigatório antes da ativação: parser/container adversarial mais profundo, teste de importação em cada launcher suportado, launch e conexão com o servidor compatível;
+- ainda obrigatório para produção: backend externo de objects, retenção, rotação operacional de chave e recuperação de falhas do storage escolhido.

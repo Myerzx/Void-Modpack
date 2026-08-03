@@ -1,6 +1,6 @@
 # Contratos de API
 
-Status: subset mínimo da Fase 2 implementado. Rotas marcadas como planejadas ainda podem mudar por ADR ou por uma nova versão incompatível.
+Status: subset administrativo mínimo da Fase 2 e Launcher API somente leitura da Fase 5 implementados. Rotas marcadas como planejadas ainda podem mudar por ADR ou por uma nova versão incompatível.
 
 ## Implementado na Fase 2
 
@@ -16,7 +16,18 @@ Status: subset mínimo da Fase 2 implementado. Rotas marcadas como planejadas ai
 | `POST` | `/agent/v1/register/complete` | token de uso único |
 | `POST` | `/agent/v1/heartbeat` | transporte autenticado, Ed25519, prazo e nonce |
 
-Todas as demais rotas deste documento continuam planejadas. Nenhuma rota operacional de start/stop/restart foi criada.
+As demais rotas administrativas deste documento continuam planejadas. Nenhuma rota operacional de start/stop/restart ou mutação de release foi criada.
+
+## Implementado na Fase 5 — Launcher API pública
+
+| Método | Rota | Estado |
+| --- | --- | --- |
+| `GET` | `/health/live` | liveness da Launcher API |
+| `GET` | `/launcher/v1/channels/{channel}` | documento assinado `beta` ou `stable`, se publicado |
+| `GET` | `/launcher/v1/releases/{version}/{buildId}/manifest` | manifesto assinado e imutável |
+| `GET` | `/launcher/v1/artifacts/{artifactId}` | bytes verificados por SHA-256 |
+
+O serviço pinna chaves públicas Ed25519 e valida documentos antes de servir. Não possui autenticação administrativa porque é exclusivamente de leitura pública, e não contém `POST`, upload, promoção ou rollback. Essas mutações futuras pertencem à Control API autenticada.
 
 ## Convenções
 
@@ -132,7 +143,7 @@ O agente inicia a conexão; a API pública não expõe porta administrativa no h
 
 ## Endpoint local da ponte Forge
 
-`POST /bridge/v1/modpack-build-requests` somente em loopback ou canal local equivalente. Campos: `requestId`, `serverInstanceId`, `playerUuid`, `playerNameAtRequest`, `requestedAt`, `nonce` e assinatura. O agente valida prazo, nonce, identidade da instância e permissão confirmada pelo bridge.
+`POST /bridge/v1/modpack-build-requests` permanece planejado para loopback ou canal local equivalente. O contrato `ForgeBuildRequest` contém `requestId`, `correlationId`, `serverInstanceId`, `playerUuid`, emissão, expiração curta, nonce, permissão literal e assinatura Ed25519. O núcleo Java valida permissão, capabilities e replay antes do gateway; nenhum endpoint local ou adapter Forge foi habilitado.
 
 O nome é contexto de auditoria; UUID é a identidade.
 

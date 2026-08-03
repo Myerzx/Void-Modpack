@@ -75,7 +75,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 2 — fundação | 100% | 8 de 8 itens |
 | 3 — controle do Minecraft | 100% | 6 de 6 itens |
 | 4 — mods, arquivos e schemas | 100% | 6 de 6 itens concluídos |
-| 5 — build e launcher | 0% | 0 de 7 itens |
+| 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 0% | 0 de 6 itens |
 | 7 — configurações específicas | 0% | ainda não iniciada |
 
@@ -92,15 +92,17 @@ Status: concluída em isolamento em 2026-08-03. O gate local passou com 125 caso
 
 ## Fase 5 — build e launcher
 
-1. Worker isolado e staging reproduzível.
-2. Sanitização e gates.
-3. Manifesto assinado e artifacts imutáveis.
-4. Launcher API e canais.
-5. Adaptador de cliente/launcher escolhido.
-6. Publicação, promoção e rollback.
-7. Forge Bridge e `/atualizar-modpack`.
+1. [x] Worker isolado e staging reproduzível — job aceita somente `planId` opaco; o executor confiável recebe a referência e o build usa raízes temporárias autorizadas.
+2. [x] Sanitização e gates — bytes exatos revisados, JSON canônico e Java Properties em allowlist, com integridade de entrada/saída e limites.
+3. [x] Manifesto assinado e artifacts imutáveis — JSON canônico, Ed25519, identidade SHA-256 e criação sem overwrite.
+4. [x] Launcher API e canais — Fastify somente leitura para canal, manifesto e artifact, com chave pública pinada.
+5. [x] Adaptador de cliente/launcher escolhido — protocolo portátil VoidFall, independente de produto, com estado gerenciado e plano determinístico.
+6. [x] Publicação, promoção e rollback — repositório local encapsulado, CAS por revisão e rollback somente para histórico do mesmo canal.
+7. [x] Forge Bridge e `/atualizar-modpack` — núcleo Java 17 implementado e testado; o adapter Forge e o comando permanecem desabilitados pelos gates reais.
 
-Gate: o comando só é habilitado após cliente compatível e cadeia de distribuição aprovados.
+Status: conclusão técnica em isolamento em 2026-08-03. O gate local passou com 149 casos descobertos, 147 aprovados no Windows e dois casos Unix ignorados. A matriz Windows/Linux ainda precisa confirmar o fechamento antes do registro final.
+
+Gate operacional: o canal `stable`, a instalação no Forge real e `/atualizar-modpack` continuam desabilitados até cliente-base compatível, cadeia de distribuição, importação limpa e compatibilidade de launch/conexão serem aprovados com evidência. Não existe bypass de força.
 
 ## Fase 6 — jogadores e auditoria
 

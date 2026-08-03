@@ -1,6 +1,6 @@
 # Contrato de execução da Fase 5 — build e launcher
 
-Status: contrato aprovado para implementação isolada em 2026-08-03; capacidades públicas e o comando no jogo permanecem bloqueados até seus gates explícitos.
+Status: implementação técnica concluída em isolamento em 2026-08-03; gate local aprovado. Publicação `stable`, instalação no Forge real e comando no jogo permanecem bloqueados até seus gates explícitos.
 
 ## Objetivo
 
@@ -156,3 +156,29 @@ O gate operacional continua separado e vermelho até que os P0 do cliente-base e
 - habilitar `/atualizar-modpack`;
 - publicar qualquer canal real;
 - prometer compatibilidade com um launcher sem seu teste de importação específico.
+
+## Resultado implementado
+
+- `@voidfall/modpack-release`: staging privado, três políticas de sanitização, integridade de entrada/saída, manifesto canônico Ed25519, artifacts por SHA-256, canais assinados, CAS e rollback;
+- `@voidfall/build-worker`: lease de `modpack.build` com payload exato contendo somente `planId`, executor injetado e resultado/falha sanitizados;
+- `@voidfall/contracts`: `LauncherChannel`, `LauncherManagedState` e `ForgeBuildRequest`, também exportados como JSON Schema;
+- `@voidfall/launcher-protocol`: chave pública pinada, verificação dos dois documentos, proteção de revisão e planner portátil;
+- `@voidfall/launcher-api`: serviço Fastify executável e somente leitura para canal, manifesto e artifact;
+- `@voidfall/forge-bridge`: núcleo Java 17 com permissão exata, validade, nonce, Ed25519 e capabilities deny-by-default;
+- monorepo: integration Java incluída nos workspaces, testes e builds completos.
+
+Nenhum teste leu `Launcher/workspace/` ou `Servidor/workspace/`. Os artifacts usados são bytes mínimos criados sob `os.tmpdir()`. A chave privada dos testes é efêmera e gerada em memória.
+
+## Validação local
+
+| Componente | Casos | Resultado |
+| --- | ---: | --- |
+| contratos | 22 | aprovados |
+| release/build/storage/canais | 7 | aprovados |
+| protocolo portátil | 4 | aprovados |
+| Launcher API | 3 | aprovados |
+| build worker | 4 | aprovados |
+| Forge Bridge Java 17 | 3 | aprovados |
+| monorepo completo | 149 | 147 aprovados no Windows; 2 sockets Unix ignorados |
+
+`npm run check` passou com builds, typechecks, testes, Java 17, APIs e export estático do painel. `npm audit --omit=dev` encontrou zero vulnerabilidades de runtime. A matriz GitHub Windows/Linux permanece como o último gate de fechamento documental.

@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fases 2 e 3 concluídas; item 1 da Fase 4 concluído com inventário e catálogo reconciliado em memória. Integrações com o Minecraft real continuam bloqueadas.
+Status: Fases 2 a 5 tecnicamente concluídas em isolamento. Integrações com o Minecraft real, publicação `stable` e comando no jogo continuam bloqueados pelos gates operacionais.
 
 ## Resumo
 
@@ -48,7 +48,7 @@ flowchart LR
 - WebSocket autenticado para console, progresso e métricas em tempo real.
 - armazenamento local encapsulado por interface no desenvolvimento e S3 compatível em produção quando necessário.
 
-TypeScript Project References foram adotadas para impor limites e ordem de build entre pacotes. A linha Node 24 LTS está fixada por `.nvmrc`, `engines` e Volta; npm e dependências usam versões exatas no lockfile. Fastify, PostgreSQL, autenticação/RBAC, agente, worker e a exportação estática do painel existem; Launcher API, WebSocket, object storage e Forge Bridge continuam planejados.
+TypeScript Project References foram adotadas para impor limites e ordem de build entre pacotes. A linha Node 24 LTS está fixada por `.nvmrc`, `engines` e Volta; npm e dependências usam versões exatas no lockfile. Fastify, PostgreSQL, autenticação/RBAC, agente, worker, Launcher API e a exportação estática do painel existem. O núcleo Java 17 do Forge Bridge existe sem adapter/instalação Forge; WebSocket e object storage externo continuam planejados.
 
 ## Estrutura do monorepo
 
@@ -88,7 +88,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo; `packages/server-configuration/` acrescenta alterações tipadas de Java Properties com revisão anterior e rollback versionado. Ambos exigem uma guarda offline injetada. A Fase 4 começou em `packages/mod-catalog/`: o pacote recebe apenas `InventorySnapshot` sanitizado e `ModCatalogEntry` revisado, agrupa bytes por SHA-256 e retorna conflitos/bloqueios canônicos em memória. Ele não possui imports de filesystem ou rede. Nenhuma dessas implementações está conectada ao servidor real, à Control API ou ao agente.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 implementou `minecraft-process`, backup e configuração sob guardas injetadas. A Fase 4 implementou catálogo, quarentena, arquivos autorizados e schemas sem integração real. A Fase 5 acrescentou `modpack-release`, `launcher-protocol`, `launcher-api`, o executor isolado do build worker e o núcleo Java do Forge Bridge. Nenhuma dessas capacidades acessa o servidor/launcher privado; Control API e agente ainda não encaminham operações reais.
 
 ## Fluxo do comando no jogo
 

@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 4 — concluída em isolamento; gate local e matriz Windows/Linux aprovados
+- Fase: 5 — tecnicamente concluída em isolamento; gate local aprovado e matriz Windows/Linux pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -78,6 +78,15 @@
   - campos boolean, integer, number, string e enum, com limites, defaults e restart;
   - patterns fechados, chaves estritas e validação determinística de valores;
   - registro e histórico imutável em memória com hash esperado e limites explícitos;
+- Fase 5 com:
+  - contratos v1 de canal assinado, estado gerenciado do launcher e intenção curta do Forge Bridge;
+  - `@voidfall/modpack-release` com staging privado, bytes explícitos, três sanitizadores, integridade, Ed25519 e manifesto reproduzível;
+  - artifacts por SHA-256, releases imutáveis, promoção por compare-and-swap e rollback somente para histórico do canal;
+  - `@voidfall/launcher-protocol` com pin de chave, coerência canal/manifesto, monotonicidade e planner portátil;
+  - `@voidfall/launcher-api` executável, somente leitura, com canal, manifesto e artifact verificados;
+  - `modpack.build` no worker limitado a `planId`, executor confiável injetado e resultado/falha sanitizados;
+  - núcleo Java 17 do Forge Bridge com permissão literal, janela curta, nonce, Ed25519 e capabilities deny-by-default;
+  - nenhum acesso aos workspaces privados, nenhuma release real, nenhum adapter Forge e nenhuma ativação de comando;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -92,6 +101,9 @@
 8. Não tratar schemas genéricos como adapters operacionais: JSON/TOML/YAML/CFG ainda não possuem parser, serializer, persistência, path público ou aplicação em arquivo real.
 9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
 10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
+11. Não fornecer raiz, path, catálogo, chave ou comando no payload de `modpack.build`; somente `planId` opaco pode atravessar a fila.
+12. Não dar chave privada à Launcher API; ela recebe somente conjunto de chaves públicas pinadas.
+13. Não habilitar `stable`, instalar o Bridge ou registrar `/atualizar-modpack` até todos os gates externos estarem aprovados.
 
 ## Validação
 
@@ -104,6 +116,8 @@
 - pacote de arquivos autorizados: build, typecheck e 8 casos aprovados;
 - pacote de schemas genéricos: build, typecheck e 8 casos aprovados;
 - gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
+- gate local da Fase 5 aprovado: 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; build/typecheck de todos os workspaces, Java 17, Launcher API e export estático aprovados;
+- Fase 5 por componente: contratos 22, release 7, launcher protocol 4, Launcher API 3, build worker 4 e Forge Bridge 3 casos aprovados;
 - matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
@@ -150,11 +164,18 @@
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
+- o repositório de releases implementado usa filesystem local encapsulado; object storage, replicação, retenção e recuperação operacional continuam P1;
+- o builder recebe raízes, catálogo, signer e executor como dependências confiáveis; ainda não existe registry persistente de planos nem wiring de produção;
+- sanitização operacional cobre bytes revisados, JSON objeto e subconjunto simples de Properties; TOML/YAML/CFG exigem adapters próprios ou bytes finais previamente revisados;
+- a Launcher API recalcula integridade antes de abrir o stream, mas imutabilidade e controle de escrita do backend continuam premissas operacionais;
+- o planner produz plano e próximo estado, mas não baixa, aplica rename, cria rollback local nem integra um launcher específico;
+- o núcleo do Bridge não depende do Forge, não está empacotado como mod e não possui transporte local ao agente;
+- as chaves Ed25519 reais, rotação, HSM/secret store e cerimônia de promoção ainda não foram definidos;
 - advisories transitivos do Next de build estático continuam documentados em `PHASE_2_VALIDATION.md`.
 
 ## Próximo recorte recomendado
 
-Iniciar o item 1 da Fase 5 somente como worker isolado e staging reproduzível, sem publicação, launcher real ou acesso ao runtime privado. A classificação dos artefatos reais continua bloqueada até existir exportador de cliente com SHA-256/tamanho e revisão de proveniência/licença.
+Primeiro fechar a matriz Windows/Linux da Fase 5 e registrar sua execução. Depois iniciar a Fase 6 item 1 como domínio puro de perfis por UUID e aliases, sem ler `usercache.json`, `usernamecache.json`, `whitelist.json`, chat, coordenadas ou qualquer arquivo do servidor privado. A importação real dependerá de política de privacidade, autenticação Minecraft e contrato próprio.
 
 ## Commits relevantes
 
@@ -197,5 +218,13 @@ Iniciar o item 1 da Fase 5 somente como worker isolado e staging reproduzível, 
 - `0481276` — arquivos versionados em raízes autorizadas;
 - `4a9085c` — schemas genéricos e histórico em memória.
 - `5f1ecdd` — equivalência segura de aliases canônicos do Windows em quarantine e file manager.
+- `fc08266` — contrato integral e gates da Fase 5;
+- `f5f01d7` — build reproduzível, sanitização e assinatura Ed25519;
+- `8fe76e5` — contratos de canal, estado do launcher e Bridge;
+- `ea784b9` — artifacts imutáveis, promoção CAS e rollback;
+- `8009fb3` — planner portátil verificado;
+- `1c5f01f` — Launcher API somente leitura;
+- `a6aae57` — núcleo Java 17 do Forge Bridge;
+- `f799cee` — executor isolado de `modpack.build` por referência.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
