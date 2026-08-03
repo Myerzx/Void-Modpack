@@ -1,6 +1,6 @@
-# Planejamento da plataforma
+# Plataforma VoidFall
 
-Esta documentação define a futura plataforma de gerenciamento do servidor e atualização do modpack. Ela foi escrita antes da implementação para que Codex, Claude, outras IAs e desenvolvedores compartilhem o mesmo contexto.
+Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano antes da implementação; a Fase 2 começou com uma fundação restrita a toolchain e contratos compartilhados, para que Codex, Claude, outras IAs e desenvolvedores continuem com o mesmo contexto.
 
 ## Ordem de leitura
 
@@ -28,4 +28,11 @@ Esta documentação define a futura plataforma de gerenciamento do servidor e at
 - estratégia de logs, métricas, backups e implantação registrada;
 - backlog, riscos e perguntas pendentes explícitos.
 
-Nenhum item desta pasta representa software executável ou certificação de segurança. A Fase 2 só começa após aprovação das decisões pendentes do [roadmap](ROADMAP.md).
+## Estado da Fase 2
+
+- identidade oficial: **VoidFall**;
+- primeiro recorte autorizado: workspace TypeScript e `@voidfall/contracts`;
+- nenhum serviço, interface, banco, agente, worker ou controle do Minecraft está autorizado por esse recorte;
+- os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
+
+Documentação e schemas não representam certificação de segurança. Cada nova capacidade precisa satisfazer seus gates, testes e ADRs aplicáveis.

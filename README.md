@@ -6,7 +6,7 @@ Repositório de trabalho para organizar cliente, servidor e a futura plataforma 
 
 - `Launcher/`: fonte do pacote cliente, catálogo, ferramentas de build e perfil bruto ignorado.
 - `Servidor/`: catálogos, templates, ferramentas e futuro pacote dedicado; o runtime bruto fica ignorado.
-- `Plataforma/`: escopo do futuro painel, agentes e atualização; permanece documental na Fase 1.
+- `Plataforma/`: monorepo do futuro painel, agentes e atualização; a Fase 2 começa pelos contratos compartilhados, sem controle operacional.
 - `docs/launcher/`: auditoria, arquitetura, portabilidade, ativos e processo de release do cliente.
 - `docs/servidor/`: auditoria, segurança, operação, compatibilidade e releases do servidor.
 - `docs/plataforma/`: arquitetura, contratos, dados, segurança, roadmap, ADRs e handoff do novo sistema.
@@ -20,6 +20,6 @@ Os materiais originais do cliente e do servidor estão preservados em seus respe
 
 O launcher atualmente documentado e o servidor recém-auditado representam conjuntos diferentes: apenas 11 dos 181 JARs ativos do servidor aparecem com o mesmo nome no launcher. Consulte [a documentação do launcher](docs/launcher/README.md) e [a documentação do servidor](docs/servidor/README.md) antes de publicar qualquer release.
 
-A plataforma de gerenciamento está somente na Fase 1. Consulte [o planejamento da plataforma](docs/plataforma/README.md): TypeScript foi escolhido para painel e serviços, com Java 17 restrito à futura ponte Forge. Nenhum código de aplicação foi iniciado.
+A plataforma de gerenciamento está na Fase 2 — fundação. Consulte [o planejamento da plataforma](docs/plataforma/README.md): TypeScript foi escolhido para painel e serviços, com Java 17 restrito à futura ponte Forge. O primeiro recorte implementa somente contratos versionados; nenhum serviço, interface ou controle do Minecraft foi iniciado.
 
 O Graphify está integrado ao Git e ao Windows. Consulte [a operação do Graphify](docs/graphify/README.md) para iniciar, verificar ou remover o salvamento automático.

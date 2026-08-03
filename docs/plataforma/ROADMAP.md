@@ -2,7 +2,7 @@
 
 ## Fase 1 — planejamento
 
-Status: concluída quando este conjunto documental for revisado e aceito.
+Status: concluída e aceita em 2026-08-03.
 
 - [x] arquitetura e diagrama de serviços;
 - [x] fluxo seguro de `/atualizar-modpack`;
@@ -17,15 +17,17 @@ Status: concluída quando este conjunto documental for revisado e aceito.
 - [x] ADRs e handoff;
 - [x] nenhum código de aplicação implementado.
 
-## Bloqueios antes da Fase 2
+## Bloqueios e gates da Fase 2
+
+O proprietário autorizou o início da Fase 2 com uma fatia que não depende dos P0 ainda abertos: toolchain e contratos sem efeitos externos. Cada P0 não resolvido continua bloqueando a capacidade relacionada e, em especial, qualquer publicação stable ou controle real do Minecraft.
 
 ### P0
 
-1. Definir a identidade do produto: VoidFall, The Casket of Reveries ou uma nova marca/versionamento comum.
-2. Escolher qual cliente será a base, porque o launcher atual só coincide com 11 dos 181 JARs do servidor.
-3. Resolver origem, licença e permissão de distribuição dos mods, datapacks, stubs, patches e mídia.
-4. Definir o modelo real de autenticação Minecraft (online mode direto ou proxy autenticador protegido).
-5. Rotacionar o segredo RCON histórico e decidir se RCON será removido da arquitetura.
+1. [x] Identidade oficial definida como **VoidFall** no [ADR-006](DECISIONS/ADR-006-identidade-e-inicio-da-fase-2.md).
+2. [ ] Escolher qual cliente será a base, porque o launcher atual só coincide com 11 dos 181 JARs do servidor.
+3. [ ] Resolver origem, licença e permissão de distribuição dos mods, datapacks, stubs, patches e mídia.
+4. [ ] Definir o modelo real de autenticação Minecraft (online mode direto ou proxy autenticador protegido).
+5. [ ] Rotacionar o segredo RCON histórico e decidir se RCON será removido da arquitetura.
 
 ### P1
 
@@ -111,7 +113,7 @@ Somente após inventário completo e seleção dos mods suportados. Cada schema 
 
 ## Perguntas pendentes
 
-1. Qual nome e versionamento oficiais unem launcher e servidor?
+1. [Respondida] O nome oficial é **VoidFall**. O versionamento de releases permanece SemVer e o schema possui versão própria.
 2. O cliente privado de 220 JARs será a base ou será reconstruído do catálogo?
 3. Quais launchers precisam ser suportados no primeiro release?
 4. O servidor usará autenticação oficial direta ou proxy? Qual topologia?
@@ -127,6 +129,6 @@ Somente após inventário completo e seleção dos mods suportados. Cada schema 
 14. Quais testes de gameplay definem uma release compatível?
 15. Quais componentes locais possuem autoria/licença para entrar em `Servidor/source`?
 
-## Primeira tarefa recomendada da Fase 2
+## Primeiro recorte autorizado da Fase 2
 
-Somente após responder os cinco P0: criar contratos versionados (`Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest`, `AuditEvent`) e testes de schema, sem controlar Minecraft ainda.
+Criar a toolchain e os contratos versionados (`Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest`, `AuditEvent`) com testes de schema, sem banco, serviços, filesystem operacional ou controle do Minecraft. Os demais P0 permanecem gates obrigatórios para os recortes que dependem deles.

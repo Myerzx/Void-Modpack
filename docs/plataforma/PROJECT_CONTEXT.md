@@ -1,5 +1,12 @@
 # Contexto do projeto
 
+## Identidade oficial
+
+- nome público: **VoidFall**;
+- identificador estável: `voidfall`;
+- namespace de pacotes internos: `@voidfall/*`;
+- a decisão está registrada no [ADR-006](DECISIONS/ADR-006-identidade-e-inicio-da-fase-2.md).
+
 ## Objetivo
 
 Criar uma plataforma própria para administrar o servidor Minecraft Forge, gerar versões reproduzíveis do modpack e oferecer um protocolo seguro de atualização para clientes, sem depender de acesso manual às pastas do servidor.
@@ -19,7 +26,7 @@ Esses fatos impedem que a plataforma trate o diretório vivo do servidor como fo
 
 ## Escopo atual
 
-Esta fase entrega somente decisões e documentação. Não inclui interface, API, banco, agente, worker, launcher próprio, mod Forge, migrações ou implantação.
+A Fase 2 começou por uma fundação limitada ao workspace TypeScript e aos contratos compartilhados. Ainda não inclui interface, API, banco, agente, worker, launcher próprio, mod Forge, migrações, implantação ou controle do runtime.
 
 ## Decisões já tomadas
 

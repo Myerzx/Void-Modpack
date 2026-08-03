@@ -17,7 +17,7 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack and its future management
 - `Servidor/workspace/**`: immutable private server evidence. It is ignored and must never be edited, staged, or packaged.
 - `docs/servidor/**`: server architecture, audit, security, compatibility, operations, and release runbooks.
 - `docs/launcher/**`: client decisions, known defects, compatibility, assets, and release runbooks.
-- `Plataforma/**`: future control-plane implementation root. Phase 1 is documentation-only; do not scaffold or install dependencies until Phase 2 is explicitly authorized.
+- `Plataforma/**`: control-plane implementation root. Phase 2 is authorized only for the bounded foundation described in `docs/plataforma/ROADMAP.md`; keep application services absent until their gates are met.
 - `docs/plataforma/**`: platform context, architecture, contracts, data, security, roadmap, ADRs, and handoff.
 - `docs/agentes/**`: ownership and handoff conventions for agents.
 - `tools/graphify/**` and `graphify-out/**`: knowledge-graph automation and portable outputs.
@@ -33,19 +33,19 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack and its future management
 7. Run `Servidor/tools/Test-ServerDocumentation.ps1` after server documentation or catalog changes.
 8. Keep launcher and server changes in separate commits. Use technical English Conventional Commit messages.
 9. A successful ZIP build or historical server boot is not a gameplay certification. Record import, launch, resource-pack, new-world, multiplayer, restart, backup, and restore smoke tests separately.
-10. During platform Phase 1, do not create application code, package-manager files, database migrations, containers, UI, APIs, or the Forge bridge.
+10. During the initial Phase 2 foundation, only versioned contracts and their toolchain are authorized. Do not create database migrations, containers, UI, APIs, agents, workers, process control, or the Forge bridge without a later bounded task.
 11. Never silently replace an accepted ADR. Propose a new ADR with consequences and migration path.
 12. The live server runtime is evidence, not the canonical source for a client release.
 
 ## Platform planning gates
 
-- Product identity and the canonical client baseline are explicitly chosen.
+- Product identity is **VoidFall**. The canonical client baseline still requires an explicit choice.
 - Current P0 security and distribution blockers have owners and decisions.
 - TypeScript control-plane and Java Forge-bridge boundaries remain explicit.
 - Agent operations are typed, authenticated, allowlisted, idempotent, and audited.
 - Manifest ownership, signatures, atomic promotion, and rollback are defined.
 - Panel RBAC and Minecraft permissions remain separate.
-- Phase 2 starts only after the open P0 questions in `docs/plataforma/ROADMAP.md` are resolved or deliberately accepted.
+- Phase 2 may advance only in slices whose relevant P0 questions in `docs/plataforma/ROADMAP.md` are resolved or deliberately accepted. Unresolved P0s continue to block distribution and operational control.
 
 ## Release gates
 
