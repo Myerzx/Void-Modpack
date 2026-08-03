@@ -53,7 +53,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 ## Fase 3 — controle do Minecraft
 
 1. [x] Adaptadores Windows/Linux de processo — concluídos com runtime, PID, ambiente mínimo, saída limitada e stop gracioso; gate completo aprovado na matriz Ubuntu/Windows do GitHub.
-2. Estado observado, start, stop e restart seguro — **em andamento**: estado, start e stop isolados concluídos; restart e orquestração ainda pendentes.
+2. Estado observado, start, stop e restart seguro — **em andamento**: contrato do controlador serializado documentado; implementação e validação ainda pendentes.
 3. Console de leitura e comandos em allowlist.
 4. Métricas de host/processo e fonte exibida.
 5. Backup consistente e restore em ambiente isolado.

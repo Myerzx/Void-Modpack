@@ -21,6 +21,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 15. [Decisões arquiteturais](DECISIONS/)
 16. [Validação da Fase 2](PHASE_2_VALIDATION.md)
 17. [Adaptadores de processo da Fase 3](PHASE_3_PROCESS_ADAPTERS.md)
+18. [Controlador de processo da Fase 3](PHASE_3_PROCESS_CONTROLLER.md)
 
 ## Resultado da Fase 1
 
