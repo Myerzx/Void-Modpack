@@ -127,7 +127,7 @@ export interface ReleaseBuildReceipt {
 
 export interface FilesystemReleaseRepositoryOptions {
   readonly root: string;
-  readonly signer: ReleaseDocumentSigner;
+  readonly signer?: ReleaseDocumentSigner;
   readonly maximumManifestBytes?: number;
 }
 

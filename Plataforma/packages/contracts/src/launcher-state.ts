@@ -24,6 +24,7 @@ export const LauncherManagedStateSchema = Type.Object(
       { additionalProperties: false },
     ),
     channel: SlugSchema,
+    channelRevision: Type.Integer({ minimum: 1 }),
     releaseVersion: SemanticVersionSchema,
     buildId: BuildIdSchema,
     installedAt: IsoDateTimeSchema,

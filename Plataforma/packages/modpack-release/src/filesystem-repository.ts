@@ -181,9 +181,8 @@ export class FilesystemReleaseRepository implements ReleaseRepository {
   public constructor(options: FilesystemReleaseRepositoryOptions) {
     validateAbsolutePath(options.root);
     if (
-      options.signer === undefined ||
-      typeof options.signer.sign !== 'function' ||
-      typeof options.signer.keyId !== 'string' ||
+      (options.signer !== undefined &&
+        (typeof options.signer.sign !== 'function' || typeof options.signer.keyId !== 'string')) ||
       (options.maximumManifestBytes !== undefined &&
         (!Number.isSafeInteger(options.maximumManifestBytes) || options.maximumManifestBytes < 1))
     ) {
@@ -267,7 +266,10 @@ export class FilesystemReleaseRepository implements ReleaseRepository {
 
   public async publishRelease(input: PublishReleaseInput): Promise<void> {
     const validation = validateReleaseManifest(input.manifest);
-    if (!validation.success || validation.value.signature.keyId !== this.#signer.keyId) {
+    if (
+      !validation.success ||
+      (this.#signer !== undefined && validation.value.signature.keyId !== this.#signer.keyId)
+    ) {
       throw new ReleaseRepositoryError('invalid-document', 'manifest');
     }
     const manifestBytes = canonicalJsonBytes(validation.value as CanonicalJsonValue);
@@ -388,6 +390,9 @@ export class FilesystemReleaseRepository implements ReleaseRepository {
     target: ChannelMutationTarget,
     operation: 'promotion' | 'rollback',
   ): Promise<LauncherChannel> {
+    if (this.#signer === undefined) {
+      throw new ReleaseRepositoryError('invalid-options', 'channel');
+    }
     if (!['beta', 'stable'].includes(target.channel)) {
       throw new ReleaseRepositoryError('invalid-document', 'channel');
     }

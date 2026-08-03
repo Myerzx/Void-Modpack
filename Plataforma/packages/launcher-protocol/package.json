@@ -1,0 +1,24 @@
+{
+  "name": "@voidfall/launcher-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Launcher-agnostic verified update planning for VoidFall clients",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/launcher-protocol.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/contracts": "0.1.0",
+    "@voidfall/modpack-release": "0.1.0"
+  }
+}

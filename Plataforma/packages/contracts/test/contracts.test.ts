@@ -431,6 +431,7 @@ describe('LauncherManagedState', () => {
       schemaVersion: 1,
       product: { id: 'voidfall', displayName: 'VoidFall' },
       channel: 'stable',
+      channelRevision: 1,
       releaseVersion: '1.0.0',
       buildId: 'build-20260803-120000',
       installedAt: '2026-08-03T12:00:00Z',
