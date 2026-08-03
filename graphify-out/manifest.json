@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785792767.404238,
-    "ast_hash": "24de5cb2ad5535a6ed8b752243cbf439",
+    "mtime": 1785793439.3143246,
+    "ast_hash": "046cdffda3374560ceed6a263d676cd5",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785792767.4090059,
-    "ast_hash": "a78af31a84972d7fbb8f9995701804d9",
+    "mtime": 1785793439.318936,
+    "ast_hash": "8190ae9ba48943bf4e83cc6d1a57a185",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785792767.405892,
-    "ast_hash": "6f710df7db5bd6e5b8cef9d45662f511",
+    "mtime": 1785793439.3158338,
+    "ast_hash": "51e6ccdbd3f837a08baf6ff5491db02d",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785792767.405892,
-    "ast_hash": "36194b2a2b4b10045634c6941a9473a1",
+    "mtime": 1785793439.3158338,
+    "ast_hash": "0e1c2c7724513aae32b500bcb79b8d3d",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -965,8 +965,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_4_COMPLETION.md": {
-    "mtime": 1785792767.407404,
-    "ast_hash": "8f6110060a6b10e99fb02af4897f43b4",
+    "mtime": 1785793439.3174202,
+    "ast_hash": "4c0a434cc9b32381016b06f3d15662e4",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260803_211019_como_concluir_todos_os_itens_restantes_da_fase_4_s.md": {
@@ -1000,8 +1000,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-quarantine/src/service.ts": {
-    "mtime": 1785791951.2875245,
-    "ast_hash": "8ba52c189dc67edd5c8b6a5d83db818e",
+    "mtime": 1785793146.2569816,
+    "ast_hash": "ac4e805f234b23a81d46dee5d32ab1e6",
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-quarantine/src/types.ts": {
@@ -1035,8 +1035,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/src/service.ts": {
-    "mtime": 1785792284.1258886,
-    "ast_hash": "3a5ab46bbb7dd302b363ed48a5e087a6",
+    "mtime": 1785793146.2569816,
+    "ast_hash": "bc1a0b10971ecb0c8651fd77736f9334",
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/src/types.ts": {

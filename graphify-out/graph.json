@@ -3631,7 +3631,7 @@
       "label": "SUPPORTED_EXTENSIONS",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L28",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_supported_extensions",
       "community": 120,
@@ -3642,7 +3642,7 @@
       "label": "ZIP_SIGNATURES",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L29",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_zip_signatures",
       "community": 120,
@@ -3653,7 +3653,7 @@
       "label": "compareOrdinal()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L32",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_compareordinal",
       "community": 120,
@@ -3664,7 +3664,7 @@
       "label": "isRecord()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L36",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_isrecord",
       "community": 120,
@@ -3675,7 +3675,7 @@
       "label": "exactKeys()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L40",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_exactkeys",
       "community": 120,
@@ -3686,7 +3686,7 @@
       "label": "canonicalTimestamp()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L46",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_canonicaltimestamp",
       "community": 120,
@@ -3694,21 +3694,10 @@
       "norm_label": "canonicaltimestamp()"
     },
     {
-      "label": "normalizeFilesystemPath()",
-      "file_type": "code",
-      "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L52",
-      "_origin": "ast",
-      "id": "plataforma_packages_artifact_quarantine_src_service_normalizefilesystempath",
-      "community": 120,
-      "community_name": "artifact-quarantine/src/service.ts",
-      "norm_label": "normalizefilesystempath()"
-    },
-    {
       "label": "pathContained()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L57",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_pathcontained",
       "community": 120,
@@ -3716,10 +3705,21 @@
       "norm_label": "pathcontained()"
     },
     {
+      "label": "rejectLinkedPathComponents()",
+      "file_type": "code",
+      "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "plataforma_packages_artifact_quarantine_src_service_rejectlinkedpathcomponents",
+      "community": 120,
+      "community_name": "artifact-quarantine/src/service.ts",
+      "norm_label": "rejectlinkedpathcomponents()"
+    },
+    {
       "label": "canonicalJson()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L62",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_canonicaljson",
       "community": 120,
@@ -3730,7 +3730,7 @@
       "label": "exists()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L76",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_exists",
       "community": 120,
@@ -3741,7 +3741,7 @@
       "label": "requirePlainDirectory()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L86",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_requireplaindirectory",
       "community": 120,
@@ -3752,7 +3752,7 @@
       "label": "createOrRequirePlainDirectory()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L93",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_createorrequireplaindirectory",
       "community": 120,
@@ -3763,7 +3763,7 @@
       "label": "requirePlainFile()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L100",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_requireplainfile",
       "community": 120,
@@ -3774,7 +3774,7 @@
       "label": "writeAll()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L107",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_writeall",
       "community": 120,
@@ -3785,7 +3785,7 @@
       "label": "freezeDeep()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L118",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_freezedeep",
       "community": 120,
@@ -3796,7 +3796,7 @@
       "label": "ArtifactQuarantineService",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L124",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice",
       "community": 120,
@@ -3807,7 +3807,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L131",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_constructor",
       "community": 120,
@@ -3818,7 +3818,7 @@
       "label": ".#prepareLayout()",
       "file_type": "code",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L161",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_preparelayout",
       "community": 120,
@@ -5091,21 +5091,10 @@
       "norm_label": "exactkeys()"
     },
     {
-      "label": "normalizeFilesystemPath()",
-      "file_type": "code",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "plataforma_packages_authorized_files_src_service_normalizefilesystempath",
-      "community": 128,
-      "community_name": "authorized-files/src/service.ts",
-      "norm_label": "normalizefilesystempath()"
-    },
-    {
       "label": "isWithin()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L66",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_iswithin",
       "community": 128,
@@ -5113,10 +5102,21 @@
       "norm_label": "iswithin()"
     },
     {
+      "label": "rejectAbsoluteLinkedComponents()",
+      "file_type": "code",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "plataforma_packages_authorized_files_src_service_rejectabsolutelinkedcomponents",
+      "community": 128,
+      "community_name": "authorized-files/src/service.ts",
+      "norm_label": "rejectabsolutelinkedcomponents()"
+    },
+    {
       "label": "pathsOverlap()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L71",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_pathsoverlap",
       "community": 128,
@@ -5127,7 +5127,7 @@
       "label": "canonicalTimestamp()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L75",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_canonicaltimestamp",
       "community": 128,
@@ -5138,7 +5138,7 @@
       "label": "validateRelativePath()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L81",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_validaterelativepath",
       "community": 128,
@@ -5149,7 +5149,7 @@
       "label": "sha256()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L96",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_sha256",
       "community": 128,
@@ -5160,7 +5160,7 @@
       "label": "canonicalJson()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L100",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_canonicaljson",
       "community": 128,
@@ -5171,7 +5171,7 @@
       "label": "freezeDeep()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L114",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_freezedeep",
       "community": 128,
@@ -5182,7 +5182,7 @@
       "label": "isNodeError()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L120",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_isnodeerror",
       "community": 128,
@@ -5193,7 +5193,7 @@
       "label": "pathExists()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L124",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_pathexists",
       "community": 128,
@@ -5204,7 +5204,7 @@
       "label": "requireCanonicalDirectory()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L134",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_requirecanonicaldirectory",
       "community": 128,
@@ -5215,7 +5215,7 @@
       "label": "rejectLinkedComponents()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L153",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_rejectlinkedcomponents",
       "community": 128,
@@ -5226,7 +5226,7 @@
       "label": "readPlainFile()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L168",
+      "source_location": "L178",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_readplainfile",
       "community": 128,
@@ -5237,7 +5237,7 @@
       "label": "decodeText()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L219",
+      "source_location": "L229",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_decodetext",
       "community": 128,
@@ -5248,7 +5248,7 @@
       "label": "writeExclusive()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L229",
+      "source_location": "L239",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_writeexclusive",
       "community": 128,
@@ -5259,7 +5259,7 @@
       "label": "freezeExtensionList()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L240",
+      "source_location": "L250",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_freezeextensionlist",
       "community": 128,
@@ -5270,7 +5270,7 @@
       "label": "freezeRoot()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L254",
+      "source_location": "L264",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_freezeroot",
       "community": 128,
@@ -5281,7 +5281,7 @@
       "label": "AuthorizedFileService",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L292",
+      "source_location": "L302",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
       "community": 128,
@@ -5292,7 +5292,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L297",
+      "source_location": "L307",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
       "community": 128,
@@ -5303,7 +5303,7 @@
       "label": ".#root()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L337",
+      "source_location": "L347",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_root",
       "community": 128,
@@ -5314,7 +5314,7 @@
       "label": ".#target()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L346",
+      "source_location": "L356",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
       "community": 128,
@@ -5325,7 +5325,7 @@
       "label": ".list()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L373",
+      "source_location": "L386",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
       "community": 128,
@@ -5336,7 +5336,7 @@
       "label": ".read()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L419",
+      "source_location": "L432",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
       "community": 128,
@@ -5347,7 +5347,7 @@
       "label": ".#prepareRevisionLayout()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L444",
+      "source_location": "L457",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_preparerevisionlayout",
       "community": 128,
@@ -5358,7 +5358,7 @@
       "label": ".replace()",
       "file_type": "code",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L464",
+      "source_location": "L477",
       "_origin": "ast",
       "id": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
       "community": 128,
@@ -7110,8 +7110,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_agentenvelopeschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 25,
+      "community_name": "common.ts",
       "norm_label": "agentenvelopeschema"
     },
     {
@@ -7132,8 +7132,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_validateagentenvelope",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validateagentenvelope()"
     },
     {
@@ -7143,8 +7143,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_validateagentheartbeatpayload",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validateagentheartbeatpayload()"
     },
     {
@@ -7165,8 +7165,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_event_auditeventschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "auditeventschema"
     },
     {
@@ -7231,7 +7231,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalog-reconciliation.ts"
     },
@@ -7242,7 +7242,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogmatchstateschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalogmatchstateschema"
     },
@@ -7253,7 +7253,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_suggestedsideschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "suggestedsideschema"
     },
@@ -7264,7 +7264,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_reconciliationblockerschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "reconciliationblockerschema"
     },
@@ -7275,7 +7275,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogobservationschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalogobservationschema"
     },
@@ -7286,7 +7286,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_reconciledartifactschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "reconciledartifactschema"
     },
@@ -7297,8 +7297,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogreconciliationreportschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "catalogreconciliationreportschema"
     },
     {
@@ -7308,7 +7308,7 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogmatchstate",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalogmatchstate"
     },
@@ -7319,7 +7319,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_suggestedside",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "suggestedside"
     },
@@ -7330,7 +7330,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_reconciliationblocker",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "reconciliationblocker"
     },
@@ -7341,7 +7341,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogobservation",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalogobservation"
     },
@@ -7352,7 +7352,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_reconciledartifact",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "reconciledartifact"
     },
@@ -7363,7 +7363,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogreconciliationreport",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "catalogreconciliationreport"
     },
@@ -7374,8 +7374,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_isstrictlysortedunique",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "isstrictlysortedunique()"
     },
     {
@@ -7385,8 +7385,8 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_observationkey",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "observationkey()"
     },
     {
@@ -7396,8 +7396,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_validatecatalogreconciliationreport",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatecatalogreconciliationreport()"
     },
     {
@@ -7440,8 +7440,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_isodatetimeschema",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "isodatetimeschema"
     },
     {
@@ -7451,8 +7451,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_sha256schema",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "sha256schema"
     },
     {
@@ -7484,8 +7484,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_relativepathschema",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "relativepathschema"
     },
     {
@@ -7506,8 +7506,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_semanticversionschema",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "semanticversionschema"
     },
     {
@@ -7517,8 +7517,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_buildidschema",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "buildidschema"
     },
     {
@@ -7649,8 +7649,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "export-schemas.ts"
     },
     {
@@ -7660,8 +7660,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas_schemas",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "schemas"
     },
     {
@@ -7671,8 +7671,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas_schemadirectory",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "schemadirectory"
     },
     {
@@ -7693,7 +7693,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventory-snapshot.ts"
     },
@@ -7704,7 +7704,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryscopeschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryscopeschema"
     },
@@ -7715,7 +7715,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventorysourcetypeschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventorysourcetypeschema"
     },
@@ -7726,7 +7726,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryruntimeschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryruntimeschema"
     },
@@ -7737,7 +7737,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryfilekindschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryfilekindschema"
     },
@@ -7748,7 +7748,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryentrystateschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryentrystateschema"
     },
@@ -7759,7 +7759,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryentryschema",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryentryschema"
     },
@@ -7770,8 +7770,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventorysnapshotschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 86,
+      "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventorysnapshotschema"
     },
     {
@@ -7781,7 +7781,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryscope",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryscope"
     },
@@ -7792,7 +7792,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventorysourcetype",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventorysourcetype"
     },
@@ -7803,7 +7803,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryruntime",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryruntime"
     },
@@ -7814,7 +7814,7 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryfilekind",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryfilekind"
     },
@@ -7825,7 +7825,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryentrystate",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryentrystate"
     },
@@ -7836,7 +7836,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventoryentry",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventoryentry"
     },
@@ -7847,7 +7847,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventorysnapshot",
-      "community": 91,
+      "community": 86,
       "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventorysnapshot"
     },
@@ -7858,8 +7858,8 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_normalizedpath",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 86,
+      "community_name": "catalog-reconciliation.ts",
       "norm_label": "normalizedpath()"
     },
     {
@@ -7869,8 +7869,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_validateinventorysnapshot",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validateinventorysnapshot()"
     },
     {
@@ -7891,8 +7891,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_jobschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "audit-event.ts",
       "norm_label": "jobschema"
     },
     {
@@ -7913,8 +7913,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_validatejob",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatejob()"
     },
     {
@@ -7924,8 +7924,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "mod-catalog-entry.ts"
     },
     {
@@ -7935,8 +7935,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_modcatalogentryschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "modcatalogentryschema"
     },
     {
@@ -7946,8 +7946,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_modcatalogentry",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "modcatalogentry"
     },
     {
@@ -7957,8 +7957,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_validatemodcatalogentry",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatemodcatalogentry()"
     },
     {
@@ -7979,8 +7979,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "release-manifest.ts"
     },
     {
@@ -7990,8 +7990,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_releasemanifestschema",
-      "community": 113,
-      "community_name": "export-schemas.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "releasemanifestschema"
     },
     {
@@ -8001,8 +8001,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_releasemanifest",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "releasemanifest"
     },
     {
@@ -8012,8 +8012,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_normalizedpath",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "normalizedpath()"
     },
     {
@@ -8023,8 +8023,8 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatecanonicalpaths",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatecanonicalpaths()"
     },
     {
@@ -8034,8 +8034,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatereleasemanifest",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatereleasemanifest()"
     },
     {
@@ -8046,7 +8046,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation",
       "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "release-manifest.ts",
       "norm_label": "contracts/src/validation.ts"
     },
     {
@@ -8056,8 +8056,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_contractvalidationissue",
-      "community": 123,
-      "community_name": "audit-event.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "contractvalidationissue"
     },
     {
@@ -8067,8 +8067,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_contractvalidationresult",
-      "community": 25,
-      "community_name": "common.ts",
+      "community": 115,
+      "community_name": "release-manifest.ts",
       "norm_label": "contractvalidationresult"
     },
     {
@@ -8079,7 +8079,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_ajv",
       "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "release-manifest.ts",
       "norm_label": "ajv"
     },
     {
@@ -8090,7 +8090,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_require",
       "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "release-manifest.ts",
       "norm_label": "require"
     },
     {
@@ -8101,7 +8101,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_addformats",
       "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "release-manifest.ts",
       "norm_label": "addformats"
     },
     {
@@ -8112,7 +8112,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_validatorcache",
       "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "release-manifest.ts",
       "norm_label": "validatorcache"
     },
     {
@@ -8122,8 +8122,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_getvalidator",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "getvalidator()"
     },
     {
@@ -8133,8 +8133,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_mapajverror",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "mapajverror()"
     },
     {
@@ -8144,8 +8144,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_validatecontract",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "validatecontract()"
     },
     {
@@ -8155,8 +8155,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_semanticissue",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "semanticissue()"
     },
     {
@@ -8166,8 +8166,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_appendsemanticissues",
-      "community": 115,
-      "community_name": "contracts/src/validation.ts",
+      "community": 91,
+      "community_name": "validateContract",
       "norm_label": "appendsemanticissues()"
     },
     {
@@ -9003,7 +9003,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "database.ts"
     },
     {
@@ -9014,7 +9014,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlresult",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "sqlresult"
     },
     {
@@ -9025,7 +9025,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "sqlclient"
     },
     {
@@ -9047,7 +9047,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient_executescript",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": ".executescript()"
     },
     {
@@ -9057,7 +9057,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database",
-      "community": 58,
+      "community": 38,
       "community_name": "Database",
       "norm_label": "database"
     },
@@ -9068,7 +9068,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_transaction",
-      "community": 58,
+      "community": 38,
       "community_name": "Database",
       "norm_label": ".transaction()"
     },
@@ -9079,7 +9079,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_close",
-      "community": 58,
+      "community": 38,
       "community_name": "Database",
       "norm_label": ".close()"
     },
@@ -9168,7 +9168,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_index",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "database/src/index.ts"
     },
     {
@@ -9179,7 +9179,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "migrations.ts"
     },
     {
@@ -9190,7 +9190,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationrow",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "migrationrow"
     },
     {
@@ -9201,7 +9201,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationsdirectory",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "migrationsdirectory()"
     },
     {
@@ -9212,7 +9212,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_runmigrations",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "runmigrations()"
     },
     {
@@ -9244,7 +9244,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_parsejson",
-      "community": 135,
+      "community": 58,
       "community_name": "AuditRepository",
       "norm_label": "parsejson()"
     },
@@ -9442,8 +9442,8 @@
       "source_location": "L214",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository",
-      "community": 58,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": "permissionrepository"
     },
     {
@@ -9453,8 +9453,8 @@
       "source_location": "L215",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository_constructor",
-      "community": 58,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -9464,8 +9464,8 @@
       "source_location": "L217",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository_foruser",
-      "community": 58,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": ".foruser()"
     },
     {
@@ -9497,8 +9497,8 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_mapserver",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 113,
+      "community_name": "ServerRepository",
       "norm_label": "mapserver()"
     },
     {
@@ -9508,8 +9508,8 @@
       "source_location": "L272",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_serverrepository",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 113,
+      "community_name": "ServerRepository",
       "norm_label": "serverrepository"
     },
     {
@@ -9519,8 +9519,8 @@
       "source_location": "L273",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_serverrepository_constructor",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 113,
+      "community_name": "ServerRepository",
       "norm_label": ".constructor()"
     },
     {
@@ -9530,8 +9530,8 @@
       "source_location": "L275",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_serverrepository_create",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 113,
+      "community_name": "ServerRepository",
       "norm_label": ".create()"
     },
     {
@@ -9541,8 +9541,8 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_serverrepository_list",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 113,
+      "community_name": "ServerRepository",
       "norm_label": ".list()"
     },
     {
@@ -9552,7 +9552,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository",
-      "community": 135,
+      "community": 58,
       "community_name": "AuditRepository",
       "norm_label": "auditrepository"
     },
@@ -9563,7 +9563,7 @@
       "source_location": "L309",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository_constructor",
-      "community": 135,
+      "community": 58,
       "community_name": "AuditRepository",
       "norm_label": ".constructor()"
     },
@@ -9574,7 +9574,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository_append",
-      "community": 135,
+      "community": 58,
       "community_name": "AuditRepository",
       "norm_label": ".append()"
     },
@@ -9585,7 +9585,7 @@
       "source_location": "L340",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository_list",
-      "community": 135,
+      "community": 58,
       "community_name": "AuditRepository",
       "norm_label": ".list()"
     },
@@ -9640,8 +9640,8 @@
       "source_location": "L422",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_constructor",
-      "community": 58,
-      "community_name": "Database",
+      "community": 46,
+      "community_name": "AgentRepository",
       "norm_label": ".constructor()"
     },
     {
@@ -9739,7 +9739,7 @@
       "source_location": "L600",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_jobrepository_constructor",
-      "community": 58,
+      "community": 38,
       "community_name": "Database",
       "norm_label": ".constructor()"
     },
@@ -9828,7 +9828,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_createrepositories",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "createrepositories()"
     },
     {
@@ -9839,7 +9839,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "testing.ts"
     },
     {
@@ -9850,7 +9850,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pglitequeryresult",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "pglitequeryresult"
     },
     {
@@ -9861,7 +9861,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pgliteclient",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "pgliteclient()"
     },
     {
@@ -9872,7 +9872,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_createpglitetestdatabase",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "createpglitetestdatabase()"
     },
     {
@@ -9883,7 +9883,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_test_database_test",
       "community": 38,
-      "community_name": "database.ts",
+      "community_name": "Database",
       "norm_label": "database.test.ts"
     },
     {
@@ -10355,8 +10355,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_processobservation",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": "processobservation"
     },
     {
@@ -10366,8 +10366,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "minecraftprocessadapter"
     },
     {
@@ -10377,8 +10377,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_inspect",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -10388,8 +10388,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_start",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".start()"
     },
     {
@@ -10399,8 +10399,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_requestgracefulstop",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -10410,8 +10410,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_readoutput",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -10454,8 +10454,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_requestconsolecommand",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 85,
+      "community_name": "adapter.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -10509,8 +10509,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_constructor",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -10652,8 +10652,8 @@
       "source_location": "L278",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_linuxminecraftprocessadapter",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 85,
+      "community_name": "adapter.ts",
       "norm_label": "linuxminecraftprocessadapter"
     },
     {
@@ -10663,8 +10663,8 @@
       "source_location": "L279",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_linuxminecraftprocessadapter_constructor",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 85,
+      "community_name": "adapter.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -10685,8 +10685,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommand",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": "minecraftconsolecommand"
     },
     {
@@ -10696,8 +10696,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraft_console_commands",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "console.ts",
       "norm_label": "minecraft_console_commands"
     },
     {
@@ -10751,8 +10751,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolesnapshotoptions",
-      "community": 85,
-      "community_name": "adapter.ts",
+      "community": 101,
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolesnapshotoptions"
     },
     {
@@ -10762,8 +10762,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommandreceipt",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 85,
+      "community_name": "adapter.ts",
       "norm_label": "minecraftconsolecommandreceipt"
     },
     {
@@ -10905,8 +10905,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolevent",
-      "community": 84,
-      "community_name": "metrics.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "processcontrolevent"
     },
     {
@@ -10916,8 +10916,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolresult",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": "processcontrolresult"
     },
     {
@@ -10938,8 +10938,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolrequesterror",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "processcontrolrequesterror"
     },
     {
@@ -10949,8 +10949,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolrequesterror_constructor",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -10960,8 +10960,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_minecraftprocesscontrolleroptions",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "minecraftprocesscontrolleroptions"
     },
     {
@@ -10993,8 +10993,8 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_waitresult",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": "waitresult"
     },
     {
@@ -11213,8 +11213,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "launch-plan.ts"
     },
     {
@@ -11224,8 +11224,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_supportedhostplatform",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "supportedhostplatform"
     },
     {
@@ -11235,8 +11235,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_minecraftprocessconfig",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "minecraftprocessconfig"
     },
     {
@@ -11246,8 +11246,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_processlaunchplan",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "processlaunchplan"
     },
     {
@@ -11257,8 +11257,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_platformpath",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "platformpath()"
     },
     {
@@ -11268,8 +11268,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_assertplainvalue",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "assertplainvalue()"
     },
     {
@@ -11279,8 +11279,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_validateprocesslaunchplan",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "validateprocesslaunchplan()"
     },
     {
@@ -11290,8 +11290,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_createminecraftprocessplan",
-      "community": 86,
-      "community_name": "launch-plan.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "createminecraftprocessplan()"
     },
     {
@@ -11631,8 +11631,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_minimalenvironment",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "minimalenvironment()"
     },
     {
@@ -11752,8 +11752,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "nodeprocessruntime"
     },
     {
@@ -11763,8 +11763,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_constructor",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -11774,8 +11774,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_spawn",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -11884,8 +11884,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "processruntime"
     },
     {
@@ -11895,8 +11895,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime_spawn",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -12071,8 +12071,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "trackingruntime"
     },
     {
@@ -12082,8 +12082,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_constructor",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -12093,8 +12093,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_spawn",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -12104,8 +12104,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_requestfixturecleanup",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".requestfixturecleanup()"
     },
     {
@@ -12126,8 +12126,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": "fakeminecraftprocessadapter"
     },
     {
@@ -12137,8 +12137,8 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_constructor",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".constructor()"
     },
     {
@@ -12148,8 +12148,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_inspect",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".inspect()"
     },
     {
@@ -12159,8 +12159,8 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_start",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".start()"
     },
     {
@@ -12170,8 +12170,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_requestgracefulstop",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -12181,8 +12181,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_readoutput",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".readoutput()"
     },
     {
@@ -12192,8 +12192,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_observation",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 138,
+      "community_name": "ProcessObservation",
       "norm_label": ".#observation()"
     },
     {
@@ -12236,8 +12236,8 @@
       "source_location": "L686",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": "commandtrackinghandle"
     },
     {
@@ -12247,8 +12247,8 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_getexit",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": ".getexit()"
     },
     {
@@ -12258,8 +12258,8 @@
       "source_location": "L694",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_readoutput",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": ".readoutput()"
     },
     {
@@ -12269,8 +12269,8 @@
       "source_location": "L703",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestconsolecommand",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -12280,8 +12280,8 @@
       "source_location": "L708",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestgracefulstop",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -12291,8 +12291,8 @@
       "source_location": "L710",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_waitforexit",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 88,
+      "community_name": "SpawnedProcess",
       "norm_label": ".waitforexit()"
     },
     {
@@ -12302,8 +12302,8 @@
       "source_location": "L961",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": "neverexitinghandle"
     },
     {
@@ -12313,8 +12313,8 @@
       "source_location": "L965",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_getexit",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".getexit()"
     },
     {
@@ -12324,8 +12324,8 @@
       "source_location": "L969",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_readoutput",
-      "community": 101,
-      "community_name": "console.ts",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".readoutput()"
     },
     {
@@ -12335,8 +12335,8 @@
       "source_location": "L978",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_requestconsolecommand",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -12346,8 +12346,8 @@
       "source_location": "L980",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_requestgracefulstop",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -12357,8 +12357,8 @@
       "source_location": "L984",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_waitforexit",
-      "community": 88,
-      "community_name": "SpawnedProcess",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".waitforexit()"
     },
     {
@@ -15932,8 +15932,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_index",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 99,
+      "community_name": "server-configuration.test.ts",
       "norm_label": "server-configuration/src/index.ts"
     },
     {
@@ -15943,8 +15943,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "server-configuration/src/manifest.ts"
     },
     {
@@ -15955,7 +15955,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifest",
       "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "configurationrevisionmanifest"
     },
     {
@@ -15965,8 +15965,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_invalidmanifest",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "invalidmanifest()"
     },
     {
@@ -15976,8 +15976,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_exactkeys",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "exactkeys()"
     },
     {
@@ -15987,8 +15987,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_validatemanifestobject",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "validatemanifestobject()"
     },
     {
@@ -15998,8 +15998,8 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_canonicalobject",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "canonicalobject()"
     },
     {
@@ -16009,8 +16009,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_serializeconfigurationrevisionmanifest",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "serializeconfigurationrevisionmanifest()"
     },
     {
@@ -16020,8 +16020,8 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_parseconfigurationrevisionmanifest",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "parseconfigurationrevisionmanifest()"
     },
     {
@@ -16031,8 +16031,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifestsha256",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "configurationrevisionmanifestsha256()"
     },
     {
@@ -16186,7 +16186,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_properties_diffpropertiesdocuments",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "diffpropertiesdocuments()"
     },
     {
@@ -16196,7 +16196,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "server-configuration/src/service.ts"
     },
@@ -16207,7 +16207,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_repositorylayout",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "repositorylayout"
     },
@@ -16218,7 +16218,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_readplainfile",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "readplainfile"
     },
@@ -16229,7 +16229,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_mutationmaterial",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "mutationmaterial"
     },
@@ -16240,7 +16240,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_commonmutationplan",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "commonmutationplan"
     },
@@ -16251,7 +16251,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_isnodeerror",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "isnodeerror()"
     },
@@ -16262,7 +16262,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_normalizecomparablepath",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "normalizecomparablepath()"
     },
@@ -16273,7 +16273,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_samepath",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "samepath()"
     },
@@ -16284,7 +16284,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_iswithin",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "iswithin()"
     },
@@ -16295,7 +16295,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_sha256",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "sha256()"
     },
@@ -16306,7 +16306,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_pathexists",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "pathexists()"
     },
@@ -16317,7 +16317,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_rejectlinkedpathcomponents",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "rejectlinkedpathcomponents()"
     },
@@ -16328,7 +16328,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_requireplaindirectory",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "requireplaindirectory()"
     },
@@ -16339,7 +16339,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_readboundedplainfile",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "readboundedplainfile()"
     },
@@ -16372,7 +16372,7 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_acquirelock",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "acquirelock()"
     },
@@ -16383,7 +16383,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_releaselock",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "releaselock()"
     },
@@ -16394,7 +16394,7 @@
       "source_location": "L273",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_cleanpartial",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "cleanpartial()"
     },
@@ -16405,7 +16405,7 @@
       "source_location": "L284",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_cleantemporary",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "cleantemporary()"
     },
@@ -16416,7 +16416,7 @@
       "source_location": "L295",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_writedurableexclusive",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "writedurableexclusive()"
     },
@@ -16428,7 +16428,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_validatelease",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "validatelease()"
     },
     {
@@ -16439,7 +16439,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "filesystemconfigurationservice"
     },
     {
@@ -16450,7 +16450,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_constructor",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": ".constructor()"
     },
     {
@@ -16461,7 +16461,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_applyconfiguration",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": ".applyconfiguration()"
     },
     {
@@ -16472,7 +16472,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_rollbackconfiguration",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": ".rollbackconfiguration()"
     },
     {
@@ -16483,7 +16483,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_resource",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": ".#resource()"
     },
     {
@@ -16494,7 +16494,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_withguard",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": ".#withguard()"
     },
     {
@@ -16504,7 +16504,7 @@
       "source_location": "L452",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_preparelayout",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#preparelayout()"
     },
@@ -16515,7 +16515,7 @@
       "source_location": "L497",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_mutate",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#mutate()"
     },
@@ -16526,7 +16526,7 @@
       "source_location": "L656",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_replacewithrecovery",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#replacewithrecovery()"
     },
@@ -16537,7 +16537,7 @@
       "source_location": "L715",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_verifyrevisiondirectory",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#verifyrevisiondirectory()"
     },
@@ -16548,7 +16548,7 @@
       "source_location": "L771",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_readrevision",
-      "community": 102,
+      "community": 103,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#readrevision()"
     },
@@ -16571,7 +16571,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_format",
       "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "voidfall_configuration_revision_format"
     },
     {
@@ -16582,7 +16582,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_schema_version",
       "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "voidfall_configuration_revision_schema_version"
     },
     {
@@ -16593,7 +16593,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_java_properties_v1",
       "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "java_properties_v1"
     },
     {
@@ -16681,7 +16681,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationresourcedefinition",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "configurationresourcedefinition"
     },
     {
@@ -16692,7 +16692,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_applyconfigurationplan",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "applyconfigurationplan"
     },
     {
@@ -16703,7 +16703,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_rollbackconfigurationplan",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "rollbackconfigurationplan"
     },
     {
@@ -16780,7 +16780,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationoperation",
       "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "configurationoperation"
     },
     {
@@ -16791,7 +16791,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationmutationreceipt",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "configurationmutationreceipt"
     },
     {
@@ -16857,7 +16857,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_filesystemconfigurationserviceoptions",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "filesystemconfigurationserviceoptions"
     },
     {
@@ -16934,7 +16934,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_validation_canonicaltimestamp",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "canonicaltimestamp()"
     },
     {
@@ -16944,8 +16944,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_validation_parsecanonicaltimestamp",
-      "community": 103,
-      "community_name": "server-configuration/src/manifest.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "parsecanonicaltimestamp()"
     },
     {
@@ -17165,7 +17165,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_test_server_configuration_test_fixture",
       "community": 102,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "FilesystemConfigurationService",
       "norm_label": "fixture"
     },
     {
@@ -19356,6 +19356,17 @@
       "community": 125,
       "community_name": "Conclus\u00e3o da Fase 4 \u2014 cat\u00e1logo, artefatos, arquivos e schemas",
       "norm_label": "validacao local"
+    },
+    {
+      "label": "Matriz final",
+      "file_type": "document",
+      "source_file": "docs/plataforma/PHASE_4_COMPLETION.md",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "docs_plataforma_phase_4_completion_matriz_final",
+      "community": 125,
+      "community_name": "Conclus\u00e3o da Fase 4 \u2014 cat\u00e1logo, artefatos, arquivos e schemas",
+      "norm_label": "matriz final"
     },
     {
       "label": "PHASE_4_INVENTORY_CATALOG.md",
@@ -24658,7 +24669,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L124",
+      "source_location": "L132",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24669,7 +24680,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L62",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24680,7 +24691,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L46",
+      "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24691,7 +24702,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L32",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24702,7 +24713,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L93",
+      "source_location": "L101",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24713,7 +24724,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24724,7 +24735,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L76",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24735,7 +24746,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L118",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24746,7 +24757,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24757,18 +24768,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L52",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_artifact_quarantine_src_service",
-      "target": "plataforma_packages_artifact_quarantine_src_service_normalizefilesystempath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L57",
+      "source_location": "L51",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24779,7 +24779,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L86",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_artifact_quarantine_src_service",
+      "target": "plataforma_packages_artifact_quarantine_src_service_rejectlinkedpathcomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24790,7 +24801,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L100",
+      "source_location": "L108",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24801,7 +24812,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L28",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24812,7 +24823,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L107",
+      "source_location": "L115",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24823,7 +24834,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24835,7 +24846,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24847,7 +24858,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24859,7 +24870,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24871,7 +24882,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24883,7 +24894,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24895,7 +24906,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24907,7 +24918,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24919,7 +24930,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24931,7 +24942,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service",
@@ -24944,7 +24955,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L149",
+      "source_location": "L157",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_constructor",
@@ -24967,7 +24978,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L67",
+      "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_canonicaljson",
@@ -24979,7 +24990,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_exactkeys",
@@ -24991,7 +25002,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L133",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_constructor",
@@ -25027,7 +25038,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L65",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_canonicaljson",
@@ -25039,7 +25050,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L81",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_exists",
@@ -25051,7 +25062,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L134",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_constructor",
@@ -25087,11 +25098,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L166",
+      "source_location": "L233",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_preparelayout",
-      "target": "plataforma_packages_artifact_quarantine_src_service_normalizefilesystempath",
+      "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_quarantine",
+      "target": "plataforma_packages_artifact_quarantine_src_service_pathcontained",
       "confidence_score": 1.0
     },
     {
@@ -25099,11 +25110,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L233",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_quarantine",
-      "target": "plataforma_packages_artifact_quarantine_src_service_pathcontained",
+      "source": "plataforma_packages_artifact_quarantine_src_service_requireplaindirectory",
+      "target": "plataforma_packages_artifact_quarantine_src_service_rejectlinkedpathcomponents",
       "confidence_score": 1.0
     },
     {
@@ -25135,7 +25146,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L94",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_createorrequireplaindirectory",
@@ -25147,7 +25158,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L164",
+      "source_location": "L172",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_preparelayout",
@@ -25171,7 +25182,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L97",
+      "source_location": "L105",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_createorrequireplaindirectory",
@@ -25183,7 +25194,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L169",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_preparelayout",
@@ -25230,7 +25241,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L131",
+      "source_location": "L139",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice",
@@ -25241,7 +25252,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L161",
+      "source_location": "L169",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice",
@@ -25275,7 +25286,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L128",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice",
@@ -25299,7 +25310,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/artifact-quarantine/src/service.ts",
-      "source_location": "L131",
+      "source_location": "L139",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_artifact_quarantine_src_service_artifactquarantineservice_constructor",
@@ -26657,7 +26668,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L292",
+      "source_location": "L302",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26668,7 +26679,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L100",
+      "source_location": "L108",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26679,7 +26690,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L75",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26701,7 +26712,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L219",
+      "source_location": "L229",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26723,7 +26734,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L114",
+      "source_location": "L122",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26734,7 +26745,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L240",
+      "source_location": "L250",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26745,7 +26756,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L254",
+      "source_location": "L264",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26767,7 +26778,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L120",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26789,7 +26800,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L66",
+      "source_location": "L61",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26800,18 +26811,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service",
-      "target": "plataforma_packages_authorized_files_src_service_normalizefilesystempath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L124",
+      "source_location": "L132",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26822,7 +26822,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L71",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26844,7 +26844,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L168",
+      "source_location": "L178",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26855,7 +26855,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L153",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service",
+      "target": "plataforma_packages_authorized_files_src_service_rejectabsolutelinkedcomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L163",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26866,7 +26877,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L134",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26877,7 +26888,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L96",
+      "source_location": "L104",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26888,7 +26899,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L81",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -26899,7 +26910,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L229",
+      "source_location": "L239",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service",
@@ -27055,7 +27066,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L391",
+      "source_location": "L404",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
@@ -27067,7 +27078,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L105",
+      "source_location": "L113",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_canonicaljson",
@@ -27091,7 +27102,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L251",
+      "source_location": "L261",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_freezeextensionlist",
@@ -27103,7 +27114,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L299",
+      "source_location": "L309",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
@@ -27115,287 +27126,11 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L375",
+      "source_location": "L388",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
       "target": "plataforma_packages_authorized_files_src_service_isrecord",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L421",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
-      "target": "plataforma_packages_authorized_files_src_service_isrecord",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L466",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_isrecord",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L103",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_canonicaljson",
-      "target": "plataforma_packages_authorized_files_src_service_isrecord",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L256",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_freezeroot",
-      "target": "plataforma_packages_authorized_files_src_service_isrecord",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L300",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
-      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L376",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
-      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L422",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
-      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L467",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L257",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_freezeroot",
-      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L365",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
-      "target": "plataforma_packages_authorized_files_src_service_normalizefilesystempath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L143",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_requirecanonicaldirectory",
-      "target": "plataforma_packages_authorized_files_src_service_normalizefilesystempath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L352",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
-      "target": "plataforma_packages_authorized_files_src_service_iswithin",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L72",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_pathsoverlap",
-      "target": "plataforma_packages_authorized_files_src_service_iswithin",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L142",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_requirecanonicaldirectory",
-      "target": "plataforma_packages_authorized_files_src_service_iswithin",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L323",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
-      "target": "plataforma_packages_authorized_files_src_service_pathsoverlap",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L484",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_canonicaltimestamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L377",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
-      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L423",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
-      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L477",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L439",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
-      "target": "plataforma_packages_authorized_files_src_service_sha256",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L515",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_sha256",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L547",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
-      "target": "plataforma_packages_authorized_files_src_service_canonicaljson",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L416",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
-      "target": "plataforma_packages_authorized_files_src_service_freezedeep",
       "confidence_score": 1.0
     },
     {
@@ -27407,6 +27142,258 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
+      "target": "plataforma_packages_authorized_files_src_service_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L479",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L111",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_canonicaljson",
+      "target": "plataforma_packages_authorized_files_src_service_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L266",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_freezeroot",
+      "target": "plataforma_packages_authorized_files_src_service_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L310",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
+      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L389",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
+      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L435",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
+      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L480",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L267",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_freezeroot",
+      "target": "plataforma_packages_authorized_files_src_service_exactkeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L362",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
+      "target": "plataforma_packages_authorized_files_src_service_iswithin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_pathsoverlap",
+      "target": "plataforma_packages_authorized_files_src_service_iswithin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L144",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_requirecanonicaldirectory",
+      "target": "plataforma_packages_authorized_files_src_service_iswithin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L147",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_requirecanonicaldirectory",
+      "target": "plataforma_packages_authorized_files_src_service_rejectabsolutelinkedcomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L333",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
+      "target": "plataforma_packages_authorized_files_src_service_pathsoverlap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L497",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_canonicaltimestamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L390",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
+      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L436",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
+      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L490",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_validaterelativepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L452",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
+      "target": "plataforma_packages_authorized_files_src_service_sha256",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L528",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_sha256",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L560",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
+      "target": "plataforma_packages_authorized_files_src_service_canonicaljson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L429",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
       "target": "plataforma_packages_authorized_files_src_service_freezedeep",
       "confidence_score": 1.0
     },
@@ -27415,7 +27402,19 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L595",
+      "source_location": "L447",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
+      "target": "plataforma_packages_authorized_files_src_service_freezedeep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/packages/authorized-files/src/service.ts",
+      "source_location": "L608",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27427,7 +27426,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L617",
+      "source_location": "L630",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27439,7 +27438,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L129",
+      "source_location": "L137",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_pathexists",
@@ -27451,7 +27450,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L450",
+      "source_location": "L463",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_preparerevisionlayout",
@@ -27463,7 +27462,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L527",
+      "source_location": "L540",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27475,7 +27474,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L449",
+      "source_location": "L462",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_preparerevisionlayout",
@@ -27487,7 +27486,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L553",
+      "source_location": "L566",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27499,7 +27498,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L355",
+      "source_location": "L365",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
@@ -27511,7 +27510,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L359",
+      "source_location": "L369",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_target",
@@ -27523,7 +27522,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L433",
+      "source_location": "L446",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27535,7 +27534,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L514",
+      "source_location": "L527",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27547,7 +27546,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L440",
+      "source_location": "L453",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27559,7 +27558,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L571",
+      "source_location": "L584",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27571,7 +27570,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L549",
+      "source_location": "L562",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27583,7 +27582,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L276",
+      "source_location": "L286",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_freezeroot",
@@ -27595,7 +27594,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L313",
+      "source_location": "L323",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
@@ -27606,7 +27605,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L297",
+      "source_location": "L307",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27617,7 +27616,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L373",
+      "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27628,7 +27627,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L444",
+      "source_location": "L457",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27639,7 +27638,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L419",
+      "source_location": "L432",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27650,7 +27649,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L464",
+      "source_location": "L477",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27661,7 +27660,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L337",
+      "source_location": "L347",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27672,7 +27671,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L346",
+      "source_location": "L356",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice",
@@ -27708,7 +27707,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L297",
+      "source_location": "L307",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_constructor",
@@ -27720,7 +27719,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L384",
+      "source_location": "L397",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
@@ -27732,7 +27731,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L427",
+      "source_location": "L440",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27744,7 +27743,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L493",
+      "source_location": "L506",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27756,7 +27755,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L385",
+      "source_location": "L398",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
@@ -27768,7 +27767,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L432",
+      "source_location": "L445",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27780,7 +27779,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L513",
+      "source_location": "L526",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27792,7 +27791,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L373",
+      "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
@@ -27804,7 +27803,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L373",
+      "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_list",
@@ -27816,7 +27815,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L419",
+      "source_location": "L432",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27828,7 +27827,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L419",
+      "source_location": "L432",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_read",
@@ -27840,7 +27839,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L524",
+      "source_location": "L537",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27852,7 +27851,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L464",
+      "source_location": "L477",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -27864,7 +27863,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/packages/authorized-files/src/service.ts",
-      "source_location": "L464",
+      "source_location": "L477",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_packages_authorized_files_src_service_authorizedfileservice_replace",
@@ -53046,6 +53045,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/PHASE_4_COMPLETION.md",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_phase_4_completion_conclus\u00e3o_da_fase_4_cat\u00e1logo_artefatos_arquivos_e_schemas",
+      "target": "docs_plataforma_phase_4_completion_matriz_final",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/PHASE_4_COMPLETION.md",
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
@@ -54532,5 +54542,5 @@
       "source_file": "Servidor/AGENTS.md"
     }
   ],
-  "built_at_commit": "56cd4d3340d4959d26d028ffed39c49ffbefb6fd"
+  "built_at_commit": "63b80d546032b842f1d9b6983a4f872ab9363a4c"
 }
