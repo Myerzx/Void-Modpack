@@ -699,6 +699,22 @@ export class JobRepository {
     return result.rowCount === 1;
   }
 
+  async fail(
+    jobId: string,
+    workerId: string,
+    errorValue: NonNullable<Job['error']>,
+    now: Date,
+  ): Promise<boolean> {
+    const result = await this.database.query(
+      `UPDATE jobs SET status = 'failed', stage = 'failed', error = $4::jsonb,
+         finished_at = $3, updated_at = $3, lease_owner = NULL,
+         lease_acquired_at = NULL, lease_expires_at = NULL
+       WHERE id = $1 AND lease_owner = $2 AND status = 'running'`,
+      [jobId, workerId, now.toISOString(), JSON.stringify(errorValue)],
+    );
+    return result.rowCount === 1;
+  }
+
   async appendEvent(input: {
     readonly jobId: string;
     readonly stage: string;
