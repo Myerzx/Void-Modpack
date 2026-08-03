@@ -2,6 +2,21 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-03 — Fase 6: jogadores e auditoria em isolamento
+
+### Adicionado
+
+- cinco contratos v1 e JSON Schemas para perfil/alias, binding Minecraft, moderação, política de dados e manifesto de export de auditoria;
+- `@voidfall/player-governance` com perfis por UUID, aliases limitados, revisão/idempotência, grupos provider-neutral e moderação tipada;
+- decisões deny-by-default para coleta, leitura e exportação de atividade, chat e coordenadas sem receber conteúdo sensível;
+- `@voidfall/audit-chain` com SHA-256 por partição, verificação de adulteração e NDJSON canônico;
+- migração `0003_audit_chain.sql` e append transacional com cabeça bloqueada, sequência contígua, verificação e export no repositório de auditoria;
+- gate local aprovado com 178 casos descobertos: 176 aprovados no Windows e dois sockets Unix ignorados.
+
+### Não habilitado
+
+Importação de arquivos ou jogadores reais, autenticação Minecraft, provider Forge, aplicação de grupos/moderação, coleta de chat/coordenadas, rotas/telas sensíveis e export para storage externo. UUID é identidade; alias nunca concede acesso.
+
 ## 2026-08-03 — Fase 5: build e launcher em isolamento
 
 ### Adicionado

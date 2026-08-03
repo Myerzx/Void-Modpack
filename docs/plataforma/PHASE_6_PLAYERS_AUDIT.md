@@ -1,6 +1,6 @@
 # Fase 6 — jogadores, privacidade e auditoria
 
-Status: contrato técnico aprovado para implementação isolada em 2026-08-03.
+Status: conclusão técnica em isolamento em 2026-08-03; gate local aprovado, integrações operacionais bloqueadas.
 
 ## Objetivo e recorte
 
@@ -116,3 +116,13 @@ A fase pode ser marcada como tecnicamente concluída em isolamento quando:
 8. documentação, handoff, roadmap e Graphify refletem os limites reais.
 
 Conclusão técnica não autoriza conexão ao Forge, ingestão de jogadores reais ou exposição no painel.
+
+## Validação executada
+
+- `@voidfall/contracts`: 31 testes, 15 JSON Schemas, typecheck, build e pack seco;
+- `@voidfall/player-governance`: 12 testes, typecheck, build e pack seco;
+- `@voidfall/audit-chain`: 7 testes, typecheck, build e pack seco;
+- `@voidfall/database`: 3 testes PGlite, incluindo appends concorrentes, verificação e export;
+- gate integral: 178 casos descobertos, 176 aprovados no Windows e dois sockets Unix ignorados;
+- builds de pacotes, apps, Forge Bridge Java 17 e painel estático aprovados;
+- `npm audit --omit=dev`: zero vulnerabilidades de runtime.

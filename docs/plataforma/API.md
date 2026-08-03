@@ -1,6 +1,6 @@
 # Contratos de API
 
-Status: subset administrativo mínimo da Fase 2 e Launcher API somente leitura da Fase 5 implementados. Rotas marcadas como planejadas ainda podem mudar por ADR ou por uma nova versão incompatível.
+Status: subset administrativo mínimo da Fase 2 e Launcher API somente leitura da Fase 5 implementados. A Fase 6 implementou contratos/domínios, não rotas de jogador. Rotas marcadas como planejadas ainda podem mudar por ADR ou por uma nova versão incompatível.
 
 ## Implementado na Fase 2
 
@@ -114,6 +114,8 @@ Mudanças de lado, origem, licença, obrigatoriedade e hash geram auditoria com 
 - `PUT /api/v1/players/{uuid}/group`
 
 UUID é a chave externa do jogador. Nomes são aliases históricos e não identificadores de autorização.
+
+Essas rotas continuam planejadas e desabilitadas. `@voidfall/player-governance` não foi conectado à Control API; autenticação Minecraft, provider, retenção, autorização sensível e auditoria de leitura permanecem gates obrigatórios.
 
 ## Backups, arquivos e agendamentos
 

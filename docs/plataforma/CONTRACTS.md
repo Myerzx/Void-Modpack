@@ -1,6 +1,6 @@
 # Contratos compartilhados
 
-Status: implementação v1 iniciada na Fase 2 e ampliada no primeiro recorte da Fase 4.
+Status: implementação v1 iniciada na Fase 2 e ampliada nas Fases 4, 5 e 6.
 
 ## Objetivo
 
@@ -32,6 +32,11 @@ Os contratos iniciais não acessam rede, banco, filesystem operacional nem proce
 | `CatalogReconciliationReport` | reconciliador determinístico | revisão futura, worker e painel | identidade de conteúdo, ocorrências, sugestão de lado, conflitos e bloqueios ordenados |
 | `ReleaseManifest` | Build Worker após gates | Launcher API e adaptadores | identidade VoidFall, artifacts por hash, paths canônicos, remoção explícita e assinatura |
 | `AuditEvent` | todos os componentes autorizados | armazenamento append-only e painel | ator, recurso, correlação, resultado, integridade opcional e bloqueio de chaves secretas |
+| `PlayerProfile` | fonte autorizada de observações | domínio de jogadores e futura API | UUID, revisão, aliases limitados, origem e ordem canônica |
+| `MinecraftPermissionBinding` | operação administrativa autorizada | adapter futuro do provider Forge | grupos separados do painel, baseline `player`, revisão e recibo correlacionado |
+| `ModerationCase` | moderação autorizada | executor futuro do Forge Bridge | ação tipada, motivo, expiração e evidência de transição |
+| `PlayerDataPolicy` | proprietário da política | consumidores futuros de dados sensíveis | finalidade, aprovação, três categorias, retenção e export separado |
+| `AuditChainExportManifest` | armazenamento de auditoria | verificador/storage imutável | partição, intervalo contíguo, hashes da cadeia e conteúdo NDJSON |
 
 ## Invariantes implementadas
 
@@ -101,6 +106,43 @@ O manifesto é independente do launcher. Adaptadores resolvem `artifactId` pela 
 
 Redação por nome de campo é uma defesa adicional, não substitui sanitização no produtor nem testes de vazamento.
 
+### `PlayerProfile`
+
+- UUID é a chave e alias é somente observação;
+- `normalizedName` precisa derivar do alias e ser único case-insensitive;
+- aliases são estritamente ordenados e limitados a 64;
+- primeira/última observação e revisão não podem regredir.
+
+### `MinecraftPermissionBinding`
+
+- binding não revogado exige grupo basal `player`;
+- grupos são únicos, ordenados e pertencem ao domínio Minecraft;
+- estado sincronizado/falho exige recibo de provider coerente;
+- binding pendente/revogado não aceita recibo fabricado.
+
+### `ModerationCase`
+
+- aceita somente warning, mute, kick, ban temporário ou permanente;
+- mute/ban temporário exigem expiração; ações instantâneas/permanentes a proíbem;
+- transição precisa corresponder ao estado e falha exige `errorCode` seguro;
+- não existe campo de comando, seletor ou payload extensível.
+
+### `PlayerDataPolicy`
+
+- contém exatamente atividade, chat e coordenadas em ordem canônica;
+- coleta permitida exige retenção máxima entre 60 segundos e um ano;
+- categoria desabilitada não possui retenção nem export;
+- política aprovada exige ator, aprovação e vigência coerentes.
+
+O contrato não contém mensagem, comando, coordenada ou payload de observação.
+
+### `AuditChainExportManifest`
+
+- intervalo de sequência é contíguo e corresponde à quantidade;
+- algoritmo é `sha256-chain-v1` e conteúdo é NDJSON UTF-8;
+- registra âncora anterior, hash final e SHA-256 do conteúdo;
+- o manifesto comprova integridade interna, não autorização de leitura ou imutabilidade externa.
+
 ## Schemas portáteis
 
 `npm run build` gera em `Plataforma/packages/contracts/dist/schemas/`:
@@ -111,7 +153,12 @@ Redação por nome de campo é uma defesa adicional, não substitui sanitizaçã
 - `inventory-snapshot.schema.json`;
 - `catalog-reconciliation-report.schema.json`;
 - `release-manifest.schema.json`;
-- `audit-event.schema.json`.
+- `audit-event.schema.json`;
+- `audit-chain-export-manifest.schema.json`;
+- `minecraft-permission-binding.schema.json`;
+- `moderation-case.schema.json`;
+- `player-data-policy.schema.json`;
+- `player-profile.schema.json`.
 
 `dist/` é derivado e não entra no Git. Os `$id` usam o domínio reservado `.invalid` como identificadores estáveis, não como endpoints de rede.
 

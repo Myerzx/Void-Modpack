@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 5 — tecnicamente concluída em isolamento; gate local e matriz Windows/Linux aprovados
+- Fase: 6 — tecnicamente concluída em isolamento; gate local aprovado e matriz Windows/Linux pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -87,6 +87,15 @@
   - `modpack.build` no worker limitado a `planId`, executor confiável injetado e resultado/falha sanitizados;
   - núcleo Java 17 do Forge Bridge com permissão literal, janela curta, nonce, Ed25519 e capabilities deny-by-default;
   - nenhum acesso aos workspaces privados, nenhuma release real, nenhum adapter Forge e nenhuma ativação de comando;
+- Fase 6 com:
+  - contratos v1 e JSON Schemas para `PlayerProfile`, `MinecraftPermissionBinding`, `ModerationCase`, `PlayerDataPolicy` e `AuditChainExportManifest`;
+  - `@voidfall/player-governance` com registros limitados, imutáveis e idempotentes de perfil/alias por UUID;
+  - grupos Minecraft separados do RBAC do painel, baseline `player` e porta de provider deny-by-default;
+  - moderação tipada para warning, mute, kick e bans, com expiração e executor injetado sem comando livre;
+  - motor de privacidade que decide coleta/leitura/export, exige política aprovada e não recebe payload de chat/coordenada;
+  - `@voidfall/audit-chain` com SHA-256 por partição, sequência, verificação e NDJSON canônico;
+  - `0003_audit_chain.sql` e `AuditRepository` com cabeça bloqueada, integridade pertencente ao storage e export limitado;
+  - nenhuma importação de jogador, arquivo, chat, coordenada ou estado do servidor privado;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -104,6 +113,10 @@
 11. Não fornecer raiz, path, catálogo, chave ou comando no payload de `modpack.build`; somente `planId` opaco pode atravessar a fila.
 12. Não dar chave privada à Launcher API; ela recebe somente conjunto de chaves públicas pinadas.
 13. Não habilitar `stable`, instalar o Bridge ou registrar `/atualizar-modpack` até todos os gates externos estarem aprovados.
+14. Não usar alias como identidade, autenticação ou autorização; somente UUID identifica jogador.
+15. Não adicionar payload genérico ao motor de política nem persistir atividade/chat/coordenadas antes de finalidade, retenção e acesso aprovados.
+16. Não aceitar hash de auditoria do produtor; partição, sequência e cadeia pertencem ao storage.
+17. Não tratar fake de provider/executor como integração Forge real.
 
 ## Validação
 
@@ -118,6 +131,9 @@
 - gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
 - gate local da Fase 5 aprovado: 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; build/typecheck de todos os workspaces, Java 17, Launcher API e export estático aprovados;
 - Fase 5 por componente: contratos 22, release 7, launcher protocol 4, Launcher API 3, build worker 4 e Forge Bridge 3 casos aprovados;
+- gate local da Fase 6 aprovado: 178 casos descobertos; 176 aprovados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Launcher API e export estático aprovados;
+- Fase 6 por componente novo/ampliado: contratos 31, player governance 12, audit chain 7 e database 3 casos aprovados;
+- append concorrente de auditoria comprovado em PGlite com sequência contígua, verificação e export NDJSON;
 - matriz CI de fechamento da Fase 5 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360); 149 casos passam no Linux e os 147 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
@@ -173,10 +189,17 @@
 - o núcleo do Bridge não depende do Forge, não está empacotado como mod e não possui transporte local ao agente;
 - as chaves Ed25519 reais, rotação, HSM/secret store e cerimônia de promoção ainda não foram definidos;
 - advisories transitivos do Next de build estático continuam documentados em `PHASE_2_VALIDATION.md`.
+- perfis, aliases, bindings e casos da Fase 6 vivem somente na memória; não há repositório PostgreSQL, API, paginação ou reconciliação após restart;
+- autenticação Minecraft permanece P0 e nenhum vínculo painel-jogador foi criado;
+- provider de permissões Forge permanece P1; os fakes apenas validam a porta e os recibos;
+- executor de moderação não está conectado e estado puro não prova kick/mute/ban aplicado no Minecraft;
+- política exata, base/finalidade, prazos e responsáveis por atividade/chat/coordenadas continuam P1; nenhum dado foi coletado;
+- cadeia SHA-256 detecta alteração interna, mas ainda não possui assinatura/âncora externa, storage imutável, criptografia, retenção ou cerimônia de export;
+- `AuditRepository` limita verificação/export a 100.000 registros por operação e ainda não possui paginação/âncora incremental para partições maiores;
 
 ## Próximo recorte recomendado
 
-Iniciar a Fase 6 item 1 como domínio puro de perfis por UUID e aliases, sem ler `usercache.json`, `usernamecache.json`, `whitelist.json`, chat, coordenadas ou qualquer arquivo do servidor privado. A importação real dependerá de política de privacidade, autenticação Minecraft e contrato próprio.
+Não iniciar schema específico da Fase 7 sem inventário revisado e seleção explícita do mod/recurso suportado. O próximo recorte seguro é escolher um candidato com proprietário, versão, parser, validação, rollback e restart documentados; enquanto os P0/P1 impedirem essa escolha, trabalhar apenas nas decisões e evidências, sem tocar o runtime privado.
 
 ## Commits relevantes
 
@@ -227,5 +250,10 @@ Iniciar a Fase 6 item 1 como domínio puro de perfis por UUID e aliases, sem ler
 - `1c5f01f` — Launcher API somente leitura;
 - `a6aae57` — núcleo Java 17 do Forge Bridge;
 - `f799cee` — executor isolado de `modpack.build` por referência.
+- `b4b142e` — contrato integral, privacidade e gates da Fase 6;
+- `ca47d8a` — contratos portáteis de jogadores, política e export de auditoria;
+- `257f447` — domínio puro de governança de jogadores;
+- `0993208` — cadeia SHA-256 e export NDJSON;
+- `55ceec7` — append transacional encadeado no PostgreSQL/PGlite.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

@@ -78,3 +78,16 @@ Não existe elevação automática por nome, primeiro login, posse de arquivo ou
 ## Provedor do Forge
 
 A integração definitiva com um sistema de permissões depende da análise dos mods ativos. O contrato da ponte deve abstrair `hasPermission(uuid, permissionNode)` e sincronização de grupos; a seleção do provedor exige novo ADR e teste com Forge 1.20.1.
+
+## Recorte implementado na Fase 6
+
+`@voidfall/player-governance` implementa um registro provider-neutral em memória:
+
+- binding por UUID e instância, separado de `PanelRole`/`PanelPermission` por tipos e pacote;
+- grupo basal `player`, lista única/ordenada, revisão esperada e operação idempotente;
+- estados pending, synchronized, failed e revoked com recibo limitado e correlacionado;
+- porta `MinecraftPermissionProvider` injetada somente por construção confiável;
+- `checkPermission` nega quando não há provider, quando ele falha ou quando o recibo diverge;
+- nenhuma string de comando, console, wildcard ou elevação por alias.
+
+O provider real continua não escolhido e nenhum grupo é aplicado ao Forge. O adapter futuro exige ADR, política de migração e testes de integração 1.20.1.

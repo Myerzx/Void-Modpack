@@ -68,6 +68,8 @@ Plataforma/
     database/
     authentication/
     permissions/
+    player-governance/
+    audit-chain/
     minecraft-process/
     server-backup/
     server-configuration/
@@ -88,7 +90,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 implementou `minecraft-process`, backup e configuração sob guardas injetadas. A Fase 4 implementou catálogo, quarentena, arquivos autorizados e schemas sem integração real. A Fase 5 acrescentou `modpack-release`, `launcher-protocol`, `launcher-api`, o executor isolado do build worker e o núcleo Java do Forge Bridge. Nenhuma dessas capacidades acessa o servidor/launcher privado; Control API e agente ainda não encaminham operações reais.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 implementou `minecraft-process`, backup e configuração sob guardas injetadas. A Fase 4 implementou catálogo, quarentena, arquivos autorizados e schemas sem integração real. A Fase 5 acrescentou `modpack-release`, `launcher-protocol`, `launcher-api`, o executor isolado do build worker e o núcleo Java do Forge Bridge. A Fase 6 acrescentou `player-governance`, `audit-chain` e a persistência encadeada dos eventos administrativos existentes. Nenhuma dessas capacidades acessa jogadores, chat, coordenadas ou runtimes privados; Control API e agente ainda não encaminham operações Minecraft reais.
 
 ## Fluxo do comando no jogo
 

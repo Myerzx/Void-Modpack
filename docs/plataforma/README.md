@@ -1,6 +1,6 @@
 # Plataforma VoidFall
 
-Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; as Fases 2 a 5 implementaram fundação, controle isolado, catálogo/arquivos e a cadeia técnica de release/launcher sem integração com os runtimes privados.
+Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; as Fases 2 a 6 implementaram fundação, controle isolado, catálogo/arquivos, release/launcher e governança de jogadores/auditoria sem integração com os runtimes privados.
 
 ## Ordem de leitura
 
@@ -29,6 +29,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 23. [Inventário e catálogo reconciliado da Fase 4](PHASE_4_INVENTORY_CATALOG.md)
 24. [Conclusão da Fase 4: catálogo, artefatos, arquivos e schemas](PHASE_4_COMPLETION.md)
 25. [Execução da Fase 5: build, launcher e Bridge](PHASE_5_EXECUTION.md)
+26. [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md)
 
 ## Resultado da Fase 1
 
@@ -46,6 +47,8 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - Fase 3 concluída em isolamento: processo, console, métricas, backup consistente, restore isolado e configurações básicas com revisão anterior passaram na matriz Windows/Linux;
 - Fase 4 concluída em isolamento: inventário, classificação revisável, quarentena, arquivos autorizados, schemas genéricos e análise de conflitos passaram no gate local e na matriz Windows/Linux;
 - Fase 5 tecnicamente concluída em isolamento: worker por referência, build/sanitização, assinatura, storage imutável, canais, Launcher API, planner portátil, rollback e Bridge Java passaram no gate local e na matriz Windows/Linux;
+- Fase 6 tecnicamente concluída em isolamento: perfis/aliases por UUID, bindings de grupos Minecraft, moderação tipada, política deny-by-default e auditoria encadeada/exportável passaram no gate local;
+- nenhum arquivo, chat, coordenada ou estado de jogador do servidor privado foi importado e nenhum provider/executor real foi conectado;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - `stable`, o adapter Forge real e `/atualizar-modpack` permanecem desabilitados até os gates P0 do cliente e da distribuição;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.

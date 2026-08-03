@@ -1,13 +1,14 @@
 # Modelo do banco
 
-Status: fundação da Fase 2 implementada; entidades de catálogo, builds, releases, jogadores, backups e métricas continuam planejadas.
+Status: fundação da Fase 2 e encadeamento de auditoria da Fase 6 implementados; entidades persistentes de catálogo, builds, releases, jogadores, backups e métricas continuam planejadas.
 
 ## Migrações implementadas
 
 - `0001_foundation.sql`: `panel_users`, `roles`, `permissions`, `user_roles`, `role_permissions`, `sessions`, `server_instances`, `agent_provision_tokens`, `agents`, `agent_nonces`, `jobs`, `job_events` e `audit_events`;
 - `0002_rbac_seed.sql`: cinco papéis e permissões granulares com política deny-by-default;
+- `0003_audit_chain.sql`: cabeças por partição, sequência e integridade da auditoria administrativa;
 - repositórios de usuários, sessões, permissões, servidores, auditoria, agentes e jobs;
-- testes em PostgreSQL embarcado PGlite para migração, RBAC, idempotência, lease e conclusão `noop`.
+- testes em PostgreSQL embarcado PGlite para migração, RBAC, idempotência, lease, conclusão `noop`, append concorrente, verificação e export de auditoria.
 
 As seções seguintes descrevem o modelo implementado e o destino incremental. Uma entidade descrita sem migração correspondente ainda é planejamento.
 
@@ -72,6 +73,8 @@ RBAC do painel com permissões granulares. Dono não é uma flag implícita; é 
 Credenciais privadas ficam no cofre/host do agente, não nesta tabela.
 
 ## Jogadores e permissões do jogo
+
+As tabelas desta seção continuam planejadas. A Fase 6 implementou snapshots e registros somente em memória; não importou nem persistiu jogador real.
 
 ### `minecraft_players`
 
@@ -151,7 +154,11 @@ Mod/recurso, versão do schema, campos, limites, unidade, path permitido e estra
 
 ### `audit_events`
 
-Append-only: `id`, `occurred_at`, `actor_type`, `actor_id`, `action`, `resource_type`, `resource_id`, `before_redacted`, `after_redacted`, `reason`, `result`, `admin_ip`, `correlation_id`, `integrity_hash`.
+Append-only implementado: `id`, `occurred_at`, `correlation_id`, ator/recurso JSON validados, `source`, `action`, `outcome`, before/after/metadata redigidos, `partition_id`, `chain_sequence`, `previous_hash` e `integrity_hash`.
+
+### `audit_chain_heads`
+
+Uma linha por partição mantém `last_sequence`, `last_hash` e `updated_at`. `AuditRepository.append()` cria/bloqueia a cabeça em transação, calcula a integridade na camada de storage, insere o evento e avança a cabeça com revisão esperada. Produtores não podem fornecer `integrity`. Verificação e export são limitadas a 100.000 registros por operação.
 
 ### `log_indexes`
 
@@ -168,6 +175,7 @@ Somente retenção curta ou agregada: métrica, valor, unidade, fonte, qualidade
 - JSON apenas para payloads versionados e metadados variáveis;
 - segredo fora do banco ou cifrado por envelope quando inevitável;
 - auditoria com redação antes da persistência;
+- sequência única por partição, cabeça bloqueada e hash pertencente ao storage;
 - políticas de retenção para IP, chat, coordenadas e sessões;
 - backup do banco separado do backup do mundo, ambos testados.
 

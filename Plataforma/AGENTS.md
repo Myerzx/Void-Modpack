@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2, all six Phase 3 items, all six Phase 4 items and all seven Phase 5 technical items are complete in isolation. The Phase 5 local gate and final Windows/Linux matrix are green under `docs/plataforma/PHASE_5_EXECUTION.md`. Content identity is SHA-256; logical identity remains the reviewed catalog ID. The worker accepts only an opaque `planId`; build roots, catalogs and private keys stay in trusted construction. Launcher API is read-only, the portable planner removes only explicitly managed paths, and channel mutation uses signed revisions with CAS. The Java Bridge core exists but is not installed into Forge. Do not scan private runtimes, inspect/execute JARs, call providers, import the current client, publish `stable`, install the Bridge or enable `/atualizar-modpack`. The next bounded task is Phase 6 item 1 as a pure UUID profile domain, without importing player files, chat, coordinates or live server state. Existing operational restrictions remain in force.
+Phase 2, all six Phase 3 items, all six Phase 4 items, all seven Phase 5 items and all six Phase 6 technical items are complete in isolation. Phase 6 adds portable player-governance contracts, bounded pure registries, deny-by-default provider/executor ports, policy decisions without sensitive payloads, and transactional partitioned audit chains. No player data was imported and no Minecraft provider or executor is connected. Do not scan private runtimes, inspect/execute JARs, call real providers, import the current client or player files, collect chat/coordinates, publish `stable`, install the Bridge or enable `/atualizar-modpack`. Phase 7 implementation remains blocked until the reviewed mod inventory selects explicit supported schemas; the next safe task is documentation/selection only, not a generic config adapter or runtime integration. Existing operational restrictions remain in force.
 
 ## Ownership
 
@@ -29,6 +29,9 @@ Phase 2, all six Phase 3 items, all six Phase 4 items and all seven Phase 5 tech
 13. Process controller idempotency and exclusion are currently in-memory only. Do not represent them as durable or safe across agent restarts until persistence, locking, PID reconciliation, and crash tests exist.
 14. Console callers provide only `list-players` or `save-all`; never add a string command parameter. Console snapshots require redaction, authorization, audit, and retention policy before external exposure.
 15. Configuration callers may select only a registered `resourceId` and typed known fields. Paths, schemas, formats, restart policy and limits come from trusted construction; revision and error metadata never expose configuration values.
+16. Minecraft UUID is player identity; aliases are observations only and never authenticate, authorize or link a panel account.
+17. Player activity, chat and coordinates are denied without an approved effective policy. The Phase 6 engine handles decisions and retention metadata only; it must not be extended with a generic sensitive payload.
+18. Audit producers never supply integrity fields. Storage owns partition sequence, previous hash and event hash; exports remain bounded and require separate access/storage policy.
 
 ## Required handoff
 

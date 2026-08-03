@@ -155,6 +155,10 @@ Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretó
 - runtime e adaptadores da Fase 3 com paths absolutos, argv fixo e `shell: false`, executados somente contra fixture Java descartável e sem ligação ao Minecraft privado;
 - backup/restore isolado da Fase 3 com guarda obrigatória, contenção de paths, limites, manifesto canônico e verificação de integridade, executado somente em diretórios temporários.
 - configuração versionada da Fase 3 com registro fechado, valores tipados, concorrência otimista, revisão anterior e recuperação testada somente em diretórios temporários.
+- governança de jogadores da Fase 6 com UUID como identidade, aliases não autoritativos, limites, revisão e idempotência em memória;
+- permissões Minecraft e moderação somente por portas tipadas injetadas, com negação/ausência de efeito quando provider ou executor não existem;
+- política de atividade/chat/coordenadas deny-by-default, sem campo de payload sensível;
+- auditoria com hash pertencente ao storage, sequência transacional por partição, verificação e export NDJSON limitado.
 
 ## Referências
 

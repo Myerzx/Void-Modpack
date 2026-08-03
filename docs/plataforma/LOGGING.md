@@ -56,6 +56,12 @@ Eventos mínimos: login, acesso negado, start/stop/restart/force kill, comando, 
 
 Para detectar adulteração, cada evento poderá encadear hash do evento anterior por partição e ser exportado periodicamente para storage imutável. Isso não substitui controle de acesso ao banco.
 
+### Recorte encadeado da Fase 6
+
+`@voidfall/audit-chain` implementa `sha256-chain-v1` sobre partição, sequência, hash anterior e JSON canônico do `AuditEvent` sanitizado. A migração `0003_audit_chain.sql` mantém a cabeça por partição; `AuditRepository` bloqueia essa cabeça em transação e não aceita integridade do produtor. O pacote verifica adulteração, lacuna, duplicata e quebra de anterior, além de exportar NDJSON com manifesto e hash do conteúdo.
+
+Hash encadeado não impede reescrita por um administrador do banco sem uma âncora externa. Storage imutável, assinatura periódica, autorização de export, criptografia e retenção permanecem gates operacionais.
+
 ## Métricas reais
 
 | Métrica | Fonte primária | Qualidade |
@@ -81,3 +87,5 @@ Cada amostra inclui `source`, `collectedAt`, `unit` e `quality`: `real`, `calcul
 - logs frios: object storage com expiração.
 
 Prazos exatos dependem da finalidade, volume, política de privacidade e legislação aplicável; permanecem pergunta aberta.
+
+A Fase 6 não escolheu prazos: implementou apenas o contrato e o motor que negam por padrão, exigem política aprovada e calculam expiração dentro do máximo configurado. Nenhum payload de atividade, chat ou coordenada é recebido ou persistido.

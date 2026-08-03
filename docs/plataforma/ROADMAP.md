@@ -76,7 +76,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 3 — controle do Minecraft | 100% | 6 de 6 itens |
 | 4 — mods, arquivos e schemas | 100% | 6 de 6 itens concluídos |
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
-| 6 — jogadores e auditoria | 0% | 0 de 6 itens |
+| 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
 | 7 — configurações específicas | 0% | ainda não iniciada |
 
 ## Fase 4 — mods, arquivos e schemas
@@ -106,11 +106,16 @@ Gate operacional: o canal `stable`, a instalação no Forge real e `/atualizar-m
 
 ## Fase 6 — jogadores e auditoria
 
-1. Perfis por UUID e aliases.
-2. Integração de permissões.
-3. Moderação e punições.
-4. Atividade, chat e coordenadas sob política de privacidade.
-5. Auditoria encadeada/exportável.
+1. [x] Perfis por UUID — registro puro, versionado, limitado e com concorrência otimista.
+2. [x] Aliases observados — histórico case-insensitive, origem explícita e UUID como única identidade.
+3. [x] Integração de permissões — porta de provider e estado desejado separados do RBAC do painel, deny-by-default sem provider.
+4. [x] Moderação e punições — casos tipados, expiração e executor injetado sem texto de comando.
+5. [x] Atividade, chat e coordenadas sob política de privacidade — motor de decisão sem payload sensível ou persistência de observações.
+6. [x] Auditoria encadeada/exportável — cadeia SHA-256 por partição, verificação, NDJSON e append transacional no PostgreSQL.
+
+Status: conclusão técnica em isolamento em 2026-08-03. O gate local passou com 178 casos descobertos, 176 aprovados no Windows e dois casos de socket Unix ignorados. Os cinco novos contratos geram JSON Schemas portáteis; `@voidfall/player-governance` possui 12 testes, `@voidfall/audit-chain` possui 7 e o repositório de auditoria encadeia appends concorrentes em PGlite.
+
+Gate operacional: autenticação Minecraft, provider Forge, executor de moderação, importação de jogador, coleta de atividade/chat/coordenadas, telas/rotas sensíveis e export externo continuam desabilitados. Dependem das decisões P0/P1 de autenticação, provider e retenção, além de autorização, auditoria de leitura e teste no Forge real. Consulte [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md).
 
 ## Fase 7 — configurações específicas
 
