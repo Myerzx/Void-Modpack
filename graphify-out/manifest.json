@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785796343.320937,
-    "ast_hash": "546a47d66af4fd87cbfdf3cb7bb356eb",
+    "mtime": 1785796911.2081788,
+    "ast_hash": "d7849829d9d80a8f736e6e2958632425",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785796307.966766,
-    "ast_hash": "5b3e3c53b644f1baeae74f4f4fcd4302",
+    "mtime": 1785796911.2127993,
+    "ast_hash": "36bf8a61bc26cb309370b070981aa6a5",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785796343.3224432,
-    "ast_hash": "7615118a351209726c39ef571d96aaf9",
+    "mtime": 1785796911.2138157,
+    "ast_hash": "fb603b077deee3ea091f75588d2ae230",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785796307.9652543,
-    "ast_hash": "fb71eda280c286bfa081c85a8d7a4574",
+    "mtime": 1785796911.211291,
+    "ast_hash": "4c4b3cff5e4e4d95c4fccceed7a9733d",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785796262.7849243,
-    "ast_hash": "e45e09c0b9476164546826cf05de9a69",
+    "mtime": 1785796911.2097828,
+    "ast_hash": "8c8809150f1385ae50cfd5cce7fa8edd",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -1100,8 +1100,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_5_EXECUTION.md": {
-    "mtime": 1785796262.7864327,
-    "ast_hash": "43cf3d8db1489b30fefd49bb969d8c41",
+    "mtime": 1785796911.2097828,
+    "ast_hash": "13e8d964c7b12dc0c342d17a22cf42ab",
     "semantic_hash": ""
   },
   "Plataforma/packages/modpack-release/package.json": {
