@@ -65,6 +65,7 @@ export interface ReleaseBuildLimits {
   readonly maximumFiles: number;
   readonly maximumInputFileBytes: number;
   readonly maximumOutputFileBytes: number;
+  readonly maximumStructuredConfigBytes: number;
   readonly maximumTotalOutputBytes: number;
 }
 
@@ -72,6 +73,7 @@ export const DEFAULT_RELEASE_BUILD_LIMITS: ReleaseBuildLimits = Object.freeze({
   maximumFiles: 100_000,
   maximumInputFileBytes: 2 * 1_024 ** 3,
   maximumOutputFileBytes: 2 * 1_024 ** 3,
+  maximumStructuredConfigBytes: 8 * 1_024 ** 2,
   maximumTotalOutputBytes: 32 * 1_024 ** 3,
 });
 

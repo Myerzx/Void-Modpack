@@ -1,5 +1,5 @@
-import { randomUUID } from 'node:crypto';
-import { constants } from 'node:fs';
+import { createHash, randomUUID } from 'node:crypto';
+import { constants, createReadStream } from 'node:fs';
 import {
   copyFile,
   lstat,
@@ -164,7 +164,9 @@ async function verifyPlainArtifact(path: string, size: number, sha256: string): 
     ) {
       throw new ReleaseRepositoryError('artifact-integrity', 'artifact');
     }
-    if (sha256Bytes(await readFile(path)) !== sha256) {
+    const hash = createHash('sha256');
+    for await (const chunk of createReadStream(path)) hash.update(chunk as Buffer);
+    if (hash.digest('hex') !== sha256) {
       throw new ReleaseRepositoryError('artifact-integrity', 'artifact');
     }
   } catch (error) {

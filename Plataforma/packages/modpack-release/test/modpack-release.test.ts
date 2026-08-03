@@ -409,7 +409,7 @@ describe('FilesystemReleaseBuilder', () => {
     ]);
     const jsonSource = Buffer.from('{"token":"remove","graphics":"fancy"}', 'utf8');
     const jsonOutput = canonicalJsonBytes({ graphics: 'fancy' });
-    const binarySource = Buffer.from('reviewed-resource-pack-fixture', 'utf8');
+    const binarySource = Buffer.alloc(1_024 * 1_024, 0x5a);
     await Promise.all([
       writeFile(join(paths.source, 'raw', 'visual-options.json'), jsonSource),
       writeFile(join(paths.source, 'reviewed', 'voidfall.zip'), binarySource),
@@ -421,6 +421,7 @@ describe('FilesystemReleaseBuilder', () => {
       stagingRoot: paths.staging,
       repository,
       signer: new Ed25519ReleaseSigner({ keyId: 'release-test-01', privateKey: keys.privateKey }),
+      limits: { maximumStructuredConfigBytes: 128 },
     });
     const buildPlan = plan({ jsonSource, jsonOutput, binarySource });
 

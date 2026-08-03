@@ -1,5 +1,6 @@
-import { randomUUID } from 'node:crypto';
-import { lstat, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises';
+import { createHash, randomUUID } from 'node:crypto';
+import { constants, createReadStream } from 'node:fs';
+import { copyFile, lstat, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import { isAbsolute, relative, resolve, sep } from 'node:path';
 import {
   canPublishInStable,
@@ -86,8 +87,10 @@ function resolveLimits(input: Partial<ReleaseBuildLimits> | undefined): ReleaseB
     !positiveInteger(limits.maximumFiles) ||
     !positiveInteger(limits.maximumInputFileBytes) ||
     !positiveInteger(limits.maximumOutputFileBytes) ||
+    !positiveInteger(limits.maximumStructuredConfigBytes) ||
     !positiveInteger(limits.maximumTotalOutputBytes) ||
-    limits.maximumOutputFileBytes > limits.maximumTotalOutputBytes
+    limits.maximumOutputFileBytes > limits.maximumTotalOutputBytes ||
+    limits.maximumStructuredConfigBytes > limits.maximumInputFileBytes
   ) {
     throw new ReleaseBuildError('invalid-options', 'options');
   }
@@ -231,11 +234,11 @@ async function requirePlainDirectory(path: string): Promise<string> {
   }
 }
 
-async function readSafeSource(
+async function resolveSafeSource(
   sourceRoot: string,
   sourcePath: string,
   maximumBytes: number,
-): Promise<Uint8Array> {
+): Promise<{ readonly path: string; readonly size: number }> {
   const parts = sourcePath.split('/');
   let cursor = sourceRoot;
   for (const [index, part] of parts.entries()) {
@@ -265,10 +268,64 @@ async function readSafeSource(
     }
   }
   try {
-    return await readFile(cursor);
+    const final = await lstat(cursor);
+    return Object.freeze({ path: cursor, size: final.size });
   } catch {
     throw new ReleaseBuildError('unsafe-path', 'preflight');
   }
+}
+
+async function sha256File(path: string): Promise<string> {
+  const hash = createHash('sha256');
+  try {
+    for await (const chunk of createReadStream(path)) hash.update(chunk as Buffer);
+    return hash.digest('hex');
+  } catch {
+    throw new ReleaseBuildError('unsafe-path', 'stage');
+  }
+}
+
+async function stageExactBytes(input: {
+  readonly sourcePath: string;
+  readonly sourceSize: number;
+  readonly expectedSourceSha256: string;
+  readonly expectedOutputSha256: string;
+  readonly expectedOutputSize: number;
+  readonly stagedPath: string;
+}): Promise<ReleaseSanitizationReceipt> {
+  const observedSourceSha256 = await sha256File(input.sourcePath);
+  if (observedSourceSha256 !== input.expectedSourceSha256) {
+    throw new ReleaseBuildError('source-integrity-mismatch', 'sanitize');
+  }
+  if (
+    input.sourceSize !== input.expectedOutputSize ||
+    observedSourceSha256 !== input.expectedOutputSha256
+  ) {
+    throw new ReleaseBuildError('output-integrity-mismatch', 'sanitize');
+  }
+  try {
+    await copyFile(input.sourcePath, input.stagedPath, constants.COPYFILE_EXCL);
+  } catch (error) {
+    if (!isNodeError(error) || error.code !== 'EEXIST') {
+      throw new ReleaseBuildError('unsafe-path', 'stage');
+    }
+  }
+  const stagedStat = await lstat(input.stagedPath);
+  if (
+    !stagedStat.isFile() ||
+    stagedStat.isSymbolicLink() ||
+    stagedStat.nlink > 1 ||
+    stagedStat.size !== input.expectedOutputSize ||
+    (await sha256File(input.stagedPath)) !== input.expectedOutputSha256
+  ) {
+    throw new ReleaseBuildError('output-integrity-mismatch', 'stage');
+  }
+  return Object.freeze({
+    strategy: 'exact-reviewed-bytes-v1',
+    sourceSha256: observedSourceSha256,
+    outputSha256: input.expectedOutputSha256,
+    removedFieldCount: 0,
+  });
 }
 
 async function cleanupWorkspace(workspace: string, stagingRoot: string): Promise<void> {
@@ -315,50 +372,72 @@ export class FilesystemReleaseBuilder {
       let totalBytes = 0;
 
       for (const artifact of plan.artifacts) {
-        const source = await readSafeSource(
+        if (artifact.catalogEntry.sizeBytes > this.#options.limits.maximumOutputFileBytes) {
+          throw new ReleaseBuildError('limit-exceeded', 'preflight');
+        }
+        const source = await resolveSafeSource(
           sourceRoot,
           artifact.sourcePath,
           this.#options.limits.maximumInputFileBytes,
         );
-        const result = sanitizeReleaseArtifact({
-          source,
-          sourceSha256: artifact.sourceSha256,
-          policy: artifact.sanitization,
-        });
-        if (
-          result.bytes.byteLength !== artifact.catalogEntry.sizeBytes ||
-          result.receipt.outputSha256 !== artifact.catalogEntry.sha256
-        ) {
-          throw new ReleaseBuildError('output-integrity-mismatch', 'sanitize');
+        const stagedPath = resolve(workspace, 'artifacts', artifact.catalogEntry.sha256);
+        let receipt: ReleaseSanitizationReceipt;
+        let outputSize: number;
+        if (artifact.sanitization.strategy === 'exact-reviewed-bytes-v1') {
+          receipt = await stageExactBytes({
+            sourcePath: source.path,
+            sourceSize: source.size,
+            expectedSourceSha256: artifact.sourceSha256,
+            expectedOutputSha256: artifact.catalogEntry.sha256,
+            expectedOutputSize: artifact.catalogEntry.sizeBytes,
+            stagedPath,
+          });
+          outputSize = source.size;
+        } else {
+          if (source.size > this.#options.limits.maximumStructuredConfigBytes) {
+            throw new ReleaseBuildError('limit-exceeded', 'sanitize');
+          }
+          const result = sanitizeReleaseArtifact({
+            source: await readFile(source.path),
+            sourceSha256: artifact.sourceSha256,
+            policy: artifact.sanitization,
+          });
+          if (
+            result.bytes.byteLength !== artifact.catalogEntry.sizeBytes ||
+            result.receipt.outputSha256 !== artifact.catalogEntry.sha256
+          ) {
+            throw new ReleaseBuildError('output-integrity-mismatch', 'sanitize');
+          }
+          try {
+            await writeFile(stagedPath, result.bytes, { flag: 'wx', mode: 0o600 });
+          } catch (error) {
+            if (!isNodeError(error) || error.code !== 'EEXIST') {
+              throw new ReleaseBuildError('unsafe-path', 'stage');
+            }
+            const existingStat = await lstat(stagedPath);
+            if (
+              existingStat.size !== result.bytes.byteLength ||
+              (await sha256File(stagedPath)) !== artifact.catalogEntry.sha256
+            ) {
+              throw new ReleaseBuildError('output-integrity-mismatch', 'stage');
+            }
+          }
+          receipt = result.receipt;
+          outputSize = result.bytes.byteLength;
         }
-        if (result.bytes.byteLength > this.#options.limits.maximumOutputFileBytes) {
-          throw new ReleaseBuildError('limit-exceeded', 'stage');
-        }
-        totalBytes += result.bytes.byteLength;
+        totalBytes += outputSize;
         if (totalBytes > this.#options.limits.maximumTotalOutputBytes) {
           throw new ReleaseBuildError('limit-exceeded', 'stage');
-        }
-        const stagedPath = resolve(workspace, 'artifacts', artifact.catalogEntry.sha256);
-        try {
-          await writeFile(stagedPath, result.bytes, { flag: 'wx', mode: 0o600 });
-        } catch (error) {
-          if (!isNodeError(error) || error.code !== 'EEXIST') {
-            throw new ReleaseBuildError('unsafe-path', 'stage');
-          }
-          const existing = await readFile(stagedPath);
-          if (sha256Bytes(existing) !== artifact.catalogEntry.sha256) {
-            throw new ReleaseBuildError('output-integrity-mismatch', 'stage');
-          }
         }
         stagedArtifacts.push(
           Object.freeze({
             path: artifact.catalogEntry.path,
             stagedPath,
-            size: result.bytes.byteLength,
+            size: outputSize,
             sha256: artifact.catalogEntry.sha256,
           }),
         );
-        sanitization.push(result.receipt);
+        sanitization.push(receipt);
       }
 
       const unsignedManifest: Omit<ReleaseManifest, 'signature'> = {
