@@ -1,0 +1,29 @@
+{
+  "name": "@voidfall/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Versioned TypeScript and JSON Schema contracts for VoidFall services",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schemas/*": "./dist/schemas/*"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.build.json && node dist/export-schemas.js",
+    "clean": "node scripts/clean.mjs",
+    "test": "tsx --test test/contracts.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "0.34.52",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

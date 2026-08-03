@@ -38,6 +38,10 @@ Valores são ilustrativos e o domínio `.invalid` não é um endereço real.
 ```json
 {
   "schemaVersion": 1,
+  "product": {
+    "id": "voidfall",
+    "displayName": "VoidFall"
+  },
   "release": {
     "version": "1.1.0",
     "buildId": "build-20260803-012900",
@@ -52,8 +56,8 @@ Valores são ilustrativos e o domínio `.invalid` não é um endereço real.
     "javaMajor": 17
   },
   "serverProfile": {
-    "id": "void-primary",
-    "displayName": "VOID"
+    "id": "voidfall-primary",
+    "displayName": "VoidFall"
   },
   "files": [
     {
@@ -75,7 +79,7 @@ Valores são ilustrativos e o domínio `.invalid` não é um endereço real.
 }
 ```
 
-O contrato definitivo será um JSON Schema versionado em `packages/contracts` na Fase 2. O payload assinado será JSON canônico excluindo o próprio campo `signature`.
+O contrato inicial está implementado e versionado em `Plataforma/packages/contracts`. O build exporta `release-manifest.schema.json` para consumidores que não usam TypeScript. O payload assinado será JSON canônico excluindo o próprio campo `signature`; a canonicalização e a verificação criptográfica ainda dependem de implementação e revisão próprias.
 
 ## Algoritmo de atualização
 

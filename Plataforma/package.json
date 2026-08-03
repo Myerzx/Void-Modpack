@@ -1,0 +1,31 @@
+{
+  "name": "voidfall-platform",
+  "version": "0.0.0",
+  "private": true,
+  "description": "VoidFall management platform monorepo",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "npm@11.11.0",
+  "engines": {
+    "node": ">=24.11.0 <25",
+    "npm": ">=11.11.0 <12"
+  },
+  "volta": {
+    "node": "24.18.0",
+    "npm": "11.11.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run typecheck && npm run test && npm run build",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "tsx": "4.23.5",
+    "typescript": "6.0.3"
+  }
+}

@@ -42,6 +42,10 @@
 
 # Local build and temporary output
 /dist/
+**/dist/
+**/node_modules/
+**/coverage/
+**/*.tsbuildinfo
 /tmp/
 *.tmp
 *.bak
