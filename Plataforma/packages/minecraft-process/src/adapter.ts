@@ -18,6 +18,12 @@ import type {
   SpawnedProcess,
 } from './runtime.js';
 import {
+  createMinecraftMetricsSnapshot,
+  NodeHostMetricsSampler,
+  type HostMetricsSampler,
+  type MinecraftMetricsSnapshot,
+} from './metrics.js';
+import {
   transitionObservedProcessState,
   type ObservedProcessState,
 } from './state-machine.js';
@@ -45,21 +51,27 @@ export interface MinecraftConsoleAdapter {
   requestConsoleCommand(command: MinecraftConsoleCommand): Promise<MinecraftConsoleCommandReceipt>;
 }
 
+export interface MinecraftMetricsAdapter {
+  readMetrics(): Promise<MinecraftMetricsSnapshot>;
+}
+
 export interface MinecraftProcessAdapterOptions {
   readonly runtime: ProcessRuntime;
   readonly stopTimeoutMs?: number;
   readonly maximumConsoleLinesPerStream?: number;
   readonly maximumConsoleCharactersPerLine?: number;
+  readonly hostMetricsSampler?: HostMetricsSampler;
   readonly clock?: () => Date;
 }
 
 abstract class ManagedMinecraftProcessAdapter
-  implements MinecraftProcessAdapter, MinecraftConsoleAdapter
+  implements MinecraftProcessAdapter, MinecraftConsoleAdapter, MinecraftMetricsAdapter
 {
   readonly #runtime: ProcessRuntime;
   readonly #stopTimeoutMs: number;
   readonly #clock: () => Date;
   readonly #consoleSnapshotOptions: MinecraftConsoleSnapshotOptions;
+  readonly #hostMetricsSampler: HostMetricsSampler;
   #state: ObservedProcessState = 'offline';
   #handle: SpawnedProcess | undefined;
   #lastExit: ProcessExit | undefined;
@@ -70,6 +82,7 @@ abstract class ManagedMinecraftProcessAdapter
     stderrTruncated: false,
   };
   #activeEffect: 'start' | 'stop' | 'console-command' | undefined;
+  #processStartedAt: string | undefined;
 
   protected constructor(
     private readonly platform: SupportedHostPlatform,
@@ -82,6 +95,7 @@ abstract class ManagedMinecraftProcessAdapter
     this.#runtime = options.runtime;
     this.#stopTimeoutMs = stopTimeoutMs;
     this.#clock = options.clock ?? (() => new Date());
+    this.#hostMetricsSampler = options.hostMetricsSampler ?? new NodeHostMetricsSampler();
     this.#consoleSnapshotOptions = Object.freeze({
       ...(options.maximumConsoleLinesPerStream === undefined
         ? {}
@@ -104,6 +118,7 @@ abstract class ManagedMinecraftProcessAdapter
       this.#lastExit = exit;
       this.#state = transitionObservedProcessState(this.#state, 'process-exited');
       this.#handle = undefined;
+      this.#processStartedAt = undefined;
     } else if (
       this.#state === 'starting' &&
       BOOT_COMPLETED_PATTERN.test(this.#handle?.readOutput().stdout ?? '')
@@ -125,6 +140,7 @@ abstract class ManagedMinecraftProcessAdapter
       validateProcessLaunchPlan(plan);
       this.#state = transitionObservedProcessState(this.#state, 'launch-requested');
       this.#lastExit = undefined;
+      this.#processStartedAt = undefined;
       this.#lastOutput = {
         stdout: '',
         stderr: '',
@@ -133,6 +149,7 @@ abstract class ManagedMinecraftProcessAdapter
       };
       try {
         this.#handle = await this.#runtime.spawn(plan);
+        this.#processStartedAt = this.#timestamp();
         this.#state = transitionObservedProcessState(this.#state, 'process-spawned');
         return this.#observation();
       } catch (error) {
@@ -158,6 +175,7 @@ abstract class ManagedMinecraftProcessAdapter
           this.#lastExit = exit;
           this.#state = transitionObservedProcessState(this.#state, 'process-exited');
           this.#handle = undefined;
+          this.#processStartedAt = undefined;
         }
         return this.#observation();
       } catch (error) {
@@ -175,6 +193,22 @@ abstract class ManagedMinecraftProcessAdapter
     return createMinecraftConsoleSnapshot(this.readOutput(), this.#consoleSnapshotOptions);
   }
 
+  async readMetrics(): Promise<MinecraftMetricsSnapshot> {
+    const observation = await this.inspect();
+    return createMinecraftMetricsSnapshot({
+      host: this.#hostMetricsSampler.sample(),
+      process: {
+        state: observation.state,
+        observedAt: observation.observedAt,
+        ...(observation.pid === undefined ? {} : { pid: observation.pid }),
+        ...(this.#processStartedAt === undefined
+          ? {}
+          : { startedAt: this.#processStartedAt }),
+      },
+      clock: this.#clock,
+    });
+  }
+
   requestConsoleCommand(
     command: MinecraftConsoleCommand,
   ): Promise<MinecraftConsoleCommandReceipt> {
@@ -187,7 +221,7 @@ abstract class ManagedMinecraftProcessAdapter
       await this.#handle.requestConsoleCommand(acceptedCommand);
       return Object.freeze({
         command: acceptedCommand,
-        dispatchedAt: this.#clock().toISOString(),
+        dispatchedAt: this.#timestamp(),
         source: 'process-adapter',
         state: 'online',
       });
@@ -219,11 +253,19 @@ abstract class ManagedMinecraftProcessAdapter
   #observation(): ProcessObservation {
     return {
       state: this.#state,
-      observedAt: this.#clock().toISOString(),
+      observedAt: this.#timestamp(),
       source: 'process-adapter',
       ...(this.#handle === undefined ? {} : { pid: this.#handle.pid }),
       ...(this.#lastExit === undefined ? {} : { lastExit: this.#lastExit }),
     };
+  }
+
+  #timestamp(): string {
+    const value = this.#clock();
+    if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
+      throw new Error('Process adapter clock returned an invalid date.');
+    }
+    return value.toISOString();
   }
 }
 
