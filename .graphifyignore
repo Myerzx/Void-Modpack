@@ -1,0 +1,33 @@
+# The evidence profile is intentionally outside the knowledge corpus.
+Launcher/modpack/
+Launcher/workspace/
+Launcher/build/
+
+# Generated release artifacts and large Minecraft payloads.
+dist/
+tmp/
+*.jar
+*.jar.disabled
+*.zip
+*.mca
+*.nbt
+*.schematic
+*.schem
+*.litematic
+
+# Runtime state never describes the maintained architecture.
+**/logs/
+**/crash-reports/
+**/saves/
+**/screenshots/
+**/usercache.json
+**/usernamecache.json
+**/minecraftinstance.json
+**/user-prefs.json
+
+# Thousands of generated/third-party override files are represented by inventories.
+Launcher/pack/overrides/
+
+# Installed agent skills are tooling, not VoidFall domain knowledge.
+.agents/skills/graphify/
+tools/graphify/*.py

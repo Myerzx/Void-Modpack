@@ -1,0 +1,137 @@
+{
+  "Launcher/catalog/addons.json": {
+    "mtime": 1785719232.0130434,
+    "ast_hash": "3fb5129d3a6f1e4ac35846df986de4e5",
+    "semantic_hash": "3fb5129d3a6f1e4ac35846df986de4e5"
+  },
+  "Launcher/pack/manifest.json": {
+    "mtime": 1785719232.0145526,
+    "ast_hash": "6ad49fc88d6677b846e080834f4bd518",
+    "semantic_hash": "6ad49fc88d6677b846e080834f4bd518"
+  },
+  "Launcher/tools/Build-CurseForgePackage.ps1": {
+    "mtime": 1785719700.1532896,
+    "ast_hash": "cdec8f6bc2a7638dc50cb42f68b4c9c6",
+    "semantic_hash": "cdec8f6bc2a7638dc50cb42f68b4c9c6"
+  },
+  "Launcher/tools/Export-LauncherInventory.ps1": {
+    "mtime": 1785719224.7689779,
+    "ast_hash": "7428d54b51cd4cc873920df900c94d0d",
+    "semantic_hash": "7428d54b51cd4cc873920df900c94d0d"
+  },
+  "Launcher/tools/Sync-PackOverrides.ps1": {
+    "mtime": 1785719202.159046,
+    "ast_hash": "eb5dc777275f8069f0ba1aa8320ff879",
+    "semantic_hash": "eb5dc777275f8069f0ba1aa8320ff879"
+  },
+  "Launcher/tools/Test-LauncherPack.ps1": {
+    "mtime": 1785721719.1997068,
+    "ast_hash": "ed85dcd869fdc6abb0f659e235a9cc6d",
+    "semantic_hash": ""
+  },
+  "docs/launcher/inventario/resumo-perfil.json": {
+    "mtime": 1785719232.011539,
+    "ast_hash": "1ef2c8906c8bec08d94c5db4e800ea66",
+    "semantic_hash": "1ef2c8906c8bec08d94c5db4e800ea66"
+  },
+  "tools/graphify/Start-GraphifyBackground.ps1": {
+    "mtime": 1785720969.778368,
+    "ast_hash": "c01adc7e4fec4a0a17441e0ab71f8694",
+    "semantic_hash": "c01adc7e4fec4a0a17441e0ab71f8694"
+  },
+  "tools/graphify/Stop-GraphifyBackground.ps1": {
+    "mtime": 1785720969.7798762,
+    "ast_hash": "4a8783e45d98f2cbe962d6be07b6ce4d",
+    "semantic_hash": "4a8783e45d98f2cbe962d6be07b6ce4d"
+  },
+  "tools/graphify/Watch-Graph.ps1": {
+    "mtime": 1785720969.7798762,
+    "ast_hash": "cbd52d5c5b7be216703773e5e8ce804a",
+    "semantic_hash": "cbd52d5c5b7be216703773e5e8ce804a"
+  },
+  "AGENTS.md": {
+    "mtime": 1785719399.3027208,
+    "ast_hash": "2df7953c992ade43e7cfc30ca1ca0d4a",
+    "semantic_hash": "2df7953c992ade43e7cfc30ca1ca0d4a"
+  },
+  "Launcher/README.md": {
+    "mtime": 1785719202.1504438,
+    "ast_hash": "87b966df556e08366da7b52e7dbd6874",
+    "semantic_hash": "87b966df556e08366da7b52e7dbd6874"
+  },
+  "Launcher/pack/README.md": {
+    "mtime": 1785719202.1575391,
+    "ast_hash": "c52b3daa64193eb1d188255286a3cae5",
+    "semantic_hash": "c52b3daa64193eb1d188255286a3cae5"
+  },
+  "Launcher/platforms/modrinth/README.md": {
+    "mtime": 1785719202.1575391,
+    "ast_hash": "8a826859f2b66291f24d0bcebf16cc9e",
+    "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
+  },
+  "README.md": {
+    "mtime": 1785721002.947932,
+    "ast_hash": "75c6222abbc517c55fd633ee2ff7ede0",
+    "semantic_hash": "75c6222abbc517c55fd633ee2ff7ede0"
+  },
+  "Servidor/README.md": {
+    "mtime": 1785719202.1519513,
+    "ast_hash": "90dfa38ee84b6db8f950fa02e4b7ea60",
+    "semantic_hash": "90dfa38ee84b6db8f950fa02e4b7ea60"
+  },
+  "docs/README.md": {
+    "mtime": 1785721002.947932,
+    "ast_hash": "21860340f384c03cf2d835780a9c720e",
+    "semantic_hash": "21860340f384c03cf2d835780a9c720e"
+  },
+  "docs/agentes/escopos.md": {
+    "mtime": 1785719202.1559782,
+    "ast_hash": "ad82586a3104ba747d0e3d142b5b3e61",
+    "semantic_hash": "ad82586a3104ba747d0e3d142b5b3e61"
+  },
+  "docs/launcher/README.md": {
+    "mtime": 1785719202.153458,
+    "ast_hash": "7dbd4f3a425a637ddda3588aab60000f",
+    "semantic_hash": "7dbd4f3a425a637ddda3588aab60000f"
+  },
+  "docs/launcher/arquitetura.md": {
+    "mtime": 1785719202.154472,
+    "ast_hash": "4011a0c8a53cba19ddf8a407e57c962c",
+    "semantic_hash": "4011a0c8a53cba19ddf8a407e57c962c"
+  },
+  "docs/launcher/assets-e-licencas.md": {
+    "mtime": 1785719202.154472,
+    "ast_hash": "9d4d457d32b1f7a3a73b7a8e0c272c4f",
+    "semantic_hash": "9d4d457d32b1f7a3a73b7a8e0c272c4f"
+  },
+  "docs/launcher/auditoria.md": {
+    "mtime": 1785719202.1539657,
+    "ast_hash": "db8b68c37702a33c19914a62bf5c72fd",
+    "semantic_hash": "db8b68c37702a33c19914a62bf5c72fd"
+  },
+  "docs/launcher/portabilidade.md": {
+    "mtime": 1785719202.154472,
+    "ast_hash": "09d0870c3edc8cfa5367daa6beb83449",
+    "semantic_hash": "09d0870c3edc8cfa5367daa6beb83449"
+  },
+  "docs/launcher/releases.md": {
+    "mtime": 1785719202.1559782,
+    "ast_hash": "963e07c9f6052450d1945d0184148fda",
+    "semantic_hash": "963e07c9f6052450d1945d0184148fda"
+  },
+  "tools/graphify/Install-GraphifyAutoSave.ps1": {
+    "mtime": 1785721002.9464269,
+    "ast_hash": "37da3a7be2b746545378258e66a6bb74",
+    "semantic_hash": "37da3a7be2b746545378258e66a6bb74"
+  },
+  "tools/graphify/Uninstall-GraphifyAutoSave.ps1": {
+    "mtime": 1785721002.9464269,
+    "ast_hash": "a04da5d5c9af5509b21ef42ef4a83739",
+    "semantic_hash": "a04da5d5c9af5509b21ef42ef4a83739"
+  },
+  "docs/graphify/README.md": {
+    "mtime": 1785721002.949438,
+    "ast_hash": "e06125db41d9cfb1f0534a95ec2980ca",
+    "semantic_hash": "e06125db41d9cfb1f0534a95ec2980ca"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "corpus_tokens": 9714,
+  "corpus_words": 7286,
+  "nodes": 80,
+  "edges": 62,
+  "avg_query_tokens": 359,
+  "reduction_ratio": 27.1,
+  "per_question": [
+    {
+      "question": "how does the canonical CurseForge pack support portable distribution",
+      "query_tokens": 438,
+      "reduction": 22.2
+    },
+    {
+      "question": "what release audit blockers prevent publishing the launcher",
+      "query_tokens": 340,
+      "reduction": 28.6
+    },
+    {
+      "question": "how are launcher and server responsibilities separated",
+      "query_tokens": 373,
+      "reduction": 26.0
+    },
+    {
+      "question": "how does pack validation protect reviewed portable overrides",
+      "query_tokens": 385,
+      "reduction": 25.2
+    },
+    {
+      "question": "how does the Graphify knowledge graph support agent responsibilities",
+      "query_tokens": 261,
+      "reduction": 37.2
+    }
+  ]
+}
