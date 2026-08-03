@@ -1,0 +1,3 @@
+# Java 17 baseline observed during the audit. Tune after measuring the host.
+-Xms4G
+-Xmx8G

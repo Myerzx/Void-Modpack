@@ -10,7 +10,12 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack without coupling it to a 
 - `Launcher/catalog/**`: generated, sanitized dependency inventory. Never add account IDs or local paths.
 - `Launcher/tools/**`: launcher inventory, sync, validation, and packaging automation.
 - `Launcher/workspace/**`: immutable local evidence profile. It is ignored and must never be edited, staged, copied into releases, or used as a build output.
-- `Servidor/**`: frozen until the user explicitly starts the server phase.
+- `Servidor/catalog/**`: generated, sanitized server dependency and compatibility inventories.
+- `Servidor/templates/**`: public security-first examples without live state or secrets.
+- `Servidor/tools/**`: server inventory and public-documentation validation.
+- `Servidor/pack/**` and `Servidor/source/**`: future canonical server artifacts, blocked until release gates pass.
+- `Servidor/workspace/**`: immutable private server evidence. It is ignored and must never be edited, staged, or packaged.
+- `docs/servidor/**`: server architecture, audit, security, compatibility, operations, and release runbooks.
 - `docs/launcher/**`: client decisions, known defects, compatibility, assets, and release runbooks.
 - `docs/agentes/**`: ownership and handoff conventions for agents.
 - `tools/graphify/**` and `graphify-out/**`: knowledge-graph automation and portable outputs.
@@ -23,8 +28,9 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack without coupling it to a 
 4. Never infer that an asset is redistributable. Record its project/file ID or quarantine it until license evidence exists.
 5. Use relative Minecraft-instance paths only; never persist a Windows drive path, username, UUID, token, server address, or account metadata.
 6. Run `Launcher/tools/Test-LauncherPack.ps1` after launcher changes.
-7. Keep launcher and server changes in separate commits. Use technical English Conventional Commit messages.
-8. A successful ZIP build is not a gameplay certification. Record import, launch, resource-pack, new-world, and multiplayer smoke tests separately.
+7. Run `Servidor/tools/Test-ServerDocumentation.ps1` after server documentation or catalog changes.
+8. Keep launcher and server changes in separate commits. Use technical English Conventional Commit messages.
+9. A successful ZIP build or historical server boot is not a gameplay certification. Record import, launch, resource-pack, new-world, multiplayer, restart, backup, and restore smoke tests separately.
 
 ## Release gates
 
@@ -34,6 +40,16 @@ Maintain a reproducible Minecraft 1.20.1 Forge modpack without coupling it to a 
 - `options.txt` references only resource packs delivered by the same release.
 - No file exceeds the normal GitHub 100 MB limit.
 - No unresolved P0 issue remains in `docs/launcher/auditoria.md`.
+
+## Server release gates
+
+- Authentication, whitelist, RCON, firewall, and secret rotation have been reviewed.
+- The exact client release is identified and passes a real connection smoke test.
+- Every server dependency has origin, hash, side, license, and distribution approval.
+- Local patches, stubs, KubeJS scripts, datapacks, and media have reviewed authorship and license.
+- A clean install boots both a new world and an isolated test copy of the production world.
+- Restart, backup, and restore procedures have passed without exposing private state.
+- No unresolved P0 issue remains in `docs/servidor/auditoria.md`.
 
 ## graphify
 

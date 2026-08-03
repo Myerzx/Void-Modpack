@@ -2,6 +2,8 @@
 /Launcher/modpack/
 /Launcher/workspace/
 /Launcher/build/
+/Servidor/workspace/
+/Servidor/build/
 
 # Local Minecraft state and sensitive runtime data
 **/logs/
@@ -12,6 +14,13 @@
 **/usernamecache.json
 **/minecraftinstance.json
 **/user-prefs.json
+**/ops.json
+**/whitelist.json
+**/banned-ips.json
+**/banned-players.json
+**/server.properties
+**/world/
+**/libraries/
 **/.curseclient
 **/xaero/
 **/armourers_workshop/skin-cache/
@@ -21,6 +30,13 @@
 *.jar
 *.jar.disabled
 *.mca
+*.dat
+*.nbt
+*.sqlite
+*.rar
+*.exe
+*.dll
+*.class
 *.dat_old
 *.log
 
@@ -47,4 +63,3 @@ __pycache__/
 .venv/
 .idea/
 .vscode/*.local.json
-

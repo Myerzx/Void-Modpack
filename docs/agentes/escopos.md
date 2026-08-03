@@ -2,7 +2,7 @@
 
 ## Coordenador
 
-Atua na raiz, mantém o plano, resolve dependências entre cliente, documentação, Graphify e futuramente servidor. Não executa mudanças de conteúdo sem um dono de pasta claro.
+Atua na raiz, mantém o plano e resolve dependências entre cliente, servidor, documentação e Graphify. Não executa mudanças de conteúdo sem um dono de pasta claro.
 
 ## Agente do launcher
 
@@ -24,7 +24,11 @@ Atua na raiz, mantém o plano, resolve dependências entre cliente, documentaç�
 
 ## Agente do servidor
 
-Fica inativo nesta fase. Quando ativado, atua somente em `Servidor/**` e documentação própria. Qualquer arquivo compartilhado com o cliente exige handoff explícito ao coordenador.
+- Pode editar `Servidor/catalog`, `Servidor/templates`, `Servidor/tools`, `Servidor/pack`, `Servidor/source` e `docs/servidor`.
+- Não pode editar, publicar ou versionar `Servidor/workspace`.
+- Deve tratar mundo, identidades, credenciais, seed, endereços, logs e binários como privados.
+- Deve validar e commitar separadamente do cliente.
+- Qualquer arquivo compartilhado com o cliente exige handoff explícito ao coordenador.
 
 ## Handoff mínimo
 
@@ -35,4 +39,3 @@ Cada agente deve informar:
 - validações executadas;
 - riscos/dívidas restantes;
 - commit criado e ponto de continuação.
-

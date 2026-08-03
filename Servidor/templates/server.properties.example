@@ -1,0 +1,26 @@
+# Public security-first baseline. Review every value before deployment.
+motd=VOID MMORPG
+gamemode=survival
+difficulty=normal
+hardcore=false
+pvp=true
+online-mode=true
+white-list=true
+enforce-whitelist=true
+max-players=12
+view-distance=10
+simulation-distance=8
+allow-flight=true
+level-name=world
+level-type=default
+spawn-protection=0
+enable-command-block=true
+enable-status=true
+enable-query=false
+enable-rcon=false
+broadcast-rcon-to-ops=false
+sync-chunk-writes=true
+use-native-transport=true
+network-compression-threshold=256
+server-ip=
+server-port=25565

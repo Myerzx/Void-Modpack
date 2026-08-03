@@ -1,0 +1,86 @@
+{
+  "auditDate": "2026-08-03",
+  "profile": {
+    "name": "The Casket of Reveries",
+    "version": "2.0.26",
+    "minecraft": "1.20.1",
+    "forge": "1.20.1-47.4.4",
+    "java": 17,
+    "providerManifestFiles": 212
+  },
+  "inventory": {
+    "files": 62131,
+    "bytes": 30662708701,
+    "modsTotal": 195,
+    "modsActive": 181,
+    "modsDisabled": 12,
+    "modBackupsOrOther": 2,
+    "activeStubs": 3,
+    "activeLocalOrPatched": 17,
+    "crashReports": 16
+  },
+  "security": {
+    "onlineMode": false,
+    "whitelistEnabled": false,
+    "enforceWhitelist": false,
+    "rconEnabled": true,
+    "rconPasswordConfigured": true,
+    "serverIpConfigured": false,
+    "levelSeedConfigured": true,
+    "operators": 7,
+    "cachedUsers": 7
+  },
+  "compatibility": {
+    "serverActiveJars": 181,
+    "embeddedClientActiveJars": 220,
+    "embeddedClientExactCommon": 178,
+    "embeddedClientServerOnly": 3,
+    "embeddedClientOnly": 42,
+    "currentLauncherActiveJars": 23,
+    "currentLauncherExactCommon": 11,
+    "currentLauncherServerOnly": 170,
+    "currentLauncherOnly": 12
+  },
+  "runtimeEvidence": {
+    "latestBootCompleted": true,
+    "latestBootSeconds": 55.355,
+    "maxHeap": "-Xmx8G"
+  },
+  "openLoaderPacks": [
+    {
+      "name": "cte_configuration",
+      "files": 371,
+      "bytes": 565242
+    },
+    {
+      "name": "cte_epicfight_mns_staff_compat",
+      "files": 4,
+      "bytes": 238
+    },
+    {
+      "name": "cte_epicfight_roe_compat",
+      "files": 157,
+      "bytes": 9367
+    },
+    {
+      "name": "cte_events",
+      "files": 3,
+      "bytes": 19052
+    },
+    {
+      "name": "cte_fix",
+      "files": 22,
+      "bytes": 8531
+    },
+    {
+      "name": "cte_mns",
+      "files": 4894,
+      "bytes": 15440764
+    }
+  ],
+  "accessFileCounts": {
+    "whitelist": 0,
+    "bannedIps": 0,
+    "bannedPlayers": 0
+  }
+}

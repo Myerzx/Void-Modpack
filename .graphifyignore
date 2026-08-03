@@ -2,6 +2,8 @@
 Launcher/modpack/
 Launcher/workspace/
 Launcher/build/
+Servidor/workspace/
+Servidor/build/
 
 # Generated release artifacts and large Minecraft payloads.
 dist/

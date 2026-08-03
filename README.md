@@ -1,20 +1,21 @@
 # VoidFall
 
-Repositório de trabalho do modpack VoidFall. A fase atual organiza e documenta o cliente/launcher; o servidor fica reservado para a próxima fase.
+Repositório de trabalho para organizar cliente e servidor de um modpack Minecraft 1.20.1 Forge de forma reproduzível e independente de launcher.
 
 ## Estrutura
 
 - `Launcher/`: fonte do pacote cliente, catálogo, ferramentas de build e perfil bruto ignorado.
-- `Servidor/`: escopo reservado; ainda não contém a implementação do servidor.
-- `docs/launcher/`: auditoria, arquitetura, portabilidade, ativos e processo de release.
+- `Servidor/`: catálogos, templates, ferramentas e futuro pacote dedicado; o runtime bruto fica ignorado.
+- `docs/launcher/`: auditoria, arquitetura, portabilidade, ativos e processo de release do cliente.
+- `docs/servidor/`: auditoria, segurança, operação, compatibilidade e releases do servidor.
 - `docs/agentes/`: limites de atuação para Codex, Claude e outros agentes.
 - `docs/graphify/`: instalação, atualização automática e operação do mapa de conhecimento.
 - `graphify-out/`: mapa persistente do repositório, gerado pelo Graphify.
 
 ## Estado atual
 
-O material original foi preservado em `Launcher/workspace/profile-original/` e não entra no Git. A fonte limpa em `Launcher/pack/` é um ponto de partida auditável, não uma release aprovada: o perfil original contém divergência de manifesto, datapacks herdados incompatíveis e ativos com licença ainda não confirmada.
+Os materiais originais do cliente e do servidor estão preservados em seus respectivos `workspace/` e não entram no Git. As pastas canônicas são pontos de partida auditáveis, não releases aprovadas.
 
-Consulte [a documentação do launcher](docs/launcher/README.md) antes de publicar uma release.
+O launcher atualmente documentado e o servidor recém-auditado representam conjuntos diferentes: apenas 11 dos 181 JARs ativos do servidor aparecem com o mesmo nome no launcher. Consulte [a documentação do launcher](docs/launcher/README.md) e [a documentação do servidor](docs/servidor/README.md) antes de publicar qualquer release.
 
 O Graphify está integrado ao Git e ao Windows. Consulte [a operação do Graphify](docs/graphify/README.md) para iniciar, verificar ou remover o salvamento automático.

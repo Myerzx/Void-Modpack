@@ -1,7 +1,8 @@
 # Documentação
 
 - `launcher/`: estado auditado do cliente, arquitetura e runbooks.
+- `servidor/`: estado auditado do servidor, segurança, compatibilidade e operação.
 - `agentes/`: escopos de atuação e regras de handoff.
 - `graphify/`: instalação e manutenção automática do grafo de conhecimento.
 
-A documentação descreve decisões e evidências; os arquivos publicáveis do cliente ficam em `Launcher/pack/`.
+A documentação descreve decisões e evidências. Os futuros arquivos publicáveis ficam separados em `Launcher/pack/` e `Servidor/pack/`; nenhum dos dois é uma release certificada nesta fase.
