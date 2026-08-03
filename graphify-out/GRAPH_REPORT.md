@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-03)
 
 ## Corpus Check
-- 166 files · ~59,928 words
+- 178 files · ~68,909 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1252 nodes · 1810 edges · 100 communities (84 shown, 16 thin omitted)
+- 1424 nodes · 2173 edges · 111 communities (94 shown, 17 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `351efbe1`
+- Built from commit: `68561a18`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -42,7 +42,7 @@
 - authentication/package.json
 - authentication/src/index.ts
 - repositories.ts
-- Database
+- database.ts
 - 0001_foundation.sql
 - asIso
 - compilerOptions
@@ -61,7 +61,7 @@
 - clean-workspace.mjs
 - dependencies
 - control-api/tsconfig.build.json
-- AuditRepository
+- Database
 - compilerOptions
 - build-worker/tsconfig.build.json
 - agent-client.ts
@@ -87,22 +87,33 @@
 - Adaptadores de processo da Fase 3
 - Controlador de processo da Fase 3
 - minecraft-process.test.ts
-- controller.ts
+- metrics.ts
 - ManagedMinecraftProcessAdapter
 - adapter.ts
 - node-runtime.ts
 - ProcessOutputSnapshot
-- SpawnedProcess
-- console.ts
+- MinecraftProcessController
+- Configurações básicas e revisões da Fase 3
 - NodeSpawnedProcess
 - Console limitado da Fase 3
-- ProcessLaunchPlan
+- controller.ts
 - Métricas limitadas da Fase 3
 - Backup consistente e restore isolado da Fase 3
 - service.ts
 - server-backup/tsconfig.test.json
 - server-backup/tsconfig.build.json
-- ServerRepository
+- server-configuration.test.ts
+- server-configuration/src/validation.ts
+- SpawnedProcess
+- .#mutate
+- server-configuration/src/service.ts
+- properties.ts
+- server-configuration/package.json
+- server-configuration/src/types.ts
+- server-configuration/tsconfig.test.json
+- server-configuration/tsconfig.build.json
+- Q: Como o backup e o restore isolado da Fase 3 se conectam no grafo?
+- AuditRepository
 
 ## God Nodes (most connected - your core abstractions)
 1. `ManagedMinecraftProcessAdapter` - 24 edges
@@ -112,9 +123,9 @@
 5. `SpawnedProcess` - 16 edges
 6. `Database` - 15 edges
 7. `validateManifestValue()` - 15 edges
-8. `validateContract()` - 14 edges
-9. `ProcessLaunchPlan` - 14 edges
-10. `Backup consistente e restore isolado da Fase 3` - 13 edges
+8. `FilesystemConfigurationService` - 15 edges
+9. `validateContract()` - 14 edges
+10. `ProcessLaunchPlan` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Management Platform Phase 1` --references--> `Platform Control Architecture`  [EXTRACTED]
@@ -123,10 +134,10 @@
   README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
 - `Dedicated Server Promotion Gate` --conceptually_related_to--> `ADR-005 Reviewed Canonical Client Catalog`  [INFERRED]
   Servidor/pack/README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
+- `Fixture` --references--> `ConfigurationResourceDefinition`  [EXTRACTED]
+  Plataforma/packages/server-configuration/test/server-configuration.test.ts → Plataforma/packages/server-configuration/src/types.ts
 - `VoidFall Repository Operating Guide` --references--> `Agent Scope and Minimum Handoff`  [EXTRACTED]
   AGENTS.md → docs/agentes/escopos.md
-- `VoidFall Repository Operating Guide` --conceptually_related_to--> `VoidFall Repository`  [EXTRACTED]
-  AGENTS.md → README.md
 
 ## Import Cycles
 - None detected.
@@ -138,7 +149,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (100 total, 16 thin omitted)
+## Communities (111 total, 17 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -238,11 +249,11 @@ Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOpt
 
 ### Community 37 - "repositories.ts"
 Cohesion: 0.14
-Nodes (11): ActiveSession, AgentRow, JobRow, PanelUser, PermissionRepository, RegisteredAgent, Repositories, ServerInstance (+3 more)
+Nodes (12): ActiveSession, AgentRow, JobRow, mapServer(), PanelUser, RegisteredAgent, Repositories, ServerInstance (+4 more)
 
-### Community 38 - "Database"
-Cohesion: 0.16
-Nodes (9): Database, SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient() (+1 more)
+### Community 38 - "database.ts"
+Cohesion: 0.20
+Nodes (8): SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient(), PGliteQueryResult
 
 ### Community 39 - "0001_foundation.sql"
 Cohesion: 0.24
@@ -377,36 +388,32 @@ Cohesion: 0.17
 Nodes (11): Contrato implementado, Controlador de processo da Fase 3, Gate de saída, Invariantes de segurança, Matriz de testes validada, Objetivo do recorte, Restart, Resultados e falhas (+3 more)
 
 ### Community 83 - "minecraft-process.test.ts"
-Cohesion: 0.16
-Nodes (8): LinuxMinecraftProcessAdapter, WindowsMinecraftProcessAdapter, compileJavaFixture(), execFileAsync, fakeControllerPlan, fixtureSource, javaExecutable, waitForConsoleLine()
+Cohesion: 0.11
+Nodes (14): LinuxMinecraftProcessAdapter, MinecraftProcessAdapter, WindowsMinecraftProcessAdapter, MinecraftProcessControllerOptions, ProcessLaunchPlan, ProcessRuntime, compileJavaFixture(), execFileAsync (+6 more)
 
-### Community 84 - "controller.ts"
-Cohesion: 0.06
-Nodes (41): ProcessObservation, ActiveOperation, copyLaunchPlan(), MinecraftProcessController, ProcessControlAction, ProcessControlEvent, ProcessControlEventPhase, ProcessControlFailureCode (+33 more)
+### Community 84 - "metrics.ts"
+Cohesion: 0.12
+Nodes (23): ProcessControlEvent, available(), AvailableMetric, createMinecraftMetricsSnapshot(), HostMetricsSample, MetricQuality, MetricSource, MetricUnavailableReason (+15 more)
 
 ### Community 86 - "adapter.ts"
-Cohesion: 0.18
-Nodes (8): MinecraftConsoleAdapter, MinecraftMetricsAdapter, MinecraftProcessAdapterOptions, MinecraftConsoleCommandReceipt, MinecraftConsoleSnapshot, HostMetricsSampler, MinecraftMetricsSnapshot, NodeHostMetricsSampler
+Cohesion: 0.11
+Nodes (20): MinecraftConsoleAdapter, MinecraftMetricsAdapter, MinecraftProcessAdapterOptions, COMMAND_LITERALS, createMinecraftConsoleSnapshot(), MINECRAFT_CONSOLE_COMMANDS, minecraftConsoleCommandLiteral(), MinecraftConsoleCommandReceipt (+12 more)
 
 ### Community 87 - "node-runtime.ts"
-Cohesion: 0.16
-Nodes (10): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessConfig, platformPath(), SupportedHostPlatform, validateProcessLaunchPlan(), BoundedByteBuffer, minimalEnvironment() (+2 more)
+Cohesion: 0.18
+Nodes (9): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessConfig, platformPath(), validateProcessLaunchPlan(), BoundedByteBuffer, minimalEnvironment(), NodeProcessRuntime (+1 more)
 
-### Community 89 - "SpawnedProcess"
-Cohesion: 0.20
-Nodes (3): MinecraftConsoleCommand, SpawnedProcess, CommandTrackingHandle
-
-### Community 90 - "console.ts"
-Cohesion: 0.23
-Nodes (11): COMMAND_LITERALS, createMinecraftConsoleSnapshot(), MINECRAFT_CONSOLE_COMMANDS, minecraftConsoleCommandLiteral(), MinecraftConsoleLine, MinecraftConsoleSnapshotOptions, MinecraftConsoleStreamSnapshot, sanitizeLine() (+3 more)
+### Community 90 - "Configurações básicas e revisões da Fase 3"
+Cohesion: 0.13
+Nodes (14): Concorrência e consistência, Configurações básicas e revisões da Fase 3, Estados e erros, Fluxo de alteração, Fluxo de rollback, Formato inicial, Gate de saída, Manifesto da revisão (+6 more)
 
 ### Community 92 - "Console limitado da Fase 3"
 Cohesion: 0.20
 Nodes (9): Catálogo inicial de comandos, Console limitado da Fase 3, Gate de saída, Invariantes de segurança, Leitura do console, Matriz de testes validada, Objetivo do recorte, Semântica de despacho (+1 more)
 
-### Community 93 - "ProcessLaunchPlan"
-Cohesion: 0.23
-Nodes (5): MinecraftProcessAdapter, MinecraftProcessControllerOptions, ProcessLaunchPlan, ProcessRuntime, TrackingRuntime
+### Community 93 - "controller.ts"
+Cohesion: 0.12
+Nodes (15): ProcessObservation, ActiveOperation, copyLaunchPlan(), ProcessControlAction, ProcessControlEventPhase, ProcessControlFailureCode, ProcessControlOutcome, ProcessControlRequest (+7 more)
 
 ### Community 94 - "Métricas limitadas da Fase 3"
 Cohesion: 0.18
@@ -428,22 +435,66 @@ Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, inc
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
+### Community 99 - "server-configuration.test.ts"
+Cohesion: 0.09
+Nodes (17): NodeConfigurationFileReplacer, ApplyConfigurationPlan, ConfigurationConsistencyLease, ConfigurationFileReplacer, ConfigurationReplacementInput, OfflineExclusiveConfigurationGuard, CorruptingReplacer, createFixture() (+9 more)
+
+### Community 100 - "server-configuration/src/validation.ts"
+Cohesion: 0.24
+Nodes (20): canonicalObject(), configurationRevisionManifestSha256(), exactKeys(), invalidManifest(), parseConfigurationRevisionManifest(), serializeConfigurationRevisionManifest(), validateManifestObject(), canonicalTimestamp() (+12 more)
+
+### Community 101 - "SpawnedProcess"
+Cohesion: 0.18
+Nodes (3): MinecraftConsoleCommand, SpawnedProcess, CommandTrackingHandle
+
+### Community 102 - ".#mutate"
+Cohesion: 0.24
+Nodes (12): cleanPartial(), FilesystemConfigurationService, isWithin(), normalizeComparablePath(), pathExists(), readBoundedPlainFile(), requirePlainDirectory(), samePath() (+4 more)
+
+### Community 103 - "server-configuration/src/service.ts"
+Cohesion: 0.17
+Nodes (15): ConfigurationRevisionManifest, acquireLock(), cleanTemporary(), CommonMutationPlan, isNodeError(), MutationMaterial, ReadPlainFile, releaseLock() (+7 more)
+
+### Community 104 - "properties.ts"
+Cohesion: 0.23
+Nodes (14): decodeContent(), diffPropertiesDocuments(), invalidContent(), mutatePropertiesDocument(), ParsedPropertiesDocument, parsePropertiesDocument(), parseTypedValue(), PropertiesLine (+6 more)
+
+### Community 105 - "server-configuration/package.json"
+Cohesion: 0.14
+Nodes (13): description, exports, files, dist, license, name, private, scripts (+5 more)
+
+### Community 106 - "server-configuration/src/types.ts"
+Cohesion: 0.21
+Nodes (11): BasicConfigurationField, BooleanConfigurationField, ConfigurationFieldBase, ConfigurationOperationError, ConfigurationOperationErrorCode, ConfigurationOperationStage, EnumConfigurationField, ERROR_MESSAGES (+3 more)
+
+### Community 107 - "server-configuration/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 108 - "server-configuration/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 109 - "Q: Como o backup e o restore isolado da Fase 3 se conectam no grafo?"
+Cohesion: 0.40
+Nodes (4): Answer, Outcome, Q: Como o backup e o restore isolado da Fase 3 se conectam no grafo?, Source Nodes
+
 ## Knowledge Gaps
-- **550 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+545 more)
+- **602 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+597 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `ProcessObservation` connect `controller.ts` to `minecraft-process.test.ts`, `NodeSpawnedProcess`, `adapter.ts`?**
-  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Why does `NodeSpawnedProcess` connect `NodeSpawnedProcess` to `ProcessOutputSnapshot`, `SpawnedProcess`, `node-runtime.ts`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `MinecraftProcessController` connect `controller.ts` to `minecraft-process.test.ts`, `ProcessLaunchPlan`?**
+- **Why does `ProcessObservation` connect `controller.ts` to `minecraft-process.test.ts`, `metrics.ts`, `adapter.ts`, `MinecraftProcessController`, `NodeSpawnedProcess`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `ProcessExit` connect `NodeSpawnedProcess` to `controller.ts`, `ManagedMinecraftProcessAdapter`, `adapter.ts`, `node-runtime.ts`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
-  _550 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _602 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Contratos compartilhados` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `common.ts` be split into smaller, more focused modules?**
