@@ -37,7 +37,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 
 - identidade oficial: **VoidFall**;
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
-- Fase 3 em andamento em `@voidfall/minecraft-process`, com planos, runtime, adaptadores e controlador serializado validados; o console limitado está implementado localmente e aguarda a matriz CI;
+- Fase 3 em andamento em `@voidfall/minecraft-process`, com planos, runtime, adaptadores, controlador serializado e console limitado validados em Ubuntu/Windows;
 - não existe execução de processo, console, backup, restore ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 

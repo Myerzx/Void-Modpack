@@ -24,6 +24,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - catálogo sem argumentos com somente `list-players` e `save-all`, convertido internamente para literais fixos;
 - revalidação no runtime e exclusão sem fila entre efeitos de start, stop e comando;
 - fixture Java ampliada para comprovar os dois comandos sem acessar o servidor privado.
+- gate integral do console aprovado em Ubuntu e Windows na execução `30840780189`, com 53 testes e auditoria de runtime sem vulnerabilidades.
 
 ### Não habilitado
 

@@ -54,7 +54,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 
 1. [x] Adaptadores Windows/Linux de processo — concluídos com runtime, PID, ambiente mínimo, saída limitada e stop gracioso; gate completo aprovado na matriz Ubuntu/Windows do GitHub.
 2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
-3. Console de leitura e comandos em allowlist — **em validação**: snapshots limitados e catálogo `list-players`/`save-all` implementados no pacote; matriz CI ainda pendente.
+3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
 4. Métricas de host/processo e fonte exibida.
 5. Backup consistente e restore em ambiente isolado.
 6. Configurações básicas com revisão anterior.

@@ -1,6 +1,6 @@
 # Console limitado da Fase 3
 
-Status: implementado e validado localmente; integração restrita a `@voidfall/minecraft-process`.
+Status: implementado e validado localmente e na matriz Ubuntu/Windows; integração restrita a `@voidfall/minecraft-process`.
 
 ## Objetivo do recorte
 
@@ -83,4 +83,4 @@ Cinco testes novos cobrem esses cenários: três validam catálogo, sanitizaçã
 
 ## Gate de saída
 
-Build, typecheck, os 20 testes do pacote, o gate integral de 53 testes e `npm audit --omit=dev` estão verdes localmente. O item 3 da Fase 3 só pode ser concluído após a matriz Ubuntu/Windows também passar. Integração com controlador externo, API, agente, banco, UI e servidor privado permanece bloqueada.
+Build, typecheck, os 20 testes do pacote, o gate integral de 53 testes e `npm audit --omit=dev` passaram localmente e na [matriz Ubuntu/Windows 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189). O item 3 da Fase 3 está concluído. Integração com controlador externo, API, agente, banco, UI e servidor privado permanece bloqueada.

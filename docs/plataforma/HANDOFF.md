@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 e 2 concluídos; item 3 implementado em isolamento e aguardando matriz CI
+- Fase: 3 — itens 1, 2 e 3 concluídos em isolamento; métricas são o próximo recorte
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -43,9 +43,9 @@
 
 - pacote de processo: build, typecheck e 20 testes aprovados com Java 17;
 - gate local aprovado: 53 testes, typechecks e builds de todos os workspaces;
-- matriz CI do controlador aprovada em `ubuntu-latest` e `windows-latest`: [execução 30833243148](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148);
+- matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.025 nós, 1.340 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado com 1.068 nós, 1.430 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
