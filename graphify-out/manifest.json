@@ -50,9 +50,9 @@
     "semantic_hash": "582f669dfb8db26b7c048327b8396458"
   },
   "AGENTS.md": {
-    "mtime": 1785732665.295339,
-    "ast_hash": "ca9a3c88dfa54f38a60c5ebaae961cc9",
-    "semantic_hash": "ca9a3c88dfa54f38a60c5ebaae961cc9"
+    "mtime": 1785735865.198723,
+    "ast_hash": "43916bf1db535918f8367d84da966130",
+    "semantic_hash": ""
   },
   "Launcher/README.md": {
     "mtime": 1785719202.1504438,
@@ -70,9 +70,9 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785732665.293834,
-    "ast_hash": "4fadc135bcfd29c3890f51947f754238",
-    "semantic_hash": "4fadc135bcfd29c3890f51947f754238"
+    "mtime": 1785735865.2002816,
+    "ast_hash": "469c0dffd184283b038e4bcd6aba0a9e",
+    "semantic_hash": ""
   },
   "Servidor/README.md": {
     "mtime": 1785727368.7845335,
@@ -220,29 +220,29 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785732287.798195,
-    "ast_hash": "279f40126351c02c8323634d78d4f7dd",
-    "semantic_hash": "279f40126351c02c8323634d78d4f7dd"
+    "mtime": 1785735865.2002816,
+    "ast_hash": "73d6ff47f79de7eb8c4bbf977acc7185",
+    "semantic_hash": ""
   },
   "Plataforma/README.md": {
-    "mtime": 1785732287.798195,
-    "ast_hash": "61610a610767f5fa8e1255f0610c8e04",
-    "semantic_hash": "61610a610767f5fa8e1255f0610c8e04"
+    "mtime": 1785736517.32622,
+    "ast_hash": "deb9966dc2cb265077483efc4754bfad",
+    "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
-    "mtime": 1785732381.8698642,
-    "ast_hash": "e038c2154761606f083cb604922d77f5",
-    "semantic_hash": "e038c2154761606f083cb604922d77f5"
+    "mtime": 1785736517.3277278,
+    "ast_hash": "e98c8d4df51a733582422185833db4c8",
+    "semantic_hash": ""
   },
   "docs/plataforma/ARCHITECTURE.md": {
-    "mtime": 1785732287.799703,
-    "ast_hash": "21be916514e89432a14c484dcf4d386b",
-    "semantic_hash": "21be916514e89432a14c484dcf4d386b"
+    "mtime": 1785736517.3277278,
+    "ast_hash": "306e15ae8041e93083e6a20f3f649c27",
+    "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785732625.1449022,
-    "ast_hash": "0f241bd346892942f63b23bf3f254fab",
-    "semantic_hash": "0f241bd346892942f63b23bf3f254fab"
+    "mtime": 1785736517.3293095,
+    "ast_hash": "ccb23e997642e24bf5fe96abf52bab63",
+    "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
     "mtime": 1785732518.4906335,
@@ -275,9 +275,9 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1785732625.1449022,
-    "ast_hash": "4c3a73bcda4bc9991ce3cfa8f3d80e17",
-    "semantic_hash": "4c3a73bcda4bc9991ce3cfa8f3d80e17"
+    "mtime": 1785735865.204812,
+    "ast_hash": "82e8afc1d5194d70f0b69d2eb3113652",
+    "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
     "mtime": 1785732518.492139,
@@ -285,14 +285,14 @@
     "semantic_hash": "59671b9d579cccdaf2f9c510b5ec36e0"
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785732724.5006735,
-    "ast_hash": "d652febf4726efb69e59670d447df72c",
-    "semantic_hash": "d652febf4726efb69e59670d447df72c"
+    "mtime": 1785736605.6644044,
+    "ast_hash": "31f6f439a340869997618b636dc97149",
+    "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
-    "mtime": 1785732381.8683567,
-    "ast_hash": "18d6f5f76318d9ee4459726e09f4feae",
-    "semantic_hash": "18d6f5f76318d9ee4459726e09f4feae"
+    "mtime": 1785736372.9841192,
+    "ast_hash": "3a7ee47dd243441458f417c2736811f7",
+    "semantic_hash": ""
   },
   "docs/plataforma/LOGGING.md": {
     "mtime": 1785732518.492139,
@@ -310,19 +310,19 @@
     "semantic_hash": "f8eb32ad123e780447f223e95a7c4a42"
   },
   "docs/plataforma/PROJECT_CONTEXT.md": {
-    "mtime": 1785732287.799703,
-    "ast_hash": "246d1d28d1be4306b2a4fdbe738284d0",
-    "semantic_hash": "246d1d28d1be4306b2a4fdbe738284d0"
+    "mtime": 1785735865.2017958,
+    "ast_hash": "9b022fdad3675db8f0086e5f94aad28b",
+    "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785732724.5006735,
-    "ast_hash": "bb034763e0559364d551cef022462717",
-    "semantic_hash": "bb034763e0559364d551cef022462717"
+    "mtime": 1785736517.32622,
+    "ast_hash": "1e5ebaabb63ecf7df1eb74c65da998a1",
+    "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785732625.1433938,
-    "ast_hash": "46f476ae9e4f74361bc3bf35dd356b95",
-    "semantic_hash": "46f476ae9e4f74361bc3bf35dd356b95"
+    "mtime": 1785736517.3293095,
+    "ast_hash": "a659fa39307650700628dd81f67ee3e2",
+    "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
     "mtime": 1785732518.4906335,
@@ -333,5 +333,105 @@
     "mtime": 1785732724.499163,
     "ast_hash": "79630cc10c0780b269b4c7275a68b87f",
     "semantic_hash": "79630cc10c0780b269b4c7275a68b87f"
+  },
+  "docs/plataforma/DECISIONS/ADR-006-identidade-e-inicio-da-fase-2.md": {
+    "mtime": 1785735865.203304,
+    "ast_hash": "86dae84fea0801a1fd650855bfe6ed83",
+    "semantic_hash": ""
+  },
+  "Plataforma/package.json": {
+    "mtime": 1785736150.3898335,
+    "ast_hash": "aa29df2591fffbd76f7da1dbc936086a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/package.json": {
+    "mtime": 1785736372.9811053,
+    "ast_hash": "2be9d43a394c4a23ffb0e4b8a1dc17c8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/scripts/clean.mjs": {
+    "mtime": 1785736579.8505118,
+    "ast_hash": "b06dc50f259be0eb89d6dac6893fa26b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/agent-envelope.ts": {
+    "mtime": 1785736150.3959875,
+    "ast_hash": "5cc664f77678e5c14be6527bcb41cddc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/audit-event.ts": {
+    "mtime": 1785736150.3974977,
+    "ast_hash": "6d82851ab5ae3a6304c1751dc8c9b7d9",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/common.ts": {
+    "mtime": 1785736277.8235283,
+    "ast_hash": "f93a50ca26638206714ff548d3660e90",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/export-schemas.ts": {
+    "mtime": 1785736150.3974977,
+    "ast_hash": "2bba8b1ec4434acc1d2b27ed3f205646",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/index.ts": {
+    "mtime": 1785736150.3974977,
+    "ast_hash": "b692895c6413df5747bfc7dbc264fdc0",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/job.ts": {
+    "mtime": 1785736150.3944793,
+    "ast_hash": "d88e9432920a3f9f7d0b2ee0e273b470",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/mod-catalog-entry.ts": {
+    "mtime": 1785736150.3959875,
+    "ast_hash": "b6f94dfeff539da06763d06cf2d0eb70",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/release-manifest.ts": {
+    "mtime": 1785736150.3959875,
+    "ast_hash": "f91dc835132c5d331b2b8cfc48435262",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/validation.ts": {
+    "mtime": 1785736222.7519257,
+    "ast_hash": "9aa97a1bfbb356a22857bfdda182a00b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/test/contracts.test.ts": {
+    "mtime": 1785736372.9841192,
+    "ast_hash": "2a41979d285f1f9e546acda77269e81f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/tsconfig.build.json": {
+    "mtime": 1785736372.982613,
+    "ast_hash": "cba4a8c19632cc017446146c4b0e0763",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/tsconfig.test.json": {
+    "mtime": 1785736150.3929687,
+    "ast_hash": "7b473b0d58a0aafa36e230b078878789",
+    "semantic_hash": ""
+  },
+  "Plataforma/tsconfig.base.json": {
+    "mtime": 1785736222.750346,
+    "ast_hash": "19e541f79f38a99725b42cadb2ec1cfd",
+    "semantic_hash": ""
+  },
+  "Plataforma/tsconfig.json": {
+    "mtime": 1785736150.3914595,
+    "ast_hash": "833fe80d46175bdd27042c79fc4220a3",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/README.md": {
+    "mtime": 1785736372.982613,
+    "ast_hash": "11bc4d3664d8de3bedff32d6d3ec3cbb",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/CONTRACTS.md": {
+    "mtime": 1785736517.3293095,
+    "ast_hash": "519ce2e9c1ac636ae20bbf1f9ccdabea",
+    "semantic_hash": ""
   }
 }
