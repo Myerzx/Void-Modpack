@@ -25,6 +25,7 @@
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
+    "@voidfall/audit-chain": "0.1.0",
     "@voidfall/authentication": "0.1.0",
     "@voidfall/contracts": "0.1.0",
     "@voidfall/permissions": "0.1.0",

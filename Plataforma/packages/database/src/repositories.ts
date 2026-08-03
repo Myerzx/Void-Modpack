@@ -1,7 +1,15 @@
 import { randomUUID } from 'node:crypto';
+import {
+  chainAuditEvent,
+  createAuditExport,
+  verifyAuditChain,
+  type AuditChainRecord,
+  type AuditChainVerificationResult,
+  type AuditExportArtifact,
+  type AuditExportRequest,
+} from '@voidfall/audit-chain';
 import { canonicalJson, sha256Hex } from '@voidfall/authentication';
 import {
-  validateAuditEvent,
   validateJob,
   type ActorRef,
   type AuditEvent,
@@ -308,33 +316,75 @@ export class ServerRepository {
 export class AuditRepository {
   constructor(private readonly database: Database) {}
 
-  async append(event: AuditEvent): Promise<void> {
-    const validation = validateAuditEvent(event);
-    if (!validation.success) {
-      throw new Error(`Invalid audit event: ${validation.issues.map((issue) => issue.path).join(', ')}`);
-    }
-    await this.database.query(
-      `INSERT INTO audit_events (
-         id, occurred_at, correlation_id, actor, source, action, resource, outcome,
-         reason, before_redacted, after_redacted, metadata_redacted, previous_hash, integrity_hash
-       ) VALUES ($1,$2,$3,$4::jsonb,$5,$6,$7::jsonb,$8,$9,$10::jsonb,$11::jsonb,$12::jsonb,$13,$14)`,
-      [
-        event.id,
-        event.occurredAt,
-        event.correlationId,
-        JSON.stringify(event.actor),
-        event.source,
-        event.action,
-        JSON.stringify(event.resource),
-        event.outcome,
-        event.reason ?? null,
-        event.before === undefined ? null : JSON.stringify(event.before),
-        event.after === undefined ? null : JSON.stringify(event.after),
-        event.metadata === undefined ? null : JSON.stringify(event.metadata),
-        event.integrity?.previousHash ?? null,
-        event.integrity?.eventHash ?? null,
-      ],
-    );
+  async append(event: AuditEvent, partitionId = 'administrative'): Promise<AuditChainRecord> {
+    return this.database.transaction(async (client) => {
+      await client.query(
+        `INSERT INTO audit_chain_heads (partition_id, last_sequence, last_hash, updated_at)
+         VALUES ($1, 0, NULL, $2)
+         ON CONFLICT (partition_id) DO NOTHING`,
+        [partitionId, event.occurredAt],
+      );
+      const headResult = await client.query<{
+        readonly last_sequence: number | string;
+        readonly last_hash: string | null;
+      }>(
+        `SELECT last_sequence, last_hash
+         FROM audit_chain_heads WHERE partition_id = $1 FOR UPDATE`,
+        [partitionId],
+      );
+      const head = headResult.rows[0];
+      if (head === undefined) throw new Error('Audit chain head was not created.');
+      const sequence = Number(head.last_sequence) + 1;
+      const record = chainAuditEvent({
+        partitionId,
+        sequence,
+        previousHash: head.last_hash,
+        event,
+      });
+      const chainedEvent = record.event;
+      await client.query(
+        `INSERT INTO audit_events (
+           id, occurred_at, correlation_id, actor, source, action, resource, outcome,
+           reason, before_redacted, after_redacted, metadata_redacted, previous_hash, integrity_hash,
+           partition_id, chain_sequence
+         ) VALUES (
+           $1,$2,$3,$4::jsonb,$5,$6,$7::jsonb,$8,$9,$10::jsonb,$11::jsonb,$12::jsonb,
+           $13,$14,$15,$16
+         )`,
+        [
+          chainedEvent.id,
+          chainedEvent.occurredAt,
+          chainedEvent.correlationId,
+          JSON.stringify(chainedEvent.actor),
+          chainedEvent.source,
+          chainedEvent.action,
+          JSON.stringify(chainedEvent.resource),
+          chainedEvent.outcome,
+          chainedEvent.reason ?? null,
+          chainedEvent.before === undefined ? null : JSON.stringify(chainedEvent.before),
+          chainedEvent.after === undefined ? null : JSON.stringify(chainedEvent.after),
+          chainedEvent.metadata === undefined ? null : JSON.stringify(chainedEvent.metadata),
+          chainedEvent.integrity?.previousHash ?? null,
+          chainedEvent.integrity?.eventHash ?? null,
+          record.partitionId,
+          record.sequence,
+        ],
+      );
+      const updated = await client.query(
+        `UPDATE audit_chain_heads
+         SET last_sequence = $2, last_hash = $3, updated_at = $4
+         WHERE partition_id = $1 AND last_sequence = $5`,
+        [
+          record.partitionId,
+          record.sequence,
+          chainedEvent.integrity?.eventHash ?? null,
+          chainedEvent.occurredAt,
+          Number(head.last_sequence),
+        ],
+      );
+      if (updated.rowCount !== 1) throw new Error('Audit chain head update conflict.');
+      return record;
+    });
   }
 
   async list(limit = 100): Promise<readonly AuditEvent[]> {
@@ -377,6 +427,94 @@ export class AuditRepository {
         ? {}
         : { integrity: { previousHash: row.previous_hash, eventHash: row.integrity_hash } }),
     }));
+  }
+
+  async listChain(
+    partitionId: string,
+    firstSequence: number,
+    lastSequence: number,
+  ): Promise<readonly AuditChainRecord[]> {
+    if (
+      !Number.isSafeInteger(firstSequence) ||
+      !Number.isSafeInteger(lastSequence) ||
+      firstSequence < 1 ||
+      lastSequence < firstSequence ||
+      lastSequence - firstSequence + 1 > 100_000
+    ) {
+      throw new Error('Invalid audit chain range.');
+    }
+    const result = await this.database.query<{
+      readonly id: string;
+      readonly occurred_at: Date | string;
+      readonly correlation_id: string;
+      readonly actor: ActorRef | string;
+      readonly source: AuditEvent['source'];
+      readonly action: string;
+      readonly resource: ResourceRef | string;
+      readonly outcome: AuditEvent['outcome'];
+      readonly reason: string | null;
+      readonly before_redacted: JsonObject | string | null;
+      readonly after_redacted: JsonObject | string | null;
+      readonly metadata_redacted: JsonObject | string | null;
+      readonly previous_hash: string | null;
+      readonly integrity_hash: string;
+      readonly partition_id: string;
+      readonly chain_sequence: number | string;
+    }>(
+      `SELECT id, occurred_at, correlation_id, actor, source, action, resource, outcome,
+              reason, before_redacted, after_redacted, metadata_redacted, previous_hash,
+              integrity_hash, partition_id, chain_sequence
+       FROM audit_events
+       WHERE partition_id = $1 AND chain_sequence BETWEEN $2 AND $3
+       ORDER BY chain_sequence ASC`,
+      [partitionId, firstSequence, lastSequence],
+    );
+    return result.rows.map((row) => ({
+      partitionId: row.partition_id,
+      sequence: Number(row.chain_sequence),
+      event: {
+        schemaVersion: 1,
+        id: row.id,
+        occurredAt: asIso(row.occurred_at),
+        correlationId: row.correlation_id,
+        actor: parseJson(row.actor),
+        source: row.source,
+        action: row.action,
+        resource: parseJson(row.resource),
+        outcome: row.outcome,
+        ...(row.reason === null ? {} : { reason: row.reason }),
+        ...(row.before_redacted === null ? {} : { before: parseJson(row.before_redacted) }),
+        ...(row.after_redacted === null ? {} : { after: parseJson(row.after_redacted) }),
+        ...(row.metadata_redacted === null ? {} : { metadata: parseJson(row.metadata_redacted) }),
+        integrity: { previousHash: row.previous_hash, eventHash: row.integrity_hash },
+      },
+    }));
+  }
+
+  async verifyPartition(partitionId: string): Promise<AuditChainVerificationResult> {
+    const lastSequence = await this.#lastSequence(partitionId);
+    if (lastSequence === 0) return verifyAuditChain([]);
+    if (lastSequence > 100_000) throw new Error('Audit partition exceeds verification limit.');
+    return verifyAuditChain(await this.listChain(partitionId, 1, lastSequence));
+  }
+
+  async exportPartition(
+    partitionId: string,
+    request: AuditExportRequest,
+  ): Promise<AuditExportArtifact> {
+    const headSequence = await this.#lastSequence(partitionId);
+    const firstSequence = request.firstSequence ?? 1;
+    const lastSequence = request.lastSequence ?? headSequence;
+    const records = await this.listChain(partitionId, firstSequence, lastSequence);
+    return createAuditExport(records, request);
+  }
+
+  async #lastSequence(partitionId: string): Promise<number> {
+    const result = await this.database.query<{ readonly last_sequence: number | string }>(
+      'SELECT last_sequence FROM audit_chain_heads WHERE partition_id = $1',
+      [partitionId],
+    );
+    return Number(result.rows[0]?.last_sequence ?? 0);
   }
 }
 
