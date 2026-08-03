@@ -220,13 +220,13 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785789556.8264117,
-    "ast_hash": "894e145882121fd5f52da988b307f0b0",
+    "mtime": 1785790545.376032,
+    "ast_hash": "31707435014c67c73d740ac1c92c9be9",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
-    "mtime": 1785790203.8371286,
-    "ast_hash": "a02c680323e7d60ad1f73291f8559e23",
+    "mtime": 1785790545.376032,
+    "ast_hash": "245b34ddaeed787fea45d07373d6b5d4",
     "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ARCHITECTURE.md": {
-    "mtime": 1785790203.8387156,
-    "ast_hash": "875ea6b089dbac5158325deae2f5ed72",
+    "mtime": 1785790545.3775396,
+    "ast_hash": "dec684ab884da2237231cf37e54ca341",
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785790203.8427439,
-    "ast_hash": "d0791dfb4b5ad7a8d2ebe8373543042f",
+    "mtime": 1785790545.382046,
+    "ast_hash": "9bd67f284c0071e320cb27213e65c675",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785790203.8442495,
-    "ast_hash": "d0b7d18aa3f0b03cee390fc6be41c6fb",
+    "mtime": 1785790545.3832936,
+    "ast_hash": "37e36e5d860c5b5998ea1e29ae5010bc",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785790203.8427439,
-    "ast_hash": "385bf26d5ecbb98fb4c62a300445a922",
+    "mtime": 1785790545.380622,
+    "ast_hash": "5c64c545a8ea2837543bd090471f7854",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785790203.841236,
-    "ast_hash": "13e553875d9f822f71e561f2d3c4b3c8",
+    "mtime": 1785790545.3790462,
+    "ast_hash": "e3bf3fded9f972773145070d7f0795a3",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -715,8 +715,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_2_VALIDATION.md": {
-    "mtime": 1785790203.839729,
-    "ast_hash": "d3accfa22ed88fec9160032c7aa975ab",
+    "mtime": 1785790545.3775396,
+    "ast_hash": "e42f30936af8785e81c7494a71dfa7e8",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/adapter.ts": {
@@ -905,8 +905,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_4_INVENTORY_CATALOG.md": {
-    "mtime": 1785790203.841236,
-    "ast_hash": "a20e1e52db6e2abfbc43de60ab3bc5df",
+    "mtime": 1785790545.3790462,
+    "ast_hash": "dee62f0bb459712b56c82b6bce38174f",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260803_203748_quais_contratos_e_limites_existentes_devem_orienta.md": {
@@ -957,6 +957,11 @@
   "Plataforma/packages/mod-catalog/test/mod-catalog.test.ts": {
     "mtime": 1785789977.6353214,
     "ast_hash": "6c197cff9232f00d65614a7a40fb8d56",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260803_205126_os_contratos__o_reconciliador__os_testes_e_a_docum.md": {
+    "mtime": 1785790286.7907298,
+    "ast_hash": "46c901e862946bd2e8784360a499f1e6",
     "semantic_hash": ""
   }
 }
