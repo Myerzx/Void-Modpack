@@ -5,6 +5,8 @@ import {
   validateAgentEnvelope,
   validateAgentHeartbeatPayload,
   validateAuditEvent,
+  validateCatalogReconciliationReport,
+  validateInventorySnapshot,
   validateJob,
   validateModCatalogEntry,
   validateReleaseManifest,
@@ -113,6 +115,88 @@ function validManifest(): Record<string, unknown> {
   };
 }
 
+function validInventorySnapshot(): Record<string, unknown> {
+  return {
+    schemaVersion: 1,
+    inventoryId: 'launcher-20260803',
+    observedAt: '2026-08-03T12:00:00Z',
+    source: {
+      sourceId: 'voidfall-launcher',
+      scope: 'client',
+      type: 'launcher-export',
+    },
+    runtime: {
+      minecraftVersion: '1.20.1',
+      loader: 'forge',
+      loaderVersion: '1.20.1-47.4.4',
+    },
+    entries: [
+      {
+        path: 'mods/example.jar',
+        filename: 'example.jar',
+        kind: 'mod',
+        state: 'active',
+        sizeBytes: 1_024,
+        sha256: hashA,
+      },
+    ],
+  };
+}
+
+function validReconciliationReport(): Record<string, unknown> {
+  return {
+    schemaVersion: 1,
+    reconciliationId: 'reconcile-20260803',
+    generatedAt: '2026-08-03T12:01:00Z',
+    targetRuntime: {
+      minecraftVersion: '1.20.1',
+      loader: 'forge',
+      loaderVersion: '1.20.1-47.4.4',
+    },
+    catalogEntryCount: 1,
+    inputs: [
+      {
+        inventoryId: 'launcher-20260803',
+        sourceId: 'voidfall-launcher',
+        scope: 'client',
+        type: 'launcher-export',
+        observedAt: '2026-08-03T12:00:00Z',
+        entryCount: 1,
+      },
+    ],
+    artifacts: [
+      {
+        artifactId: `sha256:${hashA}`,
+        sha256: hashA,
+        matchState: 'cataloged',
+        catalogEntryIds: ['example-mod'],
+        filenames: ['example.jar'],
+        suggestedSide: 'client',
+        observations: [
+          {
+            inventoryId: 'launcher-20260803',
+            sourceId: 'voidfall-launcher',
+            scope: 'client',
+            path: 'mods/example.jar',
+            filename: 'example.jar',
+            state: 'active',
+            sizeBytes: 1_024,
+          },
+        ],
+        blockers: [],
+      },
+    ],
+    summary: {
+      totalArtifacts: 1,
+      catalogedArtifacts: 1,
+      untrackedArtifacts: 0,
+      ambiguousArtifacts: 0,
+      blockedArtifacts: 0,
+      unblockedArtifacts: 1,
+    },
+  };
+}
+
 describe('Job', () => {
   it('accepts a queued versioned job', () => {
     assert.equal(validateJob(validJob()).success, true);
@@ -203,6 +287,67 @@ describe('ModCatalogEntry', () => {
     const entry = validCatalogEntry();
     entry.distribution = { decision: 'allowed' };
     assert.equal(validateModCatalogEntry(entry).success, false);
+  });
+});
+
+describe('InventorySnapshot', () => {
+  it('accepts a canonical sanitized launcher inventory', () => {
+    assert.equal(validateInventorySnapshot(validInventorySnapshot()).success, true);
+  });
+
+  it('rejects non-canonical paths and source scope mismatches', () => {
+    const unordered = validInventorySnapshot();
+    unordered.entries = [
+      {
+        path: 'mods/z.jar',
+        filename: 'z.jar',
+        kind: 'mod',
+        state: 'active',
+        sizeBytes: 1,
+        sha256: hashA,
+      },
+      {
+        path: 'mods/A.jar',
+        filename: 'A.jar',
+        kind: 'mod',
+        state: 'active',
+        sizeBytes: 1,
+        sha256: hashB,
+      },
+    ];
+    assert.equal(validateInventorySnapshot(unordered).success, false);
+
+    const wrongScope = validInventorySnapshot();
+    wrongScope.source = {
+      sourceId: 'voidfall-server',
+      scope: 'client',
+      type: 'server-export',
+    };
+    assert.equal(validateInventorySnapshot(wrongScope).success, false);
+  });
+});
+
+describe('CatalogReconciliationReport', () => {
+  it('accepts a canonical report whose summary matches its artifacts', () => {
+    assert.equal(validateCatalogReconciliationReport(validReconciliationReport()).success, true);
+  });
+
+  it('rejects artifact IDs not derived from their hash and stale summaries', () => {
+    const report = validReconciliationReport();
+    const artifacts = report.artifacts as Array<Record<string, unknown>>;
+    artifacts[0] = { ...artifacts[0], artifactId: `sha256:${hashB}` };
+    assert.equal(validateCatalogReconciliationReport(report).success, false);
+
+    const staleSummary = validReconciliationReport();
+    staleSummary.summary = {
+      totalArtifacts: 2,
+      catalogedArtifacts: 1,
+      untrackedArtifacts: 1,
+      ambiguousArtifacts: 0,
+      blockedArtifacts: 0,
+      unblockedArtifacts: 2,
+    };
+    assert.equal(validateCatalogReconciliationReport(staleSummary).success, false);
   });
 });
 
