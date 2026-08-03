@@ -10,10 +10,13 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - validação de paths absolutos, nome do JAR e limites de memória;
 - argv fixo, `shell: false`, janela oculta no Windows e stdio explícito;
 - máquina de estados observada e interface para futuros adaptadores.
+- runtime Node com ambiente mínimo, PID, saída limitada e tratamento de executável ausente;
+- adaptadores Windows/Linux com detecção de boot e `stop` gracioso;
+- fixture Java 17 descartável e matriz CI Ubuntu/Windows.
 
 ### Não habilitado
 
-Spawn de processo, start/stop/restart na API, console, force kill, backup, restore ou acesso ao servidor privado.
+Start/stop/restart na API, integração com agente, console genérico, force kill, backup, restore ou acesso ao servidor privado. O único processo iniciado nos testes é a fixture Java versionada, executada em diretório temporário.
 
 ## 2026-08-03 — Fase 2: fundação concluída
 

@@ -52,8 +52,8 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 
 ## Fase 3 — controle do Minecraft
 
-1. Adaptadores Windows/Linux de processo — **em andamento**: planos validados, interface e máquina de estados criados; execução ainda bloqueada.
-2. Estado observado, start, stop e restart seguro.
+1. Adaptadores Windows/Linux de processo — **em validação CI**: runtime, PID, ambiente mínimo, saída limitada e stop gracioso implementados; falta confirmar a matriz Ubuntu/Windows no GitHub.
+2. Estado observado, start, stop e restart seguro — **em andamento**: estado, start e stop isolados concluídos; restart e orquestração ainda pendentes.
 3. Console de leitura e comandos em allowlist.
 4. Métricas de host/processo e fonte exibida.
 5. Backup consistente e restore em ambiente isolado.
@@ -61,7 +61,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
 
-Recorte atual: `@voidfall/minecraft-process` não chama `spawn`, não toca no servidor e não está conectado à Control API. É a preparação segura para os adaptadores reais.
+Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. Não toca no servidor e não está conectado à Control API ou ao agente.
 
 ## Fase 4 — mods, arquivos e schemas
 

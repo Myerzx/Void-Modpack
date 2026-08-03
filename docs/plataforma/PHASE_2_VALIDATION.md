@@ -13,7 +13,7 @@ npm run check
 npm audit --omit=dev
 ```
 
-No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. Após o primeiro pacote puramente determinístico da Fase 3, o mesmo gate totaliza 36 testes. Typecheck estrito e builds de todos os workspaces passaram.
+No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. O primeiro pacote puramente determinístico da Fase 3 elevou o gate a 36; os adaptadores isolados elevam o total atual a 40 testes. Typecheck estrito e builds de todos os workspaces passaram.
 
 ## Matriz
 

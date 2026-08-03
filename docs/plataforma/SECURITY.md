@@ -70,6 +70,12 @@ Nenhuma rota aceita texto de shell. O agente expõe operações tipadas (`startS
 
 A documentação oficial do Node diferencia `spawn`/`execFile` da execução por shell e mantém `shell` desabilitado por padrão.
 
+### Recorte implementado na Fase 3
+
+`@voidfall/minecraft-process` valida novamente o plano no adaptador e no runtime. O runtime usa executável absoluto, argv separado, `shell: false`, `detached: false`, stdio em pipes, janela oculta no Windows e um ambiente mínimo. stdout/stderr mantêm somente uma cauda com limite configurável. A única escrita disponível no handle é `requestGracefulStop()`, que envia o literal `stop\n`; não existe método de comando arbitrário ou force kill.
+
+Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretório temporário do sistema. Não leem nem escrevem `Servidor/workspace/`.
+
 ## Arquivos e uploads
 
 - raízes lógicas (`config`, `mods-staging`, `logs-export`) mapeadas pelo agente;

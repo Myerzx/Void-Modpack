@@ -20,6 +20,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 14. [Handoff](HANDOFF.md)
 15. [Decisões arquiteturais](DECISIONS/)
 16. [Validação da Fase 2](PHASE_2_VALIDATION.md)
+17. [Adaptadores de processo da Fase 3](PHASE_3_PROCESS_ADAPTERS.md)
 
 ## Resultado da Fase 1
 
@@ -34,7 +35,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 
 - identidade oficial: **VoidFall**;
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
-- Fase 3 iniciada em `@voidfall/minecraft-process` apenas com planos validados e máquina de estados;
+- Fase 3 em andamento em `@voidfall/minecraft-process`, com planos, runtime e adaptadores isolados validados por fixture Java;
 - não existe execução de processo, console, backup, restore ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 
