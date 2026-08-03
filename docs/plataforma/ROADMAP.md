@@ -57,7 +57,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
 4. [x] Métricas de host/processo e fonte exibida — concluídas no pacote isolado com snapshot tipado, 25 testes do pacote e gate de 58 testes aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
 5. [x] Backup consistente e restore em ambiente isolado — concluído no pacote `@voidfall/server-backup` com guarda offline obrigatória, manifesto canônico verificável, promoção atômica e restore somente em destino novo; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
-6. Configurações básicas com revisão anterior.
+6. Configurações básicas com revisão anterior — **em planejamento**: registro confiável, subconjunto estrito de Java Properties, alteração tipada, hash esperado, revisão imutável anterior e rollback que também cria revisão; sem runtime privado.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
 

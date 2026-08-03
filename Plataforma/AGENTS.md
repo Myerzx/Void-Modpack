@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2 is complete. Phase 3 items 1–4 are validated in isolation. Item 5 is limited to a filesystem backup core using an injected offline-exclusive guard and restore only into a new isolated destination. Do not connect process/backup control to the API or agent, edit the private runtime, add generic console execution, implement force-kill, overwrite a restore target, or add destructive retention.
+Phase 2 is complete. Phase 3 items 1–5 are validated in isolation. Item 6 is limited to a typed Java Properties subset with an injected offline-exclusive guard, immutable previous revisions, optimistic hashes, and rollback that creates another revision. Do not connect process/backup/configuration control to the API or agent, edit the private runtime, add generic file editing, accept public paths/schemas, implement force-kill, overwrite a restore target, or add destructive retention.
 
 ## Ownership
 
@@ -28,6 +28,7 @@ Phase 2 is complete. Phase 3 items 1–4 are validated in isolation. Item 5 is l
 12. The Panel Web is a static Phase 2 fixture. Never present its sample values as server telemetry.
 13. Process controller idempotency and exclusion are currently in-memory only. Do not represent them as durable or safe across agent restarts until persistence, locking, PID reconciliation, and crash tests exist.
 14. Console callers provide only `list-players` or `save-all`; never add a string command parameter. Console snapshots require redaction, authorization, audit, and retention policy before external exposure.
+15. Configuration callers may select only a registered `resourceId` and typed known fields. Paths, schemas, formats, restart policy and limits come from trusted construction; revision and error metadata never expose configuration values.
 
 ## Required handoff
 
