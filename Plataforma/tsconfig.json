@@ -33,6 +33,9 @@
       "path": "./apps/control-api/tsconfig.build.json"
     },
     {
+      "path": "./apps/launcher-api/tsconfig.build.json"
+    },
+    {
       "path": "./apps/build-worker/tsconfig.build.json"
     },
     {

@@ -1,0 +1,23 @@
+{
+  "name": "@voidfall/launcher-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read-only signed release API for VoidFall launchers",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "test": "tsx --test test/launcher-api.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@fastify/helmet": "13.1.0",
+    "@fastify/rate-limit": "11.2.0",
+    "@sinclair/typebox": "0.34.52",
+    "@voidfall/contracts": "0.1.0",
+    "@voidfall/launcher-protocol": "0.1.0",
+    "@voidfall/modpack-release": "0.1.0",
+    "fastify": "5.11.2"
+  }
+}

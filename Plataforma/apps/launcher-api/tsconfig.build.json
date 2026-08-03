@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "references": [
+    { "path": "../../packages/contracts/tsconfig.build.json" },
+    { "path": "../../packages/modpack-release/tsconfig.build.json" },
+    { "path": "../../packages/launcher-protocol/tsconfig.build.json" }
+  ],
+  "include": ["src/**/*.ts"]
+}
