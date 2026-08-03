@@ -1,0 +1,63 @@
+name: Platform CI
+
+on:
+  push:
+    paths:
+      - ".github/workflows/platform-ci.yml"
+      - "Plataforma/**"
+      - "docs/plataforma/**"
+  pull_request:
+    paths:
+      - ".github/workflows/platform-ci.yml"
+      - "Plataforma/**"
+      - "docs/plataforma/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: platform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Node 24 + Java 17 (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    defaults:
+      run:
+        working-directory: Plataforma
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: Plataforma/.nvmrc
+          cache: npm
+          cache-dependency-path: Plataforma/package-lock.json
+
+      - name: Set up Java fixture runtime
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run full platform gate
+        run: npm run check
+
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev
