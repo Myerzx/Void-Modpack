@@ -670,8 +670,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/package.json": {
-    "mtime": 1785767203.8617094,
-    "ast_hash": "1c82596a8d45f6cdb7452504b8c050fa",
+    "mtime": 1785769083.3665776,
+    "ast_hash": "a0f167eaa2c69ea8535bf6e145a4e4cb",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/test/dashboard-fixture.test.ts": {
