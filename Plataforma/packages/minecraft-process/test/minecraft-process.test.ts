@@ -11,10 +11,15 @@ import { promisify } from 'node:util';
 import {
   createMinecraftProcessPlan,
   LinuxMinecraftProcessAdapter,
+  MinecraftProcessController,
   NodeProcessRuntime,
+  ProcessControlRequestError,
   transitionObservedProcessState,
   WindowsMinecraftProcessAdapter,
+  type MinecraftProcessAdapter,
+  type MinecraftProcessControllerOptions,
   type ProcessLaunchPlan,
+  type ProcessObservation,
   type ProcessOutputSnapshot,
   type ProcessRuntime,
   type SpawnedProcess,
@@ -75,11 +80,13 @@ function javaFixturePlan(cwd: string, extraArguments: readonly string[] = []): P
 
 class TrackingRuntime implements ProcessRuntime {
   handle: SpawnedProcess | undefined;
+  spawnCount = 0;
 
   constructor(private readonly delegate: ProcessRuntime) {}
 
   async spawn(plan: ProcessLaunchPlan): Promise<SpawnedProcess> {
     const handle = await this.delegate.spawn(plan);
+    this.spawnCount += 1;
     this.handle = handle;
     return handle;
   }
@@ -89,6 +96,84 @@ class TrackingRuntime implements ProcessRuntime {
     await this.handle.requestGracefulStop();
     await this.handle.waitForExit(15_000);
   }
+}
+
+const fakeControllerPlan = createMinecraftProcessPlan({
+  platform: 'win32',
+  javaExecutable: 'C:\\Java\\bin\\java.exe',
+  serverDirectory: 'D:\\VoidFallFixture\\server',
+  serverJar: 'forge-server.jar',
+  initialMemoryMiB: 512,
+  maximumMemoryMiB: 1_024,
+});
+
+class FakeMinecraftProcessAdapter implements MinecraftProcessAdapter {
+  state: ProcessObservation['state'];
+  startCalls = 0;
+  stopCalls = 0;
+  inspectCalls = 0;
+  autoCompleteStart = true;
+  autoCompleteStop = true;
+  throwOnStart: Error | undefined;
+  readonly lifecycle: string[] = [];
+  readonly #pendingStates: ProcessObservation['state'][] = [];
+
+  constructor(initialState: ProcessObservation['state']) {
+    this.state = initialState;
+  }
+
+  async inspect(): Promise<ProcessObservation> {
+    this.inspectCalls += 1;
+    const pending = this.#pendingStates.shift();
+    if (pending !== undefined) this.state = pending;
+    this.lifecycle.push(`inspect:${this.state}`);
+    return this.#observation();
+  }
+
+  async start(_plan: ProcessLaunchPlan): Promise<ProcessObservation> {
+    this.startCalls += 1;
+    this.lifecycle.push('start');
+    if (this.throwOnStart !== undefined) throw this.throwOnStart;
+    this.state = 'starting';
+    if (this.autoCompleteStart) this.#pendingStates.push('online');
+    return this.#observation();
+  }
+
+  async requestGracefulStop(): Promise<ProcessObservation> {
+    this.stopCalls += 1;
+    this.lifecycle.push('stop');
+    this.state = 'stopping';
+    if (this.autoCompleteStop) this.#pendingStates.push('offline');
+    return this.#observation();
+  }
+
+  readOutput(): ProcessOutputSnapshot {
+    return { stdout: '', stderr: '', stdoutTruncated: false, stderrTruncated: false };
+  }
+
+  #observation(): ProcessObservation {
+    return {
+      state: this.state,
+      observedAt: '2026-08-03T12:00:00.000Z',
+      source: 'process-adapter',
+    };
+  }
+}
+
+function createFakeController(
+  adapter: FakeMinecraftProcessAdapter,
+  overrides: Partial<MinecraftProcessControllerOptions> = {},
+): MinecraftProcessController {
+  return new MinecraftProcessController({
+    adapter,
+    launchPlan: fakeControllerPlan,
+    operationTimeoutMs: 100,
+    pollIntervalMs: 10,
+    maximumRememberedOperations: 8,
+    clock: () => new Date('2026-08-03T12:00:00.000Z'),
+    sleep: async () => {},
+    ...overrides,
+  });
 }
 
 async function waitForState(
@@ -167,6 +252,138 @@ describe('observed process state machine', () => {
   });
 });
 
+describe('serialized process controller', () => {
+  it('starts, stops and restarts only after observing the required states', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    const controller = createFakeController(adapter);
+
+    const started = await controller.execute({ action: 'start', idempotencyKey: 'start-0001' });
+    assert.equal(started.outcome, 'succeeded');
+    assert.equal(started.observation?.state, 'online');
+    assert.deepEqual(
+      started.events.map((event) => event.sequence),
+      [1, 2, 3, 4, 5],
+    );
+
+    const restarted = await controller.execute({
+      action: 'restart',
+      idempotencyKey: 'restart-0001',
+    });
+    assert.equal(restarted.outcome, 'succeeded');
+    assert.equal(restarted.observation?.state, 'online');
+    assert.equal(adapter.stopCalls, 1);
+    assert.equal(adapter.startCalls, 2);
+    assert.equal(adapter.lifecycle.indexOf('stop') < adapter.lifecycle.lastIndexOf('start'), true);
+    assert.deepEqual(
+      restarted.events.map((event) => event.phase),
+      [
+        'accepted',
+        'state-observed',
+        'stop-requested',
+        'state-observed',
+        'start-requested',
+        'state-observed',
+        'succeeded',
+      ],
+    );
+
+    const stopped = await controller.execute({ action: 'stop', idempotencyKey: 'stop-0001' });
+    assert.equal(stopped.outcome, 'succeeded');
+    assert.equal(stopped.observation?.state, 'offline');
+  });
+
+  it('shares an in-flight duplicate and rejects a different concurrent operation', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    let releaseSleep: () => void = () => {};
+    const sleepGate = new Promise<void>((resolve) => {
+      releaseSleep = resolve;
+    });
+    const controller = createFakeController(adapter, { sleep: async () => sleepGate });
+    const first = controller.execute({ action: 'start', idempotencyKey: 'shared-0001' });
+    const duplicate = controller.execute({ action: 'start', idempotencyKey: 'shared-0001' });
+
+    assert.strictEqual(duplicate, first);
+    assert.throws(
+      () => controller.execute({ action: 'stop', idempotencyKey: 'other-0001' }),
+      (error: unknown) =>
+        error instanceof ProcessControlRequestError && error.code === 'controller-busy',
+    );
+    releaseSleep();
+    assert.equal((await first).outcome, 'succeeded');
+    assert.equal(adapter.startCalls, 1);
+  });
+
+  it('replays a completed result and rejects reuse of its key for another action', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    const controller = createFakeController(adapter);
+    const first = await controller.execute({ action: 'start', idempotencyKey: 'replay-0001' });
+    const replay = await controller.execute({ action: 'start', idempotencyKey: 'replay-0001' });
+
+    assert.strictEqual(replay, first);
+    assert.equal(adapter.startCalls, 1);
+    assert.throws(
+      () => controller.execute({ action: 'stop', idempotencyKey: 'replay-0001' }),
+      (error: unknown) =>
+        error instanceof ProcessControlRequestError && error.code === 'idempotency-conflict',
+    );
+  });
+
+  it('remembers a state rejection without producing a process effect', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    const controller = createFakeController(adapter);
+    const rejected = await controller.execute({ action: 'stop', idempotencyKey: 'reject-0001' });
+    adapter.state = 'online';
+    const replay = await controller.execute({ action: 'stop', idempotencyKey: 'reject-0001' });
+
+    assert.equal(rejected.outcome, 'rejected');
+    assert.equal(rejected.failureCode, 'state-conflict');
+    assert.strictEqual(replay, rejected);
+    assert.equal(adapter.stopCalls, 0);
+  });
+
+  it('times out without exposing or invoking a force-kill operation', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    adapter.autoCompleteStart = false;
+    const controller = createFakeController(adapter);
+    const result = await controller.execute({ action: 'start', idempotencyKey: 'timeout-0001' });
+
+    assert.equal(result.outcome, 'timed-out');
+    assert.equal(result.failureCode, 'operation-timeout');
+    assert.equal(result.observation?.state, 'starting');
+    assert.equal(adapter.inspectCalls, 11);
+    assert.equal('kill' in adapter, false);
+    assert.equal('forceKill' in controller, false);
+  });
+
+  it('sanitizes adapter failures and validates idempotency keys', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    adapter.throwOnStart = new Error('secret-runtime-path C:\\private\\server.jar');
+    const controller = createFakeController(adapter);
+    const failed = await controller.execute({ action: 'start', idempotencyKey: 'failure-0001' });
+
+    assert.equal(failed.outcome, 'failed');
+    assert.equal(failed.failureCode, 'adapter-error');
+    assert.equal(JSON.stringify(failed).includes('secret-runtime-path'), false);
+    assert.throws(
+      () => controller.execute({ action: 'start', idempotencyKey: 'short' }),
+      (error: unknown) =>
+        error instanceof ProcessControlRequestError &&
+        error.code === 'invalid-idempotency-key',
+    );
+  });
+
+  it('bounds completed idempotency history and allows an evicted key to execute again', async () => {
+    const adapter = new FakeMinecraftProcessAdapter('offline');
+    const controller = createFakeController(adapter, { maximumRememberedOperations: 1 });
+    await controller.execute({ action: 'start', idempotencyKey: 'evicted-0001' });
+    await controller.execute({ action: 'stop', idempotencyKey: 'retained-0001' });
+    await controller.execute({ action: 'start', idempotencyKey: 'evicted-0001' });
+
+    assert.equal(adapter.startCalls, 2);
+    assert.equal(adapter.stopCalls, 1);
+  });
+});
+
 describe('managed platform adapters', () => {
   it(
     'starts and gracefully stops a disposable Java fixture without touching the server workspace',
@@ -199,6 +416,68 @@ describe('managed platform adapters', () => {
         assert.equal(stopped.state, 'offline');
         assert.equal(stopped.lastExit?.code, 0);
         assert.match(adapter.readOutput().stdout, /Stopping server/u);
+      } finally {
+        await runtime.requestFixtureCleanup();
+        await rm(temporaryDirectory, {
+          recursive: true,
+          force: true,
+          maxRetries: 5,
+          retryDelay: 100,
+        });
+      }
+    },
+  );
+
+  it(
+    'performs a full controller restart against the disposable Java fixture',
+    {
+      skip:
+        hostPlatform === undefined ||
+        javaExecutable === undefined ||
+        javacExecutable === undefined ||
+        !existsSync(javacExecutable),
+    },
+    async () => {
+      assert.ok(hostPlatform);
+      const temporaryDirectory = await mkdtemp(join(tmpdir(), 'voidfall-controller-fixture-'));
+      const runtime = new TrackingRuntime(new NodeProcessRuntime());
+      try {
+        assert.equal(temporaryDirectory.includes('Servidor'), false);
+        await compileJavaFixture(temporaryDirectory);
+        const adapter =
+          hostPlatform === 'win32'
+            ? new WindowsMinecraftProcessAdapter({ runtime, stopTimeoutMs: 5_000 })
+            : new LinuxMinecraftProcessAdapter({ runtime, stopTimeoutMs: 5_000 });
+        const controller = new MinecraftProcessController({
+          adapter,
+          launchPlan: javaFixturePlan(temporaryDirectory),
+          operationTimeoutMs: 15_000,
+          pollIntervalMs: 25,
+        });
+
+        const started = await controller.execute({
+          action: 'start',
+          idempotencyKey: 'fixture-start-0001',
+        });
+        const restarted = await controller.execute({
+          action: 'restart',
+          idempotencyKey: 'fixture-restart-0001',
+        });
+        const stopped = await controller.execute({
+          action: 'stop',
+          idempotencyKey: 'fixture-stop-0001',
+        });
+
+        assert.equal(started.outcome, 'succeeded');
+        assert.equal(restarted.outcome, 'succeeded');
+        assert.equal(stopped.outcome, 'succeeded');
+        assert.equal(stopped.observation?.state, 'offline');
+        assert.equal(runtime.spawnCount, 2);
+        const restartPhases = restarted.events.map((event) => event.phase);
+        assert.equal(
+          restartPhases.indexOf('stop-requested') < restartPhases.indexOf('start-requested'),
+          true,
+        );
       } finally {
         await runtime.requestFixtureCleanup();
         await rm(temporaryDirectory, {
