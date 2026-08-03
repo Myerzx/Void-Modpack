@@ -47,6 +47,7 @@
 **/coverage/
 **/*.tsbuildinfo
 **/.next/
+**/out/
 /tmp/
 *.tmp
 *.bak
