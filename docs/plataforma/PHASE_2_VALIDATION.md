@@ -13,7 +13,7 @@ npm run check
 npm audit --omit=dev
 ```
 
-No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. O primeiro pacote puramente determinístico da Fase 3 elevou o gate a 36; os adaptadores isolados elevaram o total a 40, o controlador serializado a 48, o console limitado a 53, as métricas de host/processo a 58 e o backup/restore isolado elevou o total atual a 68 casos. No Windows, um caso específico de socket Unix é ignorado; a matriz Linux deve executar os 68. Typecheck estrito e builds de todos os workspaces passaram novamente.
+No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. O primeiro pacote puramente determinístico da Fase 3 elevou o gate a 36; os adaptadores isolados elevaram o total a 40, o controlador serializado a 48, o console limitado a 53, as métricas de host/processo a 58 e o backup/restore isolado elevou o total atual a 68 casos. No Windows, um caso específico de socket Unix é ignorado; a matriz Linux executa os 68. Typecheck estrito e builds de todos os workspaces passaram novamente na [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
 
 ## Matriz
 

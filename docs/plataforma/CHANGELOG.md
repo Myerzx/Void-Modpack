@@ -35,7 +35,8 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - restore permitido somente para destino novo e isolado, com nova verificação antes da promoção;
 - rejeição de sobreposição, traversal, colisões por case fold, symlink/junction, hardlink e tipos especiais;
 - erros públicos sanitizados, recibos imutáveis e limpeza restrita ao diretório parcial da própria operação;
-- 10 testes do pacote cobrindo integridade, limites e recuperação de falhas; validação local aprovada e matriz Ubuntu/Windows pendente.
+- 10 testes do pacote cobrindo integridade, limites e recuperação de falhas;
+- gate integral aprovado com 68 casos e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
 
 ### Não habilitado
 

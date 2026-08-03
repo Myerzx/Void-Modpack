@@ -56,12 +56,26 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
 3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
 4. [x] Métricas de host/processo e fonte exibida — concluídas no pacote isolado com snapshot tipado, 25 testes do pacote e gate de 58 testes aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
-5. Backup consistente e restore em ambiente isolado — **implementado e validado localmente** no pacote `@voidfall/server-backup`: guarda offline obrigatória, manifesto canônico verificável, promoção atômica e restore somente em destino novo; matriz Windows/Linux pendente.
+5. [x] Backup consistente e restore em ambiente isolado — concluído no pacote `@voidfall/server-backup` com guarda offline obrigatória, manifesto canônico verificável, promoção atômica e restore somente em destino novo; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
 6. Configurações básicas com revisão anterior.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
 
 Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console, aceita somente dois IDs sem argumentos e produz snapshots de host/processo com fonte, unidade, qualidade e timestamp. `@voidfall/server-backup` opera apenas sobre raízes confiáveis de teste, exige uma guarda offline injetada e publica/restaura diretórios por staging verificado. CPU/RSS da JVM permanecem explicitamente indisponíveis. Histórico idempotente, exclusão e recibos ainda são locais à memória ou ao filesystem. Nenhum dos pacotes toca no servidor ou está conectado à Control API, ao agente ou ao painel.
+
+## Progresso por fase
+
+Percentuais calculados pelos itens explícitos de cada fase; não representam esforço ou prazo equivalente.
+
+| Fase | Progresso | Base |
+| --- | ---: | --- |
+| 1 — planejamento | 100% | concluída |
+| 2 — fundação | 100% | 8 de 8 itens |
+| 3 — controle do Minecraft | 83% | 5 de 6 itens |
+| 4 — mods, arquivos e schemas | 0% | 0 de 6 itens |
+| 5 — build e launcher | 0% | 0 de 7 itens |
+| 6 — jogadores e auditoria | 0% | 0 de 6 itens |
+| 7 — configurações específicas | 0% | ainda não iniciada |
 
 ## Fase 4 — mods, arquivos e schemas
 

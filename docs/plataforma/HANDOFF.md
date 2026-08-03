@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 a 4 concluídos; item 5 implementado e validado localmente em isolamento, com matriz CI pendente
+- Fase: 3 — itens 1 a 5 concluídos em isolamento; configurações básicas com revisão anterior são o próximo recorte
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -59,8 +59,9 @@
 - gate local aprovado: 68 casos, typechecks e builds de todos os workspaces;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
+- matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.108 nós, 1.500 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado com 1.252 nós, 1.810 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
@@ -84,7 +85,7 @@
 
 ## Próximo recorte recomendado
 
-Após a matriz Windows/Linux do item 5 ficar verde, iniciar o item 6 da Fase 3: configurações básicas com revisão anterior. Planejar contrato, raízes lógicas, versão, validação, diff, rollback e necessidade de restart antes de implementar. Não conectar o pacote de backup ao servidor privado, API, agente ou painel como atalho para esse item.
+Iniciar o item 6 da Fase 3: configurações básicas com revisão anterior. Planejar contrato, raízes lógicas, versão, validação, diff, rollback e necessidade de restart antes de implementar. Não conectar o pacote de backup ao servidor privado, API, agente ou painel como atalho para esse item.
 
 ## Commits relevantes
 
@@ -107,5 +108,7 @@ Após a matriz Windows/Linux do item 5 ficar verde, iniciar o item 6 da Fase 3: 
 - `dd03049` — contrato documentado de backup consistente e restore isolado;
 - `862ffaa` — snapshots guardados e restore de filesystem;
 - `c3d540c` — testes de integridade, limites e recuperação isolada.
+- `351efbe` — validação local e handoff do recorte;
+- `5c1a50f` — grafo atualizado da arquitetura de backup.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

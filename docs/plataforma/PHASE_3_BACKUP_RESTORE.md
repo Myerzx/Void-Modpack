@@ -1,6 +1,6 @@
 # Backup consistente e restore isolado da Fase 3
 
-Status: implementado e validado localmente; matriz Windows/Linux pendente.
+Status: concluído em 2026-08-03; gate aprovado na matriz Windows/Linux.
 
 ## Objetivo do recorte
 
@@ -161,8 +161,8 @@ Erros públicos são códigos fechados, como `invalid-plan`, `consistency-unavai
 14. recibos e manifestos não expõem paths absolutos;
 15. testes confirmam que nenhum path contém `Servidor/workspace` ou `Launcher/workspace`.
 
-Os 15 comportamentos estão agrupados em 10 testes do pacote. No Windows, 9 passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, a matriz deve executar os 10. Além do caminho feliz, a suíte injeta falhas no meio da cópia e corrupção durante o restore para comprovar limpeza e ausência de promoção parcial.
+Os 15 comportamentos estão agrupados em 10 testes do pacote. No Windows, 9 passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, os 10 passam. Além do caminho feliz, a suíte injeta falhas no meio da cópia e corrupção durante o restore para comprovar limpeza e ausência de promoção parcial.
 
 ## Gate de saída
 
-O item 5 só pode ser concluído após contrato, implementação e testes do adaptador local passarem em Windows e Linux. A validação local está aprovada; falta confirmar a matriz do GitHub. O gate não autoriza restore real: API, agente, processo privado, backend remoto, retenção destrutiva e estratégia online permanecem bloqueados até exclusão durável, confirmação de console, autorização reforçada, auditoria e testes de recuperação próprios.
+O item 5 foi concluído após contrato, implementação e testes do adaptador local passarem na [matriz Ubuntu/Windows 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436). O gate não autoriza restore real: API, agente, processo privado, backend remoto, retenção destrutiva e estratégia online permanecem bloqueados até exclusão durável, confirmação de console, autorização reforçada, auditoria e testes de recuperação próprios.
