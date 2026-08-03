@@ -1,4 +1,4 @@
-import type { ModCatalogEntry, ReleaseManifest } from '@voidfall/contracts';
+import type { LauncherChannel, ModCatalogEntry, ReleaseManifest } from '@voidfall/contracts';
 
 export const VOIDFALL_RELEASE_FORMAT = 'voidfall-release' as const;
 export const VOIDFALL_RELEASE_SCHEMA_VERSION = 1 as const;
@@ -123,6 +123,76 @@ export interface ReleaseBuildReceipt {
   readonly intendedChannel: ReleaseChannel;
   readonly stableEligible: boolean;
   readonly sanitization: readonly ReleaseSanitizationReceipt[];
+}
+
+export interface FilesystemReleaseRepositoryOptions {
+  readonly root: string;
+  readonly signer: ReleaseDocumentSigner;
+  readonly maximumManifestBytes?: number;
+}
+
+export interface StoredRelease {
+  readonly manifest: ReleaseManifest;
+  readonly manifestSha256: string;
+}
+
+export interface StoredArtifact {
+  readonly path: string;
+  readonly size: number;
+  readonly sha256: string;
+}
+
+export interface ChannelPromotionPlan {
+  readonly channel: ReleaseChannel;
+  readonly expectedRevision: number | null;
+  readonly releaseVersion: string;
+  readonly buildId: string;
+  readonly manifestUrl: string;
+  readonly publishedAt: string;
+  readonly gates: ReleaseExternalGates;
+}
+
+export interface ChannelRollbackPlan {
+  readonly channel: ReleaseChannel;
+  readonly expectedRevision: number;
+  readonly releaseVersion: string;
+  readonly buildId: string;
+  readonly manifestUrl: string;
+  readonly publishedAt: string;
+}
+
+export type ChannelMutationReceipt = LauncherChannel;
+
+export type ReleaseRepositoryStage =
+  | 'options'
+  | 'layout'
+  | 'artifact'
+  | 'manifest'
+  | 'channel'
+  | 'cleanup';
+
+export type ReleaseRepositoryErrorCode =
+  | 'invalid-options'
+  | 'invalid-document'
+  | 'unsafe-path'
+  | 'immutable-conflict'
+  | 'artifact-integrity'
+  | 'channel-conflict'
+  | 'stable-gate-blocked'
+  | 'not-found'
+  | 'storage-failure'
+  | 'cleanup-failed';
+
+export class ReleaseRepositoryError extends Error {
+  public readonly code: ReleaseRepositoryErrorCode;
+  public readonly stage: ReleaseRepositoryStage;
+
+  public constructor(code: ReleaseRepositoryErrorCode, stage: ReleaseRepositoryStage) {
+    super(`modpack-release:${code}:${stage}`);
+    this.name = 'ReleaseRepositoryError';
+    this.code = code;
+    this.stage = stage;
+  }
 }
 
 export type ReleaseBuildStage =

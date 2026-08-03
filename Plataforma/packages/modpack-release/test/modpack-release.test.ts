@@ -8,11 +8,14 @@ import type { ModCatalogEntry, ReleaseManifest } from '@voidfall/contracts';
 import {
   canonicalJsonBytes,
   Ed25519ReleaseSigner,
+  FilesystemReleaseRepository,
   FilesystemReleaseBuilder,
   ReleaseBuildError,
+  ReleaseRepositoryError,
   sanitizeReleaseArtifact,
   sha256Bytes,
   verifyReleaseManifestSignature,
+  verifyLauncherChannelSignature,
   type PublishReleaseInput,
   type ReleaseBuildPlan,
   type ReleaseRepository,
@@ -26,6 +29,216 @@ afterEach(async () => {
     const root = roots.pop();
     if (root !== undefined) await rm(root, { recursive: true, force: true });
   }
+});
+
+async function publishExactRelease(input: {
+  readonly paths: { readonly source: string; readonly staging: string };
+  readonly repository: FilesystemReleaseRepository;
+  readonly signer: Ed25519ReleaseSigner;
+  readonly version: string;
+  readonly buildId: string;
+  readonly bytes: Uint8Array;
+}): Promise<void> {
+  const filename = `${input.version}.zip`;
+  await writeFile(join(input.paths.source, filename), input.bytes);
+  const builder = new FilesystemReleaseBuilder({
+    sourceRoot: input.paths.source,
+    stagingRoot: input.paths.staging,
+    repository: input.repository,
+    signer: input.signer,
+  });
+  await builder.build({
+    version: input.version,
+    buildId: input.buildId,
+    createdAt: '2026-08-03T12:00:00Z',
+    message: `Release ${input.version}`,
+    runtime: {
+      minecraft: '1.20.1',
+      loader: 'forge',
+      loaderVersion: '1.20.1-47.4.4',
+      javaMajor: 17,
+    },
+    serverProfile: { id: 'voidfall-primary', displayName: 'VoidFall' },
+    intendedChannel: 'beta',
+    artifacts: [
+      {
+        catalogEntry: catalogEntry({
+          id: `textures-${input.version.replaceAll('.', '-')}`,
+          path: 'resourcepacks/voidfall.zip',
+          kind: 'resource-pack',
+          bytes: input.bytes,
+        }),
+        sourcePath: filename,
+        sourceSha256: sha256Bytes(input.bytes),
+        sanitization: { strategy: 'exact-reviewed-bytes-v1' },
+      },
+    ],
+    removedPaths: [],
+    gates: {
+      clientBaseApproved: false,
+      distributionChainApproved: false,
+      cleanImportPassed: false,
+      launchCompatibilityPassed: false,
+      dependencyBlockerCount: 0,
+    },
+  });
+}
+
+describe('FilesystemReleaseRepository', () => {
+  it('publishes immutable content and promotes or rolls back channels with CAS', async () => {
+    const paths = await fixtureRoot();
+    const repositoryRoot = join(paths.source, '..', 'repository');
+    await mkdir(repositoryRoot);
+    const keys = generateKeyPairSync('ed25519');
+    const signer = new Ed25519ReleaseSigner({
+      keyId: 'release-test-01',
+      privateKey: keys.privateKey,
+    });
+    const repository = new FilesystemReleaseRepository({ root: repositoryRoot, signer });
+    const firstBytes = Buffer.from('first-immutable-release', 'utf8');
+    const secondBytes = Buffer.from('second-immutable-release', 'utf8');
+    await publishExactRelease({
+      paths,
+      repository,
+      signer,
+      version: '1.0.0',
+      buildId: 'build-20260803-120000-first',
+      bytes: firstBytes,
+    });
+    await publishExactRelease({
+      paths,
+      repository,
+      signer,
+      version: '1.1.0',
+      buildId: 'build-20260803-121000-second',
+      bytes: secondBytes,
+    });
+
+    const first = await repository.promoteChannel({
+      channel: 'beta',
+      expectedRevision: null,
+      releaseVersion: '1.0.0',
+      buildId: 'build-20260803-120000-first',
+      manifestUrl:
+        'https://updates.voidfall.invalid/launcher/v1/releases/1.0.0/build-20260803-120000-first/manifest',
+      publishedAt: '2026-08-03T12:05:00Z',
+      gates: {
+        clientBaseApproved: false,
+        distributionChainApproved: false,
+        cleanImportPassed: false,
+        launchCompatibilityPassed: false,
+        dependencyBlockerCount: 0,
+      },
+    });
+    assert.equal(first.revision, 1);
+    assert.equal(verifyLauncherChannelSignature(first, keys.publicKey), true);
+
+    await assert.rejects(
+      repository.promoteChannel({
+        channel: 'beta',
+        expectedRevision: null,
+        releaseVersion: '1.1.0',
+        buildId: 'build-20260803-121000-second',
+        manifestUrl:
+          'https://updates.voidfall.invalid/launcher/v1/releases/1.1.0/build-20260803-121000-second/manifest',
+        publishedAt: '2026-08-03T12:06:00Z',
+        gates: {
+          clientBaseApproved: false,
+          distributionChainApproved: false,
+          cleanImportPassed: false,
+          launchCompatibilityPassed: false,
+          dependencyBlockerCount: 0,
+        },
+      }),
+      (error: unknown) =>
+        error instanceof ReleaseRepositoryError && error.code === 'channel-conflict',
+    );
+
+    const second = await repository.promoteChannel({
+      channel: 'beta',
+      expectedRevision: 1,
+      releaseVersion: '1.1.0',
+      buildId: 'build-20260803-121000-second',
+      manifestUrl:
+        'https://updates.voidfall.invalid/launcher/v1/releases/1.1.0/build-20260803-121000-second/manifest',
+      publishedAt: '2026-08-03T12:07:00Z',
+      gates: {
+        clientBaseApproved: false,
+        distributionChainApproved: false,
+        cleanImportPassed: false,
+        launchCompatibilityPassed: false,
+        dependencyBlockerCount: 0,
+      },
+    });
+    assert.equal(second.revision, 2);
+
+    const rollback = await repository.rollbackChannel({
+      channel: 'beta',
+      expectedRevision: 2,
+      releaseVersion: '1.0.0',
+      buildId: 'build-20260803-120000-first',
+      manifestUrl:
+        'https://updates.voidfall.invalid/launcher/v1/releases/1.0.0/build-20260803-120000-first/manifest',
+      publishedAt: '2026-08-03T12:08:00Z',
+    });
+    assert.equal(rollback.revision, 3);
+    assert.equal(rollback.operation, 'rollback');
+    assert.equal((await repository.readChannel('beta'))?.buildId, 'build-20260803-120000-first');
+    assert.equal((await repository.readArtifact(sha256Bytes(firstBytes)))?.size, firstBytes.byteLength);
+  });
+
+  it('keeps stable blocked until every external gate passes', async () => {
+    const paths = await fixtureRoot();
+    const repositoryRoot = join(paths.source, '..', 'repository');
+    await mkdir(repositoryRoot);
+    const keys = generateKeyPairSync('ed25519');
+    const signer = new Ed25519ReleaseSigner({ keyId: 'release-test-01', privateKey: keys.privateKey });
+    const repository = new FilesystemReleaseRepository({ root: repositoryRoot, signer });
+    const bytes = Buffer.from('stable-gate-fixture', 'utf8');
+    await publishExactRelease({
+      paths,
+      repository,
+      signer,
+      version: '2.0.0',
+      buildId: 'build-20260803-130000-stable',
+      bytes,
+    });
+    const base = {
+      channel: 'stable' as const,
+      expectedRevision: null,
+      releaseVersion: '2.0.0',
+      buildId: 'build-20260803-130000-stable',
+      manifestUrl:
+        'https://updates.voidfall.invalid/launcher/v1/releases/2.0.0/build-20260803-130000-stable/manifest',
+      publishedAt: '2026-08-03T13:05:00Z',
+    };
+    await assert.rejects(
+      repository.promoteChannel({
+        ...base,
+        gates: {
+          clientBaseApproved: false,
+          distributionChainApproved: true,
+          cleanImportPassed: true,
+          launchCompatibilityPassed: true,
+          dependencyBlockerCount: 0,
+        },
+      }),
+      (error: unknown) =>
+        error instanceof ReleaseRepositoryError && error.code === 'stable-gate-blocked',
+    );
+    const stable = await repository.promoteChannel({
+      ...base,
+      gates: {
+        clientBaseApproved: true,
+        distributionChainApproved: true,
+        cleanImportPassed: true,
+        launchCompatibilityPassed: true,
+        dependencyBlockerCount: 0,
+      },
+    });
+    assert.equal(stable.channel, 'stable');
+    assert.equal(stable.revision, 1);
+  });
 });
 
 async function fixtureRoot(): Promise<{ readonly source: string; readonly staging: string }> {
