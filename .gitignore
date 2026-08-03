@@ -1,0 +1,50 @@
+# Raw Minecraft profiles and local workspaces
+/Launcher/modpack/
+/Launcher/workspace/
+/Launcher/build/
+
+# Local Minecraft state and sensitive runtime data
+**/logs/
+**/crash-reports/
+**/saves/
+**/screenshots/
+**/usercache.json
+**/usernamecache.json
+**/minecraftinstance.json
+**/user-prefs.json
+**/.curseclient
+**/xaero/
+**/armourers_workshop/skin-cache/
+**/fancymenu_data/fancymenu_temp/
+
+# Runtime artifacts that must be resolved by manifests or release tooling
+*.jar
+*.jar.disabled
+*.mca
+*.dat_old
+*.log
+
+# Local build and temporary output
+/dist/
+/tmp/
+*.tmp
+*.bak
+*.outdated
+desktop.ini
+.DS_Store
+
+# Graphify machine-local state; the portable graph outputs stay tracked
+/graphify-out/.graphify_*
+/graphify-out/.needs_update
+/graphify-out/cache/
+/graphify-out/cost.json
+/graphify-out/watcher.pid
+/graphify-out/watcher.log
+
+# Python and editor state
+__pycache__/
+*.py[cod]
+.venv/
+.idea/
+.vscode/*.local.json
+

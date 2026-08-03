@@ -1,0 +1,24 @@
+* text=auto
+
+*.ps1 text eol=crlf
+*.md text eol=lf
+*.json text eol=lf
+*.json5 text eol=lf
+*.toml text eol=lf
+*.txt text eol=lf
+*.properties text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+*.csv text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ogg binary
+*.mp3 binary
+*.icns binary
+*.nbt binary
+*.zip binary
+*.jar binary
+
