@@ -35,9 +35,9 @@
     "semantic_hash": "1ef2c8906c8bec08d94c5db4e800ea66"
   },
   "tools/graphify/Start-GraphifyBackground.ps1": {
-    "mtime": 1785720969.778368,
-    "ast_hash": "c01adc7e4fec4a0a17441e0ab71f8694",
-    "semantic_hash": "c01adc7e4fec4a0a17441e0ab71f8694"
+    "mtime": 1785721779.8235326,
+    "ast_hash": "709cd87d3f2a7f1c532ab891f8526410",
+    "semantic_hash": ""
   },
   "tools/graphify/Stop-GraphifyBackground.ps1": {
     "mtime": 1785720969.7798762,
@@ -45,9 +45,9 @@
     "semantic_hash": "4a8783e45d98f2cbe962d6be07b6ce4d"
   },
   "tools/graphify/Watch-Graph.ps1": {
-    "mtime": 1785720969.7798762,
-    "ast_hash": "cbd52d5c5b7be216703773e5e8ce804a",
-    "semantic_hash": "cbd52d5c5b7be216703773e5e8ce804a"
+    "mtime": 1785721888.5882037,
+    "ast_hash": "582f669dfb8db26b7c048327b8396458",
+    "semantic_hash": ""
   },
   "AGENTS.md": {
     "mtime": 1785719399.3027208,
