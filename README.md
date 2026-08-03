@@ -20,6 +20,6 @@ Os materiais originais do cliente e do servidor estão preservados em seus respe
 
 O launcher atualmente documentado e o servidor recém-auditado representam conjuntos diferentes: apenas 11 dos 181 JARs ativos do servidor aparecem com o mesmo nome no launcher. Consulte [a documentação do launcher](docs/launcher/README.md) e [a documentação do servidor](docs/servidor/README.md) antes de publicar qualquer release.
 
-A plataforma de gerenciamento está na Fase 3 — controle seguro do Minecraft em isolamento. Consulte [o planejamento da plataforma](docs/plataforma/README.md): TypeScript é usado no painel e nos serviços, com Java 17 restrito à futura ponte Forge e às fixtures de teste. Adaptadores Windows/Linux e um controlador serializado já existem, mas nenhuma rota, job ou agente pode controlar o servidor privado.
+A plataforma de gerenciamento está na Fase 3 — controle seguro do Minecraft em isolamento. Consulte [o planejamento da plataforma](docs/plataforma/README.md): TypeScript é usado no painel e nos serviços, com Java 17 restrito à futura ponte Forge e às fixtures de teste. Adaptadores Windows/Linux, controlador serializado e console com dois comandos fixos já existem, mas nenhuma rota, job ou agente pode controlar o servidor privado.
 
 O Graphify está integrado ao Git e ao Windows. Consulte [a operação do Graphify](docs/graphify/README.md) para iniciar, verificar ou remover o salvamento automático.

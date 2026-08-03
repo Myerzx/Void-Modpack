@@ -58,7 +58,7 @@ Cada seta cruza um limite autenticado e validado. Control API, agent, worker e b
 
 ## Execução de processos
 
-Nenhuma rota aceita texto de shell. O agente expõe operações tipadas (`startServer`, `gracefulStop`, `sendConsoleCommand`, `createBackup`) que mapeiam para executáveis fixos e arrays de argumentos revisados.
+Nenhuma rota aceita texto de shell. As operações planejadas são tipadas (`startServer`, `gracefulStop`, `listPlayers`, `saveAll`, `createBackup`) e mapeiam para executáveis ou literais fixos revisados.
 
 - `shell=false` por padrão;
 - working directory fixo e resolvido;
@@ -72,7 +72,9 @@ A documentação oficial do Node diferencia `spawn`/`execFile` da execução por
 
 ### Recorte implementado na Fase 3
 
-`@voidfall/minecraft-process` valida novamente o plano no adaptador e no runtime. O runtime usa executável absoluto, argv separado, `shell: false`, `detached: false`, stdio em pipes, janela oculta no Windows e um ambiente mínimo. stdout/stderr mantêm somente uma cauda com limite configurável. A única escrita disponível no handle é `requestGracefulStop()`, que envia o literal `stop\n`; não existe método de comando arbitrário ou force kill.
+`@voidfall/minecraft-process` valida novamente o plano no adaptador e no runtime. O runtime usa executável absoluto, argv separado, `shell: false`, `detached: false`, stdio em pipes, janela oculta no Windows e um ambiente mínimo. stdout/stderr mantêm somente uma cauda com limite configurável. O handle aceita `requestGracefulStop()`, que envia `stop\n`, e `requestConsoleCommand()` com um ID fechado revalidado; não existe método de escrita arbitrária ou force kill.
+
+A visão do console remove ANSI e controles, separa streams e aplica limites de linhas e caracteres sobre a cauda já limitada em bytes. O catálogo contém somente `list-players -> list\n` e `save-all -> save-all flush\n`; não aceita argumentos, `stop`, jogadores, seletores, JSON ou texto livre. O adaptador exige estado `online` e rejeita efeitos concorrentes sem fila. Esses contratos ainda não estão expostos por API ou agente e ainda exigem redação, autorização, auditoria e idempotência durável antes disso.
 
 O controlador de ciclo de vida aceita somente `start`, `stop` e `restart`, mantém uma única operação ativa e rejeita concorrência diferente sem fila. Duplicatas com a mesma chave compartilham o efeito ou recebem o resultado lembrado; o histórico tem limite configurável e é somente em memória. Restart só inicia outra JVM após observar `offline`. Timeout e erro nunca promovem a operação para kill, e detalhes brutos do runtime não entram no resultado público.
 

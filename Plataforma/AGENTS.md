@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2 is complete. Phase 3 has validated launch plans, isolated Windows/Linux process adapters, and a serialized start/stop/restart controller in `packages/minecraft-process`. The next bounded slice is to plan limited console reading and a strict command allowlist inside that package. Do not connect process control to the API/agent, edit the private runtime, add generic console execution, or implement force-kill/restore until a later task explicitly clears the applicable roadmap gates.
+Phase 2 is complete. Phase 3 has validated launch plans, isolated Windows/Linux process adapters, a serialized lifecycle controller, and a bounded two-command console contract in `packages/minecraft-process`. The next bounded slice is to plan host/process metrics with explicit sources and timestamps. Do not connect process control to the API/agent, edit the private runtime, add generic console execution, or implement force-kill/restore until a later task explicitly clears the applicable roadmap gates.
 
 ## Ownership
 
@@ -27,6 +27,7 @@ Phase 2 is complete. Phase 3 has validated launch plans, isolated Windows/Linux 
 11. `packages/minecraft-process` launch plans accept trusted configuration only; tests may execute the committed Java fixture in an OS temp directory, never the private Minecraft runtime.
 12. The Panel Web is a static Phase 2 fixture. Never present its sample values as server telemetry.
 13. Process controller idempotency and exclusion are currently in-memory only. Do not represent them as durable or safe across agent restarts until persistence, locking, PID reconciliation, and crash tests exist.
+14. Console callers provide only `list-players` or `save-all`; never add a string command parameter. Console snapshots require redaction, authorization, audit, and retention policy before external exposure.
 
 ## Required handoff
 

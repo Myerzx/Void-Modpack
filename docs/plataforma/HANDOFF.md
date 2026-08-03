@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 e 2 concluídos em isolamento; console/allowlist é o próximo recorte
+- Fase: 3 — itens 1 e 2 concluídos; item 3 implementado em isolamento e aguardando matriz CI
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -23,6 +23,9 @@
   - controlador de `start`, `stop` e `restart` com uma única operação em voo;
   - chave idempotente, replay limitado em memória, rejeição de concorrência e eventos determinísticos;
   - restart que exige `offline` antes de iniciar uma segunda JVM;
+  - snapshot de console por linhas, com remoção de ANSI/controles e limites adicionais;
+  - catálogo fechado `list-players`/`save-all`, revalidado no runtime e sem argumentos;
+  - exclusão imediata entre start, stop e comando no mesmo adaptador, sem fila;
   - fixture Java 17 executada em diretório temporário;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
@@ -38,8 +41,8 @@
 
 ## Validação
 
-- pacote de processo: build, typecheck e 15 testes aprovados com Java 17;
-- gate local aprovado: 48 testes, typechecks e builds de todos os workspaces;
+- pacote de processo: build, typecheck e 20 testes aprovados com Java 17;
+- gate local aprovado: 53 testes, typechecks e builds de todos os workspaces;
 - matriz CI do controlador aprovada em `ubuntu-latest` e `windows-latest`: [execução 30833243148](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148);
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - Graphify atualizado com 1.025 nós, 1.340 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
@@ -49,6 +52,8 @@
 - o estado do adaptador é local à memória; não existe reconciliação após reinício do agente;
 - o histórico idempotente e a exclusão mútua são locais à instância; não sobrevivem a crash ou reinício;
 - persistência de PID, lock entre processos e reconciliação com processo órfão ainda não existem;
+- snapshots de console não possuem cursor e ainda não aplicam a política futura de redação para exposição remota;
+- recibos de comando não são auditoria nem idempotência durável e não confirmam processamento pelo Minecraft;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -56,7 +61,7 @@
 
 ## Próximo recorte recomendado
 
-Planejar o item 3 da Fase 3: leitura limitada do console e um contrato estrito de comandos em allowlist. Antes de qualquer implementação, separar leitura observável de escrita operacional, definir redação/limites e manter ausentes console genérico, rotas, jobs e integração com `server-agent`.
+Planejar o item 4 da Fase 3: métricas limitadas de host/processo com fonte e timestamp explícitos. Começar por contrato e fixture, sem inventar telemetria, sem integrar API/agente/painel e sem ler o servidor privado.
 
 ## Commits relevantes
 
@@ -68,5 +73,8 @@ Planejar o item 3 da Fase 3: leitura limitada do console e um contrato estrito d
 - `c2d0ff4` — contrato documentado do controlador serializado;
 - `864f6ba` — implementação do controlador de ciclo de vida;
 - `121ea3f` — testes de idempotência, concorrência e restart real em fixture.
+- `7aa01e1` — contrato documentado do console limitado;
+- `ea487d6` — snapshots e catálogo fechado de comandos;
+- `dec8e79` — testes de limites, concorrência e fixture Java.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

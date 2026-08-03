@@ -1,8 +1,8 @@
 # Plataforma de gerenciamento
 
-Status: **Fase 3 — adaptadores e controlador de processo isolados, ainda sem integração operacional**.
+Status: **Fase 3 — adaptadores, controlador e console limitado isolados, ainda sem integração operacional**.
 
-Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. A Fase 3 agora possui runtime, adaptadores e um controlador serializado testados somente contra uma fixture Java descartável; nenhuma operação foi ligada ao servidor real.
+Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. A Fase 3 agora possui runtime, adaptadores, controlador serializado e console limitado testados somente contra uma fixture Java descartável; nenhuma operação foi ligada ao servidor real.
 
 ## Linguagens definidas
 
@@ -20,14 +20,14 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 - `apps/server-agent`: cliente outbound-only de registro e heartbeat Ed25519;
 - `apps/panel-web`: dashboard responsivo somente leitura, exportado como site estático;
 - `packages/contracts`, `authentication`, `permissions` e `database`: fundação compartilhada;
-- `packages/minecraft-process`: planos, runtime, adaptadores Windows/Linux e controlador idempotente de ciclo de vida, com parada graciosa, saída limitada e testes por fixture Java.
+- `packages/minecraft-process`: planos, runtime, adaptadores Windows/Linux, controlador idempotente e catálogo fechado de console, com parada graciosa, saída limitada e testes por fixture Java.
 
 ## Limite do recorte atual
 
 - não apontar os adaptadores para o Java, JAR ou diretório do servidor privado;
 - não usar serviço do Windows, systemd, RCON ou qualquer shell;
 - não modificar `Launcher/`, `Servidor/workspace/` ou qualquer runtime privado;
-- não ligar start/stop/restart à API antes dos bloqueios do [roadmap](../docs/plataforma/ROADMAP.md);
+- não ligar ciclo de vida, leitura ou comandos à API antes dos bloqueios do [roadmap](../docs/plataforma/ROADMAP.md);
 - usar apenas executável e diretório absolutos de configuração confiável, argv fixo e `shell: false`;
 - manter o dashboard como demonstração até existir telemetria real autenticada.
 

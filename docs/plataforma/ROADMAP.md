@@ -54,14 +54,14 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 
 1. [x] Adaptadores Windows/Linux de processo — concluídos com runtime, PID, ambiente mínimo, saída limitada e stop gracioso; gate completo aprovado na matriz Ubuntu/Windows do GitHub.
 2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
-3. Console de leitura e comandos em allowlist — **em andamento**: contrato limitado documentado; implementação e validação ainda pendentes.
+3. Console de leitura e comandos em allowlist — **em validação**: snapshots limitados e catálogo `list-players`/`save-all` implementados no pacote; matriz CI ainda pendente.
 4. Métricas de host/processo e fonte exibida.
 5. Backup consistente e restore em ambiente isolado.
 6. Configurações básicas com revisão anterior.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
 
-Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa efeitos e observa o restart completo, mas seu histórico idempotente ainda é local à memória. Não toca no servidor e não está conectado à Control API ou ao agente.
+Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console e aceita somente dois IDs sem argumentos. Histórico idempotente, exclusão e recibos ainda são locais à memória. Não toca no servidor e não está conectado à Control API ou ao agente.
 
 ## Fase 4 — mods, arquivos e schemas
 

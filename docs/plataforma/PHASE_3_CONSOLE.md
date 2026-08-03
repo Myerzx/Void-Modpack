@@ -1,6 +1,6 @@
 # Console limitado da Fase 3
 
-Status: contrato planejado; implementação restrita a `@voidfall/minecraft-process`.
+Status: implementado e validado localmente; integração restrita a `@voidfall/minecraft-process`.
 
 ## Objetivo do recorte
 
@@ -44,10 +44,10 @@ Não entram neste recorte comandos com texto ou alvo variável, incluindo `say`,
 
 ## Semântica de despacho
 
-1. observar o adaptador;
-2. exigir `online` e um handle ativo;
-3. adquirir exclusão imediata para o efeito;
-4. validar o ID permitido;
+1. validar o ID permitido no adaptador;
+2. adquirir exclusão imediata para o efeito;
+3. observar o adaptador e exigir `online` com um handle ativo;
+4. revalidar o ID no runtime;
 5. escrever exatamente um literal terminado por LF;
 6. retornar um recibo de despacho, sem afirmar que o servidor processou o comando;
 7. liberar a exclusão.
@@ -66,7 +66,7 @@ Start, stop e comando não podem executar seus efeitos simultaneamente no mesmo 
 - não existe retry automático, fila, kill, RCON ou shell;
 - idempotência durável e auditoria são gates obrigatórios antes de integração externa.
 
-## Matriz de testes planejada
+## Matriz de testes validada
 
 1. catálogo aceita somente os dois IDs conhecidos;
 2. cada ID produz exatamente o literal esperado com um único LF;
@@ -79,6 +79,8 @@ Start, stop e comando não podem executar seus efeitos simultaneamente no mesmo 
 9. parada graciosa continua usando somente `stop`;
 10. interfaces continuam sem kill, force kill ou stdin genérico.
 
+Cinco testes novos cobrem esses cenários: três validam catálogo, sanitização e limites; um usa handle/runtime falsos para estado e concorrência; um executa os dois comandos contra a fixture Java 17. Somados aos testes anteriores, o pacote possui 20 testes e o monorepo possui 53 testes aprovados localmente.
+
 ## Gate de saída
 
-O item 3 da Fase 3 só pode ser concluído após build, typecheck, gate integral, auditoria de runtime e matriz Ubuntu/Windows verdes. Integração com controlador externo, API, agente, banco, UI e servidor privado permanece bloqueada.
+Build, typecheck, os 20 testes do pacote, o gate integral de 53 testes e `npm audit --omit=dev` estão verdes localmente. O item 3 da Fase 3 só pode ser concluído após a matriz Ubuntu/Windows também passar. Integração com controlador externo, API, agente, banco, UI e servidor privado permanece bloqueada.

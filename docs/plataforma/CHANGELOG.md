@@ -20,6 +20,10 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - restart condicionado à confirmação de `offline`, timeout sem force kill e falhas de adaptador sanitizadas;
 - testes determinísticos do controlador e ciclo completo contra a fixture Java descartável.
 - gate integral aprovado em Ubuntu e Windows na execução `30833243148`, com 48 testes e auditoria de runtime sem vulnerabilidades.
+- snapshot de console por linhas com remoção de ANSI/controles, limites de linhas/caracteres e sinalização de truncamento;
+- catálogo sem argumentos com somente `list-players` e `save-all`, convertido internamente para literais fixos;
+- revalidação no runtime e exclusão sem fila entre efeitos de start, stop e comando;
+- fixture Java ampliada para comprovar os dois comandos sem acessar o servidor privado.
 
 ### Não habilitado
 
