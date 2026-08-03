@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-03)
 
 ## Corpus Check
-- 150 files · ~44,308 words
+- 150 files · ~44,534 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 965 nodes · 1203 edges · 82 communities (72 shown, 10 thin omitted)
+- 971 nodes · 1219 edges · 83 communities (70 shown, 13 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8dbe204a`
+- Built from commit: `f106d8e2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -42,7 +42,7 @@
 - authentication/package.json
 - authentication/src/index.ts
 - repositories.ts
-- database.ts
+- Database
 - 0001_foundation.sql
 - asIso
 - compilerOptions
@@ -61,7 +61,7 @@
 - clean-workspace.mjs
 - dependencies
 - control-api/tsconfig.build.json
-- Database
+- AuditRepository
 - compilerOptions
 - build-worker/tsconfig.build.json
 - agent-client.ts
@@ -72,7 +72,7 @@
 - server-agent/tsconfig.build.json
 - build-worker/package.json
 - contracts/tsconfig.test.json
-- adapter.ts
+- minecraft-process.test.ts
 - compilerOptions
 - page.tsx
 - PostgresDatabase
@@ -85,13 +85,14 @@
 - ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3
 - FakeMinecraftFixture
 - Adaptadores de processo da Fase 3
+- ServerRepository
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 21 edges
-2. `ManagedMinecraftProcessAdapter` - 15 edges
-3. `Database` - 15 edges
+2. `Database` - 15 edges
+3. `ManagedMinecraftProcessAdapter` - 15 edges
 4. `validateContract()` - 14 edges
-5. `SpawnedProcess` - 12 edges
+5. `SpawnedProcess` - 14 edges
 6. `compilerOptions` - 12 edges
 7. `semanticIssue()` - 12 edges
 8. `appendSemanticIssues()` - 11 edges
@@ -120,7 +121,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (82 total, 10 thin omitted)
+## Communities (83 total, 13 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -220,19 +221,15 @@ Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOpt
 
 ### Community 37 - "repositories.ts"
 Cohesion: 0.14
-Nodes (12): ActiveSession, AgentRow, JobRow, mapServer(), PanelUser, RegisteredAgent, Repositories, ServerInstance (+4 more)
+Nodes (11): ActiveSession, AgentRow, JobRow, PanelUser, PermissionRepository, RegisteredAgent, Repositories, ServerInstance (+3 more)
 
-### Community 38 - "database.ts"
-Cohesion: 0.20
-Nodes (8): SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient(), PGliteQueryResult
+### Community 38 - "Database"
+Cohesion: 0.18
+Nodes (9): Database, SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient() (+1 more)
 
 ### Community 39 - "0001_foundation.sql"
 Cohesion: 0.24
 Nodes (13): agent_nonces, agent_provision_tokens, agents, audit_events, job_events, jobs, panel_users, permissions (+5 more)
-
-### Community 40 - "asIso"
-Cohesion: 0.22
-Nodes (3): asIso(), parseJson(), SessionRepository
 
 ### Community 41 - "compilerOptions"
 Cohesion: 0.14
@@ -286,10 +283,6 @@ Nodes (34): fastify, @fastify/cookie, @fastify/helmet, @fastify/rate-limit, depe
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
-### Community 58 - "Database"
-Cohesion: 0.22
-Nodes (3): Database, AuditRepository, PermissionRepository
-
 ### Community 59 - "compilerOptions"
 Cohesion: 0.14
 Nodes (13): compilerOptions, declaration, declarationMap, lib, skipLibCheck, sourceMap, extends, include (+5 more)
@@ -330,9 +323,9 @@ Nodes (19): dependencies, @voidfall/database, description, devDependencies, @ele
 Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
 
-### Community 69 - "adapter.ts"
+### Community 69 - "minecraft-process.test.ts"
 Cohesion: 0.06
-Nodes (30): LinuxMinecraftProcessAdapter, ManagedMinecraftProcessAdapter, MinecraftProcessAdapter, MinecraftProcessAdapterOptions, ProcessObservation, WindowsMinecraftProcessAdapter, assertPlainValue(), createMinecraftProcessPlan() (+22 more)
+Nodes (33): LinuxMinecraftProcessAdapter, ManagedMinecraftProcessAdapter, MinecraftProcessAdapter, MinecraftProcessAdapterOptions, ProcessObservation, WindowsMinecraftProcessAdapter, assertPlainValue(), createMinecraftProcessPlan() (+25 more)
 
 ### Community 70 - "compilerOptions"
 Cohesion: 0.08
@@ -363,16 +356,16 @@ Cohesion: 0.29
 Nodes (6): Adaptadores de processo da Fase 3, Componentes, Fora do escopo, Invariantes, Objetivo do recorte, Teste de integração
 
 ## Knowledge Gaps
-- **458 isolated node(s):** `Gate executado`, `Matriz`, `Dependências`, `Não ações confirmadas`, `Objetivo do recorte` (+453 more)
+- **458 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+453 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Database` connect `Database` to `repositories.ts`, `database.ts`, `PostgresDatabase`, `asIso`, `AgentRepository`, `UserRepository`, `JobRepository`?**
+- **Why does `Database` connect `Database` to `repositories.ts`, `PostgresDatabase`, `asIso`, `AgentRepository`, `ServerRepository`, `JobRepository`, `UserRepository`, `AuditRepository`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **What connects `Gate executado`, `Matriz`, `Dependências` to the rest of the system?**
+- **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
   _458 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Contratos compartilhados` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
