@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-03)
 
 ## Corpus Check
-- 154 files · ~50,019 words
+- 156 files · ~52,547 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1068 nodes · 1430 edges · 94 communities (77 shown, 17 thin omitted)
+- 1108 nodes · 1500 edges · 95 communities (82 shown, 13 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8d3f1744`
+- Built from commit: `86afe55d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -42,7 +42,7 @@
 - authentication/package.json
 - authentication/src/index.ts
 - repositories.ts
-- Database
+- database.ts
 - 0001_foundation.sql
 - asIso
 - compilerOptions
@@ -61,7 +61,7 @@
 - clean-workspace.mjs
 - dependencies
 - control-api/tsconfig.build.json
-- AuditRepository
+- Database
 - compilerOptions
 - build-worker/tsconfig.build.json
 - agent-client.ts
@@ -72,7 +72,7 @@
 - server-agent/tsconfig.build.json
 - build-worker/package.json
 - contracts/tsconfig.test.json
-- console.ts
+- metrics.ts
 - compilerOptions
 - page.tsx
 - PostgresDatabase
@@ -88,19 +88,20 @@
 - Controlador de processo da Fase 3
 - minecraft-process.test.ts
 - controller.ts
-- adapter.ts
-- ProcessOutputSnapshot
 - ManagedMinecraftProcessAdapter
-- launch-plan.ts
-- BoundedByteBuffer
+- adapter.ts
+- node-runtime.ts
+- ProcessOutputSnapshot
+- SpawnedProcess
+- console.ts
 - NodeSpawnedProcess
-- MinecraftConsoleCommand
 - Console limitado da Fase 3
-- ServerRepository
+- BoundedByteBuffer
+- Métricas limitadas da Fase 3
 
 ## God Nodes (most connected - your core abstractions)
-1. `compilerOptions` - 21 edges
-2. `ManagedMinecraftProcessAdapter` - 20 edges
+1. `ManagedMinecraftProcessAdapter` - 24 edges
+2. `compilerOptions` - 21 edges
 3. `ProcessObservation` - 18 edges
 4. `MinecraftProcessController` - 17 edges
 5. `SpawnedProcess` - 16 edges
@@ -132,7 +133,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (94 total, 17 thin omitted)
+## Communities (95 total, 13 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -232,15 +233,19 @@ Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOpt
 
 ### Community 37 - "repositories.ts"
 Cohesion: 0.14
-Nodes (11): ActiveSession, AgentRow, JobRow, PanelUser, PermissionRepository, RegisteredAgent, Repositories, ServerInstance (+3 more)
+Nodes (12): ActiveSession, AgentRow, JobRow, mapServer(), PanelUser, RegisteredAgent, Repositories, ServerInstance (+4 more)
 
-### Community 38 - "Database"
-Cohesion: 0.16
-Nodes (9): Database, SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient() (+1 more)
+### Community 38 - "database.ts"
+Cohesion: 0.20
+Nodes (8): SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient(), PGliteQueryResult
 
 ### Community 39 - "0001_foundation.sql"
 Cohesion: 0.24
 Nodes (13): agent_nonces, agent_provision_tokens, agents, audit_events, job_events, jobs, panel_users, permissions (+5 more)
+
+### Community 40 - "asIso"
+Cohesion: 0.22
+Nodes (3): asIso(), parseJson(), SessionRepository
 
 ### Community 41 - "compilerOptions"
 Cohesion: 0.14
@@ -294,6 +299,10 @@ Nodes (34): fastify, @fastify/cookie, @fastify/helmet, @fastify/rate-limit, depe
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
+### Community 58 - "Database"
+Cohesion: 0.20
+Nodes (3): Database, AuditRepository, PermissionRepository
+
 ### Community 59 - "compilerOptions"
 Cohesion: 0.14
 Nodes (13): compilerOptions, declaration, declarationMap, lib, skipLibCheck, sourceMap, extends, include (+5 more)
@@ -334,9 +343,9 @@ Nodes (19): dependencies, @voidfall/database, description, devDependencies, @ele
 Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
 
-### Community 69 - "console.ts"
-Cohesion: 0.23
-Nodes (11): COMMAND_LITERALS, createMinecraftConsoleSnapshot(), MINECRAFT_CONSOLE_COMMANDS, minecraftConsoleCommandLiteral(), MinecraftConsoleLine, MinecraftConsoleSnapshotOptions, MinecraftConsoleStreamSnapshot, sanitizeLine() (+3 more)
+### Community 69 - "metrics.ts"
+Cohesion: 0.12
+Nodes (23): ProcessControlEvent, available(), AvailableMetric, createMinecraftMetricsSnapshot(), HostMetricsSample, MetricQuality, MetricSource, MetricUnavailableReason (+15 more)
 
 ### Community 70 - "compilerOptions"
 Cohesion: 0.08
@@ -371,45 +380,57 @@ Cohesion: 0.17
 Nodes (11): Contrato implementado, Controlador de processo da Fase 3, Gate de saída, Invariantes de segurança, Matriz de testes validada, Objetivo do recorte, Restart, Resultados e falhas (+3 more)
 
 ### Community 83 - "minecraft-process.test.ts"
-Cohesion: 0.11
-Nodes (11): LinuxMinecraftProcessAdapter, MinecraftProcessAdapter, WindowsMinecraftProcessAdapter, MinecraftProcessControllerOptions, compileJavaFixture(), execFileAsync, fakeControllerPlan, fixtureSource (+3 more)
+Cohesion: 0.13
+Nodes (10): MinecraftProcessAdapter, WindowsMinecraftProcessAdapter, MinecraftProcessControllerOptions, compileJavaFixture(), execFileAsync, fakeControllerPlan, fixtureSource, javaExecutable (+2 more)
 
 ### Community 84 - "controller.ts"
-Cohesion: 0.11
-Nodes (19): ProcessObservation, ActiveOperation, copyLaunchPlan(), MinecraftProcessController, ProcessControlAction, ProcessControlEvent, ProcessControlEventPhase, ProcessControlFailureCode (+11 more)
+Cohesion: 0.12
+Nodes (17): ProcessObservation, ActiveOperation, copyLaunchPlan(), MinecraftProcessController, ProcessControlAction, ProcessControlEventPhase, ProcessControlFailureCode, ProcessControlOutcome (+9 more)
 
-### Community 85 - "adapter.ts"
-Cohesion: 0.16
-Nodes (10): MinecraftProcessAdapterOptions, ProcessLaunchPlan, minimalEnvironment(), NodeProcessRuntime, NodeProcessRuntimeOptions, ProcessRuntime, SpawnedProcess, ProcessStateEvent (+2 more)
+### Community 85 - "ManagedMinecraftProcessAdapter"
+Cohesion: 0.23
+Nodes (6): ManagedMinecraftProcessAdapter, MinecraftMetricsAdapter, MinecraftConsoleCommandReceipt, MinecraftConsoleSnapshotOptions, MinecraftMetricsSnapshot, transitionObservedProcessState()
 
-### Community 87 - "ManagedMinecraftProcessAdapter"
+### Community 86 - "adapter.ts"
+Cohesion: 0.18
+Nodes (7): LinuxMinecraftProcessAdapter, MinecraftConsoleAdapter, MinecraftProcessAdapterOptions, MinecraftConsoleSnapshot, SupportedHostPlatform, HostMetricsSampler, NodeHostMetricsSampler
+
+### Community 87 - "node-runtime.ts"
+Cohesion: 0.21
+Nodes (11): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessConfig, platformPath(), ProcessLaunchPlan, validateProcessLaunchPlan(), minimalEnvironment(), NodeProcessRuntime (+3 more)
+
+### Community 89 - "SpawnedProcess"
+Cohesion: 0.20
+Nodes (3): MinecraftConsoleCommand, SpawnedProcess, CommandTrackingHandle
+
+### Community 90 - "console.ts"
 Cohesion: 0.25
-Nodes (5): ManagedMinecraftProcessAdapter, MinecraftConsoleAdapter, MinecraftConsoleCommandReceipt, MinecraftConsoleSnapshot, transitionObservedProcessState()
-
-### Community 88 - "launch-plan.ts"
-Cohesion: 0.43
-Nodes (6): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessConfig, platformPath(), SupportedHostPlatform, validateProcessLaunchPlan()
+Nodes (10): COMMAND_LITERALS, createMinecraftConsoleSnapshot(), MINECRAFT_CONSOLE_COMMANDS, minecraftConsoleCommandLiteral(), MinecraftConsoleLine, MinecraftConsoleStreamSnapshot, sanitizeLine(), streamSnapshot() (+2 more)
 
 ### Community 92 - "Console limitado da Fase 3"
 Cohesion: 0.20
 Nodes (9): Catálogo inicial de comandos, Console limitado da Fase 3, Gate de saída, Invariantes de segurança, Leitura do console, Matriz de testes validada, Objetivo do recorte, Semântica de despacho (+1 more)
 
+### Community 94 - "Métricas limitadas da Fase 3"
+Cohesion: 0.18
+Nodes (10): Dados deliberadamente ausentes, Gate de saída, Implementação, Invariantes, Matriz de testes executada, Modelo de cada valor, Métricas do host, Métricas do processo gerenciado (+2 more)
+
 ## Knowledge Gaps
-- **487 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+482 more)
+- **504 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+499 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `SpawnedProcess` connect `adapter.ts` to `minecraft-process.test.ts`, `ProcessOutputSnapshot`, `ManagedMinecraftProcessAdapter`, `NodeSpawnedProcess`, `MinecraftConsoleCommand`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `Database` connect `Database` to `repositories.ts`, `PostgresDatabase`, `asIso`, `AgentRepository`, `UserRepository`, `AuditRepository`, `ServerRepository`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `ProcessLaunchPlan` connect `adapter.ts` to `launch-plan.ts`, `minecraft-process.test.ts`, `controller.ts`, `ManagedMinecraftProcessAdapter`?**
+- **Why does `SpawnedProcess` connect `SpawnedProcess` to `minecraft-process.test.ts`, `ManagedMinecraftProcessAdapter`, `adapter.ts`, `node-runtime.ts`, `ProcessOutputSnapshot`, `NodeSpawnedProcess`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `ProcessObservation` connect `controller.ts` to `minecraft-process.test.ts`, `NodeSpawnedProcess`, `metrics.ts`, `adapter.ts`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `NodeSpawnedProcess` connect `NodeSpawnedProcess` to `ProcessOutputSnapshot`, `SpawnedProcess`, `node-runtime.ts`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
-  _487 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _504 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Contratos compartilhados` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `common.ts` be split into smaller, more focused modules?**

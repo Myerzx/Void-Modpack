@@ -50,8 +50,8 @@
     "semantic_hash": "582f669dfb8db26b7c048327b8396458"
   },
   "AGENTS.md": {
-    "mtime": 1785735865.198723,
-    "ast_hash": "43916bf1db535918f8367d84da966130",
+    "mtime": 1785782361.8025565,
+    "ast_hash": "9d56af82d040cc12e362812a97588b4a",
     "semantic_hash": ""
   },
   "Launcher/README.md": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785781349.172564,
-    "ast_hash": "73da042eda5ab0a0455dc7ed49078fba",
+    "mtime": 1785782361.8010485,
+    "ast_hash": "8f84b9a7e03b33b5e51b13011c5e2d5f",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785781349.1710494,
-    "ast_hash": "7f84a79d2dfcad588742728d812855c8",
+    "mtime": 1785782361.7988825,
+    "ast_hash": "ee22a0eeeb997245e5792ac99c0b47e4",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785781349.172564,
-    "ast_hash": "4557b762c266a11ab5d867c7448daa19",
+    "mtime": 1785782361.8010485,
+    "ast_hash": "8e71e7675fa04c3f0e698826e2f54b96",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785781349.1705375,
-    "ast_hash": "fe831633ccb4b696987f1bc418fa8824",
+    "mtime": 1785782361.7968216,
+    "ast_hash": "e5a1361ecd03b5305c780779a0d779e6",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -690,13 +690,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/index.ts": {
-    "mtime": 1785780708.3752174,
-    "ast_hash": "bd9f298f47bcfc77c635413a354ea09c",
+    "mtime": 1785781743.786239,
+    "ast_hash": "965edbb81bd038d67f9ba7be5ecaea99",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/test/minecraft-process.test.ts": {
-    "mtime": 1785780873.065019,
-    "ast_hash": "2eb95877c205f8be06ff67b6196f3eb9",
+    "mtime": 1785782218.5967822,
+    "ast_hash": "d8d116fce7f26f3b3aa74bf886c208af",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/tsconfig.build.json": {
@@ -715,13 +715,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_2_VALIDATION.md": {
-    "mtime": 1785781100.725438,
-    "ast_hash": "257a80a539fca4e832a1cc7394d53ca1",
+    "mtime": 1785782361.7993906,
+    "ast_hash": "44bb75d598c79adb6413ecf4ecb97cdc",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/adapter.ts": {
-    "mtime": 1785780873.0635104,
-    "ast_hash": "143f4646a7c4bc9bd87bb9ad36c84317",
+    "mtime": 1785781860.6774168,
+    "ast_hash": "cd738493839c62412a19155048f748d9",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/launch-plan.ts": {
@@ -777,6 +777,16 @@
   "Plataforma/packages/minecraft-process/src/console.ts": {
     "mtime": 1785780873.0620043,
     "ast_hash": "765a1b2ecd94899b918d2ec81fa6b2b8",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_3_METRICS.md": {
+    "mtime": 1785782361.7968216,
+    "ast_hash": "663bf1d3f99b4bcc595a2e655401d0c2",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/minecraft-process/src/metrics.ts": {
+    "mtime": 1785781768.496583,
+    "ast_hash": "9fd2ece1bff1160499af256020d4d9db",
     "semantic_hash": ""
   }
 }
