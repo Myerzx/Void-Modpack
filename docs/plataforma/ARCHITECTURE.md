@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fase 2 concluída; Fase 3 em andamento somente no limite isolado de processo. Integrações com o Minecraft real permanecem bloqueadas.
+Status: Fase 2 concluída; Fase 3 em andamento nos limites isolados de processo e filesystem. Integrações com o Minecraft real permanecem bloqueadas.
 
 ## Resumo
 
@@ -68,6 +68,7 @@ Plataforma/
     authentication/
     permissions/
     minecraft-process/
+    server-backup/
     logging/
     minecraft-protocol/
     modpack-manifest/
@@ -85,7 +86,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. Essa implementação executa somente a fixture Java descartável dos testes e não está conectada ao servidor real, à Control API ou ao agente.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. O pacote `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo, sob uma guarda offline injetada. As implementações operam apenas sobre fixtures descartáveis dos testes e não estão conectadas ao servidor real, à Control API ou ao agente.
 
 ## Fluxo do comando no jogo
 

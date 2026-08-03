@@ -80,6 +80,8 @@ O controlador de ciclo de vida aceita somente `start`, `stop` e `restart`, mant�
 
 Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretório temporário do sistema. Não leem nem escrevem `Servidor/workspace/`.
 
+`@voidfall/server-backup` exige uma guarda `offline-exclusive-v1` injetada e não deduz consistência observando apenas o PID. Ele restringe fontes e repositório a diretórios absolutos confiáveis, rejeita sobreposição, symlink/junction, hardlink, tipo especial, traversal e colisão por case fold, aplica limites de contagem/profundidade/tamanho/espaço e verifica cada cópia por tamanho e SHA-256. Backups são promovidos de staging para snapshot imutável; restores só podem criar um destino isolado inexistente. Paths e exceções privadas não entram em manifestos, recibos ou erros públicos. A guarda operacional, autenticação do manifesto, criptografia, retenção e troca do mundo ativo ainda não existem.
+
 ## Arquivos e uploads
 
 - raízes lógicas (`config`, `mods-staging`, `logs-export`) mapeadas pelo agente;
@@ -148,7 +150,8 @@ Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretó
 - provisionamento de agente de uso único, identidade de transporte, Ed25519, prazo e nonce anti-replay;
 - lease PostgreSQL com `SKIP LOCKED`, idempotência e worker limitado a `system.noop`;
 - dashboard estático identificado como demonstração, sem controles operacionais;
-- runtime e adaptadores da Fase 3 com paths absolutos, argv fixo e `shell: false`, executados somente contra fixture Java descartável e sem ligação ao Minecraft privado.
+- runtime e adaptadores da Fase 3 com paths absolutos, argv fixo e `shell: false`, executados somente contra fixture Java descartável e sem ligação ao Minecraft privado;
+- backup/restore isolado da Fase 3 com guarda obrigatória, contenção de paths, limites, manifesto canônico e verificação de integridade, executado somente em diretórios temporários.
 
 ## Referências
 

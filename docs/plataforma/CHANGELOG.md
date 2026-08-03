@@ -30,10 +30,16 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - motivos tipados para ausência de PID/uptime e indisponibilidade honesta de CPU/RSS da JVM;
 - validação de amostras e relógios, testes determinísticos e transição comprovada na fixture Java descartável;
 - gate integral aprovado com 58 testes e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
+- `@voidfall/server-backup` com guarda offline exclusiva obrigatória, inventário limitado e manifesto canônico v1;
+- snapshots imutáveis promovidos de staging por `rename`, com verificação SHA-256 da origem e do destino;
+- restore permitido somente para destino novo e isolado, com nova verificação antes da promoção;
+- rejeição de sobreposição, traversal, colisões por case fold, symlink/junction, hardlink e tipos especiais;
+- erros públicos sanitizados, recibos imutáveis e limpeza restrita ao diretório parcial da própria operação;
+- 10 testes do pacote cobrindo integridade, limites e recuperação de falhas; validação local aprovada e matriz Ubuntu/Windows pendente.
 
 ### Não habilitado
 
-Start/stop/restart na API, integração com agente, console genérico, force kill, backup, restore ou acesso ao servidor privado. O único processo iniciado nos testes é a fixture Java versionada, executada em diretório temporário.
+Start/stop/restart na API, integração com agente, console genérico, force kill, backup/restore operacional ou acesso ao servidor privado. O único processo iniciado nos testes é a fixture Java versionada; os testes de backup usam somente diretórios temporários.
 
 ## 2026-08-03 — Fase 2: fundação concluída
 

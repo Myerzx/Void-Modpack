@@ -77,6 +77,8 @@ Estratégia portátil mínima:
 
 Snapshots de volume podem substituir a cópia quando a consistência for demonstrada e documentada.
 
+O primeiro adaptador local implementado usa uma estratégia mais restrita: `offline-exclusive-v1`. `@voidfall/server-backup` só inicia a cópia dentro de uma guarda confiável injetada, publica o snapshot por staging e `rename`, e restaura apenas para um diretório novo e isolado. A implementação atual é testada em diretórios temporários e não está conectada ao agente ou ao mundo privado. O fluxo online com `save-off`/`save-on` acima continua desabilitado até existir confirmação real do console e exclusão durável compartilhada com start/stop.
+
 ### Plataforma
 
 PostgreSQL, chaves públicas, configuração e metadata de storage têm políticas próprias. Chaves privadas de assinatura e credenciais exigem backup cifrado e procedimento de recuperação separado.

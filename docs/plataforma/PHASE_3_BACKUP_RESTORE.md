@@ -1,10 +1,24 @@
 # Backup consistente e restore isolado da Fase 3
 
-Status: contrato planejado; implementação limitada a fixtures em diretórios temporários.
+Status: implementado e validado localmente; matriz Windows/Linux pendente.
 
 ## Objetivo do recorte
 
 Criar um núcleo portátil que transforme raízes lógicas autorizadas em um snapshot imutável, verificável e promovido atomicamente, e que restaure esse snapshot somente em um diretório novo e isolado. O recorte termina em um pacote TypeScript e em testes Windows/Linux. Não cria rota, job, agendamento, política destrutiva de retenção, integração com agente, object storage ou acesso a `Servidor/workspace/`.
+
+## Implementação entregue
+
+O pacote isolado `@voidfall/server-backup` implementa o método `offline-exclusive-v1` por meio de `FilesystemBackupService`. O chamador precisa injetar uma `OfflineExclusiveBackupGuard`; o pacote não possui fallback que tente inferir consistência. O serviço:
+
+- valida planos, IDs, relógio, fontes lógicas e limites antes do efeito;
+- inventaria diretórios sem seguir links e rejeita hardlinks e tipos especiais;
+- produz manifesto canônico v1 com hashes SHA-256 e sem paths absolutos;
+- copia para staging exclusivo, verifica origem e destino e publica por `rename`;
+- verifica o snapshot antes de restaurar para um destino novo e isolado;
+- limpa somente o `.partial` pertencente à operação quando uma etapa falha;
+- retorna recibos imutáveis e erros públicos tipados e sanitizados.
+
+A implementação operacional da guarda, o backend remoto, a política de retenção, a troca do mundo ativo e qualquer integração com API/agente continuam deliberadamente ausentes.
 
 ## Decisão de consistência
 
@@ -129,7 +143,7 @@ Restore: `accepted -> source-verified -> copying -> target-verified -> promoted`
 
 Erros públicos são códigos fechados, como `invalid-plan`, `consistency-unavailable`, `unsafe-path`, `unsupported-entry`, `limit-exceeded`, `insufficient-space`, `integrity-mismatch`, `destination-conflict`, `promotion-failed` e `cleanup-failed`. Mensagens públicas não carregam paths ou exceções brutas.
 
-## Matriz de testes planejada
+## Matriz de testes implementada
 
 1. backup e restore completo de uma fixture com arquivos aninhados e Unicode;
 2. ordem canônica e hashes determinísticos;
@@ -147,6 +161,8 @@ Erros públicos são códigos fechados, como `invalid-plan`, `consistency-unavai
 14. recibos e manifestos não expõem paths absolutos;
 15. testes confirmam que nenhum path contém `Servidor/workspace` ou `Launcher/workspace`.
 
+Os 15 comportamentos estão agrupados em 10 testes do pacote. No Windows, 9 passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, a matriz deve executar os 10. Além do caminho feliz, a suíte injeta falhas no meio da cópia e corrupção durante o restore para comprovar limpeza e ausência de promoção parcial.
+
 ## Gate de saída
 
-O item 5 só pode ser concluído após contrato, implementação e testes do adaptador local passarem em Windows e Linux. O gate não autoriza restore real: API, agente, processo privado, backend remoto, retenção destrutiva e estratégia online permanecem bloqueados até exclusão durável, confirmação de console, autorização reforçada, auditoria e testes de recuperação próprios.
+O item 5 só pode ser concluído após contrato, implementação e testes do adaptador local passarem em Windows e Linux. A validação local está aprovada; falta confirmar a matriz do GitHub. O gate não autoriza restore real: API, agente, processo privado, backend remoto, retenção destrutiva e estratégia online permanecem bloqueados até exclusão durável, confirmação de console, autorização reforçada, auditoria e testes de recuperação próprios.

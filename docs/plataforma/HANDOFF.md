@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 a 4 concluídos em isolamento; backup/restore é o próximo recorte de planejamento
+- Fase: 3 — itens 1 a 4 concluídos; item 5 implementado e validado localmente em isolamento, com matriz CI pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -31,6 +31,15 @@
   - estado, PID e uptime gerenciado do processo pelo adaptador;
   - CPU e RSS da JVM marcados como indisponíveis, sem zero ou dado substituto;
   - fixture Java 17 executada em diretório temporário;
+- `@voidfall/server-backup` com:
+  - estratégia única `offline-exclusive-v1` e guarda confiável obrigatória injetada;
+  - raízes absolutas confiáveis, rejeição de sobreposição e inventário determinístico limitado;
+  - rejeição de symlink/junction, hardlink, tipos especiais, traversal e colisão por case fold;
+  - manifesto canônico v1 sem paths absolutos e SHA-256 por arquivo;
+  - staging privado, verificação da origem e da cópia e promoção atômica por `rename`;
+  - snapshot publicado imutável e conflito em vez de overwrite;
+  - restore somente para destino novo e isolado, verificado antes da promoção;
+  - recibos imutáveis, erros públicos sanitizados e limpeza limitada ao `.partial` da operação;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -38,7 +47,7 @@
 1. Não modificar `Launcher/`, `Servidor/workspace/`, mundos, configs privadas ou o processo Minecraft real.
 2. Não expor `ProcessLaunchPlan`, shell, argumento, cwd ou texto de comando como payload público.
 3. Não ligar os adaptadores ao agente/API antes de contratos operacionais estreitos, autorização, auditoria e idempotência por ação.
-4. Não adicionar método genérico de stdin, force kill ou restore.
+4. Não adicionar método genérico de stdin, force kill ou restore operacional; o restore isolado não autoriza troca de mundo.
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
@@ -46,7 +55,8 @@
 ## Validação
 
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
-- gate local aprovado: 58 testes, typechecks e builds de todos os workspaces;
+- pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
+- gate local aprovado: 68 casos, typechecks e builds de todos os workspaces;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
@@ -62,6 +72,11 @@
 - snapshot de métricas não possui persistência, agregação, alerta nem transporte remoto;
 - `node:os` descreve a visão do host fornecida ao Node e ainda não prova limites de container/cgroup;
 - CPU e RSS da JVM exigem um observador portátil futuro e permanecem indisponíveis;
+- a guarda offline usada pelo backup ainda é somente um trust boundary injetado; não existe lock durável compartilhado com start/stop nem reconciliação após crash;
+- o fluxo online `save-off`/`save-all flush`/`save-on` continua desabilitado porque o console ainda não confirma processamento;
+- o filesystem local ainda não é o backend P1 de storage; retenção destrutiva, assinatura, criptografia e imutabilidade externa não estão implementadas;
+- SHA-256 detecta corrupção, mas não autentica a origem do snapshot;
+- restore isolado não troca o mundo ativo, não inicia Minecraft e não certifica boot, dimensões, inventários ou dados de mods;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -69,7 +84,7 @@
 
 ## Próximo recorte recomendado
 
-Planejar primeiro o item 5 da Fase 3: protocolo de backup consistente e restore em ambiente isolado. Não executar backup/restore no servidor privado, não habilitar rota/job e não implementar antes de documentar limites, preflight, atomicidade, retenção e testes de falha.
+Após a matriz Windows/Linux do item 5 ficar verde, iniciar o item 6 da Fase 3: configurações básicas com revisão anterior. Planejar contrato, raízes lógicas, versão, validação, diff, rollback e necessidade de restart antes de implementar. Não conectar o pacote de backup ao servidor privado, API, agente ou painel como atalho para esse item.
 
 ## Commits relevantes
 
@@ -89,5 +104,8 @@ Planejar primeiro o item 5 da Fase 3: protocolo de backup consistente e restore 
 - `806b44b` — testes de fontes, validação e ciclo de vida das métricas.
 - `86afe55` — validação local, limites e handoff do recorte;
 - `408b57e` — grafo atualizado da arquitetura de métricas.
+- `dd03049` — contrato documentado de backup consistente e restore isolado;
+- `862ffaa` — snapshots guardados e restore de filesystem;
+- `c3d540c` — testes de integridade, limites e recuperação isolada.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
