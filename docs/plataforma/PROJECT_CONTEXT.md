@@ -26,7 +26,7 @@ Esses fatos impedem que a plataforma trate o diretório vivo do servidor como fo
 
 ## Escopo atual
 
-A Fase 2 está concluída e inclui monorepo TypeScript, contratos, PostgreSQL/PGlite de teste, migrações, repositórios, Control API, autenticação, sessões, RBAC, auditoria, worker `system.noop`, cliente de agente e dashboard estático de demonstração. A Fase 3 começou por planos de lançamento Windows/Linux e uma máquina de estados puramente determinística. Ainda não há execução de processo, controle do runtime, console, backup, launcher próprio ou mod Forge.
+A Fase 2 está concluída e inclui monorepo TypeScript, contratos, PostgreSQL/PGlite de teste, migrações, repositórios, Control API, autenticação, sessões, RBAC, auditoria, worker `system.noop`, cliente de agente e dashboard estático de demonstração. A Fase 3 possui planos, runtime Node, máquina de estados e adaptadores Windows/Linux isolados. A única execução real ocorre contra uma fixture Java descartável em diretório temporário; ainda não há controle do runtime Minecraft privado, console genérico, backup, launcher próprio ou mod Forge.
 
 ## Decisões já tomadas
 

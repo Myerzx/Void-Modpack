@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fase 2 concluída; Fase 3 iniciada somente no limite de contrato de processo. Integrações com o Minecraft permanecem bloqueadas.
+Status: Fase 2 concluída; Fase 3 em andamento somente no limite isolado de processo. Integrações com o Minecraft real permanecem bloqueadas.
 
 ## Resumo
 
@@ -85,7 +85,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos de lançamento validados e interface de adaptador, sem implementação que execute processos.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. Essa implementação executa somente a fixture Java descartável dos testes e não está conectada ao servidor real, à Control API ou ao agente.
 
 ## Fluxo do comando no jogo
 

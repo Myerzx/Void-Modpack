@@ -144,7 +144,7 @@ Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretó
 - provisionamento de agente de uso único, identidade de transporte, Ed25519, prazo e nonce anti-replay;
 - lease PostgreSQL com `SKIP LOCKED`, idempotência e worker limitado a `system.noop`;
 - dashboard estático identificado como demonstração, sem controles operacionais;
-- planos de processo da Fase 3 com paths absolutos, argv fixo e `shell: false`, ainda sem execução.
+- runtime e adaptadores da Fase 3 com paths absolutos, argv fixo e `shell: false`, executados somente contra fixture Java descartável e sem ligação ao Minecraft privado.
 
 ## Referências
 

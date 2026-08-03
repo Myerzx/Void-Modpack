@@ -45,7 +45,7 @@ stateDiagram-v2
 
 ## Teste de integração
 
-`FakeMinecraftFixture.java` emite uma linha de boot semelhante ao Minecraft, aguarda stdin e encerra somente ao receber `stop`. O teste localiza Java 17, cria um diretório em `%TEMP%`/`/tmp`, observa PID/boot, envia parada graciosa e remove o diretório. Outro modo gera 100.000 caracteres para comprovar truncamento da saída.
+`FakeMinecraftFixture.java` emite uma linha de boot semelhante ao Minecraft, aguarda stdin e encerra somente ao receber `stop`. O teste localiza Java 17, compila a fixture antecipadamente com `javac` em `%TEMP%`/`/tmp`, observa PID/boot, envia parada graciosa e remove o diretório com retentativas seguras. A compilação antecipada evita que o primeiro uso frio do modo source-file seja confundido com falha de boot no Windows. Outro modo gera 100.000 caracteres para comprovar truncamento da saída.
 
 O workflow `platform-ci.yml` executa o gate completo em Ubuntu e Windows com Node 24 e Temurin 17. As actions são fixadas por SHA.
 
