@@ -26,6 +26,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 20. [Métricas limitadas da Fase 3](PHASE_3_METRICS.md)
 21. [Backup consistente e restore isolado da Fase 3](PHASE_3_BACKUP_RESTORE.md)
 22. [Configurações básicas e revisões da Fase 3](PHASE_3_CONFIGURATION_REVISIONS.md)
+23. [Inventário e catálogo reconciliado da Fase 4](PHASE_4_INVENTORY_CATALOG.md)
 
 ## Resultado da Fase 1
 
@@ -41,7 +42,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - identidade oficial: **VoidFall**;
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
 - Fase 3 concluída em isolamento: processo, console, métricas, backup consistente, restore isolado e configurações básicas com revisão anterior passaram na matriz Windows/Linux;
-- próximo recorte: planejamento do inventário e catálogo reconciliado, item 1 da Fase 4;
+- Fase 4 iniciada pelo contrato de inventário sanitizado e catálogo reconciliado, ainda sem integração operacional;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 

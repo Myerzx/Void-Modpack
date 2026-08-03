@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2 and all six Phase 3 items are complete in isolation. Phase 4 item 1, the reconciled inventory and catalog contract, is the next recorte. Configuration remains limited to a typed Java Properties subset with an injected offline-exclusive guard, immutable previous revisions, optimistic hashes, and rollback that creates another revision. Do not connect process/backup/configuration control to the API or agent, edit the private runtime, add generic file editing, accept public paths/schemas, implement force-kill, overwrite a restore target, or add destructive retention.
+Phase 2 and all six Phase 3 items are complete in isolation. Phase 4 item 1 is active: add only a sanitized inventory contract and a deterministic catalog reconciler. Content identity is SHA-256; logical identity remains the reviewed catalog ID. Inventory may suggest presence and side but must never approve logical identity, license, provenance or stable publication. Do not scan private runtimes, inspect or execute JARs, call providers, persist catalog state, expose routes, or connect this package to the API, agent, worker or panel. Configuration remains limited to its typed Java Properties subset. Existing Phase 3 operational restrictions remain in force.
 
 ## Ownership
 
