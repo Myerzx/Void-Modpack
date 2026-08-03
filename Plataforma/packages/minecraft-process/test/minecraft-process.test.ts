@@ -9,14 +9,18 @@ import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
+  createMinecraftConsoleSnapshot,
   createMinecraftProcessPlan,
   LinuxMinecraftProcessAdapter,
+  MINECRAFT_CONSOLE_COMMANDS,
+  minecraftConsoleCommandLiteral,
   MinecraftProcessController,
   NodeProcessRuntime,
   ProcessControlRequestError,
   transitionObservedProcessState,
   WindowsMinecraftProcessAdapter,
   type MinecraftProcessAdapter,
+  type MinecraftConsoleCommand,
   type MinecraftProcessControllerOptions,
   type ProcessLaunchPlan,
   type ProcessObservation,
@@ -188,6 +192,19 @@ async function waitForState(
   throw new Error(`Timed out waiting for fixture state ${expected}.`);
 }
 
+async function waitForConsoleLine(
+  adapter: WindowsMinecraftProcessAdapter | LinuxMinecraftProcessAdapter,
+  expected: RegExp,
+): Promise<void> {
+  const deadline = Date.now() + 15_000;
+  while (Date.now() < deadline) {
+    const lines = adapter.readConsole().stdout.lines.map((line) => line.text);
+    if (lines.some((line) => expected.test(line))) return;
+    await new Promise((resolve) => setTimeout(resolve, 25));
+  }
+  throw new Error(`Timed out waiting for fixture console output ${expected.source}.`);
+}
+
 describe('Minecraft process launch plans', () => {
   it('creates fixed argv plans without a shell for Windows and Linux', () => {
     const windows = createMinecraftProcessPlan({
@@ -249,6 +266,65 @@ describe('observed process state machine', () => {
     state = transitionObservedProcessState(state, 'process-exited');
     assert.equal(state, 'offline');
     assert.throws(() => transitionObservedProcessState('offline', 'boot-confirmed'), /Invalid/u);
+  });
+});
+
+describe('bounded Minecraft console contract', () => {
+  it('maps only closed command identifiers to exact private literals', () => {
+    assert.deepEqual(MINECRAFT_CONSOLE_COMMANDS, ['list-players', 'save-all']);
+    assert.equal(minecraftConsoleCommandLiteral('list-players'), 'list\n');
+    assert.equal(minecraftConsoleCommandLiteral('save-all'), 'save-all flush\n');
+    for (const rejected of ['stop', 'list\nstop', 'say hello', '', undefined]) {
+      assert.throws(() => minecraftConsoleCommandLiteral(rejected), /not allowed/u);
+    }
+  });
+
+  it('sanitizes controls and applies independent line and character bounds', () => {
+    const longUnicodeLine = '🙂'.repeat(40);
+    const snapshot = createMinecraftConsoleSnapshot(
+      {
+        stdout: `discarded\n\u001b[31m${longUnicodeLine}\u001b[0m\ntail\u0000\n`,
+        stderr: 'warning\u0007\u001b]0;hidden title\u0007\r\n',
+        stdoutTruncated: true,
+        stderrTruncated: false,
+      },
+      {
+        maximumLinesPerStream: 2,
+        maximumCharactersPerLine: 32,
+        clock: () => new Date('2026-08-03T12:00:00.000Z'),
+      },
+    );
+
+    assert.equal(snapshot.readAt, '2026-08-03T12:00:00.000Z');
+    assert.equal(snapshot.stdout.sourceTruncated, true);
+    assert.equal(snapshot.stdout.viewTruncated, true);
+    assert.equal(snapshot.stdout.lines.length, 2);
+    assert.equal(snapshot.stdout.lines[0]?.text, '🙂'.repeat(32));
+    assert.equal(snapshot.stdout.lines[0]?.truncated, true);
+    assert.equal(snapshot.stdout.lines[1]?.text, 'tail');
+    assert.equal(snapshot.stderr.lines[0]?.text, 'warning');
+    assert.equal(Object.isFrozen(snapshot.stdout.lines), true);
+    assert.equal(Object.isFrozen(snapshot.stdout.lines[0]), true);
+  });
+
+  it('rejects unsafe snapshot limits and invalid clocks', () => {
+    const output: ProcessOutputSnapshot = {
+      stdout: '',
+      stderr: '',
+      stdoutTruncated: false,
+      stderrTruncated: false,
+    };
+    assert.throws(
+      () => createMinecraftConsoleSnapshot(output, { maximumLinesPerStream: 0 }),
+      /safe range/u,
+    );
+    assert.throws(
+      () =>
+        createMinecraftConsoleSnapshot(output, {
+          clock: () => new Date(Number.NaN),
+        }),
+      /invalid date/u,
+    );
   });
 });
 
@@ -385,6 +461,64 @@ describe('serialized process controller', () => {
 });
 
 describe('managed platform adapters', () => {
+  it('requires online state and rejects concurrent console effects without a queue', async () => {
+    let releaseCommand: () => void = () => {};
+    const commandGate = new Promise<void>((resolve) => {
+      releaseCommand = resolve;
+    });
+    class CommandTrackingHandle implements SpawnedProcess {
+      readonly pid = 4_242;
+      readonly commands: MinecraftConsoleCommand[] = [];
+
+      getExit() {
+        return undefined;
+      }
+
+      readOutput(): ProcessOutputSnapshot {
+        return {
+          stdout: '[Server thread/INFO]: Done (0.100s)! For help, type "help"',
+          stderr: '',
+          stdoutTruncated: false,
+          stderrTruncated: false,
+        };
+      }
+
+      async requestConsoleCommand(command: MinecraftConsoleCommand): Promise<void> {
+        this.commands.push(command);
+        await commandGate;
+      }
+
+      async requestGracefulStop(): Promise<void> {}
+
+      async waitForExit(): Promise<undefined> {
+        return undefined;
+      }
+    }
+
+    const handle = new CommandTrackingHandle();
+    const runtime: ProcessRuntime = { spawn: async () => handle };
+    const adapter = new WindowsMinecraftProcessAdapter({ runtime, stopTimeoutMs: 10 });
+
+    await assert.rejects(adapter.requestConsoleCommand('list-players'), /offline/u);
+    await adapter.start(fakeControllerPlan);
+    assert.equal((await adapter.inspect()).state, 'online');
+    const first = adapter.requestConsoleCommand('list-players');
+    await assert.rejects(adapter.requestConsoleCommand('save-all'), /busy/u);
+    releaseCommand();
+    const receipt = await first;
+
+    assert.deepEqual(handle.commands, ['list-players']);
+    assert.equal(receipt.command, 'list-players');
+    assert.equal(receipt.state, 'online');
+    assert.equal(Object.isFrozen(receipt), true);
+    assert.throws(
+      () => adapter.requestConsoleCommand('stop' as MinecraftConsoleCommand),
+      /not allowed/u,
+    );
+    assert.equal('write' in adapter, false);
+    assert.equal('stdin' in adapter, false);
+  });
+
   it(
     'starts and gracefully stops a disposable Java fixture without touching the server workspace',
     {
@@ -416,6 +550,64 @@ describe('managed platform adapters', () => {
         assert.equal(stopped.state, 'offline');
         assert.equal(stopped.lastExit?.code, 0);
         assert.match(adapter.readOutput().stdout, /Stopping server/u);
+      } finally {
+        await runtime.requestFixtureCleanup();
+        await rm(temporaryDirectory, {
+          recursive: true,
+          force: true,
+          maxRetries: 5,
+          retryDelay: 100,
+        });
+      }
+    },
+  );
+
+  it(
+    'dispatches the closed command catalog against the disposable Java fixture',
+    {
+      skip:
+        hostPlatform === undefined ||
+        javaExecutable === undefined ||
+        javacExecutable === undefined ||
+        !existsSync(javacExecutable),
+    },
+    async () => {
+      assert.ok(hostPlatform);
+      const temporaryDirectory = await mkdtemp(join(tmpdir(), 'voidfall-console-fixture-'));
+      const runtime = new TrackingRuntime(new NodeProcessRuntime());
+      try {
+        await compileJavaFixture(temporaryDirectory);
+        const adapter =
+          hostPlatform === 'win32'
+            ? new WindowsMinecraftProcessAdapter({
+                runtime,
+                stopTimeoutMs: 5_000,
+                maximumConsoleLinesPerStream: 10,
+              })
+            : new LinuxMinecraftProcessAdapter({
+                runtime,
+                stopTimeoutMs: 5_000,
+                maximumConsoleLinesPerStream: 10,
+              });
+        await adapter.start(javaFixturePlan(temporaryDirectory));
+        await waitForState(adapter, 'online');
+
+        const listed = await adapter.requestConsoleCommand('list-players');
+        await waitForConsoleLine(adapter, /There are 0 of a max of 20 players online/u);
+        const saved = await adapter.requestConsoleCommand('save-all');
+        await waitForConsoleLine(adapter, /Saved the game/u);
+
+        assert.equal(listed.command, 'list-players');
+        assert.equal(saved.command, 'save-all');
+        assert.equal(adapter.readConsole().stderr.lines.length, 0);
+        assert.ok(runtime.handle);
+        assert.throws(
+          () => runtime.handle?.requestConsoleCommand('stop' as MinecraftConsoleCommand),
+          /not allowed/u,
+        );
+        assert.equal('write' in runtime.handle, false);
+        assert.equal('forceKill' in adapter, false);
+        assert.equal((await adapter.requestGracefulStop()).state, 'offline');
       } finally {
         await runtime.requestFixtureCleanup();
         await rm(temporaryDirectory, {
@@ -560,6 +752,8 @@ describe('managed platform adapters', () => {
           stderrTruncated: false,
         };
       }
+
+      async requestConsoleCommand(): Promise<void> {}
 
       async requestGracefulStop(): Promise<void> {
         this.gracefulStopRequests += 1;

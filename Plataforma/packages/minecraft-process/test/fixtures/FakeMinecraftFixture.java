@@ -18,6 +18,18 @@ public final class FakeMinecraftFixture {
                 System.out.flush();
                 return;
             }
+            if (line.equals("list")) {
+                System.out.println("[Server thread/INFO]: There are 0 of a max of 20 players online");
+                System.out.flush();
+                continue;
+            }
+            if (line.equals("save-all flush")) {
+                System.out.println("[Server thread/INFO]: Saved the game");
+                System.out.flush();
+                continue;
+            }
+            System.err.println("[Server thread/ERROR]: Unexpected command");
+            System.err.flush();
         }
     }
 }
