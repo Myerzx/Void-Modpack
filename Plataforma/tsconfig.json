@@ -9,6 +9,9 @@
       "path": "./packages/mod-catalog/tsconfig.build.json"
     },
     {
+      "path": "./packages/modpack-release/tsconfig.build.json"
+    },
+    {
       "path": "./packages/permissions/tsconfig.build.json"
     },
     {
