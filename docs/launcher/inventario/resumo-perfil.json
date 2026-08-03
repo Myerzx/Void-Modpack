@@ -1,0 +1,97 @@
+﻿{
+    "profileName":  "VoidFall",
+    "minecraftVersion":  "1.20.1",
+    "runtimeModLoader":  "forge-47.4.0",
+    "legacyManifestName":  "Outland (1)",
+    "legacyManifestModLoader":  "forge-47.3.38",
+    "legacyManifestEntries":  62,
+    "registeredAddons":  93,
+    "enabledAddons":  27,
+    "disabledAddons":  66,
+    "activeJarFiles":  23,
+    "disabledJarFiles":  66,
+    "totalFiles":  14708,
+    "totalBytes":  3048797975,
+    "topDirectories":  [
+                           {
+                               "name":  "config",
+                               "files":  7091,
+                               "bytes":  1998513972
+                           },
+                           {
+                               "name":  "mods",
+                               "files":  90,
+                               "bytes":  389429540
+                           },
+                           {
+                               "name":  "saves",
+                               "files":  497,
+                               "bytes":  365832742
+                           },
+                           {
+                               "name":  "openloader",
+                               "files":  6066,
+                               "bytes":  185858654
+                           },
+                           {
+                               "name":  "resourcepacks",
+                               "files":  4,
+                               "bytes":  36239218
+                           },
+                           {
+                               "name":  "screenshots",
+                               "files":  9,
+                               "bytes":  27400492
+                           },
+                           {
+                               "name":  "armourers_workshop",
+                               "files":  513,
+                               "bytes":  14008732
+                           },
+                           {
+                               "name":  "xaero",
+                               "files":  128,
+                               "bytes":  9802442
+                           },
+                           {
+                               "name":  "logs",
+                               "files":  85,
+                               "bytes":  8929770
+                           },
+                           {
+                               "name":  "emotes",
+                               "files":  141,
+                               "bytes":  6562138
+                           },
+                           {
+                               "name":  "crash-reports",
+                               "files":  66,
+                               "bytes":  2418975
+                           },
+                           {
+                               "name":  "shaderpacks",
+                               "files":  4,
+                               "bytes":  913014
+                           },
+                           {
+                               "name":  "easy_npc",
+                               "files":  2,
+                               "bytes":  4274
+                           },
+                           {
+                               "name":  "fancymenu_data",
+                               "files":  3,
+                               "bytes":  2018
+                           },
+                           {
+                               "name":  "defaultconfigs",
+                               "files":  0,
+                               "bytes":  0
+                           },
+                           {
+                               "name":  "patchouli_books",
+                               "files":  0,
+                               "bytes":  0
+                           }
+                       ]
+}
