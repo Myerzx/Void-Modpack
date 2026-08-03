@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 4 — item 1 implementado e validado localmente em isolamento; matriz CI pendente
+- Fase: 4 — item 1 concluído em isolamento; gate aprovado em Windows e Linux
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -83,6 +83,7 @@
 - pacote de contratos: build, typecheck, 18 casos e 7 JSON Schemas aprovados;
 - pacote de catálogo: build, typecheck e 12 casos aprovados;
 - gate local aprovado: 95 casos, typechecks e builds de todos os workspaces; 93 executados no Windows e 2 sockets Unix ignorados;
+- matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
@@ -123,7 +124,7 @@
 
 ## Próximo recorte recomendado
 
-Após a matriz Windows/Linux do item 1 ficar verde, encerrar o recorte isolado e iniciar o item 2 da Fase 4: classificação manual por lado e distribuição. Antes de classificar os artefatos reais, criar um exportador de cliente que produza SHA-256/tamanho e um importador revisado para `InventorySnapshot`; não usar filename como identidade e não promover licença por metadata do provedor.
+Iniciar o item 2 da Fase 4: classificação manual por lado e distribuição. Antes de classificar os artefatos reais, criar um exportador de cliente que produza SHA-256/tamanho e um importador revisado para `InventorySnapshot`; não usar filename como identidade e não promover licença por metadata do provedor.
 
 ## Commits relevantes
 
@@ -158,5 +159,7 @@ Após a matriz Windows/Linux do item 1 ficar verde, encerrar o recorte isolado e
 - `346dae7` — contratos e JSON Schemas de snapshot/relatório;
 - `65a6078` — reconciliador determinístico por SHA-256;
 - `b7e274a` — testes de conflitos, bloqueios e determinismo.
+- `0a231cf` — validação local, limites e handoff do recorte;
+- `01ebbcd` — grafo atualizado da arquitetura de reconciliação.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

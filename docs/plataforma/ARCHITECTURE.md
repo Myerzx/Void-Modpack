@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fases 2 e 3 concluídas; Fase 4 iniciada pelo inventário e catálogo reconciliado em memória. Integrações com o Minecraft real continuam bloqueadas.
+Status: Fases 2 e 3 concluídas; item 1 da Fase 4 concluído com inventário e catálogo reconciliado em memória. Integrações com o Minecraft real continuam bloqueadas.
 
 ## Resumo
 

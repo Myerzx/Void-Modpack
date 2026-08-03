@@ -13,7 +13,7 @@ npm run check
 npm audit --omit=dev
 ```
 
-No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. A Fase 3 elevou progressivamente o gate a 79 casos. Os quatro casos adicionais dos contratos de inventário/relatório e os 12 do reconciliador elevaram o total local da Fase 4 a 95. No Windows, dois casos específicos de socket Unix são ignorados; 93 são executados. A matriz Linux deve executar os 95. Typecheck estrito e builds de todos os workspaces passaram novamente localmente.
+No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. A Fase 3 elevou progressivamente o gate a 79 casos. Os quatro casos adicionais dos contratos de inventário/relatório e os 12 do reconciliador elevaram o total da Fase 4 a 95. No Windows, dois casos específicos de socket Unix são ignorados e 93 são executados; a [matriz Linux executa os 95](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194). Typecheck estrito e builds de todos os workspaces passaram localmente e no CI.
 
 ## Matriz
 

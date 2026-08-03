@@ -12,7 +12,8 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - agrupamento determinístico de ocorrências cliente/servidor e sugestão não autoritativa de lado;
 - estados `cataloged`, `untracked` e `ambiguous`, além de bloqueios de presença, lado, distribuição, revisão, runtime, filename e tamanho;
 - relatório profundamente imutável e validado, sem imports de filesystem ou rede;
-- 4 novos testes de contrato e 12 testes do reconciliador; gate local com 95 casos e auditoria de runtime sem vulnerabilidades.
+- 4 novos testes de contrato e 12 testes do reconciliador;
+- gate integral aprovado com 95 casos e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194).
 
 ### Não habilitado
 

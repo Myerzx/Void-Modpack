@@ -74,14 +74,14 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 1 — planejamento | 100% | concluída |
 | 2 — fundação | 100% | 8 de 8 itens |
 | 3 — controle do Minecraft | 100% | 6 de 6 itens |
-| 4 — mods, arquivos e schemas | 0% | 0 de 6 itens |
+| 4 — mods, arquivos e schemas | 17% | 1 de 6 itens |
 | 5 — build e launcher | 0% | 0 de 7 itens |
 | 6 — jogadores e auditoria | 0% | 0 de 6 itens |
 | 7 — configurações específicas | 0% | ainda não iniciada |
 
 ## Fase 4 — mods, arquivos e schemas
 
-1. Inventário e catálogo reconciliado — **implementado e validado localmente em isolamento** no pacote `@voidfall/mod-catalog`: snapshots sanitizados, identidade por SHA-256 e relatório determinístico de conflitos/bloqueios; matriz Windows/Linux pendente, sem varredura do runtime ou aprovação automática.
+1. [x] Inventário e catálogo reconciliado — concluído em isolamento no pacote `@voidfall/mod-catalog`: snapshots sanitizados, identidade por SHA-256 e relatório determinístico de conflitos/bloqueios; gate aprovado na [matriz Windows/Linux](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194), sem varredura do runtime ou aprovação automática.
 2. Classificação manual por lado e distribuição.
 3. Upload em quarantine e validação segura.
 4. File manager em raízes autorizadas.
