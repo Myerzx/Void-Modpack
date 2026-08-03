@@ -1,0 +1,23 @@
+{
+  "name": "@voidfall/server-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Outbound-only identity and heartbeat client for VoidFall server hosts",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/agent-client.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/authentication": "0.1.0",
+    "@voidfall/contracts": "0.1.0"
+  }
+}
