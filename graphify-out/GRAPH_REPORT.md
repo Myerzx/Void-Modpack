@@ -1,16 +1,15 @@
-# Graph Report - void pasta  (2026-08-03)
+# Graph Report - .  (2026-08-03)
 
 ## Corpus Check
-- 86 files · ~28,513 words
-- Verdict: corpus is large enough that graph structure adds value.
+- cluster-only mode — file stats not available
 
 ## Summary
-- 316 nodes · 422 edges · 34 communities (32 shown, 2 thin omitted)
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.87)
+- 901 nodes · 1069 edges · 81 communities (70 shown, 11 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ecd79c66`
+- Built from commit: `905efcb2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,23 +32,69 @@
 - Plataforma/package.json
 - compilerOptions
 - contracts/package.json
-- tsconfig.test.json
+- database/package.json
+- compilerOptions
 - tsconfig.build.json
 - `@voidfall/contracts`
 - tsconfig.json
 - clean.mjs
+- authentication/package.json
+- authentication/src/index.ts
+- repositories.ts
+- database.ts
+- 0001_foundation.sql
+- asIso
+- compilerOptions
+- permissions/package.json
+- compilerOptions
+- permissions/src/index.ts
+- authentication/tsconfig.test.json
+- AgentRepository
+- permissions/tsconfig.test.json
+- authentication/tsconfig.build.json
+- permissions/tsconfig.build.json
+- UserRepository
+- JobRepository
+- app.ts
+- worker.ts
+- clean-workspace.mjs
+- dependencies
+- control-api/tsconfig.build.json
+- AuditRepository
+- compilerOptions
+- build-worker/tsconfig.build.json
+- agent-client.ts
+- panel-web/package.json
+- server-agent/package.json
+- minecraft-process/package.json
+- server-agent/tsconfig.test.json
+- server-agent/tsconfig.build.json
+- build-worker/package.json
+- contracts/tsconfig.test.json
+- minecraft-process/src/index.ts
+- compilerOptions
+- page.tsx
+- PostgresDatabase
+- layout.tsx
+- next.config.ts
+- next-env.d.ts
+- minecraft-process/tsconfig.build.json
+- Validação da Fase 2
+- minecraft-process/tsconfig.test.json
+- ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3
+- Database
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 21 edges
-2. `validateContract()` - 13 edges
-3. `semanticIssue()` - 12 edges
-4. `appendSemanticIssues()` - 11 edges
-5. `Handoff da plataforma` - 11 edges
-6. `Planejamento da plataforma` - 11 edges
-7. `Contratos compartilhados` - 8 edges
-8. `Platform Control Architecture` - 8 edges
-9. `validateReleaseManifest()` - 7 edges
-10. `Documentação do servidor` - 7 edges
+2. `Database` - 15 edges
+3. `validateContract()` - 14 edges
+4. `compilerOptions` - 12 edges
+5. `semanticIssue()` - 12 edges
+6. `appendSemanticIssues()` - 11 edges
+7. `Handoff da plataforma` - 11 edges
+8. `Planejamento da plataforma` - 11 edges
+9. `buildControlApi()` - 9 edges
+10. `JobRepository` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Management Platform Phase 1` --references--> `Platform Control Architecture`  [EXTRACTED]
@@ -73,7 +118,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (34 total, 2 thin omitted)
+## Communities (81 total, 11 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -125,11 +170,11 @@ Nodes (6): ADR-006 — Identidade VoidFall e início limitado da Fase 2, Consequ
 
 ### Community 25 - "common.ts"
 Cohesion: 0.07
-Nodes (58): AgentEnvelope, AgentEnvelopeSchema, validateAgentEnvelope(), AuditEvent, AuditEventSchema, findForbiddenKey(), forbiddenAuditKeys, normalizeKey() (+50 more)
+Nodes (61): AgentEnvelope, AgentEnvelopeSchema, AgentHeartbeatPayload, AgentHeartbeatPayloadSchema, validateAgentEnvelope(), validateAgentHeartbeatPayload(), AuditEvent, AuditEventSchema (+53 more)
 
 ### Community 26 - "Plataforma/package.json"
-Cohesion: 0.07
-Nodes (27): description, devDependencies, tsx, @types/node, typescript, engines, node, npm (+19 more)
+Cohesion: 0.06
+Nodes (30): description, devDependencies, tsx, @types/node, typescript, engines, node, npm (+22 more)
 
 ### Community 27 - "compilerOptions"
 Cohesion: 0.08
@@ -139,9 +184,13 @@ Nodes (24): compilerOptions, declaration, declarationMap, esModuleInterop, exact
 Cohesion: 0.09
 Nodes (22): ajv, ajv-formats, dependencies, ajv, ajv-formats, @sinclair/typebox, description, exports (+14 more)
 
-### Community 30 - "tsconfig.test.json"
-Cohesion: 0.20
-Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json (+1 more)
+### Community 29 - "database/package.json"
+Cohesion: 0.06
+Nodes (31): pg, dependencies, pg, @voidfall/authentication, @voidfall/contracts, @voidfall/permissions, description, devDependencies (+23 more)
+
+### Community 30 - "compilerOptions"
+Cohesion: 0.14
+Nodes (13): compilerOptions, declaration, declarationMap, lib, skipLibCheck, sourceMap, extends, include (+5 more)
 
 ### Community 31 - "tsconfig.build.json"
 Cohesion: 0.22
@@ -159,23 +208,169 @@ Nodes (3): files, references, $schema
 Cohesion: 0.50
 Nodes (3): buildInfoFile, outputDirectory, packageRoot
 
+### Community 35 - "authentication/package.json"
+Cohesion: 0.10
+Nodes (20): argon2, json-canonicalize, dependencies, argon2, json-canonicalize, @voidfall/contracts, description, exports (+12 more)
+
+### Community 36 - "authentication/src/index.ts"
+Cohesion: 0.23
+Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOptions, hashOpaqueToken(), hashPassword(), isAgentEnvelopeFresh(), PASSWORD_OPTIONS, safeEqualHex() (+5 more)
+
+### Community 37 - "repositories.ts"
+Cohesion: 0.14
+Nodes (11): ActiveSession, AgentRow, JobRow, PanelUser, PermissionRepository, RegisteredAgent, Repositories, ServerInstance (+3 more)
+
+### Community 38 - "database.ts"
+Cohesion: 0.16
+Nodes (9): Database, SqlClient, SqlResult, MigrationRow, runMigrations(), createRepositories(), createPGliteTestDatabase(), pgliteClient() (+1 more)
+
+### Community 39 - "0001_foundation.sql"
+Cohesion: 0.24
+Nodes (13): agent_nonces, agent_provision_tokens, agents, audit_events, job_events, jobs, panel_users, permissions (+5 more)
+
+### Community 41 - "compilerOptions"
+Cohesion: 0.14
+Nodes (13): compilerOptions, declaration, declarationMap, lib, skipLibCheck, sourceMap, extends, include (+5 more)
+
+### Community 42 - "permissions/package.json"
+Cohesion: 0.14
+Nodes (13): description, exports, files, dist, license, name, private, scripts (+5 more)
+
+### Community 43 - "compilerOptions"
+Cohesion: 0.15
+Nodes (12): compilerOptions, composite, lib, outDir, rootDir, skipLibCheck, extends, include (+4 more)
+
+### Community 44 - "permissions/src/index.ts"
+Cohesion: 0.27
+Nodes (9): hasPermission(), isPanelPermission(), knownPermissions, PANEL_PERMISSIONS, PANEL_ROLES, PanelPermission, PanelRole, permissionsForRoles() (+1 more)
+
+### Community 45 - "authentication/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 47 - "permissions/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 48 - "authentication/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 49 - "permissions/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 52 - "app.ts"
+Cohesion: 0.08
+Nodes (26): AgentRegistrationBody, AgentRegistrationBodySchema, AgentTransportVerifier, anonymizeIp(), ApiError, auditEvent(), AuthContext, buildControlApi() (+18 more)
+
+### Community 53 - "worker.ts"
+Cohesion: 0.27
+Nodes (6): controller, database, NoopWorkerResult, runNoopWorker(), runNoopWorkerOnce(), databases
+
+### Community 54 - "clean-workspace.mjs"
+Cohesion: 0.50
+Nodes (3): buildInfoFile, outputDirectory, workspaceRoot
+
+### Community 55 - "dependencies"
+Cohesion: 0.06
+Nodes (34): fastify, @fastify/cookie, @fastify/helmet, @fastify/rate-limit, dependencies, fastify, @fastify/cookie, @fastify/helmet (+26 more)
+
+### Community 57 - "control-api/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 58 - "AuditRepository"
+Cohesion: 0.25
+Nodes (4): asIso(), AuditRepository, mapAgent(), parseJson()
+
+### Community 59 - "compilerOptions"
+Cohesion: 0.14
+Nodes (13): compilerOptions, declaration, declarationMap, lib, skipLibCheck, sourceMap, extends, include (+5 more)
+
+### Community 60 - "build-worker/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 61 - "agent-client.ts"
+Cohesion: 0.21
+Nodes (6): AgentFetch, AgentHttpResponse, AgentIdentity, createHeartbeatEnvelope(), HeartbeatInput, VoidFallAgentClient
+
+### Community 62 - "panel-web/package.json"
+Cohesion: 0.08
+Nodes (23): lucide-react, next, description, devDependencies, lucide-react, next, react, react-dom (+15 more)
+
+### Community 63 - "server-agent/package.json"
+Cohesion: 0.12
+Nodes (16): dependencies, @voidfall/authentication, @voidfall/contracts, description, exports, @voidfall/authentication, @voidfall/contracts, license (+8 more)
+
+### Community 64 - "minecraft-process/package.json"
+Cohesion: 0.14
+Nodes (13): description, exports, files, dist, license, name, private, scripts (+5 more)
+
+### Community 65 - "server-agent/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 66 - "server-agent/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 67 - "build-worker/package.json"
+Cohesion: 0.10
+Nodes (19): dependencies, @voidfall/database, description, devDependencies, @electric-sql/pglite, @voidfall/contracts, @electric-sql/pglite, @voidfall/contracts (+11 more)
+
+### Community 68 - "contracts/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 69 - "minecraft-process/src/index.ts"
+Cohesion: 0.15
+Nodes (12): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessAdapter, MinecraftProcessConfig, ObservedProcessState, platformPath(), ProcessLaunchPlan, ProcessObservation (+4 more)
+
+### Community 70 - "compilerOptions"
+Cohesion: 0.08
+Nodes (24): compilerOptions, allowJs, declaration, declarationMap, incremental, isolatedModules, jsx, lib (+16 more)
+
+### Community 71 - "page.tsx"
+Cohesion: 0.32
+Nodes (3): metricIcons, navigation, DashboardFixture
+
+### Community 76 - "minecraft-process/tsconfig.build.json"
+Cohesion: 0.22
+Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
+
+### Community 77 - "Validação da Fase 2"
+Cohesion: 0.33
+Nodes (5): Dependências, Gate executado, Matriz, Não ações confirmadas, Validação da Fase 2
+
+### Community 78 - "minecraft-process/tsconfig.test.json"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
+
+### Community 79 - "ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3"
+Cohesion: 0.40
+Nodes (4): ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3, Consequências, Contexto, Decisão
+
 ## Knowledge Gaps
-- **150 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+145 more)
+- **454 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+449 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Database` connect `database.ts` to `repositories.ts`, `PostgresDatabase`, `asIso`, `AgentRepository`, `Database`, `UserRepository`, `AuditRepository`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `PostgresDatabase` connect `PostgresDatabase` to `database.ts`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
-  _150 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _454 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Contratos compartilhados` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `common.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.07283702213279677 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06886338393187708 - nodes in this community are weakly interconnected._
 - **Should `Plataforma/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.07142857142857142 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
-- **Should `contracts/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
