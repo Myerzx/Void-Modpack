@@ -1,6 +1,6 @@
 {
-  "corpus_tokens": 9714,
-  "corpus_words": 7286,
+  "corpus_tokens": 9718,
+  "corpus_words": 7289,
   "nodes": 80,
   "edges": 62,
   "avg_query_tokens": 359,
@@ -19,7 +19,7 @@
     {
       "question": "how are launcher and server responsibilities separated",
       "query_tokens": 373,
-      "reduction": 26.0
+      "reduction": 26.1
     },
     {
       "question": "how does pack validation protect reviewed portable overrides",
