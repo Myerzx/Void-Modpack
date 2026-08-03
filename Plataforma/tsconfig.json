@@ -18,6 +18,9 @@
       "path": "./packages/server-backup/tsconfig.build.json"
     },
     {
+      "path": "./packages/server-configuration/tsconfig.build.json"
+    },
+    {
       "path": "./apps/control-api/tsconfig.build.json"
     },
     {
