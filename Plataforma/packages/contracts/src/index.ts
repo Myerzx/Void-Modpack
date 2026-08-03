@@ -1,4 +1,5 @@
 export * from './agent-envelope.js';
+export * from './audit-chain-export.js';
 export * from './audit-event.js';
 export * from './catalog-reconciliation.js';
 export * from './common.js';
@@ -7,6 +8,10 @@ export * from './inventory-snapshot.js';
 export * from './job.js';
 export * from './launcher-channel.js';
 export * from './launcher-state.js';
+export * from './minecraft-permission-binding.js';
 export * from './mod-catalog-entry.js';
+export * from './moderation-case.js';
+export * from './player-data-policy.js';
+export * from './player-profile.js';
 export * from './release-manifest.js';
 export * from './validation.js';

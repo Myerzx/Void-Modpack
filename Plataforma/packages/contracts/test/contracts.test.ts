@@ -4,6 +4,7 @@ import {
   canPublishInStable,
   validateAgentEnvelope,
   validateAgentHeartbeatPayload,
+  validateAuditChainExportManifest,
   validateAuditEvent,
   validateCatalogReconciliationReport,
   validateForgeBuildRequest,
@@ -11,7 +12,11 @@ import {
   validateJob,
   validateLauncherChannel,
   validateLauncherManagedState,
+  validateMinecraftPermissionBinding,
   validateModCatalogEntry,
+  validateModerationCase,
+  validatePlayerDataPolicy,
+  validatePlayerProfile,
   validateReleaseManifest,
 } from '../src/index.js';
 
@@ -509,5 +514,191 @@ describe('AuditEvent', () => {
       after: { nested: { accessToken: '[REDACTED]' } },
     };
     assert.equal(validateAuditEvent(event).success, false);
+  });
+});
+
+describe('PlayerProfile', () => {
+  const validProfile = () => ({
+    schemaVersion: 1,
+    playerUuid: uuid,
+    revision: 2,
+    status: 'active',
+    createdAt: '2026-08-03T12:00:00Z',
+    updatedAt: '2026-08-03T12:05:00Z',
+    aliases: [
+      {
+        name: 'Void_Player',
+        normalizedName: 'void_player',
+        source: 'forge-bridge',
+        serverInstanceId: otherUuid,
+        firstObservedAt: '2026-08-03T12:00:00Z',
+        lastObservedAt: '2026-08-03T12:05:00Z',
+        observationCount: 2,
+      },
+    ],
+  });
+
+  it('accepts a UUID profile with canonical observed aliases', () => {
+    assert.equal(validatePlayerProfile(validProfile()).success, true);
+  });
+
+  it('rejects aliases that collide after case normalization', () => {
+    const profile = validProfile();
+    const originalAlias = profile.aliases[0];
+    assert.ok(originalAlias);
+    profile.aliases.push({
+      ...originalAlias,
+      name: 'VOID_PLAYER',
+    });
+    assert.equal(validatePlayerProfile(profile).success, false);
+  });
+});
+
+describe('MinecraftPermissionBinding', () => {
+  const validBinding = () => ({
+    schemaVersion: 1,
+    bindingId: uuid,
+    playerUuid: uuid,
+    serverInstanceId: otherUuid,
+    revision: 1,
+    status: 'pending',
+    groups: ['moderator', 'player'],
+    requestedBy: { type: 'panel-user', id: otherUuid },
+    reason: 'Approved moderation assignment.',
+    requestedAt: '2026-08-03T12:00:00Z',
+    updatedAt: '2026-08-03T12:00:00Z',
+  });
+
+  it('keeps Minecraft groups separate and requires the baseline player group', () => {
+    assert.equal(validateMinecraftPermissionBinding(validBinding()).success, true);
+    assert.equal(
+      validateMinecraftPermissionBinding({ ...validBinding(), groups: ['moderator'] }).success,
+      false,
+    );
+  });
+
+  it('requires synchronization evidence to match the resulting state', () => {
+    assert.equal(
+      validateMinecraftPermissionBinding({ ...validBinding(), status: 'synchronized' }).success,
+      false,
+    );
+    assert.equal(
+      validateMinecraftPermissionBinding({
+        ...validBinding(),
+        status: 'synchronized',
+        updatedAt: '2026-08-03T12:01:00Z',
+        synchronization: {
+          providerId: 'fixture-provider',
+          outcome: 'succeeded',
+          attemptedAt: '2026-08-03T12:01:00Z',
+          receiptId: 'fixture-receipt-1',
+        },
+      }).success,
+      true,
+    );
+  });
+});
+
+describe('ModerationCase', () => {
+  const validCase = () => ({
+    schemaVersion: 1,
+    caseId: uuid,
+    playerUuid: uuid,
+    serverInstanceId: otherUuid,
+    revision: 1,
+    action: 'temporary-ban',
+    status: 'requested',
+    reasonCode: 'abuse-review',
+    reason: 'Reviewed fixture reason.',
+    requestedBy: { type: 'panel-user', id: otherUuid },
+    requestedAt: '2026-08-03T12:00:00Z',
+    expiresAt: '2026-08-04T12:00:00Z',
+    updatedAt: '2026-08-03T12:00:00Z',
+  });
+
+  it('accepts a typed temporary action with an explicit expiry', () => {
+    assert.equal(validateModerationCase(validCase()).success, true);
+  });
+
+  it('rejects missing expiry and fabricated completion without executor evidence', () => {
+    const noExpiry = validCase();
+    delete (noExpiry as Partial<typeof noExpiry>).expiresAt;
+    assert.equal(validateModerationCase(noExpiry).success, false);
+    assert.equal(validateModerationCase({ ...validCase(), status: 'applied' }).success, false);
+  });
+});
+
+describe('PlayerDataPolicy', () => {
+  const validPolicy = () => ({
+    schemaVersion: 1,
+    policyId: 'player-safety',
+    revision: 1,
+    status: 'approved',
+    purposeCode: 'moderation-safety',
+    purpose: 'Support proportionate moderation review.',
+    createdAt: '2026-08-03T12:00:00Z',
+    updatedAt: '2026-08-03T12:05:00Z',
+    approvedBy: { type: 'panel-user', id: otherUuid },
+    approvedAt: '2026-08-03T12:03:00Z',
+    effectiveAt: '2026-08-03T12:04:00Z',
+    rules: [
+      {
+        category: 'activity',
+        collection: 'allowed',
+        maximumRetentionSeconds: 86_400,
+        viewPermission: 'player.activity.sensitive',
+        export: 'disabled',
+      },
+      {
+        category: 'chat',
+        collection: 'disabled',
+        viewPermission: 'player.activity.sensitive',
+        export: 'disabled',
+      },
+      {
+        category: 'coordinates',
+        collection: 'disabled',
+        viewPermission: 'player.activity.sensitive',
+        export: 'disabled',
+      },
+    ],
+  });
+
+  it('accepts an approved policy with all categories and bounded retention', () => {
+    assert.equal(validatePlayerDataPolicy(validPolicy()).success, true);
+  });
+
+  it('rejects exports for a category whose collection is disabled', () => {
+    const policy = validPolicy();
+    const chatRule = policy.rules[1];
+    assert.ok(chatRule);
+    policy.rules[1] = { ...chatRule, export: 'allowed' };
+    assert.equal(validatePlayerDataPolicy(policy).success, false);
+  });
+});
+
+describe('AuditChainExportManifest', () => {
+  const validExport = () => ({
+    schemaVersion: 1,
+    exportId: uuid,
+    algorithm: 'sha256-chain-v1',
+    partitionId: 'administrative',
+    generatedAt: '2026-08-03T12:05:00Z',
+    firstSequence: 2,
+    lastSequence: 4,
+    recordCount: 3,
+    previousHash: hashA,
+    finalHash: hashB,
+    contentSha256: hashA,
+    mediaType: 'application/x-ndjson',
+    encoding: 'utf-8',
+  });
+
+  it('accepts a contiguous export range and rejects a stale count', () => {
+    assert.equal(validateAuditChainExportManifest(validExport()).success, true);
+    assert.equal(
+      validateAuditChainExportManifest({ ...validExport(), recordCount: 2 }).success,
+      false,
+    );
   });
 });
