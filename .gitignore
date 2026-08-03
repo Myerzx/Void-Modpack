@@ -52,6 +52,7 @@ desktop.ini
 # Graphify machine-local state; the portable graph outputs stay tracked
 /graphify-out/.graphify_*
 /graphify-out/.needs_update
+/graphify-out/needs_update
 /graphify-out/cache/
 /graphify-out/cost.json
 /graphify-out/watcher.pid

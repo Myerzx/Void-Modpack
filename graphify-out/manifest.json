@@ -27,7 +27,7 @@
   "Launcher/tools/Test-LauncherPack.ps1": {
     "mtime": 1785721719.1997068,
     "ast_hash": "ed85dcd869fdc6abb0f659e235a9cc6d",
-    "semantic_hash": ""
+    "semantic_hash": "ed85dcd869fdc6abb0f659e235a9cc6d"
   },
   "docs/launcher/inventario/resumo-perfil.json": {
     "mtime": 1785719232.011539,
@@ -37,7 +37,7 @@
   "tools/graphify/Start-GraphifyBackground.ps1": {
     "mtime": 1785721779.8235326,
     "ast_hash": "709cd87d3f2a7f1c532ab891f8526410",
-    "semantic_hash": ""
+    "semantic_hash": "709cd87d3f2a7f1c532ab891f8526410"
   },
   "tools/graphify/Stop-GraphifyBackground.ps1": {
     "mtime": 1785720969.7798762,
@@ -47,12 +47,12 @@
   "tools/graphify/Watch-Graph.ps1": {
     "mtime": 1785721888.5882037,
     "ast_hash": "582f669dfb8db26b7c048327b8396458",
-    "semantic_hash": ""
+    "semantic_hash": "582f669dfb8db26b7c048327b8396458"
   },
   "AGENTS.md": {
-    "mtime": 1785728901.8949008,
-    "ast_hash": "7ad36e706524d8166204a4edac6e3bdb",
-    "semantic_hash": ""
+    "mtime": 1785732665.295339,
+    "ast_hash": "ca9a3c88dfa54f38a60c5ebaae961cc9",
+    "semantic_hash": "ca9a3c88dfa54f38a60c5ebaae961cc9"
   },
   "Launcher/README.md": {
     "mtime": 1785719202.1504438,
@@ -70,24 +70,24 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785728901.891889,
-    "ast_hash": "9adc76c7465f39400227869c35651f3e",
-    "semantic_hash": ""
+    "mtime": 1785732665.293834,
+    "ast_hash": "4fadc135bcfd29c3890f51947f754238",
+    "semantic_hash": "4fadc135bcfd29c3890f51947f754238"
   },
   "Servidor/README.md": {
     "mtime": 1785727368.7845335,
     "ast_hash": "22772d6578f91cb0739fe137a1609162",
-    "semantic_hash": ""
+    "semantic_hash": "22772d6578f91cb0739fe137a1609162"
   },
   "docs/README.md": {
-    "mtime": 1785728901.893396,
-    "ast_hash": "7e079873fa186b50e55bfbab0dcbe779",
-    "semantic_hash": ""
+    "mtime": 1785732665.293834,
+    "ast_hash": "bced52809c644f47554d3d99e363bc9b",
+    "semantic_hash": "bced52809c644f47554d3d99e363bc9b"
   },
   "docs/agentes/escopos.md": {
-    "mtime": 1785728901.8949008,
-    "ast_hash": "5cce61d4b69b3010e074b384b110f2ee",
-    "semantic_hash": ""
+    "mtime": 1785732665.295339,
+    "ast_hash": "e37c38e0d1bcf33d49c8fd2c70fcdd6b",
+    "semantic_hash": "e37c38e0d1bcf33d49c8fd2c70fcdd6b"
   },
   "docs/launcher/README.md": {
     "mtime": 1785719202.153458,
@@ -137,86 +137,201 @@
   "Servidor/catalog/resumo-servidor.json": {
     "mtime": 1785729071.5133693,
     "ast_hash": "eac6cbe2893db61f137d55a9ba6beef5",
-    "semantic_hash": ""
+    "semantic_hash": "eac6cbe2893db61f137d55a9ba6beef5"
   },
   "Servidor/tools/Export-ServerInventory.ps1": {
     "mtime": 1785729064.2070794,
     "ast_hash": "9bcdbb420ea51ef9a47731be6f377e43",
-    "semantic_hash": ""
+    "semantic_hash": "9bcdbb420ea51ef9a47731be6f377e43"
   },
   "Servidor/tools/Test-ServerDocumentation.ps1": {
     "mtime": 1785729064.2070794,
     "ast_hash": "166afc23bf84eef5fd7c6cdc29bb8242",
-    "semantic_hash": ""
+    "semantic_hash": "166afc23bf84eef5fd7c6cdc29bb8242"
   },
   "Servidor/tools/export_server_summary.py": {
     "mtime": 1785728658.6148696,
     "ast_hash": "4df8adc43ce1141bc63ce6f7cf0af4a9",
-    "semantic_hash": ""
+    "semantic_hash": "4df8adc43ce1141bc63ce6f7cf0af4a9"
   },
   "docs/servidor/inventario/resumo-servidor.json": {
     "mtime": 1785729071.5133693,
     "ast_hash": "eac6cbe2893db61f137d55a9ba6beef5",
-    "semantic_hash": ""
+    "semantic_hash": "eac6cbe2893db61f137d55a9ba6beef5"
   },
   "Servidor/AGENTS.md": {
     "mtime": 1785727368.7845335,
     "ast_hash": "641d2a48da3eb1bb9d2d1e39bf166b34",
-    "semantic_hash": ""
+    "semantic_hash": "641d2a48da3eb1bb9d2d1e39bf166b34"
   },
   "Servidor/pack/README.md": {
     "mtime": 1785727368.7845335,
     "ast_hash": "88a9d58933e986d26ec02d2e84fc6330",
-    "semantic_hash": ""
+    "semantic_hash": "88a9d58933e986d26ec02d2e84fc6330"
   },
   "Servidor/source/README.md": {
     "mtime": 1785727368.7860405,
     "ast_hash": "ba47c8436b49da3e3a954d8aab173903",
-    "semantic_hash": ""
+    "semantic_hash": "ba47c8436b49da3e3a954d8aab173903"
   },
   "Servidor/templates/user_jvm_args.example.txt": {
     "mtime": 1785727368.787549,
     "ast_hash": "b5b3492310af31e7f5e618bc6d25bc10",
-    "semantic_hash": ""
+    "semantic_hash": "b5b3492310af31e7f5e618bc6d25bc10"
   },
   "docs/servidor/README.md": {
     "mtime": 1785728844.7450156,
     "ast_hash": "76d39cefd6293e0f07778648ef086d8d",
-    "semantic_hash": ""
+    "semantic_hash": "76d39cefd6293e0f07778648ef086d8d"
   },
   "docs/servidor/arquitetura.md": {
     "mtime": 1785728844.7450156,
     "ast_hash": "7e214da0f3d779a365d17ca760cb7b4b",
-    "semantic_hash": ""
+    "semantic_hash": "7e214da0f3d779a365d17ca760cb7b4b"
   },
   "docs/servidor/auditoria.md": {
     "mtime": 1785728844.7450156,
     "ast_hash": "6c6fb27918c8f8ef08af113b44c0c676",
-    "semantic_hash": ""
+    "semantic_hash": "6c6fb27918c8f8ef08af113b44c0c676"
   },
   "docs/servidor/compatibilidade-cliente.md": {
     "mtime": 1785728901.8888714,
     "ast_hash": "6963c6e9a108662d72fb4d3f050c4122",
-    "semantic_hash": ""
+    "semantic_hash": "6963c6e9a108662d72fb4d3f050c4122"
   },
   "docs/servidor/operacao.md": {
     "mtime": 1785728844.7465255,
     "ast_hash": "fbaf82f34a2ff0aaae13091339c5f398",
-    "semantic_hash": ""
+    "semantic_hash": "fbaf82f34a2ff0aaae13091339c5f398"
   },
   "docs/servidor/releases.md": {
     "mtime": 1785728901.8888714,
     "ast_hash": "0e61e8319e304a36320ab0e4eaf845be",
-    "semantic_hash": ""
+    "semantic_hash": "0e61e8319e304a36320ab0e4eaf845be"
   },
   "docs/servidor/seguranca.md": {
     "mtime": 1785728844.7465255,
     "ast_hash": "cd7310e8cffd48cdeda97724ae10c710",
-    "semantic_hash": ""
+    "semantic_hash": "cd7310e8cffd48cdeda97724ae10c710"
   },
   "docs/servidor/sistemas-customizados.md": {
     "mtime": 1785728901.8888714,
     "ast_hash": "cf4b885a4847f11b53112c26b8952324",
-    "semantic_hash": ""
+    "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
+  },
+  "Plataforma/AGENTS.md": {
+    "mtime": 1785732287.798195,
+    "ast_hash": "279f40126351c02c8323634d78d4f7dd",
+    "semantic_hash": "279f40126351c02c8323634d78d4f7dd"
+  },
+  "Plataforma/README.md": {
+    "mtime": 1785732287.798195,
+    "ast_hash": "61610a610767f5fa8e1255f0610c8e04",
+    "semantic_hash": "61610a610767f5fa8e1255f0610c8e04"
+  },
+  "docs/plataforma/API.md": {
+    "mtime": 1785732381.8698642,
+    "ast_hash": "e038c2154761606f083cb604922d77f5",
+    "semantic_hash": "e038c2154761606f083cb604922d77f5"
+  },
+  "docs/plataforma/ARCHITECTURE.md": {
+    "mtime": 1785732287.799703,
+    "ast_hash": "21be916514e89432a14c484dcf4d386b",
+    "semantic_hash": "21be916514e89432a14c484dcf4d386b"
+  },
+  "docs/plataforma/CHANGELOG.md": {
+    "mtime": 1785732625.1449022,
+    "ast_hash": "0f241bd346892942f63b23bf3f254fab",
+    "semantic_hash": "0f241bd346892942f63b23bf3f254fab"
+  },
+  "docs/plataforma/DATABASE.md": {
+    "mtime": 1785732518.4906335,
+    "ast_hash": "c12641289cb869bc1da97dec3911672d",
+    "semantic_hash": "c12641289cb869bc1da97dec3911672d"
+  },
+  "docs/plataforma/DECISIONS/ADR-001-linguagens-e-limites.md": {
+    "mtime": 1785732625.1464763,
+    "ast_hash": "cbb97e83dee8d633ef254ef665fab742",
+    "semantic_hash": "cbb97e83dee8d633ef254ef665fab742"
+  },
+  "docs/plataforma/DECISIONS/ADR-002-comunicacao-com-agente.md": {
+    "mtime": 1785732625.1464763,
+    "ast_hash": "70e46cdaadcddc0e50f2d5f221da7409",
+    "semantic_hash": "70e46cdaadcddc0e50f2d5f221da7409"
+  },
+  "docs/plataforma/DECISIONS/ADR-003-manifesto-e-publicacao.md": {
+    "mtime": 1785732625.1464763,
+    "ast_hash": "5f10dcf00f7c1e506e17578abb457502",
+    "semantic_hash": "5f10dcf00f7c1e506e17578abb457502"
+  },
+  "docs/plataforma/DECISIONS/ADR-004-persistencia-e-fila.md": {
+    "mtime": 1785732625.1479852,
+    "ast_hash": "6efdfe9b647c3f2c47b830b99a6a8e16",
+    "semantic_hash": "6efdfe9b647c3f2c47b830b99a6a8e16"
+  },
+  "docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md": {
+    "mtime": 1785732625.1479852,
+    "ast_hash": "ef95d8b56b359a35abcb081c2f7da523",
+    "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
+  },
+  "docs/plataforma/DECISIONS/README.md": {
+    "mtime": 1785732625.1449022,
+    "ast_hash": "4c3a73bcda4bc9991ce3cfa8f3d80e17",
+    "semantic_hash": "4c3a73bcda4bc9991ce3cfa8f3d80e17"
+  },
+  "docs/plataforma/DEPLOYMENT.md": {
+    "mtime": 1785732518.492139,
+    "ast_hash": "59671b9d579cccdaf2f9c510b5ec36e0",
+    "semantic_hash": "59671b9d579cccdaf2f9c510b5ec36e0"
+  },
+  "docs/plataforma/HANDOFF.md": {
+    "mtime": 1785732724.5006735,
+    "ast_hash": "d652febf4726efb69e59670d447df72c",
+    "semantic_hash": "d652febf4726efb69e59670d447df72c"
+  },
+  "docs/plataforma/LAUNCHER_PROTOCOL.md": {
+    "mtime": 1785732381.8683567,
+    "ast_hash": "18d6f5f76318d9ee4459726e09f4feae",
+    "semantic_hash": "18d6f5f76318d9ee4459726e09f4feae"
+  },
+  "docs/plataforma/LOGGING.md": {
+    "mtime": 1785732518.492139,
+    "ast_hash": "b6bc9082849c0cbd9bc5799115a9995f",
+    "semantic_hash": "b6bc9082849c0cbd9bc5799115a9995f"
+  },
+  "docs/plataforma/MODPACK_BUILD.md": {
+    "mtime": 1785732381.8683567,
+    "ast_hash": "251eff03288c78641eba4a99fc07213c",
+    "semantic_hash": "251eff03288c78641eba4a99fc07213c"
+  },
+  "docs/plataforma/PERMISSIONS.md": {
+    "mtime": 1785732518.492139,
+    "ast_hash": "f8eb32ad123e780447f223e95a7c4a42",
+    "semantic_hash": "f8eb32ad123e780447f223e95a7c4a42"
+  },
+  "docs/plataforma/PROJECT_CONTEXT.md": {
+    "mtime": 1785732287.799703,
+    "ast_hash": "246d1d28d1be4306b2a4fdbe738284d0",
+    "semantic_hash": "246d1d28d1be4306b2a4fdbe738284d0"
+  },
+  "docs/plataforma/README.md": {
+    "mtime": 1785732724.5006735,
+    "ast_hash": "bb034763e0559364d551cef022462717",
+    "semantic_hash": "bb034763e0559364d551cef022462717"
+  },
+  "docs/plataforma/ROADMAP.md": {
+    "mtime": 1785732625.1433938,
+    "ast_hash": "46f476ae9e4f74361bc3bf35dd356b95",
+    "semantic_hash": "46f476ae9e4f74361bc3bf35dd356b95"
+  },
+  "docs/plataforma/SECURITY.md": {
+    "mtime": 1785732518.4906335,
+    "ast_hash": "cbd6958ad2e7415702dfbc518ec4a9c5",
+    "semantic_hash": "cbd6958ad2e7415702dfbc518ec4a9c5"
+  },
+  "docs/plataforma/UI_INFORMATION_ARCHITECTURE.md": {
+    "mtime": 1785732724.499163,
+    "ast_hash": "79630cc10c0780b269b4c7275a68b87f",
+    "semantic_hash": "79630cc10c0780b269b4c7275a68b87f"
   }
 }

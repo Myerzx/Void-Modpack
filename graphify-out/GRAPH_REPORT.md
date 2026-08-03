@@ -1,149 +1,121 @@
-# Graph Report - void pasta  (2026-08-03)
+# Graph Report - .  (2026-08-03)
 
 ## Corpus Check
-- 43 files · ~12,271 words
-- Verdict: corpus is large enough that graph structure adds value.
+- Corpus is ~23,441 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 147 nodes · 130 edges · 31 communities (27 shown, 4 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.93)
+- 116 nodes · 122 edges · 24 communities (22 shown, 2 thin omitted)
+- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.94)
 - Token cost: 0 input · 0 output
 
-## Graph Freshness
-- Built from commit: `6e772232`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
-
 ## Community Hubs (Navigation)
-- Automatic Graph Persistence
-- Canonical CurseForge Pack Source
-- manifest.json
-- Fonte canonica Launcher/pack
-- Gate de audit para alpha
-- Client-Server Scope Isolation
-- Coordenador
-- Portable Knowledge Graph Outputs
-- Licenciamento de ativos autorais
-- Documentacao do launcher
-- servidor/README.md
-- export_server_summary.py
-- Ciclo operacional recomendado
-- Auditoria do servidor
-- Compatibilidade do cliente
-- Releases do servidor
-- Segurança do servidor
-- Server agent guide
-- pack/README.md
-- source/README.md
+- Plataforma Operação e Segurança
+- Pacote CurseForge Canônico
+- Modelo Manifesto CurseForge
+- Governança Cliente Servidor
+- Portabilidade do Launcher
+- Arquitetura da Plataforma
+- Exportação do Servidor
+- Gates de Release
+- Documentação do Servidor
+- Persistência Automática Graphify
+- Operação do Graphify
+- Licenciamento de Ativos
+- Documentação do Launcher
 
 ## God Nodes (most connected - your core abstractions)
-1. `main()` - 6 edges
-2. `Sistemas customizados` - 6 edges
-3. `Auditoria do servidor` - 5 edges
-4. `VoidFall Repository` - 5 edges
-5. `Automatic Graph Persistence` - 5 edges
-6. `Arquitetura do servidor` - 4 edges
-7. `Compatibilidade do cliente` - 4 edges
-8. `Operação do servidor` - 4 edges
-9. `Ciclo operacional recomendado` - 4 edges
-10. `Releases do servidor` - 4 edges
+1. `Handoff da plataforma` - 11 edges
+2. `Planejamento da plataforma` - 11 edges
+3. `Platform Control Architecture` - 8 edges
+4. `Documentação do servidor` - 7 edges
+5. `main()` - 6 edges
+6. `Server Agent Guide` - 5 edges
+7. `Canonical CurseForge Pack Source` - 4 edges
+8. `Blocked Modrinth Export` - 4 edges
+9. `Gate de audit para alpha` - 4 edges
+10. `VoidFall Repository` - 4 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Graphify Knowledge Graph` --conceptually_related_to--> `VoidFall Repository`  [INFERRED]
-  AGENTS.md → README.md
-- `Client-Server Scope Isolation` --references--> `Reserved Server Scope`  [INFERRED]
-  AGENTS.md → Servidor/README.md
-- `Graphify Auto-Save Integration` --references--> `Automatic Graph Persistence`  [EXTRACTED]
-  README.md → docs/graphify/README.md
-- `Canonical Pack Directory` --references--> `Canonical CurseForge Pack Source`  [INFERRED]
-  Launcher/README.md → Launcher/pack/README.md
-- `Blocked Modrinth Export` --conceptually_related_to--> `Provider-Resolved CurseForge Assets`  [INFERRED]
-  Launcher/platforms/modrinth/README.md → Launcher/pack/README.md
+- `Phase 1 Platform Governance` --references--> `Server Agent Guide`  [EXTRACTED]
+  Plataforma/AGENTS.md → Servidor/AGENTS.md
+- `Management Platform Phase 1` --references--> `Platform Control Architecture`  [EXTRACTED]
+  Plataforma/README.md → docs/plataforma/ARCHITECTURE.md
+- `VoidFall Repository` --conceptually_related_to--> `ADR-005 Reviewed Canonical Client Catalog`  [INFERRED]
+  README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
+- `Dedicated Server Promotion Gate` --conceptually_related_to--> `ADR-005 Reviewed Canonical Client Catalog`  [INFERRED]
+  Servidor/pack/README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
+- `VoidFall Repository Operating Guide` --references--> `Agent Scope and Minimum Handoff`  [EXTRACTED]
+  AGENTS.md → docs/agentes/escopos.md
 
 ## Import Cycles
 - None detected.
 
 ## Hyperedges (group relationships)
-- **Gate de pre-release do launcher** — docs_launcher_readme_bloqueio_pre_release, docs_launcher_auditoria_gate_alpha, docs_launcher_releases_smoke_tests_obrigatorios [EXTRACTED 1.00]
 - **Graph Auto-Save Layers** — docs_graphify_readme_file_change_watcher, docs_graphify_readme_git_graph_hooks, docs_graphify_readme_windows_logon_task [EXTRACTED 1.00]
+- **Gate de pre-release do launcher** — docs_launcher_readme_bloqueio_pre_release, docs_launcher_auditoria_gate_alpha, docs_launcher_releases_smoke_tests_obrigatorios [EXTRACTED 1.00]
+- **Platform Phase 1 Planning Artifacts** — plataforma_agents_phase_1_platform_governance, plataforma_readme_management_platform_phase_1, docs_plataforma_architecture_platform_control_architecture, docs_plataforma_changelog_phase_1_documentation_release [EXTRACTED 1.00]
+- **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
+- **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (31 total, 4 thin omitted)
+## Communities (24 total, 2 thin omitted)
 
-### Community 0 - "Automatic Graph Persistence"
-Cohesion: 0.14
-Nodes (14): Graphify Knowledge Graph, Automatic Graph Persistence, File Change Watcher, Git Graph Hooks, Semantic Refresh Marker, Windows Logon Auto-Start Task, Evidence Documentation Boundary, Graphify Operations Documentation (+6 more)
+### Community 0 - "Plataforma Operação e Segurança"
+Cohesion: 0.32
+Nodes (12): Registros de decisão arquitetural, Implantação e operação, Handoff da plataforma, Protocolo do launcher, Logs, auditoria e métricas, Build do modpack, Permissões, Contexto do projeto (+4 more)
 
-### Community 1 - "Canonical CurseForge Pack Source"
+### Community 1 - "Pacote CurseForge Canônico"
 Cohesion: 0.18
 Nodes (12): Canonical CurseForge Pack Source, Provider-Resolved CurseForge Assets, Reviewed Portable Overrides, Sanitized Manifest, Blocked Modrinth Export, Cross-Launcher mrpack Import Validation, Curated Addon Mapping, Valid mrpack Index (+4 more)
 
-### Community 2 - "manifest.json"
+### Community 2 - "Modelo Manifesto CurseForge"
 Cohesion: 0.18
 Nodes (10): author, files, manifestType, manifestVersion, minecraft, modLoaders, version, name (+2 more)
 
-### Community 3 - "Fonte canonica Launcher/pack"
+### Community 3 - "Governança Cliente Servidor"
+Cohesion: 0.33
+Nodes (10): VoidFall Repository Operating Guide, Agent Scope and Minimum Handoff, ADR-005 Reviewed Canonical Client Catalog, Evidence and Release Documentation Boundary, VoidFall Repository, Server Agent Guide, Dedicated Server Promotion Gate, The Casket of Reveries 2.0.26 Server (+2 more)
+
+### Community 4 - "Portabilidade do Launcher"
 Cohesion: 0.20
 Nodes (10): Fonte canonica Launcher/pack, Isolamento futuro do servidor, Perfil original imutavel, Pipeline do launcher, Distribuicao por project/file IDs, Gate de arquivos acima de 95 MB, Quarentena de CtE Resources, CurseForge como primeiro artefato (+2 more)
 
-### Community 4 - "Gate de audit para alpha"
-Cohesion: 0.25
-Nodes (8): Bloqueio de distribuicao de CtE Resources, Divergencia entre manifesto e runtime, Falha de registros na criacao de mundo, Gate de audit para alpha, Bloqueio de pre-release, Estagios de versionamento, Pipeline de release, Smoke tests obrigatorios
+### Community 5 - "Arquitetura da Plataforma"
+Cohesion: 0.29
+Nodes (10): Versioned Platform API Contracts, Platform Control Architecture, Phase 1 Documentation Release, PostgreSQL Transactional Platform Model, ADR-001 TypeScript Control Plane and Java Forge Bridge, ADR-002 Outbound Authenticated Server Agent, ADR-003 Signed Immutable Release Manifest, ADR-004 PostgreSQL Durable Job Queue (+2 more)
 
-### Community 5 - "Client-Server Scope Isolation"
-Cohesion: 0.40
-Nodes (5): Client-Server Scope Isolation, Launcher Release Gates, Reproducible Launcher-Independent Modpack, Explicit User Activation, Reserved Server Scope
-
-### Community 6 - "Coordenador"
-Cohesion: 0.50
-Nodes (4): Agente de ativos/UI, Agente do launcher, Agente do servidor, Coordenador
-
-### Community 7 - "Portable Knowledge Graph Outputs"
-Cohesion: 0.67
-Nodes (3): Agent Graph Query Workflow, Graphify All-Extras Installation, Portable Knowledge Graph Outputs
-
-### Community 19 - "servidor/README.md"
-Cohesion: 0.12
-Nodes (13): Arquitetura canônica do repositório, Arquitetura do servidor, Camadas observadas, Limites de responsabilidade, Documentação do servidor, Leitura recomendada, Perfil auditado, Facções e economia (+5 more)
-
-### Community 20 - "export_server_summary.py"
+### Community 6 - "Exportação do Servidor"
 Cohesion: 0.44
 Nodes (8): Path, bool_cell(), directory_size(), json_entry_count(), main(), Build a sanitized JSON summary from the private server workspace. The script…, read_csv(), read_properties()
 
-### Community 21 - "Ciclo operacional recomendado"
+### Community 7 - "Gates de Release"
 Cohesion: 0.25
-Nodes (7): Backup e restauração, Ciclo operacional recomendado, Evidência atual, Inicialização, Operação do servidor, Parada, Requisitos conhecidos
+Nodes (8): Bloqueio de distribuicao de CtE Resources, Divergencia entre manifesto e runtime, Falha de registros na criacao de mundo, Gate de audit para alpha, Bloqueio de pre-release, Estagios de versionamento, Pipeline de release, Smoke tests obrigatorios
 
-### Community 22 - "Auditoria do servidor"
-Cohesion: 0.33
-Nodes (5): Auditoria do servidor, Evidências, O que não foi publicado, Resultado executivo, Riscos priorizados
+### Community 8 - "Documentação do Servidor"
+Cohesion: 0.25
+Nodes (8): Arquitetura do servidor, Auditoria do servidor, Compatibilidade do cliente, Operação do servidor, Documentação do servidor, Releases do servidor, Segurança do servidor, Sistemas customizados
 
-### Community 23 - "Compatibilidade do cliente"
+### Community 9 - "Persistência Automática Graphify"
 Cohesion: 0.40
-Nodes (4): Caminho para compatibilidade, Comparação por nome exato de JAR, Compatibilidade do cliente, Conclusão
+Nodes (5): Automatic Graph Persistence, File Change Watcher, Git Graph Hooks, Semantic Refresh Marker, Windows Logon Auto-Start Task
 
-### Community 24 - "Releases do servidor"
-Cohesion: 0.40
-Nodes (4): Artefatos previstos, Gates obrigatórios, Releases do servidor, Versionamento
-
-### Community 25 - "Segurança do servidor"
-Cohesion: 0.40
-Nodes (4): Baseline antes de publicar, Estado encontrado, Segurança do servidor, Verificação
-
-### Community 26 - "Server agent guide"
-Cohesion: 0.50
-Nodes (3): Rules, Scope, Server agent guide
+### Community 10 - "Operação do Graphify"
+Cohesion: 0.67
+Nodes (3): Agent Graph Query Workflow, Graphify All-Extras Installation, Portable Knowledge Graph Outputs
 
 ## Knowledge Gaps
-- **68 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+63 more)
+- **35 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+30 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Server Agent Guide` connect `Governança Cliente Servidor` to `Arquitetura da Plataforma`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `Phase 1 Platform Governance` connect `Arquitetura da Plataforma` to `Governança Cliente Servidor`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Are the 5 inferred relationships involving `Platform Control Architecture` (e.g. with `Versioned Platform API Contracts` and `ADR-001 TypeScript Control Plane and Java Forge Bridge`) actually correct?**
+  _`Platform Control Architecture` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
-  _68 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Automatic Graph Persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
-- **Should `servidor/README.md` be split into smaller, more focused modules?**
-  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
+  _35 weakly-connected nodes found - possible documentation gaps or missing edges._
