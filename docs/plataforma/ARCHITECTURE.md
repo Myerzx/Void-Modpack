@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fases 2 e 3 concluídas; a Fase 3 permanece limitada às fronteiras isoladas de processo e filesystem. Integrações com o Minecraft real continuam bloqueadas.
+Status: Fases 2 e 3 concluídas; Fase 4 iniciada pelo inventário e catálogo reconciliado em memória. Integrações com o Minecraft real continuam bloqueadas.
 
 ## Resumo
 
@@ -64,6 +64,7 @@ Plataforma/
     forge-bridge/
   packages/
     contracts/
+    mod-catalog/
     database/
     authentication/
     permissions/
@@ -87,7 +88,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo; `packages/server-configuration/` acrescenta alterações tipadas de Java Properties com revisão anterior e rollback versionado. Ambos exigem uma guarda offline injetada. As implementações operam apenas sobre fixtures descartáveis dos testes e não estão conectadas ao servidor real, à Control API ou ao agente.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo; `packages/server-configuration/` acrescenta alterações tipadas de Java Properties com revisão anterior e rollback versionado. Ambos exigem uma guarda offline injetada. A Fase 4 começou em `packages/mod-catalog/`: o pacote recebe apenas `InventorySnapshot` sanitizado e `ModCatalogEntry` revisado, agrupa bytes por SHA-256 e retorna conflitos/bloqueios canônicos em memória. Ele não possui imports de filesystem ou rede. Nenhuma dessas implementações está conectada ao servidor real, à Control API ou ao agente.
 
 ## Fluxo do comando no jogo
 

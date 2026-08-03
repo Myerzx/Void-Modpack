@@ -1,6 +1,6 @@
 # Contratos compartilhados
 
-Status: implementação inicial v1 na Fase 2.
+Status: implementação v1 iniciada na Fase 2 e ampliada no primeiro recorte da Fase 4.
 
 ## Objetivo
 
@@ -28,6 +28,8 @@ Os contratos iniciais não acessam rede, banco, filesystem operacional nem proce
 | `Job` | Control API e scheduler | Server Agent ou Build Worker | idempotência, correlação, lease, tentativas e payload versionado |
 | `AgentEnvelope` | Server Agent | Control API | identidade de agente/instância, nonce, validade, hash e metadados de assinatura |
 | `ModCatalogEntry` | inventário revisado e catálogo | Build Worker e painel | path relativo, hash, lado, proveniência, licença, revisão e dependências |
+| `InventorySnapshot` | exportador autorizado de cliente/servidor | reconciliador de catálogo | fonte/escopo explícitos, runtime, paths canônicos, estado, tamanho e hash sem dados privados |
+| `CatalogReconciliationReport` | reconciliador determinístico | revisão futura, worker e painel | identidade de conteúdo, ocorrências, sugestão de lado, conflitos e bloqueios ordenados |
 | `ReleaseManifest` | Build Worker após gates | Launcher API e adaptadores | identidade VoidFall, artifacts por hash, paths canônicos, remoção explícita e assinatura |
 | `AuditEvent` | todos os componentes autorizados | armazenamento append-only e painel | ator, recurso, correlação, resultado, integridade opcional e bloqueio de chaves secretas |
 
@@ -60,6 +62,24 @@ O validador atual não confirma assinatura, conteúdo do hash, replay, relógio 
 
 Esse contrato registra uma decisão de distribuição; ele não descobre nem concede licença automaticamente.
 
+### `InventorySnapshot`
+
+- fonte diferencia exportação do launcher, servidor, release anterior ou importação revisada;
+- `launcher-export` e `release-manifest` exigem escopo cliente; `server-export` exige servidor;
+- entrada contém somente path relativo, filename, tipo, estado, bytes e SHA-256;
+- basename precisa coincidir e os paths devem ser únicos e estritamente ordenados após normalização cross-platform;
+- snapshot vazio é válido como observação, sem provar ausência global;
+- não inclui path absoluto, arquivo, segredo, jogador, licença ou decisão final de lado.
+
+### `CatalogReconciliationReport`
+
+- `artifactId` deriva exclusivamente do SHA-256;
+- entradas lógicas, filenames, observações, bloqueios e artefatos são únicos e canonicamente ordenados;
+- estados `cataloged`, `untracked` e `ambiguous` não são convertidos silenciosamente;
+- `suggestedSide` é evidência e não substitui o lado revisado;
+- resumo precisa corresponder exatamente aos artefatos;
+- o relatório não concede autorização de publicação.
+
 ### `ReleaseManifest`
 
 - identidade literal `voidfall`/`VoidFall`;
@@ -88,6 +108,8 @@ Redação por nome de campo é uma defesa adicional, não substitui sanitizaçã
 - `job.schema.json`;
 - `agent-envelope.schema.json`;
 - `mod-catalog-entry.schema.json`;
+- `inventory-snapshot.schema.json`;
+- `catalog-reconciliation-report.schema.json`;
 - `release-manifest.schema.json`;
 - `audit-event.schema.json`.
 
@@ -111,4 +133,4 @@ npm run check
 npm pack --workspace @voidfall/contracts --dry-run
 ```
 
-O check executa typecheck, testes e geração dos cinco schemas. A revisão seguinte deve começar por esses comandos e pelo [handoff](HANDOFF.md).
+O check executa typecheck, testes e geração dos sete schemas. A revisão seguinte deve começar por esses comandos e pelo [handoff](HANDOFF.md).

@@ -2,6 +2,22 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-03 — Fase 4: inventário reconciliado
+
+### Adicionado
+
+- contratos v1 `InventorySnapshot` e `CatalogReconciliationReport` com JSON Schemas portáteis;
+- snapshots sanitizados com fonte/escopo, runtime, paths canônicos, estado, tamanho e SHA-256;
+- `@voidfall/mod-catalog` com identidade de conteúdo por hash e ID lógico mantido no catálogo revisado;
+- agrupamento determinístico de ocorrências cliente/servidor e sugestão não autoritativa de lado;
+- estados `cataloged`, `untracked` e `ambiguous`, além de bloqueios de presença, lado, distribuição, revisão, runtime, filename e tamanho;
+- relatório profundamente imutável e validado, sem imports de filesystem ou rede;
+- 4 novos testes de contrato e 12 testes do reconciliador; gate local com 95 casos e auditoria de runtime sem vulnerabilidades.
+
+### Não habilitado
+
+Varredura do runtime privado, leitura/execução de JARs, integração com provedores, importação dos inventários atuais, classificação automática, persistência, API, painel, worker ou publicação. Filename e metadata do launcher não são tratados como identidade ou licença.
+
 ## 2026-08-03 — Fase 3: abertura segura
 
 ### Adicionado

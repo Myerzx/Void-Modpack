@@ -42,7 +42,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - identidade oficial: **VoidFall**;
 - Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
 - Fase 3 concluída em isolamento: processo, console, métricas, backup consistente, restore isolado e configurações básicas com revisão anterior passaram na matriz Windows/Linux;
-- Fase 4 iniciada pelo contrato de inventário sanitizado e catálogo reconciliado, ainda sem integração operacional;
+- Fase 4 iniciada: contratos e reconciliador de inventário por SHA-256 validados localmente, aguardando matriz Windows/Linux e ainda sem integração operacional;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 

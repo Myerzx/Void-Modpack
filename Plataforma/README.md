@@ -2,7 +2,7 @@
 
 Status: **Fase 3 concluída em isolamento; Fase 4 iniciada pelo inventário e catálogo reconciliado, ainda sem integração operacional**.
 
-Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. Os seis itens da Fase 3 passaram localmente e na matriz Windows/Linux somente contra fixtures descartáveis; nenhuma operação foi ligada ao servidor real.
+Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. Os seis itens da Fase 3 passaram localmente e na matriz Windows/Linux somente contra fixtures descartáveis. O primeiro recorte da Fase 4 acrescenta contratos de inventário e reconciliação pura por hash; nenhuma operação foi ligada ao servidor real.
 
 ## Linguagens definidas
 
@@ -20,6 +20,7 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 - `apps/server-agent`: cliente outbound-only de registro e heartbeat Ed25519;
 - `apps/panel-web`: dashboard responsivo somente leitura, exportado como site estático;
 - `packages/contracts`, `authentication`, `permissions` e `database`: fundação compartilhada;
+- `packages/mod-catalog`: reconciliação determinística de snapshots sanitizados com o catálogo revisado, sem filesystem ou rede;
 - `packages/minecraft-process`: planos, runtime, adaptadores Windows/Linux, controlador idempotente e catálogo fechado de console, com parada graciosa, saída limitada e testes por fixture Java.
 - `packages/server-backup`: snapshots consistentes sob guarda offline e restore somente em destino isolado;
 - `packages/server-configuration`: Java Properties tipado com revisão anterior, recuperação e rollback versionado.
@@ -29,6 +30,7 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 - não apontar os adaptadores para o Java, JAR ou diretório do servidor privado;
 - não usar serviço do Windows, systemd, RCON ou qualquer shell;
 - não modificar `Launcher/`, `Servidor/workspace/` ou qualquer runtime privado;
+- não transformar filename, presença ou metadata de provedor em identidade lógica, lado ou licença aprovada;
 - não ligar ciclo de vida, leitura, comandos, backup ou configuração à API antes dos bloqueios do [roadmap](../docs/plataforma/ROADMAP.md);
 - usar apenas executável e diretório absolutos de configuração confiável, argv fixo e `shell: false`;
 - manter o dashboard como demonstração até existir telemetria real autenticada.

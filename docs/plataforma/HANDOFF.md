@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — concluída em isolamento; os 6 itens passaram localmente e na matriz Windows/Linux
+- Fase: 4 — item 1 implementado e validado localmente em isolamento; matriz CI pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -51,6 +51,15 @@
   - substituição sincronizada, verificação posterior e recuperação dos bytes anteriores;
   - rollback que cria nova revisão e não reinicia o Minecraft;
   - recibos imutáveis e erros sanitizados sem paths ou valores;
+- `@voidfall/mod-catalog` com:
+  - contratos v1 `InventorySnapshot` e `CatalogReconciliationReport`, também exportados como JSON Schema;
+  - separação entre identidade de conteúdo `sha256:*`, ID lógico revisado e ocorrência em inventário;
+  - validação de fonte/escopo, runtime, path canônico, basename, estado, tamanho e hash;
+  - união determinística de inventários cliente/servidor com o catálogo revisado;
+  - estados `cataloged`, `untracked` e `ambiguous` sem associação por filename;
+  - sugestão de lado baseada apenas em presença ativa, sem sobrescrever revisão;
+  - bloqueios ordenados para ausência, inatividade, lado, distribuição, revisão, runtime, filename e tamanho;
+  - relatório profundamente imutável, sem filesystem, rede, JAR, banco ou efeito operacional;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -63,13 +72,17 @@
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
 8. Não tratar o codec inicial como editor Java Properties completo ou genérico; JSON/TOML/YAML, schemas de mods e paths públicos permanecem bloqueados.
+9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
+10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
 
 ## Validação
 
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
 - pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
-- gate local aprovado: 79 casos, typechecks e builds de todos os workspaces;
+- pacote de contratos: build, typecheck, 18 casos e 7 JSON Schemas aprovados;
+- pacote de catálogo: build, typecheck e 12 casos aprovados;
+- gate local aprovado: 95 casos, typechecks e builds de todos os workspaces; 93 executados no Windows e 2 sockets Unix ignorados;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
@@ -99,6 +112,10 @@
 - uma revisão publicada é preservada quando a substituição falha; o resultado precisa ser correlacionado pela auditoria futura antes de exibição como histórico aplicado;
 - `restartRequired` é apenas metadata; nenhuma mutação agenda ou executa restart;
 - configuração não possui persistência PostgreSQL, ator, motivo humano, autorização, auditoria ou integração com agente/API/painel;
+- o catálogo atual do launcher não possui SHA-256/tamanho e o inventário do servidor não possui proveniência/licença completa; não existe reconciliação real dos artefatos atuais;
+- sugestão de lado por presença não prova compatibilidade de loader, comportamento em jogo ou necessidade de dependências;
+- o reconciliador é puro e não possui persistência, histórico, ator, autorização, auditoria, exportador, importador, API, painel ou integração com worker;
+- colisão de filename é conservadora e exige revisão humana; o pacote não tenta inferir versão pelo nome do arquivo;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -106,7 +123,7 @@
 
 ## Próximo recorte recomendado
 
-Iniciar o planejamento do item 1 da Fase 4: inventário e catálogo reconciliado. Definir fontes canônicas, identidade por hash, proveniência, lado, licença e estados desconhecidos antes de implementar; não usar o runtime privado como fonte de publicação.
+Após a matriz Windows/Linux do item 1 ficar verde, encerrar o recorte isolado e iniciar o item 2 da Fase 4: classificação manual por lado e distribuição. Antes de classificar os artefatos reais, criar um exportador de cliente que produza SHA-256/tamanho e um importador revisado para `InventorySnapshot`; não usar filename como identidade e não promover licença por metadata do provedor.
 
 ## Commits relevantes
 
@@ -137,5 +154,9 @@ Iniciar o planejamento do item 1 da Fase 4: inventário e catálogo reconciliado
 - `68561a1` — validação local, limites e handoff do recorte;
 - `fe07f18` — grafo atualizado da arquitetura de configurações;
 - `268748d` — compatibilidade segura com aliases canônicos do Windows.
+- `f6b2c2e` — contrato documental do inventário e catálogo reconciliado;
+- `346dae7` — contratos e JSON Schemas de snapshot/relatório;
+- `65a6078` — reconciliador determinístico por SHA-256;
+- `b7e274a` — testes de conflitos, bloqueios e determinismo.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

@@ -13,13 +13,14 @@ npm run check
 npm audit --omit=dev
 ```
 
-No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. O primeiro pacote puramente determinístico da Fase 3 elevou o gate a 36; os adaptadores isolados elevaram o total a 40, o controlador serializado a 48, o console limitado a 53, as métricas de host/processo a 58, o backup/restore a 68 e as configurações versionadas elevaram o total a 79 casos. No Windows, dois casos específicos de socket Unix são ignorados; a [matriz Linux executa os 79](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269). Typecheck estrito e builds de todos os workspaces passaram novamente localmente e no CI.
+No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, PostgreSQL, API, worker, agente e fixtures do painel. A Fase 3 elevou progressivamente o gate a 79 casos. Os quatro casos adicionais dos contratos de inventário/relatório e os 12 do reconciliador elevaram o total local da Fase 4 a 95. No Windows, dois casos específicos de socket Unix são ignorados; 93 são executados. A matriz Linux deve executar os 95. Typecheck estrito e builds de todos os workspaces passaram novamente localmente.
 
 ## Matriz
 
 | Limite | Evidência |
 | --- | --- |
-| Contratos | 14 testes estruturais e semânticos; cinco schemas JSON exportados |
+| Contratos | 18 testes estruturais e semânticos; sete schemas JSON exportados |
+| Catálogo | 12 testes de identidade por hash, determinismo, presença, lado, revisão, runtime, colisões e limites |
 | Autenticação | Argon2id, tokens opacos, comparação por hash e validade de envelope |
 | RBAC | deny-by-default, permissões conhecidas e separação de papéis |
 | PostgreSQL | migrações, seed, idempotência, lease único e conclusão transacional |
@@ -38,5 +39,6 @@ No encerramento da Fase 2, 33 testes cobriam contratos, criptografia, RBAC, Post
 - nenhum mundo, JAR, segredo, perfil de jogador ou configuração privada entrou no Git;
 - nenhum processo Minecraft foi iniciado, parado ou inspecionado;
 - nenhum arquivo de `Servidor/workspace/` ou `Launcher/workspace/` foi alterado;
+- o reconciliador recebe somente objetos sanitizados em memória e não acessa filesystem, rede ou JARs;
 - o painel não chama API nem apresenta suas fixtures como telemetria real;
 - force kill, restore operacional, console genérico, edição operacional e rotas continuam ausentes; console, restore e configuração versionada existem somente nos pacotes e em fixtures descartáveis.

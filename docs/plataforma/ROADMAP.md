@@ -81,7 +81,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 
 ## Fase 4 — mods, arquivos e schemas
 
-1. Inventário e catálogo reconciliado — **em implementação isolada**: contrato de snapshot sanitizado, identidade por SHA-256 e relatório determinístico de conflitos/bloqueios; sem varredura do runtime ou aprovação automática.
+1. Inventário e catálogo reconciliado — **implementado e validado localmente em isolamento** no pacote `@voidfall/mod-catalog`: snapshots sanitizados, identidade por SHA-256 e relatório determinístico de conflitos/bloqueios; matriz Windows/Linux pendente, sem varredura do runtime ou aprovação automática.
 2. Classificação manual por lado e distribuição.
 3. Upload em quarantine e validação segura.
 4. File manager em raízes autorizadas.

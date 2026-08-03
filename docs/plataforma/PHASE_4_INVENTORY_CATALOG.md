@@ -1,6 +1,6 @@
 # Inventário e catálogo reconciliado da Fase 4
 
-Status: contrato em implementação; sem integração operacional.
+Status: contratos e reconciliador implementados e validados localmente; matriz Windows/Linux pendente.
 
 ## Objetivo do recorte
 
@@ -152,7 +152,7 @@ Os inventários públicos existentes comprovam a necessidade do recorte, mas ain
 
 Portanto, os arquivos atuais não serão convertidos silenciosamente. Um exportador de cliente com hash e um importador revisado deverão produzir `InventorySnapshot` antes da reconciliação real.
 
-## Matriz de testes planejada
+## Matriz de testes implementada
 
 1. aceita snapshots canônicos cliente/servidor e agrupa bytes iguais por hash;
 2. produz resultado idêntico para entradas em ordens diferentes;
@@ -170,3 +170,5 @@ Portanto, os arquivos atuais não serão convertidos silenciosamente. Um exporta
 ## Gate de saída
 
 O item 1 pode ser concluído em isolamento quando contratos, JSON Schema, reconciliador e testes passarem em Windows e Linux. Isso não significa que os 181 JARs ativos do servidor ou os addons do launcher estejam aprovados. A classificação manual por lado e distribuição é o item 2 da Fase 4 e depende primeiro de snapshots com hashes completos.
+
+O gate local passou com 18 testes de contratos, 12 testes específicos do reconciliador e 95 casos no monorepo. No Windows local, os 93 aplicáveis passam e dois sockets Unix de pacotes anteriores são ignorados. Falta confirmar a matriz do GitHub em Windows e Linux antes de marcar o item como concluído.
