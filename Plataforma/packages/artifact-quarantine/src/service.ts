@@ -3,13 +3,12 @@ import {
   lstat,
   mkdir,
   open,
-  realpath,
   rename,
   rm,
   writeFile,
   type FileHandle,
 } from 'node:fs/promises';
-import { dirname, extname, isAbsolute, join, relative, resolve } from 'node:path';
+import { dirname, extname, isAbsolute, join, parse, relative, resolve, sep } from 'node:path';
 
 import {
   QuarantineOperationError,
@@ -49,14 +48,22 @@ function canonicalTimestamp(value: unknown): value is string {
   return Number.isFinite(parsed.getTime()) && parsed.toISOString() === value;
 }
 
-function normalizeFilesystemPath(value: string): string {
-  const normalized = resolve(value);
-  return process.platform === 'win32' ? normalized.toLocaleLowerCase('en-US') : normalized;
-}
-
 function pathContained(root: string, candidate: string): boolean {
   const result = relative(root, candidate);
   return result === '' || (!result.startsWith('..') && !isAbsolute(result));
+}
+
+async function rejectLinkedPathComponents(path: string): Promise<void> {
+  const absolute = resolve(path);
+  const filesystemRoot = parse(absolute).root;
+  let current = filesystemRoot;
+  for (const segment of relative(filesystemRoot, absolute).split(sep).filter(Boolean)) {
+    current = resolve(current, segment);
+    const stat = await lstat(current);
+    if (stat.isSymbolicLink()) {
+      throw new QuarantineOperationError('unsafe-root', 'layout');
+    }
+  }
 }
 
 function canonicalJson(value: unknown): string {
@@ -84,6 +91,7 @@ async function exists(path: string): Promise<boolean> {
 }
 
 async function requirePlainDirectory(path: string): Promise<void> {
+  await rejectLinkedPathComponents(path);
   const stat = await lstat(path);
   if (!stat.isDirectory() || stat.isSymbolicLink()) {
     throw new QuarantineOperationError('unsafe-root', 'layout');
@@ -162,15 +170,7 @@ export class ArtifactQuarantineService {
     try {
       const parent = dirname(this.#root);
       await requirePlainDirectory(parent);
-      const canonicalParent = await realpath(parent);
-      if (normalizeFilesystemPath(canonicalParent) !== normalizeFilesystemPath(parent)) {
-        throw new QuarantineOperationError('unsafe-root', 'layout');
-      }
       await createOrRequirePlainDirectory(this.#root);
-      const canonicalRoot = await realpath(this.#root);
-      if (normalizeFilesystemPath(canonicalRoot) !== normalizeFilesystemPath(this.#root)) {
-        throw new QuarantineOperationError('unsafe-root', 'layout');
-      }
       await createOrRequirePlainDirectory(this.#stagingRoot);
       await createOrRequirePlainDirectory(this.#artifactsRoot);
     } catch (error) {

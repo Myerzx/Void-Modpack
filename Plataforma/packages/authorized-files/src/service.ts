@@ -11,7 +11,7 @@ import {
   unlink,
   type FileHandle,
 } from 'node:fs/promises';
-import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, extname, isAbsolute, join, parse, relative, resolve, sep } from 'node:path';
 import { TextDecoder } from 'node:util';
 
 import {
@@ -58,14 +58,22 @@ function exactKeys(value: Record<string, unknown>, expected: readonly string[]):
   return actual.length === wanted.length && actual.every((key, index) => key === wanted[index]);
 }
 
-function normalizeFilesystemPath(value: string): string {
-  const normalized = resolve(value);
-  return process.platform === 'win32' ? normalized.toLocaleLowerCase('en-US') : normalized;
-}
-
 function isWithin(root: string, candidate: string): boolean {
   const result = relative(root, candidate);
   return result === '' || (!result.startsWith('..') && !isAbsolute(result));
+}
+
+async function rejectAbsoluteLinkedComponents(path: string): Promise<void> {
+  const absolute = resolve(path);
+  const filesystemRoot = parse(absolute).root;
+  let current = filesystemRoot;
+  for (const segment of relative(filesystemRoot, absolute).split(sep).filter(Boolean)) {
+    current = resolve(current, segment);
+    const stat = await lstat(current);
+    if (stat.isSymbolicLink()) {
+      throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+    }
+  }
 }
 
 function pathsOverlap(left: string, right: string): boolean {
@@ -133,15 +141,17 @@ async function pathExists(path: string): Promise<boolean> {
 
 async function requireCanonicalDirectory(root: string, path: string): Promise<void> {
   try {
+    if (!isWithin(root, path)) {
+      throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+    }
+    await rejectAbsoluteLinkedComponents(path);
     const stat = await lstat(path);
     if (!stat.isDirectory() || stat.isSymbolicLink()) {
       throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
     }
     const canonical = await realpath(path);
-    if (
-      !isWithin(root, canonical) ||
-      normalizeFilesystemPath(canonical) !== normalizeFilesystemPath(path)
-    ) {
+    const canonicalStat = await lstat(canonical);
+    if (canonicalStat.dev !== stat.dev || canonicalStat.ino !== stat.ino) {
       throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
     }
   } catch (error) {
@@ -357,13 +367,16 @@ export class AuthorizedFileService {
       await requireCanonicalDirectory(root.rootPath, target);
     } else {
       await rejectLinkedComponents(root.rootPath, target);
+      const before = await lstat(target).catch(() => {
+        throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+      });
       const canonical = await realpath(target).catch(() => {
         throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
       });
-      if (
-        !isWithin(root.rootPath, canonical) ||
-        normalizeFilesystemPath(canonical) !== normalizeFilesystemPath(target)
-      ) {
+      const canonicalStat = await lstat(canonical).catch(() => {
+        throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+      });
+      if (canonicalStat.dev !== before.dev || canonicalStat.ino !== before.ino) {
         throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
       }
     }
