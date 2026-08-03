@@ -14,6 +14,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - adaptadores Windows/Linux com detecção de boot e `stop` gracioso;
 - fixture Java 17 descartável e matriz CI Ubuntu/Windows.
 - fixture compilada antecipadamente com `javac` e limpeza graciosa rastreada para evitar vazamento de processo no primeiro uso frio do Windows.
+- matriz GitHub Actions aprovada em Ubuntu e Windows após a correção do typecheck limpo do Next.js e da inicialização fria da fixture Java.
 
 ### Não habilitado
 

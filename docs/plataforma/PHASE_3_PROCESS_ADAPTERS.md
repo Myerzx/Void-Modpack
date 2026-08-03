@@ -47,7 +47,7 @@ stateDiagram-v2
 
 `FakeMinecraftFixture.java` emite uma linha de boot semelhante ao Minecraft, aguarda stdin e encerra somente ao receber `stop`. O teste localiza Java 17, compila a fixture antecipadamente com `javac` em `%TEMP%`/`/tmp`, observa PID/boot, envia parada graciosa e remove o diretório com retentativas seguras. A compilação antecipada evita que o primeiro uso frio do modo source-file seja confundido com falha de boot no Windows. Outro modo gera 100.000 caracteres para comprovar truncamento da saída.
 
-O workflow `platform-ci.yml` executa o gate completo em Ubuntu e Windows com Node 24 e Temurin 17. As actions são fixadas por SHA.
+O workflow `platform-ci.yml` executa o gate completo em Ubuntu e Windows com Node 24 e Temurin 17. As actions são fixadas por SHA. A [execução 30827511608](https://github.com/Myerzx/Void-Modpack/actions/runs/30827511608) aprovou os dois sistemas, incluindo os 40 testes e a auditoria de dependências de runtime.
 
 ## Fora do escopo
 

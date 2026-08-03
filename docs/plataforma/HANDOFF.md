@@ -35,17 +35,16 @@
 
 ## Validação
 
-- pacote de processo: build, typecheck e 7 testes aprovados no Windows com Java 17;
-- gate local esperado após este recorte: 40 testes no monorepo;
-- CI deve comprovar a mesma suíte em `ubuntu-latest` e `windows-latest`;
-- `npm audit --omit=dev`: deve permanecer em zero vulnerabilidades de runtime;
-- Graphify deve ser atualizado após os commits finais.
+- pacote de processo: build, typecheck e 7 testes aprovados com Java 17;
+- gate local aprovado: 40 testes, typechecks e builds de todos os workspaces;
+- matriz CI aprovada em `ubuntu-latest` e `windows-latest`: [execução 30827511608](https://github.com/Myerzx/Void-Modpack/actions/runs/30827511608);
+- `npm audit --omit=dev`: zero vulnerabilidades de runtime;
+- Graphify atualizado com 971 nós, 1.219 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas ou colapsadas.
 
 ## Riscos não resolvidos
 
 - o estado do adaptador é local à memória; não existe reconciliação após reinício do agente;
 - restart serializado, concorrência/idempotência operacional e persistência de PID ainda não existem;
-- Linux ainda depende do primeiro resultado verde da matriz CI;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -59,6 +58,8 @@ Implementar dentro de `@voidfall/minecraft-process` um controlador serializado d
 
 - `ed450a4` — planos e contrato inicial da Fase 3;
 - `d4cf50c` — runtime e adaptadores gerenciados;
-- `159a276` — grafo anterior ao recorte atual.
+- `f6f3058` — geração limpa dos tipos de rota do painel;
+- `7eae482` — fixture Java pré-compilada e limpeza segura no Windows;
+- `396a5d4` — grafo atualizado do recorte.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
