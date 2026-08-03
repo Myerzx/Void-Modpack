@@ -1,0 +1,103 @@
+# Implantação e operação
+
+## Ambientes
+
+| Ambiente | Finalidade | Dados reais |
+| --- | --- | --- |
+| local | desenvolvimento e contratos | proibidos |
+| test | integração com servidor descartável | proibidos |
+| staging | release candidate e smoke tests | cópia sanitizada/isolada quando autorizada |
+| production | operação real | acesso mínimo e auditado |
+
+## Topologia inicial
+
+- reverse proxy encerra TLS e aplica limites básicos;
+- Panel Web, Control API e Launcher API rodam sem privilégios administrativos;
+- PostgreSQL fica em rede privada;
+- Server Agent roda próximo ao Minecraft com usuário de serviço dedicado;
+- Forge Bridge comunica apenas com loopback/IPC local;
+- Build Worker roda isolado e sem escrita no runtime;
+- artifacts/backups usam backend de storage separado;
+- serviços iniciam por supervisor (`systemd` no Linux ou serviço equivalente no Windows), nunca por loop infinito cego.
+
+Minecraft pode permanecer nativo no host. Containerizar o jogo não é requisito; o worker de build deve receber isolamento mais forte por processar arquivos.
+
+## Compatibilidade de sistema operacional
+
+O ambiente auditado é Windows, mas a arquitetura mantém adaptadores de processo e filesystem para Windows e Linux. Comportamentos que exigem teste nos dois lados:
+
+- rename atômico e arquivo em uso;
+- junction, symlink, hardlink e dispositivos reservados;
+- sinal de parada/kill;
+- ocultação de janela de subprocesso;
+- permissões e usuários de serviço;
+- paths longos e case sensitivity;
+- snapshots e consistência de backup.
+
+## Configuração e segredos
+
+- configuração não secreta por arquivo validado/variável;
+- segredo por cofre ou secret manager do ambiente;
+- validação fail-fast no boot;
+- exemplos versionados sem valores reais;
+- rotação sem rebuild de imagem;
+- configuração crítica versionada com rollback e auditoria.
+
+## Processo de deploy futuro
+
+1. CI executa lint, typecheck, testes, contratos e scanner de segredo.
+2. Gera imagens/pacotes com versão e provenance.
+3. Aplica migração compatível antes da nova aplicação quando necessário.
+4. Implanta em staging e executa smoke tests.
+5. Requer aprovação para produção.
+6. Atualiza serviços em ordem compatível com contratos.
+7. Verifica health, readiness, jobs, WebSocket e agente.
+8. Mantém versão anterior disponível para rollback.
+
+## Backups
+
+### Mundo
+
+Estratégia portátil mínima:
+
+1. avisar jogadores;
+2. executar `save-off`;
+3. executar `save-all flush` e confirmar conclusão;
+4. criar cópia/snapshot consistente;
+5. executar `save-on` em bloco de recuperação mesmo se a cópia falhar;
+6. gerar hash e metadados;
+7. testar restauração em ambiente isolado.
+
+Snapshots de volume podem substituir a cópia quando a consistência for demonstrada e documentada.
+
+### Plataforma
+
+PostgreSQL, chaves públicas, configuração e metadata de storage têm políticas próprias. Chaves privadas de assinatura e credenciais exigem backup cifrado e procedimento de recuperação separado.
+
+## Health checks
+
+- `liveness`: processo responde sem dependência externa pesada;
+- `readiness`: serviço pode aceitar trabalho de forma segura;
+- agente: heartbeat, versão, capacidades e estado observado;
+- Minecraft: processo, conclusão de boot e consulta interna quando disponível;
+- worker: capacidade, lease e espaço temporário;
+- storage/database: verificação mínima com timeout.
+
+## Recuperação
+
+Runbooks obrigatórios antes da produção:
+
+- banco indisponível;
+- agente offline;
+- Minecraft travado;
+- build preso/lease expirado;
+- storage indisponível;
+- manifesto/chave comprometido;
+- rollback de release;
+- restore de mundo;
+- perda de sessão/chave do agente;
+- disco cheio.
+
+## Reverse proxy
+
+O painel auto-hospedado não será exposto diretamente. O proxy aplica TLS, limites de corpo/conexão, rate limit, timeouts e proteção contra requests malformadas; WebSocket precisa de configuração explícita. O próprio serviço continua validando autenticação e payload — o proxy não substitui controles da aplicação.
