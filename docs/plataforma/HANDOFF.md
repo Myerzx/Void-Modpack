@@ -4,86 +4,65 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 2 — fundação
-- Implementação: toolchain e contratos compartilhados concluídos; aplicações não iniciadas
+- Fase: 3 — primeiro recorte seguro em andamento
+- Fase 2: concluída e validada
+- Runtime Minecraft: não modificado e não conectado
 
-## Realizado
+## Implementado
 
-- briefing consolidado com as auditorias existentes do launcher e servidor;
-- TypeScript escolhido para o plano de controle e Java 17 para a ponte Forge;
-- arquitetura, serviços e limites de confiança documentados;
-- fluxos de comando, job, build, publicação, launcher, rollback e controle registrados;
-- banco, API, permissões, segurança, logs, métricas, implantação e backups planejados;
-- estrutura futura do monorepo definida sem criar scaffolding;
-- ADRs iniciais criados;
-- roadmap, riscos, bloqueios e perguntas pendentes registrados.
-- identidade oficial definida como VoidFall no ADR-006;
-- npm workspace e TypeScript Project References criados;
-- contratos `Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest` e `AuditEvent` implementados;
-- schemas JSON portáteis, validação estrutural/semântica e testes adicionados.
+- monorepo TypeScript estrito e contratos `Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest` e `AuditEvent`;
+- PostgreSQL com migrações, repositórios, RBAC e fila `SKIP LOCKED`;
+- Argon2id, sessões opacas, CSRF, rate limit, lockout, revogação e auditoria;
+- Control API mínima com health, autenticação, servidores/auditoria somente leitura e identidade do agente;
+- worker que aceita exclusivamente `system.noop`;
+- agente outbound-only para provisionamento e heartbeat Ed25519;
+- dashboard estático de demonstração, responsivo e sem controles operacionais;
+- início da Fase 3 com planos Windows/Linux, argv fixo e máquina de estados, ainda sem spawn.
 
-## Arquivos centrais
+## Limites obrigatórios
 
-- `docs/plataforma/PROJECT_CONTEXT.md`
-- `docs/plataforma/ARCHITECTURE.md`
-- `docs/plataforma/UI_INFORMATION_ARCHITECTURE.md`
-- `docs/plataforma/MODPACK_BUILD.md`
-- `docs/plataforma/LAUNCHER_PROTOCOL.md`
-- `docs/plataforma/DATABASE.md`
-- `docs/plataforma/API.md`
-- `docs/plataforma/CONTRACTS.md`
-- `docs/plataforma/SECURITY.md`
-- `docs/plataforma/PERMISSIONS.md`
-- `docs/plataforma/LOGGING.md`
-- `docs/plataforma/DEPLOYMENT.md`
+1. Não modificar `Launcher/`, `Servidor/workspace/`, mundos, configs privadas ou processo Minecraft a partir deste handoff.
+2. Não expor shell, texto de comando, path livre ou argumento arbitrário por API/job.
+3. Não ligar `@voidfall/minecraft-process` ao agente/API antes de uma tarefa delimitada, autorização/auditoria por operação e teste com processo descartável.
+4. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
+5. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
+6. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
+
+## Arquivos para continuidade
+
 - `docs/plataforma/ROADMAP.md`
-- `docs/plataforma/DECISIONS/`
+- `docs/plataforma/PHASE_2_VALIDATION.md`
+- `docs/plataforma/DECISIONS/ADR-007-fase-2-concluida-e-fase-3-segura.md`
+- `Plataforma/packages/minecraft-process/`
+- `Plataforma/apps/control-api/`
+- `Plataforma/apps/server-agent/`
+- `Plataforma/AGENTS.md`
 
-## Decisões
+## Validação
 
-1. Monorepo TypeScript estrito para painel e serviços.
-2. Java 17 somente onde a integração Forge exige.
-3. PostgreSQL como estado transacional e fila inicial.
-4. Artifacts, backups e logs grandes fora do banco.
-5. Agente inicia comunicação autenticada; API não controla o host por shell.
-6. Manifestos assinados e releases imutáveis.
-7. Catálogo aprovado é fonte do cliente; runtime é evidência.
-8. Solicitar build e promover stable são permissões separadas.
-9. A identidade oficial é VoidFall, com ID `voidfall` e namespace `@voidfall/*`.
-10. A abertura da Fase 2 não autoriza serviços nem efeitos externos; o recorte atual termina nos contratos.
+- `npm run check`: build, typecheck e 36 testes aprovados no monorepo após a abertura segura da Fase 3;
+- `npm audit --omit=dev`: zero vulnerabilidades no conjunto de runtime;
+- painel: build estático e inspeção headless em desktop/mobile;
+- Graphify deve ser atualizado e validado após o último commit documental.
 
-## Problemas encontrados
+## Riscos não resolvidos
 
-- o launcher atual não é compatível com o servidor por comparação de JARs;
-- proveniência/licença e classificação de lado estão incompletas;
-- o runtime possui riscos P0 de autenticação/whitelist/RCON;
-- ainda não há decisão de cliente canônico, provedor de permissões ou ambiente de produção;
-- autenticação Minecraft, licença/distribuição e futuro do RCON continuam P0;
-- verificação criptográfica, canonicalização JSON e identidade mTLS ainda não foram implementadas.
+- cliente e servidor continuam incompatíveis pelo catálogo atual;
+- origem/licença e lado de dependências continuam incompletos;
+- autenticação Minecraft, whitelist e RCON continuam P0;
+- transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
+- o audit completo do workspace reporta advisories transitivos no Next usado apenas durante o build estático; detalhes em `PHASE_2_VALIDATION.md`.
 
-## Regras de não ação
+## Próximo recorte recomendado
 
-Não criar apps, banco, migrações, UI, API, agente, worker, mod ou adaptadores operacionais sem nova tarefa delimitada. Não modificar launcher, servidor privado ou runtime a partir deste handoff. Tipos de operação existentes nos contratos não são autorização de execução.
+Implementar adaptadores Windows/Linux atrás da interface `MinecraftProcessAdapter`, usando um runtime injetado e um processo Java de fixture descartável. O recorte deve comprovar: `shell: false`, processo filho identificado, timeout, captura limitada de stdout/stderr, parada graciosa simulada, nenhuma janela no Windows e zero acesso a `Servidor/workspace/`. Não criar rotas operacionais ainda.
 
-## Validação da sessão
+## Commits relevantes
 
-- `npm ci`: lockfile instalável;
-- `npm run check`: typecheck, 13 testes aprovados e cinco JSON Schemas gerados;
-- `npm pack --workspace @voidfall/contracts --dry-run`: pacote contém código, tipos e os cinco schemas, sem cache de compilação;
-- nenhum serviço, configuração Minecraft, mundo, launcher ou runtime do servidor foi alterado;
-- Graphify atualizado ao final da sessão.
+- `d0a6cc0` — autenticação e PostgreSQL;
+- `3b2fa45` — Control API;
+- `0014af7` — worker `noop`;
+- `32f0480` — cliente do agente;
+- `678aa4c` — dashboard somente leitura.
 
-## Próxima tarefa recomendada
-
-Escolher o próximo recorte somente após uma decisão explícita. A opção de menor risco é ampliar fixtures e formalizar schemas específicos de payload; PostgreSQL/API/agente continuam tarefas separadas. Os quatro P0 abertos devem ser resolvidos antes das capacidades dependentes.
-
-## Atualização obrigatória
-
-Substituir ou acrescentar uma seção datada ao final de cada sessão. Nunca apagar riscos não resolvidos; marcar a decisão e apontar para o ADR que os encerrou.
-
-## Sessão 2026-08-03 — abertura da Fase 2
-
-- autorização recebida: VoidFall como identidade oficial e início da nova fase;
-- recorte executado: identidade, toolchain e contratos sem efeitos externos;
-- commits base: `3919d11` (identidade/fase), `f9aa1d8` (toolchain/contratos) e `b941d04` (build limpo reproduzível);
-- resultado: fundação reproduzível e validada, com gates operacionais preservados.
+Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

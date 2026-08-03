@@ -1,4 +1,15 @@
-# Modelo inicial do banco
+# Modelo do banco
+
+Status: fundação da Fase 2 implementada; entidades de catálogo, builds, releases, jogadores, backups e métricas continuam planejadas.
+
+## Migrações implementadas
+
+- `0001_foundation.sql`: `panel_users`, `roles`, `permissions`, `user_roles`, `role_permissions`, `sessions`, `server_instances`, `agent_provision_tokens`, `agents`, `agent_nonces`, `jobs`, `job_events` e `audit_events`;
+- `0002_rbac_seed.sql`: cinco papéis e permissões granulares com política deny-by-default;
+- repositórios de usuários, sessões, permissões, servidores, auditoria, agentes e jobs;
+- testes em PostgreSQL embarcado PGlite para migração, RBAC, idempotência, lease e conclusão `noop`.
+
+As seções seguintes descrevem o modelo implementado e o destino incremental. Uma entidade descrita sem migração correspondente ainda é planejamento.
 
 ## Estratégia
 

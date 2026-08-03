@@ -22,6 +22,13 @@
 
 Minecraft pode permanecer nativo no host. Containerizar o jogo não é requisito; o worker de build deve receber isolamento mais forte por processar arquivos.
 
+### Estado implementado
+
+- o Panel Web da Fase 2 é exportado estaticamente para `apps/panel-web/out` e pode ser servido pelo reverse proxy sem um processo Next.js em produção;
+- a Control API e o worker possuem entrypoints, mas ainda não há manifesto de serviço/produção;
+- o agente implementa apenas o cliente de registro/heartbeat; o transporte mTLS real e o supervisor ainda precisam ser integrados;
+- nenhum componente deve ser apontado para o runtime privado nesta etapa.
+
 ## Compatibilidade de sistema operacional
 
 O ambiente auditado é Windows, mas a arquitetura mantém adaptadores de processo e filesystem para Windows e Linux. Comportamentos que exigem teste nos dois lados:

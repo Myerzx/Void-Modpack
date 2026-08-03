@@ -2,6 +2,31 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-03 — Fase 3: abertura segura
+
+### Adicionado
+
+- `@voidfall/minecraft-process` com planos de processo Windows/Linux;
+- validação de paths absolutos, nome do JAR e limites de memória;
+- argv fixo, `shell: false`, janela oculta no Windows e stdio explícito;
+- máquina de estados observada e interface para futuros adaptadores.
+
+### Não habilitado
+
+Spawn de processo, start/stop/restart na API, console, force kill, backup, restore ou acesso ao servidor privado.
+
+## 2026-08-03 — Fase 2: fundação concluída
+
+### Adicionado
+
+- PostgreSQL, migrações imutáveis, repositórios e seed RBAC;
+- autenticação Argon2id, sessões opacas, CSRF, rate limit e lockout;
+- Control API mínima, auditoria e respostas públicas sanitizadas;
+- fila transacional com lease/idempotência e worker limitado a `system.noop`;
+- provisionamento de agente de uso único e heartbeat Ed25519 com proteção contra replay;
+- dashboard VoidFall responsivo, somente leitura e identificado como fixture;
+- testes de integração e relatório do gate da fase.
+
 ## 2026-08-03 — Fase 2: fundação de contratos
 
 ### Adicionado
@@ -13,9 +38,9 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - exportação de JSON Schemas portáteis para consumidores não TypeScript;
 - testes de paths, proveniência, identidade, lease, validade temporal e redação de auditoria.
 
-### Ainda não implementado
+### Ainda não implementado naquele recorte
 
-Serviços, banco, migrações, UI, agente, worker, ponte Forge, launcher próprio e qualquer controle real do Minecraft.
+Este registro descreve o primeiro recorte da Fase 2; os itens foram implementados no encerramento acima, exceto ponte Forge, launcher próprio e controle real do Minecraft.
 
 ## 2026-08-03 — Fase 1
 

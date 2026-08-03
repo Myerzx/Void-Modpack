@@ -1,11 +1,27 @@
 # Contratos de API
 
-Status: desenho inicial das rotas. Os contratos compartilhados v1 começaram em `Plataforma/packages/contracts`; rotas e schemas ainda não implementados podem mudar por ADR ou por uma nova versão incompatível.
+Status: subset mínimo da Fase 2 implementado. Rotas marcadas como planejadas ainda podem mudar por ADR ou por uma nova versão incompatível.
+
+## Implementado na Fase 2
+
+| Método | Rota | Estado |
+| --- | --- | --- |
+| `GET` | `/health/live` | liveness sem dependência pesada |
+| `GET` | `/health/ready` | readiness com consulta ao PostgreSQL |
+| `POST` | `/api/v1/auth/login` | Argon2id, rate limit, lockout, cookie opaco e CSRF |
+| `GET` | `/api/v1/auth/session` | sessão ativa e permissões |
+| `POST` | `/api/v1/auth/logout` | CSRF e revogação |
+| `GET` | `/api/v1/servers` | `server.view`, somente leitura |
+| `GET` | `/api/v1/audit` | `audit.view`, somente leitura |
+| `POST` | `/agent/v1/register/complete` | token de uso único |
+| `POST` | `/agent/v1/heartbeat` | transporte autenticado, Ed25519, prazo e nonce |
+
+Todas as demais rotas deste documento continuam planejadas. Nenhuma rota operacional de start/stop/restart foi criada.
 
 ## Convenções
 
 - HTTPS em produção e prefixo `/api/v1` para administração.
-- JSON validado na entrada e serializado por schema de saída.
+- JSON validado por schema na entrada; schemas de saída são obrigatórios antes de tornar uma rota pública estável.
 - UUID para recursos persistentes e `correlationId` em toda operação.
 - `Idempotency-Key` obrigatório em mutações operacionais.
 - timestamps UTC em ISO 8601.

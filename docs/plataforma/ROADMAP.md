@@ -41,18 +41,18 @@ O proprietário autorizou o início da Fase 2 com uma fatia que não depende dos
 
 1. [x] Criar monorepo e toolchain fixada.
 2. [x] Implementar os cinco contratos compartilhados iniciais, schemas portáteis e testes de entrada.
-3. [ ] Criar PostgreSQL, migrações e repositórios.
-4. [ ] Implementar Control API mínima, autenticação, sessões, RBAC e auditoria.
-5. [ ] Implementar job queue transacional e worker de teste inofensivo.
-6. [ ] Implementar registro/heartbeat do agente sem controle de processo.
-7. [ ] Criar dashboard somente leitura com dados simulados claramente marcados e fixtures, não métricas falsas.
-8. [ ] Ampliar testes de contrato e segurança conforme cada novo trust boundary.
+3. [x] Criar PostgreSQL, migrações e repositórios.
+4. [x] Implementar Control API mínima, autenticação, sessões, RBAC e auditoria.
+5. [x] Implementar job queue transacional e worker de teste inofensivo.
+6. [x] Implementar registro/heartbeat do agente sem controle de processo.
+7. [x] Criar dashboard somente leitura com dados simulados claramente marcados e fixtures, não métricas falsas.
+8. [x] Ampliar testes de contrato e segurança conforme cada novo trust boundary.
 
-Gate: nenhum controle real do Minecraft antes de autenticação, autorização, auditoria e identidade do agente passarem em testes.
+Status: concluída em 2026-08-03. O gate passou com autenticação, autorização, auditoria, fila e identidade do agente cobertas por testes. Consulte [Validação da Fase 2](PHASE_2_VALIDATION.md).
 
 ## Fase 3 — controle do Minecraft
 
-1. Adaptadores Windows/Linux de processo.
+1. Adaptadores Windows/Linux de processo — **em andamento**: planos validados, interface e máquina de estados criados; execução ainda bloqueada.
 2. Estado observado, start, stop e restart seguro.
 3. Console de leitura e comandos em allowlist.
 4. Métricas de host/processo e fonte exibida.
@@ -60,6 +60,8 @@ Gate: nenhum controle real do Minecraft antes de autenticação, autorização, 
 6. Configurações básicas com revisão anterior.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
+
+Recorte atual: `@voidfall/minecraft-process` não chama `spawn`, não toca no servidor e não está conectado à Control API. É a preparação segura para os adaptadores reais.
 
 ## Fase 4 — mods, arquivos e schemas
 
@@ -129,6 +131,6 @@ Somente após inventário completo e seleção dos mods suportados. Cada schema 
 14. Quais testes de gameplay definem uma release compatível?
 15. Quais componentes locais possuem autoria/licença para entrar em `Servidor/source`?
 
-## Primeiro recorte autorizado da Fase 2
+## Histórico do primeiro recorte da Fase 2
 
-Criar a toolchain e os contratos versionados (`Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest`, `AuditEvent`) com testes de schema, sem banco, serviços, filesystem operacional ou controle do Minecraft. Os demais P0 permanecem gates obrigatórios para os recortes que dependem deles.
+O primeiro recorte criou toolchain e contratos versionados (`Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest`, `AuditEvent`) sem efeitos externos. Recortes posteriores, autorizados pelo proprietário, completaram a fundação. Os P0 remanescentes continuam gates obrigatórios para as capacidades relacionadas.

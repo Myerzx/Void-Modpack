@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fase 2 iniciada; somente toolchain e contratos compartilhados foram criados. Aplicações e integrações permanecem planejadas.
+Status: Fase 2 concluída; Fase 3 iniciada somente no limite de contrato de processo. Integrações com o Minecraft permanecem bloqueadas.
 
 ## Resumo
 
@@ -38,7 +38,7 @@ flowchart LR
 | PostgreSQL | estado transacional, jobs, índices e auditoria | Guardar pacotes, mundos ou logs grandes |
 | Object storage | releases, backups e logs frios | Decidir autorização ou estado de job |
 
-## Linguagens e stack planejada
+## Linguagens e stack
 
 - TypeScript estrito em `panel-web`, `control-api`, `launcher-api`, `server-agent`, `build-worker` e pacotes compartilhados.
 - React/Next.js para a interface web responsiva e auto-hospedável.
@@ -48,9 +48,9 @@ flowchart LR
 - WebSocket autenticado para console, progresso e métricas em tempo real.
 - armazenamento local encapsulado por interface no desenvolvimento e S3 compatível em produção quando necessário.
 
-TypeScript Project References foram adotadas na abertura da Fase 2 para impor limites e ordem de build entre pacotes. A linha Node 24 LTS está fixada por `.nvmrc`, `engines` e Volta; npm e dependências usam versões exatas no lockfile.
+TypeScript Project References foram adotadas para impor limites e ordem de build entre pacotes. A linha Node 24 LTS está fixada por `.nvmrc`, `engines` e Volta; npm e dependências usam versões exatas no lockfile. Fastify, PostgreSQL, autenticação/RBAC, agente, worker e a exportação estática do painel existem; Launcher API, WebSocket, object storage e Forge Bridge continuam planejados.
 
-## Estrutura futura do monorepo
+## Estrutura do monorepo
 
 ```text
 Plataforma/
@@ -67,6 +67,7 @@ Plataforma/
     database/
     authentication/
     permissions/
+    minecraft-process/
     logging/
     minecraft-protocol/
     modpack-manifest/
@@ -84,7 +85,7 @@ Plataforma/
     security/
 ```
 
-Essa árvore continua sendo uma decisão de destino. Somente `packages/contracts/` foi autorizado e criado; os demais diretórios não devem ser antecipados.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos de lançamento validados e interface de adaptador, sem implementação que execute processos.
 
 ## Fluxo do comando no jogo
 

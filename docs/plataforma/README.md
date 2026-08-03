@@ -1,6 +1,6 @@
 # Plataforma VoidFall
 
-Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano antes da implementação; a Fase 2 começou com uma fundação restrita a toolchain e contratos compartilhados, para que Codex, Claude, outras IAs e desenvolvedores continuem com o mesmo contexto.
+Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; a Fase 2 implementou e validou a fundação; a Fase 3 foi aberta em um recorte sem efeitos operacionais.
 
 ## Ordem de leitura
 
@@ -19,6 +19,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 13. [Roadmap](ROADMAP.md)
 14. [Handoff](HANDOFF.md)
 15. [Decisões arquiteturais](DECISIONS/)
+16. [Validação da Fase 2](PHASE_2_VALIDATION.md)
 
 ## Resultado da Fase 1
 
@@ -29,11 +30,12 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - estratégia de logs, métricas, backups e implantação registrada;
 - backlog, riscos e perguntas pendentes explícitos.
 
-## Estado da Fase 2
+## Estado atual
 
 - identidade oficial: **VoidFall**;
-- primeiro recorte autorizado: workspace TypeScript e `@voidfall/contracts`;
-- nenhum serviço, interface, banco, agente, worker ou controle do Minecraft está autorizado por esse recorte;
+- Fase 2 concluída: contratos, PostgreSQL, migrações, autenticação, sessões, RBAC, auditoria, fila, worker `noop`, registro/heartbeat e dashboard de demonstração;
+- Fase 3 iniciada em `@voidfall/minecraft-process` apenas com planos validados e máquina de estados;
+- não existe execução de processo, console, backup, restore ou controle do Minecraft ligado à API;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
 
 Documentação e schemas não representam certificação de segurança. Cada nova capacidade precisa satisfazer seus gates, testes e ADRs aplicáveis.

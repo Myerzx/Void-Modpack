@@ -130,6 +130,16 @@ A documentação oficial do Node diferencia `spawn`/`execFile` da execução por
 - reverse proxy, TLS, rate limit e limites de corpo verificados;
 - revisão independente do protocolo de assinatura.
 
+## Controles validados na Fase 2
+
+- Argon2id, sessão opaca, hash de token, expiração, revogação e CSRF;
+- rate limit de login, lockout e envelope público de erro sem stack;
+- RBAC deny-by-default com decisão negada registrada em auditoria;
+- provisionamento de agente de uso único, identidade de transporte, Ed25519, prazo e nonce anti-replay;
+- lease PostgreSQL com `SKIP LOCKED`, idempotência e worker limitado a `system.noop`;
+- dashboard estático identificado como demonstração, sem controles operacionais;
+- planos de processo da Fase 3 com paths absolutos, argv fixo e `shell: false`, ainda sem execução.
+
 ## Referências
 
 - [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)

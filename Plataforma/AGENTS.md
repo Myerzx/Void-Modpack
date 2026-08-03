@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Phase 2 is authorized in bounded slices. The current slice is limited to the TypeScript workspace and `packages/contracts`. Do not create applications, migrations, endpoints, UI, agents, workers, process adapters, operational filesystem access, or the Forge bridge until a later task explicitly authorizes that scope.
+Phase 2 is complete. Phase 3 is open in a bounded slice limited to validated Windows/Linux launch plans, observed-state transitions, and adapter interfaces in `packages/minecraft-process`. Do not spawn a process, connect process control to the API/agent, edit the private runtime, add console execution, or implement force-kill/restore until a later task explicitly clears the applicable roadmap gates.
 
 ## Ownership
 
-- `Plataforma/**`: implementation root; currently contains only workspace tooling and shared contracts.
+- `Plataforma/**`: implementation root for packages and applications.
 - `docs/plataforma/**`: canonical architecture, contracts, decisions, roadmap, and handoff.
 - `Launcher/**` and `docs/launcher/**`: client pack scope; do not modify from a platform task without a coordinator handoff.
 - `Servidor/workspace/**`: immutable private runtime evidence; never edit, stage, package, or expose it.
@@ -24,6 +24,8 @@ Phase 2 is authorized in bounded slices. The current slice is limited to the Typ
 8. Large packages, logs, worlds, and backups stay outside PostgreSQL.
 9. Product identity is `VoidFall`; use `voidfall` for stable machine identifiers and `@voidfall/*` for internal package names.
 10. A contract that accepts extensible JSON does not authorize executing, interpolating, or persisting that data without a narrower operation-specific schema.
+11. `packages/minecraft-process` launch plans accept trusted configuration only; they are not an API payload and are not permission to execute Java.
+12. The Panel Web is a static Phase 2 fixture. Never present its sample values as server telemetry.
 
 ## Required handoff
 
