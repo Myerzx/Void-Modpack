@@ -1,0 +1,29 @@
+{
+  "name": "@voidfall/control-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Authenticated control-plane API for VoidFall",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "bootstrap-owner": "tsx src/bootstrap-owner.ts",
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "test": "tsx --test test/control-api.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@fastify/cookie": "11.1.2",
+    "@fastify/helmet": "13.1.0",
+    "@fastify/rate-limit": "11.2.0",
+    "@sinclair/typebox": "0.34.52",
+    "@voidfall/authentication": "0.1.0",
+    "@voidfall/contracts": "0.1.0",
+    "@voidfall/database": "0.1.0",
+    "@voidfall/permissions": "0.1.0",
+    "fastify": "5.11.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.4"
+  }
+}

@@ -426,12 +426,19 @@ export class AgentRepository {
     readonly serverInstanceId: string;
     readonly tokenHash: string;
     readonly expiresAt: Date;
+    readonly createdAt?: Date;
   }): Promise<string> {
     const id = input.id ?? randomUUID();
     await this.database.query(
-      `INSERT INTO agent_provision_tokens (id, server_instance_id, token_hash, expires_at)
-       VALUES ($1,$2,$3,$4)`,
-      [id, input.serverInstanceId, input.tokenHash, input.expiresAt.toISOString()],
+      `INSERT INTO agent_provision_tokens (id, server_instance_id, token_hash, expires_at, created_at)
+       VALUES ($1,$2,$3,$4,$5)`,
+      [
+        id,
+        input.serverInstanceId,
+        input.tokenHash,
+        input.expiresAt.toISOString(),
+        (input.createdAt ?? new Date()).toISOString(),
+      ],
     );
     return id;
   }
@@ -701,8 +708,10 @@ export class JobRepository {
     readonly metadata?: JsonObject;
   }): Promise<number> {
     return this.database.transaction(async (client: SqlClient) => {
+      const locked = await client.query('SELECT id FROM jobs WHERE id = $1 FOR UPDATE', [input.jobId]);
+      if (locked.rowCount !== 1) throw new Error('Cannot append an event to an unknown job.');
       const next = await client.query<{ readonly sequence: number }>(
-        'SELECT COALESCE(MAX(sequence), 0) + 1 AS sequence FROM job_events WHERE job_id = $1 FOR UPDATE',
+        'SELECT COALESCE(MAX(sequence), 0) + 1 AS sequence FROM job_events WHERE job_id = $1',
         [input.jobId],
       );
       const sequence = Number(next.rows[0]?.sequence ?? 1);
