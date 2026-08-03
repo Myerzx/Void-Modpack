@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-03)
 
 ## Corpus Check
-- 150 files · ~44,534 words
+- 152 files · ~47,689 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 971 nodes · 1219 edges · 83 communities (70 shown, 13 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
+- 1025 nodes · 1340 edges · 93 communities (77 shown, 16 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f106d8e2`
+- Built from commit: `aabda484`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -72,7 +72,7 @@
 - server-agent/tsconfig.build.json
 - build-worker/package.json
 - contracts/tsconfig.test.json
-- minecraft-process.test.ts
+- node-runtime.ts
 - compilerOptions
 - page.tsx
 - PostgresDatabase
@@ -85,19 +85,29 @@
 - ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3
 - FakeMinecraftFixture
 - Adaptadores de processo da Fase 3
+- Controlador de processo da Fase 3
+- minecraft-process.test.ts
+- controller.ts
+- adapter.ts
+- MinecraftProcessController
+- ManagedMinecraftProcessAdapter
+- launch-plan.ts
+- ProcessObservation
+- MinecraftProcessAdapter
+- NeverExitingHandle
 - ServerRepository
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 21 edges
-2. `Database` - 15 edges
-3. `ManagedMinecraftProcessAdapter` - 15 edges
-4. `validateContract()` - 14 edges
-5. `SpawnedProcess` - 14 edges
-6. `compilerOptions` - 12 edges
-7. `semanticIssue()` - 12 edges
-8. `appendSemanticIssues()` - 11 edges
-9. `Handoff da plataforma` - 11 edges
-10. `Planejamento da plataforma` - 11 edges
+2. `ProcessObservation` - 18 edges
+3. `MinecraftProcessController` - 17 edges
+4. `Database` - 15 edges
+5. `ManagedMinecraftProcessAdapter` - 15 edges
+6. `validateContract()` - 14 edges
+7. `ProcessLaunchPlan` - 14 edges
+8. `SpawnedProcess` - 14 edges
+9. `compilerOptions` - 12 edges
+10. `semanticIssue()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Management Platform Phase 1` --references--> `Platform Control Architecture`  [EXTRACTED]
@@ -106,10 +116,10 @@
   README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
 - `Dedicated Server Promotion Gate` --conceptually_related_to--> `ADR-005 Reviewed Canonical Client Catalog`  [INFERRED]
   Servidor/pack/README.md → docs/plataforma/DECISIONS/ADR-005-fonte-canonica-do-cliente.md
+- `WaitResult` --references--> `ProcessObservation`  [EXTRACTED]
+  Plataforma/packages/minecraft-process/src/controller.ts → Plataforma/packages/minecraft-process/src/adapter.ts
 - `VoidFall Repository Operating Guide` --references--> `Agent Scope and Minimum Handoff`  [EXTRACTED]
   AGENTS.md → docs/agentes/escopos.md
-- `VoidFall Repository Operating Guide` --conceptually_related_to--> `VoidFall Repository`  [EXTRACTED]
-  AGENTS.md → README.md
 
 ## Import Cycles
 - None detected.
@@ -121,7 +131,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (83 total, 13 thin omitted)
+## Communities (93 total, 16 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -323,9 +333,9 @@ Nodes (19): dependencies, @voidfall/database, description, devDependencies, @ele
 Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, test/**/*.ts (+1 more)
 
-### Community 69 - "minecraft-process.test.ts"
-Cohesion: 0.06
-Nodes (33): LinuxMinecraftProcessAdapter, ManagedMinecraftProcessAdapter, MinecraftProcessAdapter, MinecraftProcessAdapterOptions, ProcessObservation, WindowsMinecraftProcessAdapter, assertPlainValue(), createMinecraftProcessPlan() (+25 more)
+### Community 69 - "node-runtime.ts"
+Cohesion: 0.15
+Nodes (6): BoundedByteBuffer, minimalEnvironment(), NodeProcessRuntime, NodeProcessRuntimeOptions, NodeSpawnedProcess, ProcessExit
 
 ### Community 70 - "compilerOptions"
 Cohesion: 0.08
@@ -355,18 +365,48 @@ Nodes (4): ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3, Conse
 Cohesion: 0.29
 Nodes (6): Adaptadores de processo da Fase 3, Componentes, Fora do escopo, Invariantes, Objetivo do recorte, Teste de integração
 
+### Community 82 - "Controlador de processo da Fase 3"
+Cohesion: 0.17
+Nodes (11): Contrato implementado, Controlador de processo da Fase 3, Gate de saída, Invariantes de segurança, Matriz de testes validada, Objetivo do recorte, Restart, Resultados e falhas (+3 more)
+
+### Community 83 - "minecraft-process.test.ts"
+Cohesion: 0.13
+Nodes (9): LinuxMinecraftProcessAdapter, WindowsMinecraftProcessAdapter, ProcessControlRequestError, compileJavaFixture(), execFileAsync, fakeControllerPlan, fixtureSource, javaExecutable (+1 more)
+
+### Community 84 - "controller.ts"
+Cohesion: 0.12
+Nodes (15): ActiveOperation, copyLaunchPlan(), ProcessControlAction, ProcessControlEvent, ProcessControlEventPhase, ProcessControlFailureCode, ProcessControlOutcome, ProcessControlRequest (+7 more)
+
+### Community 85 - "adapter.ts"
+Cohesion: 0.24
+Nodes (5): MinecraftProcessAdapterOptions, ProcessLaunchPlan, ProcessRuntime, SpawnedProcess, TrackingRuntime
+
+### Community 87 - "ManagedMinecraftProcessAdapter"
+Cohesion: 0.38
+Nodes (3): ManagedMinecraftProcessAdapter, ProcessOutputSnapshot, transitionObservedProcessState()
+
+### Community 88 - "launch-plan.ts"
+Cohesion: 0.43
+Nodes (6): assertPlainValue(), createMinecraftProcessPlan(), MinecraftProcessConfig, platformPath(), SupportedHostPlatform, validateProcessLaunchPlan()
+
+### Community 89 - "ProcessObservation"
+Cohesion: 0.54
+Nodes (3): ProcessObservation, ProcessControlResult, FakeMinecraftProcessAdapter
+
 ## Knowledge Gaps
-- **458 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+453 more)
+- **476 isolated node(s):** `version`, `modLoaders`, `manifestType`, `manifestVersion`, `name` (+471 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Database` connect `Database` to `repositories.ts`, `PostgresDatabase`, `asIso`, `AgentRepository`, `ServerRepository`, `JobRepository`, `UserRepository`, `AuditRepository`?**
+- **Why does `MinecraftProcessController` connect `MinecraftProcessController` to `MinecraftProcessAdapter`, `minecraft-process.test.ts`, `controller.ts`, `adapter.ts`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `NodeSpawnedProcess` connect `node-runtime.ts` to `adapter.ts`, `ManagedMinecraftProcessAdapter`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **What connects `version`, `modLoaders`, `manifestType` to the rest of the system?**
-  _458 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _476 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Contratos compartilhados` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `common.ts` be split into smaller, more focused modules?**
@@ -375,5 +415,3 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
-- **Should `contracts/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
