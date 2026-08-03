@@ -12,7 +12,7 @@ import {
   writeFile,
   type FileHandle,
 } from 'node:fs/promises';
-import { basename, dirname, isAbsolute, relative, resolve, sep } from 'node:path';
+import { basename, dirname, isAbsolute, parse, relative, resolve, sep } from 'node:path';
 
 import {
   configurationRevisionManifestSha256,
@@ -109,16 +109,42 @@ async function pathExists(path: string): Promise<boolean> {
   }
 }
 
+async function rejectLinkedPathComponents(
+  path: string,
+  integrityFailure = false,
+): Promise<void> {
+  const absolute = resolve(path);
+  const root = parse(absolute).root;
+  const remainder = relative(root, absolute);
+  let current = root;
+  for (const segment of remainder.split(sep).filter((item) => item.length > 0)) {
+    current = resolve(current, segment);
+    let entry;
+    try {
+      entry = await lstat(current);
+    } catch {
+      throw new ConfigurationOperationError(
+        integrityFailure ? 'revision-integrity-mismatch' : 'unsafe-path',
+        integrityFailure ? 'verify' : 'preflight',
+      );
+    }
+    if (entry.isSymbolicLink()) {
+      throw new ConfigurationOperationError(
+        integrityFailure ? 'revision-integrity-mismatch' : 'unsafe-path',
+        integrityFailure ? 'verify' : 'preflight',
+      );
+    }
+  }
+}
+
 async function requirePlainDirectory(path: string): Promise<string> {
   try {
+    await rejectLinkedPathComponents(path);
     const before = await lstat(path);
     if (!before.isDirectory() || before.isSymbolicLink()) {
       throw new ConfigurationOperationError('unsafe-path', 'preflight');
     }
     const canonical = await realpath(path);
-    if (!samePath(canonical, path)) {
-      throw new ConfigurationOperationError('unsafe-path', 'preflight');
-    }
     return canonical;
   } catch (error) {
     if (error instanceof ConfigurationOperationError) throw error;
@@ -133,6 +159,7 @@ async function readBoundedPlainFile(
 ): Promise<ReadPlainFile> {
   let handle: FileHandle | undefined;
   try {
+    await rejectLinkedPathComponents(path, integrityFailure);
     const before = await lstat(path);
     if (before.isSymbolicLink()) {
       throw new ConfigurationOperationError(
@@ -153,12 +180,6 @@ async function readBoundedPlainFile(
       );
     }
     const canonicalPath = await realpath(path);
-    if (!samePath(canonicalPath, path)) {
-      throw new ConfigurationOperationError(
-        integrityFailure ? 'revision-integrity-mismatch' : 'unsafe-path',
-        integrityFailure ? 'verify' : 'preflight',
-      );
-    }
     handle = await open(path, constants.O_RDONLY);
     const opened = await handle.stat();
     if (
