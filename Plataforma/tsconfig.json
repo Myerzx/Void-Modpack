@@ -6,6 +6,9 @@
       "path": "./packages/contracts/tsconfig.build.json"
     },
     {
+      "path": "./packages/mod-catalog/tsconfig.build.json"
+    },
+    {
       "path": "./packages/permissions/tsconfig.build.json"
     },
     {
