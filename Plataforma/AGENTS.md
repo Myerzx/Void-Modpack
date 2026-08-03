@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2 is complete. Phase 3 items 1–5 are validated in isolation. Item 6 is limited to a typed Java Properties subset with an injected offline-exclusive guard, immutable previous revisions, optimistic hashes, and rollback that creates another revision. Do not connect process/backup/configuration control to the API or agent, edit the private runtime, add generic file editing, accept public paths/schemas, implement force-kill, overwrite a restore target, or add destructive retention.
+Phase 2 and all six Phase 3 items are complete in isolation. Phase 4 item 1, the reconciled inventory and catalog contract, is the next recorte. Configuration remains limited to a typed Java Properties subset with an injected offline-exclusive guard, immutable previous revisions, optimistic hashes, and rollback that creates another revision. Do not connect process/backup/configuration control to the API or agent, edit the private runtime, add generic file editing, accept public paths/schemas, implement force-kill, overwrite a restore target, or add destructive retention.
 
 ## Ownership
 

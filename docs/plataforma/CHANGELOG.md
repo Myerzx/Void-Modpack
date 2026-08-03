@@ -43,7 +43,9 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - revisão anterior imutável com manifesto canônico, escrita sincronizada e publicação antes da troca;
 - substituição verificada com recuperação automática dos bytes anteriores em saída divergente;
 - rollback que também captura revisão, sem restart ou alteração de runtime;
-- 11 testes do pacote cobrindo tipos, sintaxe, links, concorrência, falhas, integridade e rollback; validação local aprovada e matriz Ubuntu/Windows pendente.
+- 11 testes do pacote cobrindo tipos, sintaxe, links, concorrência, falhas, integridade e rollback;
+- detecção de links por componentes reais do filesystem, preservando contenção sem rejeitar aliases 8.3 legítimos do Windows;
+- gate integral aprovado com 79 casos e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269).
 
 ### Não habilitado
 

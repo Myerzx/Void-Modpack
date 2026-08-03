@@ -1,8 +1,8 @@
 # Plataforma de gerenciamento
 
-Status: **Fase 3 — itens 1–5 concluídos e configurações versionadas validadas localmente, ainda sem integração operacional**.
+Status: **Fase 3 concluída em isolamento, ainda sem integração operacional; Fase 4 é o próximo recorte**.
 
-Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. A Fase 3 possui processo, console, métricas, backup/restore isolado e configuração versionada testados somente contra fixtures descartáveis; nenhuma operação foi ligada ao servidor real.
+Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. Os seis itens da Fase 3 passaram localmente e na matriz Windows/Linux somente contra fixtures descartáveis; nenhuma operação foi ligada ao servidor real.
 
 ## Linguagens definidas
 

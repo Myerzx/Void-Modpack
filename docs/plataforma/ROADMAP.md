@@ -57,11 +57,13 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
 4. [x] Métricas de host/processo e fonte exibida — concluídas no pacote isolado com snapshot tipado, 25 testes do pacote e gate de 58 testes aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
 5. [x] Backup consistente e restore em ambiente isolado — concluído no pacote `@voidfall/server-backup` com guarda offline obrigatória, manifesto canônico verificável, promoção atômica e restore somente em destino novo; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
-6. Configurações básicas com revisão anterior — **implementadas e validadas localmente** no pacote `@voidfall/server-configuration`: registro confiável, subconjunto estrito de Java Properties, alteração tipada, hash esperado, revisão imutável anterior, recuperação e rollback versionado; matriz Windows/Linux pendente.
+6. [x] Configurações básicas com revisão anterior — concluídas no pacote `@voidfall/server-configuration`: registro confiável, subconjunto estrito de Java Properties, alteração tipada, hash esperado, revisão imutável anterior, recuperação e rollback versionado; gate aprovado na [matriz Windows/Linux](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269).
 
-Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.
+Gate: a Fase 3 foi concluída em isolamento. Force kill e restore operacional permanecem desabilitados até recortes próprios de falha, recuperação e integração.
 
 Recorte atual: `@voidfall/minecraft-process` chama `spawn` somente por plano validado, com `shell: false`, ambiente mínimo e fixture Java em diretório temporário. O controlador serializa o ciclo de vida; o adaptador limita a leitura do console, aceita somente dois IDs sem argumentos e produz snapshots de host/processo com fonte, unidade, qualidade e timestamp. `@voidfall/server-backup` opera apenas sobre raízes confiáveis de teste, exige uma guarda offline injetada e publica/restaura diretórios por staging verificado. `@voidfall/server-configuration` altera somente recursos Java Properties registrados em fixtures, publica a revisão anterior antes da troca e exige guarda offline, lock e hash esperado. CPU/RSS da JVM permanecem explicitamente indisponíveis. Histórico idempotente, exclusão e recibos ainda são locais à memória ou ao filesystem. Nenhum dos pacotes toca no servidor ou está conectado à Control API, ao agente ou ao painel.
+
+Status: concluída em 2026-08-03 dentro desses limites isolados. O próximo recorte é o item 1 da Fase 4.
 
 ## Progresso por fase
 
@@ -71,7 +73,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | --- | ---: | --- |
 | 1 — planejamento | 100% | concluída |
 | 2 — fundação | 100% | 8 de 8 itens |
-| 3 — controle do Minecraft | 83% | 5 de 6 itens |
+| 3 — controle do Minecraft | 100% | 6 de 6 itens |
 | 4 — mods, arquivos e schemas | 0% | 0 de 6 itens |
 | 5 — build e launcher | 0% | 0 de 7 itens |
 | 6 — jogadores e auditoria | 0% | 0 de 6 itens |

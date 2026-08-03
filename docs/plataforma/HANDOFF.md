@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 a 5 concluídos; item 6 implementado e validado localmente em isolamento, com matriz CI pendente
+- Fase: 3 — concluída em isolamento; os 6 itens passaram localmente e na matriz Windows/Linux
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -70,11 +70,12 @@
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
 - pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
 - gate local aprovado: 79 casos, typechecks e builds de todos os workspaces;
+- matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.252 nós, 1.810 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado com 1.424 nós, 2.173 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
@@ -105,7 +106,7 @@
 
 ## Próximo recorte recomendado
 
-Após a matriz Windows/Linux do item 6 ficar verde, encerrar formalmente a Fase 3 isolada e iniciar o planejamento do item 1 da Fase 4: inventário e catálogo reconciliado. Definir fontes canônicas, identidade por hash, proveniência, lado, licença e estados desconhecidos antes de implementar; não usar o runtime privado como fonte de publicação.
+Iniciar o planejamento do item 1 da Fase 4: inventário e catálogo reconciliado. Definir fontes canônicas, identidade por hash, proveniência, lado, licença e estados desconhecidos antes de implementar; não usar o runtime privado como fonte de publicação.
 
 ## Commits relevantes
 
@@ -133,5 +134,8 @@ Após a matriz Windows/Linux do item 6 ficar verde, encerrar formalmente a Fase 
 - `d40e59e` — contrato documentado de configuração tipada e revisão anterior;
 - `6cf7819` — mutações Java Properties, manifestos, recuperação e rollback;
 - `6129f63` — testes de tipos, concorrência, falhas e integridade.
+- `68561a1` — validação local, limites e handoff do recorte;
+- `fe07f18` — grafo atualizado da arquitetura de configurações;
+- `268748d` — compatibilidade segura com aliases canônicos do Windows.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

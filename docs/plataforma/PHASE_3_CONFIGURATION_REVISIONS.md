@@ -1,6 +1,6 @@
 # Configurações básicas e revisões da Fase 3
 
-Status: implementado e validado localmente; matriz Windows/Linux pendente.
+Status: concluído em 2026-08-03; gate aprovado em Windows e Linux.
 
 ## Objetivo do recorte
 
@@ -163,8 +163,8 @@ Erros públicos usam códigos fechados: `invalid-definition`, `invalid-plan`, `c
 13. recibos, manifestos e erros não expõem paths nem valores;
 14. testes usam somente diretórios temporários e comprovam ausência de `Servidor/workspace` e `Launcher/workspace`.
 
-Os comportamentos estão agrupados em 11 testes do pacote. No Windows, 10 passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, a matriz deve executar os 11. A suíte injeta falha antes da substituição e conteúdo corrompido depois dela para comprovar preservação ou recuperação dos bytes anteriores.
+Os comportamentos estão agrupados em 11 testes do pacote. No Windows, os 10 casos aplicáveis passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, os 11 passam. A suíte injeta falha antes da substituição e conteúdo corrompido depois dela para comprovar preservação ou recuperação dos bytes anteriores.
 
 ## Gate de saída
 
-O item 6 só pode ser concluído após contrato, implementação e testes passarem em Windows e Linux. A validação local está aprovada; falta confirmar a matriz do GitHub. Esse gate encerra a Fase 3 isolada, mas não autoriza edição real: integração com API/agente/painel, persistência PostgreSQL, auditoria, schemas genéricos, file manager, arquivos de mods e restart automático exigem recortes próprios.
+O item 6 foi concluído após contrato, implementação e testes passarem localmente e na [matriz Windows/Linux 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269). Esse gate encerra a Fase 3 isolada, mas não autoriza edição real: integração com API/agente/painel, persistência PostgreSQL, auditoria, schemas genéricos, file manager, arquivos de mods e restart automático exigem recortes próprios.

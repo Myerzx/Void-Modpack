@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: Fase 2 concluída; Fase 3 em andamento nos limites isolados de processo e filesystem. Integrações com o Minecraft real permanecem bloqueadas.
+Status: Fases 2 e 3 concluídas; a Fase 3 permanece limitada às fronteiras isoladas de processo e filesystem. Integrações com o Minecraft real continuam bloqueadas.
 
 ## Resumo
 
