@@ -19,6 +19,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - deduplicação idempotente em voo e concluída, histórico limitado, rejeição sem fila e eventos de estado determinísticos;
 - restart condicionado à confirmação de `offline`, timeout sem force kill e falhas de adaptador sanitizadas;
 - testes determinísticos do controlador e ciclo completo contra a fixture Java descartável.
+- gate integral aprovado em Ubuntu e Windows na execução `30833243148`, com 48 testes e auditoria de runtime sem vulnerabilidades.
 
 ### Não habilitado
 

@@ -53,7 +53,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 ## Fase 3 — controle do Minecraft
 
 1. [x] Adaptadores Windows/Linux de processo — concluídos com runtime, PID, ambiente mínimo, saída limitada e stop gracioso; gate completo aprovado na matriz Ubuntu/Windows do GitHub.
-2. Estado observado, start, stop e restart seguro — **em validação**: controlador serializado e idempotente implementado no pacote, com testes falsos e fixture Java; matriz CI ainda pendente.
+2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
 3. Console de leitura e comandos em allowlist.
 4. Métricas de host/processo e fonte exibida.
 5. Backup consistente e restore em ambiente isolado.

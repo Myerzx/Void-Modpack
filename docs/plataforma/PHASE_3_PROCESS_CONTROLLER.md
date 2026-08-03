@@ -1,6 +1,6 @@
 # Controlador de processo da Fase 3
 
-Status: implementado e validado localmente; integração restrita a `@voidfall/minecraft-process`.
+Status: implementado e validado localmente e na matriz Ubuntu/Windows; integração restrita a `@voidfall/minecraft-process`.
 
 ## Objetivo do recorte
 
@@ -90,4 +90,4 @@ Os sete cenários específicos do controlador usam um adaptador falso determiní
 
 ## Gate de saída
 
-Build, typecheck, os 15 testes do pacote, o gate integral de 48 testes e `npm audit --omit=dev` estão verdes localmente. O item 2 da Fase 3 só pode ser marcado como concluído após a matriz Ubuntu/Windows também passar. Persistência/reconciliação após reboot permanece um recorte posterior.
+Build, typecheck, os 15 testes do pacote, o gate integral de 48 testes e `npm audit --omit=dev` passaram localmente e na [matriz Ubuntu/Windows 30833243148](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148). O item 2 da Fase 3 está concluído. Persistência/reconciliação após reboot permanece um recorte posterior.

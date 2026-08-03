@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — adaptadores e controlador serializado implementados em isolamento; matriz CI pendente
+- Fase: 3 — itens 1 e 2 concluídos em isolamento; console/allowlist é o próximo recorte
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -40,9 +40,9 @@
 
 - pacote de processo: build, typecheck e 15 testes aprovados com Java 17;
 - gate local aprovado: 48 testes, typechecks e builds de todos os workspaces;
-- última matriz CI dos adaptadores aprovada em `ubuntu-latest` e `windows-latest`: [execução 30827511608](https://github.com/Myerzx/Void-Modpack/actions/runs/30827511608); nova matriz do controlador pendente;
+- matriz CI do controlador aprovada em `ubuntu-latest` e `windows-latest`: [execução 30833243148](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148);
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 971 nós, 1.219 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas ou colapsadas.
+- Graphify atualizado com 1.025 nós, 1.340 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
