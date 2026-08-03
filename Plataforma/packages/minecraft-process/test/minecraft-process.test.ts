@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { Buffer } from 'node:buffer';
+import { execFile } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { delimiter, dirname, join, resolve } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import {
   createMinecraftProcessPlan,
   LinuxMinecraftProcessAdapter,
@@ -36,11 +38,26 @@ function findJavaExecutable(): string | undefined {
 const hostPlatform: SupportedHostPlatform | undefined =
   process.platform === 'win32' || process.platform === 'linux' ? process.platform : undefined;
 const javaExecutable = findJavaExecutable();
+const javacExecutable =
+  javaExecutable === undefined
+    ? undefined
+    : resolve(dirname(javaExecutable), process.platform === 'win32' ? 'javac.exe' : 'javac');
 const fixtureSource = resolve(
   dirname(fileURLToPath(import.meta.url)),
   'fixtures',
   'FakeMinecraftFixture.java',
 );
+const execFileAsync = promisify(execFile);
+
+async function compileJavaFixture(cwd: string): Promise<void> {
+  assert.ok(hostPlatform);
+  assert.ok(javacExecutable);
+  await execFileAsync(
+    javacExecutable,
+    ['-encoding', 'UTF-8', '-d', cwd, fixtureSource],
+    { cwd, timeout: 60_000, windowsHide: hostPlatform === 'win32' },
+  );
+}
 
 function javaFixturePlan(cwd: string, extraArguments: readonly string[] = []): ProcessLaunchPlan {
   assert.ok(hostPlatform);
@@ -48,12 +65,30 @@ function javaFixturePlan(cwd: string, extraArguments: readonly string[] = []): P
   return {
     platform: hostPlatform,
     executable: javaExecutable,
-    args: [fixtureSource, ...extraArguments],
+    args: ['-cp', cwd, 'FakeMinecraftFixture', ...extraArguments],
     cwd,
     shell: false,
     windowsHide: hostPlatform === 'win32',
     stdio: ['pipe', 'pipe', 'pipe'],
   };
+}
+
+class TrackingRuntime implements ProcessRuntime {
+  handle: SpawnedProcess | undefined;
+
+  constructor(private readonly delegate: ProcessRuntime) {}
+
+  async spawn(plan: ProcessLaunchPlan): Promise<SpawnedProcess> {
+    const handle = await this.delegate.spawn(plan);
+    this.handle = handle;
+    return handle;
+  }
+
+  async requestFixtureCleanup(): Promise<void> {
+    if (this.handle === undefined || this.handle.getExit() !== undefined) return;
+    await this.handle.requestGracefulStop();
+    await this.handle.waitForExit(15_000);
+  }
 }
 
 async function waitForState(
@@ -135,13 +170,20 @@ describe('observed process state machine', () => {
 describe('managed platform adapters', () => {
   it(
     'starts and gracefully stops a disposable Java fixture without touching the server workspace',
-    { skip: hostPlatform === undefined || javaExecutable === undefined },
+    {
+      skip:
+        hostPlatform === undefined ||
+        javaExecutable === undefined ||
+        javacExecutable === undefined ||
+        !existsSync(javacExecutable),
+    },
     async () => {
       assert.ok(hostPlatform);
       const temporaryDirectory = await mkdtemp(join(tmpdir(), 'voidfall-process-fixture-'));
+      const runtime = new TrackingRuntime(new NodeProcessRuntime());
       try {
         assert.equal(temporaryDirectory.includes('Servidor'), false);
-        const runtime = new NodeProcessRuntime();
+        await compileJavaFixture(temporaryDirectory);
         const options = { runtime, stopTimeoutMs: 5_000 };
         const adapter =
           hostPlatform === 'win32'
@@ -158,17 +200,30 @@ describe('managed platform adapters', () => {
         assert.equal(stopped.lastExit?.code, 0);
         assert.match(adapter.readOutput().stdout, /Stopping server/u);
       } finally {
-        await rm(temporaryDirectory, { recursive: true, force: true });
+        await runtime.requestFixtureCleanup();
+        await rm(temporaryDirectory, {
+          recursive: true,
+          force: true,
+          maxRetries: 5,
+          retryDelay: 100,
+        });
       }
     },
   );
 
   it(
     'bounds captured output from the disposable Java fixture',
-    { skip: hostPlatform === undefined || javaExecutable === undefined },
+    {
+      skip:
+        hostPlatform === undefined ||
+        javaExecutable === undefined ||
+        javacExecutable === undefined ||
+        !existsSync(javacExecutable),
+    },
     async () => {
       const temporaryDirectory = await mkdtemp(join(tmpdir(), 'voidfall-output-fixture-'));
       try {
+        await compileJavaFixture(temporaryDirectory);
         const runtime = new NodeProcessRuntime({ maximumOutputBytesPerStream: 1_024 });
         const handle = await runtime.spawn(javaFixturePlan(temporaryDirectory, ['flood']));
         const exit = await handle.waitForExit(15_000);
@@ -177,7 +232,12 @@ describe('managed platform adapters', () => {
         assert.equal(output.stdoutTruncated, true);
         assert.equal(Buffer.byteLength(output.stdout, 'utf8') <= 1_024, true);
       } finally {
-        await rm(temporaryDirectory, { recursive: true, force: true });
+        await rm(temporaryDirectory, {
+          recursive: true,
+          force: true,
+          maxRetries: 5,
+          retryDelay: 100,
+        });
       }
     },
   );
