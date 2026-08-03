@@ -1,8 +1,8 @@
 # Plataforma de gerenciamento
 
-Status: **Fase 3 — adaptadores de processo isolados, ainda sem integração operacional**.
+Status: **Fase 3 — adaptadores e controlador de processo isolados, ainda sem integração operacional**.
 
-Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. A Fase 3 agora possui runtime e adaptadores de processo testados somente contra uma fixture Java descartável; nenhuma operação foi ligada ao servidor real.
+Esta pasta é a raiz implementada do painel, da Control API, do agente, do worker e dos contratos da plataforma VoidFall. A Fase 2 foi concluída com persistência, autenticação, RBAC, auditoria, fila transacional, heartbeat assinado e dashboard estático de demonstração. A Fase 3 agora possui runtime, adaptadores e um controlador serializado testados somente contra uma fixture Java descartável; nenhuma operação foi ligada ao servidor real.
 
 ## Linguagens definidas
 
@@ -20,7 +20,7 @@ Esta pasta é a raiz implementada do painel, da Control API, do agente, do worke
 - `apps/server-agent`: cliente outbound-only de registro e heartbeat Ed25519;
 - `apps/panel-web`: dashboard responsivo somente leitura, exportado como site estático;
 - `packages/contracts`, `authentication`, `permissions` e `database`: fundação compartilhada;
-- `packages/minecraft-process`: planos, runtime e adaptadores Windows/Linux com parada graciosa, saída limitada e testes por fixture Java.
+- `packages/minecraft-process`: planos, runtime, adaptadores Windows/Linux e controlador idempotente de ciclo de vida, com parada graciosa, saída limitada e testes por fixture Java.
 
 ## Limite do recorte atual
 

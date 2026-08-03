@@ -1,6 +1,6 @@
 # Controlador de processo da Fase 3
 
-Status: contrato planejado; implementação restrita a `@voidfall/minecraft-process`.
+Status: implementado e validado localmente; integração restrita a `@voidfall/minecraft-process`.
 
 ## Objetivo do recorte
 
@@ -8,7 +8,7 @@ Adicionar uma camada de orquestração sobre `MinecraftProcessAdapter` para exec
 
 Este recorte termina no pacote e nos testes. Ele não cria rota HTTP, job operacional, transporte com o agente, persistência de PID nem conexão com `Servidor/workspace/`.
 
-## Contrato planejado
+## Contrato implementado
 
 | Conceito | Regra |
 | --- | --- |
@@ -51,7 +51,7 @@ Este recorte termina no pacote e nos testes. Ele não cria rota HTTP, job operac
 
 ## Resultados e falhas
 
-Operações aceitas retornam um resultado tipado com ação, chave, outcome, observação final e eventos. Os outcomes planejados são:
+Operações aceitas retornam um resultado tipado com ação, chave, outcome, observação final e eventos. Os outcomes implementados são:
 
 - `succeeded`: estado final confirmado;
 - `rejected`: precondição de estado não satisfeita;
@@ -71,7 +71,7 @@ Entradas inválidas, controlador ocupado e colisão de chave são erros de requi
 - nenhum erro bruto do sistema em eventos/resultados;
 - nenhuma integração com API, banco, agente, RCON ou servidor privado neste recorte.
 
-## Matriz de testes planejada
+## Matriz de testes validada
 
 1. start confirma `offline -> starting -> online`;
 2. stop confirma `online -> stopping -> offline`;
@@ -86,6 +86,8 @@ Entradas inválidas, controlador ocupado e colisão de chave são erros de requi
 11. histórico idempotente permanece limitado;
 12. fixture Java comprova restart real somente em diretório temporário.
 
+Os sete cenários específicos do controlador usam um adaptador falso determinístico. Um oitavo teste executa `start -> restart -> stop` contra a fixture Java 17 descartável e confirma duas inicializações de processo. Somados aos testes preexistentes do pacote, `@voidfall/minecraft-process` possui 15 testes aprovados.
+
 ## Gate de saída
 
-O item 2 da Fase 3 só pode ser marcado como concluído quando build, typecheck, testes locais, auditoria de dependências e matriz Ubuntu/Windows estiverem verdes. Persistência/reconciliação após reboot permanece um recorte posterior.
+Build, typecheck, os 15 testes do pacote, o gate integral de 48 testes e `npm audit --omit=dev` estão verdes localmente. O item 2 da Fase 3 só pode ser marcado como concluído após a matriz Ubuntu/Windows também passar. Persistência/reconciliação após reboot permanece um recorte posterior.

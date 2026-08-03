@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — adaptadores isolados implementados; restart/orquestração pendentes
+- Fase: 3 — adaptadores e controlador serializado implementados em isolamento; matriz CI pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -20,6 +20,9 @@
   - captura limitada de stdout/stderr e detecção da linha de boot;
   - `requestGracefulStop()` limitado ao literal `stop\n`;
   - timeout que permanece em `stopping`, sem kill implícito;
+  - controlador de `start`, `stop` e `restart` com uma única operação em voo;
+  - chave idempotente, replay limitado em memória, rejeição de concorrência e eventos determinísticos;
+  - restart que exige `offline` antes de iniciar uma segunda JVM;
   - fixture Java 17 executada em diretório temporário;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
@@ -35,16 +38,17 @@
 
 ## Validação
 
-- pacote de processo: build, typecheck e 7 testes aprovados com Java 17;
-- gate local aprovado: 40 testes, typechecks e builds de todos os workspaces;
-- matriz CI aprovada em `ubuntu-latest` e `windows-latest`: [execução 30827511608](https://github.com/Myerzx/Void-Modpack/actions/runs/30827511608);
+- pacote de processo: build, typecheck e 15 testes aprovados com Java 17;
+- gate local aprovado: 48 testes, typechecks e builds de todos os workspaces;
+- última matriz CI dos adaptadores aprovada em `ubuntu-latest` e `windows-latest`: [execução 30827511608](https://github.com/Myerzx/Void-Modpack/actions/runs/30827511608); nova matriz do controlador pendente;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - Graphify atualizado com 971 nós, 1.219 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas ou colapsadas.
 
 ## Riscos não resolvidos
 
 - o estado do adaptador é local à memória; não existe reconciliação após reinício do agente;
-- restart serializado, concorrência/idempotência operacional e persistência de PID ainda não existem;
+- o histórico idempotente e a exclusão mútua são locais à instância; não sobrevivem a crash ou reinício;
+- persistência de PID, lock entre processos e reconciliação com processo órfão ainda não existem;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -52,7 +56,7 @@
 
 ## Próximo recorte recomendado
 
-Implementar dentro de `@voidfall/minecraft-process` um controlador serializado de start/stop/restart com chave idempotente, uma única operação em voo, timeout explícito e eventos determinísticos. Usar runtime falso e a fixture Java; ainda não criar rotas, jobs operacionais ou integração com `server-agent`.
+Planejar o item 3 da Fase 3: leitura limitada do console e um contrato estrito de comandos em allowlist. Antes de qualquer implementação, separar leitura observável de escrita operacional, definir redação/limites e manter ausentes console genérico, rotas, jobs e integração com `server-agent`.
 
 ## Commits relevantes
 
@@ -61,5 +65,8 @@ Implementar dentro de `@voidfall/minecraft-process` um controlador serializado d
 - `f6f3058` — geração limpa dos tipos de rota do painel;
 - `7eae482` — fixture Java pré-compilada e limpeza segura no Windows;
 - `396a5d4` — grafo atualizado do recorte.
+- `c2d0ff4` — contrato documentado do controlador serializado;
+- `864f6ba` — implementação do controlador de ciclo de vida;
+- `121ea3f` — testes de idempotência, concorrência e restart real em fixture.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

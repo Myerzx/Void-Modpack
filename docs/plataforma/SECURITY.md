@@ -74,6 +74,8 @@ A documentação oficial do Node diferencia `spawn`/`execFile` da execução por
 
 `@voidfall/minecraft-process` valida novamente o plano no adaptador e no runtime. O runtime usa executável absoluto, argv separado, `shell: false`, `detached: false`, stdio em pipes, janela oculta no Windows e um ambiente mínimo. stdout/stderr mantêm somente uma cauda com limite configurável. A única escrita disponível no handle é `requestGracefulStop()`, que envia o literal `stop\n`; não existe método de comando arbitrário ou force kill.
 
+O controlador de ciclo de vida aceita somente `start`, `stop` e `restart`, mantém uma única operação ativa e rejeita concorrência diferente sem fila. Duplicatas com a mesma chave compartilham o efeito ou recebem o resultado lembrado; o histórico tem limite configurável e é somente em memória. Restart só inicia outra JVM após observar `offline`. Timeout e erro nunca promovem a operação para kill, e detalhes brutos do runtime não entram no resultado público.
+
 Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretório temporário do sistema. Não leem nem escrevem `Servidor/workspace/`.
 
 ## Arquivos e uploads
