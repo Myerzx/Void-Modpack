@@ -1,0 +1,12 @@
+{
+  "name": "@voidfall/forge-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deny-by-default Java 17 core for the VoidFall Forge build command bridge",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test.mjs"
+  }
+}
