@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785770726.9471078,
-    "ast_hash": "7030470b47aec68654dd27de95718377",
+    "mtime": 1785771006.159723,
+    "ast_hash": "6f69b4f33da5c92b96a14b030bc8a95b",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785768783.7394202,
-    "ast_hash": "be5d70e22f40b6f4d8fb07a542ef0d07",
+    "mtime": 1785771006.1582127,
+    "ast_hash": "1c8cf59f1e455c6639632bb8b98f4bce",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785768783.7364063,
-    "ast_hash": "9763fa6ffe7c7d1ef5785941a5743a05",
+    "mtime": 1785771006.156706,
+    "ast_hash": "86cec28817180e43d4bb99cf8196b017",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -755,8 +755,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_3_PROCESS_ADAPTERS.md": {
-    "mtime": 1785770726.945594,
-    "ast_hash": "0de703f340caab650510c21826d8419a",
+    "mtime": 1785771006.1582127,
+    "ast_hash": "ce10833ff32d3d75b4a63c758a0ad0ae",
     "semantic_hash": ""
   }
 }
