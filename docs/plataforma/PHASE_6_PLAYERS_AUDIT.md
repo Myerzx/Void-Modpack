@@ -1,6 +1,6 @@
 # Fase 6 — jogadores, privacidade e auditoria
 
-Status: conclusão técnica em isolamento em 2026-08-03; gate local aprovado, integrações operacionais bloqueadas.
+Status: conclusão técnica em isolamento em 2026-08-03; gate local e matriz Windows/Linux aprovados, integrações operacionais bloqueadas.
 
 ## Objetivo e recorte
 
@@ -126,3 +126,4 @@ Conclusão técnica não autoriza conexão ao Forge, ingestão de jogadores reai
 - gate integral: 178 casos descobertos, 176 aprovados no Windows e dois sockets Unix ignorados;
 - builds de pacotes, apps, Forge Bridge Java 17 e painel estático aprovados;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime.
+- matriz final aprovada em Ubuntu e Windows: [execução 30862534188](https://github.com/Myerzx/Void-Modpack/actions/runs/30862534188).

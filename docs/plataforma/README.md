@@ -47,7 +47,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - Fase 3 concluída em isolamento: processo, console, métricas, backup consistente, restore isolado e configurações básicas com revisão anterior passaram na matriz Windows/Linux;
 - Fase 4 concluída em isolamento: inventário, classificação revisável, quarentena, arquivos autorizados, schemas genéricos e análise de conflitos passaram no gate local e na matriz Windows/Linux;
 - Fase 5 tecnicamente concluída em isolamento: worker por referência, build/sanitização, assinatura, storage imutável, canais, Launcher API, planner portátil, rollback e Bridge Java passaram no gate local e na matriz Windows/Linux;
-- Fase 6 tecnicamente concluída em isolamento: perfis/aliases por UUID, bindings de grupos Minecraft, moderação tipada, política deny-by-default e auditoria encadeada/exportável passaram no gate local;
+- Fase 6 tecnicamente concluída em isolamento: perfis/aliases por UUID, bindings de grupos Minecraft, moderação tipada, política deny-by-default e auditoria encadeada/exportável passaram no gate local e na matriz Windows/Linux;
 - nenhum arquivo, chat, coordenada ou estado de jogador do servidor privado foi importado e nenhum provider/executor real foi conectado;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - `stable`, o adapter Forge real e `/atualizar-modpack` permanecem desabilitados até os gates P0 do cliente e da distribuição;

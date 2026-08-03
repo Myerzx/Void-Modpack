@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 6 — tecnicamente concluída em isolamento; gate local aprovado e matriz Windows/Linux pendente
+- Fase: 6 — tecnicamente concluída em isolamento; gate local e matriz Windows/Linux aprovados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -134,6 +134,7 @@
 - gate local da Fase 6 aprovado: 178 casos descobertos; 176 aprovados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Launcher API e export estático aprovados;
 - Fase 6 por componente novo/ampliado: contratos 31, player governance 12, audit chain 7 e database 3 casos aprovados;
 - append concorrente de auditoria comprovado em PGlite com sequência contígua, verificação e export NDJSON;
+- matriz CI final da Fase 6 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30862534188](https://github.com/Myerzx/Void-Modpack/actions/runs/30862534188); 178 casos passam no Linux e os 176 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI de fechamento da Fase 5 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360); 149 casos passam no Linux e os 147 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;

@@ -113,7 +113,7 @@ Gate operacional: o canal `stable`, a instalação no Forge real e `/atualizar-m
 5. [x] Atividade, chat e coordenadas sob política de privacidade — motor de decisão sem payload sensível ou persistência de observações.
 6. [x] Auditoria encadeada/exportável — cadeia SHA-256 por partição, verificação, NDJSON e append transacional no PostgreSQL.
 
-Status: conclusão técnica em isolamento em 2026-08-03. O gate local passou com 178 casos descobertos, 176 aprovados no Windows e dois casos de socket Unix ignorados. Os cinco novos contratos geram JSON Schemas portáteis; `@voidfall/player-governance` possui 12 testes, `@voidfall/audit-chain` possui 7 e o repositório de auditoria encadeia appends concorrentes em PGlite.
+Status: conclusão técnica em isolamento em 2026-08-03. O gate local e a [matriz Windows/Linux 30862534188](https://github.com/Myerzx/Void-Modpack/actions/runs/30862534188) passaram com 178 casos no Linux, 176 aprovados no Windows e dois casos de socket Unix ignorados. Os cinco novos contratos geram JSON Schemas portáteis; `@voidfall/player-governance` possui 12 testes, `@voidfall/audit-chain` possui 7 e o repositório de auditoria encadeia appends concorrentes em PGlite.
 
 Gate operacional: autenticação Minecraft, provider Forge, executor de moderação, importação de jogador, coleta de atividade/chat/coordenadas, telas/rotas sensíveis e export externo continuam desabilitados. Dependem das decisões P0/P1 de autenticação, provider e retenção, além de autorização, auditoria de leitura e teste no Forge real. Consulte [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md).
 

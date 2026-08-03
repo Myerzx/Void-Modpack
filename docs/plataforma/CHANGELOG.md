@@ -11,7 +11,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - decisões deny-by-default para coleta, leitura e exportação de atividade, chat e coordenadas sem receber conteúdo sensível;
 - `@voidfall/audit-chain` com SHA-256 por partição, verificação de adulteração e NDJSON canônico;
 - migração `0003_audit_chain.sql` e append transacional com cabeça bloqueada, sequência contígua, verificação e export no repositório de auditoria;
-- gate local aprovado com 178 casos descobertos: 176 aprovados no Windows e dois sockets Unix ignorados.
+- gate local e [matriz Ubuntu/Windows 30862534188](https://github.com/Myerzx/Void-Modpack/actions/runs/30862534188) aprovados com 178 casos no Linux, 176 aplicáveis no Windows e dois sockets Unix ignorados.
 
 ### Não habilitado
 
