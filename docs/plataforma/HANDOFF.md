@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1 a 5 concluídos em isolamento; configurações básicas com revisão anterior são o próximo recorte
+- Fase: 3 — itens 1 a 5 concluídos; item 6 implementado e validado localmente em isolamento, com matriz CI pendente
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -40,6 +40,17 @@
   - snapshot publicado imutável e conflito em vez de overwrite;
   - restore somente para destino novo e isolado, verificado antes da promoção;
   - recibos imutáveis, erros públicos sanitizados e limpeza limitada ao `.partial` da operação;
+- `@voidfall/server-configuration` com:
+  - registro confiável e fechado de recursos, paths, schemas, formatos e limites;
+  - codec estrito `java-properties-v1` que preserva comentários, ordem, UTF-8 e LF/CRLF;
+  - campos boolean, inteiro, enum e string com limites e necessidade de restart;
+  - rejeição de chaves ausentes, desconhecidas ou duplicadas e de sintaxe ambígua;
+  - guarda offline injetada, lock por recurso e hash atual esperado;
+  - rejeição de symlink/junction, hardlink, tipo especial, sobreposição e conteúdo grande;
+  - revisão anterior exata, manifesto canônico e publicação antes da substituição;
+  - substituição sincronizada, verificação posterior e recuperação dos bytes anteriores;
+  - rollback que cria nova revisão e não reinicia o Minecraft;
+  - recibos imutáveis e erros sanitizados sem paths ou valores;
 - workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -51,12 +62,14 @@
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
+8. Não tratar o codec inicial como editor Java Properties completo ou genérico; JSON/TOML/YAML, schemas de mods e paths públicos permanecem bloqueados.
 
 ## Validação
 
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
-- gate local aprovado: 68 casos, typechecks e builds de todos os workspaces;
+- pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
+- gate local aprovado: 79 casos, typechecks e builds de todos os workspaces;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
@@ -78,6 +91,13 @@
 - o filesystem local ainda não é o backend P1 de storage; retenção destrutiva, assinatura, criptografia e imutabilidade externa não estão implementadas;
 - SHA-256 detecta corrupção, mas não autentica a origem do snapshot;
 - restore isolado não troca o mundo ativo, não inicia Minecraft e não certifica boot, dimensões, inventários ou dados de mods;
+- a guarda offline de configuração também é apenas um trust boundary injetado e ainda não compartilha exclusão durável com processo, backup ou file manager;
+- o lock de configuração é um arquivo local e pode ficar obsoleto após crash; não existe reconciliação operacional;
+- o codec implementa somente um subconjunto estrito de Java Properties e exige que todos os campos estejam registrados; não suporta escapes, continuação, JSON, TOML, YAML ou configs de mods;
+- revisões podem conter segredos presentes no arquivo anterior; storage cifrado, permissões operacionais, retenção e backend remoto ainda não existem;
+- uma revisão publicada é preservada quando a substituição falha; o resultado precisa ser correlacionado pela auditoria futura antes de exibição como histórico aplicado;
+- `restartRequired` é apenas metadata; nenhuma mutação agenda ou executa restart;
+- configuração não possui persistência PostgreSQL, ator, motivo humano, autorização, auditoria ou integração com agente/API/painel;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -85,7 +105,7 @@
 
 ## Próximo recorte recomendado
 
-Iniciar o item 6 da Fase 3: configurações básicas com revisão anterior. Planejar contrato, raízes lógicas, versão, validação, diff, rollback e necessidade de restart antes de implementar. Não conectar o pacote de backup ao servidor privado, API, agente ou painel como atalho para esse item.
+Após a matriz Windows/Linux do item 6 ficar verde, encerrar formalmente a Fase 3 isolada e iniciar o planejamento do item 1 da Fase 4: inventário e catálogo reconciliado. Definir fontes canônicas, identidade por hash, proveniência, lado, licença e estados desconhecidos antes de implementar; não usar o runtime privado como fonte de publicação.
 
 ## Commits relevantes
 
@@ -110,5 +130,8 @@ Iniciar o item 6 da Fase 3: configurações básicas com revisão anterior. Plan
 - `c3d540c` — testes de integridade, limites e recuperação isolada.
 - `351efbe` — validação local e handoff do recorte;
 - `5c1a50f` — grafo atualizado da arquitetura de backup.
+- `d40e59e` — contrato documentado de configuração tipada e revisão anterior;
+- `6cf7819` — mutações Java Properties, manifestos, recuperação e rollback;
+- `6129f63` — testes de tipos, concorrência, falhas e integridade.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

@@ -50,6 +50,8 @@ O ambiente auditado é Windows, mas a arquitetura mantém adaptadores de process
 - rotação sem rebuild de imagem;
 - configuração crítica versionada com rollback e auditoria.
 
+O primeiro núcleo implementado, `@voidfall/server-configuration`, é mais restrito: trabalha somente com recursos Java Properties registrados, exige guarda offline injetada, lock local e hash atual esperado, e publica a revisão anterior antes de substituir o arquivo por `rename` no mesmo diretório. Rollback também cria revisão. A implementação atual usa apenas diretórios temporários; não existe registro operacional de recursos, storage protegido, agente, auditoria ou restart automático.
+
 ## Processo de deploy futuro
 
 1. CI executa lint, typecheck, testes, contratos e scanner de segredo.

@@ -1,6 +1,6 @@
 # Configurações básicas e revisões da Fase 3
 
-Status: contrato planejado; implementação pendente.
+Status: implementado e validado localmente; matriz Windows/Linux pendente.
 
 ## Objetivo do recorte
 
@@ -144,9 +144,9 @@ Rollback não reinicia Minecraft, não altera banco, não apaga revisões e não
 
 Alteração e rollback seguem `accepted -> guarded -> validated -> revision-published -> replacing -> verified`.
 
-Erros públicos usam códigos fechados: `invalid-definition`, `invalid-plan`, `consistency-unavailable`, `resource-not-found`, `unsafe-path`, `unsupported-entry`, `content-too-large`, `invalid-content`, `schema-mismatch`, `revision-conflict`, `concurrent-modification`, `no-change`, `revision-integrity-mismatch`, `replacement-failed`, `verification-failed` e `cleanup-failed`. Mensagens não carregam path, valor, conteúdo ou exceção bruta.
+Erros públicos usam códigos fechados: `invalid-definition`, `invalid-plan`, `consistency-unavailable`, `resource-not-found`, `unsafe-path`, `unsupported-entry`, `content-too-large`, `invalid-content`, `schema-mismatch`, `revision-conflict`, `concurrent-modification`, `no-change`, `revision-integrity-mismatch`, `replacement-failed`, `verification-failed`, `recovery-failed` e `cleanup-failed`. Mensagens não carregam path, valor, conteúdo ou exceção bruta.
 
-## Matriz de testes planejada
+## Matriz de testes implementada
 
 1. alteração tipada preserva comentários, ordem, UTF-8 e LF/CRLF;
 2. boolean, inteiro, enum e string aplicam validação e serialização canônica;
@@ -163,6 +163,8 @@ Erros públicos usam códigos fechados: `invalid-definition`, `invalid-plan`, `c
 13. recibos, manifestos e erros não expõem paths nem valores;
 14. testes usam somente diretórios temporários e comprovam ausência de `Servidor/workspace` e `Launcher/workspace`.
 
+Os comportamentos estão agrupados em 11 testes do pacote. No Windows, 10 passam e o caso de socket Unix é ignorado por ser específico da plataforma; no Linux, a matriz deve executar os 11. A suíte injeta falha antes da substituição e conteúdo corrompido depois dela para comprovar preservação ou recuperação dos bytes anteriores.
+
 ## Gate de saída
 
-O item 6 só pode ser concluído após contrato, implementação e testes passarem em Windows e Linux. Esse gate encerra a Fase 3 isolada, mas não autoriza edição real: integração com API/agente/painel, persistência PostgreSQL, auditoria, schemas genéricos, file manager, arquivos de mods e restart automático exigem recortes próprios.
+O item 6 só pode ser concluído após contrato, implementação e testes passarem em Windows e Linux. A validação local está aprovada; falta confirmar a matriz do GitHub. Esse gate encerra a Fase 3 isolada, mas não autoriza edição real: integração com API/agente/painel, persistência PostgreSQL, auditoria, schemas genéricos, file manager, arquivos de mods e restart automático exigem recortes próprios.

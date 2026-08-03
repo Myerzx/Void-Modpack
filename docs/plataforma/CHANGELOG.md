@@ -37,10 +37,17 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - erros públicos sanitizados, recibos imutáveis e limpeza restrita ao diretório parcial da própria operação;
 - 10 testes do pacote cobrindo integridade, limites e recuperação de falhas;
 - gate integral aprovado com 68 casos e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436).
+- `@voidfall/server-configuration` com registro fechado de recursos e codec estrito `java-properties-v1`;
+- schemas básicos de boolean, inteiro, enum e string, com limites e necessidade de restart;
+- concorrência otimista por SHA-256, guarda offline obrigatória e lock exclusivo por recurso;
+- revisão anterior imutável com manifesto canônico, escrita sincronizada e publicação antes da troca;
+- substituição verificada com recuperação automática dos bytes anteriores em saída divergente;
+- rollback que também captura revisão, sem restart ou alteração de runtime;
+- 11 testes do pacote cobrindo tipos, sintaxe, links, concorrência, falhas, integridade e rollback; validação local aprovada e matriz Ubuntu/Windows pendente.
 
 ### Não habilitado
 
-Start/stop/restart na API, integração com agente, console genérico, force kill, backup/restore operacional ou acesso ao servidor privado. O único processo iniciado nos testes é a fixture Java versionada; os testes de backup usam somente diretórios temporários.
+Start/stop/restart na API, integração com agente, console genérico, force kill, backup/restore/configuração operacional ou acesso ao servidor privado. O único processo iniciado nos testes é a fixture Java versionada; os testes de backup e configuração usam somente diretórios temporários.
 
 ## 2026-08-03 — Fase 2: fundação concluída
 

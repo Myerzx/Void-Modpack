@@ -69,6 +69,7 @@ Plataforma/
     permissions/
     minecraft-process/
     server-backup/
+    server-configuration/
     logging/
     minecraft-protocol/
     modpack-manifest/
@@ -86,7 +87,7 @@ Plataforma/
     security/
 ```
 
-Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. O pacote `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo, sob uma guarda offline injetada. As implementações operam apenas sobre fixtures descartáveis dos testes e não estão conectadas ao servidor real, à Control API ou ao agente.
+Os diretórios listados que ainda não existem continuam sendo destino arquitetural, não autorização automática. A Fase 3 começou em `packages/minecraft-process/` com planos validados, runtime Node e adaptadores Windows/Linux. `packages/server-backup/` acrescenta snapshots em filesystem e restauração somente para destino novo; `packages/server-configuration/` acrescenta alterações tipadas de Java Properties com revisão anterior e rollback versionado. Ambos exigem uma guarda offline injetada. As implementações operam apenas sobre fixtures descartáveis dos testes e não estão conectadas ao servidor real, à Control API ou ao agente.
 
 ## Fluxo do comando no jogo
 
