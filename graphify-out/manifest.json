@@ -220,28 +220,28 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785793439.3143246,
-    "ast_hash": "046cdffda3374560ceed6a263d676cd5",
+    "mtime": 1785796343.320937,
+    "ast_hash": "546a47d66af4fd87cbfdf3cb7bb356eb",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
-    "mtime": 1785790545.376032,
-    "ast_hash": "245b34ddaeed787fea45d07373d6b5d4",
+    "mtime": 1785796307.966766,
+    "ast_hash": "fbfbbca4c0b8a11e4e600853ccec0c7a",
     "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
-    "mtime": 1785767723.6594968,
-    "ast_hash": "46a760f48124c0bf1b130ac8220cae63",
+    "mtime": 1785796307.9652543,
+    "ast_hash": "7a026a0dd13c5aacb76d64c47eccf457",
     "semantic_hash": ""
   },
   "docs/plataforma/ARCHITECTURE.md": {
-    "mtime": 1785790545.3775396,
-    "ast_hash": "dec684ab884da2237231cf37e54ca341",
+    "mtime": 1785796307.9637427,
+    "ast_hash": "0eac1be8bdabdfb49c632b0679a80400",
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785790545.382046,
-    "ast_hash": "9bd67f284c0071e320cb27213e65c675",
+    "mtime": 1785796307.966766,
+    "ast_hash": "5b3e3c53b644f1baeae74f4f4fcd4302",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,13 +285,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785793439.318936,
-    "ast_hash": "8190ae9ba48943bf4e83cc6d1a57a185",
+    "mtime": 1785796343.3224432,
+    "ast_hash": "7615118a351209726c39ef571d96aaf9",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
-    "mtime": 1785736372.9841192,
-    "ast_hash": "3a7ee47dd243441458f417c2736811f7",
+    "mtime": 1785796262.7885222,
+    "ast_hash": "3fa10312f7510ab6ab4610dc0299ef66",
     "semantic_hash": ""
   },
   "docs/plataforma/LOGGING.md": {
@@ -300,9 +300,9 @@
     "semantic_hash": "b6bc9082849c0cbd9bc5799115a9995f"
   },
   "docs/plataforma/MODPACK_BUILD.md": {
-    "mtime": 1785732381.8683567,
-    "ast_hash": "251eff03288c78641eba4a99fc07213c",
-    "semantic_hash": "251eff03288c78641eba4a99fc07213c"
+    "mtime": 1785796262.7864327,
+    "ast_hash": "b6dfca3570b8bff23017caa682b8c88e",
+    "semantic_hash": ""
   },
   "docs/plataforma/PERMISSIONS.md": {
     "mtime": 1785732518.492139,
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785793439.3158338,
-    "ast_hash": "51e6ccdbd3f837a08baf6ff5491db02d",
+    "mtime": 1785796307.9652543,
+    "ast_hash": "fb71eda280c286bfa081c85a8d7a4574",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785793439.3158338,
-    "ast_hash": "0e1c2c7724513aae32b500bcb79b8d3d",
+    "mtime": 1785796262.7849243,
+    "ast_hash": "e45e09c0b9476164546826cf05de9a69",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1785792496.0556314,
-    "ast_hash": "47a5f18d019056be9ad1a7fa471102b0",
+    "mtime": 1785795928.0172257,
+    "ast_hash": "59cf42cf4f97d6c336f4772d5aa475de",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785789671.3216934,
-    "ast_hash": "9d26d91c5b236a45e35bd70b4fa886cb",
+    "mtime": 1785795132.3207922,
+    "ast_hash": "f89c426de523ab101a650fd2fc741186",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785789671.3201842,
-    "ast_hash": "8cf2f8c2d94c23a743773e780a6de83f",
+    "mtime": 1785795132.3202853,
+    "ast_hash": "caf731b3e37d0528b82f94680847e9eb",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785789706.38609,
-    "ast_hash": "5b0204d9cb7c3344afbe2465a8f66f1e",
+    "mtime": 1785795411.8926363,
+    "ast_hash": "863ed42e260e0f835af8222bf7ce14b5",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "Plataforma/tsconfig.json": {
-    "mtime": 1785789863.123335,
-    "ast_hash": "73e3e494cc0d7863510e6ff332a84640",
+    "mtime": 1785795744.4035242,
+    "ast_hash": "ccdca954c2180110fa1c1b60e2e39d01",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/README.md": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1785766481.6603339,
-    "ast_hash": "ec7bccb62d2d24ba1221d1ad4fc1fe04",
+    "mtime": 1785796007.8017118,
+    "ast_hash": "a574c402b92c980ebbf8a0a08e94de08",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -595,13 +595,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/build-worker/src/worker.ts": {
-    "mtime": 1785766666.8587213,
-    "ast_hash": "ef70415496239121c4a1d441b3af9cdb",
+    "mtime": 1785796022.9815876,
+    "ast_hash": "9ae66238731bc9ab1f8dfba37c8e4196",
     "semantic_hash": ""
   },
   "Plataforma/apps/build-worker/test/worker.test.ts": {
-    "mtime": 1785766642.1229892,
-    "ast_hash": "ca190312e15414f61615c786f7c4ba70",
+    "mtime": 1785796007.8047974,
+    "ast_hash": "1eb36fd208618c1f13a59480bccd5af3",
     "semantic_hash": ""
   },
   "Plataforma/apps/build-worker/tsconfig.build.json": {
@@ -660,7 +660,7 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next-env.d.ts": {
-    "mtime": 1785792700.8997035,
+    "mtime": 1785796201.307658,
     "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": ""
   },
@@ -1097,6 +1097,241 @@
   "Plataforma/packages/configuration-schemas/tsconfig.test.json": {
     "mtime": 1785792496.0516002,
     "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_5_EXECUTION.md": {
+    "mtime": 1785796262.7864327,
+    "ast_hash": "43cf3d8db1489b30fefd49bb969d8c41",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/package.json": {
+    "mtime": 1785794765.478796,
+    "ast_hash": "78444631c70c5dffd9c91be0e04a883e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/builder.ts": {
+    "mtime": 1785796425.687508,
+    "ast_hash": "75f57368e29fb1eaae68577afb9a969f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/canonical-json.ts": {
+    "mtime": 1785794765.4818082,
+    "ast_hash": "acbece7b5e8059bc532699ff31c4d0ab",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/index.ts": {
+    "mtime": 1785795278.3270772,
+    "ast_hash": "317ed526e9108bce7556a82ab9957f44",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/sanitization.ts": {
+    "mtime": 1785794765.483315,
+    "ast_hash": "b794ffbc182723f041fb820a2b277eaa",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/signing.ts": {
+    "mtime": 1785794765.4818082,
+    "ast_hash": "90688096b341261e788f99b2b537e8ea",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/types.ts": {
+    "mtime": 1785796413.172309,
+    "ast_hash": "1bc9dbe785f27bd24f673c83d4a20c14",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/test/modpack-release.test.ts": {
+    "mtime": 1785796440.8416607,
+    "ast_hash": "2b20291cc42df9cc3c872c6edf22184b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/tsconfig.build.json": {
+    "mtime": 1785794765.4803023,
+    "ast_hash": "93b3240fd42e36f349b94ea10b98bd3e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/tsconfig.test.json": {
+    "mtime": 1785794765.4803023,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/forge-build-request.ts": {
+    "mtime": 1785795132.3197768,
+    "ast_hash": "299aaee194439e01775af2226a382786",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/launcher-channel.ts": {
+    "mtime": 1785795132.318268,
+    "ast_hash": "b97c5475aec142a36f871a20e322f12c",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/launcher-state.ts": {
+    "mtime": 1785795411.8912017,
+    "ast_hash": "47ec456c9049e90e2834b8041be8fced",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/channel-signing.ts": {
+    "mtime": 1785795278.3255677,
+    "ast_hash": "2003ec8b67e28b96b14d12bf7e95070a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/modpack-release/src/filesystem-repository.ts": {
+    "mtime": 1785796425.689016,
+    "ast_hash": "c7d17438278bfa2271b2b7000bd0bba3",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/package.json": {
+    "mtime": 1785795481.8029022,
+    "ast_hash": "6b7383ec9e81f73d0bbb333c4e1f20c7",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/src/index.ts": {
+    "mtime": 1785795481.8064296,
+    "ast_hash": "fdd78de86fc9c2597657eaa736a3ad6e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/src/planner.ts": {
+    "mtime": 1785795577.1700912,
+    "ast_hash": "cba7cef63645db809c3d4040d877521a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/src/types.ts": {
+    "mtime": 1785795481.804921,
+    "ast_hash": "15dd2069acd49ffc3f33c0fedc0b508c",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/src/verifier.ts": {
+    "mtime": 1785795481.804921,
+    "ast_hash": "54a4f99c37289a2c807338f3223539ea",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/test/launcher-protocol.test.ts": {
+    "mtime": 1785795532.259778,
+    "ast_hash": "68c7c4c5dd12fdc411ac17dcac83bb23",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/tsconfig.build.json": {
+    "mtime": 1785795481.8034098,
+    "ast_hash": "05bc67da2f7aa260cc64123e54e639c9",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/launcher-protocol/tsconfig.test.json": {
+    "mtime": 1785795481.8034098,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/package.json": {
+    "mtime": 1785795694.937591,
+    "ast_hash": "ae63570dfedabf980001085cf459e6bf",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/src/app.ts": {
+    "mtime": 1785795694.939168,
+    "ast_hash": "d80ae0f765ff3ae4f1bef534f0016eac",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/src/config.ts": {
+    "mtime": 1785795694.9406793,
+    "ast_hash": "d97ef55612e1eee1bb9698040a44a98e",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/src/main.ts": {
+    "mtime": 1785795694.9406793,
+    "ast_hash": "d4d5fdc5615015f9b824e090be2c0405",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/test/launcher-api.test.ts": {
+    "mtime": 1785795744.4020169,
+    "ast_hash": "cb2ef5adafd956c6d42ef29c182c0c60",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/tsconfig.build.json": {
+    "mtime": 1785795694.939168,
+    "ast_hash": "c5987b3d0398aa0db7af4205f0c210e1",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/launcher-api/tsconfig.test.json": {
+    "mtime": 1785795694.939168,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/package.json": {
+    "mtime": 1785795928.004065,
+    "ast_hash": "2ed1f29b65793c430dd0ab345d21da62",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/scripts/build.mjs": {
+    "mtime": 1785795928.006663,
+    "ast_hash": "744905534cdc639c7fb37f0085b0af94",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/scripts/java-tools.mjs": {
+    "mtime": 1785795928.0060797,
+    "ast_hash": "d2c1fe5dff5becaf8839c4bc33f5315a",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/scripts/test.mjs": {
+    "mtime": 1785795928.006663,
+    "ast_hash": "7b77548b14c5cc8e491f1477d029779b",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/AgentGateway.java": {
+    "mtime": 1785795928.0126958,
+    "ast_hash": "b28abeda36248d7b4c9fdafd7902be3a",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/BridgeCapabilities.java": {
+    "mtime": 1785795928.0096772,
+    "ast_hash": "dde94084b2d2069430dd84d9398544d4",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/BuildCommandResult.java": {
+    "mtime": 1785795928.014205,
+    "ast_hash": "a9d271ed4d08befd6d94bb44d0dc4253",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/BuildCommandService.java": {
+    "mtime": 1785795928.014205,
+    "ast_hash": "3d6f5e4af6ded4a64a3725aa93a9c8ce",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/BuildRequestIntent.java": {
+    "mtime": 1785795928.0096772,
+    "ast_hash": "f92f3952c57e1ff26436c8cedb8c6df9",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/BuildRequestSigner.java": {
+    "mtime": 1785795928.0126958,
+    "ast_hash": "9d2c997f65b94a20f765d51e9197bc94",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/Ed25519BuildRequestSigner.java": {
+    "mtime": 1785795928.0126958,
+    "ast_hash": "5893fcdddd3d340a5c15028330681c8a",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/NonceStore.java": {
+    "mtime": 1785795928.0111852,
+    "ast_hash": "7f1271f288ce34e999f9766cccd13896",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/PermissionVerifier.java": {
+    "mtime": 1785795928.0111852,
+    "ast_hash": "017cafaa8c95de20e4da38b8a0ef87c1",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/SignedBuildRequest.java": {
+    "mtime": 1785795928.0096772,
+    "ast_hash": "eaefe33f1a3bd3b11713e03b3cd02828",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/test/java/dev/voidfall/forgebridge/BuildCommandServiceTest.java": {
+    "mtime": 1785795928.0157144,
+    "ast_hash": "d8077d1328cc8bc05555d20a33af7293",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260803_223610_como_concluir_a_fase_5_inteira_sem_violar_os_gates.md": {
+    "mtime": 1785796570.3920393,
+    "ast_hash": "3c707296a9531a396daa7b7873d6d5d5",
     "semantic_hash": ""
   }
 }
