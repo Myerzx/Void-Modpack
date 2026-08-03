@@ -16,8 +16,9 @@ if (-not (Test-Path -LiteralPath $python)) {
 $out = Join-Path $repoRoot 'graphify-out'
 $logFile = Join-Path $out 'watcher.log'
 New-Item -ItemType Directory -Path $out -Force | Out-Null
-Set-Content -LiteralPath (Join-Path $out '.graphify_python') -Value $python -Encoding UTF8
-Set-Content -LiteralPath (Join-Path $out '.graphify_root') -Value $repoRoot -Encoding UTF8
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+[System.IO.File]::WriteAllText((Join-Path $out '.graphify_python'), "$python$([Environment]::NewLine)", $utf8NoBom)
+[System.IO.File]::WriteAllText((Join-Path $out '.graphify_root'), "$repoRoot$([Environment]::NewLine)", $utf8NoBom)
 Add-Content -LiteralPath $logFile -Value "[$([DateTimeOffset]::Now.ToString('o'))] Starting Graphify watcher." -Encoding UTF8
 
 Push-Location -LiteralPath $repoRoot
