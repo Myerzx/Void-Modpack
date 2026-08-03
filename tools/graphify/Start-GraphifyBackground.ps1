@@ -21,7 +21,7 @@ if (Test-Path -LiteralPath $pidFile) {
 $shell = (Get-Command pwsh,powershell -ErrorAction SilentlyContinue | Select-Object -First 1).Source
 if (-not $shell) { throw 'PowerShell executable not found.' }
 $watchScript = Join-Path $PSScriptRoot 'Watch-Graph.ps1'
-$arguments = @('-NoProfile','-ExecutionPolicy','Bypass','-File',$watchScript,'-DebounceSeconds',$DebounceSeconds)
+$arguments = '-NoProfile -ExecutionPolicy Bypass -File "{0}" -DebounceSeconds {1}' -f $watchScript,$DebounceSeconds
 $process = Start-Process -FilePath $shell -ArgumentList $arguments -WorkingDirectory $repoRoot -WindowStyle Hidden -PassThru
 Set-Content -LiteralPath $pidFile -Value $process.Id -Encoding ASCII
 Start-Sleep -Milliseconds 750

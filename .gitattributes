@@ -22,3 +22,4 @@
 *.zip binary
 *.jar binary
 
+graphify-out/graph.json merge=graphify
