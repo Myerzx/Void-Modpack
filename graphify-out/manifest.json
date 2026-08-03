@@ -70,8 +70,8 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785781100.7269893,
-    "ast_hash": "3dd014804c2825c63cacda45c157f2c3",
+    "mtime": 1785790203.8356206,
+    "ast_hash": "9c1fb0783b34ab275773fe8dd7192a68",
     "semantic_hash": ""
   },
   "Servidor/README.md": {
@@ -220,13 +220,13 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785787429.7237768,
-    "ast_hash": "484a13fa65978152e4b2e31d5182929b",
+    "mtime": 1785789556.8264117,
+    "ast_hash": "894e145882121fd5f52da988b307f0b0",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
-    "mtime": 1785787429.7237768,
-    "ast_hash": "254d70008680295e4ebad6dd6d39dab5",
+    "mtime": 1785790203.8371286,
+    "ast_hash": "a02c680323e7d60ad1f73291f8559e23",
     "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ARCHITECTURE.md": {
-    "mtime": 1785787429.725286,
-    "ast_hash": "d7309e85c7d1d7dd3ad5c3425b638162",
+    "mtime": 1785790203.8387156,
+    "ast_hash": "875ea6b089dbac5158325deae2f5ed72",
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785787429.726797,
-    "ast_hash": "2f67aad1e81892ddc6271ab513511239",
+    "mtime": 1785790203.8427439,
+    "ast_hash": "d0791dfb4b5ad7a8d2ebe8373543042f",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785787429.7288187,
-    "ast_hash": "538dd1dd5de9353aaee0738ee6ece6fb",
+    "mtime": 1785790203.8442495,
+    "ast_hash": "d0b7d18aa3f0b03cee390fc6be41c6fb",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785787429.7222693,
-    "ast_hash": "6f484e34dbc2f275a162d7ec3203b38d",
+    "mtime": 1785790203.8427439,
+    "ast_hash": "385bf26d5ecbb98fb4c62a300445a922",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785787429.7206676,
-    "ast_hash": "4080f44e338aa326f5a7c5004bb92ae2",
+    "mtime": 1785790203.841236,
+    "ast_hash": "13e553875d9f822f71e561f2d3c4b3c8",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1785785883.0779295,
-    "ast_hash": "8ac72454bdb2d020b3b3aaadf5053065",
+    "mtime": 1785789863.121824,
+    "ast_hash": "cfe74024cc374ed772833993a6493e43",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785736150.3974977,
-    "ast_hash": "2bba8b1ec4434acc1d2b27ed3f205646",
+    "mtime": 1785789671.3216934,
+    "ast_hash": "9d26d91c5b236a45e35bd70b4fa886cb",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785736150.3974977,
-    "ast_hash": "b692895c6413df5747bfc7dbc264fdc0",
+    "mtime": 1785789671.3201842,
+    "ast_hash": "8cf2f8c2d94c23a743773e780a6de83f",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785765735.8961222,
-    "ast_hash": "23913c36ac62fe0d0991c7b26e27e8ad",
+    "mtime": 1785789706.38609,
+    "ast_hash": "5b0204d9cb7c3344afbe2465a8f66f1e",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "Plataforma/tsconfig.json": {
-    "mtime": 1785785883.0779295,
-    "ast_hash": "260cec0f3141f51e041a203a45d22071",
+    "mtime": 1785789863.123335,
+    "ast_hash": "73e3e494cc0d7863510e6ff332a84640",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/README.md": {
@@ -430,8 +430,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CONTRACTS.md": {
-    "mtime": 1785736517.3293095,
-    "ast_hash": "519ce2e9c1ac636ae20bbf1f9ccdabea",
+    "mtime": 1785790203.8392234,
+    "ast_hash": "5e637c39135ae429bb0b88674a8a0fb4",
     "semantic_hash": ""
   },
   "Plataforma/packages/authentication/package.json": {
@@ -660,7 +660,7 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next-env.d.ts": {
-    "mtime": 1785786537.5159185,
+    "mtime": 1785790105.8620236,
     "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": ""
   },
@@ -715,8 +715,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_2_VALIDATION.md": {
-    "mtime": 1785787429.726797,
-    "ast_hash": "611176d37fd0fe322437707004aca1a9",
+    "mtime": 1785790203.839729,
+    "ast_hash": "d3accfa22ed88fec9160032c7aa975ab",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/adapter.ts": {
@@ -902,6 +902,61 @@
   "graphify-out/memory/query_20260803_195333_como_o_novo_n\u00facleo_de_configura\u00e7\u00f5es_versionadas_se.md": {
     "mtime": 1785786813.761068,
     "ast_hash": "bf31bd01f64e1ad4674f9a4fab69f507",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_4_INVENTORY_CATALOG.md": {
+    "mtime": 1785790203.841236,
+    "ast_hash": "a20e1e52db6e2abfbc43de60ab3bc5df",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260803_203748_quais_contratos_e_limites_existentes_devem_orienta.md": {
+    "mtime": 1785789468.8520882,
+    "ast_hash": "f2b29877c78a3c5df824284c8cba911b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/catalog-reconciliation.ts": {
+    "mtime": 1785789671.3186765,
+    "ast_hash": "a1c0ea5941c99a8c53a220324b1db2ca",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/inventory-snapshot.ts": {
+    "mtime": 1785789671.3186765,
+    "ast_hash": "89715daa2d72bcfd908a2b99976f683d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/package.json": {
+    "mtime": 1785789863.1172094,
+    "ast_hash": "dc8c110ad052cde4e2be0777853a8c44",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/src/index.ts": {
+    "mtime": 1785789863.1203156,
+    "ast_hash": "8ebe7a101efdd03ad25c97051660fac8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/src/reconcile.ts": {
+    "mtime": 1785789863.1203156,
+    "ast_hash": "fabfd00def852984b4a7dd561fbaf972",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/src/types.ts": {
+    "mtime": 1785789863.1203156,
+    "ast_hash": "4fbd272730180cd0a73ba81e528973b4",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/tsconfig.build.json": {
+    "mtime": 1785789863.1172094,
+    "ast_hash": "93b3240fd42e36f349b94ea10b98bd3e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/tsconfig.test.json": {
+    "mtime": 1785789863.1187165,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-catalog/test/mod-catalog.test.ts": {
+    "mtime": 1785789977.6353214,
+    "ast_hash": "6c197cff9232f00d65614a7a40fb8d56",
     "semantic_hash": ""
   }
 }
