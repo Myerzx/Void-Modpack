@@ -6,8 +6,11 @@ import {
   validateAgentHeartbeatPayload,
   validateAuditEvent,
   validateCatalogReconciliationReport,
+  validateForgeBuildRequest,
   validateInventorySnapshot,
   validateJob,
+  validateLauncherChannel,
+  validateLauncherManagedState,
   validateModCatalogEntry,
   validateReleaseManifest,
 } from '../src/index.js';
@@ -372,6 +375,105 @@ describe('ReleaseManifest', () => {
     const duplicateFiles = duplicate.files as Array<Record<string, unknown>>;
     duplicateFiles[1] = { ...duplicateFiles[1], path: 'CONFIG/EXAMPLE.TOML' };
     assert.equal(validateReleaseManifest(duplicate).success, false);
+  });
+});
+
+describe('LauncherChannel', () => {
+  it('accepts a signed first promotion and a contiguous rollback', () => {
+    const first = {
+      schemaVersion: 1,
+      product: { id: 'voidfall', displayName: 'VoidFall' },
+      channel: 'stable',
+      revision: 1,
+      operation: 'promotion',
+      releaseVersion: '1.0.0',
+      buildId: 'build-20260803-120000',
+      manifestSha256: hashA,
+      manifestUrl:
+        'https://updates.voidfall.invalid/launcher/v1/releases/1.0.0/build-20260803-120000/manifest',
+      publishedAt: '2026-08-03T12:00:00Z',
+      signature: { algorithm: 'Ed25519', keyId: 'release-2026-01', value: signature },
+    };
+    assert.equal(validateLauncherChannel(first).success, true);
+    assert.equal(
+      validateLauncherChannel({
+        ...first,
+        revision: 2,
+        operation: 'rollback',
+        previous: { revision: 1, releaseVersion: '1.0.0', buildId: 'build-20260803-120000' },
+      }).success,
+      true,
+    );
+  });
+
+  it('rejects insecure URLs and gaps in channel history', () => {
+    const invalid = {
+      schemaVersion: 1,
+      product: { id: 'voidfall', displayName: 'VoidFall' },
+      channel: 'stable',
+      revision: 3,
+      operation: 'promotion',
+      releaseVersion: '1.0.0',
+      buildId: 'build-20260803-120000',
+      manifestSha256: hashA,
+      manifestUrl: 'http://updates.example.test/manifest',
+      publishedAt: '2026-08-03T12:00:00Z',
+      previous: { revision: 1, releaseVersion: '0.9.0', buildId: 'build-20260802-120000' },
+      signature: { algorithm: 'Ed25519', keyId: 'release-2026-01', value: signature },
+    };
+    assert.equal(validateLauncherChannel(invalid).success, false);
+  });
+});
+
+describe('LauncherManagedState', () => {
+  it('accepts sorted managed files and rejects cross-platform duplicates', () => {
+    const state = {
+      schemaVersion: 1,
+      product: { id: 'voidfall', displayName: 'VoidFall' },
+      channel: 'stable',
+      releaseVersion: '1.0.0',
+      buildId: 'build-20260803-120000',
+      installedAt: '2026-08-03T12:00:00Z',
+      files: [
+        { path: 'config/example.json', sha256: hashA },
+        { path: 'mods/example.jar', sha256: hashB },
+      ],
+    };
+    assert.equal(validateLauncherManagedState(state).success, true);
+    assert.equal(
+      validateLauncherManagedState({
+        ...state,
+        files: [
+          { path: 'mods/example.jar', sha256: hashA },
+          { path: 'MODS/EXAMPLE.JAR', sha256: hashB },
+        ],
+      }).success,
+      false,
+    );
+  });
+});
+
+describe('ForgeBuildRequest', () => {
+  it('accepts a short-lived signed intent and rejects an excessive lifetime', () => {
+    const request = {
+      schemaVersion: 1,
+      protocolVersion: 1,
+      kind: 'modpack.build.request',
+      requestId: uuid,
+      correlationId: otherUuid,
+      playerUuid: uuid,
+      serverInstanceId: otherUuid,
+      permission: 'modpack.build.request',
+      nonce: 'n'.repeat(43),
+      issuedAt: '2026-08-03T12:00:00Z',
+      expiresAt: '2026-08-03T12:01:00Z',
+      signature: { algorithm: 'Ed25519', keyId: 'forge-bridge-01', value: signature },
+    };
+    assert.equal(validateForgeBuildRequest(request).success, true);
+    assert.equal(
+      validateForgeBuildRequest({ ...request, expiresAt: '2026-08-03T12:03:00Z' }).success,
+      false,
+    );
   });
 });
 
