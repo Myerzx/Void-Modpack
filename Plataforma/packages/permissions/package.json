@@ -1,0 +1,22 @@
+{
+  "name": "@voidfall/permissions",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deny-by-default panel RBAC policy for VoidFall",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/permissions.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  }
+}

@@ -46,6 +46,7 @@
 **/node_modules/
 **/coverage/
 **/*.tsbuildinfo
+**/.next/
 /tmp/
 *.tmp
 *.bak

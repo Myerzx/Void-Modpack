@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import {
   canPublishInStable,
   validateAgentEnvelope,
+  validateAgentHeartbeatPayload,
   validateAuditEvent,
   validateJob,
   validateModCatalogEntry,
@@ -165,6 +166,23 @@ describe('AgentEnvelope', () => {
       signature: { algorithm: 'Ed25519', keyId: 'agent-2026-01', value: signature },
     };
     assert.equal(validateAgentEnvelope(envelope).success, false);
+  });
+
+  it('validates heartbeat payloads separately from the generic envelope', () => {
+    assert.equal(
+      validateAgentHeartbeatPayload({
+        status: 'online',
+        observedAt: '2026-08-03T12:00:00Z',
+        protocolVersion: 1,
+        softwareVersion: '0.1.0',
+        capabilities: ['heartbeat'],
+      }).success,
+      true,
+    );
+    assert.equal(
+      validateAgentHeartbeatPayload({ status: 'online', capabilities: ['process.control'] }).success,
+      false,
+    );
   });
 });
 

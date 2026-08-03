@@ -1,0 +1,37 @@
+{
+  "name": "@voidfall/database",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PostgreSQL migrations and repositories for the VoidFall control plane",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist",
+    "migrations"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/database.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/authentication": "0.1.0",
+    "@voidfall/contracts": "0.1.0",
+    "@voidfall/permissions": "0.1.0",
+    "pg": "8.22.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.4",
+    "@types/pg": "8.20.3"
+  }
+}

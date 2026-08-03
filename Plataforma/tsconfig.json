@@ -4,6 +4,24 @@
   "references": [
     {
       "path": "./packages/contracts/tsconfig.build.json"
+    },
+    {
+      "path": "./packages/permissions/tsconfig.build.json"
+    },
+    {
+      "path": "./packages/authentication/tsconfig.build.json"
+    },
+    {
+      "path": "./packages/database/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/control-api/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/build-worker/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/server-agent/tsconfig.build.json"
     }
   ]
 }

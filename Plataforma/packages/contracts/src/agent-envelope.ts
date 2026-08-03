@@ -15,6 +15,22 @@ import {
   type ContractValidationResult,
 } from './validation.js';
 
+export const AgentHeartbeatPayloadSchema = Type.Object(
+  {
+    status: Type.Union([Type.Literal('online'), Type.Literal('degraded')]),
+    observedAt: IsoDateTimeSchema,
+    protocolVersion: ContractSchemaVersion,
+    softwareVersion: Type.String({ minLength: 1, maxLength: 64 }),
+    capabilities: Type.Array(
+      Type.String({ minLength: 1, maxLength: 64, pattern: '^[a-z0-9]+(?:[.-][a-z0-9]+)*$' }),
+      { maxItems: 64, uniqueItems: true },
+    ),
+  },
+  { additionalProperties: false },
+);
+
+export type AgentHeartbeatPayload = Static<typeof AgentHeartbeatPayloadSchema>;
+
 export const AgentEnvelopeSchema = Type.Object(
   {
     schemaVersion: ContractSchemaVersion,
@@ -68,4 +84,10 @@ export function validateAgentEnvelope(value: unknown): ContractValidationResult<
   }
 
   return appendSemanticIssues(result, issues);
+}
+
+export function validateAgentHeartbeatPayload(
+  value: unknown,
+): ContractValidationResult<AgentHeartbeatPayload> {
+  return validateContract(AgentHeartbeatPayloadSchema, value);
 }

@@ -1,0 +1,27 @@
+{
+  "name": "@voidfall/authentication",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Password, opaque-session and agent-envelope cryptography for VoidFall",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/authentication.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/contracts": "0.1.0",
+    "argon2": "0.45.1",
+    "json-canonicalize": "2.0.0"
+  }
+}

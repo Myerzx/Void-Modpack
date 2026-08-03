@@ -15,11 +15,14 @@
     "npm": "11.11.0"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "check": "npm run typecheck && npm run test && npm run build",
+    "build": "npm run build:packages && npm run build:apps",
+    "build:apps": "npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/build-worker && npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/panel-web",
+    "build:packages": "npm run build --workspace @voidfall/contracts && npm run build --workspace @voidfall/permissions && npm run build --workspace @voidfall/authentication && npm run build --workspace @voidfall/database",
+    "check": "npm run build:packages && npm run typecheck && npm run test && npm run build:apps",
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },

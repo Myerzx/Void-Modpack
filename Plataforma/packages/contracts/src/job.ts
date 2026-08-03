@@ -27,6 +27,7 @@ export const JobSchema = Type.Object(
       Type.Literal('server.start'),
       Type.Literal('server.stop'),
       Type.Literal('server.restart'),
+      Type.Literal('system.noop'),
     ]),
     resource: ResourceRefSchema,
     status: Type.Union([
