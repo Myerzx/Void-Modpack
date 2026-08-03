@@ -56,7 +56,7 @@ Status: concluída em 2026-08-03. O gate passou com autenticação, autorizaçã
 2. [x] Estado observado, start, stop e restart seguro — concluído no pacote isolado com controlador serializado/idempotente, testes falsos e fixture Java; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30833243148).
 3. [x] Console de leitura e comandos em allowlist — concluído no pacote isolado com snapshots limitados e catálogo `list-players`/`save-all`; gate aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189).
 4. [x] Métricas de host/processo e fonte exibida — concluídas no pacote isolado com snapshot tipado, 25 testes do pacote e gate de 58 testes aprovado na [matriz Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
-5. Backup consistente e restore em ambiente isolado.
+5. Backup consistente e restore em ambiente isolado — **em planejamento**: método offline com exclusão confiável, manifesto verificável e promoção atômica; sem acesso ao runtime privado.
 6. Configurações básicas com revisão anterior.
 
 Gate: force kill e restore permanecem desabilitados até testes de falha e recuperação.

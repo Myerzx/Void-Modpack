@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 2 is complete. Phase 3 has validated launch plans, isolated Windows/Linux process adapters, a serialized lifecycle controller, and a bounded two-command console contract in `packages/minecraft-process`. The next bounded slice is to plan host/process metrics with explicit sources and timestamps. Do not connect process control to the API/agent, edit the private runtime, add generic console execution, or implement force-kill/restore until a later task explicitly clears the applicable roadmap gates.
+Phase 2 is complete. Phase 3 items 1–4 are validated in isolation. Item 5 is limited to a filesystem backup core using an injected offline-exclusive guard and restore only into a new isolated destination. Do not connect process/backup control to the API or agent, edit the private runtime, add generic console execution, implement force-kill, overwrite a restore target, or add destructive retention.
 
 ## Ownership
 
