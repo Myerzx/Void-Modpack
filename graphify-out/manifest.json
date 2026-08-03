@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785799684.6314566,
-    "ast_hash": "a4558fac01b389466f4fe0cd578dc5b2",
+    "mtime": 1785800140.4322953,
+    "ast_hash": "57b615d79fc354ae43a6a668ac7c388f",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785799684.6314566,
-    "ast_hash": "6db78d8d65cfc7efd8495c262857b766",
+    "mtime": 1785800140.4353125,
+    "ast_hash": "97804f7db64ed9f771cfde2fbf897e5f",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785799762.5104737,
-    "ast_hash": "40cf40d1435fa037455631cfed7bf7af",
+    "mtime": 1785800140.4353125,
+    "ast_hash": "f8e36da54bf27ad4b87b90eb2cb3666b",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785799684.6284356,
-    "ast_hash": "1b630b01fdf88ec23f27a52caf347dee",
+    "mtime": 1785800140.4368277,
+    "ast_hash": "1a8aaf821242cf269d8d60f08e2c2e4e",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785799684.629944,
-    "ast_hash": "0c4b72af21d7f4afbe3c1ae7b40cb671",
+    "mtime": 1785800140.433801,
+    "ast_hash": "2cefe9245908ecd5ed77c46fbc73f966",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -1335,8 +1335,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_6_PLAYERS_AUDIT.md": {
-    "mtime": 1785799797.5641313,
-    "ast_hash": "c090f4433119dc60d7770c9f69808048",
+    "mtime": 1785800140.4322953,
+    "ast_hash": "0ed6ce7c467f7ddf815f16fd0417cd21",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260803_230124_quais_contratos_e_limites_existentes_devem_orienta.md": {
@@ -1467,6 +1467,11 @@
   "Plataforma/packages/database/migrations/0003_audit_chain.sql": {
     "mtime": 1785799373.5524483,
     "ast_hash": "99632d8bdd12989333f2a11aebed6ccb",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260803_233041_como_a_fase_6_completa_separa_identidade_uuid__per.md": {
+    "mtime": 1785799841.9726915,
+    "ast_hash": "4bd1393b0543a94f9bc95ed8c2c254b5",
     "semantic_hash": ""
   }
 }
