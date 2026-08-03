@@ -10,7 +10,12 @@ import type {
 } from '@voidfall/contracts';
 
 import {
+  CatalogClassificationError,
+  CatalogDependencyAnalysisError,
   CatalogReconciliationError,
+  analyzeCatalogDependencies,
+  classifyCatalogEntry,
+  hashCatalogEntry,
   reconcileCatalog,
   type CatalogReconciliationPlan,
 } from '../src/index.js';
@@ -81,6 +86,7 @@ function catalogEntry(
     readonly decision?: ModCatalogEntry['distribution']['decision'];
     readonly reviewState?: ModCatalogEntry['reviewState'];
     readonly runtime?: InventoryRuntime;
+    readonly dependencies?: ModCatalogEntry['dependencies'];
   } = {},
 ): ModCatalogEntry {
   const decision = options.decision ?? 'allowed';
@@ -113,7 +119,7 @@ function catalogEntry(
     },
     distribution,
     reviewState: options.reviewState ?? 'reviewed',
-    dependencies: [],
+    dependencies: options.dependencies ?? [],
   };
 }
 
@@ -343,5 +349,202 @@ describe('reconcileCatalog', () => {
     assert.equal(Object.isFrozen(report.inputs), true);
     assert.equal(Object.isFrozen(report.artifacts), true);
     assert.equal(Object.isFrozen(report.artifacts[0]?.observations), true);
+  });
+});
+
+describe('classifyCatalogEntry', () => {
+  it('creates an immutable reviewed classification with optimistic concurrency', () => {
+    const entry = catalogEntry('pending-mod', 'pending.jar', hashA, {
+      side: 'unknown',
+      decision: 'pending',
+      reviewState: 'detected',
+    });
+    const result = classifyCatalogEntry({
+      revisionId: 'review-20260803',
+      actorId: reviewerId,
+      reasonCode: 'manual-license-review',
+      reviewedAt: '2026-08-03T13:00:00Z',
+      expectedEntrySha256: hashCatalogEntry(entry),
+      entry,
+      changes: {
+        side: 'client',
+        distribution: {
+          decision: 'allowed',
+          licenseExpression: 'MIT',
+          evidenceReference: 'https://example.invalid/license',
+          reviewedBy: reviewerId,
+          reviewedAt: '2026-08-03T13:00:00Z',
+        },
+        reviewState: 'reviewed',
+      },
+    });
+
+    assert.equal(result.entry.side, 'client');
+    assert.equal(result.entry.distribution.decision, 'allowed');
+    assert.deepEqual(result.revision.changedFields, ['distribution', 'reviewState', 'side']);
+    assert.notEqual(result.revision.previousEntrySha256, result.revision.currentEntrySha256);
+    assert.equal(Object.isFrozen(result.entry), true);
+    assert.equal(Object.isFrozen(result.revision.changedFields), true);
+  });
+
+  it('rejects a stale expected hash, empty changes and reviewed unknown state', () => {
+    const entry = catalogEntry('pending-mod', 'pending.jar', hashA, {
+      side: 'unknown',
+      decision: 'pending',
+      reviewState: 'detected',
+    });
+    const base = {
+      revisionId: 'review-20260803',
+      actorId: reviewerId,
+      reasonCode: 'manual-review',
+      reviewedAt: '2026-08-03T13:00:00Z',
+      expectedEntrySha256: hashCatalogEntry(entry),
+      entry,
+    } as const;
+    assert.throws(
+      () => classifyCatalogEntry({ ...base, expectedEntrySha256: hashB, changes: { side: 'client' } }),
+      (error) =>
+        error instanceof CatalogClassificationError && error.code === 'concurrent-modification',
+    );
+    assert.throws(
+      () => classifyCatalogEntry({ ...base, changes: {} }),
+      (error) => error instanceof CatalogClassificationError && error.code === 'invalid-changes',
+    );
+    assert.throws(
+      () => classifyCatalogEntry({ ...base, changes: { reviewState: 'reviewed' } }),
+      (error) => error instanceof CatalogClassificationError && error.code === 'invalid-transition',
+    );
+  });
+
+  it('rejects no-op decisions and extra plan fields', () => {
+    const entry = catalogEntry('client-mod', 'client.jar', hashA, { side: 'client' });
+    const plan = {
+      revisionId: 'review-20260803',
+      actorId: reviewerId,
+      reasonCode: 'manual-review',
+      reviewedAt: '2026-08-03T13:00:00Z',
+      expectedEntrySha256: hashCatalogEntry(entry),
+      entry,
+      changes: { side: 'client' as const },
+    };
+    assert.throws(
+      () => classifyCatalogEntry(plan),
+      (error) => error instanceof CatalogClassificationError && error.code === 'no-change',
+    );
+    assert.throws(
+      () => classifyCatalogEntry({ ...plan, unsafe: true } as never),
+      (error) => error instanceof CatalogClassificationError && error.code === 'invalid-plan',
+    );
+  });
+});
+
+describe('analyzeCatalogDependencies', () => {
+  const analysisPlan = (
+    catalog: readonly ModCatalogEntry[],
+    conflicts: readonly {
+      readonly constraintId: string;
+      readonly leftId: string;
+      readonly rightId: string;
+      readonly evidenceReference: string;
+    }[] = [],
+  ) => ({
+    analysisId: 'analysis-20260803',
+    generatedAt: '2026-08-03T14:00:00Z',
+    catalog,
+    conflicts,
+  });
+
+  it('finds missing required and optional dependencies without guessing ranges', () => {
+    const report = analyzeCatalogDependencies(
+      analysisPlan([
+        catalogEntry('root-mod', 'root.jar', hashA, {
+          dependencies: [
+            { id: 'required-missing', required: true },
+            { id: 'optional-missing', required: false },
+          ],
+        }),
+      ]),
+    );
+    assert.deepEqual(
+      report.issues.map((issue) => issue.code),
+      ['missing-optional-dependency', 'missing-required-dependency'],
+    );
+    assert.equal(report.summary.blockerCount, 1);
+    assert.equal(report.summary.warningCount, 1);
+  });
+
+  it('detects required cycles, self dependencies, runtime drift and unverified ranges', () => {
+    const otherRuntime: InventoryRuntime = {
+      minecraftVersion: '1.21.1',
+      loader: 'neoforge',
+      loaderVersion: '21.1.1',
+    };
+    const report = analyzeCatalogDependencies(
+      analysisPlan([
+        catalogEntry('alpha-mod', 'alpha.jar', hashA, {
+          dependencies: [
+            { id: 'beta-mod', required: true, versionRange: '^1.0.0' },
+            { id: 'alpha-mod', required: true },
+          ],
+        }),
+        catalogEntry('beta-mod', 'beta.jar', hashB, {
+          runtime: otherRuntime,
+          dependencies: [{ id: 'alpha-mod', required: true }],
+        }),
+      ]),
+    );
+    const codes = new Set(report.issues.map((issue) => issue.code));
+    assert.ok(codes.has('required-dependency-cycle'));
+    assert.ok(codes.has('self-dependency'));
+    assert.ok(codes.has('runtime-mismatch'));
+    assert.ok(codes.has('unverified-version-range'));
+  });
+
+  it('detects logical/content duplicates, filename collisions and reviewed conflicts', () => {
+    const report = analyzeCatalogDependencies(
+      analysisPlan(
+        [
+          catalogEntry('duplicate-id', 'first.jar', hashA),
+          catalogEntry('duplicate-id', 'second.jar', hashB),
+          catalogEntry('same-content', 'third.jar', hashA),
+          catalogEntry('filename-owner', 'FIRST.jar', hashC),
+        ],
+        [
+          {
+            constraintId: 'incompatible-duplicate-owner',
+            leftId: 'same-content',
+            rightId: 'filename-owner',
+            evidenceReference: 'review:42',
+          },
+        ],
+      ),
+    );
+    const codes = new Set(report.issues.map((issue) => issue.code));
+    assert.ok(codes.has('duplicate-catalog-id'));
+    assert.ok(codes.has('duplicate-content'));
+    assert.ok(codes.has('filename-collision'));
+    assert.ok(codes.has('explicit-conflict'));
+  });
+
+  it('is deterministic and rejects duplicate conflict identities', () => {
+    const alpha = catalogEntry('alpha-mod', 'alpha.jar', hashA, {
+      dependencies: [{ id: 'missing-mod', required: true }],
+    });
+    const beta = catalogEntry('beta-mod', 'beta.jar', hashB);
+    const first = analyzeCatalogDependencies(analysisPlan([alpha, beta]));
+    const second = analyzeCatalogDependencies(analysisPlan([beta, alpha]));
+    assert.deepEqual(second, first);
+
+    const conflict = {
+      constraintId: 'same-constraint',
+      leftId: 'alpha-mod',
+      rightId: 'beta-mod',
+      evidenceReference: 'review:1',
+    };
+    assert.throws(
+      () => analyzeCatalogDependencies(analysisPlan([alpha, beta], [conflict, conflict])),
+      (error) =>
+        error instanceof CatalogDependencyAnalysisError && error.code === 'invalid-conflict',
+    );
   });
 });
