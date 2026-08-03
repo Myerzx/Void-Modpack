@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 3 — itens 1, 2 e 3 concluídos; item 4 implementado em isolamento e aguardando matriz CI
+- Fase: 3 — itens 1 a 4 concluídos em isolamento; backup/restore é o próximo recorte de planejamento
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -48,9 +48,9 @@
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
 - gate local aprovado: 58 testes, typechecks e builds de todos os workspaces;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
-- matriz CI do recorte de métricas: pendente;
+- matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.068 nós, 1.430 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado com 1.108 nós, 1.500 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
@@ -87,5 +87,7 @@ Planejar primeiro o item 5 da Fase 3: protocolo de backup consistente e restore 
 - `9809068` — contrato documentado das métricas com disponibilidade explícita;
 - `8adf3ab` — snapshots de host/processo e integração no adaptador;
 - `806b44b` — testes de fontes, validação e ciclo de vida das métricas.
+- `86afe55` — validação local, limites e handoff do recorte;
+- `408b57e` — grafo atualizado da arquitetura de métricas.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

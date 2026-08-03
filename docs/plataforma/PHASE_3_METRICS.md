@@ -1,6 +1,6 @@
 # Métricas limitadas da Fase 3
 
-Status: implementado e validado localmente em `@voidfall/minecraft-process`; matriz CI Ubuntu/Windows pendente.
+Status: concluído em `@voidfall/minecraft-process`; gate local e [matriz CI Ubuntu/Windows](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863) aprovados.
 
 ## Objetivo do recorte
 
@@ -97,4 +97,4 @@ Adicionar qualquer uma dessas fontes exige contrato próprio, disponibilidade ex
 
 ## Gate de saída
 
-Build, typecheck, 25 testes do pacote, gate integral com 58 testes e auditoria de runtime passaram localmente. O item 4 da Fase 3 só será concluído após a matriz Ubuntu/Windows ficar verde. Persistência, agregação, alertas e exibição no painel permanecem recortes posteriores.
+Build, typecheck, 25 testes do pacote, gate integral com 58 testes e auditoria de runtime passaram localmente e na [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863), em Ubuntu e Windows. O item 4 da Fase 3 está concluído. Persistência, agregação, alertas e exibição no painel permanecem recortes posteriores.

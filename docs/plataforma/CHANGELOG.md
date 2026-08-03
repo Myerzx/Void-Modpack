@@ -29,7 +29,7 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - coleta portátil de memória, uptime e CPUs do host, além de estado, PID e uptime gerenciado do processo;
 - motivos tipados para ausência de PID/uptime e indisponibilidade honesta de CPU/RSS da JVM;
 - validação de amostras e relógios, testes determinísticos e transição comprovada na fixture Java descartável;
-- gate local aprovado com 58 testes e auditoria de runtime sem vulnerabilidades; matriz Ubuntu/Windows pendente.
+- gate integral aprovado com 58 testes e auditoria de runtime sem vulnerabilidades na [matriz Ubuntu/Windows 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863).
 
 ### Não habilitado
 
