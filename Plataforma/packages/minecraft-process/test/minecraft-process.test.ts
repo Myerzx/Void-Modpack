@@ -10,11 +10,13 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
   createMinecraftConsoleSnapshot,
+  createMinecraftMetricsSnapshot,
   createMinecraftProcessPlan,
   LinuxMinecraftProcessAdapter,
   MINECRAFT_CONSOLE_COMMANDS,
   minecraftConsoleCommandLiteral,
   MinecraftProcessController,
+  NodeHostMetricsSampler,
   NodeProcessRuntime,
   ProcessControlRequestError,
   transitionObservedProcessState,
@@ -328,6 +330,221 @@ describe('bounded Minecraft console contract', () => {
   });
 });
 
+describe('sourced host and process metrics', () => {
+  const hostSample = {
+    totalMemoryBytes: 16 * 1_024 ** 3,
+    freeMemoryBytes: 6 * 1_024 ** 3,
+    uptimeSeconds: 3_600,
+    availableCpuCount: 8,
+  };
+
+  it('labels real, calculated and unavailable values without inventing zeroes', () => {
+    const collectedAt = '2026-08-03T12:00:10.000Z';
+    const snapshot = createMinecraftMetricsSnapshot({
+      host: hostSample,
+      process: {
+        state: 'offline',
+        observedAt: '2026-08-03T12:00:09.000Z',
+      },
+      clock: () => new Date(collectedAt),
+    });
+
+    assert.deepEqual(snapshot.host.usedMemory, {
+      status: 'available',
+      value: 10 * 1_024 ** 3,
+      unit: 'bytes',
+      quality: 'calculated',
+      source: 'node:os:derived',
+      collectedAt,
+    });
+    assert.deepEqual(snapshot.process.pid, {
+      status: 'unavailable',
+      unit: 'process-id',
+      quality: 'unavailable',
+      source: 'process-adapter',
+      collectedAt,
+      reason: 'not-running',
+    });
+    assert.equal(snapshot.host.totalMemory.source, 'node:os');
+    assert.equal(snapshot.host.freeMemory.quality, 'real');
+    assert.equal(snapshot.host.uptime.unit, 'seconds');
+    assert.equal(snapshot.host.availableCpuCount.value, 8);
+    assert.equal('value' in snapshot.process.cpuPercent, false);
+    assert.equal('value' in snapshot.process.residentMemory, false);
+    assert.equal(Object.isFrozen(snapshot), true);
+    assert.equal(Object.isFrozen(snapshot.host.usedMemory), true);
+  });
+
+  it('reports managed PID and uptime while keeping unsupported runtime data explicit', () => {
+    const collectedAt = '2026-08-03T12:00:10.000Z';
+    const snapshot = createMinecraftMetricsSnapshot({
+      host: hostSample,
+      process: {
+        state: 'online',
+        observedAt: '2026-08-03T12:00:09.000Z',
+        pid: 4_242,
+        startedAt: '2026-08-03T12:00:00.000Z',
+      },
+      clock: () => new Date(collectedAt),
+    });
+
+    assert.deepEqual(snapshot.process.pid, {
+      status: 'available',
+      value: 4_242,
+      unit: 'process-id',
+      quality: 'real',
+      source: 'process-adapter',
+      collectedAt,
+    });
+    assert.deepEqual(snapshot.process.uptime, {
+      status: 'available',
+      value: 10,
+      unit: 'seconds',
+      quality: 'calculated',
+      source: 'process-adapter:derived',
+      collectedAt,
+    });
+    assert.equal(snapshot.process.cpuPercent.status, 'unavailable');
+    assert.equal(snapshot.process.residentMemory.status, 'unavailable');
+    if (
+      snapshot.process.cpuPercent.status !== 'unavailable' ||
+      snapshot.process.residentMemory.status !== 'unavailable'
+    ) {
+      assert.fail('Portable process metrics must remain explicitly unavailable.');
+    }
+    assert.equal(snapshot.process.cpuPercent.reason, 'unsupported-portable-runtime');
+    assert.equal(snapshot.process.residentMemory.reason, 'unsupported-portable-runtime');
+    assert.equal(snapshot.process.state.observedAt, '2026-08-03T12:00:09.000Z');
+    assert.equal(JSON.stringify(snapshot).includes('server.jar'), false);
+    assert.equal(JSON.stringify(snapshot).includes('stdout'), false);
+  });
+
+  it('rejects inconsistent samples, active identities and timestamps', () => {
+    const fixedClock = () => new Date('2026-08-03T12:00:10.000Z');
+    for (const invalidHost of [
+      { ...hostSample, totalMemoryBytes: Number.NaN },
+      { ...hostSample, freeMemoryBytes: -1 },
+      { ...hostSample, uptimeSeconds: Number.POSITIVE_INFINITY },
+      { ...hostSample, availableCpuCount: 2.5 },
+    ]) {
+      assert.throws(
+        () =>
+          createMinecraftMetricsSnapshot({
+            host: invalidHost,
+            process: { state: 'offline', observedAt: '2026-08-03T12:00:09.000Z' },
+            clock: fixedClock,
+          }),
+        /invalid/u,
+      );
+    }
+    assert.throws(
+      () =>
+        createMinecraftMetricsSnapshot({
+          host: { ...hostSample, freeMemoryBytes: hostSample.totalMemoryBytes + 1 },
+          process: { state: 'offline', observedAt: '2026-08-03T12:00:09.000Z' },
+          clock: fixedClock,
+        }),
+      /cannot exceed/u,
+    );
+    assert.throws(
+      () =>
+        createMinecraftMetricsSnapshot({
+          host: hostSample,
+          process: { state: 'online', observedAt: '2026-08-03T12:00:09.000Z' },
+          clock: fixedClock,
+        }),
+      /PID/u,
+    );
+    assert.throws(
+      () =>
+        createMinecraftMetricsSnapshot({
+          host: hostSample,
+          process: {
+            state: 'online',
+            observedAt: '2026-08-03T12:00:09.000Z',
+            pid: 4_242,
+            startedAt: '2026-08-03T12:00:11.000Z',
+          },
+          clock: fixedClock,
+        }),
+      /precedes/u,
+    );
+    assert.throws(
+      () =>
+        createMinecraftMetricsSnapshot({
+          host: hostSample,
+          process: { state: 'offline', observedAt: 'not-a-date' },
+          clock: fixedClock,
+        }),
+      /observedAt/u,
+    );
+  });
+
+  it('samples finite host values through the portable Node source', () => {
+    const sample = new NodeHostMetricsSampler().sample();
+
+    assert.equal(Number.isSafeInteger(sample.totalMemoryBytes), true);
+    assert.equal(Number.isSafeInteger(sample.freeMemoryBytes), true);
+    assert.equal(sample.totalMemoryBytes > 0, true);
+    assert.equal(sample.freeMemoryBytes <= sample.totalMemoryBytes, true);
+    assert.equal(Number.isFinite(sample.uptimeSeconds), true);
+    assert.equal(sample.uptimeSeconds >= 0, true);
+    assert.equal(Number.isSafeInteger(sample.availableCpuCount), true);
+    assert.equal(sample.availableCpuCount >= 1, true);
+  });
+
+  it('tracks adapter state and managed uptime across a complete lifecycle', async () => {
+    let exitObserved = false;
+    let now = new Date('2026-08-03T12:00:00.000Z');
+    const handle: SpawnedProcess = {
+      pid: 4_242,
+      getExit: () =>
+        exitObserved
+          ? {
+              code: 0,
+              signal: null,
+              exitedAt: '2026-08-03T12:00:12.000Z',
+            }
+          : undefined,
+      readOutput: () => ({
+        stdout: '[Server thread/INFO]: Done (0.100s)! For help, type "help"',
+        stderr: '',
+        stdoutTruncated: false,
+        stderrTruncated: false,
+      }),
+      requestConsoleCommand: async () => {},
+      requestGracefulStop: async () => {},
+      waitForExit: async () => {
+        exitObserved = true;
+        return handle.getExit();
+      },
+    };
+    const adapter = new WindowsMinecraftProcessAdapter({
+      runtime: { spawn: async () => handle },
+      stopTimeoutMs: 10,
+      hostMetricsSampler: { sample: () => hostSample },
+      clock: () => now,
+    });
+
+    const offline = await adapter.readMetrics();
+    assert.equal(offline.process.pid.status, 'unavailable');
+    await adapter.start(fakeControllerPlan);
+    assert.equal((await adapter.inspect()).state, 'online');
+    now = new Date('2026-08-03T12:00:10.000Z');
+    const online = await adapter.readMetrics();
+    assert.equal(online.process.pid.status, 'available');
+    assert.equal(online.process.pid.status === 'available' && online.process.pid.value, 4_242);
+    assert.equal(
+      online.process.uptime.status === 'available' && online.process.uptime.value,
+      10,
+    );
+    assert.equal((await adapter.requestGracefulStop()).state, 'offline');
+    const stopped = await adapter.readMetrics();
+    assert.equal(stopped.process.pid.status, 'unavailable');
+    assert.equal(stopped.process.uptime.status, 'unavailable');
+  });
+});
+
 describe('serialized process controller', () => {
   it('starts, stops and restarts only after observing the required states', async () => {
     const adapter = new FakeMinecraftProcessAdapter('offline');
@@ -540,15 +757,20 @@ describe('managed platform adapters', () => {
           hostPlatform === 'win32'
             ? new WindowsMinecraftProcessAdapter(options)
             : new LinuxMinecraftProcessAdapter(options);
+        assert.equal((await adapter.readMetrics()).process.pid.status, 'unavailable');
         const started = await adapter.start(javaFixturePlan(temporaryDirectory));
         assert.equal(started.state, 'starting');
         assert.equal(typeof started.pid, 'number');
 
         await waitForState(adapter, 'online');
+        const onlineMetrics = await adapter.readMetrics();
+        assert.equal(onlineMetrics.process.pid.status, 'available');
+        assert.equal(onlineMetrics.process.uptime.status, 'available');
         assert.match(adapter.readOutput().stdout, /Done \(0\.100s\)!/u);
         const stopped = await adapter.requestGracefulStop();
         assert.equal(stopped.state, 'offline');
         assert.equal(stopped.lastExit?.code, 0);
+        assert.equal((await adapter.readMetrics()).process.pid.status, 'unavailable');
         assert.match(adapter.readOutput().stdout, /Stopping server/u);
       } finally {
         await runtime.requestFixtureCleanup();
