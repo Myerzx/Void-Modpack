@@ -75,7 +75,7 @@
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.424 nós, 2.173 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado com 1.430 nós, 2.178 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
