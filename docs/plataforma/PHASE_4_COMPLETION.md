@@ -1,6 +1,6 @@
 # Conclusão da Fase 4 — catálogo, artefatos, arquivos e schemas
 
-Status: itens 2 a 6 implementados em isolamento e gate local aprovado em 2026-08-03; matriz Windows/Linux pendente.
+Status: concluída em isolamento em 2026-08-03; gate local e matriz Windows/Linux aprovados.
 
 ## Objetivo
 
@@ -155,3 +155,15 @@ Concluir esse gate significa que os núcleos existem e são testáveis em isolam
 | monorepo completo | 125 | 123 aprovados e 2 sockets Unix ignorados |
 
 `npm run check` passou com build, typecheck, testes e build dos aplicativos. `npm audit --omit=dev` encontrou zero vulnerabilidades de runtime. Os testes de filesystem usaram apenas raízes criadas em `os.tmpdir()` e não acessaram `Launcher/` nem `Servidor/workspace/`.
+
+## Matriz final
+
+A primeira execução revelou que `realpath` no runner Windows expõe o mesmo diretório temporário por uma grafia canônica diferente. Quarentena e file manager foram corrigidos sem liberar links: cada componente continua sendo verificado contra symlink/junction e a equivalência final usa identidade de filesystem (`dev`/`ino`) em vez de igualdade textual.
+
+A [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911) aprovou:
+
+- Node 24 + Java 17 em `ubuntu-latest`: 125 testes, gate completo e auditoria de runtime;
+- Node 24 + Java 17 em `windows-latest`: 123 testes aplicáveis, dois sockets Unix ignorados, gate completo e auditoria de runtime;
+- zero vulnerabilidades em dependências de runtime nos dois sistemas.
+
+Com essa matriz verde, os dez itens do gate de conclusão foram satisfeitos. A Fase 4 está formalmente encerrada dentro dos limites isolados descritos neste documento.

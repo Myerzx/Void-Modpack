@@ -74,7 +74,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 1 — planejamento | 100% | concluída |
 | 2 — fundação | 100% | 8 de 8 itens |
 | 3 — controle do Minecraft | 100% | 6 de 6 itens |
-| 4 — mods, arquivos e schemas | 100% | 6 de 6 itens implementados; matriz final pendente |
+| 4 — mods, arquivos e schemas | 100% | 6 de 6 itens concluídos |
 | 5 — build e launcher | 0% | 0 de 7 itens |
 | 6 — jogadores e auditoria | 0% | 0 de 6 itens |
 | 7 — configurações específicas | 0% | ainda não iniciada |
@@ -88,7 +88,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 5. [x] Schemas genéricos de configuração e histórico — definições declarativas, revisão em memória e validação estrita em `@voidfall/configuration-schemas`.
 6. [x] Dependências, duplicatas e conflitos — dependências ausentes, ciclos, runtimes, hashes, filenames, ranges não provados e conflitos revisados no catálogo.
 
-Status de fechamento: os seis itens estão implementados em isolamento e o gate local passou com 125 casos descobertos, 123 executados no Windows e dois casos específicos de socket Unix ignorados. A Fase 4 só será declarada formalmente concluída após a mesma revisão passar na matriz `ubuntu-latest`/`windows-latest`.
+Status: concluída em isolamento em 2026-08-03. O gate local passou com 125 casos descobertos, 123 executados no Windows e dois casos específicos de socket Unix ignorados. A [matriz final 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911) aprovou o gate completo e a auditoria de runtime em `ubuntu-latest` e `windows-latest`.
 
 ## Fase 5 — build e launcher
 

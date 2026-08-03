@@ -4,7 +4,7 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 4 — seis itens implementados em isolamento; gate local aprovado, matriz Windows/Linux pendente
+- Fase: 4 — concluída em isolamento; gate local e matriz Windows/Linux aprovados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 
@@ -104,14 +104,14 @@
 - pacote de arquivos autorizados: build, typecheck e 8 casos aprovados;
 - pacote de schemas genéricos: build, typecheck e 8 casos aprovados;
 - gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
-- matriz CI de fechamento da Fase 4: pendente após publicação desta revisão;
+- matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
 - matriz CI final da Fase 3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30848108269](https://github.com/Myerzx/Void-Modpack/actions/runs/30848108269); os 79 casos passam no Linux e os 77 aplicáveis passam no Windows;
 - matriz CI do console aprovada em `ubuntu-latest` e `windows-latest`: [execução 30840780189](https://github.com/Myerzx/Void-Modpack/actions/runs/30840780189);
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado com 1.566 nós, 2.378 arestas e diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado após a conclusão da fase, com diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
 
 ## Riscos não resolvidos
 
@@ -154,7 +154,7 @@
 
 ## Próximo recorte recomendado
 
-Fechar primeiro a matriz Windows/Linux desta revisão. Depois, iniciar o item 1 da Fase 5 somente como worker isolado e staging reproduzível, sem publicação, launcher real ou acesso ao runtime privado. A classificação dos artefatos reais continua bloqueada até existir exportador de cliente com SHA-256/tamanho e revisão de proveniência/licença.
+Iniciar o item 1 da Fase 5 somente como worker isolado e staging reproduzível, sem publicação, launcher real ou acesso ao runtime privado. A classificação dos artefatos reais continua bloqueada até existir exportador de cliente com SHA-256/tamanho e revisão de proveniência/licença.
 
 ## Commits relevantes
 
@@ -196,5 +196,6 @@ Fechar primeiro a matriz Windows/Linux desta revisão. Depois, iniciar o item 1 
 - `519926e` — quarentena opaca e limitada de artefatos;
 - `0481276` — arquivos versionados em raízes autorizadas;
 - `4a9085c` — schemas genéricos e histórico em memória.
+- `5f1ecdd` — equivalência segura de aliases canônicos do Windows em quarantine e file manager.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
