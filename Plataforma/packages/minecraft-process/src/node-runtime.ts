@@ -1,6 +1,10 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { Buffer } from 'node:buffer';
 import { tmpdir } from 'node:os';
+import {
+  minecraftConsoleCommandLiteral,
+  type MinecraftConsoleCommand,
+} from './console.js';
 import { validateProcessLaunchPlan, type ProcessLaunchPlan } from './launch-plan.js';
 import type {
   ProcessExit,
@@ -93,12 +97,20 @@ class NodeSpawnedProcess implements SpawnedProcess {
     };
   }
 
-  async requestGracefulStop(): Promise<void> {
+  requestConsoleCommand(command: MinecraftConsoleCommand): Promise<void> {
+    return this.#writeLiteral(minecraftConsoleCommandLiteral(command));
+  }
+
+  requestGracefulStop(): Promise<void> {
+    return this.#writeLiteral('stop\n');
+  }
+
+  async #writeLiteral(literal: string): Promise<void> {
     if (!this.child.stdin.writable || this.child.stdin.destroyed) {
-      throw new Error('The process stdin is not available for graceful shutdown.');
+      throw new Error('The process stdin is not available for a managed request.');
     }
     await new Promise<void>((resolve, reject) => {
-      this.child.stdin.write('stop\n', 'utf8', (error) => {
+      this.child.stdin.write(literal, 'utf8', (error) => {
         if (error === null || error === undefined) resolve();
         else reject(error);
       });

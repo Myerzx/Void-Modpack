@@ -1,4 +1,5 @@
 import type { ProcessLaunchPlan } from './launch-plan.js';
+import type { MinecraftConsoleCommand } from './console.js';
 
 export interface ProcessExit {
   readonly code: number | null;
@@ -17,6 +18,7 @@ export interface SpawnedProcess {
   readonly pid: number;
   getExit(): ProcessExit | undefined;
   readOutput(): ProcessOutputSnapshot;
+  requestConsoleCommand(command: MinecraftConsoleCommand): Promise<void>;
   requestGracefulStop(): Promise<void>;
   waitForExit(timeoutMs: number): Promise<ProcessExit | undefined>;
 }

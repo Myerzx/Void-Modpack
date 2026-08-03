@@ -3,6 +3,14 @@ import {
   type ProcessLaunchPlan,
   type SupportedHostPlatform,
 } from './launch-plan.js';
+import {
+  createMinecraftConsoleSnapshot,
+  validateMinecraftConsoleCommand,
+  type MinecraftConsoleCommand,
+  type MinecraftConsoleCommandReceipt,
+  type MinecraftConsoleSnapshot,
+  type MinecraftConsoleSnapshotOptions,
+} from './console.js';
 import type {
   ProcessExit,
   ProcessOutputSnapshot,
@@ -31,16 +39,27 @@ export interface MinecraftProcessAdapter {
   readOutput(): ProcessOutputSnapshot;
 }
 
+export interface MinecraftConsoleAdapter {
+  inspect(): Promise<ProcessObservation>;
+  readConsole(): MinecraftConsoleSnapshot;
+  requestConsoleCommand(command: MinecraftConsoleCommand): Promise<MinecraftConsoleCommandReceipt>;
+}
+
 export interface MinecraftProcessAdapterOptions {
   readonly runtime: ProcessRuntime;
   readonly stopTimeoutMs?: number;
+  readonly maximumConsoleLinesPerStream?: number;
+  readonly maximumConsoleCharactersPerLine?: number;
   readonly clock?: () => Date;
 }
 
-abstract class ManagedMinecraftProcessAdapter implements MinecraftProcessAdapter {
+abstract class ManagedMinecraftProcessAdapter
+  implements MinecraftProcessAdapter, MinecraftConsoleAdapter
+{
   readonly #runtime: ProcessRuntime;
   readonly #stopTimeoutMs: number;
   readonly #clock: () => Date;
+  readonly #consoleSnapshotOptions: MinecraftConsoleSnapshotOptions;
   #state: ObservedProcessState = 'offline';
   #handle: SpawnedProcess | undefined;
   #lastExit: ProcessExit | undefined;
@@ -50,6 +69,7 @@ abstract class ManagedMinecraftProcessAdapter implements MinecraftProcessAdapter
     stdoutTruncated: false,
     stderrTruncated: false,
   };
+  #activeEffect: 'start' | 'stop' | 'console-command' | undefined;
 
   protected constructor(
     private readonly platform: SupportedHostPlatform,
@@ -62,6 +82,19 @@ abstract class ManagedMinecraftProcessAdapter implements MinecraftProcessAdapter
     this.#runtime = options.runtime;
     this.#stopTimeoutMs = stopTimeoutMs;
     this.#clock = options.clock ?? (() => new Date());
+    this.#consoleSnapshotOptions = Object.freeze({
+      ...(options.maximumConsoleLinesPerStream === undefined
+        ? {}
+        : { maximumLinesPerStream: options.maximumConsoleLinesPerStream }),
+      ...(options.maximumConsoleCharactersPerLine === undefined
+        ? {}
+        : { maximumCharactersPerLine: options.maximumConsoleCharactersPerLine }),
+      clock: this.#clock,
+    });
+    createMinecraftConsoleSnapshot(this.#lastOutput, {
+      ...this.#consoleSnapshotOptions,
+      clock: () => new Date(0),
+    });
   }
 
   async inspect(): Promise<ProcessObservation> {
@@ -80,57 +113,107 @@ abstract class ManagedMinecraftProcessAdapter implements MinecraftProcessAdapter
     return this.#observation();
   }
 
-  async start(plan: ProcessLaunchPlan): Promise<ProcessObservation> {
-    await this.inspect();
-    if (this.#state !== 'offline') {
-      throw new Error(`Cannot start Minecraft while observed state is ${this.#state}.`);
-    }
-    if (plan.platform !== this.platform) {
-      throw new Error(`The ${this.platform} adapter rejected a ${plan.platform} launch plan.`);
-    }
-    validateProcessLaunchPlan(plan);
-    this.#state = transitionObservedProcessState(this.#state, 'launch-requested');
-    this.#lastExit = undefined;
-    this.#lastOutput = {
-      stdout: '',
-      stderr: '',
-      stdoutTruncated: false,
-      stderrTruncated: false,
-    };
-    try {
-      this.#handle = await this.#runtime.spawn(plan);
-      this.#state = transitionObservedProcessState(this.#state, 'process-spawned');
-      return this.#observation();
-    } catch (error) {
-      this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
-      throw error;
-    }
+  start(plan: ProcessLaunchPlan): Promise<ProcessObservation> {
+    return this.#runExclusiveEffect('start', async () => {
+      await this.inspect();
+      if (this.#state !== 'offline') {
+        throw new Error(`Cannot start Minecraft while observed state is ${this.#state}.`);
+      }
+      if (plan.platform !== this.platform) {
+        throw new Error(`The ${this.platform} adapter rejected a ${plan.platform} launch plan.`);
+      }
+      validateProcessLaunchPlan(plan);
+      this.#state = transitionObservedProcessState(this.#state, 'launch-requested');
+      this.#lastExit = undefined;
+      this.#lastOutput = {
+        stdout: '',
+        stderr: '',
+        stdoutTruncated: false,
+        stderrTruncated: false,
+      };
+      try {
+        this.#handle = await this.#runtime.spawn(plan);
+        this.#state = transitionObservedProcessState(this.#state, 'process-spawned');
+        return this.#observation();
+      } catch (error) {
+        this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
+        throw error;
+      }
+    });
   }
 
-  async requestGracefulStop(): Promise<ProcessObservation> {
-    await this.inspect();
-    if (this.#state !== 'online' || this.#handle === undefined) {
-      throw new Error(`Cannot request a graceful stop while observed state is ${this.#state}.`);
-    }
-    this.#state = transitionObservedProcessState(this.#state, 'stop-requested');
-    try {
-      await this.#handle.requestGracefulStop();
-      const exit = await this.#handle.waitForExit(this.#stopTimeoutMs);
-      if (exit !== undefined) {
-        this.#lastOutput = this.#handle.readOutput();
-        this.#lastExit = exit;
-        this.#state = transitionObservedProcessState(this.#state, 'process-exited');
-        this.#handle = undefined;
+  requestGracefulStop(): Promise<ProcessObservation> {
+    return this.#runExclusiveEffect('stop', async () => {
+      await this.inspect();
+      const handle = this.#handle;
+      if (this.#state !== 'online' || handle === undefined) {
+        throw new Error(`Cannot request a graceful stop while observed state is ${this.#state}.`);
       }
-      return this.#observation();
-    } catch (error) {
-      this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
-      throw error;
-    }
+      this.#state = transitionObservedProcessState(this.#state, 'stop-requested');
+      try {
+        await handle.requestGracefulStop();
+        const exit = await handle.waitForExit(this.#stopTimeoutMs);
+        if (exit !== undefined && this.#handle === handle) {
+          this.#lastOutput = handle.readOutput();
+          this.#lastExit = exit;
+          this.#state = transitionObservedProcessState(this.#state, 'process-exited');
+          this.#handle = undefined;
+        }
+        return this.#observation();
+      } catch (error) {
+        this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
+        throw error;
+      }
+    });
   }
 
   readOutput(): ProcessOutputSnapshot {
     return this.#handle?.readOutput() ?? this.#lastOutput;
+  }
+
+  readConsole(): MinecraftConsoleSnapshot {
+    return createMinecraftConsoleSnapshot(this.readOutput(), this.#consoleSnapshotOptions);
+  }
+
+  requestConsoleCommand(
+    command: MinecraftConsoleCommand,
+  ): Promise<MinecraftConsoleCommandReceipt> {
+    const acceptedCommand = validateMinecraftConsoleCommand(command);
+    return this.#runExclusiveEffect('console-command', async () => {
+      await this.inspect();
+      if (this.#state !== 'online' || this.#handle === undefined) {
+        throw new Error(`Cannot request a console command while observed state is ${this.#state}.`);
+      }
+      await this.#handle.requestConsoleCommand(acceptedCommand);
+      return Object.freeze({
+        command: acceptedCommand,
+        dispatchedAt: this.#clock().toISOString(),
+        source: 'process-adapter',
+        state: 'online',
+      });
+    });
+  }
+
+  #runExclusiveEffect<T>(
+    effect: 'start' | 'stop' | 'console-command',
+    operation: () => Promise<T>,
+  ): Promise<T> {
+    if (this.#activeEffect !== undefined) {
+      return Promise.reject(
+        new Error(`Process adapter is busy with ${this.#activeEffect}.`),
+      );
+    }
+    this.#activeEffect = effect;
+    let running: Promise<T>;
+    try {
+      running = operation();
+    } catch (error) {
+      this.#activeEffect = undefined;
+      throw error;
+    }
+    return running.finally(() => {
+      if (this.#activeEffect === effect) this.#activeEffect = undefined;
+    });
   }
 
   #observation(): ProcessObservation {
