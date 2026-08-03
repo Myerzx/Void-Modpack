@@ -11,13 +11,14 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 5. [Protocolo do launcher](LAUNCHER_PROTOCOL.md)
 6. [Modelo de dados](DATABASE.md)
 7. [Contratos de API](API.md)
-8. [Segurança](SECURITY.md)
-9. [Permissões](PERMISSIONS.md)
-10. [Logs e métricas](LOGGING.md)
-11. [Implantação e operação](DEPLOYMENT.md)
-12. [Roadmap](ROADMAP.md)
-13. [Handoff](HANDOFF.md)
-14. [Decisões arquiteturais](DECISIONS/)
+8. [Contratos compartilhados](CONTRACTS.md)
+9. [Segurança](SECURITY.md)
+10. [Permissões](PERMISSIONS.md)
+11. [Logs e métricas](LOGGING.md)
+12. [Implantação e operação](DEPLOYMENT.md)
+13. [Roadmap](ROADMAP.md)
+14. [Handoff](HANDOFF.md)
+15. [Decisões arquiteturais](DECISIONS/)
 
 ## Resultado da Fase 1
 

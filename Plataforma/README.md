@@ -29,4 +29,12 @@ A árvore planejada está em [`docs/plataforma/ARCHITECTURE.md`](../docs/platafo
 
 O pacote `@voidfall/contracts` é a única implementação autorizada neste recorte. Ele contém schemas JSON e tipos TypeScript para `Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest` e `AuditEvent`, além de validações semânticas que não executam operações externas.
 
+```powershell
+cd Plataforma
+npm ci
+npm run check
+```
+
+Detalhes de integração, confiança e evolução estão em [`docs/plataforma/CONTRACTS.md`](../docs/plataforma/CONTRACTS.md).
+
 Comece pela [documentação da plataforma](../docs/plataforma/README.md).

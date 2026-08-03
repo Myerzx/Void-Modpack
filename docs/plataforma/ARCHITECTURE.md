@@ -1,6 +1,6 @@
 # Arquitetura
 
-Status: decisão de planejamento; nenhuma aplicação foi criada.
+Status: Fase 2 iniciada; somente toolchain e contratos compartilhados foram criados. Aplicações e integrações permanecem planejadas.
 
 ## Resumo
 
@@ -48,7 +48,7 @@ flowchart LR
 - WebSocket autenticado para console, progresso e métricas em tempo real.
 - armazenamento local encapsulado por interface no desenvolvimento e S3 compatível em produção quando necessário.
 
-TypeScript Project References serão avaliadas na Fase 2 para impor limites e ordem de build entre pacotes. O Node deve ser fixado em uma versão LTS suportada no início da implementação, sem depender implicitamente da instalação global.
+TypeScript Project References foram adotadas na abertura da Fase 2 para impor limites e ordem de build entre pacotes. A linha Node 24 LTS está fixada por `.nvmrc`, `engines` e Volta; npm e dependências usam versões exatas no lockfile.
 
 ## Estrutura futura do monorepo
 
@@ -84,7 +84,7 @@ Plataforma/
     security/
 ```
 
-Essa árvore é uma decisão de destino, não autorização para criá-la nesta fase.
+Essa árvore continua sendo uma decisão de destino. Somente `packages/contracts/` foi autorizado e criado; os demais diretórios não devem ser antecipados.
 
 ## Fluxo do comando no jogo
 

@@ -4,8 +4,8 @@
 
 - Data: 2026-08-03
 - Responsável: Codex
-- Fase: 1 — planejamento e documentação
-- Implementação: não iniciada
+- Fase: 2 — fundação
+- Implementação: toolchain e contratos compartilhados concluídos; aplicações não iniciadas
 
 ## Realizado
 
@@ -17,6 +17,10 @@
 - estrutura futura do monorepo definida sem criar scaffolding;
 - ADRs iniciais criados;
 - roadmap, riscos, bloqueios e perguntas pendentes registrados.
+- identidade oficial definida como VoidFall no ADR-006;
+- npm workspace e TypeScript Project References criados;
+- contratos `Job`, `AgentEnvelope`, `ModCatalogEntry`, `ReleaseManifest` e `AuditEvent` implementados;
+- schemas JSON portáteis, validação estrutural/semântica e testes adicionados.
 
 ## Arquivos centrais
 
@@ -27,6 +31,7 @@
 - `docs/plataforma/LAUNCHER_PROTOCOL.md`
 - `docs/plataforma/DATABASE.md`
 - `docs/plataforma/API.md`
+- `docs/plataforma/CONTRACTS.md`
 - `docs/plataforma/SECURITY.md`
 - `docs/plataforma/PERMISSIONS.md`
 - `docs/plataforma/LOGGING.md`
@@ -44,28 +49,41 @@
 6. Manifestos assinados e releases imutáveis.
 7. Catálogo aprovado é fonte do cliente; runtime é evidência.
 8. Solicitar build e promover stable são permissões separadas.
+9. A identidade oficial é VoidFall, com ID `voidfall` e namespace `@voidfall/*`.
+10. A abertura da Fase 2 não autoriza serviços nem efeitos externos; o recorte atual termina nos contratos.
 
 ## Problemas encontrados
 
 - o launcher atual não é compatível com o servidor por comparação de JARs;
 - proveniência/licença e classificação de lado estão incompletas;
 - o runtime possui riscos P0 de autenticação/whitelist/RCON;
-- ainda não há decisão de identidade do produto, provedor de permissões ou ambiente de produção.
+- ainda não há decisão de cliente canônico, provedor de permissões ou ambiente de produção;
+- autenticação Minecraft, licença/distribuição e futuro do RCON continuam P0;
+- verificação criptográfica, canonicalização JSON e identidade mTLS ainda não foram implementadas.
 
 ## Regras de não ação
 
-Não criar apps, instalar dependências, iniciar banco, implementar UI/API/mod ou modificar o runtime até autorização explícita da Fase 2 e resolução dos bloqueios P0 do roadmap.
+Não criar apps, banco, migrações, UI, API, agente, worker, mod ou adaptadores operacionais sem nova tarefa delimitada. Não modificar launcher, servidor privado ou runtime a partir deste handoff. Tipos de operação existentes nos contratos não são autorização de execução.
 
 ## Validação da sessão
 
-- documentação verificada por links, headings obrigatórios, termos proibidos e ausência de arquivos executáveis;
-- nenhuma configuração, mundo ou dependência do projeto alterada;
-- Graphify deve ser atualizado após o commit documental.
+- `npm ci`: lockfile instalável;
+- `npm run check`: typecheck, 13 testes aprovados e cinco JSON Schemas gerados;
+- `npm pack --workspace @voidfall/contracts --dry-run`: pacote contém código, tipos e os cinco schemas, sem cache de compilação;
+- nenhum serviço, configuração Minecraft, mundo, launcher ou runtime do servidor foi alterado;
+- Graphify atualizado ao final da sessão.
 
 ## Próxima tarefa recomendada
 
-Revisar com o proprietário as perguntas P0 em `ROADMAP.md`. Depois criar um novo handoff autorizando, ou não, o primeiro pacote de contratos da Fase 2.
+Escolher o próximo recorte somente após uma decisão explícita. A opção de menor risco é ampliar fixtures e formalizar schemas específicos de payload; PostgreSQL/API/agente continuam tarefas separadas. Os quatro P0 abertos devem ser resolvidos antes das capacidades dependentes.
 
 ## Atualização obrigatória
 
 Substituir ou acrescentar uma seção datada ao final de cada sessão. Nunca apagar riscos não resolvidos; marcar a decisão e apontar para o ADR que os encerrou.
+
+## Sessão 2026-08-03 — abertura da Fase 2
+
+- autorização recebida: VoidFall como identidade oficial e início da nova fase;
+- recorte executado: identidade, toolchain e contratos sem efeitos externos;
+- commits base: `3919d11` (identidade/fase), `f9aa1d8` (toolchain/contratos) e `b941d04` (build limpo reproduzível);
+- resultado: fundação reproduzível e validada, com gates operacionais preservados.

@@ -1,6 +1,6 @@
 # Contratos de API
 
-Status: desenho inicial. Rotas, nomes e schemas podem mudar por ADR antes da Fase 2.
+Status: desenho inicial das rotas. Os contratos compartilhados v1 começaram em `Plataforma/packages/contracts`; rotas e schemas ainda não implementados podem mudar por ADR ou por uma nova versão incompatível.
 
 ## Convenções
 

@@ -39,14 +39,14 @@ O proprietário autorizou o início da Fase 2 com uma fatia que não depende dos
 
 ## Fase 2 — fundação
 
-1. Criar monorepo e toolchain fixada.
-2. Implementar contratos compartilhados e schemas.
-3. Criar PostgreSQL, migrações e repositórios.
-4. Implementar Control API mínima, autenticação, sessões, RBAC e auditoria.
-5. Implementar job queue transacional e worker de teste inofensivo.
-6. Implementar registro/heartbeat do agente sem controle de processo.
-7. Criar dashboard somente leitura com dados simulados claramente marcados e fixtures, não métricas falsas.
-8. Criar testes de contrato e segurança de entrada.
+1. [x] Criar monorepo e toolchain fixada.
+2. [x] Implementar os cinco contratos compartilhados iniciais, schemas portáteis e testes de entrada.
+3. [ ] Criar PostgreSQL, migrações e repositórios.
+4. [ ] Implementar Control API mínima, autenticação, sessões, RBAC e auditoria.
+5. [ ] Implementar job queue transacional e worker de teste inofensivo.
+6. [ ] Implementar registro/heartbeat do agente sem controle de processo.
+7. [ ] Criar dashboard somente leitura com dados simulados claramente marcados e fixtures, não métricas falsas.
+8. [ ] Ampliar testes de contrato e segurança conforme cada novo trust boundary.
 
 Gate: nenhum controle real do Minecraft antes de autenticação, autorização, auditoria e identidade do agente passarem em testes.
 
