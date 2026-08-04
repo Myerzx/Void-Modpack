@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto';
 
 import {
-  JAVA_PROPERTIES_V1,
   VOIDFALL_CONFIGURATION_REVISION_FORMAT,
   VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION,
+  type ConfigurationFormat,
   type ConfigurationOperation,
   ConfigurationOperationError,
 } from './types.js';
@@ -12,6 +12,7 @@ import {
   parseCanonicalTimestamp,
   validateFieldName,
   validateIdentifier,
+  validateSchemaVersion,
   validateSha256,
 } from './validation.js';
 
@@ -20,8 +21,10 @@ export interface ConfigurationRevisionManifest {
   readonly manifestSchemaVersion: typeof VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION;
   readonly revisionId: string;
   readonly resourceId: string;
+  readonly resourceSchemaId: string;
   readonly resourceSchemaVersion: string;
-  readonly configurationFormat: typeof JAVA_PROPERTIES_V1;
+  readonly resourceSchemaSha256: string;
+  readonly configurationFormat: ConfigurationFormat;
   readonly createdAt: string;
   readonly reasonCode: string;
   readonly operation: ConfigurationOperation;
@@ -52,7 +55,9 @@ function validateManifestObject(value: unknown): ConfigurationRevisionManifest {
     'manifestSchemaVersion',
     'revisionId',
     'resourceId',
+    'resourceSchemaId',
     'resourceSchemaVersion',
+    'resourceSchemaSha256',
     'configurationFormat',
     'createdAt',
     'reasonCode',
@@ -67,7 +72,8 @@ function validateManifestObject(value: unknown): ConfigurationRevisionManifest {
   if (
     value.format !== VOIDFALL_CONFIGURATION_REVISION_FORMAT ||
     value.manifestSchemaVersion !== VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION ||
-    value.configurationFormat !== JAVA_PROPERTIES_V1 ||
+    (value.configurationFormat !== 'java-properties-v1' &&
+      value.configurationFormat !== 'openloader-advanced-options-v1') ||
     (value.operation !== 'update' && value.operation !== 'rollback') ||
     !Number.isSafeInteger(value.previousSizeBytes) ||
     (value.previousSizeBytes as number) < 0 ||
@@ -82,7 +88,9 @@ function validateManifestObject(value: unknown): ConfigurationRevisionManifest {
   try {
     validateIdentifier(value.revisionId);
     validateIdentifier(value.resourceId);
-    validateIdentifier(value.resourceSchemaVersion);
+    validateIdentifier(value.resourceSchemaId);
+    validateSchemaVersion(value.resourceSchemaVersion);
+    validateSha256(value.resourceSchemaSha256);
     validateIdentifier(value.reasonCode);
     validateSha256(value.previousSha256);
     validateSha256(value.intendedSha256);
@@ -124,8 +132,10 @@ function validateManifestObject(value: unknown): ConfigurationRevisionManifest {
     manifestSchemaVersion: VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION,
     revisionId: value.revisionId,
     resourceId: value.resourceId,
+    resourceSchemaId: value.resourceSchemaId,
     resourceSchemaVersion: value.resourceSchemaVersion,
-    configurationFormat: JAVA_PROPERTIES_V1,
+    resourceSchemaSha256: value.resourceSchemaSha256,
+    configurationFormat: value.configurationFormat,
     createdAt: value.createdAt,
     reasonCode: value.reasonCode,
     operation: value.operation,
@@ -144,7 +154,9 @@ function canonicalObject(manifest: ConfigurationRevisionManifest): Record<string
     manifestSchemaVersion: manifest.manifestSchemaVersion,
     revisionId: manifest.revisionId,
     resourceId: manifest.resourceId,
+    resourceSchemaId: manifest.resourceSchemaId,
     resourceSchemaVersion: manifest.resourceSchemaVersion,
+    resourceSchemaSha256: manifest.resourceSchemaSha256,
     configurationFormat: manifest.configurationFormat,
     createdAt: manifest.createdAt,
     reasonCode: manifest.reasonCode,

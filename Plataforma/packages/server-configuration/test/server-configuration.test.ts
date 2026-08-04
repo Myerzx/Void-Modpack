@@ -17,9 +17,18 @@ import { tmpdir } from 'node:os';
 import { describe, it } from 'node:test';
 
 import {
+  OPENLOADER_ADVANCED_OPTIONS_V1 as OPENLOADER_SCHEMA_V1,
+  hashConfigurationSchema,
+} from '@voidfall/configuration-schemas';
+import { createRepositories, runMigrations } from '@voidfall/database';
+import { createPGliteTestDatabase } from '@voidfall/database/testing';
+
+import {
   ConfigurationOperationError,
   FilesystemConfigurationService,
   JAVA_PROPERTIES_V1,
+  PersistentConfigurationService,
+  createReviewedConfigurationResource,
   parseConfigurationRevisionManifest,
   type ApplyConfigurationPlan,
   type ConfigurationConsistencyLease,
@@ -137,7 +146,9 @@ async function createFixture(content = ORIGINAL_LF): Promise<Fixture> {
     repositoryRoot,
     resource: Object.freeze({
       resourceId: 'server-basic',
+      schemaId: 'server-basic',
       schemaVersion: 'v1',
+      schemaSha256: '1'.repeat(64),
       filePath,
       format: JAVA_PROPERTIES_V1,
       maximumBytes: 4096,
@@ -198,6 +209,216 @@ async function removeFixture(fixture: Fixture): Promise<void> {
 }
 
 describe('typed configuration revisions', () => {
+  it('coordinates PostgreSQL state, shared lock, filesystem and audit for OpenLoader', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'voidfall-persistent-configuration-'));
+    const database = await createPGliteTestDatabase();
+    try {
+      await runMigrations(database);
+      const repositories = createRepositories(database);
+      const serverInstanceId = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
+      const actorId = '018f6b8c-76a3-7d10-9f2e-1d9e52a63703';
+      await repositories.servers.create({
+        id: serverInstanceId,
+        slug: 'persistent-configuration',
+        displayName: 'Persistent Configuration',
+        environment: 'test',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '47.4.4',
+        maxPlayers: 20,
+      });
+      const configurationRoot = join(root, 'instance');
+      const openLoaderDirectory = join(configurationRoot, 'config', 'openloader');
+      const repositoryRoot = join(root, 'revision-repository');
+      const filePath = join(openLoaderDirectory, 'advanced_options.json');
+      const original = `${JSON.stringify(
+        {
+          resourcePacks: { enabled: true, additionalFolders: [] },
+          dataPacks: { enabled: true, additionalFolders: [] },
+        },
+        null,
+        2,
+      )}\n`;
+      await mkdir(openLoaderDirectory, { recursive: true });
+      await mkdir(repositoryRoot);
+      await writeFile(filePath, original, 'utf8');
+      const schemaSha256 = hashConfigurationSchema(OPENLOADER_SCHEMA_V1);
+      await repositories.configuration.registerSchema({
+        revisionId: 'openloader-schema-v1',
+        actorId,
+        reasonCode: 'reviewed-schema',
+        createdAt: NOW.toISOString(),
+        expectedSchemaSha256: null,
+        schema: OPENLOADER_SCHEMA_V1,
+      });
+      await repositories.configuration.registerResource({
+        serverInstanceId,
+        resourceId: 'openloader-advanced-options',
+        expectedSchemaSha256: schemaSha256,
+        initialCurrentSha256: digest(original),
+        createdAt: NOW.toISOString(),
+      });
+      const guard = new TrackingGuard();
+      const resource = createReviewedConfigurationResource(
+        configurationRoot,
+        'openloader-advanced-options',
+      );
+      const filesystem = new FilesystemConfigurationService({
+        repositoryRoot,
+        resources: [resource],
+        guard,
+        clock: () => NOW,
+      });
+      const generatedIds = [
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63704',
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63705',
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63706',
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63707',
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63708',
+        '018f6b8c-76a3-7d10-9f2e-1d9e52a63709',
+      ];
+      const persistent = new PersistentConfigurationService({
+        serverInstanceId,
+        filesystem,
+        configurationRepository: repositories.configuration,
+        operationalLocks: repositories.operationalLocks,
+        clock: () => NOW,
+        idGenerator: () => generatedIds.shift() ?? 'invalid',
+      });
+
+      const update = await persistent.applyConfiguration({
+        resourceId: resource.resourceId,
+        revisionId: 'persistent-openloader-update',
+        expectedCurrentSha256: digest(original),
+        expectedStateVersion: 1,
+        reasonCode: 'operator-change',
+        changes: { 'dataPacks.enabled': false },
+        actor: { type: 'panel-user', id: actorId },
+        correlationId: '018f6b8c-76a3-7d10-9f2e-1d9e52a63710',
+      });
+      const updated = await readFile(filePath, 'utf8');
+      assert.equal(update.persistence.state.status, 'applied');
+      assert.equal(update.persistence.state.version, 3);
+      assert.equal(update.persistence.auditSequence, 1);
+      assert.equal(
+        await repositories.operationalLocks.current(serverInstanceId, 'minecraft-exclusive'),
+        undefined,
+      );
+
+      const rollback = await persistent.rollbackConfiguration({
+        resourceId: resource.resourceId,
+        revisionId: 'persistent-openloader-rollback',
+        sourceRevisionId: update.filesystem.revisionId,
+        expectedCurrentSha256: digest(updated),
+        expectedStateVersion: update.persistence.state.version,
+        reasonCode: 'operator-rollback',
+        actor: { type: 'panel-user', id: actorId },
+        correlationId: '018f6b8c-76a3-7d10-9f2e-1d9e52a63711',
+      });
+      assert.equal(rollback.persistence.revision.operation, 'rollback');
+      assert.equal(rollback.persistence.state.version, 5);
+      assert.equal(await readFile(filePath, 'utf8'), original);
+
+      guard.available = false;
+      await assert.rejects(
+        persistent.applyConfiguration({
+          resourceId: resource.resourceId,
+          revisionId: 'persistent-openloader-failure',
+          expectedCurrentSha256: digest(original),
+          expectedStateVersion: rollback.persistence.state.version,
+          reasonCode: 'guard-failure',
+          changes: { 'resourcePacks.enabled': false },
+          actor: { type: 'panel-user', id: actorId },
+          correlationId: '018f6b8c-76a3-7d10-9f2e-1d9e52a63712',
+        }),
+        (error) =>
+          error instanceof ConfigurationOperationError &&
+          error.code === 'consistency-unavailable',
+      );
+      const failure = await repositories.configuration.revision(
+        'persistent-openloader-failure',
+      );
+      assert.equal(failure?.status, 'failed');
+      assert.equal(failure?.failureCode, 'consistency-unavailable');
+      assert.equal((await repositories.audit.verifyPartition('configuration')).valid, true);
+      assert.equal(
+        await repositories.operationalLocks.current(serverInstanceId, 'minecraft-exclusive'),
+        undefined,
+      );
+    } finally {
+      await database.close();
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('applies and rolls back the reviewed OpenLoader codec in an isolated directory', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'voidfall-openloader-configuration-'));
+    try {
+      const configurationRoot = join(root, 'instance');
+      const openLoaderDirectory = join(configurationRoot, 'config', 'openloader');
+      const repositoryRoot = join(root, 'revision-repository');
+      const filePath = join(openLoaderDirectory, 'advanced_options.json');
+      const original = `${JSON.stringify(
+        {
+          resourcePacks: { enabled: true, additionalFolders: [] },
+          dataPacks: { enabled: true, additionalFolders: [] },
+        },
+        null,
+        2,
+      )}\n`;
+      await mkdir(openLoaderDirectory, { recursive: true });
+      await mkdir(repositoryRoot);
+      await writeFile(filePath, original, 'utf8');
+      const resource = createReviewedConfigurationResource(
+        configurationRoot,
+        'openloader-advanced-options',
+      );
+      const configuration = new FilesystemConfigurationService({
+        repositoryRoot,
+        resources: [resource],
+        guard: new TrackingGuard(),
+        clock: () => NOW,
+      });
+
+      const update = await configuration.applyConfiguration({
+        resourceId: resource.resourceId,
+        revisionId: 'openloader-update',
+        expectedCurrentSha256: digest(original),
+        reasonCode: 'operator-change',
+        changes: { 'dataPacks.enabled': false },
+      });
+      const updated = await readFile(filePath, 'utf8');
+      assert.equal(update.restartRequired, true);
+      assert.deepEqual(update.changedFields, ['dataPacks.enabled']);
+      assert.equal(updated.includes('"enabled": false'), true);
+      assert.equal(
+        await readFile(
+          join(
+            repositoryRoot,
+            'revisions',
+            resource.resourceId,
+            'openloader-update',
+            'previous.json',
+          ),
+          'utf8',
+        ),
+        original,
+      );
+
+      const rollback = await configuration.rollbackConfiguration({
+        resourceId: resource.resourceId,
+        revisionId: 'openloader-rollback',
+        sourceRevisionId: 'openloader-update',
+        expectedCurrentSha256: digest(updated),
+        reasonCode: 'operator-rollback',
+      });
+      assert.equal(rollback.restoredFromRevisionId, 'openloader-update');
+      assert.equal(await readFile(filePath, 'utf8'), original);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
   it('updates a guarded CRLF document and publishes an immutable previous revision', async () => {
     const original = ORIGINAL_LF.replaceAll('\n', '\r\n');
     const fixture = await createFixture(original);

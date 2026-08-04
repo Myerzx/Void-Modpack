@@ -1,7 +1,10 @@
-import { isAbsolute, resolve } from 'node:path';
+import { isAbsolute, resolve, sep } from 'node:path';
+
+import { VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY } from '@voidfall/configuration-schemas';
 
 import {
   JAVA_PROPERTIES_V1,
+  OPENLOADER_ADVANCED_OPTIONS_V1,
   type ApplyConfigurationPlan,
   type BasicConfigurationField,
   type ConfigurationResourceDefinition,
@@ -13,6 +16,7 @@ import {
 const IDENTIFIER = /^[a-z][a-z0-9._-]{0,63}$/u;
 const FIELD_NAME = /^[A-Za-z][A-Za-z0-9._-]{0,63}$/u;
 const SHA256 = /^[a-f0-9]{64}$/u;
+const SCHEMA_VERSION = /^[a-z0-9][a-z0-9.+_-]{0,127}$/u;
 const MAXIMUM_CONFIGURATION_BYTES = 1_048_576;
 const MAXIMUM_FIELDS = 256;
 const MAXIMUM_ENUM_VALUES = 128;
@@ -39,6 +43,18 @@ export function validateIdentifier(value: unknown, definition = false): asserts 
   }
 }
 
+export function validateSchemaVersion(
+  value: unknown,
+  definition = false,
+): asserts value is string {
+  if (typeof value !== 'string' || !SCHEMA_VERSION.test(value)) {
+    throw new ConfigurationOperationError(
+      definition ? 'invalid-definition' : 'invalid-plan',
+      definition ? 'definition' : 'plan',
+    );
+  }
+}
+
 export function validateFieldName(value: unknown, definition = false): asserts value is string {
   if (typeof value !== 'string' || !FIELD_NAME.test(value)) {
     throw new ConfigurationOperationError(
@@ -48,9 +64,12 @@ export function validateFieldName(value: unknown, definition = false): asserts v
   }
 }
 
-export function validateSha256(value: unknown): asserts value is string {
+export function validateSha256(value: unknown, definition = false): asserts value is string {
   if (typeof value !== 'string' || !SHA256.test(value)) {
-    throw new ConfigurationOperationError('invalid-plan', 'plan');
+    throw new ConfigurationOperationError(
+      definition ? 'invalid-definition' : 'invalid-plan',
+      definition ? 'definition' : 'plan',
+    );
   }
 }
 
@@ -162,19 +181,34 @@ export function freezeResourceDefinition(
     throw new ConfigurationOperationError('invalid-definition', 'definition');
   }
   const resource = input as unknown as Record<string, unknown>;
-  const expected = ['resourceId', 'schemaVersion', 'filePath', 'format', 'maximumBytes', 'fields'];
+  const expected = [
+    'resourceId',
+    'schemaId',
+    'schemaVersion',
+    'schemaSha256',
+    'filePath',
+    'format',
+    'maximumBytes',
+    'fields',
+  ];
   const actual = Object.keys(resource).sort();
   if (actual.length !== expected.length || actual.some((key, index) => key !== [...expected].sort()[index])) {
     throw new ConfigurationOperationError('invalid-definition', 'definition');
   }
   validateIdentifier(input.resourceId, true);
-  validateIdentifier(input.schemaVersion, true);
+  validateIdentifier(input.schemaId, true);
+  validateSchemaVersion(input.schemaVersion, true);
+  validateSha256(input.schemaSha256, true);
   if (
     typeof input.filePath !== 'string' ||
     !isAbsolute(input.filePath) ||
     input.filePath.includes('\u0000') ||
-    !input.filePath.toLowerCase().endsWith('.properties') ||
-    input.format !== JAVA_PROPERTIES_V1 ||
+    (input.format !== JAVA_PROPERTIES_V1 &&
+      input.format !== OPENLOADER_ADVANCED_OPTIONS_V1) ||
+    (input.format === JAVA_PROPERTIES_V1 &&
+      !input.filePath.toLowerCase().endsWith('.properties')) ||
+    (input.format === OPENLOADER_ADVANCED_OPTIONS_V1 &&
+      !input.filePath.toLowerCase().endsWith('.json')) ||
     !Number.isSafeInteger(input.maximumBytes) ||
     input.maximumBytes < 1 ||
     input.maximumBytes > MAXIMUM_CONFIGURATION_BYTES ||
@@ -197,11 +231,47 @@ export function freezeResourceDefinition(
     caseFolded.add(folded);
     fields[name] = freezeField(field as unknown as BasicConfigurationField);
   }
+  if (input.format === OPENLOADER_ADVANCED_OPTIONS_V1) {
+    let reviewed;
+    try {
+      reviewed = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(input.resourceId);
+    } catch {
+      throw new ConfigurationOperationError('invalid-definition', 'definition');
+    }
+    const suffix = reviewed.schema.filePath.split('/').join(sep);
+    const comparablePath = resolve(input.filePath).toLocaleLowerCase('en-US');
+    const comparableSuffix = `${sep}${suffix}`.toLocaleLowerCase('en-US');
+    const reviewedFields = Object.keys(reviewed.schema.fields).sort();
+    const actualFields = Object.keys(fields).sort();
+    if (
+      reviewed.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1 ||
+      input.schemaId !== reviewed.schema.schemaId ||
+      input.schemaVersion !== reviewed.schema.schemaVersion ||
+      input.schemaSha256 !== reviewed.schemaSha256 ||
+      input.maximumBytes !== reviewed.maximumBytes ||
+      !comparablePath.endsWith(comparableSuffix) ||
+      actualFields.length !== reviewedFields.length ||
+      actualFields.some((name, index) => name !== reviewedFields[index]) ||
+      actualFields.some((name) => {
+        const field = fields[name];
+        const reviewedField = reviewed.schema.fields[name];
+        return (
+          field?.type !== 'boolean' ||
+          reviewedField?.type !== 'boolean' ||
+          field.restartRequired !== reviewedField.restartRequired
+        );
+      })
+    ) {
+      throw new ConfigurationOperationError('invalid-definition', 'definition');
+    }
+  }
   return Object.freeze({
     resourceId: input.resourceId,
+    schemaId: input.schemaId,
     schemaVersion: input.schemaVersion,
+    schemaSha256: input.schemaSha256,
     filePath: resolve(input.filePath),
-    format: JAVA_PROPERTIES_V1,
+    format: input.format,
     maximumBytes: input.maximumBytes,
     fields: Object.freeze(fields),
   });

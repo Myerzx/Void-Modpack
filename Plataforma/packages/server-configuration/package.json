@@ -16,5 +16,10 @@
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "test": "tsx --test test/server-configuration.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/configuration-schemas": "0.1.0",
+    "@voidfall/contracts": "0.1.0",
+    "@voidfall/database": "0.1.0"
   }
 }

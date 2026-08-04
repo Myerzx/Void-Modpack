@@ -21,12 +21,12 @@ import {
   type ConfigurationRevisionManifest,
 } from './manifest.js';
 import {
-  diffPropertiesDocuments,
-  mutatePropertiesDocument,
-  parsePropertiesDocument,
-} from './properties.js';
+  diffConfigurationDocuments,
+  mutateConfigurationDocument,
+  parseConfigurationDocument,
+  revisionPayloadFileName,
+} from './document.js';
 import {
-  JAVA_PROPERTIES_V1,
   VOIDFALL_CONFIGURATION_REVISION_FORMAT,
   VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION,
   type ApplyConfigurationPlan,
@@ -369,8 +369,8 @@ export class FilesystemConfigurationService {
     const resource = this.#resource(plan.resourceId);
     return this.#withGuard(resource, (createdAt) =>
       this.#mutate(resource, plan, createdAt, async (currentContent) => {
-        const current = parsePropertiesDocument(currentContent, resource);
-        const mutation = mutatePropertiesDocument(current, resource, plan.changes);
+        const current = parseConfigurationDocument(currentContent, resource);
+        const mutation = mutateConfigurationDocument(current, resource, plan.changes);
         return Object.freeze({
           operation: 'update' as const,
           intendedContent: mutation.content,
@@ -394,9 +394,9 @@ export class FilesystemConfigurationService {
           resource,
           plan.sourceRevisionId,
         );
-        const current = parsePropertiesDocument(currentContent, resource);
-        const restored = parsePropertiesDocument(source.content, resource);
-        const changedFields = diffPropertiesDocuments(current, restored, resource);
+        const current = parseConfigurationDocument(currentContent, resource);
+        const restored = parseConfigurationDocument(source.content, resource);
+        const changedFields = diffConfigurationDocuments(current, restored, resource);
         return Object.freeze({
           operation: 'rollback' as const,
           intendedContent: source.content,
@@ -547,12 +547,12 @@ export class FilesystemConfigurationService {
       if (previousSha256 !== plan.expectedCurrentSha256) {
         throw new ConfigurationOperationError('concurrent-modification', 'preflight');
       }
-      parsePropertiesDocument(current.content, resource);
+      parseConfigurationDocument(current.content, resource);
       const material = await createMaterial(current.content, layout);
       if (material.intendedContent.byteLength > resource.maximumBytes) {
         throw new ConfigurationOperationError('content-too-large', 'preflight');
       }
-      parsePropertiesDocument(material.intendedContent, resource);
+      parseConfigurationDocument(material.intendedContent, resource);
       const intendedSha256 = sha256(material.intendedContent);
       if (intendedSha256 === previousSha256) {
         throw new ConfigurationOperationError('no-change', 'preflight');
@@ -562,8 +562,10 @@ export class FilesystemConfigurationService {
         manifestSchemaVersion: VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION,
         revisionId: plan.revisionId,
         resourceId: resource.resourceId,
+        resourceSchemaId: resource.schemaId,
         resourceSchemaVersion: resource.schemaVersion,
-        configurationFormat: JAVA_PROPERTIES_V1,
+        resourceSchemaSha256: resource.schemaSha256,
+        configurationFormat: resource.format,
         createdAt,
         reasonCode: plan.reasonCode,
         operation: material.operation,
@@ -577,7 +579,7 @@ export class FilesystemConfigurationService {
       await mkdir(stagingPath);
       stagingCreated = true;
       await writeDurableExclusive(
-        resolve(stagingPath, 'previous.properties'),
+        resolve(stagingPath, revisionPayloadFileName(resource)),
         current.content,
       );
       await writeDurableExclusive(
@@ -676,7 +678,7 @@ export class FilesystemConfigurationService {
       try {
         const applied = await readBoundedPlainFile(resource.filePath, resource.maximumBytes);
         if (sha256(applied.content) === intendedSha256) {
-          parsePropertiesDocument(applied.content, resource);
+          parseConfigurationDocument(applied.content, resource);
           return;
         }
       } catch {
@@ -727,7 +729,7 @@ export class FilesystemConfigurationService {
     if (
       entries.length !== 2 ||
       entries[0] !== 'manifest.json' ||
-      entries[1] !== 'previous.properties'
+      entries[1] !== revisionPayloadFileName(resource)
     ) {
       throw new ConfigurationOperationError('revision-integrity-mismatch', 'verify');
     }
@@ -744,13 +746,15 @@ export class FilesystemConfigurationService {
     }
     const manifest = parseConfigurationRevisionManifest(serialized);
     const content = await readBoundedPlainFile(
-      resolve(canonical, 'previous.properties'),
+      resolve(canonical, revisionPayloadFileName(resource)),
       resource.maximumBytes,
       true,
     );
     if (
       manifest.resourceId !== resource.resourceId ||
+      manifest.resourceSchemaId !== resource.schemaId ||
       manifest.resourceSchemaVersion !== resource.schemaVersion ||
+      manifest.resourceSchemaSha256 !== resource.schemaSha256 ||
       manifest.configurationFormat !== resource.format
     ) {
       throw new ConfigurationOperationError('schema-mismatch', 'verify');
@@ -764,7 +768,7 @@ export class FilesystemConfigurationService {
     ) {
       throw new ConfigurationOperationError('revision-integrity-mismatch', 'verify');
     }
-    parsePropertiesDocument(content.content, resource);
+    parseConfigurationDocument(content.content, resource);
     return Object.freeze({ manifest, content: content.content });
   }
 
