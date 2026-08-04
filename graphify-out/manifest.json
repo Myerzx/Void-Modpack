@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785883495.6897259,
-    "ast_hash": "73baef2e3788ace4c89fbfb7b35186b6",
+    "mtime": 1785884330.1077125,
+    "ast_hash": "5b02a38daa0dbd538ba0ed3e14792055",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785883634.3759434,
-    "ast_hash": "73e4fa5ec74d455dcd60395406b479c5",
+    "mtime": 1785884343.313901,
+    "ast_hash": "279787050ee027f8995da9f141bf82e3",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -545,8 +545,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1785883260.7422578,
-    "ast_hash": "4e0157b528da3cc2273b4358244c7861",
+    "mtime": 1785884072.1818151,
+    "ast_hash": "62732ec1eef85dc7750dab077aa6bcfd",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
@@ -660,7 +660,7 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next-env.d.ts": {
-    "mtime": 1785883552.2618346,
+    "mtime": 1785884268.161389,
     "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": ""
   },
@@ -3345,8 +3345,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/configuration-e2e.test.ts": {
-    "mtime": 1785883321.3073258,
-    "ast_hash": "dc92aa17149375070187ea01f68430da",
+    "mtime": 1785883963.9971163,
+    "ast_hash": "557d7c1f9a374878726a2b7d019ede06",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_7_CONFIGURATION_API.md": {

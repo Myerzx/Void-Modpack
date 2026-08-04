@@ -499,8 +499,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "configuration-worker.ts"
     },
     {
@@ -510,8 +510,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "configurationoperationexecutor"
     },
     {
@@ -521,8 +521,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor_execute",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": ".execute()"
     },
     {
@@ -532,8 +532,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationworkerresult",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "configurationworkerresult"
     },
     {
@@ -543,8 +543,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_exactcommand",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "exactcommand()"
     },
     {
@@ -554,8 +554,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_matchesjobtype",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "matchesjobtype()"
     },
     {
@@ -565,8 +565,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_configuration_worker_runconfigurationworkeronce",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "runconfigurationworkeronce()"
     },
     {
@@ -576,8 +576,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_src_index",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "build-worker/src/index.ts"
     },
     {
@@ -741,8 +741,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "configuration-worker.test.ts"
     },
     {
@@ -752,8 +752,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_databases",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "databases"
     },
     {
@@ -763,8 +763,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_now",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "now"
     },
     {
@@ -774,8 +774,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_hash_a",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "hash_a"
     },
     {
@@ -785,8 +785,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_hash_b",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "hash_b"
     },
     {
@@ -796,8 +796,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_command",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "command()"
     },
     {
@@ -807,8 +807,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_queuedjob",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "queuedjob()"
     },
     {
@@ -818,8 +818,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_executorfor",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "executorfor()"
     },
     {
@@ -829,8 +829,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_appliedresult",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "appliedresult()"
     },
     {
@@ -840,8 +840,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_harness",
-      "community": 53,
-      "community_name": "worker.ts",
+      "community": 216,
+      "community_name": "configuration-worker.test.ts",
       "norm_label": "harness()"
     },
     {
@@ -1538,32 +1538,10 @@
       "norm_label": "@electric-sql/pglite"
     },
     {
-      "label": "@voidfall/build-worker",
-      "file_type": "code",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "plataforma_apps_control_api_package_devdependencies_voidfall_build_worker",
-      "community": 228,
-      "community_name": "dependencies",
-      "norm_label": "@voidfall/build-worker"
-    },
-    {
-      "label": "@voidfall/build-worker",
-      "file_type": "concept",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "voidfall_build_worker",
-      "community": 228,
-      "community_name": "dependencies",
-      "norm_label": "@voidfall/build-worker"
-    },
-    {
       "label": "@voidfall/configuration-schemas",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_package_devdependencies_voidfall_configuration_schemas",
       "community": 228,
@@ -1574,34 +1552,12 @@
       "label": "@voidfall/configuration-schemas",
       "file_type": "concept",
       "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_package_json_voidfall_configuration_schemas",
       "community": 228,
       "community_name": "dependencies",
       "norm_label": "@voidfall/configuration-schemas"
-    },
-    {
-      "label": "@voidfall/server-agent",
-      "file_type": "code",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L31",
-      "_origin": "ast",
-      "id": "plataforma_apps_control_api_package_devdependencies_voidfall_server_agent",
-      "community": 228,
-      "community_name": "dependencies",
-      "norm_label": "@voidfall/server-agent"
-    },
-    {
-      "label": "@voidfall/server-agent",
-      "file_type": "concept",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L31",
-      "_origin": "ast",
-      "id": "voidfall_server_agent",
-      "community": 228,
-      "community_name": "dependencies",
-      "norm_label": "@voidfall/server-agent"
     },
     {
       "label": "control-api/src/app.ts",
@@ -1687,8 +1643,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_buildcontrolapioptions",
-      "community": 227,
-      "community_name": "configuration-api.test.ts",
+      "community": 52,
+      "community_name": "control-api/src/app.ts",
       "norm_label": "buildcontrolapioptions"
     },
     {
@@ -1698,8 +1654,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_requestcorrelationid",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "requestcorrelationid()"
     },
     {
@@ -1709,8 +1665,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_anonymizeip",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "anonymizeip()"
     },
     {
@@ -1742,8 +1698,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_auditevent",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "auditevent()"
     },
     {
@@ -1753,8 +1709,8 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_setsessioncookie",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "setsessioncookie()"
     },
     {
@@ -1764,8 +1720,8 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_clearsessioncookie",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "clearsessioncookie()"
     },
     {
@@ -1819,8 +1775,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_app_buildcontrolapi",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "buildcontrolapi()"
     },
     {
@@ -1918,8 +1874,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_configuration_routes_configurationvaluereader",
-      "community": 227,
-      "community_name": "configuration-api.test.ts",
+      "community": 52,
+      "community_name": "control-api/src/app.ts",
       "norm_label": "configurationvaluereader"
     },
     {
@@ -1929,8 +1885,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_src_configuration_routes_configurationvaluereader_readconfiguration",
-      "community": 227,
-      "community_name": "configuration-api.test.ts",
+      "community": 52,
+      "community_name": "control-api/src/app.ts",
       "norm_label": ".readconfiguration()"
     },
     {
@@ -2237,85 +2193,85 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-e2e.test.ts"
     },
     {
       "label": "NOW",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L50",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_now",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "now"
     },
     {
       "label": "teardown",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L53",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_teardown",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "teardown"
     },
     {
       "label": "OfflineGuard",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L59",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_offlineguard",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "offlineguard"
     },
     {
       "label": ".runWithExclusiveOfflineAccess()",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L60",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_offlineguard_runwithexclusiveofflineaccess",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": ".runwithexclusiveofflineaccess()"
     },
     {
       "label": "digest()",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L68",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_digest",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "digest()"
     },
     {
       "label": "openLoaderDocument()",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L72",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_openloaderdocument",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "openloaderdocument()"
     },
     {
       "label": "stack()",
       "file_type": "code",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L83",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "stack()"
     },
     {
@@ -2325,8 +2281,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_control_api_test",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "control-api.test.ts"
     },
     {
@@ -2336,8 +2292,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_control_api_test_resources",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "resources"
     },
     {
@@ -2347,8 +2303,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_control_api_test_fixture",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "fixture()"
     },
     {
@@ -2358,8 +2314,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "plataforma_apps_control_api_test_control_api_test_login",
-      "community": 52,
-      "community_name": "control-api/src/app.ts",
+      "community": 224,
+      "community_name": "buildControlApi",
       "norm_label": "login()"
     },
     {
@@ -3194,8 +3150,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_apps_launcher_api_test_launcher_api_test_releasefixture",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 143,
+      "community_name": "launcher-api/src/app.ts",
       "norm_label": "releasefixture()"
     },
     {
@@ -3557,7 +3513,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configuration-client.ts"
     },
@@ -3568,7 +3524,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapifailure",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationapifailure"
     },
@@ -3579,7 +3535,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapierror",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationapierror"
     },
@@ -3590,7 +3546,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapierror_constructor",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": ".constructor()"
     },
@@ -3601,7 +3557,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationsession",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationsession"
     },
@@ -3612,7 +3568,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapplyinput",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationapplyinput"
     },
@@ -3623,7 +3579,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationrollbackinput",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationrollbackinput"
     },
@@ -3634,7 +3590,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationacceptanceview",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "configurationacceptanceview"
     },
@@ -3645,7 +3601,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_fetcher",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "fetcher"
     },
@@ -3656,7 +3612,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_request",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "request()"
     },
@@ -3667,7 +3623,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_client_resourceurl",
-      "community": 222,
+      "community": 233,
       "community_name": "configuration-client.ts",
       "norm_label": "resourceurl()"
     },
@@ -3744,8 +3700,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationresourcestateview",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 233,
+      "community_name": "configuration-client.ts",
       "norm_label": "configurationresourcestateview"
     },
     {
@@ -3876,8 +3832,8 @@
       "source_location": "L205",
       "_origin": "ast",
       "id": "plataforma_apps_panel_web_lib_configuration_view_screenstateforerror",
-      "community": 67,
-      "community_name": "configuration-view.ts",
+      "community": 234,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "screenstateforerror()"
     },
     {
@@ -4855,8 +4811,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "agent-client.ts"
     },
     {
@@ -4866,8 +4822,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_agenthttpresponse",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "agenthttpresponse"
     },
     {
@@ -4877,8 +4833,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_agenthttpresponse_json",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": ".json()"
     },
     {
@@ -4888,8 +4844,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_agentfetch",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "agentfetch"
     },
     {
@@ -4910,8 +4866,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_heartbeatinput",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "heartbeatinput"
     },
     {
@@ -4921,8 +4877,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_createheartbeatenvelope",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "createheartbeatenvelope()"
     },
     {
@@ -4932,8 +4888,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_voidfallagentclient",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "voidfallagentclient"
     },
     {
@@ -4943,8 +4899,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_voidfallagentclient_constructor",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -4954,8 +4910,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_voidfallagentclient_completeregistration",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": ".completeregistration()"
     },
     {
@@ -4965,8 +4921,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_voidfallagentclient_sendheartbeat",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": ".sendheartbeat()"
     },
     {
@@ -4976,8 +4932,8 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_agent_client_voidfallagentclient_post",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": ".#post()"
     },
     {
@@ -5174,8 +5130,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_src_index",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "server-agent/src/index.ts"
     },
     {
@@ -5185,8 +5141,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_apps_server_agent_test_agent_client_test",
-      "community": 61,
-      "community_name": "configuration-operation.ts",
+      "community": 232,
+      "community_name": "agent-client.ts",
       "norm_label": "agent-client.test.ts"
     },
     {
@@ -9971,7 +9927,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_index",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "configuration-schemas/src/index.ts"
     },
     {
@@ -9981,7 +9937,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloader-advanced-options.ts"
     },
@@ -9992,7 +9948,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_schema_id",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloader_advanced_options_schema_id"
     },
@@ -10003,7 +9959,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_resource_id",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloader_advanced_options_resource_id"
     },
@@ -10014,7 +9970,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_schema_version",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloader_advanced_options_schema_version"
     },
@@ -10026,7 +9982,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_file_path",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloader_advanced_options_file_path"
     },
     {
@@ -10037,7 +9993,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_maximum_bytes",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloader_advanced_options_maximum_bytes"
     },
     {
@@ -10048,7 +10004,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_v1",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloader_advanced_options_v1"
     },
     {
@@ -10059,7 +10015,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloader_advanced_options_policy_v1",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloader_advanced_options_policy_v1"
     },
     {
@@ -10069,7 +10025,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloaderadvancedoptionsvalues",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloaderadvancedoptionsvalues"
     },
@@ -10080,7 +10036,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloaderadvancedoptionscodecerrorcode",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloaderadvancedoptionscodecerrorcode"
     },
@@ -10091,7 +10047,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloaderadvancedoptionscodecerror",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "openloaderadvancedoptionscodecerror"
     },
@@ -10102,7 +10058,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_openloaderadvancedoptionscodecerror_constructor",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": ".constructor()"
     },
@@ -10113,7 +10069,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_isrecord",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "isrecord()"
     },
@@ -10124,7 +10080,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_hasexactkeys",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "hasexactkeys()"
     },
@@ -10135,7 +10091,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_hasexpectedkeyoccurrences",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "hasexpectedkeyoccurrences()"
     },
@@ -10146,7 +10102,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_parsegroup",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "parsegroup()"
     },
@@ -10157,7 +10113,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_parseopenloaderadvancedoptions",
-      "community": 130,
+      "community": 222,
       "community_name": "openloader-advanced-options.ts",
       "norm_label": "parseopenloaderadvancedoptions()"
     },
@@ -10169,7 +10125,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_openloader_advanced_options_serializeopenloaderadvancedoptions",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "serializeopenloaderadvancedoptions()"
     },
     {
@@ -10334,7 +10290,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "trusted-registry.ts"
     },
     {
@@ -10345,7 +10301,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_trustedconfigurationcodecid",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "trustedconfigurationcodecid"
     },
     {
@@ -10356,7 +10312,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_trustedconfigurationcodec",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "trustedconfigurationcodec"
     },
     {
@@ -10367,7 +10323,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_trustedconfigurationregistryerrorcode",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "trustedconfigurationregistryerrorcode"
     },
     {
@@ -10378,7 +10334,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_trustedconfigurationregistryerror",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "trustedconfigurationregistryerror"
     },
     {
@@ -10389,7 +10345,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_trustedconfigurationregistryerror_constructor",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -10400,7 +10356,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_freezecodec",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "freezecodec()"
     },
     {
@@ -10411,7 +10367,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_trusted_registry_openloader_advanced_options_codec_v1",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloader_advanced_options_codec_v1"
     },
     {
@@ -10510,7 +10466,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_types_genericconfigurationvalue",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "genericconfigurationvalue"
     },
     {
@@ -10597,8 +10553,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_types_genericconfigurationfield",
-      "community": 210,
-      "community_name": "configuration-schemas/src/validation.ts",
+      "community": 212,
+      "community_name": "configuration-schemas/src/types.ts",
       "norm_label": "genericconfigurationfield"
     },
     {
@@ -10609,7 +10565,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_types_genericconfigurationschema",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "genericconfigurationschema"
     },
     {
@@ -10685,8 +10641,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_types_configurationvalueissue",
-      "community": 210,
-      "community_name": "configuration-schemas/src/validation.ts",
+      "community": 212,
+      "community_name": "configuration-schemas/src/types.ts",
       "norm_label": "configurationvalueissue"
     },
     {
@@ -10696,8 +10652,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_src_types_configurationvaluevalidationresult",
-      "community": 210,
-      "community_name": "configuration-schemas/src/validation.ts",
+      "community": 212,
+      "community_name": "configuration-schemas/src/types.ts",
       "norm_label": "configurationvaluevalidationresult"
     },
     {
@@ -10906,7 +10862,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_test_configuration_schemas_test",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "configuration-schemas.test.ts"
     },
     {
@@ -10917,7 +10873,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_test_configuration_schemas_test_openloaderfixture",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "openloaderfixture()"
     },
     {
@@ -10928,7 +10884,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_test_configuration_schemas_test_schema",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "schema()"
     },
     {
@@ -10939,7 +10895,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_test_configuration_schemas_test_registry",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "registry()"
     },
     {
@@ -10950,7 +10906,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_configuration_schemas_test_configuration_schemas_test_firstplan",
       "community": 130,
-      "community_name": "openloader-advanced-options.ts",
+      "community_name": "trusted-registry.ts",
       "norm_label": "firstplan()"
     },
     {
@@ -11543,8 +11499,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "audit-chain-export.ts"
     },
     {
@@ -11554,8 +11510,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifestschema",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 160,
+      "community_name": "server-configuration.ts",
       "norm_label": "auditchainexportmanifestschema"
     },
     {
@@ -11565,8 +11521,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifest",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "auditchainexportmanifest"
     },
     {
@@ -11576,8 +11532,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_validateauditchainexportmanifest",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "validateauditchainexportmanifest()"
     },
     {
@@ -11873,8 +11829,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_isodatetimeschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "isodatetimeschema"
     },
     {
@@ -11895,8 +11851,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_base64urlschema",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "base64urlschema"
     },
     {
@@ -11906,8 +11862,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_slugschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 159,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "slugschema"
     },
     {
@@ -12005,8 +11961,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_jsonobjectschema",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "jsonobjectschema"
     },
     {
@@ -12027,8 +11983,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_actorrefschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "actorrefschema"
     },
     {
@@ -12038,8 +11994,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_signatureschema",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 159,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "signatureschema"
     },
     {
@@ -12126,8 +12082,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_forgebuildrequestschema",
-      "community": 160,
-      "community_name": "server-configuration.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "forgebuildrequestschema"
     },
     {
@@ -12148,8 +12104,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_validateforgebuildrequest",
-      "community": 55,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "validateforgebuildrequest()"
     },
     {
@@ -12357,8 +12313,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "job.ts"
     },
     {
@@ -12368,8 +12324,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_jobschema",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "jobschema"
     },
     {
@@ -12379,8 +12335,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_job",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "job"
     },
     {
@@ -12390,8 +12346,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_validatejob",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 72,
+      "community_name": "audit-event.ts",
       "norm_label": "validatejob()"
     },
     {
@@ -12511,8 +12467,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "minecraft-permission-binding.ts"
     },
     {
@@ -12522,8 +12478,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftgroupschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "minecraftgroupschema"
     },
     {
@@ -12533,8 +12489,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_permissionsynchronizationschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "permissionsynchronizationschema"
     },
     {
@@ -12544,8 +12500,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftpermissionbindingschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "minecraftpermissionbindingschema"
     },
     {
@@ -12555,8 +12511,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftpermissionbinding",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "minecraftpermissionbinding"
     },
     {
@@ -12566,8 +12522,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_validateminecraftpermissionbinding",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "validateminecraftpermissionbinding()"
     },
     {
@@ -12588,8 +12544,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_modcatalogentryschema",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 160,
+      "community_name": "server-configuration.ts",
       "norm_label": "modcatalogentryschema"
     },
     {
@@ -12621,8 +12577,8 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_canpublishinstable",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "canpublishinstable()"
     },
     {
@@ -12929,8 +12885,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderation-case.ts"
     },
     {
@@ -12940,8 +12896,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationactionschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderationactionschema"
     },
     {
@@ -12951,8 +12907,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationtransitionschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderationtransitionschema"
     },
     {
@@ -12962,8 +12918,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationcaseschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderationcaseschema"
     },
     {
@@ -12973,8 +12929,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationaction",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderationaction"
     },
     {
@@ -12984,8 +12940,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationcase",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "moderationcase"
     },
     {
@@ -12995,8 +12951,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_validatemoderationcase",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "validatemoderationcase()"
     },
     {
@@ -13006,8 +12962,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "player-data-policy.ts"
     },
     {
@@ -13017,8 +12973,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategoryschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "playerdatacategoryschema"
     },
     {
@@ -13028,8 +12984,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdataruleschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "playerdataruleschema"
     },
     {
@@ -13039,8 +12995,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicyschema",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "playerdatapolicyschema"
     },
     {
@@ -13050,8 +13006,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategory",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "playerdatacategory"
     },
     {
@@ -13061,8 +13017,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicy",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "playerdatapolicy"
     },
     {
@@ -13072,8 +13028,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_categoryorder",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "categoryorder"
     },
     {
@@ -13083,8 +13039,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_validateplayerdatapolicy",
-      "community": 216,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "validateplayerdatapolicy()"
     },
     {
@@ -13127,8 +13083,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_minecraftalias",
-      "community": 25,
-      "community_name": "contracts/src/validation.ts",
+      "community": 115,
+      "community_name": "player-governance/src/types.ts",
       "norm_label": "minecraftalias"
     },
     {
@@ -13204,8 +13160,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_normalizedpath",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "normalizedpath()"
     },
     {
@@ -13215,8 +13171,8 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatecanonicalpaths",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "validatecanonicalpaths()"
     },
     {
@@ -13226,8 +13182,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatereleasemanifest",
-      "community": 159,
-      "community_name": "contracts/src/common.ts",
+      "community": 55,
+      "community_name": "validateContract",
       "norm_label": "validatereleasemanifest()"
     },
     {
@@ -13974,8 +13930,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_getvalidator",
-      "community": 55,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "getvalidator()"
     },
     {
@@ -13985,8 +13941,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_mapajverror",
-      "community": 55,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/validation.ts",
       "norm_label": "mapajverror()"
     },
     {
@@ -15020,7 +14976,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_audit_persistence",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "audit-persistence.ts"
     },
     {
@@ -15030,8 +14986,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_audit_persistence_appendauditrecord",
-      "community": 46,
-      "community_name": "AgentRepository",
+      "community": 58,
+      "community_name": "AuditRepository",
       "norm_label": "appendauditrecord()"
     },
     {
@@ -15075,7 +15031,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_configuration_repositories_configurationpersistenceerror",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "configurationpersistenceerror"
     },
     {
@@ -15086,7 +15042,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_configuration_repositories_configurationpersistenceerror_constructor",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -15426,8 +15382,8 @@
       "source_location": "L392",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_configuration_repositories_configurationrepository_constructor",
-      "community": 38,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -15602,8 +15558,8 @@
       "source_location": "L1124",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_configuration_repositories_operationallockrepository_release",
-      "community": 37,
-      "community_name": "repositories.ts",
+      "community": 213,
+      "community_name": "ConfigurationRepository",
       "norm_label": ".release()"
     },
     {
@@ -15625,7 +15581,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database.ts"
     },
     {
@@ -15636,7 +15592,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlresult",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "sqlresult"
     },
     {
@@ -15647,7 +15603,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "sqlclient"
     },
     {
@@ -15658,7 +15614,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient_query",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".query()"
     },
     {
@@ -15669,7 +15625,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient_executescript",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": ".executescript()"
     },
     {
@@ -15679,8 +15635,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database",
-      "community": 38,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": "database"
     },
     {
@@ -15690,8 +15646,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_transaction",
-      "community": 38,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": ".transaction()"
     },
     {
@@ -15701,8 +15657,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_close",
-      "community": 38,
-      "community_name": "Database",
+      "community": 37,
+      "community_name": "repositories.ts",
       "norm_label": ".close()"
     },
     {
@@ -15712,7 +15668,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_normalizeresult",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": "normalizeresult()"
     },
@@ -15723,7 +15679,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": "postgresdatabase"
     },
@@ -15734,7 +15690,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase_constructor",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": ".constructor()"
     },
@@ -15745,7 +15701,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase_query",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": ".query()"
     },
@@ -15756,7 +15712,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase_executescript",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": ".executescript()"
     },
@@ -15767,7 +15723,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase_transaction",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": ".transaction()"
     },
@@ -15778,7 +15734,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_postgresdatabase_close",
-      "community": 224,
+      "community": 236,
       "community_name": "PostgresDatabase",
       "norm_label": ".close()"
     },
@@ -15790,7 +15746,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_index",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database/src/index.ts"
     },
     {
@@ -15801,7 +15757,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrations.ts"
     },
     {
@@ -15812,7 +15768,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationrow",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrationrow"
     },
     {
@@ -15823,7 +15779,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationsdirectory",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrationsdirectory()"
     },
     {
@@ -15834,7 +15790,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_runmigrations",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "runmigrations()"
     },
     {
@@ -16185,8 +16141,8 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository_constructor",
-      "community": 38,
-      "community_name": "Database",
+      "community": 58,
+      "community_name": "AuditRepository",
       "norm_label": ".constructor()"
     },
     {
@@ -16196,8 +16152,8 @@
       "source_location": "L323",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_auditrepository_append",
-      "community": 46,
-      "community_name": "AgentRepository",
+      "community": 58,
+      "community_name": "AuditRepository",
       "norm_label": ".append()"
     },
     {
@@ -16285,7 +16241,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_mapagent",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": "mapagent()"
     },
     {
@@ -16296,7 +16252,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": "agentrepository"
     },
     {
@@ -16307,7 +16263,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_constructor",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".constructor()"
     },
     {
@@ -16318,7 +16274,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_createprovisioningtoken",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".createprovisioningtoken()"
     },
     {
@@ -16329,7 +16285,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_register",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".register()"
     },
     {
@@ -16340,7 +16296,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_findbyid",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".findbyid()"
     },
     {
@@ -16351,7 +16307,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_consumenonce",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".consumenonce()"
     },
     {
@@ -16362,7 +16318,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_agentrepository_recordheartbeat",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".recordheartbeat()"
     },
     {
@@ -16472,7 +16428,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_jobrepository_appendevent",
       "community": 46,
-      "community_name": "AgentRepository",
+      "community_name": ".query",
       "norm_label": ".appendevent()"
     },
     {
@@ -16505,7 +16461,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_createrepositories",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "createrepositories()"
     },
     {
@@ -16516,7 +16472,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "testing.ts"
     },
     {
@@ -16527,7 +16483,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pglitequeryresult",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "pglitequeryresult"
     },
     {
@@ -16538,7 +16494,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pgliteclient",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "pgliteclient()"
     },
     {
@@ -16549,7 +16505,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_createpglitetestdatabase",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "createpglitetestdatabase()"
     },
     {
@@ -16560,7 +16516,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_test_database_test",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database.test.ts"
     },
     {
@@ -17758,7 +17714,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "adapter.ts"
     },
@@ -17780,8 +17736,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "minecraftprocessadapter"
     },
     {
@@ -17791,8 +17747,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_inspect",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -17802,8 +17758,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_start",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".start()"
     },
     {
@@ -17813,8 +17769,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_requestgracefulstop",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -17824,8 +17780,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_readoutput",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 135,
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".readoutput()"
     },
     {
@@ -17835,7 +17791,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftconsoleadapter"
     },
@@ -17846,7 +17802,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_inspect",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".inspect()"
     },
@@ -17857,7 +17813,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_readconsole",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".readconsole()"
     },
@@ -17868,7 +17824,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_requestconsolecommand",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".requestconsolecommand()"
     },
@@ -17879,7 +17835,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftmetricsadapter",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftmetricsadapter"
     },
@@ -17890,7 +17846,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftmetricsadapter_readmetrics",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".readmetrics()"
     },
@@ -17901,7 +17857,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapteroptions",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftprocessadapteroptions"
     },
@@ -17913,7 +17869,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": "managedminecraftprocessadapter"
     },
     {
@@ -17923,8 +17879,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_constructor",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -17935,7 +17891,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_inspect",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -17946,7 +17902,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_start",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".start()"
     },
     {
@@ -17957,7 +17913,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_requestgracefulstop",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -17968,7 +17924,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_readoutput",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -17979,7 +17935,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_readconsole",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".readconsole()"
     },
     {
@@ -17990,7 +17946,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_readmetrics",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".readmetrics()"
     },
     {
@@ -18001,7 +17957,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_requestconsolecommand",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -18012,7 +17968,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_runexclusiveeffect",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".#runexclusiveeffect()"
     },
     {
@@ -18023,7 +17979,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_observation",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".#observation()"
     },
     {
@@ -18034,7 +17990,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_timestamp",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": ".#timestamp()"
     },
     {
@@ -18089,7 +18045,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "console.ts"
     },
     {
@@ -18099,8 +18055,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolecommand"
     },
     {
@@ -18111,7 +18067,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraft_console_commands",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraft_console_commands"
     },
     {
@@ -18122,7 +18078,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_command_literals",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "command_literals"
     },
     {
@@ -18133,7 +18089,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsoleline",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsoleline"
     },
     {
@@ -18144,7 +18100,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolestreamsnapshot",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolestreamsnapshot"
     },
     {
@@ -18154,7 +18110,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolesnapshot",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftconsolesnapshot"
     },
@@ -18166,7 +18122,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolesnapshotoptions",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolesnapshotoptions"
     },
     {
@@ -18176,7 +18132,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommandreceipt",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftconsolecommandreceipt"
     },
@@ -18188,7 +18144,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_validateminecraftconsolecommand",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "validateminecraftconsolecommand()"
     },
     {
@@ -18199,7 +18155,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommandliteral",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolecommandliteral()"
     },
     {
@@ -18210,7 +18166,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_validateboundedinteger",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "validateboundedinteger()"
     },
     {
@@ -18221,7 +18177,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_sanitizeline",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "sanitizeline()"
     },
     {
@@ -18232,7 +18188,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_streamsnapshot",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "streamsnapshot()"
     },
     {
@@ -18243,7 +18199,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_createminecraftconsolesnapshot",
       "community": 114,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "createminecraftconsolesnapshot()"
     },
     {
@@ -18330,8 +18286,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolresult",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 208,
+      "community_name": "ProcessObservation",
       "norm_label": "processcontrolresult"
     },
     {
@@ -18374,8 +18330,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_minecraftprocesscontrolleroptions",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "minecraftprocesscontrolleroptions"
     },
     {
@@ -18407,8 +18363,8 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_waitresult",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 208,
+      "community_name": "ProcessObservation",
       "norm_label": "waitresult"
     },
     {
@@ -18627,8 +18583,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "launch-plan.ts"
     },
     {
@@ -18638,8 +18594,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_supportedhostplatform",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "supportedhostplatform"
     },
     {
@@ -18649,8 +18605,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_minecraftprocessconfig",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "minecraftprocessconfig"
     },
     {
@@ -18660,8 +18616,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_processlaunchplan",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "processlaunchplan"
     },
     {
@@ -18671,8 +18627,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_platformpath",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "platformpath()"
     },
     {
@@ -18682,8 +18638,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_assertplainvalue",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "assertplainvalue()"
     },
     {
@@ -18693,8 +18649,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_validateprocesslaunchplan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "validateprocesslaunchplan()"
     },
     {
@@ -18704,8 +18660,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_createminecraftprocessplan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "createminecraftprocessplan()"
     },
     {
@@ -18814,7 +18770,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_hostmetricssampler",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "hostmetricssampler"
     },
@@ -18825,7 +18781,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_hostmetricssampler_sample",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".sample()"
     },
@@ -18836,7 +18792,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_nodehostmetricssampler",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "nodehostmetricssampler"
     },
@@ -18847,7 +18803,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_nodehostmetricssampler_sample",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": ".sample()"
     },
@@ -18891,7 +18847,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_minecraftmetricssnapshot",
-      "community": 114,
+      "community": 85,
       "community_name": "adapter.ts",
       "norm_label": "minecraftmetricssnapshot"
     },
@@ -19045,8 +19001,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_minimalenvironment",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "minimalenvironment()"
     },
     {
@@ -19056,8 +19012,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": "nodespawnedprocess"
     },
     {
@@ -19067,8 +19023,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_constructor",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".constructor()"
     },
     {
@@ -19078,8 +19034,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_pid",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".pid()"
     },
     {
@@ -19089,8 +19045,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_getexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".getexit()"
     },
     {
@@ -19100,8 +19056,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 135,
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".readoutput()"
     },
     {
@@ -19111,8 +19067,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_requestconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -19122,8 +19078,8 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_requestgracefulstop",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -19133,8 +19089,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_writeliteral",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".#writeliteral()"
     },
     {
@@ -19144,8 +19100,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_waitforexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".waitforexit()"
     },
     {
@@ -19166,8 +19122,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "nodeprocessruntime"
     },
     {
@@ -19177,8 +19133,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_constructor",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -19188,8 +19144,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -19210,8 +19166,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 235,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": "processexit"
     },
     {
@@ -19221,8 +19177,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processoutputsnapshot",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 135,
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": "processoutputsnapshot"
     },
     {
@@ -19265,8 +19221,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_requestconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -19298,8 +19254,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "processruntime"
     },
     {
@@ -19309,8 +19265,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -19365,7 +19321,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_state_machine_transitionobservedprocessstate",
       "community": 85,
-      "community_name": "ManagedMinecraftProcessAdapter",
+      "community_name": "adapter.ts",
       "norm_label": "transitionobservedprocessstate()"
     },
     {
@@ -19485,8 +19441,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": "trackingruntime"
     },
     {
@@ -19496,8 +19452,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_constructor",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -19507,8 +19463,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "node-runtime.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -19519,7 +19475,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_requestfixturecleanup",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".requestfixturecleanup()"
     },
     {
@@ -19595,8 +19551,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_readoutput",
-      "community": 208,
-      "community_name": "ProcessObservation",
+      "community": 135,
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".readoutput()"
     },
     {
@@ -19628,8 +19584,8 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_waitforstate",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 208,
+      "community_name": "ProcessObservation",
       "norm_label": "waitforstate()"
     },
     {
@@ -19650,8 +19606,8 @@
       "source_location": "L686",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": "commandtrackinghandle"
     },
     {
@@ -19661,8 +19617,8 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_getexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".getexit()"
     },
     {
@@ -19672,8 +19628,8 @@
       "source_location": "L694",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -19683,8 +19639,8 @@
       "source_location": "L703",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -19694,8 +19650,8 @@
       "source_location": "L708",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestgracefulstop",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -19705,8 +19661,8 @@
       "source_location": "L710",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_waitforexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 114,
+      "community_name": "console.ts",
       "norm_label": ".waitforexit()"
     },
     {
@@ -19717,7 +19673,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": "neverexitinghandle"
     },
     {
@@ -19728,7 +19684,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_getexit",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".getexit()"
     },
     {
@@ -19739,7 +19695,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_readoutput",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".readoutput()"
     },
     {
@@ -19750,7 +19706,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_requestconsolecommand",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -19761,7 +19717,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_requestgracefulstop",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -19772,7 +19728,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_waitforexit",
       "community": 135,
-      "community_name": "NeverExitingHandle",
+      "community_name": "ProcessOutputSnapshot",
       "norm_label": ".waitforexit()"
     },
     {
@@ -20662,8 +20618,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_index",
-      "community": 123,
-      "community_name": "mod-catalog.test.ts",
+      "community": 103,
+      "community_name": "maven-version.ts",
       "norm_label": "mod-catalog/src/index.ts"
     },
     {
@@ -21091,8 +21047,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogreconciliationerror",
-      "community": 123,
-      "community_name": "mod-catalog.test.ts",
+      "community": 88,
+      "community_name": "mod-catalog/src/types.ts",
       "norm_label": "catalogreconciliationerror"
     },
     {
@@ -21102,8 +21058,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogreconciliationerror_constructor",
-      "community": 123,
-      "community_name": "mod-catalog.test.ts",
+      "community": 88,
+      "community_name": "mod-catalog/src/types.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -21190,8 +21146,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogclassificationerror",
-      "community": 88,
-      "community_name": "mod-catalog/src/types.ts",
+      "community": 123,
+      "community_name": "mod-catalog.test.ts",
       "norm_label": "catalogclassificationerror"
     },
     {
@@ -21201,8 +21157,8 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogclassificationerror_constructor",
-      "community": 88,
-      "community_name": "mod-catalog/src/types.ts",
+      "community": 123,
+      "community_name": "mod-catalog.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -21278,8 +21234,8 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogdependencyanalysiserror",
-      "community": 123,
-      "community_name": "mod-catalog.test.ts",
+      "community": 88,
+      "community_name": "mod-catalog/src/types.ts",
       "norm_label": "catalogdependencyanalysiserror"
     },
     {
@@ -21289,8 +21245,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_catalogdependencyanalysiserror_constructor",
-      "community": 123,
-      "community_name": "mod-catalog.test.ts",
+      "community": 88,
+      "community_name": "mod-catalog/src/types.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -21311,8 +21267,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_contextualcompatibilityanalysiserror",
-      "community": 88,
-      "community_name": "mod-catalog/src/types.ts",
+      "community": 123,
+      "community_name": "mod-catalog.test.ts",
       "norm_label": "contextualcompatibilityanalysiserror"
     },
     {
@@ -21322,8 +21278,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "plataforma_packages_mod_catalog_src_types_contextualcompatibilityanalysiserror_constructor",
-      "community": 88,
-      "community_name": "mod-catalog/src/types.ts",
+      "community": 123,
+      "community_name": "mod-catalog.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -22148,7 +22104,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonical-json.ts"
     },
     {
@@ -22159,7 +22115,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonvalue",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicaljsonvalue"
     },
     {
@@ -22170,7 +22126,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicalize",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicalize()"
     },
     {
@@ -22181,7 +22137,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljson",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicaljson()"
     },
     {
@@ -22191,8 +22147,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonbytes",
-      "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "canonicaljsonbytes()"
     },
     {
@@ -22214,7 +22170,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "channel-signing.ts"
     },
     {
@@ -22224,8 +22180,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedlauncherchannel",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 149,
+      "community_name": "signing.ts",
       "norm_label": "unsignedlauncherchannel"
     },
     {
@@ -22236,7 +22192,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedchannel",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedchannel()"
     },
     {
@@ -22247,7 +22203,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_launcherchannelpayload",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "launcherchannelpayload()"
     },
     {
@@ -22258,7 +22214,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_signlauncherchannel",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "signlauncherchannel()"
     },
     {
@@ -22269,7 +22225,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_verifylauncherchannelsignature",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "verifylauncherchannelsignature()"
     },
     {
@@ -22599,7 +22555,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_index",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "modpack-release/src/index.ts"
     },
     {
@@ -22709,7 +22665,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "signing.ts"
     },
     {
@@ -22720,7 +22676,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedreleasemanifest",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedreleasemanifest"
     },
     {
@@ -22731,7 +22687,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedmanifest",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedmanifest()"
     },
     {
@@ -22742,7 +22698,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_releasemanifestpayload",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "releasemanifestpayload()"
     },
     {
@@ -22753,7 +22709,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "ed25519releasesigner"
     },
     {
@@ -22764,7 +22720,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_constructor",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -22775,7 +22731,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_sign",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".sign()"
     },
     {
@@ -22786,7 +22742,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_signreleasemanifest",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "signreleasemanifest()"
     },
     {
@@ -22797,7 +22753,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_verifyreleasemanifestsignature",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "verifyreleasemanifestsignature()"
     },
     {
@@ -23006,7 +22962,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "releasedocumentsigner"
     },
     {
@@ -23017,7 +22973,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner_sign",
       "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".sign()"
     },
     {
@@ -23137,8 +23093,8 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror",
-      "community": 146,
-      "community_name": "modpack-release/src/types.ts",
+      "community": 149,
+      "community_name": "signing.ts",
       "norm_label": "releaserepositoryerror"
     },
     {
@@ -23148,8 +23104,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror_constructor",
-      "community": 146,
-      "community_name": "modpack-release/src/types.ts",
+      "community": 149,
+      "community_name": "signing.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -23192,8 +23148,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror",
-      "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community": 145,
+      "community_name": "sanitization.ts",
       "norm_label": "releasebuilderror"
     },
     {
@@ -23203,8 +23159,8 @@
       "source_location": "L241",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror_constructor",
-      "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community": 145,
+      "community_name": "sanitization.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -24215,8 +24171,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "plataforma_packages_player_governance_src_common_identifier",
-      "community": 128,
-      "community_name": "authorized-files/src/service.ts",
+      "community": 115,
+      "community_name": "player-governance/src/types.ts",
       "norm_label": "identifier"
     },
     {
@@ -27218,8 +27174,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifest",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "configurationrevisionmanifest"
     },
     {
@@ -27845,8 +27801,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_mutationmaterial",
-      "community": 204,
-      "community_name": "server-configuration/src/service.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "mutationmaterial"
     },
     {
@@ -28197,8 +28153,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_format",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "voidfall_configuration_revision_format"
     },
     {
@@ -28208,8 +28164,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_schema_version",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "voidfall_configuration_revision_schema_version"
     },
     {
@@ -28241,8 +28197,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationformat",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "configurationformat"
     },
     {
@@ -28439,8 +28395,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationoperation",
-      "community": 204,
-      "community_name": "server-configuration/src/service.ts",
+      "community": 106,
+      "community_name": "server-configuration/src/types.ts",
       "norm_label": "configurationoperation"
     },
     {
@@ -30507,7 +30463,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_agentes_claude_final_execution_handoff",
-      "community": 207,
+      "community": 225,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "claude_final_execution_handoff.md"
     },
@@ -30573,8 +30529,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "docs_agentes_claude_final_execution_handoff_fronteiras_que_nunca_podem_ser_atravessadas_silenciosamente",
-      "community": 200,
-      "community_name": "Handoff de execu\u00e7\u00e3o final para Claude",
+      "community": 229,
+      "community_name": "Fronteiras que nunca podem ser atravessadas silenciosamente",
       "norm_label": "fronteiras que nunca podem ser atravessadas silenciosamente"
     },
     {
@@ -30584,8 +30540,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "docs_agentes_claude_final_execution_handoff_runtimes_e_dados_privados",
-      "community": 200,
-      "community_name": "Handoff de execu\u00e7\u00e3o final para Claude",
+      "community": 229,
+      "community_name": "Fronteiras que nunca podem ser atravessadas silenciosamente",
       "norm_label": "runtimes e dados privados"
     },
     {
@@ -30595,8 +30551,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "docs_agentes_claude_final_execution_handoff_opera\u00e7\u00f5es_e_execu\u00e7\u00e3o",
-      "community": 200,
-      "community_name": "Handoff de execu\u00e7\u00e3o final para Claude",
+      "community": 229,
+      "community_name": "Fronteiras que nunca podem ser atravessadas silenciosamente",
       "norm_label": "operacoes e execucao"
     },
     {
@@ -30606,8 +30562,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "docs_agentes_claude_final_execution_handoff_distribui\u00e7\u00e3o_e_produ\u00e7\u00e3o",
-      "community": 200,
-      "community_name": "Handoff de execu\u00e7\u00e3o final para Claude",
+      "community": 229,
+      "community_name": "Fronteiras que nunca podem ser atravessadas silenciosamente",
       "norm_label": "distribuicao e producao"
     },
     {
@@ -31915,7 +31871,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_final_implementation_plan",
-      "community": 207,
+      "community": 225,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "final_implementation_plan.md"
     },
@@ -32157,8 +32113,8 @@
       "source_location": "L258",
       "_origin": "ast",
       "id": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
-      "community": 191,
-      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "community": 230,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
       "norm_label": "fase 9 \u2014 nucleo operacional e painel funcional minimo"
     },
     {
@@ -32168,8 +32124,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia",
-      "community": 191,
-      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "community": 230,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
       "norm_label": "9.1 \u2014 contratos operacionais e persistencia"
     },
     {
@@ -32179,8 +32135,8 @@
       "source_location": "L270",
       "_origin": "ast",
       "id": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent",
-      "community": 191,
-      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "community": 230,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
       "norm_label": "9.2 \u2014 transporte real control api \u2194 server agent"
     },
     {
@@ -32190,8 +32146,8 @@
       "source_location": "L279",
       "_origin": "ast",
       "id": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico",
-      "community": 191,
-      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "community": 230,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
       "norm_label": "9.3 \u2014 painel dinamico"
     },
     {
@@ -33983,7 +33939,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_configuration_api",
-      "community": 207,
+      "community": 225,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "phase_7_configuration_api.md"
     },
@@ -34137,7 +34093,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_configuration_persistence",
-      "community": 207,
+      "community": 225,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "phase_7_configuration_persistence.md"
     },
@@ -34236,7 +34192,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility",
-      "community": 207,
+      "community": 225,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "phase_7_contextual_compatibility.md"
     },
@@ -34248,7 +34204,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_fase_7_0_compatibilidade_contextual",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "fase 7.0 \u2014 compatibilidade contextual"
     },
     {
@@ -34259,7 +34215,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_resultado",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "resultado"
     },
     {
@@ -34270,7 +34226,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_regress\u00f5es_congeladas",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "regressoes congeladas"
     },
     {
@@ -34281,7 +34237,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_contratos_e_sem\u00e2ntica",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "contratos e semantica"
     },
     {
@@ -34292,7 +34248,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_evid\u00eancia_e_isolamento",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "evidencia e isolamento"
     },
     {
@@ -34303,7 +34259,7 @@
       "_origin": "ast",
       "id": "docs_plataforma_phase_7_contextual_compatibility_gate_e_pr\u00f3ximo_recorte",
       "community": 207,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.0 \u2014 compatibilidade contextual",
       "norm_label": "gate e proximo recorte"
     },
     {
@@ -36801,6 +36757,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test",
+      "target": "plataforma_apps_build_worker_src_configuration_worker",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
@@ -36820,6 +36788,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_build_worker_test_configuration_worker_test",
+      "target": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test",
       "target": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor",
       "confidence_score": 1.0
     },
@@ -36868,6 +36848,30 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_build_worker_test_configuration_worker_test",
+      "target": "plataforma_apps_build_worker_src_configuration_worker_runconfigurationworkeronce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test",
+      "target": "plataforma_apps_build_worker_src_configuration_worker_runconfigurationworkeronce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L189",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
       "target": "plataforma_apps_build_worker_src_configuration_worker_runconfigurationworkeronce",
       "confidence_score": 1.0
     },
@@ -37885,29 +37889,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_package_devdependencies",
-      "target": "plataforma_apps_control_api_package_devdependencies_voidfall_build_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_apps_control_api_package_devdependencies",
       "target": "plataforma_apps_control_api_package_devdependencies_voidfall_configuration_schemas",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L31",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "plataforma_apps_control_api_package_devdependencies",
-      "target": "plataforma_apps_control_api_package_devdependencies_voidfall_server_agent",
       "confidence_score": 1.0
     },
     {
@@ -37930,32 +37912,8 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "plataforma_apps_control_api_package_devdependencies_voidfall_build_worker",
-      "target": "voidfall_build_worker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L30",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
       "source": "plataforma_apps_control_api_package_devdependencies_voidfall_configuration_schemas",
       "target": "plataforma_apps_control_api_package_json_voidfall_configuration_schemas",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "Plataforma/apps/control-api/package.json",
-      "source_location": "L31",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "source": "plataforma_apps_control_api_package_devdependencies_voidfall_server_agent",
-      "target": "voidfall_server_agent",
       "confidence_score": 1.0
     },
     {
@@ -38244,7 +38202,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L37",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38411,7 +38369,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L37",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38423,7 +38381,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L158",
+      "source_location": "L161",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -38773,7 +38731,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L37",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38943,7 +38901,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L68",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38954,7 +38912,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L50",
+      "source_location": "L53",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38965,7 +38923,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L59",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38976,7 +38934,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L72",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38987,7 +38945,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L83",
+      "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -38998,7 +38956,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L53",
+      "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39010,7 +38968,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39022,7 +38980,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39034,7 +38992,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39046,7 +39004,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39058,7 +39016,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39070,7 +39028,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39082,7 +39040,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39094,7 +39052,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test",
@@ -39102,10 +39060,34 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test",
+      "target": "plataforma_apps_server_agent_src_configuration_operation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "plataforma_apps_control_api_test_configuration_e2e_test",
+      "target": "plataforma_apps_server_agent_src_configuration_operation_configurationoperationcapability",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L60",
+      "source_location": "L63",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_offlineguard",
@@ -39117,7 +39099,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L127",
+      "source_location": "L130",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -39129,7 +39111,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L90",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -39141,7 +39123,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L220",
+      "source_location": "L223",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -39153,7 +39135,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L211",
+      "source_location": "L214",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -39166,7 +39148,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
-      "source_location": "L155",
+      "source_location": "L158",
       "weight": 1.0,
       "_origin": "ast",
       "source": "plataforma_apps_control_api_test_configuration_e2e_test_stack",
@@ -100118,5 +100100,5 @@
       "source_file": "Servidor/AGENTS.md"
     }
   ],
-  "built_at_commit": "bbf8000972e2c6e095d9a0e35aca752b4c3677a3"
+  "built_at_commit": "84a7ded505a6663411a5a1f57c21c688456308af"
 }
