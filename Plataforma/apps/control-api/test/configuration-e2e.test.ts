@@ -7,16 +7,11 @@ import { afterEach, describe, it } from 'node:test';
 
 import { hashPassword } from '@voidfall/authentication';
 import {
-  runConfigurationWorkerOnce,
-  type ConfigurationOperationExecutor,
-} from '@voidfall/build-worker';
-import {
   OPENLOADER_ADVANCED_OPTIONS_V1 as OPENLOADER_SCHEMA_V1,
   hashConfigurationSchema,
 } from '@voidfall/configuration-schemas';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
-import { ConfigurationOperationCapability } from '@voidfall/server-agent';
 import {
   FilesystemConfigurationService,
   createReviewedConfigurationResource,
@@ -25,6 +20,13 @@ import {
 } from '@voidfall/server-configuration';
 import type { FastifyInstance } from 'fastify';
 
+// The worker, the agent capability and the panel view model are imported from
+// source. `npm run check` typechecks before it builds the apps, so depending on
+// a sibling app's emitted declarations would fail on a clean checkout.
+import {
+  runConfigurationWorkerOnce,
+  type ConfigurationOperationExecutor,
+} from '../../build-worker/src/configuration-worker.js';
 import {
   buildConfigurationScreen,
   changeEntriesFor,
@@ -34,6 +36,7 @@ import {
   type ConfigurationRevisionView,
   type ConfigurationSchemaView,
 } from '../../panel-web/lib/configuration-view.js';
+import { ConfigurationOperationCapability } from '../../server-agent/src/configuration-operation.js';
 import { buildControlApi, type ConfigurationValueReader } from '../src/app.js';
 
 /**

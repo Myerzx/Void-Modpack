@@ -26,8 +26,6 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.4",
-    "@voidfall/build-worker": "0.1.0",
-    "@voidfall/configuration-schemas": "0.1.0",
-    "@voidfall/server-agent": "0.1.0"
+    "@voidfall/configuration-schemas": "0.1.0"
   }
 }
