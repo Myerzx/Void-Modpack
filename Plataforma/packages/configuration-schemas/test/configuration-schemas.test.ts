@@ -1,13 +1,24 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { describe, it } from 'node:test';
 
 import {
   ConfigurationSchemaOperationError,
   ConfigurationSchemaRegistry,
+  OPENLOADER_ADVANCED_OPTIONS_FILE_PATH,
+  OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES,
+  OPENLOADER_ADVANCED_OPTIONS_POLICY_V1,
+  OPENLOADER_ADVANCED_OPTIONS_V1,
+  OpenLoaderAdvancedOptionsCodecError,
   hashConfigurationSchema,
+  parseOpenLoaderAdvancedOptions,
+  serializeOpenLoaderAdvancedOptions,
   validateConfigurationValues,
   type GenericConfigurationSchema,
 } from '../src/index.js';
+
+const openLoaderFixture = (name: string): Promise<string> =>
+  readFile(new URL(`../fixtures/openloader-advanced-options-v1/${name}`, import.meta.url), 'utf8');
 
 const actorId = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
 
@@ -223,5 +234,74 @@ describe('generic schema validation', () => {
       },
     });
     assert.equal(hashConfigurationSchema(first), hashConfigurationSchema(second));
+  });
+});
+
+describe('OpenLoader advanced options v1', () => {
+  it('freezes the selected schema and its deny-by-default path policy', () => {
+    assert.equal(OPENLOADER_ADVANCED_OPTIONS_V1.schemaId, 'openloader-advanced-options');
+    assert.equal(OPENLOADER_ADVANCED_OPTIONS_V1.schemaVersion, '1.0.0');
+    assert.equal(OPENLOADER_ADVANCED_OPTIONS_V1.filePath, OPENLOADER_ADVANCED_OPTIONS_FILE_PATH);
+    assert.deepEqual(Object.keys(OPENLOADER_ADVANCED_OPTIONS_V1.fields), [
+      'dataPacks.enabled',
+      'resourcePacks.enabled',
+    ]);
+    assert.equal(OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.maximumBytes, 4_096);
+    assert.equal(OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.userSuppliedPaths, false);
+    assert.deepEqual(OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.secretFields, []);
+    assert.equal(
+      hashConfigurationSchema(OPENLOADER_ADVANCED_OPTIONS_V1),
+      '25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0',
+    );
+  });
+
+  it('parses and canonically serializes the sanitized default fixture', async () => {
+    const fixture = await openLoaderFixture('default.json');
+    const values = parseOpenLoaderAdvancedOptions(fixture);
+    assert.deepEqual(values, {
+      'dataPacks.enabled': true,
+      'resourcePacks.enabled': true,
+    });
+    assert.equal(serializeOpenLoaderAdvancedOptions(values), fixture);
+  });
+
+  it('round-trips the reviewed disabled state without exposing pack paths', async () => {
+    const fixture = await openLoaderFixture('data-packs-disabled.json');
+    const values = parseOpenLoaderAdvancedOptions(fixture);
+    assert.equal(values['dataPacks.enabled'], false);
+    assert.equal(serializeOpenLoaderAdvancedOptions(values), fixture);
+  });
+
+  it('rejects additional folders, unknown fields and duplicate JSON keys', async () => {
+    const userPath = await openLoaderFixture('rejected-user-path.json');
+    for (const invalid of [
+      userPath,
+      '{"resourcePacks":{"enabled":true,"additionalFolders":[]},"dataPacks":{"enabled":true,"additionalFolders":[],"extra":true}}',
+      '{"resourcePacks":{"enabled":true,"enabled":false,"additionalFolders":[]},"dataPacks":{"enabled":true,"additionalFolders":[]}}',
+    ]) {
+      assert.throws(
+        () => parseOpenLoaderAdvancedOptions(invalid),
+        (error) =>
+          error instanceof OpenLoaderAdvancedOptionsCodecError && error.code === 'schema-mismatch',
+      );
+    }
+  });
+
+  it('enforces input size and typed serializer values', () => {
+    assert.throws(
+      () => parseOpenLoaderAdvancedOptions(' '.repeat(OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES + 1)),
+      (error) =>
+        error instanceof OpenLoaderAdvancedOptionsCodecError &&
+        error.code === 'maximum-bytes-exceeded',
+    );
+    assert.throws(
+      () =>
+        serializeOpenLoaderAdvancedOptions({
+          'dataPacks.enabled': true,
+          'resourcePacks.enabled': 'yes',
+        }),
+      (error) =>
+        error instanceof OpenLoaderAdvancedOptionsCodecError && error.code === 'invalid-values',
+    );
   });
 });

@@ -1,0 +1,10 @@
+{
+  "resourcePacks": {
+    "enabled": true,
+    "additionalFolders": ["resourcepacks"]
+  },
+  "dataPacks": {
+    "enabled": true,
+    "additionalFolders": []
+  }
+}
