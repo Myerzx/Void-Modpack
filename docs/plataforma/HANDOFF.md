@@ -157,6 +157,7 @@
   - descritor presente mas ilegível registrado como issue, nunca omitido;
   - contrato `ArtifactInspectionReport` v1 com evidência como união fechada dos seis descritores revisados;
   - fixtures construídas em código por escritor ZIP determinístico, não commitadas como binários;
+  - gate local de 298 casos descobertos, 296 executados no Windows e dois sockets Unix ignorados, com [matriz Windows/Linux 30961224930](https://github.com/Myerzx/Void-Modpack/actions/runs/30961224930) aprovada nos dois sistemas;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios

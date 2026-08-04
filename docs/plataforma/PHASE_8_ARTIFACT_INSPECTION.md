@@ -1,6 +1,6 @@
 # Fase 8.1: inspeção segura de artefato
 
-Status: concluída tecnicamente em isolamento em 2026-08-04.
+Status: concluída tecnicamente em isolamento em 2026-08-04; gate local aprovado e [matriz Windows/Linux 30961224930](https://github.com/Myerzx/Void-Modpack/actions/runs/30961224930) aprovada nos dois sistemas.
 
 ## Resultado
 
