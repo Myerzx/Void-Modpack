@@ -11,6 +11,7 @@ Esta seção registra o estado auditado do servidor **The Casket of Reveries 2.0
 5. [Operação](operacao.md): boot, parada, backup e restauração.
 6. [Sistemas customizados](sistemas-customizados.md): OpenLoader, KubeJS, patch local e stubs.
 7. [Releases](releases.md): artefatos, gates e testes obrigatórios.
+8. [Mapa técnico unificado do modpack](../modpack/index.md): dependências internas, versões divergentes, riscos e fichas por `mod_id`.
 
 Os inventários reproduzíveis ficam em [`inventario/`](inventario/) e em `Servidor/catalog/`. O material original permanece somente em `Servidor/workspace/server-original/`, ignorado pelo Git e tratado como evidência imutável.
 
