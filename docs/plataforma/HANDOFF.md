@@ -3,8 +3,8 @@
 ## Estado atual
 
 - Data: 2026-08-04
-- Responsável: Codex
-- Fase: 7.2 — concluída tecnicamente em isolamento; persistência/operação OpenLoader implementada e matriz CI Windows/Linux aprovada
+- Responsável: Claude
+- Fase: 7.3 — concluída tecnicamente em isolamento; a Fase 7 inteira está fechada. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -129,6 +129,23 @@
   - transição final e evento encadeado da partição `configuration` na mesma transação;
   - banco e auditoria sem valores de configuração: somente hashes, nomes de campos e metadata sanitizada;
   - aplicação, rollback e falha OpenLoader comprovados em diretório temporário;
+- Fase 7.3 com:
+  - dez contratos v1 e JSON Schemas em `server-configuration.ts`; o pacote passou de 17 para 27 schemas exportados;
+  - alterações como lista explícita `{ name, value }`, sem `additionalProperties` em nenhum schema, e valor limitado a boolean, inteiro seguro e string de até 1.024 caracteres;
+  - campo redigido sem propriedade `value` por construção da união, e `applied` fixado no literal `false` no resultado de validação;
+  - `configuration.apply` e `configuration.rollback` como tipos de job duráveis;
+  - migration `0005_configuration_permissions.sql` com as quatro permissões concedidas somente a `owner` e `administrator`, e regressão que fixa a concordância entre seed e política TypeScript para todos os papéis;
+  - `readConfiguration()` sob a guarda `offline-exclusive-v1`, devolvendo valores tipados e SHA-256 sem bytes, path ou manifesto;
+  - política de apresentação deny-by-default que publica um valor só quando o codec revisado o declara não secreto e o valor observado ainda corresponde ao tipo declarado;
+  - `secretFields` exposto pelos codecs revisados a partir da política aceita;
+  - seis rotas na Control API com autenticação, RBAC, CSRF nas mutações, rate limit próprio e validação estrita nos dois lados;
+  - leitura deny-by-default: sem leitor autorizado a API responde `valuesAvailable: false` e `changedFields: null`, nunca “nenhuma diferença”;
+  - `correlationId` da operação derivado deterministicamente da chave de idempotência, para que replay honesto devolva o job original em vez de abrir segunda revisão;
+  - capability `configuration.apply` no Server Agent, sem executor genérico, com raiz/path/schema/codec vindos apenas de configuração confiável local e allowlist explícita;
+  - conjunto fechado de códigos de falha publicáveis e envelope de resultado assinado outbound-only;
+  - runner durável reutilizando a fila `SKIP LOCKED`, falhando payload malformado antes de chamar a capability;
+  - tela `/configuracoes` com view model puro: diff seguro, campo não legível marcado como não comparável e excluído do envio, restart apenas como metadata e estados loading/vazio/negado/conflito/erro/sucesso;
+  - prova E2E com oito cenários contra diretório temporário do SO;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -153,6 +170,12 @@
 
 ## Validação
 
+- Fase 7.3 por componente: contratos 48 casos e 27 JSON Schemas; permissões 5; database 6; `server-configuration` 17 descobertos e 16 executados no Windows; `server-agent` 9; `build-worker` 11; `control-api` 33, incluindo os 8 cenários E2E; `panel-web` 15;
+- gate completo local da Fase 7.3 aprovado: 268 casos descobertos, 266 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
+- baseline registrada antes da fatia: 192 descobertos, 190 executados e dois sockets Unix ignorados, sem falha preexistente;
+- validação documental da Fase 7.3: 299 componentes, 298 artefatos, 1.363 conexões, zero dependências ausentes e 26 arquivos públicos do servidor aprovados;
+- `git diff --check` sem erro;
+- `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - Fase 7.2: `@voidfall/configuration-schemas` passou build/typecheck e 14 testes; `@voidfall/database`, 5 testes PostgreSQL/PGlite; `@voidfall/server-configuration`, 13 descobertos, 12 executados no Windows e um socket Unix reservado à CI Linux;
 - integração Fase 7.2 comprovou aplicação, rollback, falha sanitizada, concorrência otimista, liberação de lock e auditoria encadeada sem valores;
 - gate completo local da Fase 7.2 aprovado: 194 testes descobertos, 192 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
@@ -217,7 +240,8 @@
 - revisões podem conter segredos presentes no arquivo anterior; storage cifrado, permissões operacionais, retenção e backend remoto ainda não existem;
 - uma revisão filesystem publicada é preservada quando a substituição falha e agora é correlacionada como `failed`; falha do banco depois da troca ainda exige reconciliação da operação `prepared` na Fase 9;
 - `restartRequired` é apenas metadata; nenhuma mutação agenda ou executa restart;
-- configuração agora possui persistência PostgreSQL, ator, reason code e auditoria; autorização, idempotência pública e integração com agente/API/painel pertencem à Fase 7.3;
+- a autorização, a idempotência pública e a integração agente/API/painel da configuração foram entregues na Fase 7.3; o transporte real API↔Agent permanece na Fase 9.2 e, sem leitor autorizado injetado, a leitura de valores continua deny-by-default;
+- o leitor tipado de configuração é síncrono com a requisição: não há cache, cursor nem paginação de revisões além de 50 por página e 100 por consulta;
 - o catálogo atual do launcher não possui SHA-256/tamanho e o inventário do servidor não possui proveniência/licença completa; não existe reconciliação real dos artefatos atuais;
 - sugestão de lado por presença não prova compatibilidade de loader, comportamento em jogo ou necessidade de dependências;
 - o reconciliador é puro e não possui persistência, histórico, ator, autorização, auditoria, exportador, importador, API, painel ou integração com worker;
@@ -252,7 +276,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): expor leitura, validação, aplicação e rollback autorizados por contratos estreitos; adicionar operação tipada no Server Agent e tela com diff seguro/restart visível; testar E2E somente contra diretório temporário. Não conectar o runtime privado nem iniciar trabalho da Fase 8. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 8.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): inspeção limitada de ZIP/JAR, sem carregar classe nem executar artefato, reutilizando `@voidfall/artifact-quarantine`. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
@@ -322,5 +346,13 @@ Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `b49b8a7` — coordenação persistida de aplicação, falha e rollback OpenLoader;
 - `464c97c` — fechamento documental e validação local da Fase 7.2;
 - `c4a87f0` — Graphify atualizado com o fluxo persistido da Fase 7.2.
+- `adc6169` — contratos versionados das operações de configuração;
+- `8788cf3` — permissões de configuração com menor privilégio;
+- `ab197df` — leitura tipada guardada e política de redação;
+- `c6f9f6f` — capability tipada de configuração no Server Agent;
+- `0078c5c` — runner durável de jobs de configuração;
+- `8487e7e` — endpoints auditados da Control API;
+- `b7c9512` — fluxo tipado de configuração no painel;
+- `d620ceb` — prova E2E do fluxo da Fase 7.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

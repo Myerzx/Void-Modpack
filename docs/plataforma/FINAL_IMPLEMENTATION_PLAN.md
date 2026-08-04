@@ -155,20 +155,22 @@ Status: concluído tecnicamente em isolamento em 2026-08-04. O registro de produ
 
 ### 7.3 — API, agente e painel
 
-- [ ] `GET` de schemas e recursos autorizados;
-- [ ] `GET` de valores redigidos e revisões;
-- [ ] `POST` de validação sem aplicação;
-- [ ] `POST` de aplicação com hash esperado e chave de idempotência;
-- [ ] `POST` de rollback para revisão elegível;
-- [ ] operação tipada no Server Agent;
-- [ ] página de configuração com diff seguro, restart visível e estados de erro;
-- [ ] teste E2E contra diretório temporário, nunca runtime privado.
+- [x] `GET` de schemas e recursos autorizados;
+- [x] `GET` de valores redigidos e revisões;
+- [x] `POST` de validação sem aplicação;
+- [x] `POST` de aplicação com hash esperado e chave de idempotência;
+- [x] `POST` de rollback para revisão elegível;
+- [x] operação tipada no Server Agent;
+- [x] página de configuração com diff seguro, restart visível e estados de erro;
+- [x] teste E2E contra diretório temporário, nunca runtime privado.
 
 Critério de conclusão da Fase 7:
 
-- uma configuração suportada percorre painel → API → job/agente → filesystem isolado → auditoria;
-- validação, concorrência, falha e rollback estão testados;
-- nenhum formato não registrado pode ser editado.
+- [x] uma configuração suportada percorre painel → API → job/agente → filesystem isolado → auditoria;
+- [x] validação, concorrência, falha e rollback estão testados;
+- [x] nenhum formato não registrado pode ser editado.
+
+Status: concluída tecnicamente em isolamento em 2026-08-04. Os contratos v1 fixam identificadores e valores escalares revisados sem payload extensível; a migration `0005_configuration_permissions.sql` mantém as quatro permissões deny-by-default; a capability `configuration.apply` resolve raiz, path, schema e codec somente por configuração confiável local; e o painel expõe diff seguro com restart apenas como metadata. Consulte [API, agente e painel da Fase 7.3](PHASE_7_CONFIGURATION_API.md).
 
 Commits sugeridos:
 

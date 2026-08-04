@@ -13,8 +13,31 @@ Status: subset administrativo mínimo da Fase 2 e Launcher API somente leitura d
 | `POST` | `/api/v1/auth/logout` | CSRF e revogação |
 | `GET` | `/api/v1/servers` | `server.view`, somente leitura |
 | `GET` | `/api/v1/audit` | `audit.view`, somente leitura |
-| `POST` | `/agent/v1/register/complete` | token de uso único |
+| `POST` | `/agent/v1/register/complete` | token de uso único, capabilities fechadas |
 | `POST` | `/agent/v1/heartbeat` | transporte autenticado, Ed25519, prazo e nonce |
+
+## Implementado na Fase 7.3
+
+| Método | Rota | Estado |
+| --- | --- | --- |
+| `GET` | `/api/v1/servers/{id}/configuration/schemas` | `configuration.view`, somente schemas revisados |
+| `GET` | `/api/v1/servers/{id}/configuration/resources/{resourceId}` | `configuration.view`, valores redigidos |
+| `GET` | `/api/v1/servers/{id}/configuration/resources/{resourceId}/revisions` | `configuration.view`, limitado a 50 |
+| `POST` | `/api/v1/servers/{id}/configuration/resources/{resourceId}/validate` | `configuration.validate`, nunca aplica |
+| `POST` | `/api/v1/servers/{id}/configuration/resources/{resourceId}/apply` | `configuration.apply`, hash/versão esperados e idempotência |
+| `POST` | `/api/v1/servers/{id}/configuration/resources/{resourceId}/rollback` | `configuration.rollback`, revisão elegível |
+
+Regras destas rotas:
+
+- só aceitam um `resourceId` registrado no registro fechado e campos revisados; path, raiz, schema e codec nunca atravessam a fronteira em nenhum sentido;
+- as mutações exigem CSRF além de sessão e RBAC, e possuem rate limit próprio;
+- `validate` nunca aplica nem cria revisão, e responde `changedFields: null` quando não há leitor autorizado — “diferença desconhecida”, não “nenhuma diferença”;
+- `apply` e `rollback` apenas enfileiram um comando tipado; a máquina de estados da Fase 7.2 decide o resultado;
+- replay honesto da mesma chave devolve `200` com `replayed: true`; a mesma chave para requisição diferente devolve `409`;
+- hash ou versão de estado obsoletos devolvem `409` antes de qualquer enfileiramento;
+- erros usam sempre `{ code, message, correlationId, details }` sem path, host ou stack.
+
+Detalhes em [API, agente e painel da Fase 7.3](PHASE_7_CONFIGURATION_API.md).
 
 As demais rotas administrativas deste documento continuam planejadas. Nenhuma rota operacional de start/stop/restart ou mutação de release foi criada.
 
