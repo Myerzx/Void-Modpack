@@ -80,8 +80,8 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
 | pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; schemas ainda não selecionados |
-| 7 — configurações específicas | 0% | ainda não iniciada |
-| 8 — mods adaptativos | 0% | planejada; depende da correção contextual da compatibilidade |
+| 7 — configurações específicas | 25% | Fase 7.0 concluída; 1 de 4 recortes, próximo gate é o ADR 7.1 |
+| 8 — mods adaptativos | 0% | planejada; correção contextual concluída, ainda depende da ordem das fatias finais |
 | 9 — núcleo operacional e painel | 0% | planejada; domínios continuam isolados |
 | 10 — operações completas | 0% | planejada; sem ligação ao runtime real |
 | 11 — jogadores e permissões reais | 0% | planejada; providers e política ainda pendentes |
@@ -130,7 +130,7 @@ Gate operacional: autenticação Minecraft, provider Forge, executor de moderaç
 
 Somente após inventário completo e seleção dos mods suportados. Cada schema específico exige proprietário, versão, teste, validação, rollback e indicação de restart.
 
-Auditoria prévia concluída em 2026-08-04 em [`docs/modpack/`](../modpack/index.md): 502 ocorrências de JAR foram inspecionadas em modo somente-leitura e reduzidas a 298 artefatos/299 componentes; 737 conexões declaradas foram registradas e nenhuma dependência obrigatória ausente permaneceu no conjunto agregado. A matriz confirma seis incompatibilidades de versão/loader e a divergência estrutural entre o launcher atual e o servidor. [`configuracoes.json`](../modpack/configuracoes.json) registra cinco candidatos de schema, todos em `candidate_not_selected`. O gerador, o validador e o gate completo foram aprovados na [matriz Windows/Linux 30880499197](https://github.com/Myerzx/Void-Modpack/actions/runs/30880499197). Portanto a evidência documental está pronta, mas o gate de implementação da Fase 7 continua fechado até revisão e escolha explícita.
+A auditoria prévia foi corrigida pela Fase 7.0 em 2026-08-04. A regeneração em [`docs/modpack/`](../modpack/index.md) usa somente fixtures sanitizadas e preserva 298 artefatos/299 componentes em 1.363 declarações contextualizadas. O resultado separa quatro conflitos canônicos de duas divergências que agora permanecem `unknown`; não há dependência obrigatória ausente em contexto ativo. Contexto, lado, loader, JarJar e ranges Maven possuem regressões em TypeScript e Python, conforme [Validação da Fase 7.0](PHASE_7_CONTEXTUAL_COMPATIBILITY.md). [`configuracoes.json`](../modpack/configuracoes.json) ainda registra os cinco candidatos como `candidate_not_selected`: o próximo gate continua sendo a escolha explícita da Fase 7.1.
 
 ## Fases 8–13 — integração e conclusão operacional
 

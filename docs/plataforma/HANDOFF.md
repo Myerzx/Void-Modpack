@@ -4,10 +4,10 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 6 — tecnicamente concluída em isolamento; gate local e matriz Windows/Linux aprovados
+- Fase: 7.0 — concluída em isolamento; validação local aprovada, matriz remota pendente após o push
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
-- Auditoria pré-Fase 7: concluída em `docs/modpack/`; metadados de JAR lidos somente para documentação, sem execução ou integração com a plataforma
+- Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; nenhum workspace privado foi lido ou modificado
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 
 ## Implementado
@@ -98,7 +98,15 @@
   - `@voidfall/audit-chain` com SHA-256 por partição, sequência, verificação e NDJSON canônico;
   - `0003_audit_chain.sql` e `AuditRepository` com cabeça bloqueada, integridade pertencente ao storage e export limitado;
   - nenhuma importação de jogador, arquivo, chat, coordenada ou estado do servidor privado;
-- workflow de CI com Node 24 e Java 17 em Ubuntu/Windows.
+- Fase 7.0 com:
+  - contratos v1 estritos para plano e relatório de compatibilidade contextual;
+  - análise por `launcher_current`, `server_active`, referência e histórico, preservando lado e branch de loader;
+  - bibliotecas JarJar como componentes próprios, sem herdar a união de loaders do JAR externo;
+  - ranges Maven com qualifiers/builds e resultado `unknown` para sintaxe não suportada ou baseline ausente;
+  - quatro conflitos canônicos preservados e KillCam/Preloading Tricks reclassificados como evidência de referência desconhecida;
+  - gerador documental determinístico alimentado por `sanitized-artifact-inventory-v1.json`, sem leitura dos runtimes privados;
+  - regressões compartilhadas em TypeScript/Python e validador CI para os seis casos, JarJar, side, loader e baseline NeoForge;
+- workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
 
@@ -122,12 +130,16 @@
 
 ## Validação
 
+- Fase 7.0: 34 casos de contratos, 23 casos do catálogo e 3 regressões Python aprovados;
+- gate completo local aprovado: 185 casos descobertos, 183 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
+- documentação regenerada deterministicamente: 299 componentes, 298 artefatos, 1.363 declarações contextualizadas e nenhuma dependência obrigatória ausente em contexto ativo;
+- validador confirmou os seis resultados nomeados, JarJar separado e ausência de baseline Forge usado como NeoForge;
 - planejamento das Fases 7–13 validado com 47 links Markdown locais resolvidos e `git diff --check` sem erro;
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
 - pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
-- pacote de contratos: build, typecheck, 18 casos e 7 JSON Schemas aprovados;
-- pacote de catálogo: build, typecheck e 19 casos aprovados;
+- pacote de contratos: build, typecheck, 34 casos e 17 JSON Schemas aprovados;
+- pacote de catálogo: build, typecheck e 23 casos aprovados;
 - pacote de quarentena: build, typecheck e 7 casos aprovados;
 - pacote de arquivos autorizados: build, typecheck e 8 casos aprovados;
 - pacote de schemas genéricos: build, typecheck e 8 casos aprovados;
@@ -176,7 +188,7 @@
 - o reconciliador é puro e não possui persistência, histórico, ator, autorização, auditoria, exportador, importador, API, painel ou integração com worker;
 - colisão de filename é conservadora e exige revisão humana; o pacote não tenta inferir versão pelo nome do arquivo;
 - classificação e análise do catálogo são puras e não possuem persistência, autorização ou trilha de auditoria durável;
-- ranges de versão são reportados como não provados; nenhum interpretador SemVer ou metadata interna de JAR foi introduzido;
+- o avaliador cobre somente a sintaxe Maven documentada e o corpus sanitizado; operadores Fabric/SemVer, formas malformadas e baseline ausente permanecem `unknown`;
 - a validação de quarentena comprova limite, hash, tamanho e assinatura inicial, mas não certifica a estrutura ZIP completa, malware, mod ID, licença ou compatibilidade;
 - quarentena não possui endpoint, retenção, antivírus, promoção, backend externo ou inspeção profunda;
 - o registro de raízes do file manager continua sendo uma entrada confiável de construção; não há descoberta, criação, delete, move, copy ou download público;
@@ -204,9 +216,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 7.0** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): corrigir a análise de compatibilidade por contexto/lado, distinguir JarJar e loader por componente, corrigir o baseline NeoForge e ampliar o parser de ranges com resultado conservador. Regenerar a documentação e adicionar regressões para as seis divergências já registradas. Esse recorte continua somente em tooling, contratos e fixtures; não tocar o runtime privado.
-
-Depois do gate 7.0, registrar um ADR escolhendo explicitamente o primeiro schema da Fase 7. A recomendação planejada é `java_properties_v1` para provar o fluxo ponta a ponta antes de `forge_toml_v1`, mas a seleção continua sendo decisão do proprietário e não deve ser inferida silenciosamente.
+Executar a **Fase 7.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): registrar um ADR escolhendo explicitamente o primeiro schema da Fase 7, com proprietário, versão, campos, limites, segredo, restart e migração. A recomendação planejada é `java_properties_v1` para provar o fluxo ponta a ponta antes de `forge_toml_v1`, mas a escolha continua sendo decisão do proprietário e não deve ser inferida silenciosamente. Não iniciar persistência, API, agente ou painel antes desse gate.
 
 ## Commits relevantes
 
@@ -262,5 +272,8 @@ Depois do gate 7.0, registrar um ADR escolhendo explicitamente o primeiro schema
 - `257f447` — domínio puro de governança de jogadores;
 - `0993208` — cadeia SHA-256 e export NDJSON;
 - `55ceec7` — append transacional encadeado no PostgreSQL/PGlite.
+- `55f48f7` — contratos v1 da compatibilidade contextual;
+- `e23e68c` — motor contextual e ranges Maven com corpus de regressão;
+- `a74e322` — gerador fixture-only, documentação regenerada e gate Python/CI.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

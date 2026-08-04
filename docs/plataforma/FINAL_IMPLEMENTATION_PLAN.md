@@ -104,15 +104,15 @@ Objetivo: entregar a primeira configuração realmente operável de ponta a pont
 
 ### 7.0 — corrigir a base de compatibilidade usada pelo painel
 
-- [ ] separar `launcher_current`, `server_active` e cliente de referência;
-- [ ] respeitar `CLIENT`, `SERVER` e `BOTH` em cada dependência;
-- [ ] separar mod raiz de biblioteca JarJar embutida;
-- [ ] atribuir loader ao componente correto, sem propagar todos os loaders do JAR pai;
-- [ ] corrigir o baseline NeoForge, sem usar versão Forge como NeoForge;
-- [ ] interpretar ranges Forge/Maven usados no corpus e retornar `unknown` para formatos não suportados;
-- [ ] separar conflito canônico, divergência de referência e informação apenas histórica;
-- [ ] adicionar regressões para Armourer’s Workshop, Epic Fight, KillCam, OpenLoader, Preloading Tricks e WOM;
-- [ ] regenerar `docs/modpack/**` e comparar as conclusões anteriores.
+- [x] separar `launcher_current`, `server_active` e cliente de referência;
+- [x] respeitar `CLIENT`, `SERVER` e `BOTH` em cada dependência;
+- [x] separar mod raiz de biblioteca JarJar embutida;
+- [x] atribuir loader ao componente correto, sem propagar todos os loaders do JAR pai;
+- [x] corrigir o baseline NeoForge, sem usar versão Forge como NeoForge;
+- [x] interpretar ranges Forge/Maven usados no corpus e retornar `unknown` para formatos não suportados;
+- [x] separar conflito canônico, divergência de referência e informação apenas histórica;
+- [x] adicionar regressões para Armourer’s Workshop, Epic Fight, KillCam, OpenLoader, Preloading Tricks e WOM;
+- [x] regenerar `docs/modpack/**` e comparar as conclusões anteriores.
 
 A implementação deve usar fixtures públicas/sanitizadas. Uma nova leitura dos runtimes privados só pode ocorrer em tarefa forense explicitamente autorizada e separada da implementação da plataforma.
 
@@ -125,6 +125,8 @@ Arquivos principais:
 - `docs/modpack/**`.
 
 Gate: o relatório por contexto deve ser determinístico e nunca transformar `unknown` em “compatível”.
+
+Status: concluído em 2026-08-04. A regeneração usa somente fixtures sanitizadas versionadas; os quatro conflitos canônicos permaneceram bloqueadores, enquanto KillCam e Preloading Tricks foram reclassificados como evidência desconhecida de referência. Consulte [Validação da Fase 7.0](PHASE_7_CONTEXTUAL_COMPATIBILITY.md).
 
 ### 7.1 — registrar a decisão do primeiro schema
 
