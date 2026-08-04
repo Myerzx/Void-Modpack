@@ -1,0 +1,63 @@
+mod:
+  id: "super_warden"
+  ids_declarados:
+    - "super_warden"
+  nome: "Epic fight - Super Warden"
+  arquivo: "super_warden-20.13.0.jar"
+  artefatos:
+    - artifactId: "sha256:d6a5ca943ce726e5260132622c5c865fceb0c68b25b9ab1f01b130ffae1990b9"
+      fileName: "super_warden-20.13.0.jar"
+      sha256: "d6a5ca943ce726e5260132622c5c865fceb0c68b25b9ab1f01b130ffae1990b9"
+      bytes: 1089990
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.13.0"
+  versao_instalada: "20.13.0"
+  versoes_observadas_incluindo_desativadas:
+    - "20.13.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "epic_fight_avalon"
+    - "epicfight"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

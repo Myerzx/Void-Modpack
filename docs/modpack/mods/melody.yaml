@@ -1,0 +1,62 @@
+mod:
+  id: "melody"
+  ids_declarados:
+    - "melody"
+  nome: "Melody"
+  arquivo: "melody_forge_1.0.3_MC_1.20.1-1.20.4.jar"
+  artefatos:
+    - artifactId: "sha256:933e2a7e79c4594f965f7f7d00b1f28a98ec2a180ad8f9f90310a266fe5cf5d8"
+      fileName: "melody_forge_1.0.3_MC_1.20.1-1.20.4.jar"
+      sha256: "933e2a7e79c4594f965f7f7d00b1f28a98ec2a180ad8f9f90310a266fe5cf5d8"
+      bytes: 37178
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+      modVersion: "1.0.2"
+  versao_instalada: "1.0.2"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "OpenAL-based library mod for playing background music. COPYRIGHT: > Melody © Copyright 2023 Keksuccino. Melody is licensed under MIT."
+  funcao_principal: "OpenAL-based library mod for playing background music. COPYRIGHT: > Melody © Copyright 2023 Keksuccino. Melody is licensed under MIT."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "fancymenu"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

@@ -1,0 +1,96 @@
+mod:
+  id: "geckolib"
+  ids_declarados:
+    - "geckolib"
+  nome: "GeckoLib 4"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      fileName: "EpicFight Nightfall-3.2.2-all.jar"
+      sha256: "d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      bytes: 51333810
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "4.8.2"
+    - artifactId: "sha256:a2e4bcc986ce360f4e85d545a86b04c8c9350543ebd17069b6a44c0a8939ffdc"
+      fileName: "geckolib-forge-1.20.1-4.8.2.jar"
+      sha256: "a2e4bcc986ce360f4e85d545a86b04c8c9350543ebd17069b6a44c0a8939ffdc"
+      bytes: 1038979
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "4.8.2"
+    - artifactId: "sha256:8b90e11871a58b63816e99c529e6c932bc88e6beb3fec97ad618e22217df3250"
+      fileName: "geckolib-forge-1.20.1-4.8.3.jar"
+      sha256: "8b90e11871a58b63816e99c529e6c932bc88e6beb3fec97ad618e22217df3250"
+      bytes: 1039046
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "4.8.3"
+  versao_instalada:
+    - "4.8.2"
+    - "4.8.3"
+  versoes_observadas_incluindo_desativadas:
+    - "4.8.2"
+    - "4.8.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "GeckoLib is an animation engine for Minecraft Mods, with support for complex 3D keyframe-based animations, 30+ easings, concurrent animation support, sound and particle keyframes,…"
+  funcao_principal: "GeckoLib is an animation engine for Minecraft Mods, with support for complex 3D keyframe-based animations, 30+ easings, concurrent animation support, sound and particle keyframes,…"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "geckoanimfix"
+  dependentes:
+    - "biomeswevegone"
+    - "bookofdragons"
+    - "bosses_of_mass_destruction"
+    - "entityjs"
+    - "graveyard"
+    - "irons_spellbooks"
+    - "mowziesmobs"
+    - "ribbits"
+    - "saintsdragons"
+    - "swem"
+  integracoes:
+    - "geckoanimfix"
+  configs_principais: []
+  riscos:
+    - "10 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/geckolib-388172-7025129.jar!META-INF/mods.toml"
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

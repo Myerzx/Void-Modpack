@@ -1,0 +1,60 @@
+# Categoria: bibliotecas
+
+Total: **54** componentes.
+
+| Mod ID | Lado | Nível | Risco | Ficha |
+| --- | --- | ---: | --- | --- |
+| `apoli` | desconhecido | 5 | medio | [YAML](../mods/apoli.yaml) |
+| `architectury` | ambos | 0 | critico | [YAML](../mods/architectury.yaml) |
+| `attributeslib` | ambos | 0 | medio | [YAML](../mods/attributeslib.yaml) |
+| `balm` | ambos | 0 | medio | [YAML](../mods/balm.yaml) |
+| `bookshelf` | ambos | 0 | medio | [YAML](../mods/bookshelf.yaml) |
+| `caelus` | desconhecido | 5 | medio | [YAML](../mods/caelus.yaml) |
+| `calio` | desconhecido | 5 | medio | [YAML](../mods/calio.yaml) |
+| `cerbons_api` | ambos | 0 | baixo | [YAML](../mods/cerbons_api.yaml) |
+| `citadel` | ambos | 0 | alto | [YAML](../mods/citadel.yaml) |
+| `cloth_config` | ambos | 0 | alto | [YAML](../mods/cloth_config.yaml) |
+| `corgilib` | ambos | 0 | baixo | [YAML](../mods/corgilib.yaml) |
+| `cristellib` | ambos | 0 | medio | [YAML](../mods/cristellib.yaml) |
+| `cumulus_menus` | ambos | 2 | medio | [YAML](../mods/cumulus_menus.yaml) |
+| `curios` | ambos | 0 | critico | [YAML](../mods/curios.yaml) |
+| `expandability` | ambos | 0 | baixo | [YAML](../mods/expandability.yaml) |
+| `fdlib` | ambos | 0 | baixo | [YAML](../mods/fdlib.yaml) |
+| `flib` | desconhecido | 5 | baixo | [YAML](../mods/flib.yaml) |
+| `ftblibrary` | ambos | 0 | medio | [YAML](../mods/ftblibrary.yaml) |
+| `geckoanimfix` | desconhecido | 5 | baixo | [YAML](../mods/geckoanimfix.yaml) |
+| `geckolib` | ambos | 0 | critico | [YAML](../mods/geckolib.yaml) |
+| `glitchcore` | desconhecido | 5 | medio | [YAML](../mods/glitchcore.yaml) |
+| `gottschcore` | desconhecido | 5 | medio | [YAML](../mods/gottschcore.yaml) |
+| `iceberg` | ambos | 0 | baixo | [YAML](../mods/iceberg.yaml) |
+| `kambrik` | ambos | 0 | baixo | [YAML](../mods/kambrik.yaml) |
+| `kuma_api` | ambos | 2 | medio | [YAML](../mods/kuma_api.yaml) |
+| `l2library` | ambos | 2 | medio | [YAML](../mods/l2library.yaml) |
+| `lazyyyyy_lexforge_core` | ambos | 3 | medio | [YAML](../mods/lazyyyyy_lexforge_core.yaml) |
+| `library_of_exile` | ambos | 0 | alto | [YAML](../mods/library_of_exile.yaml) |
+| `lionfishapi` | ambos | 0 | medio | [YAML](../mods/lionfishapi.yaml) |
+| `lithostitched` | ambos | 2 | medio | [YAML](../mods/lithostitched.yaml) |
+| `mixinextras` | ambos | 3 | medio | [YAML](../mods/mixinextras.yaml) |
+| `mixinsquared` | ambos | 3 | alto | [YAML](../mods/mixinsquared.yaml) |
+| `moogs_structures` | desconhecido | 5 | medio | [YAML](../mods/moogs_structures.yaml) |
+| `moonlight` | ambos | 0 | alto | [YAML](../mods/moonlight.yaml) |
+| `necronomicon` | desconhecido | 5 | baixo | [YAML](../mods/necronomicon.yaml) |
+| `nitrogen_internals` | ambos | 2 | medio | [YAML](../mods/nitrogen_internals.yaml) |
+| `obscure_api` | ambos | 0 | baixo | [YAML](../mods/obscure_api.yaml) |
+| `ohthetreesyoullgrow` | ambos | 0 | medio | [YAML](../mods/ohthetreesyoullgrow.yaml) |
+| `p1nero_dl` | ambos | 0 | baixo | [YAML](../mods/p1nero_dl.yaml) |
+| `pandalib` | ambos | 0 | medio | [YAML](../mods/pandalib.yaml) |
+| `placebo` | ambos | 0 | baixo | [YAML](../mods/placebo.yaml) |
+| `prism` | ambos | 0 | baixo | [YAML](../mods/prism.yaml) |
+| `puzzleslib` | ambos | 0 | baixo | [YAML](../mods/puzzleslib.yaml) |
+| `radiantgear` | ambos | 2 | baixo | [YAML](../mods/radiantgear.yaml) |
+| `resourcefulconfig` | ambos | 0 | medio | [YAML](../mods/resourcefulconfig.yaml) |
+| `resourcefullib` | ambos | 0 | baixo | [YAML](../mods/resourcefullib.yaml) |
+| `rhino` | ambos | 0 | baixo | [YAML](../mods/rhino.yaml) |
+| `ribbits` | ambos | 2 | medio | [YAML](../mods/ribbits.yaml) |
+| `simplebedrockmodel` | desconhecido | 5 | baixo | [YAML](../mods/simplebedrockmodel.yaml) |
+| `tcrcore` | ambos | 2 | medio | [YAML](../mods/tcrcore.yaml) |
+| `twilight_lib` | desconhecido | 5 | baixo | [YAML](../mods/twilight_lib.yaml) |
+| `yet_another_config_lib_v3` | ambos | 0 | baixo | [YAML](../mods/yet_another_config_lib_v3.yaml) |
+| `yungsapi` | ambos | 0 | medio | [YAML](../mods/yungsapi.yaml) |
+| `zeta` | ambos | 0 | medio | [YAML](../mods/zeta.yaml) |

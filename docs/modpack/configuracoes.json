@@ -1,0 +1,1157 @@
+{
+  "schemaVersion": 1,
+  "analysisDate": "2026-08-04",
+  "launcherCanonical": {
+    "source": "Launcher/pack/overrides",
+    "files": [
+      {
+        "path": "Launcher/pack/overrides/config/armourers_workshop-client.toml",
+        "kind": "config",
+        "bytes": 4614,
+        "sha256": "f37e7c07b3784deb5535eb5b6d0658df73bcdfd1c8096f21f229f4f3b11aa568"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/armourers_workshop-common.toml",
+        "kind": "config",
+        "bytes": 5316,
+        "sha256": "e23149e42cc02e82817583b706d6634c47c0430ff1fa6bb1a8b3b5390ed11cf7"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/borninconfiguration-general.toml",
+        "kind": "config",
+        "bytes": 38300,
+        "sha256": "93e697a77c6e85ccac26c42affa6c73da947782654ca8bfe8d6953d016497681"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/curios-client.toml",
+        "kind": "config",
+        "bytes": 706,
+        "sha256": "1ef1554c5d95b01f66c9c9f1f6236a473d6efd06652d47ca90fab281a8bb8431"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/curios-common.toml",
+        "kind": "config",
+        "bytes": 161,
+        "sha256": "5fe808869d46a4b80e1191fbe40f40a4d63987beda0eaeb2d89b909a990ea2ea"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/epicfight-client.toml",
+        "kind": "config",
+        "bytes": 1462,
+        "sha256": "2b1b079840772c930ef8e6f2919e784d96574a6594c18a2d0e8aaedabbb64ede"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/epicfight.toml",
+        "kind": "config",
+        "bytes": 481,
+        "sha256": "bd079022837a5609788961964492704daf1333b8b17af8b2e219bc93e1ffb299"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.20.31.png",
+        "kind": "config",
+        "bytes": 2200542,
+        "sha256": "3a0f3409df516393e147d32a025a088925f005def5d9664110ed837a048e5e41"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.25.42.png",
+        "kind": "config",
+        "bytes": 2335386,
+        "sha256": "8ec63325890bc03a18cf253486760bd27a27bbed6cadd653760082c2d5d425d6"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.25.48.png",
+        "kind": "config",
+        "bytes": 2389477,
+        "sha256": "4b7e6eb6172557c74e0a704cda068ed664fb639cf0940462ebf019772e4e1f9e"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.26.15.png",
+        "kind": "config",
+        "bytes": 2122828,
+        "sha256": "d701a1ce7832f7560f22ef17e5c6b83d6dc4515cba70e6825aa2f6860edf1579"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/2025-10-02_16.45.37.png",
+        "kind": "config",
+        "bytes": 2076974,
+        "sha256": "3c446abd46b7c38819de2a9e585a59ff3efd7b30df3e293370111d00ce134edf"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/foto1.png",
+        "kind": "config",
+        "bytes": 3569268,
+        "sha256": "ecabdc0059defba7d1d9a39ed479c91ed2335a99f20925239300c1f3ddbadbfb"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/foto2.png",
+        "kind": "config",
+        "bytes": 3547591,
+        "sha256": "86601ac3f1ad41a3d4524127592d077548f424d676afc9e554b95db0d37dd462"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/food_book.png",
+        "kind": "config",
+        "bytes": 2747,
+        "sha256": "96340c7d064dff570542e74f1b3d92aaee06d4731cd4fde02a98e596e6a98f40"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/food_book_h.png",
+        "kind": "config",
+        "bytes": 2908,
+        "sha256": "770a175b3ab5a519679dfb12a83cdcc03c99cd04b316522e9f0c35783b793afe"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_quests.png",
+        "kind": "config",
+        "bytes": 4511,
+        "sha256": "04064e3287e526a595de1b7542cece0438e2686975c60a8155cf3cb5ed749643"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_quests_h.png",
+        "kind": "config",
+        "bytes": 4659,
+        "sha256": "e17353ee834c0bb69ea8e5faaada032c4e9a687b11ad50c1893a299c043c6679"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_teams.png",
+        "kind": "config",
+        "bytes": 4577,
+        "sha256": "a2b89c5a6ecf8ce83f6ff85a75d8fdbf65c17eb90a8cf7b1a09575cc6631693b"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_teams_h.png",
+        "kind": "config",
+        "bytes": 4744,
+        "sha256": "9e626f381278c79810b5f3ee59980bb251d0cdcdba41aeb0ced4887263b65c06"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub-inventory.png",
+        "kind": "config",
+        "bytes": 3273,
+        "sha256": "4b38753bc12db97c78e5bf102b1842f0957c35a3c49bf4571c62a2d0469337c0"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub-inventory_h.png",
+        "kind": "config",
+        "bytes": 3439,
+        "sha256": "59f5e59a7121720b37d33e5b3ec54e7249b4fd7748b448b6589fcefc9da0346c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub.png",
+        "kind": "config",
+        "bytes": 2693,
+        "sha256": "f4ee0b6686f22aec94b315af655b60d13de35f9d39066d511f7babde5c1888f4"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub_h.png",
+        "kind": "config",
+        "bytes": 2821,
+        "sha256": "b4f0dd740e0a031d86a23ea4de47e37b0be51dd38baf116bcec95c2a255e73a3"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/map.png",
+        "kind": "config",
+        "bytes": 4547,
+        "sha256": "f76dcf6da8b2bdf1818542f89728a2cffaf09b00b7b73e555e5cf4aca669dc15"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/map_h.png",
+        "kind": "config",
+        "bytes": 4668,
+        "sha256": "da28d99253f88ba9c5e87e111ef67c8e7a6be10f4362731fa77f2803ec0b1b5a"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/mns_teams.png",
+        "kind": "config",
+        "bytes": 3314,
+        "sha256": "95ed1a92719341b93a8b441b025831bcb72131fd5b88c9daadae02beaa2246f3"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/inventory/mns_teams_h.png",
+        "kind": "config",
+        "bytes": 3439,
+        "sha256": "758f0745299bb988a041d421983c8513bc984180273ffaa8c6e659b2e6c036a9"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/loading_bar.png",
+        "kind": "config",
+        "bytes": 774,
+        "sha256": "dd82cdf5eff7d25ef76e4791b989c131720c0d2e9aa6ae3acac488fd7431ebef"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/loading_bar_loading.png",
+        "kind": "config",
+        "bytes": 795,
+        "sha256": "4c6e74f9b6b1f3004700c8f2ff1db8582242f033fe9d1ed4bda29cb70089e273"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/mahj_1294853429_mainmenu.fma",
+        "kind": "config",
+        "bytes": 1039,
+        "sha256": "8fcefd6905b78f68e8e9f1e70cf28979cfd6696918498b4009669d274903c86e"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/moldura_rustica1.png",
+        "kind": "config",
+        "bytes": 11385,
+        "sha256": "2b9cfe6f0dffdd3516a01a0c2852684e03582553b2aec913b45d0fa96f222c4b"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/musica inicial.mp3",
+        "kind": "config",
+        "bytes": 2169124,
+        "sha256": "5a4f54d30aeb63a97996eee12a6a54c01a12de5c32141e36d22fde009901346b"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/musica-inicial.ogg",
+        "kind": "config",
+        "bytes": 2810138,
+        "sha256": "77b7285fd7f55d8520882ea62c42a27d1fa16bad4038f11cc044c00a3f671501"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/play_400x40.png",
+        "kind": "config",
+        "bytes": 10656,
+        "sha256": "3a23bf4cfa8630e2c0831b473abf5ca16a4ee04c936e177c5390c364836cf156"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/play_rpg_400x40.png",
+        "kind": "config",
+        "bytes": 16716,
+        "sha256": "a536a7c4f01294df081f5c48a17fd492bfebf68cfa539e5bf967e1c761b2fd12"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/void.png",
+        "kind": "config",
+        "bytes": 78985,
+        "sha256": "047cf669b60c704ee7c42f5c5451d90c4e4ce6f2203df4a5114171bebb0fec37"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_16x16.icns",
+        "kind": "config",
+        "bytes": 100972,
+        "sha256": "17534fd83444ca801d20a735511c0f1167e5c32f47faf86a4f290be98137dba3"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_16x16.png",
+        "kind": "config",
+        "bytes": 789,
+        "sha256": "b6baff7cc078c3fb1d5a3e2f916b40a44631938c22b1806b6b484c96dface2cd"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_32x32.icns",
+        "kind": "config",
+        "bytes": 121325,
+        "sha256": "4c3941fe5f739fed7b313c9951a72d3bc19822cd4a2a7a74826465522b6b48dd"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_32x32.png",
+        "kind": "config",
+        "bytes": 3212,
+        "sha256": "be284865fee4b60320fbcdbff5cfcd8dcce03e36634b3f9d7db35649a36cdc32"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_64x64.png",
+        "kind": "config",
+        "bytes": 9790,
+        "sha256": "b1dddef38bd5c5c8739e1cc31b41be3a56710a00fa25f58b88943a369db5ef77"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/assets/voidfall_icon_16x16.png",
+        "kind": "config",
+        "bytes": 733,
+        "sha256": "14c3ddf046eb14e2a21f4d7c0454829bc8e9ef48b27a20bbe12304752f086a16"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/audio_element_controller_metas.json",
+        "kind": "config",
+        "bytes": 2249,
+        "sha256": "51e3664965491926bd3c757d8b6000740a4092822feb2523cca93cf54c0b0d74"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/config.txt",
+        "kind": "config",
+        "bytes": 1652,
+        "sha256": "d6e8707498ec8a81a76c4501339c7853680f57a3f0cde5ead1df321a2984b0c2"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/custom_gui_screens.txt",
+        "kind": "config",
+        "bytes": 51,
+        "sha256": "ff492043eaf454c46e949d5eef32ece90cc5a19feb50a161dd29a43b5732c880"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customizablemenus.txt",
+        "kind": "config",
+        "bytes": 1657,
+        "sha256": "4f510473b686277982821c05d02dac9f73432807f1f479586c4b820b7ee2c005"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/ascension.txt",
+        "kind": "config",
+        "bytes": 3581,
+        "sha256": "35981c6d4f08c84c812b30cbd0d04401da3851aa90ee14c7a41f903720c4b0d6"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/bestiary.txt",
+        "kind": "config",
+        "bytes": 26638,
+        "sha256": "a7df1cf40dab76fef085745a66b5903d1faff4d014e4b67ffea8d396a1188d59"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/character-select.txt",
+        "kind": "config",
+        "bytes": 10372,
+        "sha256": "a9960605e53069b1ed525d680b686bc8c1b71d6cb17c010ea354b9564a1204d5"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/chatbox.txt",
+        "kind": "config",
+        "bytes": 2933,
+        "sha256": "4972f3f43b5918865b9ef5d98d60db4fa3e029660fd9ff37d7157f83a5052f0c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/class-select.txt",
+        "kind": "config",
+        "bytes": 33338,
+        "sha256": "39a1f9f9ec0dce222b527b6bd9c647cdf32ee09f77ab08abf6503c78ac08e97f"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/com.clefal.teams.client.gui.menu.teamsmainscreen_layout.txt",
+        "kind": "config",
+        "bytes": 6898,
+        "sha256": "598f71ea2138b535cd11325eb7939b419a311f53cc098ace9caa9d719689aa81"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.gui.screens.skill_tree.ascendancytree_layout.txt",
+        "kind": "config",
+        "bytes": 167031,
+        "sha256": "e62ede9430684ffc59db9b58dd4509eaa8ab68444e0da5bd3e7ab263f12174e3"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.gui.screens.stat_gui.statscreen_layout.txt",
+        "kind": "config",
+        "bytes": 21783,
+        "sha256": "15fe1ed103e7991a9cce78b7828cfbcc57fbfece3bc8847677825a7f260ab806"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.prophecy.gui.prophecyscreen_layout.txt",
+        "kind": "config",
+        "bytes": 27860,
+        "sha256": "f57833c81248e6004897969d125f2c1016cdaed77955f6e7d9c643862c68e47f"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.mine_and_slash.gui.screens.map.mapscreen_layout.txt",
+        "kind": "config",
+        "bytes": 7104,
+        "sha256": "b3d4572029e73abcd5be25f761bbe39f93a180d20b2050567b3ae3c06e766913"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/controls_screen_layout.txt",
+        "kind": "config",
+        "bytes": 14788,
+        "sha256": "ed458200104e5ace10591661c730b3a699b2691077eb6e21c334ae02d3c01346"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/creativetab.txt",
+        "kind": "config",
+        "bytes": 2952,
+        "sha256": "67ccc6173976de1e10bc00abf3fa7bf46a05644815ee56a80304e6d9cbf05935"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/curios.txt",
+        "kind": "config",
+        "bytes": 2992,
+        "sha256": "ebd751c051f86590b43f35ff3eabdd9664fd86530a97656ffa7d4ce8d9a83f4c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/ingamemenu.txt",
+        "kind": "config",
+        "bytes": 20790,
+        "sha256": "84777d5738a5f01bd6b4ca50bbac141fa6831b21aff70e9635e0bc7554144cce"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/inventory.txt",
+        "kind": "config",
+        "bytes": 7308,
+        "sha256": "864a2382ae37cae2a47477f17b56932585e679861b7899b1225b14fecd60ea87"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/jewel.txt",
+        "kind": "config",
+        "bytes": 772,
+        "sha256": "ae52d2d579ed5454222e9bb7c5cae52dfe119746f2f5f07bff6f017c60b4a423"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/loading_screen.txt",
+        "kind": "config",
+        "bytes": 1075,
+        "sha256": "7683f5f1da823f0f3c16ea9c2751c1f7587a10a140a83dbbf848bdf5eb4cbc07"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/loadingscreen.txt",
+        "kind": "config",
+        "bytes": 5026,
+        "sha256": "7f644e8b6681afd381fcf6fd258cb76fac248df1344834e714691b4f3899088c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/menu.txt",
+        "kind": "config",
+        "bytes": 40508,
+        "sha256": "114df0da34e2bc2f17b818d1efd881aa296f2922160741cbb7d0900265f16ab9"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/mine-slash-menu.txt",
+        "kind": "config",
+        "bytes": 76302,
+        "sha256": "e14c640f05cf693f75fbddef8e5ef9df0d42c9ecb2593de0ca9868a3b9c2901f"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/multiplayerselect.txt",
+        "kind": "config",
+        "bytes": 17157,
+        "sha256": "22bffcf35c7a9ead970254bb9029f31150570e11f9b2a0766cd0dc1fb803258b"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/optionsmenu.txt",
+        "kind": "config",
+        "bytes": 23411,
+        "sha256": "283637bfa212d47081fdd1230ae16187ca00300e7d60a118d6fb9b5594a97b6b"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/progress.txt",
+        "kind": "config",
+        "bytes": 856,
+        "sha256": "09d8721994f5474623087cb6388c47c0931fc5c4f1673ee562e04b9637102183"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/receiving.txt",
+        "kind": "config",
+        "bytes": 863,
+        "sha256": "1f320341c5746abcc1c4d0af8706822e5f4bd104bf773c3ba10464797a59f4cf"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/salvaging.txt",
+        "kind": "config",
+        "bytes": 2166,
+        "sha256": "2c1cf827e7db76c7287dbf43b9aaede138a03a1b4ca6648b87a793d22a6a4868"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/select_world_screen_layout.txt",
+        "kind": "config",
+        "bytes": 14276,
+        "sha256": "ba3a060b89ec1946e1e1a9ab5c47f7769d7fab8109b70813bb833c69583a35c3"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/skill-gems.txt",
+        "kind": "config",
+        "bytes": 3908,
+        "sha256": "42d60a19e875b2b7dbef397d32438a44df7431b13a9480d36a902dbca960c229"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/talent-tree.txt",
+        "kind": "config",
+        "bytes": 3511,
+        "sha256": "f920ff2333de599b6e76062707edf34ed2b66ac933e5359cefd21992ed7beff8"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/customization/top.theillusivec4.curios.client.gui.curiosscreenv2_layout.txt",
+        "kind": "config",
+        "bytes": 29364,
+        "sha256": "f174264963e9ac28e4493471ff112275172f8ef8493d829699e201d8d0054b6f"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/disc.png",
+        "kind": "config",
+        "bytes": 20959,
+        "sha256": "4b229248f6e3ddc4768fe5d758ac70db0fc4d6766bf5896a1318d97f1a61d10a"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/disc_hover.png",
+        "kind": "config",
+        "bytes": 13544,
+        "sha256": "9f75193143c3e86e62fa5f8eddb5c313fb9ba124fce77c60d6b469c761536171"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/extra_info_button.png",
+        "kind": "config",
+        "bytes": 490,
+        "sha256": "ddc0395cf46028274a38734d4c611d42791a5c5cf5b7e00e217d3304bcfd636f"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/jewel_info.png",
+        "kind": "config",
+        "bytes": 679,
+        "sha256": "088933f16803fb7ce64086bc3404e9055e35ff740cf383bfb287ae6e6e7965b4"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/leftright-hover.png",
+        "kind": "config",
+        "bytes": 334,
+        "sha256": "85ca0a89c4eab1a5efb75a910aac7eae27a06596aefff151df69b6c3627be49d"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/images/leftright.png",
+        "kind": "config",
+        "bytes": 334,
+        "sha256": "a7426d58590fff1917bcb441a73330bf866aba191f5a992ebc7a15d0e6a379d8"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/layout_editor/widgets/element_layer_control.lewidget",
+        "kind": "config",
+        "bytes": 199,
+        "sha256": "657a51130a871d1bc0313212ec0698fd75332f350821b7dc0438151992da95d0"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/legacy_checklist.txt",
+        "kind": "config",
+        "bytes": 42,
+        "sha256": "9a25d3dc708e43eabafce5479a13c02dae15bc7f673afb2745b8b2ba48a97dc0"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/de_de.local",
+        "kind": "config",
+        "bytes": 27376,
+        "sha256": "13485f1d678322a328e798c34f1ff9f7f9c690464d1050e2e7c1ea02b0f49b61"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/en_us.local",
+        "kind": "config",
+        "bytes": 114417,
+        "sha256": "cef0b6b4ed124cb2e5f0f19de2bd86cc59e6f7426a58d6d74bbd3554727553d4"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/pl_pl.local",
+        "kind": "config",
+        "bytes": 13858,
+        "sha256": "66d4e9b270d4d92bffd85b13255def475d3ff6c865965deaa700be2ed1b08bc0"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/pt_br.local",
+        "kind": "config",
+        "bytes": 14283,
+        "sha256": "0b19fc1d8bd8c86435eb39886116aceb3b4554fa749561fc87be2df0157a134c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/ru_ru.local",
+        "kind": "config",
+        "bytes": 155574,
+        "sha256": "2120cd2e1de7d8ec9ee8d18f24db70645e92042ba55ffbbc68403ecdc8a50fce"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/uk_ua.local",
+        "kind": "config",
+        "bytes": 147984,
+        "sha256": "c9a592ff8445f3d8d6a87a59df27e72a67b71afcf0fc03dad27a5ded2f94a780"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/locals/zh_cn.local",
+        "kind": "config",
+        "bytes": 52106,
+        "sha256": "50cf30919fd2c7b11f6ce246425d657e3b93dfb919a0b6fe4730dc5d9fee0d2a"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/menu_identifiers.db",
+        "kind": "config",
+        "bytes": 10497,
+        "sha256": "003a1c89846741e0eb9475089d4ed653896fd08e0b994667fae452b4ad894a72"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/normalized_scroll_screens.json",
+        "kind": "config",
+        "bytes": 54,
+        "sha256": "b335d43527db7d29736e2ec57aac27ee4fd8634f0677a7597692342ea00935c9"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/options.txt",
+        "kind": "config",
+        "bytes": 2274,
+        "sha256": "4f3983eb892b3d61390f63095e2424ad7c7286484ab0cdb6167188374a39b2a2"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/LS/images/2025-09-29_00.44.14.png",
+        "kind": "config",
+        "bytes": 3547591,
+        "sha256": "86601ac3f1ad41a3d4524127592d077548f424d676afc9e554b95db0d37dd462"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/LS/images/2025-09-29_00.44.17.png",
+        "kind": "config",
+        "bytes": 3569268,
+        "sha256": "ecabdc0059defba7d1d9a39ed479c91ed2335a99f20925239300c1f3ddbadbfb"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/LS/properties.txt",
+        "kind": "config",
+        "bytes": 159,
+        "sha256": "bc73a5f056c8f4294b3ebdec5b53ff0ce19a3c907ff446638a69ee83391f4a54"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/MM/images/MM.png",
+        "kind": "config",
+        "bytes": 6241888,
+        "sha256": "1b33ac33ea463e6dac30f0ad1590cc731cae31a3d75c256f57c5506d3ceec034"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/MM/images/MM2.png",
+        "kind": "config",
+        "bytes": 2051551,
+        "sha256": "169ad6bef90a3695b4bcd8b1c0495e397199d43bfac86c9b5f27e65a56e27e6e"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/slideshows/MM/properties.txt",
+        "kind": "config",
+        "bytes": 154,
+        "sha256": "0d261fa0a11a25f6ec862fdb8dcb0b2d99766aa1084ac17afd40e4541a530051"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/ui_themes/dark.json",
+        "kind": "config",
+        "bytes": 6218,
+        "sha256": "3f1263eaf693fdb6a315099b06797ac18830faa66c620916a80337a5082fd850"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/ui_themes/light.json",
+        "kind": "config",
+        "bytes": 6220,
+        "sha256": "3fcfc5f9957fbb86aea846c9ad49a24f47ca709c523c4018b584668e38b72f41"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/user_variables.db",
+        "kind": "config",
+        "bytes": 23,
+        "sha256": "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/fancymenu/video_element_controller_metas.json",
+        "kind": "config",
+        "bytes": 130,
+        "sha256": "b4763d7a498a62f7ef4c159de6753f47f4fa0709434266b790a000b19dba47b5"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/konkrete/locals/de_de.local",
+        "kind": "config",
+        "bytes": 369,
+        "sha256": "79a34cfd15c2d9c06498dc221be79279507d9b57666cd44f8d2c2cf95d3582ef"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/konkrete/locals/en_us.local",
+        "kind": "config",
+        "bytes": 426,
+        "sha256": "fdf1864fd049b3f1b9af1f8db6c5125a627be7d06a451c778da3329843d3c39a"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/konkrete/locals/pl_pl.local",
+        "kind": "config",
+        "bytes": 313,
+        "sha256": "d38a7776e362e4de6082078d803c1c9358d9d40526edfe4bdfd29c552aef76d8"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/konkrete/locals/pt_br.local",
+        "kind": "config",
+        "bytes": 322,
+        "sha256": "dca55a2792451b31424cd5c24037141ec57cdca51955d062dd908fa9ca6a3e9c"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/mine_and_slash-client.toml",
+        "kind": "config",
+        "bytes": 5224,
+        "sha256": "d119feb0ffc3d040db1d6cd97d91d712dcf95fc8229e51075044b1eb726f642d"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/mine_and_slash_neat_gui-client.toml",
+        "kind": "config",
+        "bytes": 1124,
+        "sha256": "73ad09c3874f33807c989a5a0d3f7d2ff3adbe1c1032189e70eefd334c6853dc"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/roe_weapons-bow-settings.toml",
+        "kind": "config",
+        "bytes": 12933,
+        "sha256": "bc7d6ad38adfe36d98b7325f0529c72d4da2e8aaaf58da2c0fa42095d46d89b1"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/roe_weapons-client.toml",
+        "kind": "config",
+        "bytes": 141,
+        "sha256": "2d43aa83facf1d3e837b02eeae3ad79b5cd2b0aec5939832d897b152169624eb"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/roe_weapons-enchantments.toml",
+        "kind": "config",
+        "bytes": 1201,
+        "sha256": "c4b5a4e56b5edd4162c8177f64b21ce67da67c6afb66553d20d9eac984c831f1"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/roe_weapons-settings.toml",
+        "kind": "config",
+        "bytes": 12995,
+        "sha256": "24b745af3085cdad6f661b2dab56f9011575ac78ab0d16352c8651700edf68cb"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/tectonic.json",
+        "kind": "config",
+        "bytes": 1289,
+        "sha256": "8cc0e09d587ca52bbff30ffa48d8583ad1eb3f3a81bfc58fa6837235bc3115d0"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat-client.toml",
+        "kind": "config",
+        "bytes": 94,
+        "sha256": "24a7b91377e08d0d8bc2805793c8150d473241aa816cbaa6fca9d254aa537ca5"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/category-volumes.properties",
+        "kind": "config",
+        "bytes": 46,
+        "sha256": "94c1c4f70e5b995fbd71e86d4fa646030437fecae0685875b560a55fbd0d0e56"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/player-volumes.properties",
+        "kind": "config",
+        "bytes": 44,
+        "sha256": "0332261861a5ace96f503e85b0d48a8df74ea6c2f3545cd229543a6afb55ad96"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/translations.properties",
+        "kind": "config",
+        "bytes": 1182,
+        "sha256": "693643b1d393cbb3ea7f062afc4474fcd66e4036c4f8d7c056434979cbf512d1"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/voicechat-client.properties",
+        "kind": "config",
+        "bytes": 4987,
+        "sha256": "13e2b5c795ad31e82c7ea7cfa4538cc08c58d3a60571cb9257e9221a6f8eda62"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/voicechat-server.properties",
+        "kind": "config",
+        "bytes": 2441,
+        "sha256": "b1877a4162da5d8cba202cb0b44a5d85890aaa64c4186c37970420de0b89b813"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/voicechat/voicechat-volumes.properties",
+        "kind": "config",
+        "bytes": 37,
+        "sha256": "58242ef3075b166845e0081281b01113a55b9d095104a68b167e7b4bc08b87c5"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/wom-client.toml",
+        "kind": "config",
+        "bytes": 194,
+        "sha256": "15fd94c0bf9fb491c4b9344064f3d5ce994a731d351ad89be89e5f1430ac35fb"
+      },
+      {
+        "path": "Launcher/pack/overrides/config/wom.toml",
+        "kind": "config",
+        "bytes": 160,
+        "sha256": "74947dc61dad14d5cfdc7ac3723d0c31708ec7fa2f114097bdcf68f6b4b9603f"
+      },
+      {
+        "path": "Launcher/pack/overrides/openloader/advanced_options.json",
+        "kind": "openloader",
+        "bytes": 148,
+        "sha256": "97c64147276f55cad728249dd77602661e2327fa178aeb8e0db12866df448211"
+      },
+      {
+        "path": "Launcher/pack/overrides/options.txt",
+        "kind": "override",
+        "bytes": 6960,
+        "sha256": "9443a616c52e55b2a0239bfb2af7b935193c8a1529aacd42689ebf0d12757f30"
+      }
+    ],
+    "countsByKind": {
+      "config": 124,
+      "openloader": 1,
+      "override": 1
+    },
+    "countsByExtension": {
+      ".db": 2,
+      ".fma": 1,
+      ".icns": 2,
+      ".json": 7,
+      ".lewidget": 1,
+      ".local": 11,
+      ".mp3": 1,
+      ".ogg": 1,
+      ".png": 41,
+      ".properties": 6,
+      ".toml": 16,
+      ".txt": 37
+    }
+  },
+  "serverSanitized": {
+    "directorySummary": [
+      {
+        "Directory": "local",
+        "Files": "46127",
+        "Bytes": "19911831525"
+      },
+      {
+        "Directory": "world",
+        "Files": "7674",
+        "Bytes": "9350320382"
+      },
+      {
+        "Directory": "mods",
+        "Files": "195",
+        "Bytes": "931848092"
+      },
+      {
+        "Directory": "config",
+        "Files": "5972",
+        "Bytes": "185491804"
+      },
+      {
+        "Directory": "libraries",
+        "Files": "104",
+        "Bytes": "166360202"
+      },
+      {
+        "Directory": "logs",
+        "Files": "166",
+        "Bytes": "82157033"
+      },
+      {
+        "Directory": "modernfix",
+        "Files": "1832",
+        "Bytes": "33301870"
+      },
+      {
+        "Directory": "crash-reports",
+        "Files": "16",
+        "Bytes": "1319584"
+      },
+      {
+        "Directory": "kubejs",
+        "Files": "11",
+        "Bytes": "24631"
+      },
+      {
+        "Directory": "server-icon.png",
+        "Files": "1",
+        "Bytes": "12121"
+      },
+      {
+        "Directory": "defaultconfigs",
+        "Files": "4",
+        "Bytes": "10415"
+      },
+      {
+        "Directory": "VOID MMORPG Panel.exe",
+        "Files": "1",
+        "Bytes": "5120"
+      },
+      {
+        "Directory": ".vscode",
+        "Files": "4",
+        "Bytes": "5096"
+      },
+      {
+        "Directory": ".codex",
+        "Files": "5",
+        "Bytes": "4615"
+      },
+      {
+        "Directory": "AGENTS.md",
+        "Files": "1",
+        "Bytes": "3730"
+      },
+      {
+        "Directory": "META-INF",
+        "Files": "1",
+        "Bytes": "2432"
+      },
+      {
+        "Directory": ".agents",
+        "Files": "1",
+        "Bytes": "2374"
+      },
+      {
+        "Directory": ".lazyyyyy",
+        "Files": "1",
+        "Bytes": "1972"
+      },
+      {
+        "Directory": "server.properties",
+        "Files": "1",
+        "Bytes": "1525"
+      },
+      {
+        "Directory": "ops.json",
+        "Files": "1",
+        "Bytes": "940"
+      },
+      {
+        "Directory": "usercache.json",
+        "Files": "1",
+        "Bytes": "746"
+      },
+      {
+        "Directory": "run.bat",
+        "Files": "1",
+        "Bytes": "527"
+      },
+      {
+        "Directory": "usernamecache.json",
+        "Files": "1",
+        "Bytes": "434"
+      },
+      {
+        "Directory": "run.sh",
+        "Files": "1",
+        "Bytes": "365"
+      },
+      {
+        "Directory": "user_jvm_args.txt",
+        "Files": "1",
+        "Bytes": "346"
+      },
+      {
+        "Directory": ".editorconfig",
+        "Files": "1",
+        "Bytes": "225"
+      },
+      {
+        "Directory": "start_void_panel.vbs",
+        "Files": "1",
+        "Bytes": "208"
+      },
+      {
+        "Directory": "eula.txt",
+        "Files": "1",
+        "Bytes": "160"
+      },
+      {
+        "Directory": "rhino.local.properties",
+        "Files": "1",
+        "Bytes": "141"
+      },
+      {
+        "Directory": "start_void_panel.bat",
+        "Files": "1",
+        "Bytes": "80"
+      },
+      {
+        "Directory": "banned-players.json",
+        "Files": "1",
+        "Bytes": "2"
+      },
+      {
+        "Directory": "banned-ips.json",
+        "Files": "1",
+        "Bytes": "2"
+      },
+      {
+        "Directory": "whitelist.json",
+        "Files": "1",
+        "Bytes": "2"
+      }
+    ],
+    "openLoaderPacks": [
+      {
+        "name": "cte_configuration",
+        "files": 371,
+        "bytes": 565242
+      },
+      {
+        "name": "cte_epicfight_mns_staff_compat",
+        "files": 4,
+        "bytes": 238
+      },
+      {
+        "name": "cte_epicfight_roe_compat",
+        "files": 157,
+        "bytes": 9367
+      },
+      {
+        "name": "cte_events",
+        "files": 3,
+        "bytes": 19052
+      },
+      {
+        "name": "cte_fix",
+        "files": 22,
+        "bytes": 8531
+      },
+      {
+        "name": "cte_mns",
+        "files": 4894,
+        "bytes": 15440764
+      }
+    ],
+    "publicTemplates": [
+      "Servidor/templates/server.properties.example",
+      "Servidor/templates/user_jvm_args.example.txt"
+    ],
+    "valuesExported": false,
+    "reason": "valores, segredos, identidades e estado vivo permanecem no workspace privado"
+  },
+  "modMappings": {
+    "armourers_workshop": [
+      "Launcher/pack/overrides/config/armourers_workshop-client.toml",
+      "Launcher/pack/overrides/config/armourers_workshop-common.toml"
+    ],
+    "curios": [
+      "Launcher/pack/overrides/config/curios-client.toml",
+      "Launcher/pack/overrides/config/curios-common.toml",
+      "Launcher/pack/overrides/config/fancymenu/customization/curios.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/top.theillusivec4.curios.client.gui.curiosscreenv2_layout.txt"
+    ],
+    "epicfight": [
+      "Launcher/pack/overrides/config/epicfight-client.toml",
+      "Launcher/pack/overrides/config/epicfight.toml",
+      "Servidor:config/openloader/data/cte_epicfight_mns_staff_compat (agregado sanitizado)",
+      "Servidor:config/openloader/data/cte_epicfight_roe_compat (agregado sanitizado)"
+    ],
+    "fancymenu": [
+      "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.20.31.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.25.42.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.25.48.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/2025-09-29_00.26.15.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/2025-10-02_16.45.37.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/foto1.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/foto2.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/food_book.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/food_book_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_quests.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_quests_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_teams.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/ftb_teams_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub-inventory.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub-inventory_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/hub_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/map.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/map_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/mns_teams.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/inventory/mns_teams_h.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/loading_bar.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/loading_bar_loading.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/mahj_1294853429_mainmenu.fma",
+      "Launcher/pack/overrides/config/fancymenu/assets/moldura_rustica1.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/musica inicial.mp3",
+      "Launcher/pack/overrides/config/fancymenu/assets/musica-inicial.ogg",
+      "Launcher/pack/overrides/config/fancymenu/assets/play_400x40.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/play_rpg_400x40.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/void.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_16x16.icns",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_16x16.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_32x32.icns",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_32x32.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_64x64.png",
+      "Launcher/pack/overrides/config/fancymenu/assets/voidfall_icon_16x16.png",
+      "Launcher/pack/overrides/config/fancymenu/audio_element_controller_metas.json",
+      "Launcher/pack/overrides/config/fancymenu/config.txt",
+      "Launcher/pack/overrides/config/fancymenu/custom_gui_screens.txt",
+      "Launcher/pack/overrides/config/fancymenu/customizablemenus.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/ascension.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/bestiary.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/character-select.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/chatbox.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/class-select.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/com.clefal.teams.client.gui.menu.teamsmainscreen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.gui.screens.skill_tree.ascendancytree_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.gui.screens.stat_gui.statscreen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.age_of_exile.prophecy.gui.prophecyscreen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/com.robertx22.mine_and_slash.gui.screens.map.mapscreen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/controls_screen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/creativetab.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/curios.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/ingamemenu.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/inventory.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/jewel.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/loading_screen.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/loadingscreen.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/menu.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/mine-slash-menu.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/multiplayerselect.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/optionsmenu.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/progress.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/receiving.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/salvaging.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/select_world_screen_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/skill-gems.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/talent-tree.txt",
+      "Launcher/pack/overrides/config/fancymenu/customization/top.theillusivec4.curios.client.gui.curiosscreenv2_layout.txt",
+      "Launcher/pack/overrides/config/fancymenu/images/disc.png",
+      "Launcher/pack/overrides/config/fancymenu/images/disc_hover.png",
+      "Launcher/pack/overrides/config/fancymenu/images/extra_info_button.png",
+      "Launcher/pack/overrides/config/fancymenu/images/jewel_info.png",
+      "Launcher/pack/overrides/config/fancymenu/images/leftright-hover.png",
+      "Launcher/pack/overrides/config/fancymenu/images/leftright.png",
+      "Launcher/pack/overrides/config/fancymenu/layout_editor/widgets/element_layer_control.lewidget",
+      "Launcher/pack/overrides/config/fancymenu/legacy_checklist.txt",
+      "Launcher/pack/overrides/config/fancymenu/locals/de_de.local",
+      "Launcher/pack/overrides/config/fancymenu/locals/en_us.local",
+      "Launcher/pack/overrides/config/fancymenu/locals/pl_pl.local"
+    ],
+    "konkrete": [
+      "Launcher/pack/overrides/config/konkrete/locals/de_de.local",
+      "Launcher/pack/overrides/config/konkrete/locals/en_us.local",
+      "Launcher/pack/overrides/config/konkrete/locals/pl_pl.local",
+      "Launcher/pack/overrides/config/konkrete/locals/pt_br.local"
+    ],
+    "openloader": [
+      "Launcher/pack/overrides/openloader/advanced_options.json"
+    ],
+    "roe_weapons": [
+      "Launcher/pack/overrides/config/roe_weapons-bow-settings.toml",
+      "Launcher/pack/overrides/config/roe_weapons-client.toml",
+      "Launcher/pack/overrides/config/roe_weapons-enchantments.toml",
+      "Launcher/pack/overrides/config/roe_weapons-settings.toml"
+    ],
+    "tectonic": [
+      "Launcher/pack/overrides/config/tectonic.json"
+    ],
+    "voicechat": [
+      "Launcher/pack/overrides/config/voicechat-client.toml",
+      "Launcher/pack/overrides/config/voicechat/category-volumes.properties",
+      "Launcher/pack/overrides/config/voicechat/player-volumes.properties",
+      "Launcher/pack/overrides/config/voicechat/translations.properties",
+      "Launcher/pack/overrides/config/voicechat/voicechat-client.properties",
+      "Launcher/pack/overrides/config/voicechat/voicechat-server.properties",
+      "Launcher/pack/overrides/config/voicechat/voicechat-volumes.properties"
+    ]
+  },
+  "phase7SchemaCandidates": [
+    {
+      "id": "forge_toml_v1",
+      "patterns": [
+        "config/*.toml"
+      ],
+      "status": "candidate_not_selected"
+    },
+    {
+      "id": "java_properties_v1",
+      "patterns": [
+        "config/**/*.properties"
+      ],
+      "status": "candidate_not_selected"
+    },
+    {
+      "id": "openloader_json_v1",
+      "patterns": [
+        "openloader/*.json",
+        "config/openloader/**/*.json"
+      ],
+      "status": "candidate_not_selected"
+    },
+    {
+      "id": "fancymenu_text_v1",
+      "patterns": [
+        "config/fancymenu/**/*.txt"
+      ],
+      "status": "candidate_not_selected"
+    },
+    {
+      "id": "minecraft_options_v1",
+      "patterns": [
+        "options.txt"
+      ],
+      "status": "candidate_not_selected"
+    }
+  ],
+  "selectionRule": "nenhum schema é suportado até revisão humana de campos, limites, reinício, migração e rollback"
+}

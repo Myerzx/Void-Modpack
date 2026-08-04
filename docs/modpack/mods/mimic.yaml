@@ -1,0 +1,62 @@
+mod:
+  id: "mimic"
+  ids_declarados:
+    - "mimic"
+  nome: "The Mimic"
+  arquivo: "mimic-1.0.5.jar"
+  artefatos:
+    - artifactId: "sha256:d36e71a424411cde08187bc35a11a650b681ee4f0f29897904f34313c4294dae"
+      fileName: "mimic-1.0.5.jar"
+      sha256: "d36e71a424411cde08187bc35a11a650b681ee4f0f29897904f34313c4294dae"
+      bytes: 6409566
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.5"
+  versao_instalada: "1.0.5"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

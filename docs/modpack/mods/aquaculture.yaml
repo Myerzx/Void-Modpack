@@ -1,0 +1,61 @@
+mod:
+  id: "aquaculture"
+  ids_declarados:
+    - "aquaculture"
+  nome: "Aquaculture 2"
+  arquivo: "Aquaculture-1.20.1-2.5.7.jar"
+  artefatos:
+    - artifactId: "sha256:4c96cf0dd3363a8e15f9ef6b6bfc00ac7d4791e8e9eeebe19b8092c59e800f8f"
+      fileName: "Aquaculture-1.20.1-2.5.7.jar"
+      sha256: "4c96cf0dd3363a8e15f9ef6b6bfc00ac7d4791e8e9eeebe19b8092c59e800f8f"
+      bytes: 601839
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2.5.7"
+  versao_instalada: "2.5.7"
+  versoes_observadas_incluindo_desativadas:
+    - "2.5.7"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Welcome to Aquaculture! An expansion of Minecraft's fishing system."
+  funcao_principal: "Welcome to Aquaculture! An expansion of Minecraft's fishing system."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

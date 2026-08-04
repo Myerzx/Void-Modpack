@@ -1,0 +1,61 @@
+mod:
+  id: "efs_iss"
+  ids_declarados:
+    - "efs_iss"
+  nome: "Epic Fight Skill - Iron's Spells 'n Spellbooks"
+  arquivo: "efs_iss-1.0.3.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:d7f7a0405ff5b1c859513ff4baf54238b18542fb43d7d3a84a1629f4ec328aca"
+      fileName: "efs_iss-1.0.3.jar.disabled"
+      sha256: "d7f7a0405ff5b1c859513ff4baf54238b18542fb43d7d3a84a1629f4ec328aca"
+      bytes: 299741
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.0.3"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "combate"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

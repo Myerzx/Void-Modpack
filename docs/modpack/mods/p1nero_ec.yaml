@@ -1,0 +1,66 @@
+mod:
+  id: "p1nero_ec"
+  ids_declarados:
+    - "p1nero_ec"
+  nome: "P1nero's Epic Cataclysm"
+  arquivo: "p1nero_ec-20.14.0.7.jar"
+  artefatos:
+    - artifactId: "sha256:cc9d14878d1f882105a6670d30203d8b686c797226f7d2f66bd4fb4dc899f885"
+      fileName: "p1nero_ec-20.14.0.7.jar"
+      sha256: "cc9d14878d1f882105a6670d30203d8b686c797226f7d2f66bd4fb4dc899f885"
+      bytes: 4075485
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.14.0.7"
+  versao_instalada: "20.14.0.7"
+  versoes_observadas_incluindo_desativadas:
+    - "20.14.0.7"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Epic Fight x Cataclysm Weapon"
+  funcao_principal: "Epic Fight x Cataclysm Weapon"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "cataclysm"
+    - "efn"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "tcrcore"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

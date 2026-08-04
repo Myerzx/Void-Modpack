@@ -1,0 +1,60 @@
+mod:
+  id: "cfm"
+  ids_declarados:
+    - "cfm"
+  nome: "MrCrayfish's Furniture Mod"
+  arquivo: "cfm-forge-1.20.1-7.0.0-pre36.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:5fdbc245003d2cb46b92eb9120d7bca7f03422628daed24c818baa195efe8663"
+      fileName: "cfm-forge-1.20.1-7.0.0-pre36.jar.disabled"
+      sha256: "5fdbc245003d2cb46b92eb9120d7bca7f03422628daed24c818baa195efe8663"
+      bytes: 2613393
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "7.0.0-pre36"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "7.0.0-pre36"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "MrCrayfish's Furniture Mod is all about adding functioning furniture and decorations. This mod currently adds over eighty unique blocks and is continuely growing with new updates."
+  funcao_principal: "MrCrayfish's Furniture Mod is all about adding functioning furniture and decorations. This mod currently adds over eighty unique blocks and is continuely growing with new updates."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

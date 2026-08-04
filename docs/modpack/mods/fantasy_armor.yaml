@@ -1,0 +1,62 @@
+mod:
+  id: "fantasy_armor"
+  ids_declarados:
+    - "fantasy_armor"
+  nome: "Fantasy Armor"
+  arquivo: "fantasy_armor-forge-1.2-1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:c954e9055be18bf14eb6c3bb14329fc49cd73787fa45f45dadf36462f200275f"
+      fileName: "fantasy_armor-forge-1.2-1.20.1.jar"
+      sha256: "c954e9055be18bf14eb6c3bb14329fc49cd73787fa45f45dadf36462f200275f"
+      bytes: 544531
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.2-1.20.1"
+  versao_instalada: "1.2-1.20.1"
+  versoes_observadas_incluindo_desativadas:
+    - "1.2-1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Welcome to the world of fantasy equipment! This mod adds awesome armor sets that will diversify your look and help you better express yourself and your character. Don't forget to…"
+  funcao_principal: "Welcome to the world of fantasy equipment! This mod adds awesome armor sets that will diversify your look and help you better express yourself and your character. Don't forget to…"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

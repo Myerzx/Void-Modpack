@@ -1,0 +1,75 @@
+mod:
+  id: "packetfixer"
+  ids_declarados:
+    - "packetfixer"
+  nome: "PacketFixer"
+  arquivo: "packetfixer-3.3.1-1.18-1.20.4-merged.jar"
+  artefatos:
+    - artifactId: "sha256:4f641e4e204315a55b3f5a33e3039076ba08c95b68ac9280ea0081fb27470c13"
+      fileName: "packetfixer-3.3.1-1.18-1.20.4-merged.jar"
+      sha256: "4f641e4e204315a55b3f5a33e3039076ba08c95b68ac9280ea0081fb27470c13"
+      bytes: 188673
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "3.3.1"
+    - artifactId: "sha256:4f641e4e204315a55b3f5a33e3039076ba08c95b68ac9280ea0081fb27470c13"
+      fileName: "packetfixer-3.3.1-1.18-1.20.4-merged.jar"
+      sha256: "4f641e4e204315a55b3f5a33e3039076ba08c95b68ac9280ea0081fb27470c13"
+      bytes: 188673
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "3.3.1"
+  versao_instalada: "3.3.1"
+  versoes_observadas_incluindo_desativadas:
+    - "3.3.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+    - "neoforge"
+  lado: "ambos"
+  categoria: "rede"
+  descricao_curta: "A simple mod to solve various problems with packets."
+  funcao_principal: "A simple mod to solve various problems with packets."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais:
+    - "forge"
+    - "neoforge"
+  dependentes: []
+  integracoes:
+    - "forge"
+    - "neoforge"
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "pacotes, latência e sincronização cliente-servidor"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "META-INF/neoforge.mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

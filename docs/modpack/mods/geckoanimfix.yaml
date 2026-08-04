@@ -1,0 +1,59 @@
+mod:
+  id: "geckoanimfix"
+  ids_declarados:
+    - "geckoanimfix"
+  nome: "GeckoLibIrisCompat"
+  arquivo: "GeckoLibOculusCompat-Forge-1.0.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:d2047c888aa0ded9ba13a24d3eafd37239e28a9eea0b18d20a3e3e74a3a19250"
+      fileName: "GeckoLibOculusCompat-Forge-1.0.1.jar.disabled"
+      sha256: "d2047c888aa0ded9ba13a24d3eafd37239e28a9eea0b18d20a3e3e74a3a19250"
+      bytes: 6239
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.0.0"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "bibliotecas"
+  descricao_curta: "Fixes GeckoLib animations not playing while using shaderpacks that add entity shadows"
+  funcao_principal: "Fixes GeckoLib animations not playing while using shaderpacks that add entity shadows"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

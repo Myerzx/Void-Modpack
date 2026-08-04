@@ -1,0 +1,62 @@
+mod:
+  id: "kotlinforforge"
+  ids_declarados:
+    - "kotlinforforge"
+  nome: "Kotlin For Forge"
+  arquivo: "kotlinforforge-4.12.0-all.jar"
+  artefatos:
+    - artifactId: "sha256:6a66c6a68ec09f8717cdbf06883394f0ee24d7cd826b7134a0f81839e8e720ae"
+      fileName: "kotlinforforge-4.12.0-all.jar"
+      sha256: "6a66c6a68ec09f8717cdbf06883394f0ee24d7cd826b7134a0f81839e8e720ae"
+      bytes: 7442998
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "4.12.0"
+  versao_instalada: "4.12.0"
+  versoes_observadas_incluindo_desativadas:
+    - "4.12.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Makes Kotlin forge-friendly"
+  funcao_principal: "Makes Kotlin forge-friendly"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "chatplus"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/kffmod-4.12.0.jar!META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

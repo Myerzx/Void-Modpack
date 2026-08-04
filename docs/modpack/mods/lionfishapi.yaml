@@ -1,0 +1,64 @@
+mod:
+  id: "lionfishapi"
+  ids_declarados:
+    - "lionfishapi"
+  nome: "LionfishAPI"
+  arquivo: "lionfishapi-2.4-Fix.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:7f54de417aae331bf39f2847d3029d0976b90b50f217f9b4cc856433d34aee6f"
+      fileName: "lionfishapi-2.4-Fix.jar.disabled"
+      sha256: "7f54de417aae331bf39f2847d3029d0976b90b50f217f9b4cc856433d34aee6f"
+      bytes: 162767
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "2.4-Fix"
+  versao_instalada: "2.4-Fix"
+  versoes_observadas_incluindo_desativadas:
+    - "2.4-Fix"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "HELLO"
+  funcao_principal: "HELLO"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes:
+    - "cataclysm"
+    - "dodosmobs"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

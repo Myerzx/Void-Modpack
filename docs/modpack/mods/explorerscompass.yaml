@@ -1,0 +1,61 @@
+mod:
+  id: "explorerscompass"
+  ids_declarados:
+    - "explorerscompass"
+  nome: "Explorer's Compass"
+  arquivo: "explorerscompass-edited-1.20.1-1.4.0-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:216e13b90e5bd04595f33aa674f2496130019a43b8631f56a3ff8bc4cf31e1ac"
+      fileName: "explorerscompass-edited-1.20.1-1.4.0-forge.jar.disabled"
+      sha256: "216e13b90e5bd04595f33aa674f2496130019a43b8631f56a3ff8bc4cf31e1ac"
+      bytes: 186196
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.20.1-1.3.3-forge"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.3.3-forge"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "mundo"
+  descricao_curta: "Search for and locate structures anywhere in the world."
+  funcao_principal: "Search for and locate structures anywhere in the world."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

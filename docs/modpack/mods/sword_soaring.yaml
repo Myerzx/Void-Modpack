@@ -1,0 +1,66 @@
+mod:
+  id: "sword_soaring"
+  ids_declarados:
+    - "sword_soaring"
+  nome: "Epic Fight - Sword Soaring"
+  arquivo: "sword_soaring-20.14.2.7-mc1.20.1-forge.jar"
+  artefatos:
+    - artifactId: "sha256:d6f3f97b12e985de9a76a0a2010ce7497181d6eaef039396335ece07127a1250"
+      fileName: "sword_soaring-20.14.2.7-mc1.20.1-forge.jar"
+      sha256: "d6f3f97b12e985de9a76a0a2010ce7497181d6eaef039396335ece07127a1250"
+      bytes: 17018004
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.14.2.7"
+  versao_instalada: "20.14.2.7"
+  versoes_observadas_incluindo_desativadas:
+    - "20.14.2.7"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "epicfight"
+    - "forge"
+    - "invincible"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "tcrcore"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

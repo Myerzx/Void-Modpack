@@ -1,0 +1,61 @@
+mod:
+  id: "enemyexpansion"
+  ids_declarados:
+    - "enemyexpansion"
+  nome: "Enemy Expansion"
+  arquivo: "enemyexpansion-2.3.1-forge-1.20.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:c7b13fc90273427594aaf83e436999c0ea5ecb44b30a8049dcd3323ce23e7268"
+      fileName: "enemyexpansion-2.3.1-forge-1.20.1.jar.disabled"
+      sha256: "c7b13fc90273427594aaf83e436999c0ea5ecb44b30a8049dcd3323ce23e7268"
+      bytes: 1006273
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "2.3.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "2.3.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "cliente"
+  descricao_curta: "Adding more enemies to Minecraft!"
+  funcao_principal: "Adding more enemies to Minecraft!"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais:
+    - "geckolib"
+  dependentes: []
+  integracoes:
+    - "geckolib"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

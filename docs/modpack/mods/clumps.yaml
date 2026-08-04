@@ -1,0 +1,58 @@
+mod:
+  id: "clumps"
+  ids_declarados:
+    - "clumps"
+  nome: "Clumps"
+  arquivo: "Clumps-forge-1.20.1-12.0.0.4.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:1d1cfcf386f182b1d0bdbe4bd4fc57b96234e8c7468e95e1575ad4dd6433243a"
+      fileName: "Clumps-forge-1.20.1-12.0.0.4.jar.disabled"
+      sha256: "1d1cfcf386f182b1d0bdbe4bd4fc57b96234e8c7468e95e1575ad4dd6433243a"
+      bytes: 20299
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "12.0.0.4"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "12.0.0.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "Clumps xp orbs together."
+  funcao_principal: "Clumps xp orbs together."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

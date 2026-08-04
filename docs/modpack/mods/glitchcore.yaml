@@ -1,0 +1,59 @@
+mod:
+  id: "glitchcore"
+  ids_declarados:
+    - "glitchcore"
+  nome: "GlitchCore"
+  arquivo: "GlitchCore-forge-1.20.1-0.0.1.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:e42a8b513da08a910c133caeafad9fc2fcc22fdaaa2eb3e2516e9112a5a0db61"
+      fileName: "GlitchCore-forge-1.20.1-0.0.1.1.jar.disabled"
+      sha256: "e42a8b513da08a910c133caeafad9fc2fcc22fdaaa2eb3e2516e9112a5a0db61"
+      bytes: 87550
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "0.0.1.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "0.0.1.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "bibliotecas"
+  descricao_curta: "A library mod aimed at abstracting mod loaders and providing various utilities for our mods."
+  funcao_principal: "A library mod aimed at abstracting mod loaders and providing various utilities for our mods."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

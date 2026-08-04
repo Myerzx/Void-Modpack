@@ -1,0 +1,60 @@
+mod:
+  id: "rpg_origins"
+  ids_declarados:
+    - "rpg_origins"
+  nome: "RPG Origins"
+  arquivo: "RPG Origins Forge 1.4.4.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:179576b0500b7dc078cfe2b1160e624ccc6ef8ca472b797b9550dc1e720918ba"
+      fileName: "RPG Origins Forge 1.4.4.jar.disabled"
+      sha256: "179576b0500b7dc078cfe2b1160e624ccc6ef8ca472b797b9550dc1e720918ba"
+      bytes: 52506
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.4.4"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.4.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "progressao"
+  descricao_curta: "Adds 7 new origins based off of RPG Classes."
+  funcao_principal: "Adds 7 new origins based off of RPG Classes."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+    - "origins"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "dados persistentes, missões e regras de progressão"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

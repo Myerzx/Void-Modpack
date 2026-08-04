@@ -1,0 +1,63 @@
+mod:
+  id: "corgilib"
+  ids_declarados:
+    - "corgilib"
+  nome: "CorgiLib"
+  arquivo: "Corgilib-Forge-1.20.1-4.0.3.4.jar"
+  artefatos:
+    - artifactId: "sha256:9e638c7e73d997bb4ecba4aa40de90e89dd15fdbc4235fb997eed9ad43c10cd3"
+      fileName: "Corgilib-Forge-1.20.1-4.0.3.4.jar"
+      sha256: "9e638c7e73d997bb4ecba4aa40de90e89dd15fdbc4235fb997eed9ad43c10cd3"
+      bytes: 360700
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "4.0.3.4"
+  versao_instalada: "4.0.3.4"
+  versoes_observadas_incluindo_desativadas:
+    - "4.0.3.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Library with handy utilities."
+  funcao_principal: "Library with handy utilities."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "biomeswevegone"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

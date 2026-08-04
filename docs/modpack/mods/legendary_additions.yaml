@@ -1,0 +1,60 @@
+mod:
+  id: "legendary_additions"
+  ids_declarados:
+    - "legendary_additions"
+  nome: "Legendary Additions"
+  arquivo: "legendary_additions-1.20.1-1.0.13.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:0ea5cbf4e01288b68c65a3b57924ed0cf95bee326ea5043c7dc55b3c9a370ce1"
+      fileName: "legendary_additions-1.20.1-1.0.13.1.jar.disabled"
+      sha256: "0ea5cbf4e01288b68c65a3b57924ed0cf95bee326ea5043c7dc55b3c9a370ce1"
+      bytes: 786139
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.20.1-1.0.13.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.0.13.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "Includes several little features and nice-to-have items or blocks."
+  funcao_principal: "Includes several little features and nice-to-have items or blocks."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

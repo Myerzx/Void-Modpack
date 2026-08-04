@@ -1,0 +1,345 @@
+{
+  "modsFound": 245,
+  "modsAnalyzed": 299,
+  "libraries": 43,
+  "criticalMods": 45,
+  "clientMods": 52,
+  "serverMods": 2,
+  "bothSides": 191,
+  "missingDependencies": 0,
+  "incompatibilities": 6,
+  "probableConflicts": 2,
+  "removalCandidates": 78,
+  "unverifiedItems": 7,
+  "documentationFiles": 332,
+  "topRisks": [
+    {
+      "modId": "epicfight",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "17 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "geckolib",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "10 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "architectury",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "12 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "curios",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "6 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "efn",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "invincible",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cloth_config",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "7 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "library_of_exile",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ba_bt",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cataclysm",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "3 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    }
+  ],
+  "singlePointsOfFailure": [
+    {
+      "modId": "epicfight",
+      "requiredDependents": [
+        "betterlockon",
+        "dodge_parry_reward",
+        "efn",
+        "epic_fight_avalon",
+        "epicfightx",
+        "falchionmoveset",
+        "indestructible",
+        "invincible",
+        "p1nero_bow",
+        "soulslikeuniverse",
+        "super_golem",
+        "super_warden",
+        "sword_soaring",
+        "tcr_bosses",
+        "tcrcore",
+        "wom",
+        "wraithon"
+      ]
+    },
+    {
+      "modId": "architectury",
+      "requiredDependents": [
+        "aaa_particles_world",
+        "artifacts",
+        "chatplus",
+        "fallingtrees",
+        "ftblibrary",
+        "ftbquests",
+        "ftbteams",
+        "ftbxmodcompat",
+        "kubejs",
+        "magistuarmory",
+        "pandalib",
+        "simplyswords"
+      ]
+    },
+    {
+      "modId": "geckolib",
+      "requiredDependents": [
+        "biomeswevegone",
+        "bookofdragons",
+        "bosses_of_mass_destruction",
+        "entityjs",
+        "graveyard",
+        "irons_spellbooks",
+        "mowziesmobs",
+        "ribbits",
+        "saintsdragons",
+        "swem"
+      ]
+    },
+    {
+      "modId": "cloth_config",
+      "requiredDependents": [
+        "artifacts",
+        "bosses_of_mass_destruction",
+        "combatroll",
+        "magistuarmory",
+        "simplyswords",
+        "taxfreelevels",
+        "uniqueaccessories"
+      ]
+    },
+    {
+      "modId": "curios",
+      "requiredDependents": [
+        "aether",
+        "artifacts",
+        "irons_spellbooks",
+        "mmorpg",
+        "radiantgear",
+        "uniqueaccessories"
+      ]
+    },
+    {
+      "modId": "cupboard",
+      "requiredDependents": [
+        "chunksending",
+        "fastasyncworldsave",
+        "limitedchunks",
+        "smoothchunk"
+      ]
+    },
+    {
+      "modId": "efn",
+      "requiredDependents": [
+        "efn_enhance",
+        "p1nero_ec",
+        "tcr_bosses",
+        "tcrcore"
+      ]
+    },
+    {
+      "modId": "epic_fight_avalon",
+      "requiredDependents": [
+        "efn",
+        "super_golem",
+        "super_warden",
+        "wraithon"
+      ]
+    },
+    {
+      "modId": "ftblibrary",
+      "requiredDependents": [
+        "ftbessentials",
+        "ftbquests",
+        "ftbteams",
+        "ftbxmodcompat"
+      ]
+    },
+    {
+      "modId": "library_of_exile",
+      "requiredDependents": [
+        "ancient_obelisks",
+        "dungeon_realm",
+        "mmorpg",
+        "the_harvest"
+      ]
+    },
+    {
+      "modId": "playeranimator",
+      "requiredDependents": [
+        "combatroll",
+        "irons_spellbooks",
+        "mmorpg",
+        "swem"
+      ]
+    },
+    {
+      "modId": "cataclysm",
+      "requiredDependents": [
+        "cataclysm_dimension",
+        "p1nero_ec",
+        "tcrcore"
+      ]
+    },
+    {
+      "modId": "yungsapi",
+      "requiredDependents": [
+        "betterendisland",
+        "ribbits",
+        "travelerstitles"
+      ]
+    },
+    {
+      "modId": "ba_bt",
+      "requiredDependents": [
+        "tcr_bosses",
+        "tcrcore"
+      ]
+    },
+    {
+      "modId": "balm",
+      "requiredDependents": [
+        "defaultoptions",
+        "waystones"
+      ]
+    },
+    {
+      "modId": "calio",
+      "requiredDependents": [
+        "apoli",
+        "origins"
+      ]
+    },
+    {
+      "modId": "citadel",
+      "requiredDependents": [
+        "alexsmobs",
+        "domesticationinnovation"
+      ]
+    },
+    {
+      "modId": "embeddium",
+      "requiredDependents": [
+        "chloride",
+        "flerovium"
+      ]
+    },
+    {
+      "modId": "iceberg",
+      "requiredDependents": [
+        "itemborders",
+        "legendarytooltips"
+      ]
+    },
+    {
+      "modId": "invincible",
+      "requiredDependents": [
+        "efn",
+        "sword_soaring"
+      ]
+    }
+  ],
+  "manualValidation": [
+    "alinhar Forge do cliente e servidor",
+    "selecionar o catálogo cliente compatível com o servidor",
+    "resolver origem/licença de cada artefato",
+    "validar valores de configuração sem publicá-los",
+    "importar em launcher limpo, iniciar, criar mundo e conectar ao servidor",
+    "executar backup e restauração antes de remoções/atualizações"
+  ],
+  "nextSteps": [
+    "revisar `compatibilidade.json` e selecionar schemas explícitos para a Fase 7",
+    "resolver divergências de baseline e revisar integrações opcionais",
+    "promover somente configurações necessárias e sanitizadas",
+    "executar matriz de smoke tests cliente-servidor"
+  ]
+}

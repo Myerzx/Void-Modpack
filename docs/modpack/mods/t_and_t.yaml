@@ -1,0 +1,63 @@
+mod:
+  id: "t_and_t"
+  ids_declarados:
+    - "t_and_t"
+  nome: "Towns and Towers"
+  arquivo: "Towns-and-Towers-1.12-Fabric+Forge.jar"
+  artefatos:
+    - artifactId: "sha256:9c8115af7109579da990249fdd67b38323a45be70f8a3a962b61da69c7021984"
+      fileName: "Towns-and-Towers-1.12-Fabric+Forge.jar"
+      sha256: "9c8115af7109579da990249fdd67b38323a45be70f8a3a962b61da69c7021984"
+      bytes: 2864275
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.10.2"
+  versao_instalada: "1.10.2"
+  versoes_observadas_incluindo_desativadas:
+    - "1.10.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Spice up your world with new villages, pillager outposts, and even new ships!"
+  funcao_principal: "Spice up your world with new villages, pillager outposts, and even new ships!"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "cristellib"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

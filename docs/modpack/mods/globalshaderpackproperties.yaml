@@ -1,0 +1,60 @@
+mod:
+  id: "globalshaderpackproperties"
+  ids_declarados:
+    - "globalshaderpackproperties"
+  nome: "Global Shaderpack Properties"
+  arquivo: "globalshaderpackproperties-1.1.0-all.jar"
+  artefatos:
+    - artifactId: "sha256:da81b47c01ec26a72c95dc4829e85b9afc98e719e1f4d637ff010237aee3e5b5"
+      fileName: "globalshaderpackproperties-1.1.0-all.jar"
+      sha256: "da81b47c01ec26a72c95dc4829e85b9afc98e719e1f4d637ff010237aee3e5b5"
+      bytes: 697968
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.1.0"
+  versao_instalada: "1.1.0"
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Help modpack author to modify properties inside the shaderpacks"
+  funcao_principal: "Help modpack author to modify properties inside the shaderpacks"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

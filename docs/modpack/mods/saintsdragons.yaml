@@ -1,0 +1,63 @@
+mod:
+  id: "saintsdragons"
+  ids_declarados:
+    - "saintsdragons"
+  nome: "Saint's Dragons"
+  arquivo: "saintsdragons-1.20.1-0.6.1-FORGE-ALPHA.jar"
+  artefatos:
+    - artifactId: "sha256:a6e4165144530cdd78b3ebd282589c888608e669580603cb1b18006af3d8dd5b"
+      fileName: "saintsdragons-1.20.1-0.6.1-FORGE-ALPHA.jar"
+      sha256: "a6e4165144530cdd78b3ebd282589c888608e669580603cb1b18006af3d8dd5b"
+      bytes: 9614217
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.6.1"
+  versao_instalada: "0.6.1"
+  versoes_observadas_incluindo_desativadas:
+    - "0.6.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Adds animated dragons or wyverns or whatever the heck you wanna call them flying reptiles to Minecraft."
+  funcao_principal: "Adds animated dragons or wyverns or whatever the heck you wanna call them flying reptiles to Minecraft."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "geckolib"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

@@ -1,0 +1,63 @@
+mod:
+  id: "travelerstitles"
+  ids_declarados:
+    - "travelerstitles"
+  nome: "Traveler's Titles"
+  arquivo: "TravelersTitles-1.20-Forge-4.0.2.jar"
+  artefatos:
+    - artifactId: "sha256:e72bcce5e31ab2d5f09eff53697969b32e56c35801b3014e03d558b442b9d38b"
+      fileName: "TravelersTitles-1.20-Forge-4.0.2.jar"
+      sha256: "e72bcce5e31ab2d5f09eff53697969b32e56c35801b3014e03d558b442b9d38b"
+      bytes: 228191
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20-Forge-4.0.2"
+  versao_instalada: "1.20-Forge-4.0.2"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20-Forge-4.0.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Epic, RPG-like titles when entering biomes & dimensions"
+  funcao_principal: "Epic, RPG-like titles when entering biomes & dimensions"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+    - "yungsapi"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

@@ -1,0 +1,67 @@
+mod:
+  id: "konkrete"
+  ids_declarados:
+    - "konkrete"
+  nome: "Konkrete"
+  arquivo: "konkrete_forge_1.8.0_MC_1.20-1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:e78686b92c3761ec26eb9d3c53efdd3d6ca77981cbd3723995e1163b7103ae0b"
+      fileName: "konkrete_forge_1.8.0_MC_1.20-1.20.1.jar"
+      sha256: "e78686b92c3761ec26eb9d3c53efdd3d6ca77981cbd3723995e1163b7103ae0b"
+      bytes: 625185
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+      modVersion: "1.8.0"
+  versao_instalada: "1.8.0"
+  versoes_observadas_incluindo_desativadas:
+    - "1.8.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "COPYRIGHT: Konkrete Copyright © 2020-2024 Keksuccino. Konkrete is licensed under Apache-2.0. Open Imaging Copyright © 2014 Dhyan Blum. Open Imaging is licensed under Apache-2.0. J…"
+  funcao_principal: "COPYRIGHT: Konkrete Copyright © 2020-2024 Keksuccino. Konkrete is licensed under Apache-2.0. Open Imaging Copyright © 2014 Dhyan Blum. Open Imaging is licensed under Apache-2.0. J…"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "drippyloadingscreen"
+    - "fancymenu"
+  integracoes: []
+  configs_principais:
+    - "Launcher/pack/overrides/config/konkrete/locals/de_de.local"
+    - "Launcher/pack/overrides/config/konkrete/locals/en_us.local"
+    - "Launcher/pack/overrides/config/konkrete/locals/pl_pl.local"
+    - "Launcher/pack/overrides/config/konkrete/locals/pt_br.local"
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: true
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

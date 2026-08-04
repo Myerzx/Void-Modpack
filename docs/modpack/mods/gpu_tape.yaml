@@ -1,0 +1,60 @@
+mod:
+  id: "gpu_tape"
+  ids_declarados:
+    - "gpu_tape"
+  nome: "GPUTape"
+  arquivo: "GPUTape-1.18x-1.21x-1.0.5.1-forge.jar"
+  artefatos:
+    - artifactId: "sha256:73b92c4f1d4bf3a99320ae9f936698974cbee44caf278d3a349f172ec85dcb17"
+      fileName: "GPUTape-1.18x-1.21x-1.0.5.1-forge.jar"
+      sha256: "73b92c4f1d4bf3a99320ae9f936698974cbee44caf278d3a349f172ec85dcb17"
+      bytes: 20295
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.0.5"
+  versao_instalada: "1.0.5"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Fixes VRAM leaks. Based on VideoTape, improved by Mr.Toad."
+  funcao_principal: "Fixes VRAM leaks. Based on VideoTape, improved by Mr.Toad."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

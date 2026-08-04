@@ -1,0 +1,67 @@
+mod:
+  id: "mine_and_meals"
+  ids_declarados:
+    - "mine_and_meals"
+  nome: "Mine and Meals"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:a78ef40b02bb46808055cb243f5b33bd2df5e6d70e4dd248dc5b275e8f974d07"
+      fileName: "mine_and_meals-0.60.jar"
+      sha256: "a78ef40b02bb46808055cb243f5b33bd2df5e6d70e4dd248dc5b275e8f974d07"
+      bytes: 98998
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.5.0"
+    - artifactId: "sha256:4f65c099b5636a12ba9ed9e05309136acde1020a7f6028849be1d797f458f7d6"
+      fileName: "mine_and_meals-0.60.jar.disabled"
+      sha256: "4f65c099b5636a12ba9ed9e05309136acde1020a7f6028849be1d797f458f7d6"
+      bytes: 109505
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "0.5.0"
+  versao_instalada: "0.5.0"
+  versoes_observadas_incluindo_desativadas:
+    - "0.5.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

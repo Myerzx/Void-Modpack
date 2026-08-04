@@ -1,0 +1,64 @@
+mod:
+  id: "radiantgear"
+  ids_declarados:
+    - "radiantgear"
+  nome: "Radiant Gear"
+  arquivo: "radiantgear-forge-2.2.0+1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:2a6c7e0825c69bd38dc1bb1ce8a8d6b097cac835e16e46afaa0f207fb819bb96"
+      fileName: "radiantgear-forge-2.2.0+1.20.1.jar"
+      sha256: "2a6c7e0825c69bd38dc1bb1ce8a8d6b097cac835e16e46afaa0f207fb819bb96"
+      bytes: 47170
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2.2.0+1.20.1"
+  versao_instalada: "2.2.0+1.20.1"
+  versoes_observadas_incluindo_desativadas:
+    - "2.2.0+1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A compatibility bridge between Curios API or Trinkets API and dynamic light mods such as Dynamic Lights, Lucent, and LambDynamicLights."
+  funcao_principal: "A compatibility bridge between Curios API or Trinkets API and dynamic light mods such as Dynamic Lights, Lucent, and LambDynamicLights."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "curios"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "ryoamiclights"
+  dependentes: []
+  integracoes:
+    - "ryoamiclights"
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

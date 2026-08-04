@@ -1,0 +1,60 @@
+mod:
+  id: "lang_amend"
+  ids_declarados:
+    - "lang_amend"
+  nome: "Language Amend"
+  arquivo: "lang_amend-forge1.20.1-1.0.0-all.jar"
+  artefatos:
+    - artifactId: "sha256:3d4da4a9a7549ed1d4ca7fc0f3d723125e43054f7b28ca0d4689bffe0a688560"
+      fileName: "lang_amend-forge1.20.1-1.0.0-all.jar"
+      sha256: "3d4da4a9a7549ed1d4ca7fc0f3d723125e43054f7b28ca0d4689bffe0a688560"
+      bytes: 638710
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.0.0"
+  versao_instalada: "1.0.0"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Fallback to Specific language when Selected translation is missing."
+  funcao_principal: "Fallback to Specific language when Selected translation is missing."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

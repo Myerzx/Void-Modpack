@@ -1,0 +1,65 @@
+mod:
+  id: "yungsapi"
+  ids_declarados:
+    - "yungsapi"
+  nome: "YUNG's API"
+  arquivo: "YungsApi-1.20-Forge-4.0.6.jar"
+  artefatos:
+    - artifactId: "sha256:101c30d01d0cf9d86190f578eb1e43bd06b64092e95662a00ef52946f472c7b1"
+      fileName: "YungsApi-1.20-Forge-4.0.6.jar"
+      sha256: "101c30d01d0cf9d86190f578eb1e43bd06b64092e95662a00ef52946f472c7b1"
+      bytes: 370524
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20-Forge-4.0.6"
+  versao_instalada: "1.20-Forge-4.0.6"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20-Forge-4.0.6"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "API Library for YUNG's minecraft mods."
+  funcao_principal: "API Library for YUNG's minecraft mods."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "betterendisland"
+    - "ribbits"
+    - "travelerstitles"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "3 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

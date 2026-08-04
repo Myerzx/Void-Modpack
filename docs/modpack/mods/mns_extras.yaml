@@ -1,0 +1,60 @@
+mod:
+  id: "mns_extras"
+  ids_declarados:
+    - "mns_extras"
+  nome: "MnS Extras"
+  arquivo: "mns_extras-0.2-1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:8a0a755dcde68c68353ff038f0d01c8b701248b4174976dfd4a1dcd8303bfcf8"
+      fileName: "mns_extras-0.2-1.20.1.jar"
+      sha256: "8a0a755dcde68c68353ff038f0d01c8b701248b4174976dfd4a1dcd8303bfcf8"
+      bytes: 48346
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "0.2-1.20.1"
+  versao_instalada: "0.2-1.20.1"
+  versoes_observadas_incluindo_desativadas:
+    - "0.2-1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Adds CTE2 relevant stuff for mns."
+  funcao_principal: "Adds CTE2 relevant stuff for mns."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher atual"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

@@ -1,0 +1,58 @@
+mod:
+  id: "treechop"
+  ids_declarados:
+    - "treechop"
+  nome: "HT's TreeChop"
+  arquivo: "TreeChop-1.20.1-forge-0.19.0-fixed.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:219fbe5bf8d862dc7b524ca5a0151f66bba4d53a01010858e136a9e8c4d55d4f"
+      fileName: "TreeChop-1.20.1-forge-0.19.0-fixed.jar.disabled"
+      sha256: "219fbe5bf8d862dc7b524ca5a0151f66bba4d53a01010858e136a9e8c4d55d4f"
+      bytes: 517225
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "0.19.0"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "0.19.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "Makes trees more choppable."
+  funcao_principal: "Makes trees more choppable."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

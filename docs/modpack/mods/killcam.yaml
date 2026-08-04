@@ -1,0 +1,72 @@
+mod:
+  id: "killcam"
+  ids_declarados:
+    - "killcam"
+  nome: "KillCam"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:2c8f65cab498e22cd5c962663190113021ca6e482e098802681d9a99b9379b8e"
+      fileName: "killcam-1.0.2.jar"
+      sha256: "2c8f65cab498e22cd5c962663190113021ca6e482e098802681d9a99b9379b8e"
+      bytes: 139353
+      state: "active"
+      contexts:
+        - "server_active"
+      modVersion: "1.0.2"
+    - artifactId: "sha256:4cee7a89747aafe3097952c5a5330acb92b6b2dada3f8819468689d6a7ef2cda"
+      fileName: "killcam-1.0.3.jar"
+      sha256: "4cee7a89747aafe3097952c5a5330acb92b6b2dada3f8819468689d6a7ef2cda"
+      bytes: 141468
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.0.3"
+  versao_instalada:
+    - "1.0.2"
+    - "1.0.3"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.2"
+    - "1.0.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Cool Kill Cam"
+  funcao_principal: "Cool Kill Cam"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "mais de uma versão ativa observada entre os conjuntos"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: incompativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

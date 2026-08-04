@@ -1,0 +1,64 @@
+mod:
+  id: "cristellib"
+  ids_declarados:
+    - "cristellib"
+  nome: "Cristel Lib"
+  arquivo: "cristellib-1.1.6-forge.jar"
+  artefatos:
+    - artifactId: "sha256:3856ad565ea45d6189452d813e2f021b365b686d3b1adae5f747c56a1e535d9f"
+      fileName: "cristellib-1.1.6-forge.jar"
+      sha256: "3856ad565ea45d6189452d813e2f021b365b686d3b1adae5f747c56a1e535d9f"
+      bytes: 431318
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.1.6"
+  versao_instalada: "1.1.6"
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.6"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A Library mod for easy structure config and runtime datapacks."
+  funcao_principal: "A Library mod for easy structure config and runtime datapacks."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "t_and_t"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

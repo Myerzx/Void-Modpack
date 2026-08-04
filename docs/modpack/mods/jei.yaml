@@ -1,0 +1,73 @@
+mod:
+  id: "jei"
+  ids_declarados:
+    - "jei"
+  nome: "Just Enough Items"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:2d3a86f503dbde51afa5142951525c37e227016ce8d9e7dfd10bbdd9233f0204"
+      fileName: "jei-1.20.1-forge-15.20.0.112.jar.disabled"
+      sha256: "2d3a86f503dbde51afa5142951525c37e227016ce8d9e7dfd10bbdd9233f0204"
+      bytes: 1385600
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "15.20.0.112"
+    - artifactId: "sha256:5e5af05aa082f5844c7b3ed0b3bd9374e160ae1914906f71d90c5656e4e80039"
+      fileName: "jei-1.20.1-forge-15.20.0.129.jar"
+      sha256: "5e5af05aa082f5844c7b3ed0b3bd9374e160ae1914906f71d90c5656e4e80039"
+      bytes: 1409642
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "15.20.0.129"
+  versao_instalada: "15.20.0.129"
+  versoes_observadas_incluindo_desativadas:
+    - "15.20.0.112"
+    - "15.20.0.129"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "otimizacao"
+  descricao_curta: "JEI is an item and recipe viewing mod for Minecraft, built from the ground up for stability and performance."
+  funcao_principal: "JEI is an item and recipe viewing mod for Minecraft, built from the ground up for stability and performance."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "jeresources"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "altera caminhos críticos; ganho/regressão exige benchmark"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

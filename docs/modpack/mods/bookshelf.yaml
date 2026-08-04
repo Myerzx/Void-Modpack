@@ -1,0 +1,63 @@
+mod:
+  id: "bookshelf"
+  ids_declarados:
+    - "bookshelf"
+  nome: "Bookshelf"
+  arquivo: "Bookshelf-Forge-1.20.1-20.2.15.jar"
+  artefatos:
+    - artifactId: "sha256:7980d4a0beed1dcd2c283cf65f3c93f6b0085833f3ac490014979c95f1dfaf67"
+      fileName: "Bookshelf-Forge-1.20.1-20.2.15.jar"
+      sha256: "7980d4a0beed1dcd2c283cf65f3c93f6b0085833f3ac490014979c95f1dfaf67"
+      bytes: 343925
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.2.15"
+  versao_instalada: "20.2.15"
+  versoes_observadas_incluindo_desativadas:
+    - "20.2.15"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A library for building other mods."
+  funcao_principal: "A library for building other mods."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes:
+    - "enchdesc"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

@@ -1,0 +1,60 @@
+mod:
+  id: "customskinloader"
+  ids_declarados:
+    - "customskinloader"
+  nome: "CustomSkinLoader"
+  arquivo: "CustomSkinLoader_ForgeV2-14.27.jar"
+  artefatos:
+    - artifactId: "sha256:551b1c7452b34b62e50429159217505d2f6c100cd9dbe8c61b8ff17413d328a3"
+      fileName: "CustomSkinLoader_ForgeV2-14.27.jar"
+      sha256: "551b1c7452b34b62e50429159217505d2f6c100cd9dbe8c61b8ff17413d328a3"
+      bytes: 155492
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "14.27"
+  versao_instalada: "14.27"
+  versoes_observadas_incluindo_desativadas:
+    - "14.27"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Custom Skin Loader for Minecraft"
+  funcao_principal: "Custom Skin Loader for Minecraft"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

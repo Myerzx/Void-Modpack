@@ -1,0 +1,80 @@
+mod:
+  id: "invincible"
+  ids_declarados:
+    - "invincible"
+  nome: "Epic Fight - Invincible"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:0017db1a54bca5ac90ac7e4010e3a59a93ab287ad2a6b68b6781dd5beabf31ed"
+      fileName: "epic-fight-invincible-lib-20.14.8.2-mc1.20.1-forge.jar"
+      sha256: "0017db1a54bca5ac90ac7e4010e3a59a93ab287ad2a6b68b6781dd5beabf31ed"
+      bytes: 268536
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.14.8.2"
+    - artifactId: "sha256:7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      fileName: "epicfight-extra-1.1.4-mc1.20.1-forge-all.jar"
+      sha256: "7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      bytes: 23580690
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.14.7.5"
+  versao_instalada:
+    - "20.14.7.5"
+    - "20.14.8.2"
+  versoes_observadas_incluindo_desativadas:
+    - "20.14.7.5"
+    - "20.14.8.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Make Epic Fight add-on developers easier to create complex combo weapon types. Add some useful commands"
+  funcao_principal: "Make Epic Fight add-on developers easier to create complex combo weapon types. Add some useful commands"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "epicfight"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "efn"
+    - "sword_soaring"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/epic-fight-invincible-lib-20.14.7.5-mc1.20.1-forge.jar!META-INF/mods.toml"
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

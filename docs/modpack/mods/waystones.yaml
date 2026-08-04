@@ -1,0 +1,72 @@
+mod:
+  id: "waystones"
+  ids_declarados:
+    - "waystones"
+  nome: "Waystones"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:079aa58d6e95bee3caff622e10dcb6504efef43b803c7c21e2551201bd1ca78c"
+      fileName: "waystones-forge-1.20.1-14.1.17.jar.disabled"
+      sha256: "079aa58d6e95bee3caff622e10dcb6504efef43b803c7c21e2551201bd1ca78c"
+      bytes: 518286
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "14.1.17"
+    - artifactId: "sha256:5ecc6535596b5954f6293224be6b35805c64f4d4aedc2b9e32d9508dd529cabd"
+      fileName: "waystones-forge-1.20.1-14.1.20.jar"
+      sha256: "5ecc6535596b5954f6293224be6b35805c64f4d4aedc2b9e32d9508dd529cabd"
+      bytes: 533738
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "14.1.20"
+  versao_instalada: "14.1.20"
+  versoes_observadas_incluindo_desativadas:
+    - "14.1.17"
+    - "14.1.20"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "servidor"
+  descricao_curta: "Teleport back to activated waystones. For Survival, Adventure or Servers."
+  funcao_principal: "Teleport back to activated waystones. For Survival, Adventure or Servers."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "balm"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "tick, rede ou observabilidade"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

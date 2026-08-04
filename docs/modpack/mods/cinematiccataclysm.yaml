@@ -1,0 +1,62 @@
+mod:
+  id: "cinematiccataclysm"
+  ids_declarados:
+    - "cinematiccataclysm"
+  nome: "Cinematic Cataclysm"
+  arquivo: "cinematiccataclysm-1.0.0-1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:121cd3a41f17811b36f8c47194f38529b1ee63abedfd285fe6169518ae8435b1"
+      fileName: "cinematiccataclysm-1.0.0-1.20.1.jar"
+      sha256: "121cd3a41f17811b36f8c47194f38529b1ee63abedfd285fe6169518ae8435b1"
+      bytes: 699753
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.0"
+  versao_instalada: "1.0.0"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Adds one-time intro cutscenes for some L_Enders_Cataclysm bosses"
+  funcao_principal: "Adds one-time intro cutscenes for some L_Enders_Cataclysm bosses"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "fdlib"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

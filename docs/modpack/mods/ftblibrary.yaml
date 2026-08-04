@@ -1,0 +1,69 @@
+mod:
+  id: "ftblibrary"
+  ids_declarados:
+    - "ftblibrary"
+  nome: "FTB Library"
+  arquivo: "ftb-library-forge-2001.2.12.jar"
+  artefatos:
+    - artifactId: "sha256:f09335944fff8ca3ef37a40e0b125ffb6707759ede258c73f9ce9bac61bfbf96"
+      fileName: "ftb-library-forge-2001.2.12.jar"
+      sha256: "f09335944fff8ca3ef37a40e0b125ffb6707759ede258c73f9ce9bac61bfbf96"
+      bytes: 780523
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2001.2.12"
+  versao_instalada: "2001.2.12"
+  versoes_observadas_incluindo_desativadas:
+    - "2001.2.12"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Foundational library for FTB mods."
+  funcao_principal: "Foundational library for FTB mods."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "architectury"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "ftbquests"
+  dependentes:
+    - "ftbessentials"
+    - "ftbquests"
+    - "ftbteams"
+    - "ftbxmodcompat"
+  integracoes:
+    - "ftbquests"
+  configs_principais: []
+  riscos:
+    - "4 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

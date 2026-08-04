@@ -1,0 +1,70 @@
+mod:
+  id: "sodiumoptionsapi"
+  ids_declarados:
+    - "sodiumoptionsapi"
+  nome: "Sodium Options API"
+  arquivo: "sodiumoptionsapi-forge-1.0.10-1.20.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:37ec0b6248f04e856e6e5ba2066c4ded9981ce128282a9b45cdb10b67b9c8415"
+      fileName: "sodiumoptionsapi-forge-1.0.10-1.20.1.jar.disabled"
+      sha256: "37ec0b6248f04e856e6e5ba2066c4ded9981ce128282a9b45cdb10b67b9c8415"
+      bytes: 443978
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.0.10"
+    - artifactId: "sha256:37ec0b6248f04e856e6e5ba2066c4ded9981ce128282a9b45cdb10b67b9c8415"
+      fileName: "sodiumoptionsapi-forge-1.0.10-1.20.1.jar.disabled"
+      sha256: "37ec0b6248f04e856e6e5ba2066c4ded9981ce128282a9b45cdb10b67b9c8415"
+      bytes: 443978
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.0.10"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.10"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+    - "neoforge"
+  lado: "desconhecido"
+  categoria: "cliente"
+  descricao_curta: "Cross-platform Sodium config event API for Sodium 1.21 and Embeddium 1.20"
+  funcao_principal: "Cross-platform Sodium config event API for Sodium 1.21 and Embeddium 1.20"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+    - "reeses_sodium_options"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "META-INF/neoforge.mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

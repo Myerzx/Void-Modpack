@@ -1,0 +1,95 @@
+mod:
+  id: "epicfight"
+  ids_declarados:
+    - "epicfight"
+  nome: "Epic Fight"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:cecc93f453b1af788c3f9e79204424926407a7392d91cc140674fae09f08c9c1"
+      fileName: "epic-fight-20.14.12-mc1.20.1-forge.jar"
+      sha256: "cecc93f453b1af788c3f9e79204424926407a7392d91cc140674fae09f08c9c1"
+      bytes: 8044631
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.14.12"
+    - artifactId: "sha256:02d2dc155d6369b525a87898ce651ffe274e287ce0d12d0a4bca788a4d75bd36"
+      fileName: "epicfight-forge-20.9.6-1.20.1.jar"
+      sha256: "02d2dc155d6369b525a87898ce651ffe274e287ce0d12d0a4bca788a4d75bd36"
+      bytes: 6772128
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "20.9.6"
+  versao_instalada:
+    - "20.14.12"
+    - "20.9.6"
+  versoes_observadas_incluindo_desativadas:
+    - "20.14.12"
+    - "20.9.6"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Fight til u dead"
+  funcao_principal: "Fight til u dead"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "betterlockon"
+    - "dodge_parry_reward"
+    - "efn"
+    - "epic_fight_avalon"
+    - "epicfightx"
+    - "falchionmoveset"
+    - "indestructible"
+    - "invincible"
+    - "p1nero_bow"
+    - "soulslikeuniverse"
+    - "super_golem"
+    - "super_warden"
+    - "sword_soaring"
+    - "tcr_bosses"
+    - "tcrcore"
+    - "wom"
+    - "wraithon"
+  integracoes: []
+  configs_principais:
+    - "Launcher/pack/overrides/config/epicfight-client.toml"
+    - "Launcher/pack/overrides/config/epicfight.toml"
+    - "Servidor:config/openloader/data/cte_epicfight_mns_staff_compat (agregado sanitizado)"
+    - "Servidor:config/openloader/data/cte_epicfight_roe_compat (agregado sanitizado)"
+  riscos:
+    - "17 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: incompativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: true
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

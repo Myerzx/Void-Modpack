@@ -1,0 +1,63 @@
+mod:
+  id: "born_in_chaos_v1"
+  ids_declarados:
+    - "born_in_chaos_v1"
+  nome: "Born in Chaos"
+  arquivo: "born_in_chaos_[Forge]1.20.1_1.7.4.jar"
+  artefatos:
+    - artifactId: "sha256:b329be7bdc2dc1800bfa9a7ef72c72791e925e645932b94aa44ba26177b2a483"
+      fileName: "born_in_chaos_[Forge]1.20.1_1.7.4.jar"
+      sha256: "b329be7bdc2dc1800bfa9a7ef72c72791e925e645932b94aa44ba26177b2a483"
+      bytes: 11833732
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "1.7.3"
+  versao_instalada: "1.7.3"
+  versoes_observadas_incluindo_desativadas:
+    - "1.7.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Adds a lot of hostile mobs, with their own characteristics that can complicate your survival"
+  funcao_principal: "Adds a lot of hostile mobs, with their own characteristics that can complicate your survival"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais:
+    - "geckolib"
+    - "jei"
+  dependentes: []
+  integracoes:
+    - "geckolib"
+    - "jei"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher atual"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

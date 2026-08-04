@@ -1,0 +1,62 @@
+mod:
+  id: "easy_npc"
+  ids_declarados:
+    - "easy_npc"
+  nome: "Easy NPC"
+  arquivo: "easy_npc-forge-1.20.1-5.9.2.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:de26428a5a489f1267ae21c2d46cd8dbbdf8dbdd9b164c60e2ef3f92e7ba60c1"
+      fileName: "easy_npc-forge-1.20.1-5.9.2.jar.disabled"
+      sha256: "de26428a5a489f1267ae21c2d46cd8dbbdf8dbdd9b164c60e2ef3f92e7ba60c1"
+      bytes: 1612566
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "5.9.2"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "5.9.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "mundo"
+  descricao_curta: "Create easily NPCs for your world or for your mods."
+  funcao_principal: "Create easily NPCs for your world or for your mods."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "armourers_workshop"
+  dependentes: []
+  integracoes:
+    - "armourers_workshop"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

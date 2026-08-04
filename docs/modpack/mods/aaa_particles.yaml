@@ -1,0 +1,62 @@
+mod:
+  id: "aaa_particles"
+  ids_declarados:
+    - "aaa_particles"
+  nome: "AAAParticles"
+  arquivo: "aaa-particles-forge-1.20.1-1.4.12.jar"
+  artefatos:
+    - artifactId: "sha256:52417c55e509dc600b68c0f065761f41586f8047d938c19f9a2e916b777dcca2"
+      fileName: "aaa-particles-forge-1.20.1-1.4.12.jar"
+      sha256: "52417c55e509dc600b68c0f065761f41586f8047d938c19f9a2e916b777dcca2"
+      bytes: 5256673
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.20.1-1.4.12"
+  versao_instalada: "1.20.1-1.4.12"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.4.12"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "aaa_particles_world"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

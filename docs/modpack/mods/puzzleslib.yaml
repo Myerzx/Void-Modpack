@@ -1,0 +1,64 @@
+mod:
+  id: "puzzleslib"
+  ids_declarados:
+    - "puzzleslib"
+  nome: "Puzzles Lib"
+  arquivo: "PuzzlesLib-v8.1.33-1.20.1-Forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:f3077a9f817629b8e8929c1951042d1a1adc62d30b72adebd54d2b074a4faf4f"
+      fileName: "PuzzlesLib-v8.1.33-1.20.1-Forge.jar.disabled"
+      sha256: "f3077a9f817629b8e8929c1951042d1a1adc62d30b72adebd54d2b074a4faf4f"
+      bytes: 1342987
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "8.1.33"
+  versao_instalada: "8.1.33"
+  versoes_observadas_incluindo_desativadas:
+    - "8.1.33"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Why's it called Puzzles you ask? That's the puzzle!"
+  funcao_principal: "Why's it called Puzzles you ask? That's the puzzle!"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+    - "puzzlesaccessapi"
+  dependencias_opcionais: []
+  dependentes:
+    - "enchantinginfuser"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

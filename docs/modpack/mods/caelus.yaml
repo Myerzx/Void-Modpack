@@ -1,0 +1,62 @@
+mod:
+  id: "caelus"
+  ids_declarados:
+    - "caelus"
+  nome: "Caelus API"
+  arquivo: "caelus-forge-3.2.0+1.20.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:37495445e79df8b30a3a038a0051f3c8aa8447f91a9d0aa0d20baef69dda9368"
+      fileName: "caelus-forge-3.2.0+1.20.1.jar.disabled"
+      sha256: "37495445e79df8b30a3a038a0051f3c8aa8447f91a9d0aa0d20baef69dda9368"
+      bytes: 40125
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "3.2.0+1.20.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "3.2.0+1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "bibliotecas"
+  descricao_curta: "A coremod and API to provide developers access to elytra flight mechanics through an entity attribute."
+  funcao_principal: "A coremod and API to provide developers access to elytra flight mechanics through an entity attribute."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "apoli"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

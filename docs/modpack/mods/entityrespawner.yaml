@@ -1,0 +1,61 @@
+mod:
+  id: "entityrespawner"
+  ids_declarados:
+    - "entityrespawner"
+  nome: "Entity Respawner"
+  arquivo: "entityrespawner-1.0.2.jar"
+  artefatos:
+    - artifactId: "sha256:ce3382c6af81f328fef72a2592ea7fe7522239e4f837e6153e0748a24df857b2"
+      fileName: "entityrespawner-1.0.2.jar"
+      sha256: "ce3382c6af81f328fef72a2592ea7fe7522239e4f837e6153e0748a24df857b2"
+      bytes: 15301
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.2"
+  versao_instalada: "1.0.2"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Help Boss Respawn"
+  funcao_principal: "Help Boss Respawn"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

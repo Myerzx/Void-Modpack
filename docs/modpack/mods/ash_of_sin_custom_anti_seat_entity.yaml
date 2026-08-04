@@ -1,0 +1,61 @@
+mod:
+  id: "ash_of_sin_custom_anti_seat_entity"
+  ids_declarados:
+    - "ash_of_sin_custom_anti_seat_entity"
+  nome: "Ash Of Sin: Custom Anti Seat Entity"
+  arquivo: "Ash Of Sin-Custom Anti Seat Entity-1.20.1-1.0.1.jar"
+  artefatos:
+    - artifactId: "sha256:54a66eda5af6088235ac9a3a5c1b8991bedadfdbf3dcf91b196b025af8f95680"
+      fileName: "Ash Of Sin-Custom Anti Seat Entity-1.20.1-1.0.1.jar"
+      sha256: "54a66eda5af6088235ac9a3a5c1b8991bedadfdbf3dcf91b196b025af8f95680"
+      bytes: 63730
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.1"
+  versao_instalada: "1.0.1"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "The remnants clinging to life amidst the ashes."
+  funcao_principal: "The remnants clinging to life amidst the ashes."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

@@ -1,0 +1,60 @@
+mod:
+  id: "spark"
+  ids_declarados:
+    - "spark"
+  nome: "spark"
+  arquivo: "spark-1.10.53-forge.jar"
+  artefatos:
+    - artifactId: "sha256:eba275ba9bb0cb5b542913c3138c6eeff6a752898266d63d125d185f26ac99ed"
+      fileName: "spark-1.10.53-forge.jar"
+      sha256: "eba275ba9bb0cb5b542913c3138c6eeff6a752898266d63d125d185f26ac99ed"
+      bytes: 3114590
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.10.53"
+  versao_instalada: "1.10.53"
+  versoes_observadas_incluindo_desativadas:
+    - "1.10.53"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "servidor"
+  descricao_curta: "spark is a performance profiling plugin/mod for Minecraft clients, servers and proxies."
+  funcao_principal: "spark is a performance profiling plugin/mod for Minecraft clients, servers and proxies."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "tick, rede ou observabilidade"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

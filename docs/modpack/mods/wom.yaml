@@ -1,0 +1,76 @@
+mod:
+  id: "wom"
+  ids_declarados:
+    - "wom"
+  nome: "Weapons of miracle"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:a208c7b74edf5d09c5a8696fcd3d5f646cdf7a72069c28bf6da62a8b00a96eed"
+      fileName: "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar"
+      sha256: "a208c7b74edf5d09c5a8696fcd3d5f646cdf7a72069c28bf6da62a8b00a96eed"
+      bytes: 20276434
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2.0.15"
+    - artifactId: "sha256:56ca3acc2dfe7136de3a9f20304332db12c003254a76a0384b1e63eee599abcd"
+      fileName: "WeaponsOfMiracles-20.1.8.5.6.jar"
+      sha256: "56ca3acc2dfe7136de3a9f20304332db12c003254a76a0384b1e63eee599abcd"
+      bytes: 14050970
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "20.1.8.5.6"
+  versao_instalada:
+    - "2.0.15"
+    - "20.1.8.5.6"
+  versoes_observadas_incluindo_desativadas:
+    - "2.0.15"
+    - "20.1.8.5.6"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Weapons from another reality, waiting for you to find them and witness their powers !"
+  funcao_principal: "Weapons from another reality, waiting for you to find them and witness their powers !"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "epicfight"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "soulslikeuniverse"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: incompativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

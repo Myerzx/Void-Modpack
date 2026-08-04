@@ -1,0 +1,61 @@
+mod:
+  id: "defaultoptions"
+  ids_declarados:
+    - "defaultoptions"
+  nome: "Default Options"
+  arquivo: "defaultoptions-forge-1.20.1-18.0.4.jar"
+  artefatos:
+    - artifactId: "sha256:88b89d7734a4f5d99e9464fc368428a72e5052c3570865a954cf74ef98a2581b"
+      fileName: "defaultoptions-forge-1.20.1-18.0.4.jar"
+      sha256: "88b89d7734a4f5d99e9464fc368428a72e5052c3570865a954cf74ef98a2581b"
+      bytes: 94684
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "18.0.4"
+  versao_instalada: "18.0.4"
+  versoes_observadas_incluindo_desativadas:
+    - "18.0.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "A way for modpacks to ship a default (key) configuration without having to include an options.txt file. Also allows local options from any mod .cfg file."
+  funcao_principal: "A way for modpacks to ship a default (key) configuration without having to include an options.txt file. Also allows local options from any mod .cfg file."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "balm"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

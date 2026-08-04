@@ -1,0 +1,62 @@
+mod:
+  id: "dungeons_arise"
+  ids_declarados:
+    - "dungeons_arise"
+  nome: "When Dungeons Arise"
+  arquivo: "DungeonsArise-1.20.x-2.1.58-release.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:f8f1254dbe7ed7c1d5403f20361a36f0d0587c82b71313e3f427c7f1ce7c8a90"
+      fileName: "DungeonsArise-1.20.x-2.1.58-release.jar.disabled"
+      sha256: "f8f1254dbe7ed7c1d5403f20361a36f0d0587c82b71313e3f427c7f1ce7c8a90"
+      bytes: 8762342
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "2.1.58-1.20.x"
+  versao_instalada: "2.1.58-1.20.x"
+  versoes_observadas_incluindo_desativadas:
+    - "2.1.58-1.20.x"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Elegant - and likely dangerous - structures and roguelike dungeons to lose yourself in..."
+  funcao_principal: "Elegant - and likely dangerous - structures and roguelike dungeons to lose yourself in..."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

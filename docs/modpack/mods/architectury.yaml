@@ -1,0 +1,75 @@
+mod:
+  id: "architectury"
+  ids_declarados:
+    - "architectury"
+  nome: "Architectury"
+  arquivo: "architectury-9.2.14-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+      fileName: "architectury-9.2.14-forge.jar.disabled"
+      sha256: "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+      bytes: 580602
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "9.2.14"
+  versao_instalada: "9.2.14"
+  versoes_observadas_incluindo_desativadas:
+    - "9.2.14"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A intermediary api aimed to ease developing multiplatform mods."
+  funcao_principal: "A intermediary api aimed to ease developing multiplatform mods."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "aaa_particles_world"
+    - "artifacts"
+    - "chatplus"
+    - "fallingtrees"
+    - "ftblibrary"
+    - "ftbquests"
+    - "ftbteams"
+    - "ftbxmodcompat"
+    - "kubejs"
+    - "magistuarmory"
+    - "pandalib"
+    - "simplyswords"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "12 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

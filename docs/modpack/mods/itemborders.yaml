@@ -1,0 +1,63 @@
+mod:
+  id: "itemborders"
+  ids_declarados:
+    - "itemborders"
+  nome: "Item Borders"
+  arquivo: "ItemBorders-1.20.1-forge-1.2.2.jar"
+  artefatos:
+    - artifactId: "sha256:23710606b68c5367ef28d2efa55d8efc4a7d1df8ac1f232e4327977cd1a16b56"
+      fileName: "ItemBorders-1.20.1-forge-1.2.2.jar"
+      sha256: "23710606b68c5367ef28d2efa55d8efc4a7d1df8ac1f232e4327977cd1a16b56"
+      bytes: 20832
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.2.2"
+  versao_instalada: "1.2.2"
+  versoes_observadas_incluindo_desativadas:
+    - "1.2.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Adds colored borders around items to indicate rarity."
+  funcao_principal: "Adds colored borders around items to indicate rarity."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "iceberg"
+    - "minecraft"
+    - "prism"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

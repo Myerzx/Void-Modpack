@@ -1,0 +1,63 @@
+mod:
+  id: "fdlib"
+  ids_declarados:
+    - "fdlib"
+  nome: "FDLib"
+  arquivo: "fdlib-1.0.8-1.20.1.jar"
+  artefatos:
+    - artifactId: "sha256:434d14d4bb3e703be71210e1ffc22003bb5a583f3cde82904b84687c3b1651dd"
+      fileName: "fdlib-1.0.8-1.20.1.jar"
+      sha256: "434d14d4bb3e703be71210e1ffc22003bb5a583f3cde82904b84687c3b1651dd"
+      bytes: 1645858
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.8"
+  versao_instalada: "1.0.8"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.8"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A library with some cool features. Idk what other things to write here."
+  funcao_principal: "A library with some cool features. Idk what other things to write here."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "cinematiccataclysm"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

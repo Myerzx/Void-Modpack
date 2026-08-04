@@ -1,0 +1,71 @@
+mod:
+  id: "twilight_lib"
+  ids_declarados:
+    - "twilight_lib"
+  nome: "Twilight Lib"
+  arquivo: "twilight_lib-1.20.1-1.1.1.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
+      fileName: "twilight_lib-1.20.1-1.1.1.1.jar.disabled"
+      sha256: "5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
+      bytes: 390355
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.1.1.1"
+    - artifactId: "sha256:5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
+      fileName: "twilight_lib-1.20.1-1.1.1.1.jar.disabled"
+      sha256: "5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
+      bytes: 390355
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.0"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.0"
+    - "1.1.1.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+    - "neoforge"
+  lado: "desconhecido"
+  categoria: "bibliotecas"
+  descricao_curta: "Twilight Lib is a library mod used by mc_jojo3's mods"
+  funcao_principal: "Twilight Lib is a library mod used by mc_jojo3's mods"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+    - "neoforge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "META-INF/neoforge.mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

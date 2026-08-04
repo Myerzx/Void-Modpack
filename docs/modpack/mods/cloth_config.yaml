@@ -1,0 +1,68 @@
+mod:
+  id: "cloth_config"
+  ids_declarados:
+    - "cloth_config"
+  nome: "Cloth Config v10 API"
+  arquivo: "cloth-config-11.1.136-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+      fileName: "cloth-config-11.1.136-forge.jar.disabled"
+      sha256: "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+      bytes: 1181413
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "11.1.136"
+  versao_instalada: "11.1.136"
+  versoes_observadas_incluindo_desativadas:
+    - "11.1.136"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "An API for config screens."
+  funcao_principal: "An API for config screens."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes:
+    - "artifacts"
+    - "bosses_of_mass_destruction"
+    - "combatroll"
+    - "magistuarmory"
+    - "simplyswords"
+    - "taxfreelevels"
+    - "uniqueaccessories"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "7 dependente(s) obrigatório(s)"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

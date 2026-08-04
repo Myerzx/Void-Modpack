@@ -1,0 +1,75 @@
+mod:
+  id: "bookofdragons"
+  ids_declarados:
+    - "bookofdragons"
+  nome: "bookofdragons"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:d5b2e7c1af8da5aa839dd12c7083175320dd1ee8d28c526e5d49c5a965a84d1c"
+      fileName: "bookofdragons-1.21-1.20.1.jar.disabled"
+      sha256: "d5b2e7c1af8da5aa839dd12c7083175320dd1ee8d28c526e5d49c5a965a84d1c"
+      bytes: 4578909
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.21-1.20.1"
+    - artifactId: "sha256:ea582cc1395deef09936d8cc91419684442490637340c803cbe45b0af68b976e"
+      fileName: "bookofdragons-stub-0.0.0.jar"
+      sha256: "ea582cc1395deef09936d8cc91419684442490637340c803cbe45b0af68b976e"
+      bytes: 10930
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.0.0-stub"
+  versao_instalada: "0.0.0-stub"
+  versoes_observadas_incluindo_desativadas:
+    - "0.0.0-stub"
+    - "1.21-1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "A Dreamworks Dragons/ How to Train Your Dragon themed mod that introduces dragons from the movies and shows that you can tame and interact with."
+  funcao_principal: "A Dreamworks Dragons/ How to Train Your Dragon themed mod that introduces dragons from the movies and shows that you can tame and interact with."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "geckolib"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "tcrcore"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo, servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

@@ -1,0 +1,60 @@
+mod:
+  id: "invmove"
+  ids_declarados:
+    - "invmove"
+  nome: "InvMove"
+  arquivo: "InvMove-0.9.3+1.20.1-Forge.jar"
+  artefatos:
+    - artifactId: "sha256:fed951da0863669dea424fc7f9542e95f2bffe2fd53bef914e254fa9969d7885"
+      fileName: "InvMove-0.9.3+1.20.1-Forge.jar"
+      sha256: "fed951da0863669dea424fc7f9542e95f2bffe2fd53bef914e254fa9969d7885"
+      bytes: 270522
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "0.9.3"
+  versao_instalada: "0.9.3"
+  versoes_observadas_incluindo_desativadas:
+    - "0.9.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Lets you move while in inventories."
+  funcao_principal: "Lets you move while in inventories."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

@@ -1,0 +1,2698 @@
+{
+  "schemaVersion": 1,
+  "status": "heuristic_only",
+  "warning": "Nenhum benchmark foi executado. Impacto é triagem, não medição.",
+  "items": [
+    {
+      "modId": "aaa_particles",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "aaa_particles_world",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "acceleratedrendering",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "additionalentityattributes",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "aether",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ageingspawners",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "alexsmobs",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ancient_obelisks",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "antibonemeal",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "apoli",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "aquaculture",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "aquaculturedelight",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "aquamirae",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "architectury",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "armoroftheages",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "armourers_workshop",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "artifacts",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ash_of_sin_better_ai",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ash_of_sin_custom_anti_seat_entity",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ash_of_sin_no_more_invalid_statistic",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ash_of_sin_soul_like_boss_battle",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "athena",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "atistructures",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "attributefix",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "attributeslib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ba_bt",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "badmobs",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "balm",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "beb",
+      "area": "entidades, efeitos e sincronização",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "better_structure_block",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "better_trident_model",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "betterendcities",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "betterendisland",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "betterlockon",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "beyonddimensions",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "biomesoplenty",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "biomespy",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "biomeswevegone",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "blue_skies",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "bookofdragons",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "bookshelf",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "born_in_chaos_v1",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "bosses_of_mass_destruction",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "bountiful",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "bountiful_npc",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "caelus",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "calio",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "callablehorses",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cataclysm",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cataclysm_dimension",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cerbons_api",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cfm",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "chatplus",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "chipped",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "chloride",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "chunksending",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "chunky",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cinematiccataclysm",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "citadel",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "clearwater",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cloth_config",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "clumps",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "combat_evolution",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "combatroll",
+      "area": "entidades, efeitos e sincronização",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "configured",
+      "area": "tick de máquinas, receitas e transporte",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "corgilib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "coroutil",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "corpse",
+      "area": "tick de inventários, serialização e redes de itens",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cosmeticarmorreworked",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cristellib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cte2modpackarmors",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cte_essentials",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cumulus_menus",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "cupboard",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curios",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_326818",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_380969",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_385587",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_627557",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "customskinloader",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "defaultoptions",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "despawntimers",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "distanthorizons",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "dodge_parry_reward",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "dodosmobs",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "domesticationinnovation",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "drippyloadingscreen",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "dummmmmmy",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "dungeon_realm",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "dungeons_arise",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "easy_npc",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "efm_compat",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "efn",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "efn_enhance",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "efs_iss",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "embeddium",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "enchantinginfuser",
+      "area": "entidades, efeitos e sincronização",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "enchdesc",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "enemyexpansion",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "entityculling",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "entityjs",
+      "area": "reload de dados, receitas e eventos dirigidos por script",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "entityrespawner",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epic_fight_avalon",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epicfight",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epicfight_arachne",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epicfight_leonidas",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epicfightx",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "epicskills",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "exile_overlay",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "expandability",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "explorerscompass",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "extrasounds",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "falchionmoveset",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fallingtrees",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fancy_trail",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fancymenu",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fantasy_armor",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "farmersdelight",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fast_event",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fast_tpa",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fastasyncworldsave",
+      "area": "pacotes, latência e sincronização cliente-servidor",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fdlib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ferritecore",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "flerovium",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "flib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fluid_tick_structure_processor",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "flywheel",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "framedblocks",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fruitsdelight",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ftbessentials",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ftblibrary",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ftbquests",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ftbteams",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ftbxmodcompat",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "fullstackwatchdog",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "geckoanimfix",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "geckolib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "glitchcore",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "globalshaderpackproperties",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "gnetum",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "goblins_tyranny",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "gottschcore",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "gpu_tape",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "graveyard",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "hole_filler_mod",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "hungerstrike",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "iceberg",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "immersive_optimization",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "incontrol",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "indestructible",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "invincible",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "invmove",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "irons_spellbooks",
+      "area": "entidades, efeitos e sincronização",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "itemborders",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "jade",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "jadeaddons",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "jecharacters",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "jei",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "jeresources",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "kambrik",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "killcam",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "konkrete",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "kotlinforforge",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "krypton_fnp",
+      "area": "pacotes, latência e sincronização cliente-servidor",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "kubejs",
+      "area": "reload de dados, receitas e eventos dirigidos por script",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "kuma_api",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "l2harvester",
+      "area": "tick de máquinas, receitas e transporte",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "l2library",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lang_amend",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lazyyyyy_lexforge_core",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "legendary_additions",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "legendarytooltips",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "library_of_exile",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lightmanscurrency",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "limitedchunks",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lionfishapi",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lithostitched",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "logbegone",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lootr",
+      "area": "tick de inventários, serialização e redes de itens",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "lost_aether_content",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "magistuarmory",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "medievalmusic",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "melody",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mimic",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mine_and_meals",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mixin_booster",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mixinextras",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mixinsquared",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mmorpg",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mns",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mns_compat",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mns_extras",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "modder_name_lib",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "modernfix",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "modernui",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "moogs_structures",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "moonlight",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mousetweaks",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mowziesmobs",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mr_trek",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "naturescompass",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "necronomicon",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "nitrogen_internals",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "noisium",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "notenoughcrashes",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "noworldgenwarning",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "obscure_api",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "oculus",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ohthetreesyoullgrow",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "opack2reload",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "openloader",
+      "area": "reload de dados, receitas e eventos dirigidos por script",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "origins",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "p1nero_bow",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "p1nero_dl",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "p1nero_ec",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "packetfixer",
+      "area": "pacotes, latência e sincronização cliente-servidor",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "pandalib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "parcool",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "patchouli",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "pbf1",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "pehkui",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "placebo",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "playeranimator",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "playertrade",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ponder",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "preloading_tricks",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "prism",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "puzzlesaccessapi",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "puzzleslib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "quark",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "quick_pack",
+      "area": "reload de dados, receitas e eventos dirigidos por script",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "radiantgear",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "rebind_narrator",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "resourcefulconfig",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "resourcefullib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "rhino",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "ribbits",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "roe_weapons",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "rpg_origins",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "rubidium",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "saintsdragons",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "servercore",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "shinyhorses",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "shouldersurfing",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "simplebedrockmodel",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "simply_tokens",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "simplyswords",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "smoothchunk",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "smsn",
+      "area": "pacotes, latência e sincronização cliente-servidor",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "sodiumdynamiclights",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "sodiumoptionsapi",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "soul_like_armors_reworked",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "soulslikeuniverse",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "sound_physics_remastered",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "spark",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "spiral_tower_village",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "starlight",
+      "area": "altera caminhos críticos; ganho/regressão exige benchmark",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "structure_gel",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "structure_layout_optimizer",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "summoningrituals",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "super_golem",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "super_warden",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "supplementaries",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "swem",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "sword_soaring",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "t_and_t",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tabstats",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "taxfreelevels",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tcr_bosses",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tcrcore",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tcrmeshes",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tcrmodfilter",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tectonic",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "terrablender",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "the_harvest",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tlc",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "torchmaster",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "travelerstitles",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "treechop",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tudigong",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "twilight_lib",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "uchicraftana",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "uniqueaccessories",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "visual_keybinder",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "voicechat",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "voicechat_api",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "void_mns_prof_compat",
+      "area": "dados persistentes, missões e regras de progressão",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "waystones",
+      "area": "tick, rede ou observabilidade",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "wom",
+      "area": "entidades, animações, IA e sincronização de combate",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "worldedit",
+      "area": "geração de mundo e tick",
+      "estimatedImpact": "alto",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "wraithon",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "xaerolib",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "xaerominimap",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "xaeroworldmap",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "xpbook",
+      "area": "não caracterizado",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "yet_another_config_lib_v3",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "you_died",
+      "area": "renderização, memória gráfica e interface",
+      "estimatedImpact": "cliente",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "yungsapi",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    },
+    {
+      "modId": "zeta",
+      "area": "indireto por dependentes",
+      "estimatedImpact": "medio",
+      "evidence": [
+        "classificação funcional heurística; benchmark não executado"
+      ],
+      "confidence": "baixa"
+    }
+  ]
+}

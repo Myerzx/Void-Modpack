@@ -1,0 +1,218 @@
+mod:
+  id: "mixinextras"
+  ids_declarados:
+    - "mixinextras"
+  nome: "MixinExtras"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:08c94eef7116790e09926074a09807f42ad3ddc685e400d5a27c457f5fb92f46"
+      fileName: "acceleratedrendering-1.0.8-1.20.1-alpha.jar"
+      sha256: "08c94eef7116790e09926074a09807f42ad3ddc685e400d5a27c457f5fb92f46"
+      bytes: 686792
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:5cb64ab1f27e78e8338fe67f9c766578904aad9bc1f8bcc90f306ea52aea3fc5"
+      fileName: "aether-1.20.1-1.5.2-neoforge.jar"
+      sha256: "5cb64ab1f27e78e8338fe67f9c766578904aad9bc1f8bcc90f306ea52aea3fc5"
+      bytes: 39746319
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-beta.9"
+    - artifactId: "sha256:e1bb7f07b14c28ef216e391eb19b11520ebff30570bef4e53f90bb3fdbdea86f"
+      fileName: "biomespy-1.3.3-all.jar"
+      sha256: "e1bb7f07b14c28ef216e391eb19b11520ebff30570bef4e53f90bb3fdbdea86f"
+      bytes: 231424
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:5dc8087df6d6d8849fe1df5a6a342268a6986731ee801cb46a58d725d9e1e204"
+      fileName: "drippyloadingscreen_forge_3.1.0_MC_1.20.1.jar"
+      sha256: "5dc8087df6d6d8849fe1df5a6a342268a6986731ee801cb46a58d725d9e1e204"
+      bytes: 285003
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb"
+      fileName: "embeddium-0.3.31+mc1.20.1.jar.disabled"
+      sha256: "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb"
+      bytes: 1320675
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+      modVersion: "0.3.5"
+    - artifactId: "sha256:d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      fileName: "EpicFight Nightfall-3.2.2-all.jar"
+      sha256: "d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      bytes: 51333810
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      fileName: "epicfight-extra-1.1.4-mc1.20.1-forge-all.jar"
+      sha256: "7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      bytes: 23580690
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      fileName: "Fancy-Trail1.20.1-1.1.5-all.jar"
+      sha256: "6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      bytes: 5911422
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:ba1ddf0f61def8ea87e7757ebb45f1390e1da0f7ebce1aff299b0a169b045858"
+      fileName: "fancymenu_forge_3.8.1_MC_1.20.1.jar"
+      sha256: "ba1ddf0f61def8ea87e7757ebb45f1390e1da0f7ebce1aff299b0a169b045858"
+      bytes: 4472193
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:12b79b6f4e8129ddbddd61525bb9251add9be737b7c5ec347febc1dec3e463cb"
+      fileName: "flerovium-forge-1.20.1-1.2.18-all.jar"
+      sha256: "12b79b6f4e8129ddbddd61525bb9251add9be737b7c5ec347febc1dec3e463cb"
+      bytes: 253961
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:497d66d71952adf5851b5e14d2df636b5933df8c0ab8799c33db1d9cfb82e66d"
+      fileName: "FramedBlocks-9.4.2.jar"
+      sha256: "497d66d71952adf5851b5e14d2df636b5933df8c0ab8799c33db1d9cfb82e66d"
+      bytes: 4251277
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-rc.4"
+    - artifactId: "sha256:ed617e625e38fb6d87af8b0092c992daeef6ac66a58f47b78db4a7c6eca6f49b"
+      fileName: "fruitsdelight-1.1.1.jar"
+      sha256: "ed617e625e38fb6d87af8b0092c992daeef6ac66a58f47b78db4a7c6eca6f49b"
+      bytes: 1892593
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-beta.8"
+    - artifactId: "sha256:43a74371e377f65c77b20c49b31b9386f22ec709e17ad11a15266a7ed5ee15a5"
+      fileName: "lightmanscurrency-1.20.1-2.3.0.0a.jar"
+      sha256: "43a74371e377f65c77b20c49b31b9386f22ec709e17ad11a15266a7ed5ee15a5"
+      bytes: 10005470
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:e9f00f787a78a976b8493eafeee63ff08fadb31bcb0a1e938d7b940d17ac70ae"
+      fileName: "modernfix-forge-5.26.2+mc1.20.1.jar"
+      sha256: "e9f00f787a78a976b8493eafeee63ff08fadb31bcb0a1e938d7b940d17ac70ae"
+      bytes: 826829
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:f3077a9f817629b8e8929c1951042d1a1adc62d30b72adebd54d2b074a4faf4f"
+      fileName: "PuzzlesLib-v8.1.33-1.20.1-Forge.jar.disabled"
+      sha256: "f3077a9f817629b8e8929c1951042d1a1adc62d30b72adebd54d2b074a4faf4f"
+      bytes: 1342987
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:14bfc4b1e82ea24118402fccd90dffde45fa6d9e2238bfaa19a43b3fb88ee49c"
+      fileName: "structure_layout_optimizer-forge-1.0.11.jar"
+      sha256: "14bfc4b1e82ea24118402fccd90dffde45fa6d9e2238bfaa19a43b3fb88ee49c"
+      bytes: 246413
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.4.1"
+    - artifactId: "sha256:cd1786902a79434f8fd762d741019d9c8a79725fef7e30a89c153c934e1e6a9e"
+      fileName: "Zeta-1.0-31.jar"
+      sha256: "cd1786902a79434f8fd762d741019d9c8a79725fef7e30a89c153c934e1e6a9e"
+      bytes: 1006518
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.3.2"
+  versao_instalada:
+    - "0.2.0-beta.8"
+    - "0.2.0-beta.9"
+    - "0.2.0-rc.4"
+    - "0.3.2"
+    - "0.3.5"
+    - "0.4.1"
+  versoes_observadas_incluindo_desativadas:
+    - "0.2.0-beta.8"
+    - "0.2.0-beta.9"
+    - "0.2.0-rc.4"
+    - "0.3.2"
+    - "0.3.5"
+    - "0.4.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Companion library to Mixin with lots of features to improve the compatibility and concision of your mixins!"
+  funcao_principal: "Companion library to Mixin with lots of features to improve the compatibility and concision of your mixins!"
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/mixinextras-forge-0.2.0-beta.8.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinextras-forge-0.2.0-beta.9.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinextras-forge-0.2.0-rc.4.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinextras-forge-0.3.2.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinextras-forge-0.3.5.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinextras-forge-0.4.1.jar!META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

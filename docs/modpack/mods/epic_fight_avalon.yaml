@@ -1,0 +1,67 @@
+mod:
+  id: "epic_fight_avalon"
+  ids_declarados:
+    - "epic_fight_avalon"
+  nome: "Epic fight - Avalon"
+  arquivo: "epic_fight_avalon-20.12.6.4.jar"
+  artefatos:
+    - artifactId: "sha256:596462a617e203cc1ead934387477d95382ac84a2bcd0707cf927a794a5518ed"
+      fileName: "epic_fight_avalon-20.12.6.4.jar"
+      sha256: "596462a617e203cc1ead934387477d95382ac84a2bcd0707cf927a794a5518ed"
+      bytes: 645196
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.12.6.4"
+  versao_instalada: "20.12.6.4"
+  versoes_observadas_incluindo_desativadas:
+    - "20.12.6.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "merlin's lib"
+  funcao_principal: "merlin's lib"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "epicfight"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "efn"
+    - "super_golem"
+    - "super_warden"
+    - "wraithon"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "4 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

@@ -1,0 +1,69 @@
+mod:
+  id: "kuma_api"
+  ids_declarados:
+    - "kuma_api"
+  nome: "KumaAPI"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:7f10f01866c8316edfc1ffbc49baf1154923beac637e2d7b5399d26508fdd914"
+      fileName: "balm-forge-1.20.1-7.3.37-all.jar.disabled"
+      sha256: "7f10f01866c8316edfc1ffbc49baf1154923beac637e2d7b5399d26508fdd914"
+      bytes: 590486
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "20.1.12"
+    - artifactId: "sha256:cbe8008218f0f574bc1f78b532cac5f978c33bf36ae2e14805340eab445fdb08"
+      fileName: "balm-forge-1.20.1-7.3.38-all.jar"
+      sha256: "cbe8008218f0f574bc1f78b532cac5f978c33bf36ae2e14805340eab445fdb08"
+      bytes: 591397
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "20.1.12"
+  versao_instalada: "20.1.12"
+  versoes_observadas_incluindo_desativadas:
+    - "20.1.12"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Universal Key Modifier API (Shift, CTRL, etc.)"
+  funcao_principal: "Universal Key Modifier API (Shift, CTRL, etc.)"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/kuma-api-forge-20.1.12+1.20.1.jar!META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

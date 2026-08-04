@@ -1,0 +1,61 @@
+mod:
+  id: "fast_event"
+  ids_declarados:
+    - "fast_event"
+  nome: "FastEvent"
+  arquivo: "FastEvent-1.20.1-1.1.1.jar"
+  artefatos:
+    - artifactId: "sha256:fad6bd3c5d882a924934f119d4df83570c24610a06c4f76ac2c36b487edc7727"
+      fileName: "FastEvent-1.20.1-1.1.1.jar"
+      sha256: "fad6bd3c5d882a924934f119d4df83570c24610a06c4f76ac2c36b487edc7727"
+      bytes: 32785
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.1.1"
+  versao_instalada: "1.1.1"
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "otimizacao"
+  descricao_curta: "Faster event listener for Forge"
+  funcao_principal: "Faster event listener for Forge"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "altera caminhos críticos; ganho/regressão exige benchmark"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

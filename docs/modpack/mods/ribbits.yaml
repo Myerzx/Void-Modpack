@@ -1,0 +1,74 @@
+mod:
+  id: "ribbits"
+  ids_declarados:
+    - "ribbits"
+  nome: "Ribbits"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:e04aa665df7e96844fe8833f29cc343feefac8ad7b949399d7b4a60475123e2b"
+      fileName: "Ribbits-1.20.1-Forge-3.0.5.jar.disabled"
+      sha256: "e04aa665df7e96844fe8833f29cc343feefac8ad7b949399d7b4a60475123e2b"
+      bytes: 2223589
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.20.1-Forge-3.0.5"
+    - artifactId: "sha256:9429559ac828f3abe8bf709648604aedd0e81a76f490a1d5d77ad2e247997e98"
+      fileName: "ribbits-stub-0.0.0.jar"
+      sha256: "9429559ac828f3abe8bf709648604aedd0e81a76f490a1d5d77ad2e247997e98"
+      bytes: 5240
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.0.0-stub"
+  versao_instalada: "0.0.0-stub"
+  versoes_observadas_incluindo_desativadas:
+    - "0.0.0-stub"
+    - "1.20.1-Forge-3.0.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Minimal compatibility stub to satisfy tcrcore references without the full mod."
+  funcao_principal: "Minimal compatibility stub to satisfy tcrcore references without the full mod."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "geckolib"
+    - "minecraft"
+    - "yungsapi"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo, servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

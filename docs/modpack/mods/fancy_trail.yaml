@@ -1,0 +1,63 @@
+mod:
+  id: "fancy_trail"
+  ids_declarados:
+    - "fancy_trail"
+  nome: "Fancy Trail"
+  arquivo: "Fancy-Trail1.20.1-1.1.5-all.jar"
+  artefatos:
+    - artifactId: "sha256:6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      fileName: "Fancy-Trail1.20.1-1.1.5-all.jar"
+      sha256: "6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      bytes: 5911422
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.1.5"
+  versao_instalada: "1.1.5"
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Cool mod."
+  funcao_principal: "Cool mod."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "efn_enhance"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

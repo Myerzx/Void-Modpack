@@ -1,0 +1,62 @@
+mod:
+  id: "dodosmobs"
+  ids_declarados:
+    - "dodosmobs"
+  nome: "dodosmobs"
+  arquivo: "Dodos Mobs 1.0.1 beta.jar"
+  artefatos:
+    - artifactId: "sha256:dec65b8aba9b3a583b78209b54541f0fa6753b90afcb0deb0a206e475b60e9e9"
+      fileName: "Dodos Mobs 1.0.1 beta.jar"
+      sha256: "dec65b8aba9b3a583b78209b54541f0fa6753b90afcb0deb0a206e475b60e9e9"
+      bytes: 1197246
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2.64"
+  versao_instalada: "2.64"
+  versoes_observadas_incluindo_desativadas:
+    - "2.64"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "lionfishapi"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

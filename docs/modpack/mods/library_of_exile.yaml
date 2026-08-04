@@ -1,0 +1,67 @@
+mod:
+  id: "library_of_exile"
+  ids_declarados:
+    - "library_of_exile"
+  nome: "Library of Exile"
+  arquivo: "Library_of_Exile-1.20.1-2.1.5.jar"
+  artefatos:
+    - artifactId: "sha256:1dcaade132905172d7373cf146d82f8d4f2c3220e02785b43a6f2cce92231e7a"
+      fileName: "Library_of_Exile-1.20.1-2.1.5.jar"
+      sha256: "1dcaade132905172d7373cf146d82f8d4f2c3220e02785b43a6f2cce92231e7a"
+      bytes: 634987
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "2.1.5"
+  versao_instalada: "2.1.5"
+  versoes_observadas_incluindo_desativadas:
+    - "2.1.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Library mod for Mine and Slash and mine and slash accessories."
+  funcao_principal: "Library mod for Mine and Slash and mine and slash accessories."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "ancient_obelisks"
+    - "dungeon_realm"
+    - "mmorpg"
+    - "the_harvest"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "4 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

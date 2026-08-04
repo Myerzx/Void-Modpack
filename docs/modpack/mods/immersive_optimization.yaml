@@ -1,0 +1,61 @@
+mod:
+  id: "immersive_optimization"
+  ids_declarados:
+    - "immersive_optimization"
+  nome: "Immersive Optimization"
+  arquivo: "immersive_optimization-forge-1.20.1-0.1.4.jar"
+  artefatos:
+    - artifactId: "sha256:a5bbd50671a9c4b5ba33d1e710fe8e78d095e7c957aeba4fe292f84e66f52256"
+      fileName: "immersive_optimization-forge-1.20.1-0.1.4.jar"
+      sha256: "a5bbd50671a9c4b5ba33d1e710fe8e78d095e7c957aeba4fe292f84e66f52256"
+      bytes: 52117
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.1.4"
+  versao_instalada: "0.1.4"
+  versoes_observadas_incluindo_desativadas:
+    - "0.1.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "otimizacao"
+  descricao_curta: "A lightweight entity-tick-scheduler for doubling your TPS."
+  funcao_principal: "A lightweight entity-tick-scheduler for doubling your TPS."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "altera caminhos críticos; ganho/regressão exige benchmark"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

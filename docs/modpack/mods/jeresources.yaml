@@ -1,0 +1,61 @@
+mod:
+  id: "jeresources"
+  ids_declarados:
+    - "jeresources"
+  nome: "Just Enough Resources"
+  arquivo: "JustEnoughResources-1.20.1-1.4.0.247.jar"
+  artefatos:
+    - artifactId: "sha256:311d3a83db489d27b96cd15deb690ce64c78cffb552c25c3dff85956a14ec09e"
+      fileName: "JustEnoughResources-1.20.1-1.4.0.247.jar"
+      sha256: "311d3a83db489d27b96cd15deb690ce64c78cffb552c25c3dff85956a14ec09e"
+      bytes: 276231
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.4.0.247"
+  versao_instalada: "1.4.0.247"
+  versoes_observadas_incluindo_desativadas:
+    - "1.4.0.247"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "cliente"
+  descricao_curta: "Adds Resources and Mob Drops to JEI"
+  funcao_principal: "Adds Resources and Mob Drops to JEI"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "jei"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

@@ -1,0 +1,58 @@
+mod:
+  id: "lazyyyyy_lexforge_core"
+  ids_declarados:
+    - "lazyyyyy_lexforge_core"
+  nome: "lazyyyyy-lexforge-core-0.14.19.jar"
+  arquivo: "lazyyyyy-lexforge-core-0.14.19.jar"
+  artefatos:
+    - artifactId: "sha256:5a34ec4c93990f46813c6bde29fd401c1b2954e3d6f8872f6d861a2a0719801e"
+      fileName: "lazyyyyy-lexforge-core-0.14.19.jar"
+      sha256: "5a34ec4c93990f46813c6bde29fd401c1b2954e3d6f8872f6d861a2a0719801e"
+      bytes: 2639494
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: null
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas: []
+  minecraft: "1.20.1"
+  loader:
+    - "não verificado"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Metadados internos não verificados para este artefato."
+  funcao_principal: "Metadados internos não verificados para este artefato."
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: nao verificado"
+  confianca:
+    nivel: "baixa"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

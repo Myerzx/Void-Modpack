@@ -1,0 +1,65 @@
+mod:
+  id: "embeddium"
+  ids_declarados:
+    - "embeddium"
+  nome: "Embeddium"
+  arquivo: "embeddium-0.3.31+mc1.20.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb"
+      fileName: "embeddium-0.3.31+mc1.20.1.jar.disabled"
+      sha256: "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb"
+      bytes: 1320675
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+      modVersion: "0.3.31+mc1.20.1"
+  versao_instalada: "0.3.31+mc1.20.1"
+  versoes_observadas_incluindo_desativadas:
+    - "0.3.31+mc1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Embeddium is a fork of Rubidium, a fork of Sodium with patches for Forge"
+  funcao_principal: "Embeddium is a fork of Rubidium, a fork of Sodium with patches for Forge"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias: []
+  dependencias_opcionais:
+    - "oculus"
+    - "textrues_embeddium_options"
+  dependentes:
+    - "chloride"
+    - "flerovium"
+  integracoes:
+    - "oculus"
+    - "textrues_embeddium_options"
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

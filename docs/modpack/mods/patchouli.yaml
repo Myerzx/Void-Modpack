@@ -1,0 +1,71 @@
+mod:
+  id: "patchouli"
+  ids_declarados:
+    - "patchouli"
+  nome: "Patchouli"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:9cc38ebb5e29b350222e337b7a5a2ba238c802230a89434ce00e90ee3026d056"
+      fileName: "Patchouli-1.20.1-84.1-FORGE.jar.disabled"
+      sha256: "9cc38ebb5e29b350222e337b7a5a2ba238c802230a89434ce00e90ee3026d056"
+      bytes: 642711
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.20.1-84.1-FORGE"
+    - artifactId: "sha256:05f7b5d52f6b8f0fd7f8b4822fa07a192d1394d83a264309c9d221d6d4fd21c5"
+      fileName: "Patchouli-1.20.1-85-FORGE.jar"
+      sha256: "05f7b5d52f6b8f0fd7f8b4822fa07a192d1394d83a264309c9d221d6d4fd21c5"
+      bytes: 642732
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20.1-85-FORGE"
+  versao_instalada: "1.20.1-85-FORGE"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-84.1-FORGE"
+    - "1.20.1-85-FORGE"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and Pack Makers"
+  funcao_principal: "Accessible, Data-Driven, Dependency-Free Documentation for Minecraft Modders and Pack Makers"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

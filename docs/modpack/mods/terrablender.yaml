@@ -1,0 +1,64 @@
+mod:
+  id: "terrablender"
+  ids_declarados:
+    - "terrablender"
+  nome: "TerraBlender"
+  arquivo: "TerraBlender-forge-1.20.1-3.0.1.10.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:c109016f46ca9bdae69976bf080bbf2e8e5968cb66c0a78845f8ca6af5dbbeb1"
+      fileName: "TerraBlender-forge-1.20.1-3.0.1.10.jar.disabled"
+      sha256: "c109016f46ca9bdae69976bf080bbf2e8e5968cb66c0a78845f8ca6af5dbbeb1"
+      bytes: 107532
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "3.0.1.10"
+  versao_instalada: "3.0.1.10"
+  versoes_observadas_incluindo_desativadas:
+    - "3.0.1.10"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "A library mod for adding biomes in a simple and compatible manner with Minecraft's new biome/terrain system."
+  funcao_principal: "A library mod for adding biomes in a simple and compatible manner with Minecraft's new biome/terrain system."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes:
+    - "biomesoplenty"
+    - "biomeswevegone"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

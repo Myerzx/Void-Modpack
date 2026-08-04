@@ -1,0 +1,61 @@
+mod:
+  id: "clearwater"
+  ids_declarados:
+    - "clearwater"
+  nome: "Clear Water"
+  arquivo: "Clear-Water-2.1.jar"
+  artefatos:
+    - artifactId: "sha256:39a6f2a2451e0f7512c4ab8ba2c6c989b39dab626d340b53c0c7b6ca0ba4c6f3"
+      fileName: "Clear-Water-2.1.jar"
+      sha256: "39a6f2a2451e0f7512c4ab8ba2c6c989b39dab626d340b53c0c7b6ca0ba4c6f3"
+      bytes: 24435
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "2.1"
+  versao_instalada: "2.1"
+  versoes_observadas_incluindo_desativadas:
+    - "2.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "See clearly under water!"
+  funcao_principal: "See clearly under water!"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+    - "resourcefulconfig"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

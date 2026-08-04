@@ -1,0 +1,74 @@
+mod:
+  id: "balm"
+  ids_declarados:
+    - "balm"
+  nome: "Balm"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:7f10f01866c8316edfc1ffbc49baf1154923beac637e2d7b5399d26508fdd914"
+      fileName: "balm-forge-1.20.1-7.3.37-all.jar.disabled"
+      sha256: "7f10f01866c8316edfc1ffbc49baf1154923beac637e2d7b5399d26508fdd914"
+      bytes: 590486
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "7.3.37"
+    - artifactId: "sha256:cbe8008218f0f574bc1f78b532cac5f978c33bf36ae2e14805340eab445fdb08"
+      fileName: "balm-forge-1.20.1-7.3.38-all.jar"
+      sha256: "cbe8008218f0f574bc1f78b532cac5f978c33bf36ae2e14805340eab445fdb08"
+      bytes: 591397
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "7.3.38"
+  versao_instalada: "7.3.38"
+  versoes_observadas_incluindo_desativadas:
+    - "7.3.37"
+    - "7.3.38"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Abstraction Layer (but not really)™ for Blay's multiplatform mods"
+  funcao_principal: "Abstraction Layer (but not really)™ for Blay's multiplatform mods"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "defaultoptions"
+    - "waystones"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

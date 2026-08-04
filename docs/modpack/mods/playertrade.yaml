@@ -1,0 +1,58 @@
+mod:
+  id: "playertrade"
+  ids_declarados:
+    - "playertrade"
+  nome: "Player Trade Mod"
+  arquivo: "playertrade-1.20.1-c.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:a41ebbc9454f21c4aae75aafbe577249a551e1b2be3fddfe0fb799175dcfdec1"
+      fileName: "playertrade-1.20.1-c.jar.disabled"
+      sha256: "a41ebbc9454f21c4aae75aafbe577249a551e1b2be3fddfe0fb799175dcfdec1"
+      bytes: 40474
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.20.1-c"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-c"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "A simple mod that allows players to trade with each other using a secure GUI method."
+  funcao_principal: "A simple mod that allows players to trade with each other using a secure GUI method."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

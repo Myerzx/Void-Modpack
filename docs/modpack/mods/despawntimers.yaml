@@ -1,0 +1,59 @@
+mod:
+  id: "despawntimers"
+  ids_declarados:
+    - "despawntimers"
+  nome: "Mob Despawn Timers"
+  arquivo: "MobDespawnTimers-1.20.1-3.0.1.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:000b90e938543f255cbb1c7363d07dab42d8dee8da2cb53eb3687a2b9bc58c3c"
+      fileName: "MobDespawnTimers-1.20.1-3.0.1.jar.disabled"
+      sha256: "000b90e938543f255cbb1c7363d07dab42d8dee8da2cb53eb3687a2b9bc58c3c"
+      bytes: 5372
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "3.0.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "3.0.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "mundo"
+  descricao_curta: "A mod that prevents newly spawned mobs from immediately despawning."
+  funcao_principal: "A mod that prevents newly spawned mobs from immediately despawning."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

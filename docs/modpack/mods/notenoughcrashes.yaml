@@ -1,0 +1,60 @@
+mod:
+  id: "notenoughcrashes"
+  ids_declarados:
+    - "notenoughcrashes"
+  nome: "Not Enough Crashes"
+  arquivo: "notenoughcrashes-4.4.9+1.20.1-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:e944656f2671b87d52af9756c48bcfb5b90956bef1a40bf1b5fcae731a367518"
+      fileName: "notenoughcrashes-4.4.9+1.20.1-forge.jar.disabled"
+      sha256: "e944656f2671b87d52af9756c48bcfb5b90956bef1a40bf1b5fcae731a367518"
+      bytes: 134885
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "4.4.9+1.20.1"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "4.4.9+1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "cliente"
+  descricao_curta: "Improves crashes in Minecraft - allows returning to title screen, blaming causing mods, and more."
+  funcao_principal: "Improves crashes in Minecraft - allows returning to title screen, blaming causing mods, and more."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

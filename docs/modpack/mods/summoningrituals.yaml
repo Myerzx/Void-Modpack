@@ -1,0 +1,68 @@
+mod:
+  id: "summoningrituals"
+  ids_declarados:
+    - "summoningrituals"
+  nome: "Summoning Rituals"
+  arquivo: "summoningrituals-forge-1.20.1-2.0.8.jar"
+  artefatos:
+    - artifactId: "sha256:1941d866fafd467e9746a043eaee81b55db8fc22418e91da784b45ebebacd247"
+      fileName: "summoningrituals-forge-1.20.1-2.0.8.jar"
+      sha256: "1941d866fafd467e9746a043eaee81b55db8fc22418e91da784b45ebebacd247"
+      bytes: 218380
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20.1-2.0.8"
+  versao_instalada: "1.20.1-2.0.8"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-2.0.8"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Create custom summoning rituals for items and mobs."
+  funcao_principal: "Create custom summoning rituals for items and mobs."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "jei"
+    - "kubejs"
+    - "roughlyenoughitems"
+  dependentes: []
+  integracoes:
+    - "jei"
+    - "kubejs"
+    - "roughlyenoughitems"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

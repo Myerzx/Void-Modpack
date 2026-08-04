@@ -1,0 +1,75 @@
+mod:
+  id: "farmersdelight"
+  ids_declarados:
+    - "farmersdelight"
+  nome: "Farmer's Delight"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:9a2db05541f07e15a81d514f4f47627f1c738d0464c1885765aa460117909318"
+      fileName: "FarmersDelight-1.20.1-1.2.11.jar"
+      sha256: "9a2db05541f07e15a81d514f4f47627f1c738d0464c1885765aa460117909318"
+      bytes: 2963127
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20.1-1.2.11"
+    - artifactId: "sha256:45e8e4daf04283fc5a7fec955e6a1e622ee0e9d4e1b5e79dbcf5b095bb510082"
+      fileName: "FarmersDelight-1.20.1-1.2.9.jar.disabled"
+      sha256: "45e8e4daf04283fc5a7fec955e6a1e622ee0e9d4e1b5e79dbcf5b095bb510082"
+      bytes: 2978080
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.20.1-1.2.9"
+  versao_instalada: "1.20.1-1.2.11"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.2.11"
+    - "1.20.1-1.2.9"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "A cozy farming and cooking expansion for Minecraft!"
+  funcao_principal: "A cozy farming and cooking expansion for Minecraft!"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "crafttweaker"
+  dependentes:
+    - "fruitsdelight"
+  integracoes:
+    - "crafttweaker"
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "versões históricas/desativadas adicionais foram observadas"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

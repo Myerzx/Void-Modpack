@@ -1,0 +1,62 @@
+mod:
+  id: "placebo"
+  ids_declarados:
+    - "placebo"
+  nome: "Placebo"
+  arquivo: "Placebo-1.20.1-8.6.3.jar"
+  artefatos:
+    - artifactId: "sha256:1cdf906cfbcbb5e5be2ef1bb721f79a24b01bd2ac559c8cdbfb7693f62421571"
+      fileName: "Placebo-1.20.1-8.6.3.jar"
+      sha256: "1cdf906cfbcbb5e5be2ef1bb721f79a24b01bd2ac559c8cdbfb7693f62421571"
+      bytes: 282474
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "8.6.3"
+  versao_instalada: "8.6.3"
+  versoes_observadas_incluindo_desativadas:
+    - "8.6.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "1 (one) library boi"
+  funcao_principal: "1 (one) library boi"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "attributeslib"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

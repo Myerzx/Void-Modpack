@@ -1,0 +1,65 @@
+mod:
+  id: "playeranimator"
+  ids_declarados:
+    - "playeranimator"
+  nome: "Player Animator"
+  arquivo: "player-animation-lib-forge-1.0.2-rc1+1.20.jar"
+  artefatos:
+    - artifactId: "sha256:90d9965cb9efdbda29fdc5610be3914cf7008bf5c392ff34f7ab25f96a852691"
+      fileName: "player-animation-lib-forge-1.0.2-rc1+1.20.jar"
+      sha256: "90d9965cb9efdbda29fdc5610be3914cf7008bf5c392ff34f7ab25f96a852691"
+      bytes: 181437
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "1.0.2-rc1+1.20"
+  versao_instalada: "1.0.2-rc1+1.20"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.2-rc1+1.20"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Look for FabricMC (or QuiltMC) builds..."
+  funcao_principal: "Look for FabricMC (or QuiltMC) builds..."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "combatroll"
+    - "irons_spellbooks"
+    - "mmorpg"
+    - "swem"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "4 dependente(s) obrigatório(s)"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

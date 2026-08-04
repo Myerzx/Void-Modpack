@@ -1,0 +1,73 @@
+mod:
+  id: "xaerolib"
+  ids_declarados:
+    - "xaerolib"
+  nome: "XaeroLib"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:dd118045c4daa8e27614f576d515ba5b07e4ccae060b6b1a536437f155879c7b"
+      fileName: "xaerominimap-forge-1.20.1-25.3.10.jar"
+      sha256: "dd118045c4daa8e27614f576d515ba5b07e4ccae060b6b1a536437f155879c7b"
+      bytes: 2146522
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.1.0"
+    - artifactId: "sha256:d41ea1366e36f79f1b38efb44920fa9354a929eee070c493bda60b0c5cc2b16a"
+      fileName: "xaeroworldmap-forge-1.20.1-1.40.11.jar"
+      sha256: "d41ea1366e36f79f1b38efb44920fa9354a929eee070c493bda60b0c5cc2b16a"
+      bytes: 1388342
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.1.0"
+  versao_instalada: "1.1.0"
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.0"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "cliente"
+  descricao_curta: "A library containing shared code for Xaero's Minimap and World Map."
+  funcao_principal: "A library containing shared code for Xaero's Minimap and World Map."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "xaeroworldmap"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/xaerolib-forge-1.20.1-1.1.0.jar!META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

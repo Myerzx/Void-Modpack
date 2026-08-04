@@ -1,0 +1,65 @@
+mod:
+  id: "ba_bt"
+  ids_declarados:
+    - "ba_bt"
+  nome: "Brass-Amber BattleTowers"
+  arquivo: "ba_bt-1.20.1-3.0.0-beta3.2.1.jar"
+  artefatos:
+    - artifactId: "sha256:df9cbc8b7f657858d1fa823c6eabe1af027e02c0e9b5fdbd5c4398ae97653ed6"
+      fileName: "ba_bt-1.20.1-3.0.0-beta3.2.1.jar"
+      sha256: "df9cbc8b7f657858d1fa823c6eabe1af027e02c0e9b5fdbd5c4398ae97653ed6"
+      bytes: 54453322
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20.1-3.0.0-beta3.2.1"
+  versao_instalada: "1.20.1-3.0.0-beta3.2.1"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-3.0.0-beta3.2.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Mod is a continuation of BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.Stays true to the core of BattleTowers while also adding:New item textures - Bras…"
+  funcao_principal: "Mod is a continuation of BattleTowers Mod from YogBox/Tekkit days with revamped towers and bosses.Stays true to the core of BattleTowers while also adding:New item textures - Bras…"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "tcr_bosses"
+    - "tcrcore"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "2 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

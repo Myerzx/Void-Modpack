@@ -1,0 +1,59 @@
+mod:
+  id: "cte2modpackarmors"
+  ids_declarados:
+    - "cte2modpackarmors"
+  nome: "CTE2 Modpack Armors"
+  arquivo: "CTE2ModpackArmors-1.0.3.jar"
+  artefatos:
+    - artifactId: "sha256:f86a1e396c67948aa1feeb1f56f065b1966ddb34c14b1d2819698758e7c56d71"
+      fileName: "CTE2ModpackArmors-1.0.3.jar"
+      sha256: "f86a1e396c67948aa1feeb1f56f065b1966ddb34c14b1d2819698758e7c56d71"
+      bytes: 376863
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "1.0.3"
+  versao_instalada: "1.0.3"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "3D Armors and a few weapons"
+  funcao_principal: "3D Armors and a few weapons"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: launcher atual"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

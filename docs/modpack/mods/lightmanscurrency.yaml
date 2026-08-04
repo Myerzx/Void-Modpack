@@ -1,0 +1,64 @@
+mod:
+  id: "lightmanscurrency"
+  ids_declarados:
+    - "lightmanscurrency"
+  nome: "Lightman's Currency"
+  arquivo: "lightmanscurrency-1.20.1-2.3.0.0a.jar"
+  artefatos:
+    - artifactId: "sha256:43a74371e377f65c77b20c49b31b9386f22ec709e17ad11a15266a7ed5ee15a5"
+      fileName: "lightmanscurrency-1.20.1-2.3.0.0a.jar"
+      sha256: "43a74371e377f65c77b20c49b31b9386f22ec709e17ad11a15266a7ed5ee15a5"
+      bytes: 10005470
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.20.1-2.3.0.0a"
+  versao_instalada: "1.20.1-2.3.0.0a"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-2.3.0.0a"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "progressao"
+  descricao_curta: "Adds a heavily configurable item-based money & shop system to the game."
+  funcao_principal: "Adds a heavily configurable item-based money & shop system to the game."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "lightmansdiscord"
+  dependentes: []
+  integracoes:
+    - "lightmansdiscord"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "dados persistentes, missões e regras de progressão"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

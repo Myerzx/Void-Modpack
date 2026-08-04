@@ -1,0 +1,60 @@
+mod:
+  id: "visual_keybinder"
+  ids_declarados:
+    - "visual_keybinder"
+  nome: "Raw's Visual Keybinder"
+  arquivo: "visual_keybinder-1.20.1 - 0.1.12.jar"
+  artefatos:
+    - artifactId: "sha256:9dadb23df8b1b232499565bc486220af6f81f62d2bfe6fe6e9deeb9502df0847"
+      fileName: "visual_keybinder-1.20.1 - 0.1.12.jar"
+      sha256: "9dadb23df8b1b232499565bc486220af6f81f62d2bfe6fe6e9deeb9502df0847"
+      bytes: 258438
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.20.1 - 0.1.12"
+  versao_instalada: "1.20.1 - 0.1.12"
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1 - 0.1.12"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Alternative keybinding screen. Provides an extra screen for keybinding for easier keybinding management. Visualise your keyboard and mouse to easily see which buttons are availabl…"
+  funcao_principal: "Alternative keybinding screen. Provides an extra screen for keybinding for easier keybinding management. Visualise your keyboard and mouse to easily see which buttons are availabl…"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

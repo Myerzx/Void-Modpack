@@ -1,0 +1,61 @@
+mod:
+  id: "naturescompass"
+  ids_declarados:
+    - "naturescompass"
+  nome: "Nature's Compass"
+  arquivo: "NaturesCompass-1.20.1-1.11.2-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:28e05589c9e4021d9504c9eea387ed4e80adcdcd0626a9623a53754cfa69f7bf"
+      fileName: "NaturesCompass-1.20.1-1.11.2-forge.jar.disabled"
+      sha256: "28e05589c9e4021d9504c9eea387ed4e80adcdcd0626a9623a53754cfa69f7bf"
+      bytes: 215119
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.20.1-1.11.2-forge"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.11.2-forge"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "mundo"
+  descricao_curta: "Search for a biome and get information about it."
+  funcao_principal: "Search for a biome and get information about it."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

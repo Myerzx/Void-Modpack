@@ -1,0 +1,63 @@
+mod:
+  id: "bountiful_npc"
+  ids_declarados:
+    - "bountiful_npc"
+  nome: "Bountiful Npc"
+  arquivo: "bountiful_npc-forge-1.20.1-1.0.4.jar"
+  artefatos:
+    - artifactId: "sha256:dee5e2b2cae1f09e0ed1ab045827d90c6bf7a691397128cd747798eede0a45a8"
+      fileName: "bountiful_npc-forge-1.20.1-1.0.4.jar"
+      sha256: "dee5e2b2cae1f09e0ed1ab045827d90c6bf7a691397128cd747798eede0a45a8"
+      bytes: 149023
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.0.4"
+  versao_instalada: "1.0.4"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Add Npc and a better Structure for Bountiful Mod"
+  funcao_principal: "Add Npc and a better Structure for Bountiful Mod"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "bountiful"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

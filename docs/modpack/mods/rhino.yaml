@@ -1,0 +1,61 @@
+mod:
+  id: "rhino"
+  ids_declarados:
+    - "rhino"
+  nome: "Rhino"
+  arquivo: "rhino-forge-2001.2.3-build.10.jar"
+  artefatos:
+    - artifactId: "sha256:fed2211429301bf043864183cab9ab8e92d4cc4dbb9e488ce6c75217c54584a6"
+      fileName: "rhino-forge-2001.2.3-build.10.jar"
+      sha256: "fed2211429301bf043864183cab9ab8e92d4cc4dbb9e488ce6c75217c54584a6"
+      bytes: 1798244
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2001.2.3-build.10"
+  versao_instalada: "2001.2.3-build.10"
+  versoes_observadas_incluindo_desativadas:
+    - "2001.2.3-build.10"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A fork of Mozilla's Rhino library, modified for use in mods"
+  funcao_principal: "A fork of Mozilla's Rhino library, modified for use in mods"
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes:
+    - "kubejs"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

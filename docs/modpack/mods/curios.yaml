@@ -1,0 +1,87 @@
+mod:
+  id: "curios"
+  ids_declarados:
+    - "curios"
+  nome: "Curios API"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:5cb64ab1f27e78e8338fe67f9c766578904aad9bc1f8bcc90f306ea52aea3fc5"
+      fileName: "aether-1.20.1-1.5.2-neoforge.jar"
+      sha256: "5cb64ab1f27e78e8338fe67f9c766578904aad9bc1f8bcc90f306ea52aea3fc5"
+      bytes: 39746319
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "5.6.1+1.20.1"
+    - artifactId: "sha256:1e817919a35b37cf30524aaec73f0ca5130452f23f168f844854df282eb8e51f"
+      fileName: "curios-forge-5.14.1+1.20.1.jar"
+      sha256: "1e817919a35b37cf30524aaec73f0ca5130452f23f168f844854df282eb8e51f"
+      bytes: 398066
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "5.14.1+1.20.1"
+  versao_instalada:
+    - "5.14.1+1.20.1"
+    - "5.6.1+1.20.1"
+  versoes_observadas_incluindo_desativadas:
+    - "5.14.1+1.20.1"
+    - "5.6.1+1.20.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "A flexible and expandable accessory/equipment API for users and developers."
+  funcao_principal: "A flexible and expandable accessory/equipment API for users and developers."
+  essencial: true
+  nivel_importancia: 0
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "aether"
+    - "artifacts"
+    - "irons_spellbooks"
+    - "mmorpg"
+    - "radiantgear"
+    - "uniqueaccessories"
+  integracoes: []
+  configs_principais:
+    - "Launcher/pack/overrides/config/curios-client.toml"
+    - "Launcher/pack/overrides/config/curios-common.toml"
+    - "Launcher/pack/overrides/config/fancymenu/customization/curios.txt"
+    - "Launcher/pack/overrides/config/fancymenu/customization/top.theillusivec4.curios.client.gui.curiosscreenv2_layout.txt"
+  riscos:
+    - "6 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/curios-forge-5.6.1+1.20.1.jar!META-INF/mods.toml"
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: true
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

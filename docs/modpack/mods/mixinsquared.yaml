@@ -1,0 +1,101 @@
+mod:
+  id: "mixinsquared"
+  ids_declarados:
+    - "mixinsquared"
+  nome: "MixinSquared"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      fileName: "EpicFight Nightfall-3.2.2-all.jar"
+      sha256: "d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      bytes: 51333810
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-beta.6"
+    - artifactId: "sha256:7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      fileName: "epicfight-extra-1.1.4-mc1.20.1-forge-all.jar"
+      sha256: "7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      bytes: 23580690
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-beta.6"
+    - artifactId: "sha256:6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      fileName: "Fancy-Trail1.20.1-1.1.5-all.jar"
+      sha256: "6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      bytes: 5911422
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.2.0-beta.6"
+    - artifactId: "sha256:7f4dec989e2ba17d2c573ed64f75d0c98a3b8ee37df04cb92d023dcce9aae27c"
+      fileName: "tcr_bosses-1.0.18-all.jar"
+      sha256: "7f4dec989e2ba17d2c573ed64f75d0c98a3b8ee37df04cb92d023dcce9aae27c"
+      bytes: 964924
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.3.7-beta.1"
+    - artifactId: "sha256:11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
+      fileName: "tcrcore-2.2.3.jar"
+      sha256: "11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
+      bytes: 31642147
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "0.3.7-beta.1"
+  versao_instalada:
+    - "0.2.0-beta.6"
+    - "0.3.7-beta.1"
+  versoes_observadas_incluindo_desativadas:
+    - "0.2.0-beta.6"
+    - "0.3.7-beta.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "bibliotecas"
+  descricao_curta: "Mixin library for mixin'ing into other mod's mixins"
+  funcao_principal: "Mixin library for mixin'ing into other mod's mixins"
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "mais de uma versão ativa observada entre os conjuntos"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/jarjar/mixinsquared-forge-0.2.0-beta.6.jar!META-INF/mods.toml"
+      - "META-INF/jarjar/mixinsquared-forge-0.3.7-beta.1.jar!META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

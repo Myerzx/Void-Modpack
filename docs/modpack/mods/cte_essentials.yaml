@@ -1,0 +1,61 @@
+mod:
+  id: "cte_essentials"
+  ids_declarados:
+    - "cte_essentials"
+  nome: "CTE2 Essentials"
+  arquivo: "cte_essentials-1.0.7.jar"
+  artefatos:
+    - artifactId: "sha256:8f59f341e99cb23ce6b9798e419e4c622bfc4149811af147dd89141977adf902"
+      fileName: "cte_essentials-1.0.7.jar"
+      sha256: "8f59f341e99cb23ce6b9798e419e4c622bfc4149811af147dd89141977adf902"
+      bytes: 270566
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "1.0.7"
+  versao_instalada: "1.0.7"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.7"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Descrição não verificada."
+  funcao_principal: "Descrição não verificada."
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

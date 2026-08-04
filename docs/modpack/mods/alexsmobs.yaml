@@ -1,0 +1,62 @@
+mod:
+  id: "alexsmobs"
+  ids_declarados:
+    - "alexsmobs"
+  nome: "Alex's Mobs"
+  arquivo: "alexsmobs-1.22.9.jar"
+  artefatos:
+    - artifactId: "sha256:16bc5bcc19db9029c24f951346ec71098e6f5b0afef96e61894a2e9407aad37c"
+      fileName: "alexsmobs-1.22.9.jar"
+      sha256: "16bc5bcc19db9029c24f951346ec71098e6f5b0afef96e61894a2e9407aad37c"
+      bytes: 26350793
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1.22.9"
+  versao_instalada: "1.22.9"
+  versoes_observadas_incluindo_desativadas:
+    - "1.22.9"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "New, original, engaging, and aesthetic mobs for Minecraft."
+  funcao_principal: "New, original, engaging, and aesthetic mobs for Minecraft."
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "citadel"
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

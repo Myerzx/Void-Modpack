@@ -1,0 +1,3323 @@
+{
+  "schemaVersion": 1,
+  "top10": [
+    {
+      "modId": "epicfight",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "17 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "geckolib",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "10 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "architectury",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "12 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "curios",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "6 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "efn",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "invincible",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cloth_config",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "7 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "library_of_exile",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ba_bt",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cataclysm",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "3 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    }
+  ],
+  "all": [
+    {
+      "modId": "aaa_particles",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "aaa_particles_world",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "acceleratedrendering",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "additionalentityattributes",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "aether",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ageingspawners",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "alexsmobs",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ancient_obelisks",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "antibonemeal",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "apoli",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "aquaculture",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "aquaculturedelight",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "aquamirae",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "architectury",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "12 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "armoroftheages",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "armourers_workshop",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "artifacts",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ash_of_sin_better_ai",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "ash_of_sin_custom_anti_seat_entity",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "ash_of_sin_no_more_invalid_statistic",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ash_of_sin_soul_like_boss_battle",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "athena",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "atistructures",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "attributefix",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "attributeslib",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ba_bt",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "badmobs",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "balm",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "beb",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "better_structure_block",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "better_trident_model",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "betterendcities",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "betterendisland",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "betterlockon",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "beyonddimensions",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "biomesoplenty",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "biomespy",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "biomeswevegone",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "blue_skies",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "bookofdragons",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "bookshelf",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "born_in_chaos_v1",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "bosses_of_mass_destruction",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "bountiful",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "bountiful_npc",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "caelus",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "calio",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "callablehorses",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "cataclysm",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "3 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cataclysm_dimension",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "cerbons_api",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cfm",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "chatplus",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "chipped",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "chloride",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "chunksending",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "chunky",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "cinematiccataclysm",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "citadel",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "clearwater",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "cloth_config",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "7 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "clumps",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "combat_evolution",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "combatroll",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "configured",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "corgilib",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "coroutil",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "corpse",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "cosmeticarmorreworked",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "cristellib",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "cte2modpackarmors",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "cte_essentials",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "cumulus_menus",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "cupboard",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "curios",
+      "level": "critico",
+      "score": 11,
+      "reasons": [
+        "6 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "curseforge_project_326818",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "metadados incompletos ou não verificados"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_380969",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "metadados incompletos ou não verificados"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_385587",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "metadados incompletos ou não verificados"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "curseforge_project_627557",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "metadados incompletos ou não verificados"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "customskinloader",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "defaultoptions",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "despawntimers",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "distanthorizons",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "dodge_parry_reward",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "dodosmobs",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "domesticationinnovation",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "drippyloadingscreen",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "dummmmmmy",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "dungeon_realm",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "dungeons_arise",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "easy_npc",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "efm_compat",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "efn",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "efn_enhance",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "efs_iss",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "embeddium",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "enchantinginfuser",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "enchdesc",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "enemyexpansion",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "entityculling",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "entityjs",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "entityrespawner",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "epic_fight_avalon",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "epicfight",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "17 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "epicfight_arachne",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "epicfight_leonidas",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "epicfightx",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "epicskills",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "exile_overlay",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "expandability",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "explorerscompass",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "extrasounds",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "falchionmoveset",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fallingtrees",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fancy_trail",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "fancymenu",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "fantasy_armor",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "farmersdelight",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "fast_event",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fast_tpa",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fastasyncworldsave",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fdlib",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ferritecore",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "flerovium",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "flib",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "fluid_tick_structure_processor",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "flywheel",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "framedblocks",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "fruitsdelight",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ftbessentials",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ftblibrary",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ftbquests",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "ftbteams",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ftbxmodcompat",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "fullstackwatchdog",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "geckoanimfix",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "geckolib",
+      "level": "critico",
+      "score": 13,
+      "reasons": [
+        "10 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "glitchcore",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "globalshaderpackproperties",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "gnetum",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "goblins_tyranny",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "gottschcore",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "gpu_tape",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "graveyard",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "hole_filler_mod",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "hungerstrike",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "iceberg",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "immersive_optimization",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "incontrol",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "indestructible",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "invincible",
+      "level": "alto",
+      "score": 8,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "invmove",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "irons_spellbooks",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "itemborders",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "jade",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "jadeaddons",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "jecharacters",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "jei",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "jeresources",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "kambrik",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "killcam",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "mais de uma versão ativa observada entre os conjuntos",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "konkrete",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "kotlinforforge",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "krypton_fnp",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "kubejs",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "kuma_api",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "l2harvester",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "l2library",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "lang_amend",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "lazyyyyy_lexforge_core",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "legendary_additions",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "legendarytooltips",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "library_of_exile",
+      "level": "alto",
+      "score": 7,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "lightmanscurrency",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "limitedchunks",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "lionfishapi",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "lithostitched",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "logbegone",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "lootr",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "lost_aether_content",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "magistuarmory",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "medievalmusic",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "melody",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "mimic",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "mine_and_meals",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "mixin_booster",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "mixinextras",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "mixinsquared",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "mmorpg",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "mns",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "mns_compat",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "mns_extras",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "modder_name_lib",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "modernfix",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "modernui",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "moogs_structures",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "moonlight",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "mousetweaks",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "mowziesmobs",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "mr_trek",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "naturescompass",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "necronomicon",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "nitrogen_internals",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "noisium",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "notenoughcrashes",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "noworldgenwarning",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "obscure_api",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "oculus",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "ohthetreesyoullgrow",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "opack2reload",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "openloader",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "origins",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "p1nero_bow",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "p1nero_dl",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "p1nero_ec",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "packetfixer",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "pandalib",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "parcool",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "patchouli",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "pbf1",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "pehkui",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "placebo",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "playeranimator",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "4 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "playertrade",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "ponder",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "preloading_tricks",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "prism",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "puzzlesaccessapi",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "puzzleslib",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "quark",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "quick_pack",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "radiantgear",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "rebind_narrator",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "resourcefulconfig",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "resourcefullib",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "rhino",
+      "level": "baixo",
+      "score": 2,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "ribbits",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "roe_weapons",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "rpg_origins",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "rubidium",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "saintsdragons",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "servercore",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "shinyhorses",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "shouldersurfing",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "simplebedrockmodel",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "simply_tokens",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "simplyswords",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "smoothchunk",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "smsn",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "sodiumdynamiclights",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "sodiumoptionsapi",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "soul_like_armors_reworked",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "soulslikeuniverse",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "sound_physics_remastered",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "spark",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "spiral_tower_village",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "starlight",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "structure_gel",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "structure_layout_optimizer",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "summoningrituals",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "super_golem",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "super_warden",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "supplementaries",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "swem",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "sword_soaring",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "t_and_t",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "tabstats",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "taxfreelevels",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "tcr_bosses",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "tcrcore",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "tcrmeshes",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "tcrmodfilter",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "baixa"
+    },
+    {
+      "modId": "tectonic",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "terrablender",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "2 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "the_harvest",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "tlc",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "torchmaster",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "travelerstitles",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "treechop",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "tudigong",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "twilight_lib",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "uchicraftana",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "uniqueaccessories",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "visual_keybinder",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "voicechat",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "voicechat_api",
+      "level": "baixo",
+      "score": 0,
+      "reasons": [
+        "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "void_mns_prof_compat",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "waystones",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "wom",
+      "level": "alto",
+      "score": 6,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "mais de uma versão ativa observada entre os conjuntos"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "worldedit",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "wraithon",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "xaerolib",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "xaerominimap",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "xaeroworldmap",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "versões históricas/desativadas adicionais foram observadas"
+      ],
+      "removalImpact": "alto",
+      "confidence": "media"
+    },
+    {
+      "modId": "xpbook",
+      "level": "medio",
+      "score": 3,
+      "reasons": [
+        "pode registrar conteúdo persistente ou orientado a dados"
+      ],
+      "removalImpact": "medio",
+      "confidence": "media"
+    },
+    {
+      "modId": "yet_another_config_lib_v3",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "you_died",
+      "level": "baixo",
+      "score": 1,
+      "reasons": [
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "baixo",
+      "confidence": "media"
+    },
+    {
+      "modId": "yungsapi",
+      "level": "medio",
+      "score": 4,
+      "reasons": [
+        "3 dependente(s) obrigatório(s)",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    },
+    {
+      "modId": "zeta",
+      "level": "medio",
+      "score": 5,
+      "reasons": [
+        "1 dependente(s) obrigatório(s)",
+        "pode registrar conteúdo persistente ou orientado a dados",
+        "origem/licença ainda não ligada a um provedor"
+      ],
+      "removalImpact": "critico",
+      "confidence": "media"
+    }
+  ],
+  "global": [
+    "launcher atual incompatível por inventário com o servidor ativo",
+    "proveniência/licença incompleta bloqueia redistribuição",
+    "17 artefatos ativos locais/alterados no servidor exigem autoria e licença",
+    "3 stubs ativos podem mascarar dependências reais",
+    "OpenLoader contém milhares de arquivos e integrações orientadas a dados",
+    "world/data do cliente canônico falhou em criação de mundo histórica",
+    "Forge diverge entre cliente e servidor",
+    "compatibilidade por nome/hash não substitui conexão real",
+    "remoções de worldgen/conteúdo podem destruir dados persistentes",
+    "configurações privadas não foram publicadas nem comparadas por valor"
+  ]
+}

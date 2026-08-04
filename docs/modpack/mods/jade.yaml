@@ -1,0 +1,62 @@
+mod:
+  id: "jade"
+  ids_declarados:
+    - "jade"
+  nome: "Jade"
+  arquivo: "Jade-1.20.1-Forge-11.13.2.jar"
+  artefatos:
+    - artifactId: "sha256:31949971a7a8d5a5bc95ad9d400cbedfd2d65ffbfb3cea7c0b2fa3b47431a0a5"
+      fileName: "Jade-1.20.1-Forge-11.13.2.jar"
+      sha256: "31949971a7a8d5a5bc95ad9d400cbedfd2d65ffbfb3cea7c0b2fa3b47431a0a5"
+      bytes: 552486
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "11.13.2+forge"
+  versao_instalada: "11.13.2+forge"
+  versoes_observadas_incluindo_desativadas:
+    - "11.13.2+forge"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "cliente"
+  descricao_curta: "Minecraft mod shows what you are looking at. (Hwyla fork)"
+  funcao_principal: "Minecraft mod shows what you are looking at. (Hwyla fork)"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes:
+    - "jadeaddons"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

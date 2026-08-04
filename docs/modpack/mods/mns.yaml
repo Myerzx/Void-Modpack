@@ -1,0 +1,69 @@
+mod:
+  id: "mns"
+  ids_declarados:
+    - "mns"
+  nome: "MoogsNetherStructures"
+  arquivo: "MoogsNetherStructures-1.20-2.0.2.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:47654996f272b25c8f46f02f01d7dcfdf71dddaaf8752e0b180a7ead55283fc0"
+      fileName: "MoogsNetherStructures-1.20-2.0.2.jar.disabled"
+      sha256: "47654996f272b25c8f46f02f01d7dcfdf71dddaaf8752e0b180a7ead55283fc0"
+      bytes: 1323432
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "2.0.2"
+    - artifactId: "sha256:47654996f272b25c8f46f02f01d7dcfdf71dddaaf8752e0b180a7ead55283fc0"
+      fileName: "MoogsNetherStructures-1.20-2.0.2.jar.disabled"
+      sha256: "47654996f272b25c8f46f02f01d7dcfdf71dddaaf8752e0b180a7ead55283fc0"
+      bytes: 1323432
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "2.0.2"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "2.0.2"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+    - "neoforge"
+  lado: "desconhecido"
+  categoria: "mundo"
+  descricao_curta: "Many structures made with vanilla blocks and entities bringing life to your world! Discover loot, enemies, & villagers along the way!"
+  funcao_principal: "Many structures made with vanilla blocks and entities bringing life to your world! Discover loot, enemies, & villagers along the way!"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "moogs_structures"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "META-INF/neoforge.mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

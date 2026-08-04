@@ -1,0 +1,11 @@
+{
+  "verifiedAt": "2026-08-04",
+  "forge": {
+    "minecraft": "1.20.1",
+    "latest": "47.4.22",
+    "recommended": "47.4.10",
+    "source": "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html"
+  },
+  "forgeMetadataDocumentation": "https://docs.minecraftforge.net/en/1.20.x/gettingstarted/modfiles/",
+  "curseForgeExportDocumentation": "https://support.curseforge.com/support/solutions/articles/9000197908-exporting-a-modpack-for-curseforge-project-submission"
+}

@@ -1,0 +1,66 @@
+mod:
+  id: "artifacts"
+  ids_declarados:
+    - "artifacts"
+  nome: "Artifacts"
+  arquivo: "artifacts-forge-9.5.16.jar"
+  artefatos:
+    - artifactId: "sha256:b39b1aa5882b81f4a53710f841232e25c2eecb577bbde2f399c34bba5fee6e04"
+      fileName: "artifacts-forge-9.5.16.jar"
+      sha256: "b39b1aa5882b81f4a53710f841232e25c2eecb577bbde2f399c34bba5fee6e04"
+      bytes: 850457
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "9.5.16"
+  versao_instalada: "9.5.16"
+  versoes_observadas_incluindo_desativadas:
+    - "9.5.16"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "outros"
+  descricao_curta: "Adds various new powerful uncraftable items to make exploration a bit more interesting"
+  funcao_principal: "Adds various new powerful uncraftable items to make exploration a bit more interesting"
+  essencial: false
+  nivel_importancia: 2
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "architectury"
+    - "cloth_config"
+    - "curios"
+    - "expandability"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

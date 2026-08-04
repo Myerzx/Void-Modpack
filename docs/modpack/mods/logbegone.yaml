@@ -1,0 +1,58 @@
+mod:
+  id: "logbegone"
+  ids_declarados:
+    - "logbegone"
+  nome: "Log Begone"
+  arquivo: "Log-Begone-Forge-1.20.1-1.0.8.jar"
+  artefatos:
+    - artifactId: "sha256:7ac59d4a83c7841f46d1182b626f7b0d229b9159b8ec1a63d7a7dd40fc817adc"
+      fileName: "Log-Begone-Forge-1.20.1-1.0.8.jar"
+      sha256: "7ac59d4a83c7841f46d1182b626f7b0d229b9159b8ec1a63d7a7dd40fc817adc"
+      bytes: 58508
+      state: "active"
+      contexts:
+        - "server_active"
+      modVersion: "1.0.8"
+  versao_instalada: "1.0.8"
+  versoes_observadas_incluindo_desativadas:
+    - "1.0.8"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "servidor"
+  categoria: "outros"
+  descricao_curta: "I hate log spam, don't you?"
+  funcao_principal: "I hate log spam, don't you?"
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado no servidor ativo e ausente dos conjuntos de cliente por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

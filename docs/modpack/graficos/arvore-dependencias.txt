@@ -1,0 +1,169 @@
+ÁRVORE DE DEPENDÊNCIAS — PONTOS COMPARTILHADOS
+
+epicfight [CRÍTICO] [AMBOS]
+├── betterlockon
+├── dodge_parry_reward
+├── efn
+├── epic_fight_avalon
+├── epicfightx
+├── falchionmoveset
+├── indestructible
+├── invincible
+├── p1nero_bow
+├── soulslikeuniverse
+├── super_golem
+├── super_warden
+├── sword_soaring
+├── tcr_bosses
+├── tcrcore
+├── wom
+└── wraithon
+
+architectury [CRÍTICO] [AMBOS]
+├── aaa_particles_world
+├── artifacts
+├── chatplus
+├── fallingtrees
+├── ftblibrary
+├── ftbquests
+├── ftbteams
+├── ftbxmodcompat
+├── kubejs
+├── magistuarmory
+├── pandalib
+└── simplyswords
+
+geckolib [CRÍTICO] [AMBOS]
+├── biomeswevegone
+├── bookofdragons
+├── bosses_of_mass_destruction
+├── entityjs
+├── graveyard
+├── irons_spellbooks
+├── mowziesmobs
+├── ribbits
+├── saintsdragons
+└── swem
+
+cloth_config [CRÍTICO] [AMBOS]
+├── artifacts
+├── bosses_of_mass_destruction
+├── combatroll
+├── magistuarmory
+├── simplyswords
+├── taxfreelevels
+└── uniqueaccessories
+
+curios [CRÍTICO] [AMBOS]
+├── aether
+├── artifacts
+├── irons_spellbooks
+├── mmorpg
+├── radiantgear
+└── uniqueaccessories
+
+cupboard [OBRIGATÓRIO] [AMBOS]
+├── chunksending
+├── fastasyncworldsave
+├── limitedchunks
+└── smoothchunk
+
+efn [OBRIGATÓRIO] [AMBOS]
+├── efn_enhance
+├── p1nero_ec
+├── tcr_bosses
+└── tcrcore
+
+epic_fight_avalon [OBRIGATÓRIO] [AMBOS]
+├── efn
+├── super_golem
+├── super_warden
+└── wraithon
+
+ftblibrary [OBRIGATÓRIO] [AMBOS]
+├── ftbessentials
+├── ftbquests
+├── ftbteams
+└── ftbxmodcompat
+
+library_of_exile [OBRIGATÓRIO] [AMBOS]
+├── ancient_obelisks
+├── dungeon_realm
+├── mmorpg
+└── the_harvest
+
+playeranimator [OBRIGATÓRIO] [AMBOS]
+├── combatroll
+├── irons_spellbooks
+├── mmorpg
+└── swem
+
+cataclysm [OBRIGATÓRIO] [AMBOS]
+├── cataclysm_dimension
+├── p1nero_ec
+└── tcrcore
+
+yungsapi [OBRIGATÓRIO] [AMBOS]
+├── betterendisland
+├── ribbits
+└── travelerstitles
+
+ba_bt [OBRIGATÓRIO] [AMBOS]
+├── tcr_bosses
+└── tcrcore
+
+balm [OBRIGATÓRIO] [AMBOS]
+├── defaultoptions
+└── waystones
+
+calio [OBRIGATÓRIO] [DESCONHECIDO]
+├── apoli
+└── origins
+
+citadel [OBRIGATÓRIO] [AMBOS]
+├── alexsmobs
+└── domesticationinnovation
+
+embeddium [OBRIGATÓRIO] [CLIENTE]
+├── chloride
+└── flerovium
+
+iceberg [OBRIGATÓRIO] [AMBOS]
+├── itemborders
+└── legendarytooltips
+
+invincible [OBRIGATÓRIO] [AMBOS]
+├── efn
+└── sword_soaring
+
+konkrete [OBRIGATÓRIO] [CLIENTE]
+├── drippyloadingscreen
+└── fancymenu
+
+lionfishapi [OBRIGATÓRIO] [AMBOS]
+├── cataclysm
+└── dodosmobs
+
+mmorpg [OBRIGATÓRIO] [AMBOS]
+├── mns_compat
+└── void_mns_prof_compat
+
+moonlight [OBRIGATÓRIO] [AMBOS]
+├── dummmmmmy
+└── supplementaries
+
+prism [OBRIGATÓRIO] [AMBOS]
+├── itemborders
+└── legendarytooltips
+
+resourcefulconfig [OBRIGATÓRIO] [AMBOS]
+├── clearwater
+└── structure_layout_optimizer
+
+structure_gel [OBRIGATÓRIO] [AMBOS]
+├── blue_skies
+└── lost_aether_content
+
+terrablender [OBRIGATÓRIO] [AMBOS]
+├── biomesoplenty
+└── biomeswevegone

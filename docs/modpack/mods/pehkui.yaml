@@ -1,0 +1,58 @@
+mod:
+  id: "pehkui"
+  ids_declarados:
+    - "pehkui"
+  nome: "Pehkui"
+  arquivo: "Pehkui-3.8.2+1.20.1-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:54210f454c166f65a1bcbbfe4ea52e6f73e07844a793c7132f1af4076a0f42fc"
+      fileName: "Pehkui-3.8.2+1.20.1-forge.jar.disabled"
+      sha256: "54210f454c166f65a1bcbbfe4ea52e6f73e07844a793c7132f1af4076a0f42fc"
+      bytes: 671605
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "3.8.2+1.20.1-forge"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "3.8.2+1.20.1-forge"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "outros"
+  descricao_curta: "Allows resizing of most entities."
+  funcao_principal: "Allows resizing of most entities."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "nenhum risco estrutural adicional confirmado; smoke test continua obrigatório"
+  impacto_desempenho: "não caracterizado"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

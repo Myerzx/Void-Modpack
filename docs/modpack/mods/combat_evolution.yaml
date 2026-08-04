@@ -1,0 +1,64 @@
+mod:
+  id: "combat_evolution"
+  ids_declarados:
+    - "combat_evolution"
+  nome: "Combat Evolution"
+  arquivo: "CombatEvolution-2.1.1.jar"
+  artefatos:
+    - artifactId: "sha256:9d24ed5e56d755e205d09c4e7e4f10ec6a3efed0464e188febcfbd339451b848"
+      fileName: "CombatEvolution-2.1.1.jar"
+      sha256: "9d24ed5e56d755e205d09c4e7e4f10ec6a3efed0464e188febcfbd339451b848"
+      bytes: 2427531
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "2.1.1"
+  versao_instalada: "2.1.1"
+  versoes_observadas_incluindo_desativadas:
+    - "2.1.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "combate"
+  descricao_curta: "Lib for making EpicFight Mob AI"
+  funcao_principal: "Lib for making EpicFight Mob AI"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "tcrcore"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

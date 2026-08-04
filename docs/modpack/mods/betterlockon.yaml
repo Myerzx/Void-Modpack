@@ -1,0 +1,61 @@
+mod:
+  id: "betterlockon"
+  ids_declarados:
+    - "betterlockon"
+  nome: "Better Lock On"
+  arquivo: "betterlockon-2.0.5-forge.jar"
+  artefatos:
+    - artifactId: "sha256:fa96299c2a305953ad64d495300a1b051fba17c47f2a7a399a04dd700fe7a9f9"
+      fileName: "betterlockon-2.0.5-forge.jar"
+      sha256: "fa96299c2a305953ad64d495300a1b051fba17c47f2a7a399a04dd700fe7a9f9"
+      bytes: 430838
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "2.0.5-forge"
+  versao_instalada: "2.0.5-forge"
+  versoes_observadas_incluindo_desativadas:
+    - "2.0.5-forge"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "To make your lock on icon cooler"
+  funcao_principal: "To make your lock on icon cooler"
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "epicfight"
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

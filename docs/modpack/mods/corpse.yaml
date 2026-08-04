@@ -1,0 +1,64 @@
+mod:
+  id: "corpse"
+  ids_declarados:
+    - "corpse"
+  nome: "Corpse"
+  arquivo: "corpse-forge-1.20.1-1.0.23.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:8d77c5fc8dc981c750a8e66d4665f055457f748f0ce49a303d9bc50347bdbf7c"
+      fileName: "corpse-forge-1.20.1-1.0.23.jar.disabled"
+      sha256: "8d77c5fc8dc981c750a8e66d4665f055457f748f0ce49a303d9bc50347bdbf7c"
+      bytes: 245644
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.20.1-1.0.23"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-1.0.23"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "armazenamento"
+  descricao_curta: "This mod brings a corpse into the game. It will spawn upon your death containing all items that you had in your inventory."
+  funcao_principal: "This mod brings a corpse into the game. It will spawn upon your death containing all items that you had in your inventory."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais:
+    - "jade"
+    - "jei"
+  dependentes: []
+  integracoes:
+    - "jade"
+    - "jei"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "tick de inventários, serialização e redes de itens"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

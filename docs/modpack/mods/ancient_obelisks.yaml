@@ -1,0 +1,65 @@
+mod:
+  id: "ancient_obelisks"
+  ids_declarados:
+    - "ancient_obelisks"
+  nome: "Ancient Obelisks"
+  arquivo: "Ancient-Obelisks-1.20.1-1.2.3.jar"
+  artefatos:
+    - artifactId: "sha256:838521c23cc0921e678e42ace538ee6ed297fcd7af5e67fb4b7ebc76fb5f9982"
+      fileName: "Ancient-Obelisks-1.20.1-1.2.3.jar"
+      sha256: "838521c23cc0921e678e42ace538ee6ed297fcd7af5e67fb4b7ebc76fb5f9982"
+      bytes: 350478
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "1.2.3"
+  versao_instalada: "1.2.3"
+  versoes_observadas_incluindo_desativadas:
+    - "1.2.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Obelisks of the Ancients spawn across the world, can you conquer them?"
+  funcao_principal: "Obelisks of the Ancients spawn across the world, can you conquer them?"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "library_of_exile"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "mmorpg"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

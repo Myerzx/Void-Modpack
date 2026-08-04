@@ -1,0 +1,63 @@
+mod:
+  id: "enchantinginfuser"
+  ids_declarados:
+    - "enchantinginfuser"
+  nome: "Enchanting Infuser"
+  arquivo: "EnchantingInfuser-v8.0.3-1.20.1-Forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:2563fb5ed1c4737c2adbc379ab4782dee89cc80a25ca938d3294a6fe0b13f6a4"
+      fileName: "EnchantingInfuser-v8.0.3-1.20.1-Forge.jar.disabled"
+      sha256: "2563fb5ed1c4737c2adbc379ab4782dee89cc80a25ca938d3294a6fe0b13f6a4"
+      bytes: 177437
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_disabled"
+        - "server_active"
+      modVersion: "8.0.3"
+  versao_instalada: "8.0.3"
+  versoes_observadas_incluindo_desativadas:
+    - "8.0.3"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "magia"
+  descricao_curta: "An all new enchanting table: Choose your enchantments for fair prices! Plus no more randomness!"
+  funcao_principal: "An all new enchanting table: Choose your enchantments for fair prices! Plus no more randomness!"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+    - "puzzleslib"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "entidades, efeitos e sincronização"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

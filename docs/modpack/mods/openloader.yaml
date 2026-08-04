@@ -1,0 +1,71 @@
+mod:
+  id: "openloader"
+  ids_declarados:
+    - "openloader"
+  nome: "OpenLoader"
+  arquivo: null
+  artefatos:
+    - artifactId: "sha256:30e7baa36edd497801eaca4acb3d1cebe77eae7feca675ac85045dc39a99c6b8"
+      fileName: "OpenLoader-Forge-1.20.1-19.0.4.jar"
+      sha256: "30e7baa36edd497801eaca4acb3d1cebe77eae7feca675ac85045dc39a99c6b8"
+      bytes: 23938
+      state: "active"
+      contexts:
+        - "launcher_current"
+      modVersion: "19.0.4"
+    - artifactId: "sha256:56da03448ce1c63cb0f41e99ae38c5857d663886f9249c234f18b7c0de44b151"
+      fileName: "OpenLoader-Forge-1.20.1-19.0.5.jar"
+      sha256: "56da03448ce1c63cb0f41e99ae38c5857d663886f9249c234f18b7c0de44b151"
+      bytes: 23937
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "19.0.5"
+  versao_instalada:
+    - "19.0.4"
+    - "19.0.5"
+  versoes_observadas_incluindo_desativadas:
+    - "19.0.4"
+    - "19.0.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "scripts"
+  descricao_curta: "An open source data and resource loader."
+  funcao_principal: "An open source data and resource loader."
+  essencial: false
+  nivel_importancia: 3
+  pode_ser_removido: false
+  impacto_remocao: "medio"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais:
+    - "Launcher/pack/overrides/openloader/advanced_options.json"
+  riscos:
+    - "mais de uma versão ativa observada entre os conjuntos"
+  impacto_desempenho: "reload de dados, receitas e eventos dirigidos por script"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: incompativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: false
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: true
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

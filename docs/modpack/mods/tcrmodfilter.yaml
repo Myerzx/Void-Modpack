@@ -1,0 +1,56 @@
+mod:
+  id: "tcrmodfilter"
+  ids_declarados:
+    - "tcrmodfilter"
+  nome: "tcrmodfilter-1.0.6.jar"
+  arquivo: "tcrmodfilter-1.0.6.jar"
+  artefatos:
+    - artifactId: "sha256:23430c3b43ca97b3329e32a7573a741176e0aaa898b3e92602810474fe5a3fc8"
+      fileName: "tcrmodfilter-1.0.6.jar"
+      sha256: "23430c3b43ca97b3329e32a7573a741176e0aaa898b3e92602810474fe5a3fc8"
+      bytes: 4548
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: null
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas: []
+  minecraft: "1.20.1"
+  loader:
+    - "não verificado"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Metadados internos não verificados para este artefato."
+  funcao_principal: "Metadados internos não verificados para este artefato."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: nao verificado"
+  confianca:
+    nivel: "baixa"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

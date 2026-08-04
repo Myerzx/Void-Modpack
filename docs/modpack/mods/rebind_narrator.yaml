@@ -1,0 +1,59 @@
+mod:
+  id: "rebind_narrator"
+  ids_declarados:
+    - "rebind_narrator"
+  nome: "Rebind Narrator"
+  arquivo: "rebind_narrator-1.20.1-forge-2025.12.23.jar"
+  artefatos:
+    - artifactId: "sha256:ee3ecace8b723cc41996e074be42c578f68f9d73d37c8bc393b243aa28194735"
+      fileName: "rebind_narrator-1.20.1-forge-2025.12.23.jar"
+      sha256: "ee3ecace8b723cc41996e074be42c578f68f9d73d37c8bc393b243aa28194735"
+      bytes: 214624
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "2025.12.23"
+  versao_instalada: "2025.12.23"
+  versoes_observadas_incluindo_desativadas:
+    - "2025.12.23"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Adds a keybind to options for the narrator."
+  funcao_principal: "Adds a keybind to options for the narrator."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "modder_name_lib"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

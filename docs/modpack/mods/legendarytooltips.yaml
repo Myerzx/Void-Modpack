@@ -1,0 +1,65 @@
+mod:
+  id: "legendarytooltips"
+  ids_declarados:
+    - "legendarytooltips"
+  nome: "Legendary Tooltips"
+  arquivo: "LegendaryTooltips-1.20.1-forge-1.4.5.jar"
+  artefatos:
+    - artifactId: "sha256:15521ab414b92f60e75bdd49724eb65bb6aa8b3d6f72c157cc261011d58d625e"
+      fileName: "LegendaryTooltips-1.20.1-forge-1.4.5.jar"
+      sha256: "15521ab414b92f60e75bdd49724eb65bb6aa8b3d6f72c157cc261011d58d625e"
+      bytes: 55258
+      state: "active"
+      contexts:
+        - "embedded_client"
+      modVersion: "1.4.5"
+  versao_instalada: "1.4.5"
+  versoes_observadas_incluindo_desativadas:
+    - "1.4.5"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "cliente"
+  categoria: "cliente"
+  descricao_curta: "Gives rare items a fancy tooltip and adds additional tooltip configuration options."
+  funcao_principal: "Gives rare items a fancy tooltip and adds additional tooltip configuration options."
+  essencial: false
+  nivel_importancia: 4
+  pode_ser_removido: true
+  impacto_remocao: "baixo"
+  dependencias_obrigatorias:
+    - "forge"
+    - "iceberg"
+    - "minecraft"
+    - "prism"
+  dependencias_opcionais:
+    - "equipmentcompare"
+  dependentes: []
+  integracoes:
+    - "equipmentcompare"
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "renderização, memória gráfica e interface"
+  observacoes:
+    - "contextos: cliente privado de referência"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "observado em conjunto de cliente e ausente do servidor por mod_id"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "baixo"

@@ -1,0 +1,63 @@
+mod:
+  id: "tectonic"
+  ids_declarados:
+    - "tectonic"
+  nome: "Tectonic"
+  arquivo: "tectonic-forge-1.20.1-2.4.1.jar"
+  artefatos:
+    - artifactId: "sha256:1e8a9f1c929ccea1adda609233dad8b52f0d44d73b5c73254bed92a8b0d0f992"
+      fileName: "tectonic-forge-1.20.1-2.4.1.jar"
+      sha256: "1e8a9f1c929ccea1adda609233dad8b52f0d44d73b5c73254bed92a8b0d0f992"
+      bytes: 349125
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "launcher_current"
+        - "server_active"
+      modVersion: "2.4.1"
+  versao_instalada: "2.4.1"
+  versoes_observadas_incluindo_desativadas:
+    - "2.4.1"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Massively altered world generation with mountain ranges, underground rivers and more!"
+  funcao_principal: "Massively altered world generation with mountain ranges, underground rivers and more!"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais:
+    - "Launcher/pack/overrides/config/tectonic.json"
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, launcher atual, servidor ativo"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: true
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"

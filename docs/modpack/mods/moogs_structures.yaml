@@ -1,0 +1,62 @@
+mod:
+  id: "moogs_structures"
+  ids_declarados:
+    - "moogs_structures"
+  nome: "Moog's Structure Lib"
+  arquivo: "moogs_structure_lib-1.1.0-1.20-1.20.4-forge.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:284e25e4b216bebf6aa2b3859bad7c0f47aa23281e658f0725484f994f85eac4"
+      fileName: "moogs_structure_lib-1.1.0-1.20-1.20.4-forge.jar.disabled"
+      sha256: "284e25e4b216bebf6aa2b3859bad7c0f47aa23281e658f0725484f994f85eac4"
+      bytes: 259848
+      state: "disabled"
+      contexts:
+        - "launcher_disabled"
+      modVersion: "1.1.0-1.20-1.20.4"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.1.0-1.20-1.20.4"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "bibliotecas"
+  descricao_curta: "Moogs Structure Lib is a library mod used to generate the structures from the moog structure mods. Feel free to use it for your own projects and mods."
+  funcao_principal: "Moogs Structure Lib is a library mod used to generate the structures from the moog structure mods. Feel free to use it for your own projects and mods."
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "critico"
+  dependencias_obrigatorias:
+    - "forge"
+    - "minecraft"
+  dependencias_opcionais: []
+  dependentes:
+    - "mns"
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "1 dependente(s) obrigatório(s)"
+    - "pode registrar conteúdo persistente ou orientado a dados"
+  impacto_desempenho: "indireto por dependentes"
+  observacoes:
+    - "contextos: launcher desativado"
+    - "compatibilidade: correto"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: true
+  exige_backup: true
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: false
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "critico"

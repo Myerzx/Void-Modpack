@@ -1,0 +1,59 @@
+mod:
+  id: "cosmeticarmorreworked"
+  ids_declarados:
+    - "cosmeticarmorreworked"
+  nome: "CosmeticArmorReworked"
+  arquivo: "cosmeticarmorreworked-1.20.1-v1a.jar.disabled"
+  artefatos:
+    - artifactId: "sha256:c790e8671625b05ec0aa19272e0ea74ea95619f953e3c6f39a6736af0d386804"
+      fileName: "cosmeticarmorreworked-1.20.1-v1a.jar.disabled"
+      sha256: "c790e8671625b05ec0aa19272e0ea74ea95619f953e3c6f39a6736af0d386804"
+      bytes: 88752
+      state: "disabled"
+      contexts:
+        - "server_disabled"
+      modVersion: "1.20.1-v1a"
+  versao_instalada: []
+  versoes_observadas_incluindo_desativadas:
+    - "1.20.1-v1a"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+  lado: "desconhecido"
+  categoria: "combate"
+  descricao_curta: "This mod allows you to wear two sets of armor, one for display, one for function. You can also hide armor for your skin. For PVP, you can stop the mod from functioning on your cli…"
+  funcao_principal: "This mod allows you to wear two sets of armor, one for display, one for function. You can also hide armor for your skin. For PVP, you can stop the mod from functioning on your cli…"
+  essencial: false
+  nivel_importancia: 5
+  pode_ser_removido: true
+  impacto_remocao: "medio"
+  dependencias_obrigatorias:
+    - "forge"
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "entidades, animações, IA e sincronização de combate"
+  observacoes:
+    - "contextos: servidor desativado"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "apenas cópia desativada ou artefato sem contexto executável"
+manutencao:
+  atualizar_com_seguranca: "com smoke test do cliente"
+  remover_com_seguranca: true
+  exige_backup: false
+  exige_novo_mundo: false
+  pode_corromper_chunks: "não evidenciado"
+  pode_remover_itens: false
+  pode_quebrar_receitas: false
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "medio"

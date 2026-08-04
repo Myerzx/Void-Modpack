@@ -1,0 +1,71 @@
+mod:
+  id: "mr_trek"
+  ids_declarados:
+    - "mr_trek"
+  nome: "Trek"
+  arquivo: "trek-B0.6.jar"
+  artefatos:
+    - artifactId: "sha256:78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
+      fileName: "trek-B0.6.jar"
+      sha256: "78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
+      bytes: 25458242
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1-B0.6"
+    - artifactId: "sha256:78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
+      fileName: "trek-B0.6.jar"
+      sha256: "78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
+      bytes: 25458242
+      state: "active"
+      contexts:
+        - "embedded_client"
+        - "server_active"
+      modVersion: "1-B0.6"
+  versao_instalada: "1-B0.6"
+  versoes_observadas_incluindo_desativadas:
+    - "1-B0.6"
+  minecraft: "1.20.1"
+  loader:
+    - "forge"
+    - "neoforge"
+  lado: "ambos"
+  categoria: "mundo"
+  descricao_curta: "Bored of vanilla structure generation? This pack is for you!"
+  funcao_principal: "Bored of vanilla structure generation? This pack is for you!"
+  essencial: true
+  nivel_importancia: 1
+  pode_ser_removido: false
+  impacto_remocao: "alto"
+  dependencias_obrigatorias: []
+  dependencias_opcionais: []
+  dependentes: []
+  integracoes: []
+  configs_principais: []
+  riscos:
+    - "pode registrar conteúdo persistente ou orientado a dados"
+    - "origem/licença ainda não ligada a um provedor"
+  impacto_desempenho: "geração de mundo e tick"
+  observacoes:
+    - "contextos: cliente privado de referência, servidor ativo"
+    - "compatibilidade: possivelmente compativel"
+  confianca:
+    nivel: "alta"
+    origem: "metadatos do loader, hashes e inventários sanitizados"
+    evidencias:
+      - "META-INF/mods.toml"
+      - "META-INF/neoforge.mods.toml"
+      - "artefato/mod_id observado no servidor e em cliente de referência"
+manutencao:
+  atualizar_com_seguranca: "somente com backup, changelog do provedor e smoke test"
+  remover_com_seguranca: false
+  exige_backup: true
+  exige_novo_mundo: true
+  pode_corromper_chunks: "possivel"
+  pode_remover_itens: true
+  pode_quebrar_receitas: true
+  pode_quebrar_scripts: false
+  pode_quebrar_progressao: true
+  procedimento_recomendado: "clonar ambiente, fazer backup verificável, alterar um componente por vez, iniciar mundo descartável, conectar cliente e testar restauração"
+  impacto_remocao: "alto"
