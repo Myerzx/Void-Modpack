@@ -2512,8 +2512,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_apps_launcher_api_test_launcher_api_test_releasefixture",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 143,
+      "community_name": "launcher-api/src/app.ts",
       "norm_label": "releasefixture()"
     },
     {
@@ -9607,8 +9607,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "agent-envelope.ts"
     },
     {
@@ -9618,8 +9618,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_agentheartbeatpayloadschema",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "agentheartbeatpayloadschema"
     },
     {
@@ -9629,8 +9629,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_agentheartbeatpayload",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "agentheartbeatpayload"
     },
     {
@@ -9640,8 +9640,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_agentenvelopeschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "agentenvelopeschema"
     },
     {
@@ -9651,8 +9651,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_agentenvelope",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "agentenvelope"
     },
     {
@@ -9662,8 +9662,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_validateagentenvelope",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "validateagentenvelope()"
     },
     {
@@ -9673,7 +9673,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_agent_envelope_validateagentheartbeatpayload",
-      "community": 160,
+      "community": 169,
       "community_name": "validateContract",
       "norm_label": "validateagentheartbeatpayload()"
     },
@@ -9684,8 +9684,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 191,
+      "community_name": "audit-chain-export.ts",
       "norm_label": "audit-chain-export.ts"
     },
     {
@@ -9695,8 +9695,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifestschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 191,
+      "community_name": "audit-chain-export.ts",
       "norm_label": "auditchainexportmanifestschema"
     },
     {
@@ -9706,8 +9706,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifest",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 191,
+      "community_name": "audit-chain-export.ts",
       "norm_label": "auditchainexportmanifest"
     },
     {
@@ -9717,8 +9717,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_validateauditchainexportmanifest",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 191,
+      "community_name": "audit-chain-export.ts",
       "norm_label": "validateauditchainexportmanifest()"
     },
     {
@@ -9992,8 +9992,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_contractschemaversion",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 114,
+      "community_name": "moderation-case.ts",
       "norm_label": "contractschemaversion"
     },
     {
@@ -10014,8 +10014,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_isodatetimeschema",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 191,
+      "community_name": "audit-chain-export.ts",
       "norm_label": "isodatetimeschema"
     },
     {
@@ -10036,8 +10036,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_base64urlschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "base64urlschema"
     },
     {
@@ -10047,8 +10047,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_slugschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "slugschema"
     },
     {
@@ -10168,8 +10168,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_actorrefschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "actorrefschema"
     },
     {
@@ -10179,8 +10179,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_signatureschema",
-      "community": 123,
-      "community_name": "semanticIssue",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "signatureschema"
     },
     {
@@ -10256,8 +10256,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "forge-build-request.ts"
     },
     {
@@ -10267,8 +10267,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_forgebuildrequestschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "forgebuildrequestschema"
     },
     {
@@ -10278,8 +10278,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_forgebuildrequest",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "forgebuildrequest"
     },
     {
@@ -10289,7 +10289,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_validateforgebuildrequest",
-      "community": 160,
+      "community": 169,
       "community_name": "validateContract",
       "norm_label": "validateforgebuildrequest()"
     },
@@ -10300,8 +10300,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_index",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "contracts/src/index.ts"
     },
     {
@@ -10477,7 +10477,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_normalizedpath",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "normalizedpath()"
     },
     {
@@ -10488,7 +10488,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_validateinventorysnapshot",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validateinventorysnapshot()"
     },
     {
@@ -10498,8 +10498,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job",
-      "community": 160,
-      "community_name": "validateContract",
+      "community": 159,
+      "community_name": "audit-event.ts",
       "norm_label": "job.ts"
     },
     {
@@ -10520,8 +10520,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_job",
-      "community": 160,
-      "community_name": "validateContract",
+      "community": 159,
+      "community_name": "audit-event.ts",
       "norm_label": "job"
     },
     {
@@ -10532,7 +10532,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_validatejob",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validatejob()"
     },
     {
@@ -10542,8 +10542,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel",
-      "community": 123,
-      "community_name": "semanticIssue",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "launcher-channel.ts"
     },
     {
@@ -10553,8 +10553,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_previouschannelrevisionschema",
-      "community": 123,
-      "community_name": "semanticIssue",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "previouschannelrevisionschema"
     },
     {
@@ -10564,8 +10564,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_launcherchannelschema",
-      "community": 123,
-      "community_name": "semanticIssue",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "launcherchannelschema"
     },
     {
@@ -10575,8 +10575,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_launcherchannel",
-      "community": 123,
-      "community_name": "semanticIssue",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "launcherchannel"
     },
     {
@@ -10586,7 +10586,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_validatelauncherchannel",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "validatelauncherchannel()"
     },
@@ -10631,7 +10631,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_normalizedpath",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "normalizedpath()"
     },
     {
@@ -10642,7 +10642,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_validatelaunchermanagedstate",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validatelaunchermanagedstate()"
     },
     {
@@ -10708,7 +10708,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_validateminecraftpermissionbinding",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validateminecraftpermissionbinding()"
     },
     {
@@ -10751,8 +10751,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_validatemodcatalogentry",
-      "community": 160,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "validatemodcatalogentry()"
     },
     {
@@ -10806,8 +10806,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationcaseschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "moderationcaseschema"
     },
     {
@@ -10850,8 +10850,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "player-data-policy.ts"
     },
     {
@@ -10861,8 +10861,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategoryschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "playerdatacategoryschema"
     },
     {
@@ -10872,8 +10872,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdataruleschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "playerdataruleschema"
     },
     {
@@ -10883,8 +10883,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicyschema",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "playerdatapolicyschema"
     },
     {
@@ -10894,8 +10894,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategory",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "playerdatacategory"
     },
     {
@@ -10905,8 +10905,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicy",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "playerdatapolicy"
     },
     {
@@ -10916,8 +10916,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_categoryorder",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "categoryorder"
     },
     {
@@ -10927,8 +10927,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_validateplayerdatapolicy",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 158,
+      "community_name": "export-schemas.ts",
       "norm_label": "validateplayerdatapolicy()"
     },
     {
@@ -10938,8 +10938,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "player-profile.ts"
     },
     {
@@ -10949,8 +10949,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_minecraftaliasschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "minecraftaliasschema"
     },
     {
@@ -10971,8 +10971,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_minecraftalias",
-      "community": 115,
-      "community_name": "player-governance/src/types.ts",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "minecraftalias"
     },
     {
@@ -10982,8 +10982,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_playerprofile",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "playerprofile"
     },
     {
@@ -10993,8 +10993,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_normalizealias",
-      "community": 160,
-      "community_name": "validateContract",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "normalizealias()"
     },
     {
@@ -11004,8 +11004,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_validateplayerprofile",
-      "community": 160,
-      "community_name": "validateContract",
+      "community": 123,
+      "community_name": "contracts/src/index.ts",
       "norm_label": "validateplayerprofile()"
     },
     {
@@ -11015,7 +11015,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "release-manifest.ts"
     },
@@ -11037,7 +11037,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_releasemanifest",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "releasemanifest"
     },
@@ -11048,7 +11048,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_normalizedpath",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "normalizedpath()"
     },
@@ -11059,7 +11059,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatecanonicalpaths",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "validatecanonicalpaths()"
     },
@@ -11070,7 +11070,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatereleasemanifest",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "validatereleasemanifest()"
     },
@@ -11082,7 +11082,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "contracts/src/validation.ts"
     },
     {
@@ -11103,8 +11103,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_contractvalidationresult",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "contractvalidationresult"
     },
     {
@@ -11115,7 +11115,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_ajv",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "ajv"
     },
     {
@@ -11126,7 +11126,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_require",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "require"
     },
     {
@@ -11137,7 +11137,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_addformats",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "addformats"
     },
     {
@@ -11148,7 +11148,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_validatorcache",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "validatorcache"
     },
     {
@@ -11159,7 +11159,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_getvalidator",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "getvalidator()"
     },
     {
@@ -11170,7 +11170,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_mapajverror",
       "community": 169,
-      "community_name": "contracts/src/validation.ts",
+      "community_name": "validateContract",
       "norm_label": "mapajverror()"
     },
     {
@@ -11180,7 +11180,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_validatecontract",
-      "community": 160,
+      "community": 169,
       "community_name": "validateContract",
       "norm_label": "validatecontract()"
     },
@@ -11191,7 +11191,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_semanticissue",
-      "community": 123,
+      "community": 160,
       "community_name": "semanticIssue",
       "norm_label": "semanticissue()"
     },
@@ -11203,7 +11203,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_appendsemanticissues",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "appendsemanticissues()"
     },
     {
@@ -11214,7 +11214,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "contracts.test.ts"
     },
     {
@@ -11225,7 +11225,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_hasha",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "hasha"
     },
     {
@@ -11236,7 +11236,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_hashb",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "hashb"
     },
     {
@@ -11247,7 +11247,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_signature",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "signature"
     },
     {
@@ -11258,7 +11258,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validjob",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validjob()"
     },
     {
@@ -11269,7 +11269,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validcatalogentry",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validcatalogentry()"
     },
     {
@@ -11280,7 +11280,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validmanifest",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validmanifest()"
     },
     {
@@ -11291,7 +11291,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validinventorysnapshot",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validinventorysnapshot()"
     },
     {
@@ -11302,7 +11302,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validreconciliationreport",
       "community": 160,
-      "community_name": "validateContract",
+      "community_name": "semanticIssue",
       "norm_label": "validreconciliationreport()"
     },
     {
@@ -18188,7 +18188,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "canonical-json.ts"
     },
     {
@@ -18199,7 +18199,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonvalue",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "canonicaljsonvalue"
     },
     {
@@ -18210,7 +18210,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicalize",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "canonicalize()"
     },
     {
@@ -18221,7 +18221,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljson",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "canonicaljson()"
     },
     {
@@ -18231,8 +18231,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonbytes",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 149,
+      "community_name": "canonicalJsonBytes",
       "norm_label": "canonicaljsonbytes()"
     },
     {
@@ -18254,7 +18254,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "channel-signing.ts"
     },
     {
@@ -18264,8 +18264,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedlauncherchannel",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 149,
+      "community_name": "canonicalJsonBytes",
       "norm_label": "unsignedlauncherchannel"
     },
     {
@@ -18276,7 +18276,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedchannel",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "unsignedchannel()"
     },
     {
@@ -18287,7 +18287,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_launcherchannelpayload",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "launcherchannelpayload()"
     },
     {
@@ -18297,8 +18297,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_signlauncherchannel",
-      "community": 149,
-      "community_name": "signing.ts",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "signlauncherchannel()"
     },
     {
@@ -18309,7 +18309,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_verifylauncherchannelsignature",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "verifylauncherchannelsignature()"
     },
     {
@@ -18639,7 +18639,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_index",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "modpack-release/src/index.ts"
     },
     {
@@ -18749,7 +18749,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "signing.ts"
     },
     {
@@ -18760,7 +18760,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedreleasemanifest",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "unsignedreleasemanifest"
     },
     {
@@ -18771,7 +18771,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedmanifest",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "unsignedmanifest()"
     },
     {
@@ -18782,7 +18782,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_releasemanifestpayload",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "releasemanifestpayload()"
     },
     {
@@ -18793,7 +18793,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "ed25519releasesigner"
     },
     {
@@ -18804,7 +18804,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_constructor",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": ".constructor()"
     },
     {
@@ -18815,7 +18815,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_sign",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": ".sign()"
     },
     {
@@ -18826,7 +18826,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_signreleasemanifest",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "signreleasemanifest()"
     },
     {
@@ -18837,7 +18837,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_signing_verifyreleasemanifestsignature",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "verifyreleasemanifestsignature()"
     },
     {
@@ -19046,7 +19046,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "releasedocumentsigner"
     },
     {
@@ -19057,7 +19057,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner_sign",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": ".sign()"
     },
     {
@@ -19100,8 +19100,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_storedrelease",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 146,
+      "community_name": "modpack-release/src/types.ts",
       "norm_label": "storedrelease"
     },
     {
@@ -19178,7 +19178,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": "releaserepositoryerror"
     },
     {
@@ -19189,7 +19189,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror_constructor",
       "community": 149,
-      "community_name": "signing.ts",
+      "community_name": "canonicalJsonBytes",
       "norm_label": ".constructor()"
     },
     {
@@ -19232,8 +19232,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror",
-      "community": 149,
-      "community_name": "signing.ts",
+      "community": 145,
+      "community_name": "sanitization.ts",
       "norm_label": "releasebuilderror"
     },
     {
@@ -19243,8 +19243,8 @@
       "source_location": "L241",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror_constructor",
-      "community": 149,
-      "community_name": "signing.ts",
+      "community": 145,
+      "community_name": "sanitization.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -28650,6 +28650,61 @@
       "id": "graphify_out_memory_query_20260803_233041_como_a_fase_6_completa_separa_identidade_uuid_per_source_nodes",
       "community": 171,
       "community_name": "Q: Como a Fase 6 completa separa identidade UUID, permissoes Minecraft, moderacao, privacidade e auditoria encadeada?",
+      "norm_label": "source nodes"
+    },
+    {
+      "label": "query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito",
+      "community": 190,
+      "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "norm_label": "query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md"
+    },
+    {
+      "label": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_q_antes_de_ir_para_fase_7_vamos_executar_essa_auditoria_do_modpack",
+      "community": 190,
+      "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "norm_label": "q: antes de ir para fase 7 vamos executar essa auditoria do modpack"
+    },
+    {
+      "label": "Answer",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_answer",
+      "community": 190,
+      "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "norm_label": "answer"
+    },
+    {
+      "label": "Outcome",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_outcome",
+      "community": 190,
+      "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "norm_label": "outcome"
+    },
+    {
+      "label": "Source Nodes",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_source_nodes",
+      "community": 190,
+      "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
       "norm_label": "source nodes"
     },
     {
@@ -80317,6 +80372,50 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito",
+      "target": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_q_antes_de_ir_para_fase_7_vamos_executar_essa_auditoria_do_modpack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_q_antes_de_ir_para_fase_7_vamos_executar_essa_auditoria_do_modpack",
+      "target": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_answer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_q_antes_de_ir_para_fase_7_vamos_executar_essa_auditoria_do_modpack",
+      "target": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_outcome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_q_antes_de_ir_para_fase_7_vamos_executar_essa_auditoria_do_modpack",
+      "target": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_source_nodes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tools/modpack/README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -81397,5 +81496,5 @@
       "source_file": "Servidor/AGENTS.md"
     }
   ],
-  "built_at_commit": "e5522b5911c3ea80baec94ff394db5febd0d41be"
+  "built_at_commit": "a6ad202605b22da65fa6e77c5af533a88bc06a97"
 }

@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785820427.730752,
-    "ast_hash": "cee213235fc37eb71fdb4f4457da85e8",
+    "mtime": 1785821199.2245855,
+    "ast_hash": "def3c679660a30c0bfc94ed1ded4adf6",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785820427.7292435,
-    "ast_hash": "9a332ec369a1d0e2add44508f36e71f9",
+    "mtime": 1785821199.2245855,
+    "ast_hash": "81ae3711408d072574e45fbe8c6e5008",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -3122,6 +3122,11 @@
   "tools/modpack/README.md": {
     "mtime": 1785819746.8346667,
     "ast_hash": "a8f7628dc9d220f8c1954277d049a8dd",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md": {
+    "mtime": 1785820921.9937081,
+    "ast_hash": "633bbf02322ad398a64b920a066aad17",
     "semantic_hash": ""
   }
 }
