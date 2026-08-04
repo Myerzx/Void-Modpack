@@ -10,6 +10,8 @@ import {
   OPENLOADER_ADVANCED_OPTIONS_POLICY_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1,
   OpenLoaderAdvancedOptionsCodecError,
+  TrustedConfigurationRegistryError,
+  VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY,
   hashConfigurationSchema,
   parseOpenLoaderAdvancedOptions,
   serializeOpenLoaderAdvancedOptions,
@@ -302,6 +304,29 @@ describe('OpenLoader advanced options v1', () => {
         }),
       (error) =>
         error instanceof OpenLoaderAdvancedOptionsCodecError && error.code === 'invalid-values',
+    );
+  });
+
+  it('exposes the codec only through the closed reviewed registry', async () => {
+    const entries = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.list();
+    assert.equal(entries.length, 1);
+    const entry = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(
+      'openloader-advanced-options',
+    );
+    assert.equal(entry.codecId, 'openloader-advanced-options-v1');
+    assert.equal(
+      entry.schemaSha256,
+      '25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0',
+    );
+    assert.deepEqual(entry.parse(await openLoaderFixture('default.json')), {
+      'dataPacks.enabled': true,
+      'resourcePacks.enabled': true,
+    });
+    assert.throws(
+      () => VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require('unreviewed-mod'),
+      (error) =>
+        error instanceof TrustedConfigurationRegistryError &&
+        error.code === 'resource-not-reviewed',
     );
   });
 });
