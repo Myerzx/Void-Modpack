@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785884330.1077125,
-    "ast_hash": "5b02a38daa0dbd538ba0ed3e14792055",
+    "mtime": 1785887065.8292916,
+    "ast_hash": "4a30a46cda0d70ede259112c8aaf0ca9",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785884791.1309936,
-    "ast_hash": "a16cd866173c6420201e32cd3d48128b",
+    "mtime": 1785886963.864865,
+    "ast_hash": "002416c96d7740c25ee8d84ab01cc085",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785883543.903749,
-    "ast_hash": "5a2b4e2a2bbd744d4757199b91edbd84",
+    "mtime": 1785887052.804165,
+    "ast_hash": "860060ec2f0efea5b7257fbd14977565",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1785799244.6184852,
-    "ast_hash": "4e26adf58d6b82b43c1ef0ab0594ba03",
+    "mtime": 1785886774.418453,
+    "ast_hash": "b2e487cf9cd590f6bce063dcfc93c440",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785881670.2090387,
-    "ast_hash": "7f84399a2732aedf51ebe21d09c69da1",
+    "mtime": 1785886833.004635,
+    "ast_hash": "05b23e4dd7fc86be6b208e37430a251f",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785881659.6128352,
-    "ast_hash": "6e13c56d372d680d4e14a06fb0171c0b",
+    "mtime": 1785886833.003127,
+    "ast_hash": "64f1a51f37ec0127171f83a4bc276360",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785881769.2262726,
-    "ast_hash": "a3c77d59012d13ee21209543ba574088",
+    "mtime": 1785887021.235852,
+    "ast_hash": "38bf0c2a3b21e65e03367ae59014c367",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -660,7 +660,7 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next-env.d.ts": {
-    "mtime": 1785884268.161389,
+    "mtime": 1785887215.011577,
     "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": ""
   },
@@ -3130,8 +3130,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1785884801.801893,
-    "ast_hash": "6d9908d6a25ff9702499cc7868d6850d",
+    "mtime": 1785886898.8420644,
+    "ast_hash": "ee8bb88e1330d24e1556179b4d2f232f",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -3352,6 +3352,61 @@
   "docs/plataforma/PHASE_7_CONFIGURATION_API.md": {
     "mtime": 1785884801.801893,
     "ast_hash": "8e84bf94bcaadecb6599dbc1a2a8a9aa",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/package.json": {
+    "mtime": 1785886660.1066382,
+    "ast_hash": "18b3d68904df692314cab31b7e80c6b9",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/index.ts": {
+    "mtime": 1785886652.3906586,
+    "ast_hash": "524741aff992b342cb2f4d6756bda33e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/metadata.ts": {
+    "mtime": 1785886612.4476972,
+    "ast_hash": "0d172e41e7261cb4fc2142d4f520dacf",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/service.ts": {
+    "mtime": 1785886647.5699906,
+    "ast_hash": "bb948f40e7c8ee72e0128c26a3e3ea00",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/types.ts": {
+    "mtime": 1785886400.3489413,
+    "ast_hash": "9850f4d3fdc36b92314a465637db75aa",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/zip.ts": {
+    "mtime": 1785886556.3552387,
+    "ast_hash": "b354de9e618bec96415c812c1be9bbd1",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/test/artifact-inspection.test.ts": {
+    "mtime": 1785886734.9999466,
+    "ast_hash": "61c0d78bc6456dd5cb59ac3a6714e446",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/tsconfig.build.json": {
+    "mtime": 1785886660.0249496,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/tsconfig.test.json": {
+    "mtime": 1785886660.0577261,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/artifact-inspection.ts": {
+    "mtime": 1785886822.4615405,
+    "ast_hash": "415b685ecd36f4d5f238f6159a30f782",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_8_ARTIFACT_INSPECTION.md": {
+    "mtime": 1785886937.3087451,
+    "ast_hash": "26a45ef9a4525629093ed4e96bfd478b",
     "semantic_hash": ""
   }
 }
