@@ -6,11 +6,15 @@ on:
       - ".github/workflows/platform-ci.yml"
       - "Plataforma/**"
       - "docs/plataforma/**"
+      - "docs/modpack/**"
+      - "tools/modpack/**"
   pull_request:
     paths:
       - ".github/workflows/platform-ci.yml"
       - "Plataforma/**"
       - "docs/plataforma/**"
+      - "docs/modpack/**"
+      - "tools/modpack/**"
   workflow_dispatch:
 
 permissions:
@@ -55,6 +59,9 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Validate committed modpack knowledge base
+        run: python ../tools/modpack/validate_modpack_docs.py --root ..
 
       - name: Run full platform gate
         run: npm run check
