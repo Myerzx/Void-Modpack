@@ -9,7 +9,7 @@
     "bootstrap-owner": "tsx src/bootstrap-owner.ts",
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "start": "node dist/main.js",
-    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts",
+    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts test/configuration-e2e.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.4",
-    "@voidfall/configuration-schemas": "0.1.0"
+    "@voidfall/build-worker": "0.1.0",
+    "@voidfall/configuration-schemas": "0.1.0",
+    "@voidfall/server-agent": "0.1.0"
   }
 }

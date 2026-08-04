@@ -4,6 +4,7 @@
   "private": true,
   "description": "Read-only operational dashboard for VoidFall",
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
