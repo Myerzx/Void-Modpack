@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 import type {
@@ -7,18 +8,43 @@ import type {
   InventoryScope,
   InventorySnapshot,
   ModCatalogEntry,
+  ModCompatibilityAnalysisPlan,
 } from '@voidfall/contracts';
 
 import {
   CatalogClassificationError,
   CatalogDependencyAnalysisError,
+  ContextualCompatibilityAnalysisError,
   CatalogReconciliationError,
+  analyzeContextualCompatibility,
   analyzeCatalogDependencies,
   classifyCatalogEntry,
   hashCatalogEntry,
+  evaluateMavenVersionRange,
   reconcileCatalog,
   type CatalogReconciliationPlan,
 } from '../src/index.js';
+
+interface CompatibilityRegressionFixture {
+  readonly analysisPlan: ModCompatibilityAnalysisPlan;
+  readonly expectations: {
+    readonly componentStatus: Readonly<Record<string, 'compatible' | 'incompatible' | 'unknown'>>;
+    readonly requiredFindingCodes: Readonly<Record<string, readonly string[]>>;
+    readonly forbiddenFindingCodes: Readonly<Record<string, readonly string[]>>;
+  };
+  readonly versionRangeCases: readonly {
+    readonly version: string;
+    readonly range: string;
+    readonly expected: 'match' | 'mismatch' | 'unknown';
+  }[];
+}
+
+const compatibilityFixture = JSON.parse(
+  readFileSync(
+    new URL('../../../../tools/modpack/fixtures/contextual-compatibility-regressions.json', import.meta.url),
+    'utf8',
+  ),
+) as CompatibilityRegressionFixture;
 
 const hashA = 'a'.repeat(64);
 const hashB = 'b'.repeat(64);
@@ -82,6 +108,7 @@ function catalogEntry(
   sha256: string,
   options: {
     readonly side?: ModCatalogEntry['side'];
+    readonly version?: string;
     readonly sizeBytes?: number;
     readonly decision?: ModCatalogEntry['distribution']['decision'];
     readonly reviewState?: ModCatalogEntry['reviewState'];
@@ -110,6 +137,7 @@ function catalogEntry(
     kind: 'mod',
     side: options.side ?? 'both',
     requirement: 'required',
+    ...(options.version !== undefined ? { version: options.version } : {}),
     sizeBytes: options.sizeBytes ?? 1_024,
     sha256,
     runtime: options.runtime ?? targetRuntime,
@@ -545,6 +573,114 @@ describe('analyzeCatalogDependencies', () => {
       () => analyzeCatalogDependencies(analysisPlan([alpha, beta], [conflict, conflict])),
       (error) =>
         error instanceof CatalogDependencyAnalysisError && error.code === 'invalid-conflict',
+    );
+  });
+});
+
+describe('Maven version requirements', () => {
+  it('evaluates the shared sanitized range corpus conservatively', () => {
+    for (const testCase of compatibilityFixture.versionRangeCases) {
+      assert.equal(
+        evaluateMavenVersionRange(testCase.version, testCase.range),
+        testCase.expected,
+        `${testCase.version} against ${testCase.range}`,
+      );
+    }
+  });
+
+  it('checks supported Maven ranges in the legacy catalog analyzer', () => {
+    const matching = analyzeCatalogDependencies(
+      {
+        analysisId: 'matching-range',
+        generatedAt: '2026-08-04T12:00:00Z',
+        catalog: [
+          catalogEntry('root-mod', 'root.jar', hashA, {
+            dependencies: [{ id: 'library', required: true, versionRange: '[1.0,2.0)' }],
+          }),
+          catalogEntry('library', 'library.jar', hashB, { version: '1.5.0' }),
+        ],
+        conflicts: [],
+      },
+    );
+    assert.ok(!matching.issues.some((issue) => issue.code.includes('version')));
+
+    const mismatching = analyzeCatalogDependencies(
+      {
+        analysisId: 'mismatching-range',
+        generatedAt: '2026-08-04T12:00:00Z',
+        catalog: [
+          catalogEntry('root-mod', 'root.jar', hashA, {
+            dependencies: [{ id: 'library', required: true, versionRange: '[2.0,)' }],
+          }),
+          catalogEntry('library', 'library.jar', hashB, { version: '1.5.0' }),
+        ],
+        conflicts: [],
+      },
+    );
+    assert.ok(mismatching.issues.some((issue) => issue.code === 'dependency-version-mismatch'));
+  });
+});
+
+describe('analyzeContextualCompatibility', () => {
+  it('locks the named Phase 7.0 regressions, JarJar, side and loader behavior', () => {
+    const report = analyzeContextualCompatibility(compatibilityFixture.analysisPlan);
+    for (const [componentId, expectedStatus] of Object.entries(
+      compatibilityFixture.expectations.componentStatus,
+    )) {
+      assert.equal(
+        report.components.find((component) => component.componentId === componentId)?.status,
+        expectedStatus,
+        componentId,
+      );
+    }
+    for (const [componentId, requiredCodes] of Object.entries(
+      compatibilityFixture.expectations.requiredFindingCodes,
+    )) {
+      const actualCodes = new Set(
+        report.findings
+          .filter((finding) => finding.componentIds.includes(componentId))
+          .map((finding) => finding.code),
+      );
+      for (const code of requiredCodes) assert.ok(actualCodes.has(code as never), `${componentId}:${code}`);
+    }
+    for (const [componentId, forbiddenCodes] of Object.entries(
+      compatibilityFixture.expectations.forbiddenFindingCodes,
+    )) {
+      const actualCodes = new Set(
+        report.findings
+          .filter((finding) => finding.componentIds.includes(componentId))
+          .map((finding) => finding.code),
+      );
+      for (const code of forbiddenCodes) assert.ok(!actualCodes.has(code as never), `${componentId}:${code}`);
+    }
+    assert.equal(
+      report.components.find((component) => component.componentId === 'cumulus-menus')?.kind,
+      'embedded-library',
+    );
+  });
+
+  it('is deterministic and rejects an unversioned plan shape', () => {
+    const first = analyzeContextualCompatibility(compatibilityFixture.analysisPlan);
+    const reversed: ModCompatibilityAnalysisPlan = {
+      ...compatibilityFixture.analysisPlan,
+      contexts: [...compatibilityFixture.analysisPlan.contexts].reverse(),
+      components: [...compatibilityFixture.analysisPlan.components]
+        .reverse()
+        .map((component) => ({
+          ...component,
+          occurrences: [...component.occurrences].reverse(),
+          dependencies: [...component.dependencies].reverse(),
+        })),
+    };
+    assert.deepEqual(analyzeContextualCompatibility(reversed), first);
+    assert.throws(
+      () =>
+        analyzeContextualCompatibility({
+          ...compatibilityFixture.analysisPlan,
+          unsafe: true,
+        } as never),
+      (error) =>
+        error instanceof ContextualCompatibilityAnalysisError && error.code === 'invalid-plan',
     );
   });
 });

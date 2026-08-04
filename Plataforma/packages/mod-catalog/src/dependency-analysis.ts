@@ -7,6 +7,7 @@ import {
 } from '@voidfall/contracts';
 
 import { freezeDeep } from './canonical.js';
+import { evaluateMavenVersionRange } from './maven-version.js';
 import {
   CatalogDependencyAnalysisError,
   type CatalogAnalysisIssue,
@@ -211,7 +212,23 @@ export function analyzeCatalogDependencies(
         continue;
       }
       if (dependency.versionRange !== undefined) {
-        addIssue('unverified-version-range', 'blocker', [entry.id, dependency.id], dependency.versionRange);
+        const candidate = candidates.length === 1 ? candidates[0] : undefined;
+        const rangeResult = evaluateMavenVersionRange(candidate?.version, dependency.versionRange);
+        if (rangeResult === 'mismatch') {
+          addIssue(
+            'dependency-version-mismatch',
+            'blocker',
+            [entry.id, dependency.id],
+            dependency.versionRange,
+          );
+        } else if (rangeResult === 'unknown') {
+          addIssue(
+            'unverified-version-range',
+            'blocker',
+            [entry.id, dependency.id],
+            dependency.versionRange,
+          );
+        }
       }
       if (candidates.length === 1 && candidates[0] !== undefined) {
         if (!sameRuntime(entry, candidates[0])) {

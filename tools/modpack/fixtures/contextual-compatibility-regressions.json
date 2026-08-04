@@ -1,0 +1,509 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "forgeMetadata": "https://docs.minecraftforge.net/en/1.20.x/gettingstarted/modfiles/",
+    "forgeVersioning": "https://docs.minecraftforge.net/en/1.20.1/gettingstarted/versioning/",
+    "mavenVersionRequirements": "https://maven.apache.org/pom.html#dependency-version-requirement-specification",
+    "neoforgeVersioning": "https://docs.neoforged.net/docs/gettingstarted/versioning/"
+  },
+  "analysisPlan": {
+    "schemaVersion": 1,
+    "analysisId": "phase-7-contextual-regressions",
+    "generatedAt": "2026-08-04T12:00:00Z",
+    "contexts": [
+      {
+        "id": "launcher-current",
+        "kind": "launcher_current",
+        "side": "client",
+        "runtime": {
+          "minecraftVersion": "1.20.1",
+          "loader": "forge",
+          "loaderVersion": "47.4.0"
+        },
+        "javaVersion": "17",
+        "evidenceReference": "docs/launcher/inventario/resumo-perfil.json"
+      },
+      {
+        "id": "server-active",
+        "kind": "server_active",
+        "side": "server",
+        "runtime": {
+          "minecraftVersion": "1.20.1",
+          "loader": "forge",
+          "loaderVersion": "47.4.4"
+        },
+        "javaVersion": "17",
+        "evidenceReference": "Servidor/catalog/resumo-servidor.json"
+      },
+      {
+        "id": "reference-client",
+        "kind": "reference_client",
+        "side": "client",
+        "runtime": {
+          "minecraftVersion": "1.20.1",
+          "loader": "forge"
+        },
+        "javaVersion": "17",
+        "evidenceReference": "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json"
+      },
+      {
+        "id": "historical-disabled",
+        "kind": "historical",
+        "side": "client",
+        "runtime": {
+          "minecraftVersion": "1.20.1",
+          "loader": "forge",
+          "loaderVersion": "47.4.0"
+        },
+        "javaVersion": "17",
+        "evidenceReference": "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json"
+      }
+    ],
+    "components": [
+      {
+        "id": "armourers-workshop",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "aw-launcher",
+            "contextId": "launcher-current",
+            "artifactId": "fixture:armourers-workshop-launcher",
+            "filename": "armourersworkshop-forge-1.20.1-3.0.0-beta.18.jar",
+            "version": "3.0.0-beta.18",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "aw-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:armourers-workshop-server",
+            "filename": "armourersworkshop-forge-1.20.1-3.2.7-beta.jar",
+            "version": "3.2.7-beta",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "aw-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:armourers-workshop-server",
+            "filename": "armourersworkshop-forge-1.20.1-3.2.7-beta.jar",
+            "version": "3.2.7-beta",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "aw-historical",
+            "contextId": "historical-disabled",
+            "artifactId": "fixture:armourers-workshop-historical",
+            "filename": "armourersworkshop-forge-1.20.1-2.9.0.jar",
+            "version": "2.9.0",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "aw-launcher",
+            "targetId": "forge",
+            "required": true,
+            "side": "both",
+            "versionRange": "[46,)",
+            "evidenceReference": "armourersworkshop-forge-1.20.1-3.0.0-beta.18.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "aw-server",
+            "targetId": "forge",
+            "required": true,
+            "side": "both",
+            "versionRange": "[46,)",
+            "evidenceReference": "armourersworkshop-forge-1.20.1-3.2.7-beta.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "aw-reference",
+            "targetId": "forge",
+            "required": true,
+            "side": "both",
+            "versionRange": "[46,)",
+            "evidenceReference": "armourersworkshop-forge-1.20.1-3.2.7-beta.jar!META-INF/mods.toml"
+          }
+        ]
+      },
+      {
+        "id": "epicfight",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "epicfight-launcher",
+            "contextId": "launcher-current",
+            "artifactId": "fixture:epicfight-launcher",
+            "filename": "epicfight-forge-20.9.6-1.20.1.jar",
+            "version": "20.9.6",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "epicfight-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:epicfight-server",
+            "filename": "epic-fight-20.14.12-mc1.20.1-forge.jar",
+            "version": "20.14.12",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "epicfight-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:epicfight-server",
+            "filename": "epic-fight-20.14.12-mc1.20.1-forge.jar",
+            "version": "20.14.12",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "killcam",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "killcam-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:killcam-server",
+            "filename": "killcam-1.0.2.jar",
+            "version": "1.0.2",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "killcam-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:killcam-reference",
+            "filename": "killcam-1.0.3.jar",
+            "version": "1.0.3",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "openloader",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "openloader-launcher",
+            "contextId": "launcher-current",
+            "artifactId": "fixture:openloader-launcher",
+            "filename": "OpenLoader-Forge-1.20.1-19.0.4.jar",
+            "version": "19.0.4",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "openloader-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:openloader-server",
+            "filename": "OpenLoader-Forge-1.20.1-19.0.5.jar",
+            "version": "19.0.5",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "openloader-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:openloader-server",
+            "filename": "OpenLoader-Forge-1.20.1-19.0.5.jar",
+            "version": "19.0.5",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "preloading-tricks",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "preloading-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:preloading-tricks-reference",
+            "filename": "preloading-tricks-3.5.8.jar",
+            "version": "3.5.8",
+            "loader": "fabric",
+            "container": { "kind": "root" },
+            "metadataPath": "fabric.mod.json"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "preloading-reference",
+            "targetId": "fabricloader",
+            "required": true,
+            "side": "both",
+            "versionRange": ">=0.18",
+            "evidenceReference": "preloading-tricks-3.5.8.jar!fabric.mod.json"
+          }
+        ]
+      },
+      {
+        "id": "wom",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "wom-launcher",
+            "contextId": "launcher-current",
+            "artifactId": "fixture:wom-launcher",
+            "filename": "WeaponsOfMiracles-20.1.8.5.6.jar",
+            "version": "20.1.8.5.6",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "wom-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:wom-server",
+            "filename": "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar",
+            "version": "2.0.15",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "wom-reference",
+            "contextId": "reference-client",
+            "artifactId": "fixture:wom-server",
+            "filename": "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar",
+            "version": "2.0.15",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "wom-launcher",
+            "targetId": "epicfight",
+            "required": true,
+            "side": "both",
+            "versionRange": "[20.8.1,)",
+            "evidenceReference": "WeaponsOfMiracles-20.1.8.5.6.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "wom-server",
+            "targetId": "epicfight",
+            "required": true,
+            "side": "both",
+            "versionRange": "[20.14.3,)",
+            "evidenceReference": "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "wom-reference",
+            "targetId": "epicfight",
+            "required": true,
+            "side": "both",
+            "versionRange": "[20.14.3,)",
+            "evidenceReference": "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar!META-INF/mods.toml"
+          }
+        ]
+      },
+      {
+        "id": "cumulus-menus",
+        "kind": "embedded-library",
+        "occurrences": [
+          {
+            "occurrenceId": "cumulus-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:cumulus-menus",
+            "filename": "cumulus_menus-1.20.1-1.0.1-neoforge.jar",
+            "version": "1.20.1-1.0.1-neoforge",
+            "loader": "forge",
+            "container": {
+              "kind": "jarjar",
+              "parentArtifactId": "fixture:aether-server"
+            },
+            "metadataPath": "META-INF/jarjar/cumulus_menus-1.20.1-1.0.1-neoforge.jar!META-INF/mods.toml"
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "multi-loader-example",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "multi-forge-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:multi-loader-server",
+            "filename": "multi-loader-example.jar",
+            "version": "1.0.0",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "multi-neo-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:multi-loader-server",
+            "filename": "multi-loader-example.jar",
+            "version": "1.0.0",
+            "loader": "neoforge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/neoforge.mods.toml"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "multi-forge-server",
+            "targetId": "forge",
+            "required": true,
+            "side": "server",
+            "versionRange": "[47,)",
+            "evidenceReference": "multi-loader-example.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "multi-neo-server",
+            "targetId": "neoforge",
+            "required": true,
+            "side": "server",
+            "versionRange": "[20.2,)",
+            "evidenceReference": "multi-loader-example.jar!META-INF/neoforge.mods.toml"
+          }
+        ]
+      },
+      {
+        "id": "side-probe",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "side-probe-launcher",
+            "contextId": "launcher-current",
+            "artifactId": "fixture:side-probe",
+            "filename": "side-probe.jar",
+            "version": "1.0.0",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "side-probe-server",
+            "contextId": "server-active",
+            "artifactId": "fixture:side-probe",
+            "filename": "side-probe.jar",
+            "version": "1.0.0",
+            "loader": "forge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/mods.toml"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "side-probe-launcher",
+            "targetId": "server-helper",
+            "required": true,
+            "side": "server",
+            "evidenceReference": "side-probe.jar!META-INF/mods.toml"
+          },
+          {
+            "occurrenceId": "side-probe-server",
+            "targetId": "client-helper",
+            "required": true,
+            "side": "client",
+            "evidenceReference": "side-probe.jar!META-INF/mods.toml"
+          }
+        ]
+      },
+      {
+        "id": "neo-only-reference",
+        "kind": "root-mod",
+        "occurrences": [
+          {
+            "occurrenceId": "neo-only-reference-occurrence",
+            "contextId": "reference-client",
+            "artifactId": "fixture:neo-only-reference",
+            "filename": "neo-only-reference.jar",
+            "version": "1.0.0",
+            "loader": "neoforge",
+            "container": { "kind": "root" },
+            "metadataPath": "META-INF/neoforge.mods.toml"
+          }
+        ],
+        "dependencies": [
+          {
+            "occurrenceId": "neo-only-reference-occurrence",
+            "targetId": "neoforge",
+            "required": true,
+            "side": "both",
+            "versionRange": "[20.2,)",
+            "evidenceReference": "neo-only-reference.jar!META-INF/neoforge.mods.toml"
+          }
+        ]
+      }
+    ]
+  },
+  "expectations": {
+    "componentStatus": {
+      "armourers-workshop": "incompatible",
+      "epicfight": "incompatible",
+      "killcam": "unknown",
+      "openloader": "incompatible",
+      "preloading-tricks": "unknown",
+      "wom": "incompatible",
+      "cumulus-menus": "compatible",
+      "multi-loader-example": "compatible",
+      "side-probe": "compatible",
+      "neo-only-reference": "unknown"
+    },
+    "requiredFindingCodes": {
+      "armourers-workshop": [
+        "canonical-version-conflict",
+        "historical-version-divergence"
+      ],
+      "epicfight": ["canonical-version-conflict"],
+      "killcam": ["reference-version-divergence"],
+      "openloader": ["canonical-version-conflict"],
+      "preloading-tricks": ["loader-mismatch", "reference-only-component"],
+      "wom": ["canonical-version-conflict"],
+      "neo-only-reference": ["loader-mismatch", "reference-only-component"]
+    },
+    "forbiddenFindingCodes": {
+      "multi-loader-example": [
+        "loader-mismatch",
+        "dependency-version-mismatch",
+        "dependency-version-unknown"
+      ],
+      "side-probe": ["missing-required-dependency"],
+      "neo-only-reference": [
+        "dependency-version-mismatch",
+        "dependency-version-unknown"
+      ]
+    }
+  },
+  "versionRangeCases": [
+    { "version": "1.20.1", "range": "[1.20.1,1.21)", "expected": "match" },
+    { "version": "1.21", "range": "[1.20.1,1.21)", "expected": "mismatch" },
+    { "version": "20.14.12", "range": "[20.14.3,)", "expected": "match" },
+    { "version": "2001.2.2-build.99", "range": "[2001.2.2-build.1,)", "expected": "match" },
+    { "version": "3.0.0-beta.18", "range": "[3.0.0-beta.18]", "expected": "match" },
+    { "version": "3.0.0-beta.17", "range": "[3.0.0-beta.18]", "expected": "mismatch" },
+    { "version": "1.20.1", "range": "1.20.1", "expected": "match" },
+    { "version": "1.20.2", "range": "1.20.1", "expected": "unknown" },
+    { "version": "1.20.1", "range": "[1.20, 1.20.1,)", "expected": "unknown" },
+    { "version": "1.20.1", "range": ">=1.20.1", "expected": "unknown" },
+    { "version": "1.20.1", "range": "*", "expected": "unknown" }
+  ]
+}

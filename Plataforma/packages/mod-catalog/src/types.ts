@@ -125,6 +125,7 @@ export type CatalogAnalysisIssueCode =
   | 'missing-optional-dependency'
   | 'self-dependency'
   | 'required-dependency-cycle'
+  | 'dependency-version-mismatch'
   | 'unverified-version-range'
   | 'runtime-mismatch'
   | 'explicit-conflict';
@@ -161,5 +162,22 @@ export class CatalogDependencyAnalysisError extends Error {
     super(`catalog-dependency-analysis:${code}`);
     this.name = 'CatalogDependencyAnalysisError';
     this.code = code;
+  }
+}
+
+export type ContextualCompatibilityAnalysisErrorCode = 'invalid-plan' | 'invalid-report';
+
+export class ContextualCompatibilityAnalysisError extends Error {
+  public readonly code: ContextualCompatibilityAnalysisErrorCode;
+  public readonly issues: readonly string[];
+
+  public constructor(
+    code: ContextualCompatibilityAnalysisErrorCode,
+    issues: readonly string[] = [],
+  ) {
+    super(`contextual-compatibility-analysis:${code}`);
+    this.name = 'ContextualCompatibilityAnalysisError';
+    this.code = code;
+    this.issues = Object.freeze([...issues]);
   }
 }
