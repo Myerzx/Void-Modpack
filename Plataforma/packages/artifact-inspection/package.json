@@ -1,0 +1,22 @@
+{
+  "name": "@voidfall/artifact-inspection",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bounded declared-metadata inspection for VoidFall artifacts, without loading or executing them",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/artifact-inspection.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  }
+}
