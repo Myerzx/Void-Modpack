@@ -5,17 +5,23 @@
   "description": "PostgreSQL-backed asynchronous worker for VoidFall",
   "license": "UNLICENSED",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "start": "node dist/main.js",
-    "test": "tsx --test test/worker.test.ts",
+    "test": "tsx --test test/worker.test.ts test/configuration-worker.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
+    "@voidfall/contracts": "0.1.0",
     "@voidfall/database": "0.1.0"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "0.5.4",
-    "@voidfall/contracts": "0.1.0"
+    "@electric-sql/pglite": "0.5.4"
   }
 }
