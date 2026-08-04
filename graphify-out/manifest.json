@@ -85,9 +85,9 @@
     "semantic_hash": "bced52809c644f47554d3d99e363bc9b"
   },
   "docs/agentes/escopos.md": {
-    "mtime": 1785732665.295339,
-    "ast_hash": "e37c38e0d1bcf33d49c8fd2c70fcdd6b",
-    "semantic_hash": "e37c38e0d1bcf33d49c8fd2c70fcdd6b"
+    "mtime": 1785879960.8292146,
+    "ast_hash": "0bb4d483bac6c151b1535b16c1c0d39f",
+    "semantic_hash": ""
   },
   "docs/launcher/README.md": {
     "mtime": 1785820411.3872945,
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785878893.1940463,
-    "ast_hash": "30ecdee34e31ed5190a0514c3384c04d",
+    "mtime": 1785879960.8307238,
+    "ast_hash": "5d3101eb2c3939d317e700a6a7fcf1bd",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -3257,6 +3257,16 @@
   "graphify-out/memory/query_20260804_211651_entendi__sobre_isso_algumas_versao_podem_ser_difer.md": {
     "mtime": 1785878211.85155,
     "ast_hash": "660296a4fe3986081608e314249b1067",
+    "semantic_hash": ""
+  },
+  "docs/agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md": {
+    "mtime": 1785880144.6865408,
+    "ast_hash": "294a9772e076726fd65ecbca421b69de",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260804_214240_como_o_claude_deve_continuar_da_fase_7_3_at\u00e9_a_fas.md": {
+    "mtime": 1785879760.832463,
+    "ast_hash": "91a5c59d47698c27a94b95d776cac986",
     "semantic_hash": ""
   }
 }
