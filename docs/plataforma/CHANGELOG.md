@@ -2,6 +2,20 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-04 — Fase 7.1: primeiro schema específico
+
+### Adicionado
+
+- ADR-008 selecionando `openloader_advanced_options_v1` por decisão explícita do proprietário;
+- schema OpenLoader v1.0.0 limitado a `config/openloader/advanced_options.json` e aos dois campos booleanos `enabled`;
+- parser e serializador determinísticos com limite de 4.096 bytes, rejeição de chaves duplicadas e SHA-256 de schema fixado;
+- fixtures sanitizadas para default, desativação de data packs e rejeição de path;
+- candidato único selecionado e validação documental deny-by-default.
+
+### Não habilitado
+
+`additionalFolders`, data/resource packs, paths ou schemas fornecidos pelo usuário, persistência, aplicação em filesystem, API, agente, painel e restart. O codec opera somente sobre valores/fixtures em isolamento até a Fase 7.2.
+
 ## 2026-08-03 — Fase 6: jogadores e auditoria em isolamento
 
 ### Adicionado

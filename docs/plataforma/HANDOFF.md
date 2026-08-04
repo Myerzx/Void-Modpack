@@ -4,10 +4,11 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 7.0 — concluída em isolamento; validação local e matriz Windows/Linux aprovadas
+- Fase: 7.1 — schema OpenLoader selecionado e congelado em isolamento; gate local aprovado, matriz Windows/Linux pendente
 - Fase 2: concluída e validada
-- Runtime Minecraft privado: não modificado e não conectado
-- Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; nenhum workspace privado foi lido ou modificado
+- Runtime Minecraft privado: não modificado e não conectado; a Fase 7.1 usou somente leitura explicitamente autorizada da evidência OpenLoader indicada pelo proprietário, sem copiar packs, paths locais ou valores privados
+- Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
+- Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 
 ## Implementado
@@ -76,10 +77,14 @@
   - substituição somente de arquivo existente com hash esperado e exclusão local por recurso;
   - revisão imutável dos bytes anteriores preparada antes da troca, verificação e recuperação;
 - `@voidfall/configuration-schemas` com:
-  - metadata pura para Java Properties, JSON, TOML, YAML e CFG, sem parser ou acesso a arquivo;
+  - metadata genérica pura para Java Properties, JSON, TOML, YAML e CFG, sem parser genérico ou acesso a arquivo;
   - campos boolean, integer, number, string e enum, com limites, defaults e restart;
   - patterns fechados, chaves estritas e validação determinística de valores;
   - registro e histórico imutável em memória com hash esperado e limites explícitos;
+  - schema específico `openloader-advanced-options` v1.0.0 com somente `dataPacks.enabled` e `resourcePacks.enabled`;
+  - codec JSON específico, determinístico e limitado a 4.096 bytes, sem transformar JSON genérico em adapter;
+  - `additionalFolders` obrigatoriamente vazio, nenhum campo secreto, path fornecido pelo usuário ou wildcard;
+  - fixtures públicas sanitizadas para round-trip, estado desativado e rejeição de path;
 - Fase 5 com:
   - contratos v1 de canal assinado, estado gerenciado do launcher e intenção curta do Forge Bridge;
   - `@voidfall/modpack-release` com staging privado, bytes explícitos, três sanitizadores, integridade, Ed25519 e manifesto reproduzível;
@@ -106,6 +111,12 @@
   - quatro conflitos canônicos preservados e KillCam/Preloading Tricks reclassificados como evidência de referência desconhecida;
   - gerador documental determinístico alimentado por `sanitized-artifact-inventory-v1.json`, sem leitura dos runtimes privados;
   - regressões compartilhadas em TypeScript/Python e validador CI para os seis casos, JarJar, side, loader e baseline NeoForge;
+- Fase 7.1 com:
+  - ADR-008 aceito por decisão explícita do proprietário;
+  - candidato `openloader_advanced_options_v1` como único selecionado em `configuracoes.json`;
+  - parser/serializador, identidade SHA-256, limite, segredo, restart e migração congelados;
+  - packs OpenLoader em `data/` e `resources/` excluídos do editor e da migração;
+  - nenhuma persistência, API, operação de agente, painel ou aplicação no runtime;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -117,7 +128,7 @@
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
-8. Não tratar schemas genéricos como adapters operacionais: JSON/TOML/YAML/CFG ainda não possuem parser, serializer, persistência, path público ou aplicação em arquivo real.
+8. Não tratar schemas genéricos como adapters operacionais: somente o codec específico OpenLoader v1 foi definido; JSON/TOML/YAML/CFG genéricos continuam sem parser, serializer, persistência, path público ou aplicação em arquivo real.
 9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
 10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
 11. Não fornecer raiz, path, catálogo, chave ou comando no payload de `modpack.build`; somente `planId` opaco pode atravessar a fila.
@@ -130,6 +141,9 @@
 
 ## Validação
 
+- Fase 7.1: `@voidfall/configuration-schemas` passou build, typecheck e 13 casos; os 5 casos OpenLoader fixam identidade, round-trip, restart, limite e rejeições;
+- gate completo local da Fase 7.1 aprovado: 190 casos descobertos, 188 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
+- regressões Python da Fase 7.1: 3 casos aprovados; validador confirmou um único schema selecionado, path exato, SHA-256, campos, limite e proibição de path fornecido pelo usuário;
 - Fase 7.0: 34 casos de contratos, 23 casos do catálogo e 3 regressões Python aprovados;
 - gate completo local aprovado: 185 casos descobertos, 183 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - matriz CI da Fase 7.0 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796), incluindo regressões Python, validador documental, gate completo e auditoria de runtime;
@@ -143,7 +157,7 @@
 - pacote de catálogo: build, typecheck e 23 casos aprovados;
 - pacote de quarentena: build, typecheck e 7 casos aprovados;
 - pacote de arquivos autorizados: build, typecheck e 8 casos aprovados;
-- pacote de schemas genéricos: build, typecheck e 8 casos aprovados;
+- pacote de schemas: build, typecheck e 13 casos aprovados (8 genéricos e 5 OpenLoader específicos);
 - gate local aprovado: 125 casos descobertos, typechecks e builds de todos os workspaces; 123 executados no Windows e 2 sockets Unix ignorados;
 - gate local da Fase 5 aprovado: 149 casos descobertos, 147 aprovados no Windows e dois sockets Unix ignorados; build/typecheck de todos os workspaces, Java 17, Launcher API e export estático aprovados;
 - Fase 5 por componente: contratos 22, release 7, launcher protocol 4, Launcher API 3, build worker 4 e Forge Bridge 3 casos aprovados;
@@ -195,7 +209,7 @@
 - o registro de raízes do file manager continua sendo uma entrada confiável de construção; não há descoberta, criação, delete, move, copy ou download público;
 - revisões de arquivo podem preservar segredos do conteúdo anterior e precisam de storage cifrado, retenção e autorização antes de uso operacional;
 - o manifesto de revisão de arquivo registra estado `prepared-before-replacement`; uma falha posterior exige correlação futura com auditoria e recibo antes de ser exibida como aplicada;
-- schemas genéricos e seu histórico vivem somente na memória e não leem, interpretam, serializam ou aplicam formatos reais;
+- schemas genéricos e seu histórico vivem somente na memória; o codec OpenLoader v1 interpreta/serializa apenas fixtures e valores puros, sem ler ou aplicar arquivos reais;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -217,7 +231,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 7.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): registrar um ADR escolhendo explicitamente o primeiro schema da Fase 7, com proprietário, versão, campos, limites, segredo, restart e migração. A recomendação planejada é `java_properties_v1` para provar o fluxo ponta a ponta antes de `forge_toml_v1`, mas a escolha continua sendo decisão do proprietário e não deve ser inferida silenciosamente. Não iniciar persistência, API, agente ou painel antes desse gate.
+Executar a **Fase 7.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): persistir schemas, recursos, revisões e estado de aplicação; ligar o codec OpenLoader específico ao `server-configuration` por registro confiável; correlacionar preparação, aplicação, falha e rollback; e integrar lock operacional compartilhado. O recorte deve usar somente diretórios temporários e não inicia API, agente, painel ou acesso ao runtime privado.
 
 ## Commits relevantes
 
@@ -278,5 +292,7 @@ Executar a **Fase 7.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `a74e322` — gerador fixture-only, documentação regenerada e gate Python/CI.
 - `41ecd0e` — fechamento da Fase 7.0 no plano, roadmap e handoff;
 - `13f8952` — Graphify atualizado com o modelo de compatibilidade contextual.
+- `e99940f` — schema, codec e fixtures sanitizadas do OpenLoader;
+- `074ef65` — seleção única do schema OpenLoader no inventário gerado e validador.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

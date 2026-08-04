@@ -1,6 +1,6 @@
 # Plataforma VoidFall
 
-Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; as Fases 2 a 6 implementaram fundação, controle isolado, catálogo/arquivos, release/launcher e governança de jogadores/auditoria sem integração com os runtimes privados.
+Esta documentação define a plataforma de gerenciamento do servidor e atualização do modpack VoidFall. A Fase 1 registrou o plano; as Fases 2 a 6 implementaram fundação, controle isolado, catálogo/arquivos, release/launcher e governança de jogadores/auditoria. As Fases 7.0–7.1 corrigiram a compatibilidade contextual e congelaram o primeiro schema específico sem integração operacional com o runtime.
 
 ## Ordem de leitura
 
@@ -31,6 +31,8 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 25. [Conclusão da Fase 4: catálogo, artefatos, arquivos e schemas](PHASE_4_COMPLETION.md)
 26. [Execução da Fase 5: build, launcher e Bridge](PHASE_5_EXECUTION.md)
 27. [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md)
+28. [Fase 7.0: compatibilidade contextual](PHASE_7_CONTEXTUAL_COMPATIBILITY.md)
+29. [ADR-008: OpenLoader como primeiro schema](DECISIONS/ADR-008-openloader-como-primeiro-schema.md)
 
 ## Resultado da Fase 1
 
@@ -49,6 +51,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - Fase 4 concluída em isolamento: inventário, classificação revisável, quarentena, arquivos autorizados, schemas genéricos e análise de conflitos passaram no gate local e na matriz Windows/Linux;
 - Fase 5 tecnicamente concluída em isolamento: worker por referência, build/sanitização, assinatura, storage imutável, canais, Launcher API, planner portátil, rollback e Bridge Java passaram no gate local e na matriz Windows/Linux;
 - Fase 6 tecnicamente concluída em isolamento: perfis/aliases por UUID, bindings de grupos Minecraft, moderação tipada, política deny-by-default e auditoria encadeada/exportável passaram no gate local e na matriz Windows/Linux;
+- Fases 7.0–7.1 concluídas em isolamento: compatibilidade por contexto corrigida e `openloader_advanced_options_v1` selecionado com codec/fixtures estritos, sem aplicação em arquivo real;
 - nenhum arquivo, chat, coordenada ou estado de jogador do servidor privado foi importado e nenhum provider/executor real foi conectado;
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - `stable`, o adapter Forge real e `/atualizar-modpack` permanecem desabilitados até os gates P0 do cliente e da distribuição;

@@ -130,15 +130,17 @@ Status: concluído em 2026-08-04. A regeneração usa somente fixtures sanitizad
 
 ### 7.1 — registrar a decisão do primeiro schema
 
-Recomendação: usar `java_properties_v1` para provar o fluxo completo e, depois, `forge_toml_v1` para a primeira configuração de mod.
+Decisão: usar `openloader_advanced_options_v1`, limitado a `config/openloader/advanced_options.json`. A escolha foi aprovada pelo proprietário e registrada no [ADR-008](DECISIONS/ADR-008-openloader-como-primeiro-schema.md); os packs em `data/` e `resources/` permanecem fora do editor.
 
-- [ ] criar ADR com proprietário, versão, campos permitidos e motivo da escolha;
-- [ ] marcar apenas o candidato aprovado como selecionado;
-- [ ] definir parser, serializador, limites, segredo, restart e migração;
-- [ ] criar fixtures públicas sanitizadas;
-- [ ] proibir paths e schemas fornecidos pelo usuário.
+- [x] criar ADR com proprietário, versão, campos permitidos e motivo da escolha;
+- [x] marcar apenas o candidato aprovado como selecionado;
+- [x] definir parser, serializador, limites, segredo, restart e migração;
+- [x] criar fixtures públicas sanitizadas;
+- [x] proibir paths e schemas fornecidos pelo usuário.
 
 Gate: sem ADR e schema congelado, não iniciar API ou painel de edição.
+
+Status: concluído em 2026-08-04. O schema aceita somente os dois campos booleanos `enabled`, fixa `additionalFolders` como vazio, exige restart e possui codec/fixtures determinísticos em `@voidfall/configuration-schemas`. Persistência e aplicação real continuam bloqueadas até a Fase 7.2.
 
 ### 7.2 — persistência e operação de configuração
 

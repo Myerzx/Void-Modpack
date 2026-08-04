@@ -79,8 +79,8 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 4 — mods, arquivos e schemas | 100% | 6 de 6 itens concluídos |
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
-| pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; schemas ainda não selecionados |
-| 7 — configurações específicas | 25% | Fase 7.0 concluída; 1 de 4 recortes, próximo gate é o ADR 7.1 |
+| pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; base contextual corrigida |
+| 7 — configurações específicas | 50% | Fases 7.0 e 7.1 concluídas; 2 de 4 recortes, próximo gate é persistência/operação 7.2 |
 | 8 — mods adaptativos | 0% | planejada; correção contextual concluída, ainda depende da ordem das fatias finais |
 | 9 — núcleo operacional e painel | 0% | planejada; domínios continuam isolados |
 | 10 — operações completas | 0% | planejada; sem ligação ao runtime real |
@@ -130,7 +130,9 @@ Gate operacional: autenticação Minecraft, provider Forge, executor de moderaç
 
 Somente após inventário completo e seleção dos mods suportados. Cada schema específico exige proprietário, versão, teste, validação, rollback e indicação de restart.
 
-A auditoria prévia foi corrigida pela Fase 7.0 em 2026-08-04. A regeneração em [`docs/modpack/`](../modpack/index.md) usa somente fixtures sanitizadas e preserva 298 artefatos/299 componentes em 1.363 declarações contextualizadas. O resultado separa quatro conflitos canônicos de duas divergências que agora permanecem `unknown`; não há dependência obrigatória ausente em contexto ativo. Contexto, lado, loader, JarJar e ranges Maven possuem regressões em TypeScript e Python, conforme [Validação da Fase 7.0](PHASE_7_CONTEXTUAL_COMPATIBILITY.md), e a [matriz Windows/Linux 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796) aprovou o gate completo. [`configuracoes.json`](../modpack/configuracoes.json) ainda registra os cinco candidatos como `candidate_not_selected`: o próximo gate continua sendo a escolha explícita da Fase 7.1.
+A auditoria prévia foi corrigida pela Fase 7.0 em 2026-08-04. A regeneração em [`docs/modpack/`](../modpack/index.md) usa somente fixtures sanitizadas e preserva 298 artefatos/299 componentes em 1.363 declarações contextualizadas. O resultado separa quatro conflitos canônicos de duas divergências que agora permanecem `unknown`; não há dependência obrigatória ausente em contexto ativo. Contexto, lado, loader, JarJar e ranges Maven possuem regressões em TypeScript e Python, conforme [Validação da Fase 7.0](PHASE_7_CONTEXTUAL_COMPATIBILITY.md), e a [matriz Windows/Linux 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796) aprovou o gate completo.
+
+A Fase 7.1 selecionou explicitamente `openloader_advanced_options_v1` no [ADR-008](DECISIONS/ADR-008-openloader-como-primeiro-schema.md). O recorte aceita apenas `dataPacks.enabled` e `resourcePacks.enabled`, fixa `additionalFolders` como vazio, exige restart e possui parser/serializador estritos com fixtures sanitizadas. Os diretórios de packs, paths fornecidos pelo usuário e qualquer outro schema continuam negados. O próximo gate é a persistência e operação isolada da Fase 7.2, ainda sem API, agente ou painel.
 
 ## Fases 8–13 — integração e conclusão operacional
 

@@ -9,3 +9,4 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-005 — Fonte canônica do cliente](ADR-005-fonte-canonica-do-cliente.md)
 - [ADR-006 — Identidade VoidFall e início limitado da Fase 2](ADR-006-identidade-e-inicio-da-fase-2.md)
 - [ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3](ADR-007-fase-2-concluida-e-fase-3-segura.md)
+- [ADR-008 — OpenLoader como primeiro schema específico](ADR-008-openloader-como-primeiro-schema.md)

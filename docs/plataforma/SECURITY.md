@@ -84,6 +84,8 @@ Os testes de integração usam `FakeMinecraftFixture.java` com Java 17 e diretó
 
 `@voidfall/server-configuration` aceita somente `resourceId` registrado e valores tipados de campos conhecidos. Path, schema, formato, limite e política de restart são construção confiável. O codec inicial rejeita sintaxe Java Properties ambígua, chaves ausentes/desconhecidas/duplicadas, controles e valores fora do limite. Cada mutação exige guarda offline, lock por recurso e SHA-256 atual esperado; recusa links, hardlinks, tipos especiais e sobreposição com o repositório. A revisão anterior é verificada e publicada antes da troca, e rollback captura outra revisão. Manifestos, recibos e erros omitem valores e paths. O payload anterior pode conter segredo e exige storage restrito; criptografia, auditoria, autorização e integração operacional ainda não existem.
 
+O primeiro schema JSON específico é `openloader_advanced_options_v1`. Ele fixa o path lógico `config/openloader/advanced_options.json`, aceita somente os booleanos `dataPacks.enabled` e `resourcePacks.enabled`, limita o documento a 4.096 bytes e exige `additionalFolders` vazio. O codec rejeita chaves extras/duplicadas, paths e tipos divergentes e serializa uma forma canônica. Ambos os campos exigem restart e nenhum segredo é aceito. Essa definição pura não lê nem aplica arquivos reais; persistência, guarda offline, lock, revisão e auditoria continuam bloqueados até o recorte 7.2.
+
 ## Arquivos e uploads
 
 - raízes lógicas (`config`, `mods-staging`, `logs-export`) mapeadas pelo agente;
