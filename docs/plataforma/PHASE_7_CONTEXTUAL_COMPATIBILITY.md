@@ -1,6 +1,6 @@
 # Fase 7.0 — compatibilidade contextual
 
-Status: concluída em 2026-08-04, em tooling e contratos isolados.
+Status: concluída em 2026-08-04, em tooling e contratos isolados; [matriz Windows/Linux 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796) aprovada.
 
 ## Resultado
 

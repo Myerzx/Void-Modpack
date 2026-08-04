@@ -4,7 +4,7 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 7.0 — concluída em isolamento; validação local aprovada, matriz remota pendente após o push
+- Fase: 7.0 — concluída em isolamento; validação local e matriz Windows/Linux aprovadas
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; nenhum workspace privado foi lido ou modificado
@@ -132,6 +132,7 @@
 
 - Fase 7.0: 34 casos de contratos, 23 casos do catálogo e 3 regressões Python aprovados;
 - gate completo local aprovado: 185 casos descobertos, 183 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
+- matriz CI da Fase 7.0 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796), incluindo regressões Python, validador documental, gate completo e auditoria de runtime;
 - documentação regenerada deterministicamente: 299 componentes, 298 artefatos, 1.363 declarações contextualizadas e nenhuma dependência obrigatória ausente em contexto ativo;
 - validador confirmou os seis resultados nomeados, JarJar separado e ausência de baseline Forge usado como NeoForge;
 - planejamento das Fases 7–13 validado com 47 links Markdown locais resolvidos e `git diff --check` sem erro;
@@ -275,5 +276,7 @@ Executar a **Fase 7.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `55f48f7` — contratos v1 da compatibilidade contextual;
 - `e23e68c` — motor contextual e ranges Maven com corpus de regressão;
 - `a74e322` — gerador fixture-only, documentação regenerada e gate Python/CI.
+- `41ecd0e` — fechamento da Fase 7.0 no plano, roadmap e handoff;
+- `13f8952` — Graphify atualizado com o modelo de compatibilidade contextual.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
