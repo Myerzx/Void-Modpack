@@ -7,6 +7,7 @@ import {
   hashConfigurationSchema,
 } from '@voidfall/configuration-schemas';
 import type { AuditEvent, Job } from '@voidfall/contracts';
+import { PANEL_PERMISSIONS, permissionsForRoles } from '@voidfall/permissions';
 import {
   ConfigurationPersistenceError,
   createRepositories,
@@ -23,6 +24,7 @@ describe('PostgreSQL foundation', () => {
         '0002_rbac_seed.sql',
         '0003_audit_chain.sql',
         '0004_configuration_operations.sql',
+        '0005_configuration_permissions.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
@@ -35,6 +37,44 @@ describe('PostgreSQL foundation', () => {
       const permissions = await repositories.permissions.forUser(user.id);
       assert.equal(permissions.includes('security.manage'), true);
       assert.equal(permissions.includes('server.control.force'), true);
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('seeds the same configuration grants the TypeScript policy declares', async () => {
+    const database = await createPGliteTestDatabase();
+    try {
+      await runMigrations(database);
+      const repositories = createRepositories(database);
+      const configurationPermissions = PANEL_PERMISSIONS.filter((permission) =>
+        permission.startsWith('configuration.'),
+      );
+
+      const seeded = await database.query<{ readonly id: string }>(
+        "SELECT id FROM permissions WHERE id LIKE 'configuration.%' ORDER BY id",
+      );
+      assert.deepEqual(
+        seeded.rows.map((row) => row.id),
+        [...configurationPermissions].sort(),
+      );
+
+      for (const role of ['owner', 'administrator', 'moderator', 'support', 'read-only'] as const) {
+        const user = await repositories.users.create({
+          email: `${role}-configuration@voidfall.invalid`,
+          displayName: `${role} configuration fixture`,
+          passwordHash: await hashPassword('database-test-password'),
+          roles: [role],
+        });
+        const granted = await repositories.permissions.forUser(user.id);
+        for (const permission of configurationPermissions) {
+          assert.equal(
+            granted.includes(permission),
+            permissionsForRoles([role]).includes(permission),
+            `${role} must agree with the policy for ${permission}`,
+          );
+        }
+      }
     } finally {
       await database.close();
     }
