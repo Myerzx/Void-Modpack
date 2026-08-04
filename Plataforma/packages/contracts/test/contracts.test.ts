@@ -7,6 +7,14 @@ import {
   validateAuditChainExportManifest,
   validateAuditEvent,
   validateCatalogReconciliationReport,
+  validateConfigurationApplyRequest,
+  validateConfigurationOperationCommand,
+  validateConfigurationOperationResult,
+  validateConfigurationResourceState,
+  validateConfigurationRevisionPage,
+  validateConfigurationSchemaCatalog,
+  validateConfigurationValidationRequest,
+  validateConfigurationValidationResult,
   validateForgeBuildRequest,
   validateInventorySnapshot,
   validateJob,
@@ -820,5 +828,318 @@ describe('AuditChainExportManifest', () => {
       validateAuditChainExportManifest({ ...validExport(), recordCount: 2 }).success,
       false,
     );
+  });
+});
+
+describe('ServerConfiguration boundary contracts', () => {
+  const validCatalog = () => ({
+    schemaVersion: 1,
+    serverInstanceId: uuid,
+    generatedAt: '2026-08-04T12:00:00Z',
+    schemas: [
+      {
+        schemaId: 'openloader-advanced-options',
+        resourceId: 'openloader-advanced-options',
+        definitionVersion: '1.0.0',
+        definitionSha256: hashA,
+        codecId: 'openloader-advanced-options-v1',
+        applyMode: 'offline-only',
+        maximumBytes: 4_096,
+        restartRequired: true,
+        registered: true,
+        fields: [
+          { name: 'dataPacks.enabled', type: 'boolean', restartRequired: true, readable: true },
+          { name: 'resourcePacks.enabled', type: 'boolean', restartRequired: true, readable: true },
+        ],
+      },
+    ],
+  });
+
+  it('accepts a reviewed catalog and rejects an unreviewed codec or a public path', () => {
+    assert.equal(validateConfigurationSchemaCatalog(validCatalog()).success, true);
+
+    const unreviewed = validCatalog();
+    unreviewed.schemas[0] = { ...unreviewed.schemas[0], codecId: 'generic-json-v1' } as never;
+    assert.equal(validateConfigurationSchemaCatalog(unreviewed).success, false);
+
+    const withPath = validCatalog();
+    withPath.schemas[0] = {
+      ...withPath.schemas[0],
+      filePath: 'config/openloader/advanced_options.json',
+    } as never;
+    assert.equal(validateConfigurationSchemaCatalog(withPath).success, false);
+  });
+
+  it('requires restartRequired to summarize the declared fields', () => {
+    const catalog = validCatalog();
+    catalog.schemas[0] = { ...catalog.schemas[0], restartRequired: false } as never;
+    assert.equal(validateConfigurationSchemaCatalog(catalog).success, false);
+  });
+
+  const validState = () => ({
+    schemaVersion: 1,
+    serverInstanceId: uuid,
+    resourceId: 'openloader-advanced-options',
+    schemaId: 'openloader-advanced-options',
+    definitionVersion: '1.0.0',
+    definitionSha256: hashA,
+    status: 'applied',
+    currentSha256: hashB,
+    stateVersion: 3,
+    updatedAt: '2026-08-04T12:00:00Z',
+    pendingRevisionId: null,
+    lastAppliedRevisionId: 'cfg-0002',
+    lastFailedRevisionId: null,
+    restartRequired: true,
+    valuesAvailable: true,
+    values: [
+      { name: 'dataPacks.enabled', redacted: false, value: true },
+      { name: 'resourcePacks.enabled', redacted: true },
+    ],
+  });
+
+  it('never lets a redacted field carry a value', () => {
+    assert.equal(validateConfigurationResourceState(validState()).success, true);
+    const leaking = validState();
+    leaking.values[1] = { name: 'resourcePacks.enabled', redacted: true, value: false } as never;
+    assert.equal(validateConfigurationResourceState(leaking).success, false);
+  });
+
+  it('keeps values empty when no authorized reader is available', () => {
+    const state = { ...validState(), valuesAvailable: false };
+    assert.equal(validateConfigurationResourceState(state).success, false);
+    assert.equal(validateConfigurationResourceState({ ...state, values: [] }).success, true);
+  });
+
+  it('binds a pending revision to the prepared status', () => {
+    const state = { ...validState(), status: 'prepared' };
+    assert.equal(validateConfigurationResourceState(state).success, false);
+    assert.equal(
+      validateConfigurationResourceState({ ...state, pendingRevisionId: 'cfg-0003' }).success,
+      true,
+    );
+  });
+
+  const validRevision = () => ({
+    revisionId: 'cfg-0002',
+    operation: 'update',
+    status: 'applied',
+    sourceRevisionId: null,
+    expectedCurrentSha256: hashA,
+    previousSha256: hashA,
+    currentSha256: hashB,
+    requestedFields: ['dataPacks.enabled'],
+    changedFields: ['dataPacks.enabled'],
+    restartRequired: true,
+    actor: { type: 'panel-user', id: uuid },
+    reasonCode: 'operator-request',
+    correlationId: otherUuid,
+    failureCode: null,
+    rollbackEligible: true,
+    createdAt: '2026-08-04T12:00:00Z',
+    completedAt: '2026-08-04T12:00:05Z',
+  });
+
+  const pageWith = (revision: Record<string, unknown>) => ({
+    schemaVersion: 1,
+    serverInstanceId: uuid,
+    resourceId: 'openloader-advanced-options',
+    revisions: [revision],
+  });
+
+  it('accepts an applied revision page and rejects rollback eligibility for a failure', () => {
+    assert.equal(validateConfigurationRevisionPage(pageWith(validRevision())).success, true);
+
+    const failed = {
+      ...validRevision(),
+      status: 'failed',
+      currentSha256: null,
+      changedFields: null,
+      restartRequired: null,
+      failureCode: 'verification-failed',
+    };
+    assert.equal(validateConfigurationRevisionPage(pageWith(failed)).success, false);
+    assert.equal(
+      validateConfigurationRevisionPage(pageWith({ ...failed, rollbackEligible: false })).success,
+      true,
+    );
+  });
+
+  it('requires a rollback revision to name exactly one source', () => {
+    const rollback = { ...validRevision(), revisionId: 'cfg-0003', operation: 'rollback' };
+    assert.equal(validateConfigurationRevisionPage(pageWith(rollback)).success, false);
+    assert.equal(
+      validateConfigurationRevisionPage(pageWith({ ...rollback, sourceRevisionId: 'cfg-0002' }))
+        .success,
+      true,
+    );
+  });
+
+  it('rejects a duplicated field in a validation or apply request', () => {
+    const changes = [
+      { name: 'dataPacks.enabled', value: true },
+      { name: 'dataPacks.enabled', value: false },
+    ];
+    assert.equal(
+      validateConfigurationValidationRequest({ schemaVersion: 1, changes }).success,
+      false,
+    );
+    assert.equal(
+      validateConfigurationApplyRequest({
+        schemaVersion: 1,
+        expectedCurrentSha256: hashA,
+        expectedStateVersion: 2,
+        idempotencyKey: 'configuration-apply-0001',
+        reasonCode: 'operator-request',
+        changes,
+      }).success,
+      false,
+    );
+  });
+
+  it('refuses an apply request without an expected hash, version or idempotency key', () => {
+    const base = {
+      schemaVersion: 1,
+      expectedCurrentSha256: hashA,
+      expectedStateVersion: 2,
+      idempotencyKey: 'configuration-apply-0001',
+      reasonCode: 'operator-request',
+      changes: [{ name: 'dataPacks.enabled', value: false }],
+    };
+    assert.equal(validateConfigurationApplyRequest(base).success, true);
+    for (const omitted of [
+      'expectedCurrentSha256',
+      'expectedStateVersion',
+      'idempotencyKey',
+    ] as const) {
+      const incomplete: Record<string, unknown> = { ...base };
+      delete incomplete[omitted];
+      assert.equal(validateConfigurationApplyRequest(incomplete).success, false);
+    }
+    assert.equal(
+      validateConfigurationApplyRequest({
+        ...base,
+        changes: [{ name: 'dataPacks.enabled', value: { nested: true } }],
+      }).success,
+      false,
+    );
+  });
+
+  it('states explicitly that a validation result never applies', () => {
+    const result = {
+      schemaVersion: 1,
+      resourceId: 'openloader-advanced-options',
+      applied: false,
+      valid: true,
+      issues: [],
+      restartRequired: true,
+      changedFields: ['dataPacks.enabled'],
+    };
+    assert.equal(validateConfigurationValidationResult(result).success, true);
+    assert.equal(validateConfigurationValidationResult({ ...result, applied: true }).success, false);
+    assert.equal(
+      validateConfigurationValidationResult({
+        ...result,
+        valid: false,
+        issues: [{ field: 'dataPacks.enabled', code: 'invalid-type' }],
+      }).success,
+      false,
+    );
+  });
+
+  const validCommand = () => ({
+    schemaVersion: 1,
+    operation: 'update',
+    serverInstanceId: uuid,
+    resourceId: 'openloader-advanced-options',
+    revisionId: 'cfg-0003',
+    sourceRevisionId: null,
+    expectedCurrentSha256: hashA,
+    expectedStateVersion: 2,
+    reasonCode: 'operator-request',
+    correlationId: otherUuid,
+    actor: { type: 'panel-user', id: uuid },
+    changes: [{ name: 'dataPacks.enabled', value: false }],
+  });
+
+  it('never carries a root, path or command string to the agent', () => {
+    assert.equal(validateConfigurationOperationCommand(validCommand()).success, true);
+    for (const injected of ['configurationRoot', 'filePath', 'command', 'schema'] as const) {
+      assert.equal(
+        validateConfigurationOperationCommand({ ...validCommand(), [injected]: 'x' }).success,
+        false,
+      );
+    }
+  });
+
+  it('separates update and rollback commands exactly', () => {
+    assert.equal(
+      validateConfigurationOperationCommand({ ...validCommand(), sourceRevisionId: 'cfg-0002' })
+        .success,
+      false,
+    );
+    const rollback = {
+      ...validCommand(),
+      operation: 'rollback',
+      sourceRevisionId: 'cfg-0002',
+      changes: [] as { readonly name: string; readonly value: boolean }[],
+    };
+    assert.equal(validateConfigurationOperationCommand(rollback).success, true);
+    assert.equal(
+      validateConfigurationOperationCommand({
+        ...rollback,
+        changes: [{ name: 'dataPacks.enabled', value: true }],
+      }).success,
+      false,
+    );
+    assert.equal(
+      validateConfigurationOperationCommand({ ...rollback, sourceRevisionId: rollback.revisionId })
+        .success,
+      false,
+    );
+  });
+
+  it('reports a sanitized agent result without values or stages', () => {
+    const applied = {
+      schemaVersion: 1,
+      revisionId: 'cfg-0003',
+      resourceId: 'openloader-advanced-options',
+      operation: 'update',
+      outcome: 'applied',
+      previousSha256: hashA,
+      currentSha256: hashB,
+      changedFields: ['dataPacks.enabled'],
+      restartRequired: true,
+      failureCode: null,
+      completedAt: '2026-08-04T12:00:05Z',
+    };
+    assert.equal(validateConfigurationOperationResult(applied).success, true);
+    assert.equal(
+      validateConfigurationOperationResult({ ...applied, failureCode: 'verification-failed' })
+        .success,
+      false,
+    );
+    const failed = {
+      ...applied,
+      outcome: 'failed',
+      previousSha256: null,
+      currentSha256: null,
+      changedFields: [] as string[],
+      restartRequired: false,
+      failureCode: 'verification-failed',
+    };
+    assert.equal(validateConfigurationOperationResult(failed).success, true);
+    assert.equal(
+      validateConfigurationOperationResult({ ...failed, changedFields: ['dataPacks.enabled'] })
+        .success,
+      false,
+    );
+  });
+
+  it('accepts the two durable configuration job types', () => {
+    for (const type of ['configuration.apply', 'configuration.rollback'] as const) {
+      assert.equal(validateJob({ ...validJob(), type }).success, true);
+    }
+    assert.equal(validateJob({ ...validJob(), type: 'configuration.write' }).success, false);
   });
 });

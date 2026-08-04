@@ -18,12 +18,34 @@ import { ModerationCaseSchema } from './moderation-case.js';
 import { PlayerDataPolicySchema } from './player-data-policy.js';
 import { PlayerProfileSchema } from './player-profile.js';
 import { ReleaseManifestSchema } from './release-manifest.js';
+import {
+  ConfigurationApplyRequestSchema,
+  ConfigurationOperationAcceptanceSchema,
+  ConfigurationOperationCommandSchema,
+  ConfigurationOperationResultSchema,
+  ConfigurationResourceStateSchema,
+  ConfigurationRevisionPageSchema,
+  ConfigurationRollbackRequestSchema,
+  ConfigurationSchemaCatalogSchema,
+  ConfigurationValidationRequestSchema,
+  ConfigurationValidationResultSchema,
+} from './server-configuration.js';
 
 const schemas = [
   ['agent-envelope.schema.json', AgentEnvelopeSchema],
   ['audit-chain-export-manifest.schema.json', AuditChainExportManifestSchema],
   ['audit-event.schema.json', AuditEventSchema],
   ['catalog-reconciliation-report.schema.json', CatalogReconciliationReportSchema],
+  ['configuration-apply-request.schema.json', ConfigurationApplyRequestSchema],
+  ['configuration-operation-acceptance.schema.json', ConfigurationOperationAcceptanceSchema],
+  ['configuration-operation-command.schema.json', ConfigurationOperationCommandSchema],
+  ['configuration-operation-result.schema.json', ConfigurationOperationResultSchema],
+  ['configuration-resource-state.schema.json', ConfigurationResourceStateSchema],
+  ['configuration-revision-page.schema.json', ConfigurationRevisionPageSchema],
+  ['configuration-rollback-request.schema.json', ConfigurationRollbackRequestSchema],
+  ['configuration-schema-catalog.schema.json', ConfigurationSchemaCatalogSchema],
+  ['configuration-validation-request.schema.json', ConfigurationValidationRequestSchema],
+  ['configuration-validation-result.schema.json', ConfigurationValidationResultSchema],
   ['forge-build-request.schema.json', ForgeBuildRequestSchema],
   ['inventory-snapshot.schema.json', InventorySnapshotSchema],
   ['job.schema.json', JobSchema],
