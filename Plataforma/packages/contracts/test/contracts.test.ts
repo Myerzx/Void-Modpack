@@ -14,6 +14,8 @@ import {
   validateLauncherManagedState,
   validateMinecraftPermissionBinding,
   validateModCatalogEntry,
+  validateModCompatibilityAnalysisPlan,
+  validateModCompatibilityReport,
   validateModerationCase,
   validatePlayerDataPolicy,
   validatePlayerProfile,
@@ -146,6 +148,60 @@ function validInventorySnapshot(): Record<string, unknown> {
         state: 'active',
         sizeBytes: 1_024,
         sha256: hashA,
+      },
+    ],
+  };
+}
+
+function validCompatibilityPlan(): Record<string, unknown> {
+  return {
+    schemaVersion: 1,
+    analysisId: 'compatibility-20260804',
+    generatedAt: '2026-08-04T12:00:00Z',
+    contexts: [
+      {
+        id: 'launcher-current',
+        kind: 'launcher_current',
+        side: 'client',
+        runtime: { minecraftVersion: '1.20.1', loader: 'forge', loaderVersion: '47.4.0' },
+        javaVersion: '17',
+        evidenceReference: 'fixture:launcher',
+      },
+      {
+        id: 'server-active',
+        kind: 'server_active',
+        side: 'server',
+        runtime: { minecraftVersion: '1.20.1', loader: 'forge', loaderVersion: '47.4.4' },
+        javaVersion: '17',
+        evidenceReference: 'fixture:server',
+      },
+    ],
+    components: [
+      {
+        id: 'example-mod',
+        kind: 'root-mod',
+        occurrences: [
+          {
+            occurrenceId: 'example-launcher',
+            contextId: 'launcher-current',
+            artifactId: 'fixture:example-launcher',
+            filename: 'example-1.0.0.jar',
+            version: '1.0.0',
+            loader: 'forge',
+            container: { kind: 'root' },
+            metadataPath: 'META-INF/mods.toml',
+          },
+        ],
+        dependencies: [
+          {
+            occurrenceId: 'example-launcher',
+            targetId: 'forge',
+            required: true,
+            side: 'both',
+            versionRange: '[47,48)',
+            evidenceReference: 'example.jar!META-INF/mods.toml',
+          },
+        ],
       },
     ],
   };
@@ -332,6 +388,70 @@ describe('InventorySnapshot', () => {
       type: 'server-export',
     };
     assert.equal(validateInventorySnapshot(wrongScope).success, false);
+  });
+});
+
+describe('ModCompatibility', () => {
+  it('accepts contextual occurrences and side-aware dependencies', () => {
+    assert.equal(validateModCompatibilityAnalysisPlan(validCompatibilityPlan()).success, true);
+  });
+
+  it('rejects duplicate occurrences and incorrect JarJar classification', () => {
+    const duplicate = validCompatibilityPlan();
+    const components = duplicate.components as Array<Record<string, unknown>>;
+    const occurrences = components[0]?.occurrences as Array<Record<string, unknown>>;
+    occurrences.push({ ...occurrences[0] });
+    assert.equal(validateModCompatibilityAnalysisPlan(duplicate).success, false);
+
+    const wrongContainer = validCompatibilityPlan();
+    const wrongComponents = wrongContainer.components as Array<Record<string, unknown>>;
+    const wrongOccurrences = wrongComponents[0]?.occurrences as Array<Record<string, unknown>>;
+    wrongOccurrences[0] = {
+      ...wrongOccurrences[0],
+      container: { kind: 'jarjar', parentArtifactId: 'fixture:parent' },
+    };
+    assert.equal(validateModCompatibilityAnalysisPlan(wrongContainer).success, false);
+  });
+
+  it('rejects stale compatibility report totals', () => {
+    const plan = validCompatibilityPlan();
+    const report = {
+      schemaVersion: 1,
+      analysisId: plan.analysisId,
+      generatedAt: plan.generatedAt,
+      contexts: plan.contexts,
+      components: [
+        {
+          componentId: 'example-mod',
+          kind: 'root-mod',
+          status: 'compatible',
+          contexts: [
+            {
+              contextId: 'launcher-current',
+              status: 'compatible',
+              versions: ['1.0.0'],
+              loaders: ['forge'],
+            },
+            {
+              contextId: 'server-active',
+              status: 'not-present',
+              versions: [],
+              loaders: [],
+            },
+          ],
+        },
+      ],
+      findings: [],
+      summary: {
+        compatibleComponents: 0,
+        incompatibleComponents: 0,
+        unknownComponents: 0,
+        blockerCount: 0,
+        warningCount: 0,
+        informationCount: 0,
+      },
+    };
+    assert.equal(validateModCompatibilityReport(report).success, false);
   });
 });
 

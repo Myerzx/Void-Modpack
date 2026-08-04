@@ -1,6 +1,6 @@
 # Contratos compartilhados
 
-Status: implementação v1 iniciada na Fase 2 e ampliada nas Fases 4, 5 e 6.
+Status: implementação v1 iniciada na Fase 2 e ampliada nas Fases 4, 5, 6 e 7.0.
 
 ## Objetivo
 
@@ -30,6 +30,8 @@ Os contratos iniciais não acessam rede, banco, filesystem operacional nem proce
 | `ModCatalogEntry` | inventário revisado e catálogo | Build Worker e painel | path relativo, hash, lado, proveniência, licença, revisão e dependências |
 | `InventorySnapshot` | exportador autorizado de cliente/servidor | reconciliador de catálogo | fonte/escopo explícitos, runtime, paths canônicos, estado, tamanho e hash sem dados privados |
 | `CatalogReconciliationReport` | reconciliador determinístico | revisão futura, worker e painel | identidade de conteúdo, ocorrências, sugestão de lado, conflitos e bloqueios ordenados |
+| `ModCompatibilityAnalysisPlan` | tooling sanitizado de modpack | analisador contextual | contextos, lado, runtime, ocorrência, loader, contêiner JarJar e dependência por ocorrência |
+| `ModCompatibilityReport` | analisador contextual determinístico | revisão futura e Fase 7.1 | status compatível/incompatível/desconhecido, findings tipados e totais verificáveis |
 | `ReleaseManifest` | Build Worker após gates | Launcher API e adaptadores | identidade VoidFall, artifacts por hash, paths canônicos, remoção explícita e assinatura |
 | `AuditEvent` | todos os componentes autorizados | armazenamento append-only e painel | ator, recurso, correlação, resultado, integridade opcional e bloqueio de chaves secretas |
 | `PlayerProfile` | fonte autorizada de observações | domínio de jogadores e futura API | UUID, revisão, aliases limitados, origem e ordem canônica |
@@ -84,6 +86,17 @@ Esse contrato registra uma decisão de distribuição; ele não descobre nem con
 - `suggestedSide` é evidência e não substitui o lado revisado;
 - resumo precisa corresponder exatamente aos artefatos;
 - o relatório não concede autorização de publicação.
+
+### `ModCompatibilityAnalysisPlan` e `ModCompatibilityReport`
+
+- exigem exatamente um contexto `launcher_current` cliente e um `server_active` servidor;
+- preservam referência e histórico sem tratá-los como conflitos canônicos;
+- cada ocorrência conserva loader e contêiner `root` ou `jarjar`; bibliotecas JarJar não herdam silenciosamente a identidade do JAR externo;
+- dependências pertencem à ocorrência que declarou o metadado e conservam lado e range;
+- relatório diferencia conflito canônico, divergência de referência/histórico, loader incompatível, ausência e range incompatível/desconhecido;
+- componentes ou ranges sem evidência suficiente permanecem `unknown` e não podem ser promovidos por inferência.
+
+O contrato não abre JARs nem workspaces. A análise recebe somente objetos sanitizados em memória.
 
 ### `ReleaseManifest`
 
@@ -150,6 +163,8 @@ O contrato não contém mensagem, comando, coordenada ou payload de observação
 - `job.schema.json`;
 - `agent-envelope.schema.json`;
 - `mod-catalog-entry.schema.json`;
+- `mod-compatibility-analysis-plan.schema.json`;
+- `mod-compatibility-report.schema.json`;
 - `inventory-snapshot.schema.json`;
 - `catalog-reconciliation-report.schema.json`;
 - `release-manifest.schema.json`;
@@ -180,4 +195,4 @@ npm run check
 npm pack --workspace @voidfall/contracts --dry-run
 ```
 
-O check executa typecheck, testes e geração dos sete schemas. A revisão seguinte deve começar por esses comandos e pelo [handoff](HANDOFF.md).
+O check executa typecheck, testes e geração dos 17 schemas. A revisão seguinte deve começar por esses comandos e pelo [handoff](HANDOFF.md).

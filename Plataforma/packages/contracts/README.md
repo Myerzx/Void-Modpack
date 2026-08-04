@@ -7,6 +7,8 @@ Contratos versionados entre painel, APIs, agentes, worker, ponte Forge e adaptad
 - `Job`: unidade durável de trabalho, sem autorizar execução arbitrária;
 - `AgentEnvelope`: envelope assinado e correlacionado para mensagens de agente;
 - `ModCatalogEntry`: proveniência, lado, dependências e decisão de distribuição;
+- `ModCompatibilityAnalysisPlan` e `ModCompatibilityReport`: contextos canônicos,
+  referência/histórico, ocorrências por loader, JarJar e findings conservadores;
 - `ReleaseManifest`: release imutável e independente de launcher;
 - `AuditEvent`: evento sanitizado e append-only de auditoria.
 
@@ -25,4 +27,4 @@ Execute os comandos a partir de `Plataforma/`. Os validadores apenas verificam d
 
 ## Evolução
 
-Mudanças aditivas compatíveis permanecem em `schemaVersion: 1`. Remoções, mudanças de significado ou alterações incompatíveis exigem nova versão de schema e fixtures de compatibilidade. Payloads extensíveis precisam de um schema específico antes de serem consumidos por uma operação.
+Mudanças aditivas compatíveis permanecem em `schemaVersion: 1`. Remoções, mudanças de significado ou alterações incompatíveis exigem nova versão de schema e fixtures de compatibilidade. Payloads extensíveis precisam de um schema específico antes de serem consumidos por uma operação. Compatibilidade desconhecida permanece `unknown`; validação estrutural nunca a promove a compatível.

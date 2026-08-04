@@ -10,6 +10,7 @@ export * from './launcher-channel.js';
 export * from './launcher-state.js';
 export * from './minecraft-permission-binding.js';
 export * from './mod-catalog-entry.js';
+export * from './mod-compatibility.js';
 export * from './moderation-case.js';
 export * from './player-data-policy.js';
 export * from './player-profile.js';

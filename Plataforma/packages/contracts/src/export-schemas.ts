@@ -10,6 +10,10 @@ import { LauncherChannelSchema } from './launcher-channel.js';
 import { LauncherManagedStateSchema } from './launcher-state.js';
 import { MinecraftPermissionBindingSchema } from './minecraft-permission-binding.js';
 import { ModCatalogEntrySchema } from './mod-catalog-entry.js';
+import {
+  ModCompatibilityAnalysisPlanSchema,
+  ModCompatibilityReportSchema,
+} from './mod-compatibility.js';
 import { ModerationCaseSchema } from './moderation-case.js';
 import { PlayerDataPolicySchema } from './player-data-policy.js';
 import { PlayerProfileSchema } from './player-profile.js';
@@ -27,6 +31,8 @@ const schemas = [
   ['launcher-managed-state.schema.json', LauncherManagedStateSchema],
   ['minecraft-permission-binding.schema.json', MinecraftPermissionBindingSchema],
   ['mod-catalog-entry.schema.json', ModCatalogEntrySchema],
+  ['mod-compatibility-analysis-plan.schema.json', ModCompatibilityAnalysisPlanSchema],
+  ['mod-compatibility-report.schema.json', ModCompatibilityReportSchema],
   ['moderation-case.schema.json', ModerationCaseSchema],
   ['player-data-policy.schema.json', PlayerDataPolicySchema],
   ['player-profile.schema.json', PlayerProfileSchema],
