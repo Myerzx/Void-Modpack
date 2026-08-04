@@ -136,6 +136,7 @@
 - Fase 6 por componente novo/ampliado: contratos 31, player governance 12, audit chain 7 e database 3 casos aprovados;
 - append concorrente de auditoria comprovado em PGlite com sequência contígua, verificação e export NDJSON;
 - matriz CI final da Fase 6 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30862534188](https://github.com/Myerzx/Void-Modpack/actions/runs/30862534188); 178 casos passam no Linux e os 176 aplicáveis passam no Windows, com dois sockets Unix ignorados;
+- auditoria pré-Fase 7 aprovada na [matriz Windows/Linux 30880499197](https://github.com/Myerzx/Void-Modpack/actions/runs/30880499197): os dois sistemas validaram a base de 299 componentes, executaram o gate completo e concluíram `npm audit --omit=dev` sem falha;
 - matriz CI de fechamento da Fase 5 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30859356360](https://github.com/Myerzx/Void-Modpack/actions/runs/30859356360); 149 casos passam no Linux e os 147 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI de fechamento da Fase 4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30855561911](https://github.com/Myerzx/Void-Modpack/actions/runs/30855561911); 125 casos passam no Linux e os 123 aplicáveis passam no Windows, com dois sockets Unix ignorados;
 - matriz CI do inventário reconciliado aprovada em `ubuntu-latest` e `windows-latest`: [execução 30852157194](https://github.com/Myerzx/Void-Modpack/actions/runs/30852157194); os 95 casos passam no Linux e os 93 aplicáveis passam no Windows;
