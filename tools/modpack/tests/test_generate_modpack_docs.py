@@ -80,6 +80,21 @@ class FixtureOnlyDocumentationTests(unittest.TestCase):
                 )
             )
 
+            configuration = load_json(first / "configuracoes.json")
+            selected = [
+                item
+                for item in configuration["phase7SchemaCandidates"]
+                if item["status"] == "selected"
+            ]
+            self.assertEqual(len(selected), 1)
+            self.assertEqual(selected[0]["id"], "openloader_advanced_options_v1")
+            self.assertEqual(
+                selected[0]["patterns"],
+                ["config/openloader/advanced_options.json"],
+            )
+            self.assertFalse(selected[0]["userSuppliedPaths"])
+            self.assertEqual(selected[0]["secretFields"], [])
+
     def test_fixture_provenance_is_committed_and_runtime_free(self) -> None:
         fixture = load_json(ARTIFACT_FIXTURE)
         self.assertEqual(fixture["schemaVersion"], 1)

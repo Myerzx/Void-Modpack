@@ -1131,12 +1131,23 @@
       "status": "candidate_not_selected"
     },
     {
-      "id": "openloader_json_v1",
+      "id": "openloader_advanced_options_v1",
       "patterns": [
-        "openloader/*.json",
-        "config/openloader/**/*.json"
+        "config/openloader/advanced_options.json"
       ],
-      "status": "candidate_not_selected"
+      "status": "selected",
+      "schemaVersion": "1.0.0",
+      "schemaSha256": "25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0",
+      "owner": "voidfall-product-owner",
+      "fields": [
+        "dataPacks.enabled",
+        "resourcePacks.enabled"
+      ],
+      "maximumBytes": 4096,
+      "secretFields": [],
+      "restartRequired": true,
+      "userSuppliedPaths": false,
+      "adr": "docs/plataforma/DECISIONS/ADR-008-openloader-como-primeiro-schema.md"
     },
     {
       "id": "fancymenu_text_v1",
@@ -1153,5 +1164,5 @@
       "status": "candidate_not_selected"
     }
   ],
-  "selectionRule": "nenhum schema é suportado até revisão humana de campos, limites, reinício, migração e rollback"
+  "selectionRule": "somente config/openloader/advanced_options.json é suportado; paths, packs e schemas fornecidos pelo usuário permanecem proibidos"
 }

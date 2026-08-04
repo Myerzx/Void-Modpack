@@ -70,6 +70,7 @@ def main() -> int:
     connections = load(docs / "conexoes.json")["connections"]
     compatibility_document = load(docs / "compatibilidade.json")
     compatibility = compatibility_document["matrix"]
+    configuration_document = load(docs / "configuracoes.json")
     removals = load(docs / "remocoes.json")["items"]
     performance = load(docs / "performance.json")["items"]
     mod_files = sorted((docs / "mods").glob("*.yaml"))
@@ -133,7 +134,45 @@ def main() -> int:
             if check.get("dependency") == "neoforge" and check.get("environmentVersion") in {"47.4.0", "47.4.4"}:
                 errors.append(f"Forge baseline reused for NeoForge: {item['modId']}")
 
-    for fixture in (artifact_fixture, regression_fixture):
+    selected_schemas = [
+        item
+        for item in configuration_document.get("phase7SchemaCandidates", [])
+        if item.get("status") == "selected"
+    ]
+    if len(selected_schemas) != 1:
+        errors.append("Phase 7.1 must select exactly one configuration schema")
+    else:
+        selected = selected_schemas[0]
+        expected_openloader = {
+            "id": "openloader_advanced_options_v1",
+            "patterns": ["config/openloader/advanced_options.json"],
+            "schemaVersion": "1.0.0",
+            "schemaSha256": "25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0",
+            "owner": "voidfall-product-owner",
+            "fields": ["dataPacks.enabled", "resourcePacks.enabled"],
+            "maximumBytes": 4096,
+            "secretFields": [],
+            "restartRequired": True,
+            "userSuppliedPaths": False,
+            "adr": "docs/plataforma/DECISIONS/ADR-008-openloader-como-primeiro-schema.md",
+        }
+        for key, expected_value in expected_openloader.items():
+            if selected.get(key) != expected_value:
+                errors.append(f"selected OpenLoader schema mismatch: {key}")
+        if any("*" in pattern for pattern in selected.get("patterns", [])):
+            errors.append("selected OpenLoader schema must not contain wildcard paths")
+    if any(
+        item.get("status") == "selected" and item.get("id") != "openloader_advanced_options_v1"
+        for item in configuration_document.get("phase7SchemaCandidates", [])
+    ):
+        errors.append("an unapproved Phase 7 schema is selected")
+
+    openloader_fixtures = (
+        root / "Plataforma/packages/configuration-schemas/fixtures/openloader-advanced-options-v1/default.json",
+        root / "Plataforma/packages/configuration-schemas/fixtures/openloader-advanced-options-v1/data-packs-disabled.json",
+        root / "Plataforma/packages/configuration-schemas/fixtures/openloader-advanced-options-v1/rejected-user-path.json",
+    )
+    for fixture in (artifact_fixture, regression_fixture, *openloader_fixtures):
         if not fixture.is_file():
             errors.append(f"missing sanitized fixture: {fixture.relative_to(root).as_posix()}")
             continue
@@ -149,7 +188,9 @@ def main() -> int:
         re.compile(r"level-seed\s*[=:]\s*\S+", re.IGNORECASE),
     )
     inspected_paths = [path for path in docs.rglob("*") if path.is_file()]
-    inspected_paths.extend(path for path in (artifact_fixture, regression_fixture) if path.is_file())
+    inspected_paths.extend(
+        path for path in (artifact_fixture, regression_fixture, *openloader_fixtures) if path.is_file()
+    )
     for path in inspected_paths:
         if not path.is_file() or path.suffix.casefold() not in {".md", ".json", ".yaml", ".mmd", ".txt"}:
             continue

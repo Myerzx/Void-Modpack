@@ -1828,11 +1828,24 @@ def build_docs(
         "phase7SchemaCandidates": [
             {"id": "forge_toml_v1", "patterns": ["config/*.toml"], "status": "candidate_not_selected"},
             {"id": "java_properties_v1", "patterns": ["config/**/*.properties"], "status": "candidate_not_selected"},
-            {"id": "openloader_json_v1", "patterns": ["openloader/*.json", "config/openloader/**/*.json"], "status": "candidate_not_selected"},
+            {
+                "id": "openloader_advanced_options_v1",
+                "patterns": ["config/openloader/advanced_options.json"],
+                "status": "selected",
+                "schemaVersion": "1.0.0",
+                "schemaSha256": "25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0",
+                "owner": "voidfall-product-owner",
+                "fields": ["dataPacks.enabled", "resourcePacks.enabled"],
+                "maximumBytes": 4096,
+                "secretFields": [],
+                "restartRequired": True,
+                "userSuppliedPaths": False,
+                "adr": "docs/plataforma/DECISIONS/ADR-008-openloader-como-primeiro-schema.md",
+            },
             {"id": "fancymenu_text_v1", "patterns": ["config/fancymenu/**/*.txt"], "status": "candidate_not_selected"},
             {"id": "minecraft_options_v1", "patterns": ["options.txt"], "status": "candidate_not_selected"},
         ],
-        "selectionRule": "nenhum schema é suportado até revisão humana de campos, limites, reinício, migração e rollback",
+        "selectionRule": "somente config/openloader/advanced_options.json é suportado; paths, packs e schemas fornecidos pelo usuário permanecem proibidos",
     }
     summary = {
         "minecraft": "1.20.1",
@@ -2057,7 +2070,7 @@ Análise gerada em: {analysis_date}.
             "executar backup e restauração antes de remoções/atualizações",
         ],
         "nextSteps": [
-            "usar `compatibilidade.json` como entrada sanitizada da Fase 7.1",
+            "persistir o schema OpenLoader selecionado e suas revisões na Fase 7.2",
             "resolver divergências de baseline e revisar integrações opcionais",
             "promover somente configurações necessárias e sanitizadas",
             "executar matriz de smoke tests cliente-servidor",

@@ -57,7 +57,7 @@
 
 ## Próximas etapas
 
-- usar `compatibilidade.json` como entrada sanitizada da Fase 7.1
+- persistir o schema OpenLoader selecionado e suas revisões na Fase 7.2
 - resolver divergências de baseline e revisar integrações opcionais
 - promover somente configurações necessárias e sanitizadas
 - executar matriz de smoke tests cliente-servidor
