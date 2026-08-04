@@ -1,5 +1,6 @@
 mod:
   id: "cosmeticarmorreworked"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "cosmeticarmorreworked"
   nome: "CosmeticArmorReworked"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.20.1-v1a"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.20.1-v1a"
@@ -38,7 +43,8 @@ mod:
   impacto_desempenho: "entidades, animações, IA e sincronização de combate"
   observacoes:
     - "contextos: servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

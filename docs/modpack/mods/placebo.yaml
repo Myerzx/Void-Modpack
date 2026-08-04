@@ -1,5 +1,6 @@
 mod:
   id: "placebo"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "placebo"
   nome: "Placebo"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "8.6.3"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "8.6.3"
   versoes_observadas_incluindo_desativadas:
     - "8.6.3"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

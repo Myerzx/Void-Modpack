@@ -1,5 +1,6 @@
 mod:
   id: "playeranimator"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "playeranimator"
   nome: "Player Animator"
@@ -15,6 +16,10 @@ mod:
         - "launcher_current"
         - "server_active"
       modVersion: "1.0.2-rc1+1.20"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.0.2-rc1+1.20"
   versoes_observadas_incluindo_desativadas:
     - "1.0.2-rc1+1.20"
@@ -45,6 +50,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

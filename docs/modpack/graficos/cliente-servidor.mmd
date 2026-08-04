@@ -40,6 +40,12 @@ graph TD
     n_konkrete["konkrete"]
     n_fancymenu -->|depende| n_konkrete
     n_fancymenu["fancymenu"]
+    n_konkrete["konkrete"]
+    n_fancymenu -->|depende| n_konkrete
+    n_fancymenu["fancymenu"]
+    n_melody["melody"]
+    n_fancymenu -->|depende| n_melody
+    n_fancymenu["fancymenu"]
     n_melody["melody"]
     n_fancymenu -->|depende| n_melody
     n_flerovium["flerovium"]
@@ -63,15 +69,18 @@ graph TD
     n_smoothchunk["smoothchunk"]
     n_cupboard["cupboard"]
     n_smoothchunk -->|depende| n_cupboard
+    n_chipped["chipped"]
+    n_athena["athena"]
+    n_chipped --x|ausente| n_athena
     n_born_in_chaos_v1["born_in_chaos_v1"]
     n_geckolib["geckolib"]
     n_born_in_chaos_v1 -.->|opcional| n_geckolib
-    n_born_in_chaos_v1["born_in_chaos_v1"]
-    n_jei["jei"]
-    n_born_in_chaos_v1 -.->|opcional| n_jei
     n_distanthorizons["distanthorizons"]
     n_oculus["oculus"]
     n_distanthorizons -.->|opcional| n_oculus
+    n_embeddium["embeddium"]
+    n_oculus["oculus"]
+    n_embeddium -.->|opcional| n_oculus
     n_embeddium["embeddium"]
     n_oculus["oculus"]
     n_embeddium -.->|opcional| n_oculus
@@ -84,15 +93,24 @@ graph TD
     n_oculus["oculus"]
     n_embeddium["embeddium"]
     n_oculus -.->|opcional| n_embeddium
-    n_sound_physics_remastered["sound_physics_remastered"]
-    n_voicechat["voicechat"]
-    n_sound_physics_remastered -.->|opcional| n_voicechat
-    n_voicechat["voicechat"]
-    n_cloth_config["cloth_config"]
-    n_voicechat -.->|opcional| n_cloth_config
+    n_oculus["oculus"]
+    n_embeddium["embeddium"]
+    n_oculus -.->|opcional| n_embeddium
+    n_born_in_chaos_v1["born_in_chaos_v1"]
+    n_jei["jei"]
+    n_born_in_chaos_v1 -.->|opcional ausente| n_jei
     n_embeddium["embeddium"]
     n_textrues_embeddium_options["textrues_embeddium_options"]
     n_embeddium -.->|opcional ausente| n_textrues_embeddium_options
+    n_embeddium["embeddium"]
+    n_textrues_embeddium_options["textrues_embeddium_options"]
+    n_embeddium -.->|opcional ausente| n_textrues_embeddium_options
+    n_fancymenu["fancymenu"]
+    n_drippyloadingscreen["drippyloadingscreen"]
+    n_fancymenu -.->|opcional ausente| n_drippyloadingscreen
+    n_fancymenu["fancymenu"]
+    n_fancymenu_video["fancymenu_video"]
+    n_fancymenu -.->|opcional ausente| n_fancymenu_video
     n_fancymenu["fancymenu"]
     n_fancymenu_video["fancymenu_video"]
     n_fancymenu -.->|opcional ausente| n_fancymenu_video
@@ -100,14 +118,38 @@ graph TD
     n_findme["findme"]
     n_fancymenu -.->|opcional ausente| n_findme
     n_fancymenu["fancymenu"]
+    n_findme["findme"]
+    n_fancymenu -.->|opcional ausente| n_findme
+    n_fancymenu["fancymenu"]
+    n_fmextension_audio["fmextension_audio"]
+    n_fancymenu -.->|opcional ausente| n_fmextension_audio
+    n_fancymenu["fancymenu"]
     n_fmextension_audio["fmextension_audio"]
     n_fancymenu -.->|opcional ausente| n_fmextension_audio
     n_fancymenu["fancymenu"]
     n_fmextension_video["fmextension_video"]
     n_fancymenu -.->|opcional ausente| n_fmextension_video
     n_fancymenu["fancymenu"]
+    n_fmextension_video["fmextension_video"]
+    n_fancymenu -.->|opcional ausente| n_fmextension_video
+    n_fancymenu["fancymenu"]
     n_rrls["rrls"]
     n_fancymenu -.->|opcional ausente| n_rrls
+    n_fancymenu["fancymenu"]
+    n_rrls["rrls"]
+    n_fancymenu -.->|opcional ausente| n_rrls
+    n_flywheel["flywheel"]
+    n_embeddium["embeddium"]
+    n_flywheel -.->|opcional ausente| n_embeddium
     n_legendarytooltips["legendarytooltips"]
     n_equipmentcompare["equipmentcompare"]
     n_legendarytooltips -.->|opcional ausente| n_equipmentcompare
+    n_sound_physics_remastered["sound_physics_remastered"]
+    n_voicechat["voicechat"]
+    n_sound_physics_remastered -.->|opcional ausente| n_voicechat
+    n_sound_physics_remastered["sound_physics_remastered"]
+    n_voicechat["voicechat"]
+    n_sound_physics_remastered -.->|opcional ausente| n_voicechat
+    n_voicechat["voicechat"]
+    n_cloth_config["cloth_config"]
+    n_voicechat -.->|opcional ausente| n_cloth_config

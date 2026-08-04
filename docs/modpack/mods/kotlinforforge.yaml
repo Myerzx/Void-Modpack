@@ -1,5 +1,6 @@
 mod:
   id: "kotlinforforge"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "kotlinforforge"
   nome: "Kotlin For Forge"
@@ -14,6 +15,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "4.12.0"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:6a66c6a68ec09f8717cdbf06883394f0ee24d7cd826b7134a0f81839e8e720ae"
+      metadataPath: "META-INF/jarjar/kffmod-4.12.0.jar!META-INF/mods.toml"
   versao_instalada: "4.12.0"
   versoes_observadas_incluindo_desativadas:
     - "4.12.0"
@@ -41,7 +47,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

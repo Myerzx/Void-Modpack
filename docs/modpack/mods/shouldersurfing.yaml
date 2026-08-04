@@ -1,5 +1,6 @@
 mod:
   id: "shouldersurfing"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "shouldersurfing"
   nome: "Shoulder Surfing Reloaded"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.20.1-4.17.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:8ab642327adfae6fe3ca92f49cf4afefedd88c420efa69942d1656359269e240"
       fileName: "ShoulderSurfing-Forge-1.20.1-4.22.3.jar"
       sha256: "8ab642327adfae6fe3ca92f49cf4afefedd88c420efa69942d1656359269e240"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.20.1-4.22.3"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.20.1-4.22.3"
   versoes_observadas_incluindo_desativadas:
     - "1.20.1-4.17.0"
@@ -48,7 +57,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

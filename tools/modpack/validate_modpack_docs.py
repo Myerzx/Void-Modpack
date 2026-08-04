@@ -41,6 +41,8 @@ def main() -> int:
     args = parser.parse_args()
     root = args.root.resolve()
     docs = root / "docs/modpack"
+    artifact_fixture = root / "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json"
+    regression_fixture = root / "tools/modpack/fixtures/contextual-compatibility-regressions.json"
     errors: list[str] = []
 
     for name in REQUIRED_JSON:
@@ -66,7 +68,8 @@ def main() -> int:
     inventory = load(docs / "inventario.json")
     dependencies = load(docs / "dependencias.json")
     connections = load(docs / "conexoes.json")["connections"]
-    compatibility = load(docs / "compatibilidade.json")["matrix"]
+    compatibility_document = load(docs / "compatibilidade.json")
+    compatibility = compatibility_document["matrix"]
     removals = load(docs / "remocoes.json")["items"]
     performance = load(docs / "performance.json")["items"]
     mod_files = sorted((docs / "mods").glob("*.yaml"))
@@ -96,6 +99,48 @@ def main() -> int:
         errors.append("dependency partitions do not match connection count")
     if inventory["environment"]["minecraft"] != summary["minecraft"]:
         errors.append("environment Minecraft mismatch")
+    if compatibility_document.get("schemaVersion") != 2:
+        errors.append("compatibility schemaVersion must be 2")
+    if inventory.get("scope", {}).get("runtimeForensics") != "not accessed; fixture-only deterministic regeneration":
+        errors.append("inventory must declare fixture-only runtime behavior")
+
+    allowed_statuses = {"compatible", "incompatible", "unknown"}
+    matrix_by_id = {item["modId"]: item for item in compatibility}
+    for item in compatibility:
+        if item.get("status") not in allowed_statuses:
+            errors.append(f"invalid compatibility status: {item['modId']}")
+        if item.get("status") == "compatible" and any(
+            finding.get("severity") == "blocker" for finding in item.get("findings", [])
+        ):
+            errors.append(f"compatible component has blocker: {item['modId']}")
+    expected_regressions = {
+        "armourers_workshop": ("incompatible", "canonical-conflict"),
+        "epicfight": ("incompatible", "canonical-conflict"),
+        "killcam": ("unknown", "reference-divergence"),
+        "openloader": ("incompatible", "canonical-conflict"),
+        "preloading_tricks": ("unknown", "reference-only"),
+        "wom": ("incompatible", "canonical-conflict"),
+    }
+    for component_id, (status, classification) in expected_regressions.items():
+        item = matrix_by_id.get(component_id)
+        if item is None or (item.get("status"), item.get("classification")) != (status, classification):
+            errors.append(f"regression mismatch: {component_id}")
+    for component_id in ("cumulus_menus", "nitrogen_internals"):
+        if matrix_by_id.get(component_id, {}).get("componentKind") != "embedded-library":
+            errors.append(f"JarJar component not separated: {component_id}")
+    for item in compatibility:
+        for check in item.get("environmentChecks", []):
+            if check.get("dependency") == "neoforge" and check.get("environmentVersion") in {"47.4.0", "47.4.4"}:
+                errors.append(f"Forge baseline reused for NeoForge: {item['modId']}")
+
+    for fixture in (artifact_fixture, regression_fixture):
+        if not fixture.is_file():
+            errors.append(f"missing sanitized fixture: {fixture.relative_to(root).as_posix()}")
+            continue
+        try:
+            load(fixture)
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            errors.append(f"invalid sanitized fixture {fixture.name}: {exc}")
 
     forbidden_patterns = (
         re.compile(r"[A-Za-z]:\\Users\\", re.IGNORECASE),
@@ -103,7 +148,9 @@ def main() -> int:
         re.compile(r"rcon\.password\s*[=:]\s*\S+", re.IGNORECASE),
         re.compile(r"level-seed\s*[=:]\s*\S+", re.IGNORECASE),
     )
-    for path in docs.rglob("*"):
+    inspected_paths = [path for path in docs.rglob("*") if path.is_file()]
+    inspected_paths.extend(path for path in (artifact_fixture, regression_fixture) if path.is_file())
+    for path in inspected_paths:
         if not path.is_file() or path.suffix.casefold() not in {".md", ".json", ".yaml", ".mmd", ".txt"}:
             continue
         text = path.read_text(encoding="utf-8", errors="replace")

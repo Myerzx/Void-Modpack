@@ -1,5 +1,6 @@
 mod:
   id: "blue_skies"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "blue_skies"
   nome: "Blue Skies"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.3.31"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.3.31"
   versoes_observadas_incluindo_desativadas:
     - "1.3.31"
@@ -42,7 +47,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

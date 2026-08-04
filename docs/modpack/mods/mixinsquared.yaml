@@ -1,5 +1,6 @@
 mod:
   id: "mixinsquared"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "mixinsquared"
   nome: "MixinSquared"
@@ -14,6 +15,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.2.0-beta.6"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:d3667db57daddf770148592b661aa36455a4001309a29dd0759b75773cc87de2"
+      metadataPath: "META-INF/jarjar/mixinsquared-forge-0.2.0-beta.6.jar!META-INF/mods.toml"
     - artifactId: "sha256:7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
       fileName: "epicfight-extra-1.1.4-mc1.20.1-forge-all.jar"
       sha256: "7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
@@ -23,6 +29,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.2.0-beta.6"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:7ae17f7d254259f80e024dc4a557cbda4102963835f843f5f45483ac2afb373b"
+      metadataPath: "META-INF/jarjar/mixinsquared-forge-0.2.0-beta.6.jar!META-INF/mods.toml"
     - artifactId: "sha256:6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
       fileName: "Fancy-Trail1.20.1-1.1.5-all.jar"
       sha256: "6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
@@ -32,6 +43,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.2.0-beta.6"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:6c7e7cb69eae45b019d750691148b33c326915cad65cae2beea7edaf1e71494a"
+      metadataPath: "META-INF/jarjar/mixinsquared-forge-0.2.0-beta.6.jar!META-INF/mods.toml"
     - artifactId: "sha256:7f4dec989e2ba17d2c573ed64f75d0c98a3b8ee37df04cb92d023dcce9aae27c"
       fileName: "tcr_bosses-1.0.18-all.jar"
       sha256: "7f4dec989e2ba17d2c573ed64f75d0c98a3b8ee37df04cb92d023dcce9aae27c"
@@ -41,6 +57,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.3.7-beta.1"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:7f4dec989e2ba17d2c573ed64f75d0c98a3b8ee37df04cb92d023dcce9aae27c"
+      metadataPath: "META-INF/jarjar/mixinsquared-forge-0.3.7-beta.1.jar!META-INF/mods.toml"
     - artifactId: "sha256:11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
       fileName: "tcrcore-2.2.3.jar"
       sha256: "11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
@@ -50,6 +71,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.3.7-beta.1"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
+      metadataPath: "META-INF/jarjar/mixinsquared-forge-0.3.7-beta.1.jar!META-INF/mods.toml"
   versao_instalada:
     - "0.2.0-beta.6"
     - "0.3.7-beta.1"
@@ -79,7 +105,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

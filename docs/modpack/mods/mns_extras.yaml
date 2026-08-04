@@ -1,5 +1,6 @@
 mod:
   id: "mns_extras"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "mns_extras"
   nome: "MnS Extras"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_current"
       modVersion: "0.2-1.20.1"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.2-1.20.1"
   versoes_observadas_incluindo_desativadas:
     - "0.2-1.20.1"
@@ -40,6 +45,7 @@ mod:
   observacoes:
     - "contextos: launcher atual"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

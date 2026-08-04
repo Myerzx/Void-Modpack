@@ -1,5 +1,6 @@
 mod:
   id: "bookofdragons"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "bookofdragons"
   nome: "bookofdragons"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.21-1.20.1"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:ea582cc1395deef09936d8cc91419684442490637340c803cbe45b0af68b976e"
       fileName: "bookofdragons-stub-0.0.0.jar"
       sha256: "ea582cc1395deef09936d8cc91419684442490637340c803cbe45b0af68b976e"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.0.0-stub"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.0.0-stub"
   versoes_observadas_incluindo_desativadas:
     - "0.0.0-stub"
@@ -54,7 +63,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo, servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (dependency-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

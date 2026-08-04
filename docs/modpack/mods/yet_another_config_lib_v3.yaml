@@ -1,5 +1,6 @@
 mod:
   id: "yet_another_config_lib_v3"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "yet_another_config_lib_v3"
   nome: "YetAnotherConfigLib"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "3.6.6+1.20.1-forge"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:bd05da3d9df29b914165583f1c6dfd918a138996447ff32c0418329824027a8f"
       fileName: "yet_another_config_lib_v3-3.6.6+1.20.1-forge.jar.disabled"
       sha256: "bd05da3d9df29b914165583f1c6dfd918a138996447ff32c0418329824027a8f"
@@ -25,6 +30,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "3.6.6+1.20.1-forge"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: "3.6.6+1.20.1-forge"
   versoes_observadas_incluindo_desativadas:
     - "3.6.6+1.20.1-forge"
@@ -52,6 +61,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

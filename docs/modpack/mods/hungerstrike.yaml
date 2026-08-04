@@ -1,5 +1,6 @@
 mod:
   id: "hungerstrike"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "hungerstrike"
   nome: "Hunger Strike"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "8.0.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "8.0.0"
   versoes_observadas_incluindo_desativadas:
     - "8.0.0"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

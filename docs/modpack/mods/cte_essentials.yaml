@@ -1,5 +1,6 @@
 mod:
   id: "cte_essentials"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "cte_essentials"
   nome: "CTE2 Essentials"
@@ -15,6 +16,10 @@ mod:
         - "launcher_current"
         - "server_active"
       modVersion: "1.0.7"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.0.7"
   versoes_observadas_incluindo_desativadas:
     - "1.0.7"
@@ -41,6 +46,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

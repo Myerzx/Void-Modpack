@@ -1,5 +1,6 @@
 mod:
   id: "atistructures"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "atistructures"
   nome: "Structory"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.4.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:1db9d6bbcc5032ed42e47adf42d2a719b5a768cc42af6b999ac2b1208d0730a7"
       fileName: "ATi Structures Default V1.4.2 (1.20+).jar.disabled"
       sha256: "1db9d6bbcc5032ed42e47adf42d2a719b5a768cc42af6b999ac2b1208d0730a7"
@@ -21,6 +26,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.4.0"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.4.0"
@@ -45,6 +54,7 @@ mod:
   integracoes:
     - "forge"
     - "neoforge"
+    - "neoforge"
   configs_principais: []
   riscos:
     - "pode registrar conteúdo persistente ou orientado a dados"
@@ -52,7 +62,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

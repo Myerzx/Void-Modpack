@@ -8,10 +8,10 @@
 - Mods de servidor: **2**
 - Mods de ambos os lados: **191**
 - Dependências obrigatórias ausentes: **0**
-- Incompatibilidades: **6**
+- Incompatibilidades: **4**
 - Conflitos globais prováveis: **2**
 - Candidatos à remoção/revisão: **78**
-- Itens não verificados: **7**
+- Itens não verificados: **263**
 
 ## Dez maiores riscos
 
@@ -57,7 +57,7 @@
 
 ## Próximas etapas
 
-- revisar `compatibilidade.json` e selecionar schemas explícitos para a Fase 7
+- usar `compatibilidade.json` como entrada sanitizada da Fase 7.1
 - resolver divergências de baseline e revisar integrações opcionais
 - promover somente configurações necessárias e sanitizadas
 - executar matriz de smoke tests cliente-servidor

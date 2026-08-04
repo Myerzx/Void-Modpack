@@ -1,5 +1,6 @@
 mod:
   id: "globalshaderpackproperties"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "globalshaderpackproperties"
   nome: "Global Shaderpack Properties"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "1.1.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.1.0"
   versoes_observadas_incluindo_desativadas:
     - "1.1.0"
@@ -39,7 +44,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

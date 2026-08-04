@@ -1,5 +1,6 @@
 mod:
   id: "soulslikeuniverse"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "soulslikeuniverse"
   nome: "souls like universe"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.20.1.9"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.20.1.9"
@@ -40,7 +45,8 @@ mod:
   impacto_desempenho: "entidades, animações, IA e sincronização de combate"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (dependency-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

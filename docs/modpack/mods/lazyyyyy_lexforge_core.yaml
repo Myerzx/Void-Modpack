@@ -1,5 +1,6 @@
 mod:
   id: "lazyyyyy_lexforge_core"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "lazyyyyy_lexforge_core"
   nome: "lazyyyyy-lexforge-core-0.14.19.jar"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: null
+      loader: null
+      container:
+        kind: "root"
+      metadataPath: null
   versao_instalada: []
   versoes_observadas_incluindo_desativadas: []
   minecraft: "1.20.1"
@@ -39,6 +44,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
     - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "baixa"
     origem: "metadatos do loader, hashes e inventários sanitizados"

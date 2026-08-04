@@ -1,5 +1,6 @@
 mod:
   id: "xaerolib"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "xaerolib"
   nome: "XaeroLib"
@@ -14,6 +15,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.1.0"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:dd118045c4daa8e27614f576d515ba5b07e4ccae060b6b1a536437f155879c7b"
+      metadataPath: "META-INF/jarjar/xaerolib-forge-1.20.1-1.1.0.jar!META-INF/mods.toml"
     - artifactId: "sha256:d41ea1366e36f79f1b38efb44920fa9354a929eee070c493bda60b0c5cc2b16a"
       fileName: "xaeroworldmap-forge-1.20.1-1.40.11.jar"
       sha256: "d41ea1366e36f79f1b38efb44920fa9354a929eee070c493bda60b0c5cc2b16a"
@@ -23,6 +29,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.1.0"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:d41ea1366e36f79f1b38efb44920fa9354a929eee070c493bda60b0c5cc2b16a"
+      metadataPath: "META-INF/jarjar/xaerolib-forge-1.20.1-1.1.0.jar!META-INF/mods.toml"
   versao_instalada: "1.1.0"
   versoes_observadas_incluindo_desativadas:
     - "1.1.0"
@@ -52,7 +63,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

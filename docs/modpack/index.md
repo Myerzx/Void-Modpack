@@ -18,7 +18,7 @@ Base auditada: Minecraft 1.20.1, Java 17 e Forge 47.4.x. O cliente canônico e o
 - Componentes ativos mapeados por `mod_id`: **245**.
 - Componentes documentados, incluindo desativados/candidatos: **299**.
 - Artefatos únicos inventariados: **298**.
-- Dependências declaradas: **737**.
+- Dependências declaradas: **1363**.
 - Dependências obrigatórias ausentes: **0**.
 
 ## Quantidade por categoria
@@ -60,12 +60,10 @@ Nenhuma ausente confirmada no conjunto agregado.
 
 - `client-server-baseline-mismatch`
 - `forge-baseline-divergence`
-- `armourers_workshop`: selecionar artefato compatível e repetir smoke test
-- `epicfight`: selecionar artefato compatível e repetir smoke test
-- `killcam`: selecionar artefato compatível e repetir smoke test
-- `openloader`: selecionar artefato compatível e repetir smoke test
-- `preloading_tricks`: selecionar artefato compatível e repetir smoke test
-- `wom`: selecionar artefato compatível e repetir smoke test
+- `armourers_workshop`: resolver findings e repetir smoke test
+- `epicfight`: resolver findings e repetir smoke test
+- `openloader`: resolver findings e repetir smoke test
+- `wom`: resolver findings e repetir smoke test
 
 ## Candidatos à remoção
 

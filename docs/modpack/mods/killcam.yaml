@@ -1,5 +1,6 @@
 mod:
   id: "killcam"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "killcam"
   nome: "KillCam"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_active"
       modVersion: "1.0.2"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:4cee7a89747aafe3097952c5a5330acb92b6b2dada3f8819468689d6a7ef2cda"
       fileName: "killcam-1.0.3.jar"
       sha256: "4cee7a89747aafe3097952c5a5330acb92b6b2dada3f8819468689d6a7ef2cda"
@@ -21,6 +26,10 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "1.0.3"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada:
     - "1.0.2"
     - "1.0.3"
@@ -51,7 +60,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: incompativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-divergence)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

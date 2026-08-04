@@ -1,9 +1,7 @@
-"""Generate the compact VoidFall modpack knowledge base.
+"""Generate the VoidFall modpack knowledge base from sanitized evidence.
 
-The generator performs read-only forensics against the ignored launcher/server
-profiles and writes only sanitized, deterministic documentation under
-``docs/modpack``. It never loads or executes a JAR: ZIP entries are limited to
-loader metadata, manifests and feature-presence checks.
+The committed generator is CI-safe and never reads the ignored launcher/server
+workspaces. Its only artifact-level input is a reviewed, sanitized fixture.
 """
 
 from __future__ import annotations
@@ -19,7 +17,6 @@ import tempfile
 import tomllib
 import zipfile
 from collections import Counter, defaultdict
-from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -41,6 +38,15 @@ CONTEXT_LABELS = {
     "server_disabled": "servidor desativado",
     "server_other": "servidor backup/outro",
     "embedded_client": "cliente privado de referência",
+}
+
+CONTEXTS = {
+    "launcher_current": {"kind": "canonical", "side": "client", "loader": "forge", "loaderVersion": "47.4.0", "javaVersion": "17"},
+    "server_active": {"kind": "canonical", "side": "server", "loader": "forge", "loaderVersion": "47.4.4", "javaVersion": "17"},
+    "embedded_client": {"kind": "reference", "side": "client", "loader": "forge", "loaderVersion": None, "javaVersion": "17"},
+    "launcher_disabled": {"kind": "historical", "side": "client", "loader": "forge", "loaderVersion": "47.4.0", "javaVersion": "17"},
+    "server_disabled": {"kind": "historical", "side": "server", "loader": "forge", "loaderVersion": "47.4.4", "javaVersion": "17"},
+    "server_other": {"kind": "historical", "side": "server", "loader": "forge", "loaderVersion": "47.4.4", "javaVersion": "17"},
 }
 
 CATEGORY_TERMS = {
@@ -412,7 +418,8 @@ def context_state(filename: str, active_context: str, disabled_context: str) -> 
     return active_context, "active"
 
 
-def load_artifacts(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def _disabled_private_runtime_forensics(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    raise RuntimeError("private runtime forensics are disabled in the committed generator")
     launcher_addons = read_json(root / "Launcher/catalog/addons.json")
     server_rows = read_csv(root / "Servidor/catalog/mods.csv")
     compatibility_rows = read_csv(root / "Servidor/catalog/compatibilidade-cliente.csv")
@@ -521,6 +528,24 @@ def load_artifacts(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     }
 
 
+def load_artifacts(fixture_path: Path) -> tuple[list[dict[str, Any]], dict[str, Any], str]:
+    fixture = read_json(fixture_path)
+    if fixture.get("schemaVersion") != 1 or not isinstance(fixture.get("artifacts"), list):
+        raise ValueError(f"invalid sanitized artifact fixture: {fixture_path}")
+    analysis_date = fixture.get("analysisDate")
+    if not isinstance(analysis_date, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", analysis_date):
+        raise ValueError(f"fixture analysisDate must be ISO date: {fixture_path}")
+    extraction = dict(fixture.get("extraction") or {})
+    extraction["source"] = f"tools/modpack/fixtures/{fixture_path.name}"
+    extraction["mode"] = "committed-sanitized-fixture"
+    artifacts = fixture["artifacts"]
+    return (
+        sorted(artifacts, key=lambda item: (item["fileName"].casefold(), item["artifactId"])),
+        extraction,
+        analysis_date,
+    )
+
+
 def public_override_inventory(root: Path) -> list[dict[str, Any]]:
     base = root / "Launcher/pack/overrides"
     result: list[dict[str, Any]] = []
@@ -587,6 +612,25 @@ def infer_config_paths(component_id: str, overrides: list[dict[str, Any]]) -> li
     return paths[:80]
 
 
+def loader_from_metadata(mod: dict[str, Any], artifact: dict[str, Any]) -> str | None:
+    metadata_path = str(mod.get("metadataPath") or "").casefold()
+    if metadata_path.endswith("meta-inf/neoforge.mods.toml"):
+        return "neoforge"
+    if metadata_path.endswith("fabric.mod.json"):
+        return "fabric"
+    if metadata_path.endswith("meta-inf/mods.toml"):
+        return "forge"
+    declared = [item for item in artifact.get("loaders", []) if item in {"forge", "neoforge", "fabric", "quilt"}]
+    return declared[0] if len(set(declared)) == 1 else None
+
+
+def container_from_metadata(mod: dict[str, Any], artifact: dict[str, Any]) -> dict[str, Any]:
+    metadata_path = str(mod.get("metadataPath") or "")
+    if metadata_path.casefold().startswith("meta-inf/jarjar/"):
+        return {"kind": "jarjar", "parentArtifactId": artifact["artifactId"]}
+    return {"kind": "root"}
+
+
 def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     components: dict[str, dict[str, Any]] = {}
     for artifact in artifacts:
@@ -623,8 +667,10 @@ def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, 
                     "versions": set(),
                     "descriptions": set(),
                     "artifacts": [],
+                    "occurrences": [],
                     "contexts": set(),
                     "dependencies": {},
+                    "dependencyDeclarations": {},
                     "metadataPaths": set(),
                     "metadataErrors": set(),
                     "features": {"mixins": set(), "accessTransformers": set(), "containsData": False, "containsAssets": False},
@@ -638,6 +684,8 @@ def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, 
                 component["versions"].add(str(mod["version"]))
             if mod.get("description"):
                 component["descriptions"].add(str(mod["description"]))
+            loader = loader_from_metadata(mod, artifact)
+            container = container_from_metadata(mod, artifact)
             component["artifacts"].append(
                 {
                     "artifactId": artifact["artifactId"],
@@ -647,13 +695,29 @@ def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, 
                     "state": artifact["state"],
                     "contexts": artifact["contexts"],
                     "modVersion": str(mod["version"]) if mod.get("version") else None,
+                    "loader": loader,
+                    "container": container,
+                    "metadataPath": mod.get("metadataPath"),
                 }
             )
+            for context in artifact["contexts"]:
+                component["occurrences"].append(
+                    {
+                        "context": context,
+                        "artifactId": artifact["artifactId"],
+                        "fileName": artifact["fileName"],
+                        "version": str(mod["version"]) if mod.get("version") else None,
+                        "loader": loader,
+                        "container": container,
+                        "metadataPath": mod.get("metadataPath"),
+                    }
+                )
             component["contexts"].update(artifact["contexts"])
             if mod.get("metadataPath"):
                 component["metadataPaths"].add(mod["metadataPath"])
             component["metadataErrors"].update(artifact["metadataErrors"])
-            component["loaders"].update(artifact.get("loaders", []))
+            if loader:
+                component["loaders"].add(loader)
             for feature in ("mixins", "accessTransformers"):
                 component["features"][feature].update(artifact["features"][feature])
             for feature in ("containsData", "containsAssets"):
@@ -666,8 +730,27 @@ def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, 
                     dependency["mandatory"],
                     dependency.get("versionRange"),
                     dependency.get("side"),
+                    dependency.get("source"),
                 )
                 component["dependencies"][key] = dependency
+                for context in artifact["contexts"]:
+                    declaration_key = (
+                        context,
+                        loader,
+                        artifact["artifactId"],
+                        slug(dependency["target"]),
+                        dependency["mandatory"],
+                        dependency.get("versionRange"),
+                        dependency.get("side"),
+                        dependency.get("source"),
+                    )
+                    component["dependencyDeclarations"][declaration_key] = {
+                        **dependency,
+                        "context": context,
+                        "loader": loader,
+                        "artifactId": artifact["artifactId"],
+                        "fileName": artifact["fileName"],
+                    }
 
     for component in components.values():
         component["name"] = sorted(component["names"], key=lambda item: (len(item), item.casefold()))[0]
@@ -677,52 +760,184 @@ def build_components(artifacts: list[dict[str, Any]], overrides: list[dict[str, 
         component["sideConfidence"] = confidence
         component["sideEvidence"] = evidence
         component["category"] = category_for(component)
+        component["componentKind"] = (
+            "embedded-library"
+            if component["occurrences"]
+            and all(item["container"]["kind"] == "jarjar" for item in component["occurrences"])
+            else "root-mod"
+        )
         component["configPaths"] = infer_config_paths(component["id"], overrides)
     return components
 
 
-def version_tuple(value: str) -> tuple[int, ...] | None:
-    match = re.match(r"^\s*(\d+(?:\.\d+)*)", value)
-    return tuple(int(part) for part in match.group(1).split(".")) if match else None
+QUALIFIER_ORDER = {
+    "alpha": 0,
+    "beta": 1,
+    "milestone": 2,
+    "rc": 3,
+    "snapshot": 4,
+    "": 5,
+    "sp": 6,
+}
 
 
-def pad_version(value: tuple[int, ...], length: int) -> tuple[int, ...]:
-    return value + (0,) * (length - len(value))
+def normalize_qualifier(value: str) -> str:
+    lowered = value.casefold()
+    return {
+        "a": "alpha",
+        "b": "beta",
+        "m": "milestone",
+        "cr": "rc",
+        "final": "",
+        "ga": "",
+        "release": "",
+    }.get(lowered, lowered)
 
 
-def compare_versions(left: str, right: str) -> int | None:
-    a, b = version_tuple(left), version_tuple(right)
-    if a is None or b is None:
+def tokenize_maven_version(value: str) -> list[tuple[str, str, bool]] | None:
+    normalized = value.strip()
+    if not normalized or len(normalized) > 128 or not re.fullmatch(r"[0-9A-Za-z][0-9A-Za-z._+\-]*", normalized):
         return None
-    length = max(len(a), len(b))
-    pa, pb = pad_version(a, length), pad_version(b, length)
-    return (pa > pb) - (pa < pb)
+    tokens: list[tuple[str, str, bool]] = []
+    current = ""
+    separator = ""
+    numeric: bool | None = None
+
+    def push() -> None:
+        nonlocal current, numeric
+        rendered = current or "0"
+        tokens.append((separator, rendered.casefold(), rendered.isdigit()))
+        current = ""
+        numeric = None
+
+    for character in normalized:
+        if character in ".-_":
+            push()
+            separator = "." if character == "." else "-"
+            continue
+        next_numeric = character.isdigit()
+        if current and numeric != next_numeric:
+            push()
+            separator = "-"
+        current += character
+        numeric = next_numeric
+    push()
+    while len(tokens) > 1:
+        _, token, is_numeric = tokens[-1]
+        if (is_numeric and int(token) == 0) or (not is_numeric and normalize_qualifier(token) == ""):
+            tokens.pop()
+        else:
+            break
+    return tokens
 
 
-def version_in_range(version: str, declared: str | None) -> bool | None:
-    if not declared or declared in {"*", ""}:
+def compare_maven_versions(left: str, right: str) -> int | None:
+    left_tokens = tokenize_maven_version(left)
+    right_tokens = tokenize_maven_version(right)
+    if left_tokens is None or right_tokens is None:
         return None
-    value = declared.strip()
-    if value.startswith(("[", "(")) and value.endswith(("]", ")")) and "," in value:
-        if value[1:-1].count(",") != 1:
+
+    def padded(other: tuple[str, str, bool]) -> tuple[str, str, bool]:
+        separator, _, numeric = other
+        return (separator, "0", True) if separator == "." and numeric else (separator, "", False)
+
+    def token_class(token: tuple[str, str, bool]) -> int:
+        separator, _, numeric = token
+        if not numeric:
+            return 0
+        return 2 if separator in {"", "."} else 1
+
+    for index in range(max(len(left_tokens), len(right_tokens))):
+        left_token = left_tokens[index] if index < len(left_tokens) else padded(right_tokens[index])
+        right_token = right_tokens[index] if index < len(right_tokens) else padded(left_tokens[index])
+        left_class, right_class = token_class(left_token), token_class(right_token)
+        if left_class != right_class:
+            return -1 if left_class < right_class else 1
+        if left_token[2] and right_token[2]:
+            left_number, right_number = int(left_token[1]), int(right_token[1])
+            if left_number != right_number:
+                return -1 if left_number < right_number else 1
+        elif not left_token[2] and not right_token[2]:
+            left_qualifier, right_qualifier = normalize_qualifier(left_token[1]), normalize_qualifier(right_token[1])
+            left_rank = QUALIFIER_ORDER.get(left_qualifier, 7)
+            right_rank = QUALIFIER_ORDER.get(right_qualifier, 7)
+            if left_rank != right_rank:
+                return -1 if left_rank < right_rank else 1
+            if left_qualifier != right_qualifier:
+                return -1 if left_qualifier < right_qualifier else 1
+    return 0
+
+
+def parse_maven_range(value: str) -> list[tuple[str | None, bool, str | None, bool]] | None:
+    spec = value.strip()
+    if not spec or len(spec) > 128 or spec == "*":
+        return None
+    restrictions: list[tuple[str | None, bool, str | None, bool]] = []
+    index = 0
+    while index < len(spec):
+        opening = spec[index]
+        if opening not in "[(":
             return None
-        lower, upper = (part.strip() for part in value[1:-1].split(",", 1))
+        closing_index = index + 1
+        while closing_index < len(spec) and spec[closing_index] not in "])":
+            closing_index += 1
+        if closing_index >= len(spec):
+            return None
+        closing = spec[closing_index]
+        body = spec[index + 1 : closing_index].strip()
+        if body.count(",") == 0:
+            if opening != "[" or closing != "]" or tokenize_maven_version(body) is None:
+                return None
+            restrictions.append((body, True, body, True))
+        elif body.count(",") == 1:
+            raw_lower, raw_upper = body.split(",", 1)
+            lower, upper = raw_lower.strip() or None, raw_upper.strip() or None
+            if (lower is None and upper is None) or (lower and tokenize_maven_version(lower) is None) or (upper and tokenize_maven_version(upper) is None):
+                return None
+            restrictions.append((lower, opening == "[", upper, closing == "]"))
+        else:
+            return None
+        index = closing_index + 1
+        if index == len(spec):
+            break
+        if spec[index] != ",":
+            return None
+        index += 1
+        while index < len(spec) and spec[index].isspace():
+            index += 1
+    return restrictions or None
+
+
+def evaluate_maven_version_range(version: str | None, declared: str | None) -> str:
+    if version is None:
+        return "unknown"
+    if declared is None or not declared.strip():
+        return "match"
+    recommended_version = declared.strip()
+    if not recommended_version.startswith(("[", "(")):
+        compared = compare_maven_versions(version, recommended_version)
+        return "match" if compared == 0 else "unknown"
+    restrictions = parse_maven_range(declared)
+    if restrictions is None:
+        return "unknown"
+    for lower, lower_inclusive, upper, upper_inclusive in restrictions:
         if lower:
-            compared = compare_versions(version, lower)
-            if compared is None or compared < 0 or (compared == 0 and value[0] == "("):
-                return False if compared is not None else None
+            compared = compare_maven_versions(version, lower)
+            if compared is None:
+                return "unknown"
+            if compared < 0 or (compared == 0 and not lower_inclusive):
+                continue
         if upper:
-            compared = compare_versions(version, upper)
-            if compared is None or compared > 0 or (compared == 0 and value[-1] == ")"):
-                return False if compared is not None else None
-        return True
-    if re.fullmatch(r"\d+(?:\.\d+)*", value):
-        compared = compare_versions(version, value)
-        return compared == 0 if compared is not None else None
-    return None
+            compared = compare_maven_versions(version, upper)
+            if compared is None:
+                return "unknown"
+            if compared > 0 or (compared == 0 and not upper_inclusive):
+                continue
+        return "match"
+    return "mismatch"
 
 
-def dependency_connections(components: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+def _legacy_dependency_connections(components: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     connections: list[dict[str, Any]] = []
     known = set(components)
     compact_aliases: dict[str, list[str]] = defaultdict(list)
@@ -761,6 +976,118 @@ def dependency_connections(components: dict[str, dict[str, Any]]) -> list[dict[s
     return connections
 
 
+def dependency_side_applies(declared_side: str | None, context: dict[str, Any]) -> bool:
+    side = (declared_side or "BOTH").upper()
+    return side in {"BOTH", context["side"].upper()}
+
+
+def builtin_version(target: str, context: dict[str, Any]) -> str | None:
+    if target == "minecraft":
+        return "1.20.1"
+    if target == "java":
+        return context.get("javaVersion")
+    if target in {"forge", "fml"} and context["loader"] == "forge":
+        return context.get("loaderVersion")
+    if target == "neoforge" and context["loader"] == "neoforge":
+        return context.get("loaderVersion")
+    if target in {"fabricloader", "fabric-api"} and context["loader"] == "fabric":
+        return context.get("loaderVersion")
+    return None
+
+
+def dependency_connections(components: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    connections: list[dict[str, Any]] = []
+    known = set(components)
+    compact_aliases: dict[str, list[str]] = defaultdict(list)
+    for component_id in known:
+        compact_aliases[component_id.replace("_", "")].append(component_id)
+
+    for origin_id, component in sorted(components.items()):
+        declarations = sorted(
+            component["dependencyDeclarations"].values(),
+            key=lambda item: (
+                item["context"],
+                str(item.get("loader") or ""),
+                slug(item["target"]),
+                not item["mandatory"],
+                str(item.get("versionRange") or ""),
+            ),
+        )
+        for dependency in declarations:
+            context_id = dependency["context"]
+            context = CONTEXTS.get(context_id)
+            if context is None:
+                continue
+            declared_target = slug(dependency["target"])
+            target = declared_target
+            aliases = compact_aliases.get(declared_target.replace("_", ""), [])
+            if target not in known and len(aliases) == 1:
+                target = aliases[0]
+            builtin = declared_target in BUILTIN_DEPENDENCIES
+            loader_applicable = dependency.get("loader") in {None, context["loader"]}
+            side_applicable = dependency_side_applies(dependency.get("side"), context)
+            applicable = loader_applicable and side_applicable
+            target_versions: list[str] = []
+            if builtin:
+                version = builtin_version(declared_target, context)
+                present = (
+                    declared_target in {"minecraft", "java"}
+                    or (declared_target in {"forge", "fml"} and context["loader"] == "forge")
+                    or (declared_target == "neoforge" and context["loader"] == "neoforge")
+                    or (declared_target in {"fabricloader", "fabric-api"} and context["loader"] == "fabric")
+                )
+                if version:
+                    target_versions = [version]
+            else:
+                target_component = components.get(target)
+                occurrences = [] if target_component is None else [
+                    item for item in target_component["occurrences"]
+                    if item["context"] == context_id and item.get("loader") in {None, context["loader"]}
+                ]
+                present = bool(occurrences)
+                target_versions = sorted({item["version"] for item in occurrences if item.get("version")})
+
+            declared_range = dependency.get("versionRange")
+            if not applicable:
+                range_result = "not-applicable"
+            elif not present:
+                range_result = "not-evaluated"
+            elif not declared_range:
+                range_result = "match"
+            elif not target_versions:
+                range_result = "unknown"
+            else:
+                results = [evaluate_maven_version_range(version, declared_range) for version in target_versions]
+                range_result = "match" if "match" in results else "mismatch" if all(item == "mismatch" for item in results) else "unknown"
+
+            evidence = [f"{dependency['fileName']}!{dependency['source']}"]
+            connections.append(
+                {
+                    "origem": origin_id,
+                    "destino": target,
+                    "destino_declarado": declared_target,
+                    "tipo": "dependencia" if dependency["mandatory"] else "compatibilidade",
+                    "obrigatoria": bool(dependency["mandatory"]),
+                    "direcao": "origem_depende_do_destino",
+                    "contexto": context_id,
+                    "lado_contexto": context["side"],
+                    "loader_metadado": dependency.get("loader"),
+                    "loader_contexto": context["loader"],
+                    "aplicavel": applicable,
+                    "faixa_declarada": declared_range,
+                    "versoes_destino": target_versions,
+                    "resultado_faixa": range_result,
+                    "motivo": f"dependencia declarada; faixa={declared_range or 'nao declarada'}; lado={dependency.get('side') or 'BOTH'}; contexto={context_id}",
+                    "evidencias": evidence,
+                    "risco_de_quebra": "alto" if applicable and dependency["mandatory"] and (not present or range_result == "mismatch") else "medio" if applicable else "baixo",
+                    "presente": present,
+                    "builtin": builtin,
+                    "confianca": {"nivel": "alta", "origem": "fixture sanitizada de metadado do loader", "evidencias": [dependency["source"]]},
+                }
+            )
+    return connections
+
+
 def detect_cycles(nodes: Iterable[str], edges: dict[str, set[str]]) -> list[list[str]]:
     visiting: list[str] = []
     active: set[str] = set()
@@ -790,6 +1117,158 @@ def detect_cycles(nodes: Iterable[str], edges: dict[str, set[str]]) -> list[list
     return [list(cycle) + [cycle[0]] for cycle in sorted(found)]
 
 
+def evaluate_component_compatibility(
+    component_id: str,
+    component: dict[str, Any],
+    component_connections: list[dict[str, Any]],
+) -> dict[str, Any]:
+    findings: list[dict[str, Any]] = []
+    context_evaluations: list[dict[str, Any]] = []
+    versions_by_context: dict[str, list[str]] = {}
+
+    def add_finding(code: str, severity: str, contexts: list[str], reference: str | None = None) -> None:
+        finding = {
+            "code": code,
+            "severity": severity,
+            "contexts": sorted(contexts),
+            "evidence": sorted(component["metadataPaths"]),
+        }
+        if reference:
+            finding["reference"] = reference
+        if finding not in findings:
+            findings.append(finding)
+
+    for context_id, context in CONTEXTS.items():
+        observed = [item for item in component["occurrences"] if item["context"] == context_id]
+        observed_versions = sorted({item["version"] for item in observed if item.get("version")})
+        if not observed:
+            context_evaluations.append({"context": context_id, "status": "not-present", "versions": [], "loaders": []})
+            continue
+        matching = [item for item in observed if item.get("loader") in {None, context["loader"]}]
+        known_loaders = sorted({item["loader"] for item in observed if item.get("loader")})
+        if not matching:
+            severity = "blocker" if context["kind"] == "canonical" else "warning" if context["kind"] == "reference" else "information"
+            add_finding("loader-mismatch", severity, [context_id], f"expected={context['loader']};observed={','.join(known_loaders)}")
+            context_evaluations.append({
+                "context": context_id,
+                "status": "incompatible" if context["kind"] == "canonical" else "unknown",
+                "versions": observed_versions,
+                "loaders": known_loaders,
+            })
+            versions_by_context[context_id] = observed_versions
+            continue
+
+        selected_versions = sorted({item["version"] for item in matching if item.get("version")})
+        versions_by_context[context_id] = selected_versions
+        status = "compatible" if all(item.get("loader") for item in matching) else "unknown"
+        for connection in [item for item in component_connections if item["contexto"] == context_id and item["aplicavel"]]:
+            severity = "blocker" if context["kind"] == "canonical" else "warning" if context["kind"] == "reference" else "information"
+            if connection["obrigatoria"] and not connection["presente"]:
+                add_finding("missing-required-dependency", severity, [context_id], connection["destino"])
+                status = "incompatible" if context["kind"] == "canonical" else "unknown"
+            elif connection["resultado_faixa"] == "mismatch":
+                add_finding("dependency-version-mismatch", severity, [context_id], f"{connection['destino']}:{connection['faixa_declarada']}")
+                status = "incompatible" if context["kind"] == "canonical" else "unknown"
+            elif connection["resultado_faixa"] == "unknown":
+                unknown_severity = "information" if context["kind"] == "historical" else "warning"
+                add_finding("dependency-version-unknown", unknown_severity, [context_id], f"{connection['destino']}:{connection['faixa_declarada']}")
+                if status != "incompatible":
+                    status = "unknown"
+        context_evaluations.append({
+            "context": context_id,
+            "status": status,
+            "versions": selected_versions,
+            "loaders": sorted({item["loader"] for item in matching if item.get("loader")}),
+        })
+
+    launcher_versions = set(versions_by_context.get("launcher_current", []))
+    server_versions = set(versions_by_context.get("server_active", []))
+    if launcher_versions and server_versions and launcher_versions.isdisjoint(server_versions):
+        add_finding(
+            "canonical-version-conflict",
+            "blocker",
+            ["launcher_current", "server_active"],
+            f"launcher={','.join(sorted(launcher_versions))};server={','.join(sorted(server_versions))}",
+        )
+
+    reference_observed = [item for item in component["occurrences"] if item["context"] == "embedded_client"]
+    reference_versions = {item["version"] for item in reference_observed if item.get("version")}
+    canonical_versions = server_versions or launcher_versions
+    if reference_observed and not canonical_versions:
+        add_finding("reference-only-component", "information", ["embedded_client"])
+    elif reference_versions and canonical_versions and reference_versions.isdisjoint(canonical_versions):
+        add_finding(
+            "reference-version-divergence",
+            "warning",
+            ["embedded_client", "server_active" if server_versions else "launcher_current"],
+            f"reference={','.join(sorted(reference_versions))};canonical={','.join(sorted(canonical_versions))}",
+        )
+
+    active_versions = launcher_versions | server_versions
+    for context_id, context in CONTEXTS.items():
+        if context["kind"] != "historical":
+            continue
+        historical_versions = set(versions_by_context.get(context_id, []))
+        if historical_versions and active_versions and historical_versions.isdisjoint(active_versions):
+            add_finding(
+                "historical-version-divergence",
+                "information",
+                [context_id],
+                f"historical={','.join(sorted(historical_versions))};active={','.join(sorted(active_versions))}",
+            )
+
+    findings.sort(key=lambda item: (item["code"], item["contexts"], item.get("reference", "")))
+    canonical_compatible = any(
+        item["status"] == "compatible" and CONTEXTS[item["context"]]["kind"] == "canonical"
+        for item in context_evaluations
+    )
+    if any(item["severity"] == "blocker" for item in findings):
+        status = "incompatible"
+    elif findings or not canonical_compatible:
+        status = "unknown"
+    else:
+        status = "compatible"
+    codes = {item["code"] for item in findings}
+    classification = (
+        "canonical-conflict" if "canonical-version-conflict" in codes
+        else "dependency-conflict" if codes & {"missing-required-dependency", "dependency-version-mismatch"}
+        else "reference-divergence" if "reference-version-divergence" in codes
+        else "reference-only" if "reference-only-component" in codes
+        else "loader-mismatch" if "loader-mismatch" in codes
+        else "unknown" if status == "unknown"
+        else "compatible"
+    )
+    all_active_versions = sorted(launcher_versions | server_versions | reference_versions)
+    installed = all_active_versions[0] if len(all_active_versions) == 1 else " | ".join(all_active_versions) or None
+    return {
+        "modId": component_id,
+        "componentKind": component["componentKind"],
+        "status": status,
+        "classification": classification,
+        "state": {"compatible": "correto", "incompatible": "incompativel", "unknown": "nao verificado"}[status],
+        "installedVersion": installed,
+        "expectedVersion": installed if status == "compatible" else "faixas Maven declaradas + smoke test",
+        "minecraft": "1.20.1",
+        "loader": "avaliado por contexto e metadado; Forge nunca e reutilizado como baseline NeoForge",
+        "action": "manter arquivo fixado; verificar atualizacoes separadamente" if status == "compatible" else "resolver findings e repetir smoke test" if status == "incompatible" else "obter evidencia suficiente antes de classificar",
+        "contexts": context_evaluations,
+        "findings": findings,
+        "environmentChecks": [
+            {
+                "context": item["contexto"],
+                "dependency": item["destino_declarado"],
+                "environmentVersion": item["versoes_destino"][0] if len(item["versoes_destino"]) == 1 else None,
+                "declaredRange": item["faixa_declarada"],
+                "result": item["resultado_faixa"],
+            }
+            for item in component_connections if item["builtin"] and item["aplicavel"]
+        ],
+        "observedVersionsByContext": {key: value for key, value in versions_by_context.items()},
+        "evidence": sorted(component["metadataPaths"]),
+        "confidence": "alta" if status == "compatible" else "media" if component["metadataPaths"] else "baixa",
+    }
+
+
 def analyze_components(
     components: dict[str, dict[str, Any]], connections: list[dict[str, Any]]
 ) -> dict[str, Any]:
@@ -797,7 +1276,7 @@ def analyze_components(
     optional_dependents: dict[str, set[str]] = defaultdict(set)
     graph: dict[str, set[str]] = defaultdict(set)
     for connection in connections:
-        if connection["builtin"]:
+        if connection["builtin"] or not connection["aplicavel"]:
             continue
         if connection["obrigatoria"]:
             required_dependents[connection["destino"]].add(connection["origem"])
@@ -811,10 +1290,13 @@ def analyze_components(
     removals: list[dict[str, Any]] = []
     performance: list[dict[str, Any]] = []
     active_contexts = {"launcher_current", "server_active", "embedded_client"}
-    missing_all = [connection for connection in connections if connection["obrigatoria"] and not connection["presente"]]
+    missing_all = [
+        connection for connection in connections
+        if connection["aplicavel"] and connection["obrigatoria"] and not connection["presente"]
+    ]
     missing = [
         connection for connection in missing_all
-        if components[connection["origem"]]["contexts"] & active_contexts
+        if connection["contexto"] in active_contexts
     ]
 
     for component_id, component in sorted(components.items()):
@@ -824,31 +1306,6 @@ def analyze_components(
         component["optionalDependents"] = optional
         component_missing = [item for item in missing if item["origem"] == component_id]
 
-        environment_checks: list[dict[str, Any]] = []
-        incompatible = False
-        for dependency in component["dependencies"].values():
-            target = slug(dependency["target"])
-            if target not in BUILTIN_DEPENDENCIES:
-                continue
-            environment_version = {
-                "minecraft": "1.20.1",
-                "forge": "47.4.0",
-                "neoforge": "47.4.4",
-                "java": "17",
-                "fml": "47.4.0",
-            }.get(target)
-            result = version_in_range(environment_version or "", dependency.get("versionRange"))
-            if result is False:
-                incompatible = True
-            environment_checks.append(
-                {
-                    "dependency": target,
-                    "environmentVersion": environment_version,
-                    "declaredRange": dependency.get("versionRange"),
-                    "matches": result,
-                }
-            )
-
         active_versions_by_context: dict[str, set[str]] = defaultdict(set)
         for artifact in component["artifacts"]:
             if not artifact.get("modVersion"):
@@ -857,53 +1314,14 @@ def analyze_components(
                 if context in active_contexts:
                     active_versions_by_context[context].add(artifact["modVersion"])
         active_versions = sorted({version for values in active_versions_by_context.values() for version in values})
-        server_versions = active_versions_by_context.get("server_active", set())
-        launcher_versions = active_versions_by_context.get("launcher_current", set())
-        embedded_versions = active_versions_by_context.get("embedded_client", set())
-        version_mismatch = bool(
-            server_versions
-            and (
-                (launcher_versions and server_versions.isdisjoint(launcher_versions))
-                or (embedded_versions and server_versions.isdisjoint(embedded_versions))
-            )
-        )
         verified_metadata = bool(component["metadataPaths"]) and not component["metadataErrors"]
-        fabric_only = component["loaders"] == {"fabric"}
-        if component_missing:
-            state = "dependencia ausente"
-            action = "bloquear release e resolver dependência"
-        elif incompatible or fabric_only or version_mismatch:
-            state = "incompativel"
-            action = "selecionar artefato compatível e repetir smoke test"
-        elif verified_metadata and component["providers"]:
-            state = "correto"
-            action = "manter arquivo fixado; verificar atualizações separadamente"
-        elif verified_metadata:
-            state = "possivelmente compativel"
-            action = "validar origem e smoke test"
-        else:
-            state = "nao verificado"
-            action = "obter metadados/proveniência antes da release"
-
         versions = sorted(component["versions"])
-        installed = active_versions[0] if len(active_versions) == 1 else (" | ".join(active_versions) if active_versions else None)
-        expected = installed if state == "correto" else "faixas declaradas + smoke test; versão mais recente não verificada"
         compatibility.append(
-            {
-                "modId": component_id,
-                "installedVersion": installed,
-                "expectedVersion": expected,
-                "minecraft": "1.20.1",
-                "loader": "Forge 47.4.x (baseline divergente: cliente 47.4.0; servidor 47.4.4)",
-                "state": state,
-                "action": action,
-                "environmentChecks": environment_checks,
-                "observedVersionsByContext": {
-                    context: sorted(values) for context, values in sorted(active_versions_by_context.items())
-                },
-                "evidence": sorted(component["metadataPaths"]),
-                "confidence": "alta" if state == "correto" else ("media" if verified_metadata else "baixa"),
-            }
+            evaluate_component_compatibility(
+                component_id,
+                component,
+                [item for item in connections if item["origem"] == component_id],
+            )
         )
 
         haystack = f"{component_id} {component['name']} {component['description']}".casefold()
@@ -1117,6 +1535,7 @@ def mod_document(component: dict[str, Any], connection_index: dict[str, list[dic
     return {
         "mod": {
             "id": component["id"],
+            "tipo_componente": component["componentKind"],
             "ids_declarados": sorted(component["declaredIds"]),
             "nome": component["name"],
             "arquivo": filenames[0] if len(filenames) == 1 else None,
@@ -1143,6 +1562,7 @@ def mod_document(component: dict[str, Any], connection_index: dict[str, list[dic
             "observacoes": [
                 f"contextos: {', '.join(CONTEXT_LABELS.get(item, item) for item in sorted(component['contexts']))}",
                 f"compatibilidade: {compatibility['state']}",
+                f"status contextual: {compatibility['status']} ({compatibility['classification']})",
                 *sorted(component["metadataErrors"]),
             ],
             "confianca": {
@@ -1230,8 +1650,15 @@ def category_markdown(category: str, items: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
-    artifacts, extraction = load_artifacts(root)
+def build_docs(
+    root: Path,
+    output: Path,
+    analysis_date: str | None = None,
+    artifact_fixture: Path | None = None,
+) -> dict[str, Any]:
+    fixture_path = artifact_fixture or root / "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json"
+    artifacts, extraction, fixture_date = load_artifacts(fixture_path)
+    analysis_date = analysis_date or fixture_date
     overrides = public_override_inventory(root)
     server_summary = read_json(root / "Servidor/catalog/resumo-servidor.json")
     components = build_components(artifacts, overrides)
@@ -1292,7 +1719,7 @@ def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
     )
     removal_candidates = sorted(set(disabled_candidates + duplicate_candidates))
     incompatible_components = [
-        item for item in analysis["compatibility"] if item["state"] == "incompativel"
+        item for item in analysis["compatibility"] if item["status"] == "incompatible"
     ]
 
     inventory = {
@@ -1310,7 +1737,8 @@ def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
             "launcherCanonicalOverrides": "Launcher/pack/overrides",
             "serverSanitizedCatalog": "Servidor/catalog/mods.csv",
             "serverCompatibilityCatalog": "Servidor/catalog/compatibilidade-cliente.csv",
-            "runtimeForensics": "read-only loader metadata from ignored mods directories",
+            "artifactsFixture": "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json",
+            "runtimeForensics": "not accessed; fixture-only deterministic regeneration",
             "excluded": ["worlds", "logs", "player identities", "addresses", "secrets", "configuration values"],
         },
         "extraction": extraction,
@@ -1332,8 +1760,9 @@ def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
         "singlePointsOfFailure": analysis["shared"][:20],
     }
     compatibility = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "baseline": inventory["environment"],
+        "contexts": CONTEXTS,
         "matrix": analysis["compatibility"],
         "globalConflicts": conflicts,
         "officialEnvironmentReference": verified_sources,
@@ -1430,7 +1859,7 @@ def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
         ],
         "categoryCounts": dict(sorted(category_counts.items())),
         "sideCounts": dict(sorted(side_counts.items())),
-        "notVerifiedItems": sum(item["state"] == "nao verificado" for item in analysis["compatibility"]),
+        "notVerifiedItems": sum(item["status"] == "unknown" for item in analysis["compatibility"]),
         "lastAnalysis": analysis_date,
     }
 
@@ -1557,11 +1986,12 @@ def build_docs(root: Path, output: Path, analysis_date: str) -> dict[str, Any]:
 - Manifesto e catálogo do launcher: `Launcher/pack/manifest.json` e `Launcher/catalog/addons.json`.
 - Overrides públicos: `Launcher/pack/overrides/**`.
 - Catálogos sanitizados do servidor: `Servidor/catalog/**`.
-- Forense explícita e somente-leitura: metadados de loader nos diretórios ignorados `mods/` do launcher, servidor e cliente privado de referência.
+- Fixture versionada: `tools/modpack/fixtures/sanitized-artifact-inventory-v1.json`.
+- Corpus de regressão: `tools/modpack/fixtures/contextual-compatibility-regressions.json`.
 
-## O que foi lido nos JARs
+## Limite de execução
 
-Somente estrutura ZIP, `META-INF/mods.toml`, `META-INF/neoforge.mods.toml`, `fabric.mod.json`, `mcmod.info`, `META-INF/MANIFEST.MF`, nomes de mixins e presença de access transformers, `data/` e `assets/`. Nenhuma classe foi carregada, executada ou descompilada.
+Esta regeneração não abre JARs nem acessa `Launcher/workspace` ou `Servidor/workspace`. A fixture preserva somente evidência sanitizada de uma extração anterior revisada: hashes, nomes de arquivo, `mod_id`, metadados de loader, dependências declaradas, contexto e presença de recursos.
 
 ## Confiança
 
@@ -1574,6 +2004,9 @@ Somente estrutura ZIP, `META-INF/mods.toml`, `META-INF/neoforge.mods.toml`, `fab
 - Mundos, logs, relatórios de crash, identidades, endereços, segredos e valores de configuração não foram exportados.
 - `compatibilidade por nome/hash` não certifica protocolo, registries, datapacks ou gameplay.
 - `versão mais recente` não foi tratada como `versão correta`; a matriz usa faixas declaradas e mantém atualização como revisão manual.
+- Faixas seguem a sintaxe Maven usada pelo Forge. Sintaxe ambígua, operadores de outro ecossistema e versões ausentes resultam em `unknown`, nunca em compatibilidade presumida.
+- Dependências são avaliadas somente no contexto, lado e branch de loader que as declarou. Um baseline Forge não é usado para satisfazer uma dependência NeoForge.
+- Mods internos em `META-INF/jarjar/` são componentes próprios e preservam o artefato contêiner como evidência.
 - A classificação de lado por presença é uma inferência. Mods de handshake opcional podem aparecer somente em um conjunto.
 - A análise de performance é triagem sem benchmark.
 
@@ -1581,6 +2014,9 @@ Somente estrutura ZIP, `META-INF/mods.toml`, `META-INF/neoforge.mods.toml`, `fab
 
 - [Forge 1.20.1 — downloads]({verified_sources['forge']['source']}) — recomendado {verified_sources['forge']['recommended']}, mais recente {verified_sources['forge']['latest']} em {verified_sources['verifiedAt']}.
 - [Metadados `mods.toml`]({verified_sources['forgeMetadataDocumentation']}).
+- [Versionamento Forge e ranges Maven](https://docs.minecraftforge.net/en/1.20.1/gettingstarted/versioning/).
+- [Requisitos de versão Maven](https://maven.apache.org/pom.html#dependency-version-requirement-specification).
+- [Versionamento NeoForge](https://docs.neoforged.net/docs/gettingstarted/versioning/).
 - [Formato de exportação CurseForge]({verified_sources['curseForgeExportDocumentation']}).
 
 ## Regeração
@@ -1588,6 +2024,7 @@ Somente estrutura ZIP, `META-INF/mods.toml`, `META-INF/neoforge.mods.toml`, `fab
 ```powershell
 $python = Get-Content graphify-out/.graphify_python
 & $python tools/modpack/generate_modpack_docs.py --root .
+& $python -m unittest discover -s tools/modpack/tests -p "test_*.py"
 & $python tools/modpack/validate_modpack_docs.py --root .
 ```
 
@@ -1604,7 +2041,7 @@ Análise gerada em: {analysis_date}.
         "serverMods": side_counts.get("servidor", 0),
         "bothSides": side_counts.get("ambos", 0),
         "missingDependencies": len(analysis["missing"]),
-        "incompatibilities": sum(item["state"] == "incompativel" for item in analysis["compatibility"]),
+        "incompatibilities": sum(item["status"] == "incompatible" for item in analysis["compatibility"]),
         "probableConflicts": len(conflicts) + len(analysis["missing"]),
         "removalCandidates": len(removal_candidates),
         "unverifiedItems": summary["notVerifiedItems"],
@@ -1620,7 +2057,7 @@ Análise gerada em: {analysis_date}.
             "executar backup e restauração antes de remoções/atualizações",
         ],
         "nextSteps": [
-            "revisar `compatibilidade.json` e selecionar schemas explícitos para a Fase 7",
+            "usar `compatibilidade.json` como entrada sanitizada da Fase 7.1",
             "resolver divergências de baseline e revisar integrações opcionais",
             "promover somente configurações necessárias e sanitizadas",
             "executar matriz de smoke tests cliente-servidor",
@@ -1677,11 +2114,13 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path)
-    parser.add_argument("--analysis-date", default=date.today().isoformat())
+    parser.add_argument("--analysis-date")
+    parser.add_argument("--artifact-fixture", type=Path)
     args = parser.parse_args()
     root = args.root.resolve()
     output = args.output.resolve() if args.output else root / "docs/modpack"
-    report = build_docs(root, output, args.analysis_date)
+    fixture = args.artifact_fixture.resolve() if args.artifact_fixture else None
+    report = build_docs(root, output, args.analysis_date, fixture)
     print(stable_json(report).rstrip())
     return 0
 

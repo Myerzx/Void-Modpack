@@ -1,5 +1,6 @@
 mod:
   id: "necronomicon"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "necronomicon"
   nome: "Necronomicon"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.6.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:403b23457288c624a55feb90d5e813c88c23a611bc42cda397c4bfac94b4c3a3"
       fileName: "Necronomicon-Forge-1.6.0+1.20.1.jar.disabled"
       sha256: "403b23457288c624a55feb90d5e813c88c23a611bc42cda397c4bfac94b4c3a3"
@@ -21,6 +26,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.6.0"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.6.0"
@@ -48,7 +57,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

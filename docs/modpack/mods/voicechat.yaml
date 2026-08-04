@@ -1,5 +1,6 @@
 mod:
   id: "voicechat"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "voicechat"
   nome: "Simple Voice Chat"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_current"
       modVersion: "1.20.1-2.6.9"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.20.1-2.6.9"
   versoes_observadas_incluindo_desativadas:
     - "1.20.1-2.6.9"
@@ -49,6 +54,7 @@ mod:
   observacoes:
     - "contextos: launcher atual"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

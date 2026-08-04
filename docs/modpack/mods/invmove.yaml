@@ -1,5 +1,6 @@
 mod:
   id: "invmove"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "invmove"
   nome: "InvMove"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "0.9.3"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.9.3"
   versoes_observadas_incluindo_desativadas:
     - "0.9.3"
@@ -39,7 +44,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

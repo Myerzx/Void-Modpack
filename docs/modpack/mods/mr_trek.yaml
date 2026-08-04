@@ -1,5 +1,6 @@
 mod:
   id: "mr_trek"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "mr_trek"
   nome: "Trek"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1-B0.6"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
       fileName: "trek-B0.6.jar"
       sha256: "78c27ae931278eca9e2fd86e73b08f44ff5962cac4d1a3f701a26c257d6e32ef"
@@ -23,6 +28,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1-B0.6"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: "1-B0.6"
   versoes_observadas_incluindo_desativadas:
     - "1-B0.6"
@@ -49,7 +58,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

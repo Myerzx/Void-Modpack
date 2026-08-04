@@ -1,5 +1,6 @@
 mod:
   id: "tudigong"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "tudigong"
   nome: "Tu Di Gong"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.3.5"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.3.5"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (dependency-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

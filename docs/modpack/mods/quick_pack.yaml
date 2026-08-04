@@ -1,5 +1,6 @@
 mod:
   id: "quick_pack"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "quick_pack"
   nome: "quick-pack"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.2.1"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.2.1"
   versoes_observadas_incluindo_desativadas:
     - "1.2.1"
@@ -38,7 +43,8 @@ mod:
   impacto_desempenho: "reload de dados, receitas e eventos dirigidos por script"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

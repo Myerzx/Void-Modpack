@@ -1,5 +1,6 @@
 mod:
   id: "armourers_workshop"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "armourers_workshop"
   nome: "Armourer's Workshop"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_current"
       modVersion: "3.0.0-beta.18"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:b7c8cb6b672e477e177979f6f9390477638fbc1d38d266c8674fe89c15bef45b"
       fileName: "armourersworkshop-forge-1.20.1-3.2.7-beta.jar"
       sha256: "b7c8cb6b672e477e177979f6f9390477638fbc1d38d266c8674fe89c15bef45b"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "3.2.7-beta"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada:
     - "3.0.0-beta.18"
     - "3.2.7-beta"
@@ -55,6 +64,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
     - "compatibilidade: incompativel"
+    - "status contextual: incompatible (canonical-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "cfm"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "cfm"
   nome: "MrCrayfish's Furniture Mod"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "7.0.0-pre36"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "7.0.0-pre36"
@@ -39,7 +44,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "lightmanscurrency"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "lightmanscurrency"
   nome: "Lightman's Currency"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.20.1-2.3.0.0a"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.20.1-2.3.0.0a"
   versoes_observadas_incluindo_desativadas:
     - "1.20.1-2.3.0.0a"
@@ -36,6 +41,7 @@ mod:
   dependentes: []
   integracoes:
     - "lightmansdiscord"
+    - "lightmansdiscord"
   configs_principais: []
   riscos:
     - "pode registrar conteúdo persistente ou orientado a dados"
@@ -43,7 +49,8 @@ mod:
   impacto_desempenho: "dados persistentes, missões e regras de progressão"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

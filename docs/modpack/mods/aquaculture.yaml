@@ -1,5 +1,6 @@
 mod:
   id: "aquaculture"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "aquaculture"
   nome: "Aquaculture 2"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "2.5.7"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "2.5.7"
   versoes_observadas_incluindo_desativadas:
     - "2.5.7"
@@ -40,7 +45,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

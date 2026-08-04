@@ -1,5 +1,6 @@
 mod:
   id: "ancient_obelisks"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "ancient_obelisks"
   nome: "Ancient Obelisks"
@@ -15,6 +16,10 @@ mod:
         - "launcher_current"
         - "server_active"
       modVersion: "1.2.3"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.2.3"
   versoes_observadas_incluindo_desativadas:
     - "1.2.3"
@@ -44,7 +49,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

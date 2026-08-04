@@ -1,5 +1,6 @@
 mod:
   id: "mine_and_meals"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "mine_and_meals"
   nome: "Mine and Meals"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.5.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:4f65c099b5636a12ba9ed9e05309136acde1020a7f6028849be1d797f458f7d6"
       fileName: "mine_and_meals-0.60.jar.disabled"
       sha256: "4f65c099b5636a12ba9ed9e05309136acde1020a7f6028849be1d797f458f7d6"
@@ -22,6 +27,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "0.5.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.5.0"
   versoes_observadas_incluindo_desativadas:
     - "0.5.0"
@@ -47,6 +56,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

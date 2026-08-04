@@ -1,5 +1,6 @@
 mod:
   id: "limitedchunks"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "limitedchunks"
   nome: "Limited Chunkloading"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "1.8"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.8"
   versoes_observadas_incluindo_desativadas:
     - "1.8"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "artifacts"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "artifacts"
   nome: "Artifacts"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "9.5.16"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "9.5.16"
   versoes_observadas_incluindo_desativadas:
     - "9.5.16"
@@ -45,7 +50,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

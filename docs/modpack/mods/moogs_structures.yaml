@@ -1,5 +1,6 @@
 mod:
   id: "moogs_structures"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "moogs_structures"
   nome: "Moog's Structure Lib"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.1.0-1.20-1.20.4"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.1.0-1.20-1.20.4"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "modder_name_lib"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "modder_name_lib"
   nome: "ModderNameLib"
@@ -13,6 +14,11 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "2025.12.23"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:ee3ecace8b723cc41996e074be42c578f68f9d73d37c8bc393b243aa28194735"
+      metadataPath: "META-INF/jarjar/modder_name_lib-1.20.1-forge-2025.12.23.jar!META-INF/mods.toml"
   versao_instalada: "2025.12.23"
   versoes_observadas_incluindo_desativadas:
     - "2025.12.23"
@@ -39,7 +45,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

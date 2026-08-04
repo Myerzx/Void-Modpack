@@ -1,5 +1,6 @@
 mod:
   id: "parcool"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "parcool"
   nome: "ParCool!"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "3.4.2.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "3.4.2.0"
@@ -49,7 +54,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

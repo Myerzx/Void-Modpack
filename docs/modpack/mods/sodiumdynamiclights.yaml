@@ -1,5 +1,6 @@
 mod:
   id: "sodiumdynamiclights"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "sodiumdynamiclights"
   nome: "Sodium Dynamic Lights"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "1.0.9"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:dff5325abb58c0c8526dffb80e764188bde045fd02ca6ed5e2bb76f0897d46f4"
       fileName: "sodiumdynamiclights-forge-1.0.10-1.20.1.jar"
       sha256: "dff5325abb58c0c8526dffb80e764188bde045fd02ca6ed5e2bb76f0897d46f4"
@@ -21,6 +26,10 @@ mod:
       contexts:
         - "embedded_client"
       modVersion: "1.0.9"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: "1.0.9"
   versoes_observadas_incluindo_desativadas:
     - "1.0.9"
@@ -47,7 +56,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

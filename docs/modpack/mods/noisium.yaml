@@ -1,5 +1,6 @@
 mod:
   id: "noisium"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "noisium"
   nome: "Noisium"
@@ -14,6 +15,11 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "2.3.0+mc1.20-1.20.1"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:11e22bb92135760b1e0e4e5e839e59ad65d29b4a0d6688c2a4b9e5c08ad902fb"
+      metadataPath: "META-INF/jarjar/noisium-2.3.0.jar!META-INF/mods.toml"
   versao_instalada: "2.3.0+mc1.20-1.20.1"
   versoes_observadas_incluindo_desativadas:
     - "2.3.0+mc1.20-1.20.1"
@@ -41,7 +47,8 @@ mod:
   impacto_desempenho: "altera caminhos críticos; ganho/regressão exige benchmark"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

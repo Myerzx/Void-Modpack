@@ -7,10 +7,10 @@
   "serverMods": 2,
   "bothSides": 191,
   "missingDependencies": 0,
-  "incompatibilities": 6,
+  "incompatibilities": 4,
   "probableConflicts": 2,
   "removalCandidates": 78,
-  "unverifiedItems": 7,
+  "unverifiedItems": 263,
   "documentationFiles": 332,
   "topRisks": [
     {
@@ -337,7 +337,7 @@
     "executar backup e restauração antes de remoções/atualizações"
   ],
   "nextSteps": [
-    "revisar `compatibilidade.json` e selecionar schemas explícitos para a Fase 7",
+    "usar `compatibilidade.json` como entrada sanitizada da Fase 7.1",
     "resolver divergências de baseline e revisar integrações opcionais",
     "promover somente configurações necessárias e sanitizadas",
     "executar matriz de smoke tests cliente-servidor"

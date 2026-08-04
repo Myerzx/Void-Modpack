@@ -1,5 +1,6 @@
 mod:
   id: "waystones"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "waystones"
   nome: "Waystones"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "14.1.17"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:5ecc6535596b5954f6293224be6b35805c64f4d4aedc2b9e32d9508dd529cabd"
       fileName: "waystones-forge-1.20.1-14.1.20.jar"
       sha256: "5ecc6535596b5954f6293224be6b35805c64f4d4aedc2b9e32d9508dd529cabd"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "14.1.20"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "14.1.20"
   versoes_observadas_incluindo_desativadas:
     - "14.1.17"
@@ -51,7 +60,8 @@ mod:
   impacto_desempenho: "tick, rede ou observabilidade"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

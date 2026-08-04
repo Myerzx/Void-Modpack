@@ -1,5 +1,6 @@
 mod:
   id: "dungeons_arise"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "dungeons_arise"
   nome: "When Dungeons Arise"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "2.1.58-1.20.x"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "2.1.58-1.20.x"
   versoes_observadas_incluindo_desativadas:
     - "2.1.58-1.20.x"
@@ -42,6 +47,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

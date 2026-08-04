@@ -1,5 +1,6 @@
 mod:
   id: "iceberg"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "iceberg"
   nome: "Iceberg"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "1.1.25"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "1.1.25"
   versoes_observadas_incluindo_desativadas:
     - "1.1.25"
@@ -43,7 +48,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

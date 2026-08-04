@@ -1,5 +1,6 @@
 mod:
   id: "biomesoplenty"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "biomesoplenty"
   nome: "Biomes O' Plenty"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "18.0.0.592"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "18.0.0.592"
@@ -39,7 +44,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

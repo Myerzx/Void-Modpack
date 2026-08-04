@@ -1,5 +1,6 @@
 mod:
   id: "worldedit"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "worldedit"
   nome: "WorldEdit"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "7.2.15+6463-5ca4dff"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "7.2.15+6463-5ca4dff"
   versoes_observadas_incluindo_desativadas:
     - "7.2.15+6463-5ca4dff"
@@ -41,7 +46,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

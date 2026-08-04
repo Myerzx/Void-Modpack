@@ -1,5 +1,6 @@
 mod:
   id: "ftbquests"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "ftbquests"
   nome: "FTB Quests"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "2001.4.18"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "2001.4.18"
   versoes_observadas_incluindo_desativadas:
     - "2001.4.18"
@@ -38,6 +43,7 @@ mod:
   dependentes: []
   integracoes:
     - "itemfilters"
+    - "itemfilters"
   configs_principais: []
   riscos:
     - "pode registrar conteúdo persistente ou orientado a dados"
@@ -45,7 +51,8 @@ mod:
   impacto_desempenho: "dados persistentes, missões e regras de progressão"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

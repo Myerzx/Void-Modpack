@@ -1,5 +1,6 @@
 mod:
   id: "lootr"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "lootr"
   nome: "Lootr"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "0.7.35.94"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.7.35.94"
   versoes_observadas_incluindo_desativadas:
     - "0.7.35.94"
@@ -40,6 +45,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

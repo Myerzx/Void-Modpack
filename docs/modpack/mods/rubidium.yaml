@@ -1,5 +1,6 @@
 mod:
   id: "rubidium"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "rubidium"
   nome: "Rubidium (Embeddium)"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "launcher_disabled"
       modVersion: "0.7.1"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.7.1"
   versoes_observadas_incluindo_desativadas:
     - "0.7.1"
@@ -38,7 +43,8 @@ mod:
   impacto_desempenho: "renderização, memória gráfica e interface"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (reference-only)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

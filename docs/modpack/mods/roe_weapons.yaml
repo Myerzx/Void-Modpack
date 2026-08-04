@@ -1,5 +1,6 @@
 mod:
   id: "roe_weapons"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "roe_weapons"
   nome: "Recreation of Exile - Weapons"
@@ -15,6 +16,10 @@ mod:
         - "launcher_current"
         - "server_active"
       modVersion: "0.1.7"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.1.7"
   versoes_observadas_incluindo_desativadas:
     - "0.1.7"
@@ -36,6 +41,8 @@ mod:
   dependentes: []
   integracoes:
     - "curios"
+    - "curios"
+    - "curios"
   configs_principais:
     - "Launcher/pack/overrides/config/roe_weapons-bow-settings.toml"
     - "Launcher/pack/overrides/config/roe_weapons-client.toml"
@@ -47,6 +54,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
     - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

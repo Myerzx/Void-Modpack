@@ -1,5 +1,6 @@
 mod:
   id: "openloader"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "openloader"
   nome: "OpenLoader"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_current"
       modVersion: "19.0.4"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:56da03448ce1c63cb0f41e99ae38c5857d663886f9249c234f18b7c0de44b151"
       fileName: "OpenLoader-Forge-1.20.1-19.0.5.jar"
       sha256: "56da03448ce1c63cb0f41e99ae38c5857d663886f9249c234f18b7c0de44b151"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "19.0.5"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada:
     - "19.0.4"
     - "19.0.5"
@@ -51,6 +60,7 @@ mod:
   observacoes:
     - "contextos: cliente privado de referência, launcher atual, servidor ativo"
     - "compatibilidade: incompativel"
+    - "status contextual: incompatible (canonical-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

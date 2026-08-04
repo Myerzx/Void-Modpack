@@ -1,5 +1,6 @@
 mod:
   id: "efn"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "efn"
   nome: "EpicFight Nightfall"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "3.2.2"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "3.2.2"
   versoes_observadas_incluindo_desativadas:
     - "3.2.2"
@@ -48,7 +53,8 @@ mod:
   impacto_desempenho: "entidades, animações, IA e sincronização de combate"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "cataclysm"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "cataclysm"
   nome: "cataclysm"
@@ -15,6 +16,10 @@ mod:
         - "launcher_disabled"
         - "server_active"
       modVersion: "3.16"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "3.16"
   versoes_observadas_incluindo_desativadas:
     - "3.16"
@@ -45,7 +50,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, launcher desativado, servidor ativo"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

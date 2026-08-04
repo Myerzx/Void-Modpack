@@ -313,9 +313,7 @@
     "forge-baseline-divergence",
     "mod:armourers_workshop:incompatible",
     "mod:epicfight:incompatible",
-    "mod:killcam:incompatible",
     "mod:openloader:incompatible",
-    "mod:preloading_tricks:incompatible",
     "mod:wom:incompatible"
   ],
   "removalCandidates": [
@@ -426,6 +424,6 @@
     "cliente": 52,
     "servidor": 2
   },
-  "notVerifiedItems": 7,
+  "notVerifiedItems": 263,
   "lastAnalysis": "2026-08-04"
 }

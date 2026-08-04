@@ -1,5 +1,6 @@
 mod:
   id: "ageingspawners"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "ageingspawners"
   nome: "Ageing Spawners"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "2.0.0"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "2.0.0"
   versoes_observadas_incluindo_desativadas:
     - "2.0.0"
@@ -39,7 +44,8 @@ mod:
   impacto_desempenho: "não caracterizado"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

@@ -1,5 +1,6 @@
 mod:
   id: "ribbits"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "ribbits"
   nome: "Ribbits"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "1.20.1-Forge-3.0.5"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:9429559ac828f3abe8bf709648604aedd0e81a76f490a1d5d77ad2e247997e98"
       fileName: "ribbits-stub-0.0.0.jar"
       sha256: "9429559ac828f3abe8bf709648604aedd0e81a76f490a1d5d77ad2e247997e98"
@@ -22,6 +27,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.0.0-stub"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.0.0-stub"
   versoes_observadas_incluindo_desativadas:
     - "0.0.0-stub"
@@ -53,7 +62,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo, servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (dependency-conflict)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

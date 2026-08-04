@@ -1,5 +1,6 @@
 mod:
   id: "fluid_tick_structure_processor"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "fluid_tick_structure_processor"
   nome: "FluidTickStructureProcessor"
@@ -14,6 +15,10 @@ mod:
         - "embedded_client"
         - "server_active"
       modVersion: "0.1.0.dirty"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
   versao_instalada: "0.1.0.dirty"
   versoes_observadas_incluindo_desativadas:
     - "0.1.0.dirty"
@@ -40,7 +45,8 @@ mod:
   impacto_desempenho: "geração de mundo e tick"
   observacoes:
     - "contextos: cliente privado de referência, servidor ativo"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: correto"
+    - "status contextual: compatible (compatible)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

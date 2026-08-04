@@ -1,5 +1,6 @@
 mod:
   id: "twilight_lib"
+  tipo_componente: "root-mod"
   ids_declarados:
     - "twilight_lib"
   nome: "Twilight Lib"
@@ -13,6 +14,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.1.1.1"
+      loader: "forge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/mods.toml"
     - artifactId: "sha256:5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
       fileName: "twilight_lib-1.20.1-1.1.1.1.jar.disabled"
       sha256: "5b3c598672277084c26f9f04703316c0ee8292b892a248fb6fd6c35ac8c57d39"
@@ -21,6 +26,10 @@ mod:
       contexts:
         - "launcher_disabled"
       modVersion: "1.0"
+      loader: "neoforge"
+      container:
+        kind: "root"
+      metadataPath: "META-INF/neoforge.mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "1.0"
@@ -49,7 +58,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: launcher desativado"
-    - "compatibilidade: correto"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"

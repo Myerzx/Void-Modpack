@@ -31,11 +31,23 @@ graph TD
     n_curios["curios"]
     n_aether -->|depende| n_curios
     n_aether["aether"]
+    n_curios["curios"]
+    n_aether -->|depende| n_curios
+    n_aether["aether"]
+    n_forge["forge"]
+    n_aether -->|depende| n_forge
+    n_aether["aether"]
     n_forge["forge"]
     n_aether -->|depende| n_forge
     n_aether["aether"]
     n_minecraft["minecraft"]
     n_aether -->|depende| n_minecraft
+    n_aether["aether"]
+    n_minecraft["minecraft"]
+    n_aether -->|depende| n_minecraft
+    n_ageingspawners["ageingspawners"]
+    n_minecraft["minecraft"]
+    n_ageingspawners -->|depende| n_minecraft
     n_ageingspawners["ageingspawners"]
     n_minecraft["minecraft"]
     n_ageingspawners -->|depende| n_minecraft
@@ -43,14 +55,38 @@ graph TD
     n_citadel["citadel"]
     n_alexsmobs -->|depende| n_citadel
     n_alexsmobs["alexsmobs"]
+    n_citadel["citadel"]
+    n_alexsmobs -->|depende| n_citadel
+    n_alexsmobs["alexsmobs"]
+    n_forge["forge"]
+    n_alexsmobs -->|depende| n_forge
+    n_alexsmobs["alexsmobs"]
     n_forge["forge"]
     n_alexsmobs -->|depende| n_forge
     n_ancient_obelisks["ancient_obelisks"]
     n_forge["forge"]
     n_ancient_obelisks -->|depende| n_forge
     n_ancient_obelisks["ancient_obelisks"]
+    n_forge["forge"]
+    n_ancient_obelisks -->|depende| n_forge
+    n_ancient_obelisks["ancient_obelisks"]
+    n_forge["forge"]
+    n_ancient_obelisks -->|depende| n_forge
+    n_ancient_obelisks["ancient_obelisks"]
     n_library_of_exile["library_of_exile"]
     n_ancient_obelisks -->|depende| n_library_of_exile
+    n_ancient_obelisks["ancient_obelisks"]
+    n_library_of_exile["library_of_exile"]
+    n_ancient_obelisks -->|depende| n_library_of_exile
+    n_ancient_obelisks["ancient_obelisks"]
+    n_library_of_exile["library_of_exile"]
+    n_ancient_obelisks -->|depende| n_library_of_exile
+    n_ancient_obelisks["ancient_obelisks"]
+    n_minecraft["minecraft"]
+    n_ancient_obelisks -->|depende| n_minecraft
+    n_ancient_obelisks["ancient_obelisks"]
+    n_minecraft["minecraft"]
+    n_ancient_obelisks -->|depende| n_minecraft
     n_ancient_obelisks["ancient_obelisks"]
     n_minecraft["minecraft"]
     n_ancient_obelisks -->|depende| n_minecraft
@@ -78,6 +114,12 @@ graph TD
     n_aquaculture["aquaculture"]
     n_forge["forge"]
     n_aquaculture -->|depende| n_forge
+    n_aquaculture["aquaculture"]
+    n_forge["forge"]
+    n_aquaculture -->|depende| n_forge
+    n_aquaculturedelight["aquaculturedelight"]
+    n_minecraft["minecraft"]
+    n_aquaculturedelight -->|depende| n_minecraft
     n_aquaculturedelight["aquaculturedelight"]
     n_minecraft["minecraft"]
     n_aquaculturedelight -->|depende| n_minecraft
@@ -85,14 +127,35 @@ graph TD
     n_forge["forge"]
     n_aquamirae -->|depende| n_forge
     n_aquamirae["aquamirae"]
+    n_forge["forge"]
+    n_aquamirae -->|depende| n_forge
+    n_aquamirae["aquamirae"]
     n_minecraft["minecraft"]
     n_aquamirae -->|depende| n_minecraft
+    n_aquamirae["aquamirae"]
+    n_minecraft["minecraft"]
+    n_aquamirae -->|depende| n_minecraft
+    n_aquamirae["aquamirae"]
+    n_obscure_api["obscure_api"]
+    n_aquamirae -->|depende| n_obscure_api
     n_aquamirae["aquamirae"]
     n_obscure_api["obscure_api"]
     n_aquamirae -->|depende| n_obscure_api
     n_architectury["architectury"]
     n_forge["forge"]
     n_architectury -->|depende| n_forge
+    n_architectury["architectury"]
+    n_forge["forge"]
+    n_architectury -->|depende| n_forge
+    n_architectury["architectury"]
+    n_forge["forge"]
+    n_architectury -->|depende| n_forge
+    n_architectury["architectury"]
+    n_minecraft["minecraft"]
+    n_architectury -->|depende| n_minecraft
+    n_architectury["architectury"]
+    n_minecraft["minecraft"]
+    n_architectury -->|depende| n_minecraft
     n_architectury["architectury"]
     n_minecraft["minecraft"]
     n_architectury -->|depende| n_minecraft
@@ -109,8 +172,23 @@ graph TD
     n_forge["forge"]
     n_armourers_workshop -->|depende| n_forge
     n_armourers_workshop["armourers_workshop"]
+    n_forge["forge"]
+    n_armourers_workshop -->|depende| n_forge
+    n_armourers_workshop["armourers_workshop"]
+    n_forge["forge"]
+    n_armourers_workshop -->|depende| n_forge
+    n_armourers_workshop["armourers_workshop"]
     n_minecraft["minecraft"]
     n_armourers_workshop -->|depende| n_minecraft
+    n_armourers_workshop["armourers_workshop"]
+    n_minecraft["minecraft"]
+    n_armourers_workshop -->|depende| n_minecraft
+    n_armourers_workshop["armourers_workshop"]
+    n_minecraft["minecraft"]
+    n_armourers_workshop -->|depende| n_minecraft
+    n_artifacts["artifacts"]
+    n_architectury["architectury"]
+    n_artifacts -->|depende| n_architectury
     n_artifacts["artifacts"]
     n_architectury["architectury"]
     n_artifacts -->|depende| n_architectury
@@ -118,8 +196,17 @@ graph TD
     n_cloth_config["cloth_config"]
     n_artifacts -->|depende| n_cloth_config
     n_artifacts["artifacts"]
+    n_cloth_config["cloth_config"]
+    n_artifacts -->|depende| n_cloth_config
+    n_artifacts["artifacts"]
     n_curios["curios"]
     n_artifacts -->|depende| n_curios
+    n_artifacts["artifacts"]
+    n_curios["curios"]
+    n_artifacts -->|depende| n_curios
+    n_artifacts["artifacts"]
+    n_expandability["expandability"]
+    n_artifacts -->|depende| n_expandability
     n_artifacts["artifacts"]
     n_expandability["expandability"]
     n_artifacts -->|depende| n_expandability
@@ -127,11 +214,23 @@ graph TD
     n_forge["forge"]
     n_artifacts -->|depende| n_forge
     n_artifacts["artifacts"]
+    n_forge["forge"]
+    n_artifacts -->|depende| n_forge
+    n_artifacts["artifacts"]
+    n_minecraft["minecraft"]
+    n_artifacts -->|depende| n_minecraft
+    n_artifacts["artifacts"]
     n_minecraft["minecraft"]
     n_artifacts -->|depende| n_minecraft
     n_ash_of_sin_better_ai["ash_of_sin_better_ai"]
     n_forge["forge"]
     n_ash_of_sin_better_ai -->|depende| n_forge
+    n_ash_of_sin_better_ai["ash_of_sin_better_ai"]
+    n_forge["forge"]
+    n_ash_of_sin_better_ai -->|depende| n_forge
+    n_ash_of_sin_better_ai["ash_of_sin_better_ai"]
+    n_minecraft["minecraft"]
+    n_ash_of_sin_better_ai -->|depende| n_minecraft
     n_ash_of_sin_better_ai["ash_of_sin_better_ai"]
     n_minecraft["minecraft"]
     n_ash_of_sin_better_ai -->|depende| n_minecraft
@@ -139,17 +238,35 @@ graph TD
     n_forge["forge"]
     n_ash_of_sin_custom_anti_seat_entity -->|depende| n_forge
     n_ash_of_sin_custom_anti_seat_entity["ash_of_sin_custom_anti_seat_entity"]
+    n_forge["forge"]
+    n_ash_of_sin_custom_anti_seat_entity -->|depende| n_forge
+    n_ash_of_sin_custom_anti_seat_entity["ash_of_sin_custom_anti_seat_entity"]
+    n_minecraft["minecraft"]
+    n_ash_of_sin_custom_anti_seat_entity -->|depende| n_minecraft
+    n_ash_of_sin_custom_anti_seat_entity["ash_of_sin_custom_anti_seat_entity"]
     n_minecraft["minecraft"]
     n_ash_of_sin_custom_anti_seat_entity -->|depende| n_minecraft
     n_ash_of_sin_no_more_invalid_statistic["ash_of_sin_no_more_invalid_statistic"]
     n_forge["forge"]
     n_ash_of_sin_no_more_invalid_statistic -->|depende| n_forge
     n_ash_of_sin_no_more_invalid_statistic["ash_of_sin_no_more_invalid_statistic"]
+    n_forge["forge"]
+    n_ash_of_sin_no_more_invalid_statistic -->|depende| n_forge
+    n_ash_of_sin_no_more_invalid_statistic["ash_of_sin_no_more_invalid_statistic"]
+    n_minecraft["minecraft"]
+    n_ash_of_sin_no_more_invalid_statistic -->|depende| n_minecraft
+    n_ash_of_sin_no_more_invalid_statistic["ash_of_sin_no_more_invalid_statistic"]
     n_minecraft["minecraft"]
     n_ash_of_sin_no_more_invalid_statistic -->|depende| n_minecraft
     n_ash_of_sin_soul_like_boss_battle["ash_of_sin_soul_like_boss_battle"]
     n_forge["forge"]
     n_ash_of_sin_soul_like_boss_battle -->|depende| n_forge
+    n_ash_of_sin_soul_like_boss_battle["ash_of_sin_soul_like_boss_battle"]
+    n_forge["forge"]
+    n_ash_of_sin_soul_like_boss_battle -->|depende| n_forge
+    n_ash_of_sin_soul_like_boss_battle["ash_of_sin_soul_like_boss_battle"]
+    n_minecraft["minecraft"]
+    n_ash_of_sin_soul_like_boss_battle -->|depende| n_minecraft
     n_ash_of_sin_soul_like_boss_battle["ash_of_sin_soul_like_boss_battle"]
     n_minecraft["minecraft"]
     n_ash_of_sin_soul_like_boss_battle -->|depende| n_minecraft
@@ -162,15 +279,30 @@ graph TD
     n_atistructures["atistructures"]
     n_minecraft["minecraft"]
     n_atistructures -->|depende| n_minecraft
+    n_atistructures["atistructures"]
+    n_minecraft["minecraft"]
+    n_atistructures -->|depende| n_minecraft
+    n_attributeslib["attributeslib"]
+    n_minecraft["minecraft"]
+    n_attributeslib -->|depende| n_minecraft
     n_attributeslib["attributeslib"]
     n_minecraft["minecraft"]
     n_attributeslib -->|depende| n_minecraft
     n_attributeslib["attributeslib"]
     n_placebo["placebo"]
     n_attributeslib -->|depende| n_placebo
+    n_attributeslib["attributeslib"]
+    n_placebo["placebo"]
+    n_attributeslib -->|depende| n_placebo
     n_ba_bt["ba_bt"]
     n_forge["forge"]
     n_ba_bt -->|depende| n_forge
+    n_ba_bt["ba_bt"]
+    n_forge["forge"]
+    n_ba_bt -->|depende| n_forge
+    n_ba_bt["ba_bt"]
+    n_minecraft["minecraft"]
+    n_ba_bt -->|depende| n_minecraft
     n_ba_bt["ba_bt"]
     n_minecraft["minecraft"]
     n_ba_bt -->|depende| n_minecraft
@@ -181,17 +313,41 @@ graph TD
     n_forge["forge"]
     n_balm -->|depende| n_forge
     n_balm["balm"]
+    n_forge["forge"]
+    n_balm -->|depende| n_forge
+    n_balm["balm"]
+    n_forge["forge"]
+    n_balm -->|depende| n_forge
+    n_balm["balm"]
+    n_minecraft["minecraft"]
+    n_balm -->|depende| n_minecraft
+    n_balm["balm"]
+    n_minecraft["minecraft"]
+    n_balm -->|depende| n_minecraft
+    n_balm["balm"]
     n_minecraft["minecraft"]
     n_balm -->|depende| n_minecraft
     n_beb["beb"]
     n_forge["forge"]
     n_beb -->|depende| n_forge
     n_beb["beb"]
+    n_forge["forge"]
+    n_beb -->|depende| n_forge
+    n_beb["beb"]
+    n_minecraft["minecraft"]
+    n_beb -->|depende| n_minecraft
+    n_beb["beb"]
     n_minecraft["minecraft"]
     n_beb -->|depende| n_minecraft
     n_better_structure_block["better_structure_block"]
     n_forge["forge"]
     n_better_structure_block -->|depende| n_forge
+    n_better_structure_block["better_structure_block"]
+    n_forge["forge"]
+    n_better_structure_block -->|depende| n_forge
+    n_better_structure_block["better_structure_block"]
+    n_minecraft["minecraft"]
+    n_better_structure_block -->|depende| n_minecraft
     n_better_structure_block["better_structure_block"]
     n_minecraft["minecraft"]
     n_better_structure_block -->|depende| n_minecraft
@@ -205,14 +361,29 @@ graph TD
     n_forge["forge"]
     n_betterendcities -->|depende| n_forge
     n_betterendcities["betterendcities"]
+    n_forge["forge"]
+    n_betterendcities -->|depende| n_forge
+    n_betterendcities["betterendcities"]
+    n_minecraft["minecraft"]
+    n_betterendcities -->|depende| n_minecraft
+    n_betterendcities["betterendcities"]
     n_minecraft["minecraft"]
     n_betterendcities -->|depende| n_minecraft
     n_betterendisland["betterendisland"]
     n_forge["forge"]
     n_betterendisland -->|depende| n_forge
     n_betterendisland["betterendisland"]
+    n_forge["forge"]
+    n_betterendisland -->|depende| n_forge
+    n_betterendisland["betterendisland"]
     n_minecraft["minecraft"]
     n_betterendisland -->|depende| n_minecraft
+    n_betterendisland["betterendisland"]
+    n_minecraft["minecraft"]
+    n_betterendisland -->|depende| n_minecraft
+    n_betterendisland["betterendisland"]
+    n_yungsapi["yungsapi"]
+    n_betterendisland -->|depende| n_yungsapi
     n_betterendisland["betterendisland"]
     n_yungsapi["yungsapi"]
     n_betterendisland -->|depende| n_yungsapi
@@ -229,6 +400,12 @@ graph TD
     n_forge["forge"]
     n_beyonddimensions -->|depende| n_forge
     n_beyonddimensions["beyonddimensions"]
+    n_forge["forge"]
+    n_beyonddimensions -->|depende| n_forge
+    n_beyonddimensions["beyonddimensions"]
+    n_minecraft["minecraft"]
+    n_beyonddimensions -->|depende| n_minecraft
+    n_beyonddimensions["beyonddimensions"]
     n_minecraft["minecraft"]
     n_beyonddimensions -->|depende| n_minecraft
     n_biomesoplenty["biomesoplenty"]
@@ -241,8 +418,17 @@ graph TD
     n_forge["forge"]
     n_biomespy -->|depende| n_forge
     n_biomespy["biomespy"]
+    n_forge["forge"]
+    n_biomespy -->|depende| n_forge
+    n_biomespy["biomespy"]
     n_minecraft["minecraft"]
     n_biomespy -->|depende| n_minecraft
+    n_biomespy["biomespy"]
+    n_minecraft["minecraft"]
+    n_biomespy -->|depende| n_minecraft
+    n_biomeswevegone["biomeswevegone"]
+    n_corgilib["corgilib"]
+    n_biomeswevegone -->|depende| n_corgilib
     n_biomeswevegone["biomeswevegone"]
     n_corgilib["corgilib"]
     n_biomeswevegone -->|depende| n_corgilib
@@ -250,11 +436,23 @@ graph TD
     n_forge["forge"]
     n_biomeswevegone -->|depende| n_forge
     n_biomeswevegone["biomeswevegone"]
+    n_forge["forge"]
+    n_biomeswevegone -->|depende| n_forge
+    n_biomeswevegone["biomeswevegone"]
+    n_geckolib["geckolib"]
+    n_biomeswevegone -->|depende| n_geckolib
+    n_biomeswevegone["biomeswevegone"]
     n_geckolib["geckolib"]
     n_biomeswevegone -->|depende| n_geckolib
     n_biomeswevegone["biomeswevegone"]
     n_ohthetreesyoullgrow["ohthetreesyoullgrow"]
     n_biomeswevegone -->|depende| n_ohthetreesyoullgrow
+    n_biomeswevegone["biomeswevegone"]
+    n_ohthetreesyoullgrow["ohthetreesyoullgrow"]
+    n_biomeswevegone -->|depende| n_ohthetreesyoullgrow
+    n_biomeswevegone["biomeswevegone"]
+    n_terrablender["terrablender"]
+    n_biomeswevegone -->|depende| n_terrablender
     n_biomeswevegone["biomeswevegone"]
     n_terrablender["terrablender"]
     n_biomeswevegone -->|depende| n_terrablender
@@ -262,8 +460,17 @@ graph TD
     n_forge["forge"]
     n_blue_skies -->|depende| n_forge
     n_blue_skies["blue_skies"]
+    n_forge["forge"]
+    n_blue_skies -->|depende| n_forge
+    n_blue_skies["blue_skies"]
     n_minecraft["minecraft"]
     n_blue_skies -->|depende| n_minecraft
+    n_blue_skies["blue_skies"]
+    n_minecraft["minecraft"]
+    n_blue_skies -->|depende| n_minecraft
+    n_blue_skies["blue_skies"]
+    n_structure_gel["structure_gel"]
+    n_blue_skies -->|depende| n_structure_gel
     n_blue_skies["blue_skies"]
     n_structure_gel["structure_gel"]
     n_blue_skies -->|depende| n_structure_gel
@@ -271,11 +478,11 @@ graph TD
     n_forge["forge"]
     n_bookofdragons -->|depende| n_forge
     n_bookofdragons["bookofdragons"]
-    n_geckolib["geckolib"]
-    n_bookofdragons -->|depende| n_geckolib
-    n_bookofdragons["bookofdragons"]
     n_minecraft["minecraft"]
     n_bookofdragons -->|depende| n_minecraft
+    n_bookshelf["bookshelf"]
+    n_forge["forge"]
+    n_bookshelf -->|depende| n_forge
     n_bookshelf["bookshelf"]
     n_forge["forge"]
     n_bookshelf -->|depende| n_forge
@@ -286,8 +493,17 @@ graph TD
     n_cerbons_api["cerbons_api"]
     n_bosses_of_mass_destruction -->|depende| n_cerbons_api
     n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
+    n_cerbons_api["cerbons_api"]
+    n_bosses_of_mass_destruction -->|depende| n_cerbons_api
+    n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
     n_cloth_config["cloth_config"]
     n_bosses_of_mass_destruction -->|depende| n_cloth_config
+    n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
+    n_cloth_config["cloth_config"]
+    n_bosses_of_mass_destruction -->|depende| n_cloth_config
+    n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
+    n_forge["forge"]
+    n_bosses_of_mass_destruction -->|depende| n_forge
     n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
     n_forge["forge"]
     n_bosses_of_mass_destruction -->|depende| n_forge
@@ -295,8 +511,17 @@ graph TD
     n_geckolib["geckolib"]
     n_bosses_of_mass_destruction -->|depende| n_geckolib
     n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
+    n_geckolib["geckolib"]
+    n_bosses_of_mass_destruction -->|depende| n_geckolib
+    n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
     n_minecraft["minecraft"]
     n_bosses_of_mass_destruction -->|depende| n_minecraft
+    n_bosses_of_mass_destruction["bosses_of_mass_destruction"]
+    n_minecraft["minecraft"]
+    n_bosses_of_mass_destruction -->|depende| n_minecraft
+    n_bountiful["bountiful"]
+    n_forge["forge"]
+    n_bountiful -->|depende| n_forge
     n_bountiful["bountiful"]
     n_forge["forge"]
     n_bountiful -->|depende| n_forge
@@ -304,14 +529,29 @@ graph TD
     n_kambrik["kambrik"]
     n_bountiful -->|depende| n_kambrik
     n_bountiful["bountiful"]
+    n_kambrik["kambrik"]
+    n_bountiful -->|depende| n_kambrik
+    n_bountiful["bountiful"]
+    n_minecraft["minecraft"]
+    n_bountiful -->|depende| n_minecraft
+    n_bountiful["bountiful"]
     n_minecraft["minecraft"]
     n_bountiful -->|depende| n_minecraft
     n_bountiful_npc["bountiful_npc"]
     n_bountiful["bountiful"]
     n_bountiful_npc -->|depende| n_bountiful
     n_bountiful_npc["bountiful_npc"]
+    n_bountiful["bountiful"]
+    n_bountiful_npc -->|depende| n_bountiful
+    n_bountiful_npc["bountiful_npc"]
     n_forge["forge"]
     n_bountiful_npc -->|depende| n_forge
+    n_bountiful_npc["bountiful_npc"]
+    n_forge["forge"]
+    n_bountiful_npc -->|depende| n_forge
+    n_bountiful_npc["bountiful_npc"]
+    n_minecraft["minecraft"]
+    n_bountiful_npc -->|depende| n_minecraft
     n_bountiful_npc["bountiful_npc"]
     n_minecraft["minecraft"]
     n_bountiful_npc -->|depende| n_minecraft
@@ -331,11 +571,35 @@ graph TD
     n_forge["forge"]
     n_callablehorses -->|depende| n_forge
     n_callablehorses["callablehorses"]
+    n_forge["forge"]
+    n_callablehorses -->|depende| n_forge
+    n_callablehorses["callablehorses"]
+    n_forge["forge"]
+    n_callablehorses -->|depende| n_forge
+    n_callablehorses["callablehorses"]
+    n_minecraft["minecraft"]
+    n_callablehorses -->|depende| n_minecraft
+    n_callablehorses["callablehorses"]
+    n_minecraft["minecraft"]
+    n_callablehorses -->|depende| n_minecraft
+    n_callablehorses["callablehorses"]
     n_minecraft["minecraft"]
     n_callablehorses -->|depende| n_minecraft
     n_cataclysm["cataclysm"]
     n_forge["forge"]
     n_cataclysm -->|depende| n_forge
+    n_cataclysm["cataclysm"]
+    n_forge["forge"]
+    n_cataclysm -->|depende| n_forge
+    n_cataclysm["cataclysm"]
+    n_forge["forge"]
+    n_cataclysm -->|depende| n_forge
+    n_cataclysm["cataclysm"]
+    n_lionfishapi["lionfishapi"]
+    n_cataclysm -->|depende| n_lionfishapi
+    n_cataclysm["cataclysm"]
+    n_lionfishapi["lionfishapi"]
+    n_cataclysm -->|depende| n_lionfishapi
     n_cataclysm["cataclysm"]
     n_lionfishapi["lionfishapi"]
     n_cataclysm -->|depende| n_lionfishapi
@@ -343,14 +607,29 @@ graph TD
     n_cataclysm["cataclysm"]
     n_cataclysm_dimension -->|depende| n_cataclysm
     n_cataclysm_dimension["cataclysm_dimension"]
+    n_cataclysm["cataclysm"]
+    n_cataclysm_dimension -->|depende| n_cataclysm
+    n_cataclysm_dimension["cataclysm_dimension"]
     n_forge["forge"]
     n_cataclysm_dimension -->|depende| n_forge
+    n_cataclysm_dimension["cataclysm_dimension"]
+    n_forge["forge"]
+    n_cataclysm_dimension -->|depende| n_forge
+    n_cataclysm_dimension["cataclysm_dimension"]
+    n_minecraft["minecraft"]
+    n_cataclysm_dimension -->|depende| n_minecraft
     n_cataclysm_dimension["cataclysm_dimension"]
     n_minecraft["minecraft"]
     n_cataclysm_dimension -->|depende| n_minecraft
     n_cerbons_api["cerbons_api"]
     n_forge["forge"]
     n_cerbons_api -->|depende| n_forge
+    n_cerbons_api["cerbons_api"]
+    n_forge["forge"]
+    n_cerbons_api -->|depende| n_forge
+    n_cerbons_api["cerbons_api"]
+    n_minecraft["minecraft"]
+    n_cerbons_api -->|depende| n_minecraft
     n_cerbons_api["cerbons_api"]
     n_minecraft["minecraft"]
     n_cerbons_api -->|depende| n_minecraft
@@ -379,284 +658,5 @@ graph TD
     n_forge["forge"]
     n_chipped -->|depende| n_forge
     n_chipped["chipped"]
-    n_minecraft["minecraft"]
-    n_chipped -->|depende| n_minecraft
-    n_chipped["chipped"]
-    n_resourcefullib["resourcefullib"]
-    n_chipped -->|depende| n_resourcefullib
-    n_chloride["chloride"]
-    n_embeddium["embeddium"]
-    n_chloride -->|depende| n_embeddium
-    n_chloride["chloride"]
     n_forge["forge"]
-    n_chloride -->|depende| n_forge
-    n_chloride["chloride"]
-    n_minecraft["minecraft"]
-    n_chloride -->|depende| n_minecraft
-    n_chunksending["chunksending"]
-    n_cupboard["cupboard"]
-    n_chunksending -->|depende| n_cupboard
-    n_chunksending["chunksending"]
-    n_forge["forge"]
-    n_chunksending -->|depende| n_forge
-    n_chunksending["chunksending"]
-    n_minecraft["minecraft"]
-    n_chunksending -->|depende| n_minecraft
-    n_chunky["chunky"]
-    n_forge["forge"]
-    n_chunky -->|depende| n_forge
-    n_chunky["chunky"]
-    n_minecraft["minecraft"]
-    n_chunky -->|depende| n_minecraft
-    n_cinematiccataclysm["cinematiccataclysm"]
-    n_fdlib["fdlib"]
-    n_cinematiccataclysm -->|depende| n_fdlib
-    n_cinematiccataclysm["cinematiccataclysm"]
-    n_forge["forge"]
-    n_cinematiccataclysm -->|depende| n_forge
-    n_cinematiccataclysm["cinematiccataclysm"]
-    n_minecraft["minecraft"]
-    n_cinematiccataclysm -->|depende| n_minecraft
-    n_citadel["citadel"]
-    n_forge["forge"]
-    n_citadel -->|depende| n_forge
-    n_clearwater["clearwater"]
-    n_forge["forge"]
-    n_clearwater -->|depende| n_forge
-    n_clearwater["clearwater"]
-    n_minecraft["minecraft"]
-    n_clearwater -->|depende| n_minecraft
-    n_clearwater["clearwater"]
-    n_resourcefulconfig["resourcefulconfig"]
-    n_clearwater -->|depende| n_resourcefulconfig
-    n_cloth_config["cloth_config"]
-    n_forge["forge"]
-    n_cloth_config -->|depende| n_forge
-    n_combat_evolution["combat_evolution"]
-    n_forge["forge"]
-    n_combat_evolution -->|depende| n_forge
-    n_combat_evolution["combat_evolution"]
-    n_minecraft["minecraft"]
-    n_combat_evolution -->|depende| n_minecraft
-    n_combatroll["combatroll"]
-    n_cloth_config["cloth_config"]
-    n_combatroll -->|depende| n_cloth_config
-    n_combatroll["combatroll"]
-    n_forge["forge"]
-    n_combatroll -->|depende| n_forge
-    n_combatroll["combatroll"]
-    n_minecraft["minecraft"]
-    n_combatroll -->|depende| n_minecraft
-    n_combatroll["combatroll"]
-    n_playeranimator["playeranimator"]
-    n_combatroll -->|depende| n_playeranimator
-    n_configured["configured"]
-    n_forge["forge"]
-    n_configured -->|depende| n_forge
-    n_configured["configured"]
-    n_minecraft["minecraft"]
-    n_configured -->|depende| n_minecraft
-    n_corgilib["corgilib"]
-    n_forge["forge"]
-    n_corgilib -->|depende| n_forge
-    n_corgilib["corgilib"]
-    n_minecraft["minecraft"]
-    n_corgilib -->|depende| n_minecraft
-    n_coroutil["coroutil"]
-    n_forge["forge"]
-    n_coroutil -->|depende| n_forge
-    n_coroutil["coroutil"]
-    n_minecraft["minecraft"]
-    n_coroutil -->|depende| n_minecraft
-    n_corpse["corpse"]
-    n_forge["forge"]
-    n_corpse -->|depende| n_forge
-    n_corpse["corpse"]
-    n_minecraft["minecraft"]
-    n_corpse -->|depende| n_minecraft
-    n_cosmeticarmorreworked["cosmeticarmorreworked"]
-    n_forge["forge"]
-    n_cosmeticarmorreworked -->|depende| n_forge
-    n_cristellib["cristellib"]
-    n_forge["forge"]
-    n_cristellib -->|depende| n_forge
-    n_cristellib["cristellib"]
-    n_minecraft["minecraft"]
-    n_cristellib -->|depende| n_minecraft
-    n_cte2modpackarmors["cte2modpackarmors"]
-    n_minecraft["minecraft"]
-    n_cte2modpackarmors -->|depende| n_minecraft
-    n_cte_essentials["cte_essentials"]
-    n_minecraft["minecraft"]
-    n_cte_essentials -->|depende| n_minecraft
-    n_cumulus_menus["cumulus_menus"]
-    n_forge["forge"]
-    n_cumulus_menus -->|depende| n_forge
-    n_cumulus_menus["cumulus_menus"]
-    n_minecraft["minecraft"]
-    n_cumulus_menus -->|depende| n_minecraft
-    n_cupboard["cupboard"]
-    n_forge["forge"]
-    n_cupboard -->|depende| n_forge
-    n_cupboard["cupboard"]
-    n_minecraft["minecraft"]
-    n_cupboard -->|depende| n_minecraft
-    n_curios["curios"]
-    n_forge["forge"]
-    n_curios -->|depende| n_forge
-    n_curios["curios"]
-    n_minecraft["minecraft"]
-    n_curios -->|depende| n_minecraft
-    n_customskinloader["customskinloader"]
-    n_forge["forge"]
-    n_customskinloader -->|depende| n_forge
-    n_customskinloader["customskinloader"]
-    n_minecraft["minecraft"]
-    n_customskinloader -->|depende| n_minecraft
-    n_defaultoptions["defaultoptions"]
-    n_balm["balm"]
-    n_defaultoptions -->|depende| n_balm
-    n_defaultoptions["defaultoptions"]
-    n_forge["forge"]
-    n_defaultoptions -->|depende| n_forge
-    n_defaultoptions["defaultoptions"]
-    n_minecraft["minecraft"]
-    n_defaultoptions -->|depende| n_minecraft
-    n_despawntimers["despawntimers"]
-    n_minecraft["minecraft"]
-    n_despawntimers -->|depende| n_minecraft
-    n_distanthorizons["distanthorizons"]
-    n_forge["forge"]
-    n_distanthorizons -->|depende| n_forge
-    n_distanthorizons["distanthorizons"]
-    n_minecraft["minecraft"]
-    n_distanthorizons -->|depende| n_minecraft
-    n_dodge_parry_reward["dodge_parry_reward"]
-    n_epicfight["epicfight"]
-    n_dodge_parry_reward -->|depende| n_epicfight
-    n_dodge_parry_reward["dodge_parry_reward"]
-    n_forge["forge"]
-    n_dodge_parry_reward -->|depende| n_forge
-    n_dodge_parry_reward["dodge_parry_reward"]
-    n_minecraft["minecraft"]
-    n_dodge_parry_reward -->|depende| n_minecraft
-    n_dodosmobs["dodosmobs"]
-    n_forge["forge"]
-    n_dodosmobs -->|depende| n_forge
-    n_dodosmobs["dodosmobs"]
-    n_lionfishapi["lionfishapi"]
-    n_dodosmobs -->|depende| n_lionfishapi
-    n_domesticationinnovation["domesticationinnovation"]
-    n_citadel["citadel"]
-    n_domesticationinnovation -->|depende| n_citadel
-    n_domesticationinnovation["domesticationinnovation"]
-    n_forge["forge"]
-    n_domesticationinnovation -->|depende| n_forge
-    n_drippyloadingscreen["drippyloadingscreen"]
-    n_fancymenu["fancymenu"]
-    n_drippyloadingscreen -->|depende| n_fancymenu
-    n_drippyloadingscreen["drippyloadingscreen"]
-    n_forge["forge"]
-    n_drippyloadingscreen -->|depende| n_forge
-    n_drippyloadingscreen["drippyloadingscreen"]
-    n_konkrete["konkrete"]
-    n_drippyloadingscreen -->|depende| n_konkrete
-    n_drippyloadingscreen["drippyloadingscreen"]
-    n_minecraft["minecraft"]
-    n_drippyloadingscreen -->|depende| n_minecraft
-    n_dummmmmmy["dummmmmmy"]
-    n_forge["forge"]
-    n_dummmmmmy -->|depende| n_forge
-    n_dummmmmmy["dummmmmmy"]
-    n_minecraft["minecraft"]
-    n_dummmmmmy -->|depende| n_minecraft
-    n_dummmmmmy["dummmmmmy"]
-    n_moonlight["moonlight"]
-    n_dummmmmmy -->|depende| n_moonlight
-    n_dungeon_realm["dungeon_realm"]
-    n_forge["forge"]
-    n_dungeon_realm -->|depende| n_forge
-    n_dungeon_realm["dungeon_realm"]
-    n_library_of_exile["library_of_exile"]
-    n_dungeon_realm -->|depende| n_library_of_exile
-    n_dungeon_realm["dungeon_realm"]
-    n_minecraft["minecraft"]
-    n_dungeon_realm -->|depende| n_minecraft
-    n_dungeons_arise["dungeons_arise"]
-    n_forge["forge"]
-    n_dungeons_arise -->|depende| n_forge
-    n_dungeons_arise["dungeons_arise"]
-    n_minecraft["minecraft"]
-    n_dungeons_arise -->|depende| n_minecraft
-    n_easy_npc["easy_npc"]
-    n_forge["forge"]
-    n_easy_npc -->|depende| n_forge
-    n_easy_npc["easy_npc"]
-    n_minecraft["minecraft"]
-    n_easy_npc -->|depende| n_minecraft
-    n_efm_compat["efm_compat"]
-    n_minecraft["minecraft"]
-    n_efm_compat -->|depende| n_minecraft
-    n_efn["efn"]
-    n_epic_fight_avalon["epic_fight_avalon"]
-    n_efn -->|depende| n_epic_fight_avalon
-    n_efn["efn"]
-    n_epicfight["epicfight"]
-    n_efn -->|depende| n_epicfight
-    n_efn["efn"]
-    n_invincible["invincible"]
-    n_efn -->|depende| n_invincible
-    n_efn["efn"]
-    n_minecraft["minecraft"]
-    n_efn -->|depende| n_minecraft
-    n_efn_enhance["efn_enhance"]
-    n_efn["efn"]
-    n_efn_enhance -->|depende| n_efn
-    n_efn_enhance["efn_enhance"]
-    n_fancy_trail["fancy_trail"]
-    n_efn_enhance -->|depende| n_fancy_trail
-    n_efn_enhance["efn_enhance"]
-    n_forge["forge"]
-    n_efn_enhance -->|depende| n_forge
-    n_efn_enhance["efn_enhance"]
-    n_minecraft["minecraft"]
-    n_efn_enhance -->|depende| n_minecraft
-    n_efs_iss["efs_iss"]
-    n_forge["forge"]
-    n_efs_iss -->|depende| n_forge
-    n_efs_iss["efs_iss"]
-    n_minecraft["minecraft"]
-    n_efs_iss -->|depende| n_minecraft
-    n_enchantinginfuser["enchantinginfuser"]
-    n_forge["forge"]
-    n_enchantinginfuser -->|depende| n_forge
-    n_enchantinginfuser["enchantinginfuser"]
-    n_minecraft["minecraft"]
-    n_enchantinginfuser -->|depende| n_minecraft
-    n_enchantinginfuser["enchantinginfuser"]
-    n_puzzleslib["puzzleslib"]
-    n_enchantinginfuser -->|depende| n_puzzleslib
-    n_enchdesc["enchdesc"]
-    n_bookshelf["bookshelf"]
-    n_enchdesc -->|depende| n_bookshelf
-    n_enchdesc["enchdesc"]
-    n_forge["forge"]
-    n_enchdesc -->|depende| n_forge
-    n_enchdesc["enchdesc"]
-    n_minecraft["minecraft"]
-    n_enchdesc -->|depende| n_minecraft
-    n_enemyexpansion["enemyexpansion"]
-    n_minecraft["minecraft"]
-    n_enemyexpansion -->|depende| n_minecraft
-    n_entityculling["entityculling"]
-    n_minecraft["minecraft"]
-    n_entityculling -->|depende| n_minecraft
-    n_entityjs["entityjs"]
-    n_forge["forge"]
-    n_entityjs -->|depende| n_forge
-    n_entityjs["entityjs"]
-    n_geckolib["geckolib"]
-    n_entityjs -->|depende| n_geckolib
-    n_entityjs["entityjs"]
-    n_kubejs["kubejs"]
-    n_entityjs -->|depende| n_kubejs
+    n_chipped -->|depende| n_forge

@@ -13,8 +13,7 @@
     "launcherCanonicalOverrides": "Launcher/pack/overrides",
     "serverSanitizedCatalog": "Servidor/catalog/mods.csv",
     "serverCompatibilityCatalog": "Servidor/catalog/compatibilidade-cliente.csv",
-    "artifactsFixture": "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json",
-    "runtimeForensics": "not accessed; fixture-only deterministic regeneration",
+    "runtimeForensics": "read-only loader metadata from ignored mods directories",
     "excluded": [
       "worlds",
       "logs",
@@ -30,9 +29,7 @@
     "providerOnlyArtifacts": 4,
     "launcherAddons": 93,
     "serverCatalogEntries": 195,
-    "compatibilityEntries": 232,
-    "source": "tools/modpack/fixtures/sanitized-artifact-inventory-v1.json",
-    "mode": "committed-sanitized-fixture"
+    "compatibilityEntries": 232
   },
   "artifacts": [
     {

@@ -1,5 +1,6 @@
 mod:
   id: "simplebedrockmodel"
+  tipo_componente: "embedded-library"
   ids_declarados:
     - "simplebedrockmodel"
   nome: "SimpleBedrockModel"
@@ -13,6 +14,11 @@ mod:
       contexts:
         - "server_disabled"
       modVersion: "2.1.4-forge+mc1.20.1"
+      loader: "forge"
+      container:
+        kind: "jarjar"
+        parentArtifactId: "sha256:537a30b18cfc239e22ceff00bec23057d7769f4a2ab068c62b6a5899402c6993"
+      metadataPath: "META-INF/jarjar/simplebedrockmodel-2.1.4-forge+mc1.20.1.jar!META-INF/mods.toml"
   versao_instalada: []
   versoes_observadas_incluindo_desativadas:
     - "2.1.4-forge+mc1.20.1"
@@ -39,7 +45,8 @@ mod:
   impacto_desempenho: "indireto por dependentes"
   observacoes:
     - "contextos: servidor desativado"
-    - "compatibilidade: possivelmente compativel"
+    - "compatibilidade: nao verificado"
+    - "status contextual: unknown (unknown)"
   confianca:
     nivel: "alta"
     origem: "metadatos do loader, hashes e inventários sanitizados"
