@@ -140,7 +140,7 @@ Decisão: usar `openloader_advanced_options_v1`, limitado a `config/openloader/a
 
 Gate: sem ADR e schema congelado, não iniciar API ou painel de edição.
 
-Status: concluído em 2026-08-04. O schema aceita somente os dois campos booleanos `enabled`, fixa `additionalFolders` como vazio, exige restart e possui codec/fixtures determinísticos em `@voidfall/configuration-schemas`. Persistência e aplicação real continuam bloqueadas até a Fase 7.2.
+Status: concluído em 2026-08-04. O schema aceita somente os dois campos booleanos `enabled`, fixa `additionalFolders` como vazio, exige restart e possui codec/fixtures determinísticos em `@voidfall/configuration-schemas`. O gate local e a [matriz Windows/Linux 30943931215](https://github.com/Myerzx/Void-Modpack/actions/runs/30943931215) passaram. Persistência e aplicação real continuam bloqueadas até a Fase 7.2.
 
 ### 7.2 — persistência e operação de configuração
 

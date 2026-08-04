@@ -4,7 +4,7 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 7.1 — schema OpenLoader selecionado e congelado em isolamento; gate local aprovado, matriz Windows/Linux pendente
+- Fase: 7.1 — concluída em isolamento; schema OpenLoader congelado, gate local e matriz Windows/Linux aprovados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.1 usou somente leitura explicitamente autorizada da evidência OpenLoader indicada pelo proprietário, sem copiar packs, paths locais ou valores privados
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -144,6 +144,7 @@
 - Fase 7.1: `@voidfall/configuration-schemas` passou build, typecheck e 13 casos; os 5 casos OpenLoader fixam identidade, round-trip, restart, limite e rejeições;
 - gate completo local da Fase 7.1 aprovado: 190 casos descobertos, 188 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - regressões Python da Fase 7.1: 3 casos aprovados; validador confirmou um único schema selecionado, path exato, SHA-256, campos, limite e proibição de path fornecido pelo usuário;
+- matriz CI da Fase 7.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30943931215](https://github.com/Myerzx/Void-Modpack/actions/runs/30943931215), incluindo regressões Python, validador documental, gate completo e auditoria de runtime;
 - Fase 7.0: 34 casos de contratos, 23 casos do catálogo e 3 regressões Python aprovados;
 - gate completo local aprovado: 185 casos descobertos, 183 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - matriz CI da Fase 7.0 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796), incluindo regressões Python, validador documental, gate completo e auditoria de runtime;
@@ -174,7 +175,7 @@
 - matriz CI das métricas aprovada em `ubuntu-latest` e `windows-latest`: [execução 30842410863](https://github.com/Myerzx/Void-Modpack/actions/runs/30842410863);
 - matriz CI do backup/restore aprovada em `ubuntu-latest` e `windows-latest`: [execução 30845229436](https://github.com/Myerzx/Void-Modpack/actions/runs/30845229436); os 10 testes passam no Linux e os 9 aplicáveis passam no Windows;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
-- Graphify atualizado após a conclusão da fase, com diagnóstico de integridade sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas.
+- Graphify atualizado após a conclusão da fase: 2.877 nós, 4.786 arestas e diagnóstico sem arestas ausentes, pendentes, duplicadas, autociclos ou colapsadas; as três fixtures JSON não produzem nós AST por design.
 
 ## Riscos não resolvidos
 
@@ -294,5 +295,7 @@ Executar a **Fase 7.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `13f8952` — Graphify atualizado com o modelo de compatibilidade contextual.
 - `e99940f` — schema, codec e fixtures sanitizadas do OpenLoader;
 - `074ef65` — seleção única do schema OpenLoader no inventário gerado e validador.
+- `e35ff45` — ADR-008, fechamento da Fase 7.1 e avanço do handoff;
+- `d52ee1f` — Graphify atualizado com o schema OpenLoader e memória da decisão.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
