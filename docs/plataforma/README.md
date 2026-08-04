@@ -33,6 +33,7 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 27. [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md)
 28. [Fase 7.0: compatibilidade contextual](PHASE_7_CONTEXTUAL_COMPATIBILITY.md)
 29. [ADR-008: OpenLoader como primeiro schema](DECISIONS/ADR-008-openloader-como-primeiro-schema.md)
+30. [Fase 7.2: persistência e operação de configuração](PHASE_7_CONFIGURATION_PERSISTENCE.md)
 
 ## Resultado da Fase 1
 

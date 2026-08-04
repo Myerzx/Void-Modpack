@@ -80,7 +80,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
 | pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; base contextual corrigida |
-| 7 — configurações específicas | 50% | Fases 7.0 e 7.1 concluídas; 2 de 4 recortes, próximo gate é persistência/operação 7.2 |
+| 7 — configurações específicas | 75% | Fases 7.0–7.2 concluídas; 3 de 4 recortes, próximo gate é API/agente/painel 7.3 |
 | 8 — mods adaptativos | 0% | planejada; correção contextual concluída, ainda depende da ordem das fatias finais |
 | 9 — núcleo operacional e painel | 0% | planejada; domínios continuam isolados |
 | 10 — operações completas | 0% | planejada; sem ligação ao runtime real |
@@ -133,6 +133,8 @@ Somente após inventário completo e seleção dos mods suportados. Cada schema 
 A auditoria prévia foi corrigida pela Fase 7.0 em 2026-08-04. A regeneração em [`docs/modpack/`](../modpack/index.md) usa somente fixtures sanitizadas e preserva 298 artefatos/299 componentes em 1.363 declarações contextualizadas. O resultado separa quatro conflitos canônicos de duas divergências que agora permanecem `unknown`; não há dependência obrigatória ausente em contexto ativo. Contexto, lado, loader, JarJar e ranges Maven possuem regressões em TypeScript e Python, conforme [Validação da Fase 7.0](PHASE_7_CONTEXTUAL_COMPATIBILITY.md), e a [matriz Windows/Linux 30936868796](https://github.com/Myerzx/Void-Modpack/actions/runs/30936868796) aprovou o gate completo.
 
 A Fase 7.1 selecionou explicitamente `openloader_advanced_options_v1` no [ADR-008](DECISIONS/ADR-008-openloader-como-primeiro-schema.md). O recorte aceita apenas `dataPacks.enabled` e `resourcePacks.enabled`, fixa `additionalFolders` como vazio, exige restart e possui parser/serializador estritos com fixtures sanitizadas. Os diretórios de packs, paths fornecidos pelo usuário e qualquer outro schema continuam negados. O gate local e a [matriz Windows/Linux 30943931215](https://github.com/Myerzx/Void-Modpack/actions/runs/30943931215) aprovaram o recorte completo. O próximo gate é a persistência e operação isolada da Fase 7.2, ainda sem API, agente ou painel.
+
+A [Fase 7.2](PHASE_7_CONFIGURATION_PERSISTENCE.md) persiste somente o schema revisado, recursos, revisões, estado de aplicação e lock compartilhado. O codec OpenLoader foi ligado ao `server-configuration` por registro fechado; aplicação, falha e rollback são correlacionados por versão, hash, ator, motivo e auditoria sem valores. Os testes usam PGlite e diretórios temporários. API, Server Agent, painel e runtime privado continuam desconectados; a próxima fatia é a Fase 7.3.
 
 ## Fases 8–13 — integração e conclusão operacional
 

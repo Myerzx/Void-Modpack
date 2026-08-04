@@ -4,9 +4,9 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 7.1 — concluída em isolamento; schema OpenLoader congelado, gate local e matriz Windows/Linux aprovados
+- Fase: 7.2 — concluída tecnicamente em isolamento; persistência/operação OpenLoader implementada, aguardando registro do gate CI após o push
 - Fase 2: concluída e validada
-- Runtime Minecraft privado: não modificado e não conectado; a Fase 7.1 usou somente leitura explicitamente autorizada da evidência OpenLoader indicada pelo proprietário, sem copiar packs, paths locais ou valores privados
+- Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
@@ -54,6 +54,9 @@
   - substituição sincronizada, verificação posterior e recuperação dos bytes anteriores;
   - rollback que cria nova revisão e não reinicia o Minecraft;
   - recibos imutáveis e erros sanitizados sem paths ou valores;
+  - codec `openloader-advanced-options-v1` ligado somente ao schema/hash/path/limite revisados;
+  - manifesto v2 com identidade e SHA-256 do schema, `previous.json` para OpenLoader e bytes anteriores exatos;
+  - `PersistentConfigurationService` coordenando preparação PostgreSQL, lock compartilhado, filesystem, transição final e auditoria;
 - `@voidfall/mod-catalog` com:
   - contratos v1 `InventorySnapshot` e `CatalogReconciliationReport`, também exportados como JSON Schema;
   - separação entre identidade de conteúdo `sha256:*`, ID lógico revisado e ocorrência em inventário;
@@ -85,6 +88,7 @@
   - codec JSON específico, determinístico e limitado a 4.096 bytes, sem transformar JSON genérico em adapter;
   - `additionalFolders` obrigatoriamente vazio, nenhum campo secreto, path fornecido pelo usuário ou wildcard;
   - fixtures públicas sanitizadas para round-trip, estado desativado e rejeição de path;
+  - registro de produto fechado, sem método público de cadastro, contendo somente o codec OpenLoader aprovado;
 - Fase 5 com:
   - contratos v1 de canal assinado, estado gerenciado do launcher e intenção curta do Forge Bridge;
   - `@voidfall/modpack-release` com staging privado, bytes explícitos, três sanitizadores, integridade, Ed25519 e manifesto reproduzível;
@@ -117,6 +121,14 @@
   - parser/serializador, identidade SHA-256, limite, segredo, restart e migração congelados;
   - packs OpenLoader em `data/` e `resources/` excluídos do editor e da migração;
   - nenhuma persistência, API, operação de agente, painel ou aplicação no runtime;
+- Fase 7.2 com:
+  - migration `0004_configuration_operations.sql` para schemas, recursos, revisões, estado de aplicação e locks operacionais;
+  - repositórios PostgreSQL/PGlite com locks de linha, versão esperada e SHA-256 esperado;
+  - estados `registered`, `prepared`, `applied` e `failed`, com rollback referenciando revisão aplicada do mesmo recurso;
+  - lock `minecraft-exclusive` com proprietário, operação e lease limitado, compartilhável futuramente com processo/backup;
+  - transição final e evento encadeado da partição `configuration` na mesma transação;
+  - banco e auditoria sem valores de configuração: somente hashes, nomes de campos e metadata sanitizada;
+  - aplicação, rollback e falha OpenLoader comprovados em diretório temporário;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -128,7 +140,7 @@
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
-8. Não tratar schemas genéricos como adapters operacionais: somente o codec específico OpenLoader v1 foi definido; JSON/TOML/YAML/CFG genéricos continuam sem parser, serializer, persistência, path público ou aplicação em arquivo real.
+8. Não tratar schemas genéricos como adapters operacionais: somente o codec específico OpenLoader v1 possui registro, persistência e aplicação isolada; JSON/TOML/YAML/CFG genéricos continuam sem parser, serializer, path público ou operação.
 9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
 10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
 11. Não fornecer raiz, path, catálogo, chave ou comando no payload de `modpack.build`; somente `planId` opaco pode atravessar a fila.
@@ -141,6 +153,11 @@
 
 ## Validação
 
+- Fase 7.2: `@voidfall/configuration-schemas` passou build/typecheck e 14 testes; `@voidfall/database`, 5 testes PostgreSQL/PGlite; `@voidfall/server-configuration`, 13 descobertos, 12 executados no Windows e um socket Unix reservado à CI Linux;
+- integração Fase 7.2 comprovou aplicação, rollback, falha sanitizada, concorrência otimista, liberação de lock e auditoria encadeada sem valores;
+- gate completo local da Fase 7.2 aprovado: 194 testes descobertos, 192 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
+- validação documental da Fase 7.2: 299 componentes, 298 artefatos, 1.363 conexões, zero dependências ausentes e 26 arquivos públicos do servidor aprovados;
+- `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - Fase 7.1: `@voidfall/configuration-schemas` passou build, typecheck e 13 casos; os 5 casos OpenLoader fixam identidade, round-trip, restart, limite e rejeições;
 - gate completo local da Fase 7.1 aprovado: 190 casos descobertos, 188 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - regressões Python da Fase 7.1: 3 casos aprovados; validador confirmou um único schema selecionado, path exato, SHA-256, campos, limite e proibição de path fornecido pelo usuário;
@@ -192,13 +209,13 @@
 - o filesystem local ainda não é o backend P1 de storage; retenção destrutiva, assinatura, criptografia e imutabilidade externa não estão implementadas;
 - SHA-256 detecta corrupção, mas não autentica a origem do snapshot;
 - restore isolado não troca o mundo ativo, não inicia Minecraft e não certifica boot, dimensões, inventários ou dados de mods;
-- a guarda offline de configuração também é apenas um trust boundary injetado e ainda não compartilha exclusão durável com processo, backup ou file manager;
-- o lock de configuração é um arquivo local e pode ficar obsoleto após crash; não existe reconciliação operacional;
-- o codec implementa somente um subconjunto estrito de Java Properties e exige que todos os campos estejam registrados; não suporta escapes, continuação, JSON, TOML, YAML ou configs de mods;
+- a guarda offline de configuração continua um trust boundary injetado; o lock PostgreSQL `minecraft-exclusive` já é compartilhável, mas processo, backup e file manager ainda não o consomem;
+- o lock PostgreSQL possui lease limitado, porém não há heartbeat nem reconciliação automática de lock expirado ou operação `prepared` após crash;
+- os codecs implementam somente o subconjunto estrito de Java Properties e o JSON OpenLoader aprovado; JSON genérico, TOML, YAML e outros mods continuam negados;
 - revisões podem conter segredos presentes no arquivo anterior; storage cifrado, permissões operacionais, retenção e backend remoto ainda não existem;
-- uma revisão publicada é preservada quando a substituição falha; o resultado precisa ser correlacionado pela auditoria futura antes de exibição como histórico aplicado;
+- uma revisão filesystem publicada é preservada quando a substituição falha e agora é correlacionada como `failed`; falha do banco depois da troca ainda exige reconciliação da operação `prepared` na Fase 9;
 - `restartRequired` é apenas metadata; nenhuma mutação agenda ou executa restart;
-- configuração não possui persistência PostgreSQL, ator, motivo humano, autorização, auditoria ou integração com agente/API/painel;
+- configuração agora possui persistência PostgreSQL, ator, reason code e auditoria; autorização, idempotência pública e integração com agente/API/painel pertencem à Fase 7.3;
 - o catálogo atual do launcher não possui SHA-256/tamanho e o inventário do servidor não possui proveniência/licença completa; não existe reconciliação real dos artefatos atuais;
 - sugestão de lado por presença não prova compatibilidade de loader, comportamento em jogo ou necessidade de dependências;
 - o reconciliador é puro e não possui persistência, histórico, ator, autorização, auditoria, exportador, importador, API, painel ou integração com worker;
@@ -210,7 +227,7 @@
 - o registro de raízes do file manager continua sendo uma entrada confiável de construção; não há descoberta, criação, delete, move, copy ou download público;
 - revisões de arquivo podem preservar segredos do conteúdo anterior e precisam de storage cifrado, retenção e autorização antes de uso operacional;
 - o manifesto de revisão de arquivo registra estado `prepared-before-replacement`; uma falha posterior exige correlação futura com auditoria e recibo antes de ser exibida como aplicada;
-- schemas genéricos e seu histórico vivem somente na memória; o codec OpenLoader v1 interpreta/serializa apenas fixtures e valores puros, sem ler ou aplicar arquivos reais;
+- schemas genéricos continuam somente na memória; apenas o schema OpenLoader revisado é persistido e aplicado, exclusivamente em fixtures/diretórios temporários neste recorte;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -232,7 +249,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 7.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): persistir schemas, recursos, revisões e estado de aplicação; ligar o codec OpenLoader específico ao `server-configuration` por registro confiável; correlacionar preparação, aplicação, falha e rollback; e integrar lock operacional compartilhado. O recorte deve usar somente diretórios temporários e não inicia API, agente, painel ou acesso ao runtime privado.
+Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): expor leitura, validação, aplicação e rollback autorizados por contratos estreitos; adicionar operação tipada no Server Agent e tela com diff seguro/restart visível; testar E2E somente contra diretório temporário. Não conectar o runtime privado nem iniciar trabalho da Fase 8.
 
 ## Commits relevantes
 

@@ -144,12 +144,14 @@ Status: concluído em 2026-08-04. O schema aceita somente os dois campos boolean
 
 ### 7.2 — persistência e operação de configuração
 
-- [ ] criar migração para schemas, recursos, revisões e estado de aplicação;
-- [ ] implementar repositórios PostgreSQL e concorrência otimista;
-- [ ] ligar `configuration-schemas` ao `server-configuration` por registro confiável;
-- [ ] correlacionar revisão preparada, aplicação, falha e rollback;
-- [ ] integrar lock operacional compartilhado;
-- [ ] registrar ator, motivo e auditoria sem valores sensíveis.
+- [x] criar migração para schemas, recursos, revisões e estado de aplicação;
+- [x] implementar repositórios PostgreSQL e concorrência otimista;
+- [x] ligar `configuration-schemas` ao `server-configuration` por registro confiável;
+- [x] correlacionar revisão preparada, aplicação, falha e rollback;
+- [x] integrar lock operacional compartilhado;
+- [x] registrar ator, motivo e auditoria sem valores sensíveis.
+
+Status: concluído tecnicamente em isolamento em 2026-08-04. O registro de produto aceita somente o codec OpenLoader revisado; a migration `0004_configuration_operations.sql` persiste schemas, recursos, revisões, estado e lock compartilhado; e `PersistentConfigurationService` correlaciona PostgreSQL, filesystem temporário, falha e rollback sem persistir valores. Consulte [Persistência e operação da Fase 7.2](PHASE_7_CONFIGURATION_PERSISTENCE.md). API, agente e painel permanecem fora deste recorte.
 
 ### 7.3 — API, agente e painel
 
