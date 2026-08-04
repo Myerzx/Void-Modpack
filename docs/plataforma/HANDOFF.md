@@ -2,11 +2,12 @@
 
 ## Estado atual
 
-- Data: 2026-08-03
+- Data: 2026-08-04
 - Responsável: Codex
 - Fase: 6 — tecnicamente concluída em isolamento; gate local e matriz Windows/Linux aprovados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
+- Auditoria pré-Fase 7: concluída em `docs/modpack/`; metadados de JAR lidos somente para documentação, sem execução ou integração com a plataforma
 
 ## Implementado
 
@@ -200,7 +201,7 @@
 
 ## Próximo recorte recomendado
 
-Não iniciar schema específico da Fase 7 sem inventário revisado e seleção explícita do mod/recurso suportado. O próximo recorte seguro é escolher um candidato com proprietário, versão, parser, validação, rollback e restart documentados; enquanto os P0/P1 impedirem essa escolha, trabalhar apenas nas decisões e evidências, sem tocar o runtime privado.
+Revisar [`docs/modpack/configuracoes.json`](../modpack/configuracoes.json) e escolher explicitamente **um** dos cinco candidatos de schema. A auditoria pré-Fase 7 documentou 299 componentes, 298 artefatos, 737 conexões, zero dependências obrigatórias ausentes no conjunto agregado e seis incompatibilidades de versão/loader. A escolha ainda exige proprietário, versão suportada, campos permitidos, parser, validação, rollback, restart e fixtures sanitizadas; não tocar o runtime privado nem iniciar adapter genérico.
 
 ## Commits relevantes
 

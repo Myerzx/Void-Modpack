@@ -77,6 +77,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 4 — mods, arquivos e schemas | 100% | 6 de 6 itens concluídos |
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
+| pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; schemas ainda não selecionados |
 | 7 — configurações específicas | 0% | ainda não iniciada |
 
 ## Fase 4 — mods, arquivos e schemas
@@ -120,6 +121,8 @@ Gate operacional: autenticação Minecraft, provider Forge, executor de moderaç
 ## Fase 7 — configurações específicas
 
 Somente após inventário completo e seleção dos mods suportados. Cada schema específico exige proprietário, versão, teste, validação, rollback e indicação de restart.
+
+Auditoria prévia concluída em 2026-08-04 em [`docs/modpack/`](../modpack/index.md): 502 ocorrências de JAR foram inspecionadas em modo somente-leitura e reduzidas a 298 artefatos/299 componentes; 737 conexões declaradas foram registradas e nenhuma dependência obrigatória ausente permaneceu no conjunto agregado. A matriz confirma seis incompatibilidades de versão/loader e a divergência estrutural entre o launcher atual e o servidor. [`configuracoes.json`](../modpack/configuracoes.json) registra cinco candidatos de schema, todos em `candidate_not_selected`. Portanto a evidência documental está pronta, mas o gate de implementação da Fase 7 continua fechado até revisão e escolha explícita.
 
 ## Riscos técnicos
 
