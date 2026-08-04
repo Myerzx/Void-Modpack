@@ -17,19 +17,20 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 11. [Logs e métricas](LOGGING.md)
 12. [Implantação e operação](DEPLOYMENT.md)
 13. [Roadmap](ROADMAP.md)
-14. [Handoff](HANDOFF.md)
-15. [Decisões arquiteturais](DECISIONS/)
-16. [Validação da Fase 2](PHASE_2_VALIDATION.md)
-17. [Adaptadores de processo da Fase 3](PHASE_3_PROCESS_ADAPTERS.md)
-18. [Controlador de processo da Fase 3](PHASE_3_PROCESS_CONTROLLER.md)
-19. [Console limitado da Fase 3](PHASE_3_CONSOLE.md)
-20. [Métricas limitadas da Fase 3](PHASE_3_METRICS.md)
-21. [Backup consistente e restore isolado da Fase 3](PHASE_3_BACKUP_RESTORE.md)
-22. [Configurações básicas e revisões da Fase 3](PHASE_3_CONFIGURATION_REVISIONS.md)
-23. [Inventário e catálogo reconciliado da Fase 4](PHASE_4_INVENTORY_CATALOG.md)
-24. [Conclusão da Fase 4: catálogo, artefatos, arquivos e schemas](PHASE_4_COMPLETION.md)
-25. [Execução da Fase 5: build, launcher e Bridge](PHASE_5_EXECUTION.md)
-26. [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md)
+14. [Plano de implementação das fases finais](FINAL_IMPLEMENTATION_PLAN.md)
+15. [Handoff](HANDOFF.md)
+16. [Decisões arquiteturais](DECISIONS/)
+17. [Validação da Fase 2](PHASE_2_VALIDATION.md)
+18. [Adaptadores de processo da Fase 3](PHASE_3_PROCESS_ADAPTERS.md)
+19. [Controlador de processo da Fase 3](PHASE_3_PROCESS_CONTROLLER.md)
+20. [Console limitado da Fase 3](PHASE_3_CONSOLE.md)
+21. [Métricas limitadas da Fase 3](PHASE_3_METRICS.md)
+22. [Backup consistente e restore isolado da Fase 3](PHASE_3_BACKUP_RESTORE.md)
+23. [Configurações básicas e revisões da Fase 3](PHASE_3_CONFIGURATION_REVISIONS.md)
+24. [Inventário e catálogo reconciliado da Fase 4](PHASE_4_INVENTORY_CATALOG.md)
+25. [Conclusão da Fase 4: catálogo, artefatos, arquivos e schemas](PHASE_4_COMPLETION.md)
+26. [Execução da Fase 5: build, launcher e Bridge](PHASE_5_EXECUTION.md)
+27. [Fase 6: jogadores, privacidade e auditoria](PHASE_6_PLAYERS_AUDIT.md)
 
 ## Resultado da Fase 1
 
@@ -52,5 +53,6 @@ Esta documentação define a plataforma de gerenciamento do servidor e atualiza�
 - não existe execução de processo, console, backup, restore, configuração ou controle do Minecraft ligado à API;
 - `stable`, o adapter Forge real e `/atualizar-modpack` permanecem desabilitados até os gates P0 do cliente e da distribuição;
 - os P0 não resolvidos no [roadmap](ROADMAP.md) continuam bloqueando as capacidades relacionadas.
+- as fases necessárias para transformar os pacotes isolados em painel operacional e release certificada estão ordenadas no [plano final](FINAL_IMPLEMENTATION_PLAN.md).
 
 Documentação e schemas não representam certificação de segurança. Cada nova capacidade precisa satisfazer seus gates, testes e ADRs aplicáveis.

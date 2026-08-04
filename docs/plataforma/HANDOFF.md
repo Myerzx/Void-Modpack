@@ -8,6 +8,7 @@
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado
 - Auditoria pré-Fase 7: concluída em `docs/modpack/`; metadados de JAR lidos somente para documentação, sem execução ou integração com a plataforma
+- Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 
 ## Implementado
 
@@ -121,6 +122,7 @@
 
 ## Validação
 
+- planejamento das Fases 7–13 validado com 47 links Markdown locais resolvidos e `git diff --check` sem erro;
 - pacote de processo: build, typecheck e 25 testes aprovados com Java 17;
 - pacote de backup: build, typecheck e 10 casos aprovados; no Windows, 9 executados e 1 socket Unix ignorado;
 - pacote de configuração: build, typecheck e 11 casos aprovados; no Windows, 10 executados e 1 socket Unix ignorado;
@@ -202,7 +204,9 @@
 
 ## Próximo recorte recomendado
 
-Revisar [`docs/modpack/configuracoes.json`](../modpack/configuracoes.json) e escolher explicitamente **um** dos cinco candidatos de schema. A auditoria pré-Fase 7 documentou 299 componentes, 298 artefatos, 737 conexões, zero dependências obrigatórias ausentes no conjunto agregado e seis incompatibilidades de versão/loader. A escolha ainda exige proprietário, versão suportada, campos permitidos, parser, validação, rollback, restart e fixtures sanitizadas; não tocar o runtime privado nem iniciar adapter genérico.
+Executar a **Fase 7.0** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): corrigir a análise de compatibilidade por contexto/lado, distinguir JarJar e loader por componente, corrigir o baseline NeoForge e ampliar o parser de ranges com resultado conservador. Regenerar a documentação e adicionar regressões para as seis divergências já registradas. Esse recorte continua somente em tooling, contratos e fixtures; não tocar o runtime privado.
+
+Depois do gate 7.0, registrar um ADR escolhendo explicitamente o primeiro schema da Fase 7. A recomendação planejada é `java_properties_v1` para provar o fluxo ponta a ponta antes de `forge_toml_v1`, mas a seleção continua sendo decisão do proprietário e não deve ser inferida silenciosamente.
 
 ## Commits relevantes
 

@@ -1,5 +1,7 @@
 # Roadmap, riscos e perguntas
 
+O roteiro detalhado para execução via terminal, incluindo as Fases 7–13, gates, arquivos-alvo, validações e critérios de conclusão, está em [Plano de implementação das fases finais](FINAL_IMPLEMENTATION_PLAN.md).
+
 ## Fase 1 — planejamento
 
 Status: concluída e aceita em 2026-08-03.
@@ -79,6 +81,12 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
 | pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; schemas ainda não selecionados |
 | 7 — configurações específicas | 0% | ainda não iniciada |
+| 8 — mods adaptativos | 0% | planejada; depende da correção contextual da compatibilidade |
+| 9 — núcleo operacional e painel | 0% | planejada; domínios continuam isolados |
+| 10 — operações completas | 0% | planejada; sem ligação ao runtime real |
+| 11 — jogadores e permissões reais | 0% | planejada; providers e política ainda pendentes |
+| 12 — release, launcher e Bridge | 0% operacional | base técnica isolada existe; ativação bloqueada pelos P0 |
+| 13 — produção e certificação | 0% | planejada; deploy e aceite ainda não iniciados |
 
 ## Fase 4 — mods, arquivos e schemas
 
@@ -123,6 +131,19 @@ Gate operacional: autenticação Minecraft, provider Forge, executor de moderaç
 Somente após inventário completo e seleção dos mods suportados. Cada schema específico exige proprietário, versão, teste, validação, rollback e indicação de restart.
 
 Auditoria prévia concluída em 2026-08-04 em [`docs/modpack/`](../modpack/index.md): 502 ocorrências de JAR foram inspecionadas em modo somente-leitura e reduzidas a 298 artefatos/299 componentes; 737 conexões declaradas foram registradas e nenhuma dependência obrigatória ausente permaneceu no conjunto agregado. A matriz confirma seis incompatibilidades de versão/loader e a divergência estrutural entre o launcher atual e o servidor. [`configuracoes.json`](../modpack/configuracoes.json) registra cinco candidatos de schema, todos em `candidate_not_selected`. O gerador, o validador e o gate completo foram aprovados na [matriz Windows/Linux 30880499197](https://github.com/Myerzx/Void-Modpack/actions/runs/30880499197). Portanto a evidência documental está pronta, mas o gate de implementação da Fase 7 continua fechado até revisão e escolha explícita.
+
+## Fases 8–13 — integração e conclusão operacional
+
+As fases posteriores preservam a numeração histórica das Fases 1–7 e acrescentam o trabalho que ainda separa os pacotes isolados de um produto completo:
+
+1. **Fase 8 — mods adaptativos:** inspeção segura, análise contextual, quarentena, revisão e janela de incompatibilidades, sem instalação automática.
+2. **Fase 9 — núcleo operacional e painel:** persistência, transporte autenticado, idempotência durável, APIs e painel dinâmico.
+3. **Fase 10 — operações completas:** processo, console, arquivos, backups, restore, métricas, logs, alertas e agendamentos.
+4. **Fase 11 — jogadores e permissões reais:** providers aprovados, persistência, moderação, privacidade e telas operacionais.
+5. **Fase 12 — release, launcher e Bridge:** catálogo aprovado, build de produção, assinatura, canais, launcher, Forge Bridge e smoke tests.
+6. **Fase 13 — produção e certificação:** decisões finais, deploy, segurança, disaster recovery, E2E e aceite.
+
+O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
 
 ## Riscos técnicos
 

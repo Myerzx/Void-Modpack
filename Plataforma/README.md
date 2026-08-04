@@ -1,6 +1,6 @@
 # Plataforma de gerenciamento
 
-Status: **Fase 5 tecnicamente concluída em isolamento; publicação stable e comando no jogo bloqueados pelos gates P0**.
+Status: **Fases 2–6 tecnicamente concluídas em isolamento; Fases 7–13 planejadas; ativação operacional, publicação stable e comando no jogo bloqueados pelos gates aplicáveis**.
 
 Esta pasta é a raiz implementada do painel, das APIs, do agente, do worker, do Bridge e dos contratos da plataforma VoidFall. As Fases 2 a 5 foram implementadas em isolamento e validadas somente contra fixtures/diretórios temporários. Nenhuma operação foi ligada ao servidor ou launcher privado.
 
@@ -51,4 +51,4 @@ npm audit --omit=dev
 
 O relatório da Fase 2 está em [`docs/plataforma/PHASE_2_VALIDATION.md`](../docs/plataforma/PHASE_2_VALIDATION.md). Detalhes de integração, confiança e evolução estão em [`docs/plataforma/CONTRACTS.md`](../docs/plataforma/CONTRACTS.md).
 
-Comece pela [documentação da plataforma](../docs/plataforma/README.md).
+Comece pela [documentação da plataforma](../docs/plataforma/README.md). Para continuar a implementação pelo terminal, siga o [plano das fases finais](../docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md).

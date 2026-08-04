@@ -23,4 +23,6 @@ O launcher atualmente documentado e o servidor recém-auditado representam conju
 
 A plataforma concluiu tecnicamente as Fases 2–6 em isolamento. Antes da Fase 7, a [base técnica do modpack](docs/modpack/index.md) mapeia 299 componentes, 298 artefatos e 737 relações declaradas. A Fase 7 permanece sem implementação até escolher explicitamente um dos schemas candidatos e resolver as divergências ativas entre cliente e servidor.
 
+O trabalho restante até o painel operacional, atualização do launcher e certificação de produção está dividido em fases, gates e fatias executáveis no [plano de implementação das fases finais](docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md).
+
 O Graphify está integrado ao Git e ao Windows. Consulte [a operação do Graphify](docs/graphify/README.md) para iniciar, verificar ou remover o salvamento automático.
