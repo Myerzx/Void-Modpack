@@ -70,8 +70,8 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785820411.3857162,
-    "ast_hash": "c1e6f99a70a19b377c9aec3cceedc033",
+    "mtime": 1785860147.8024473,
+    "ast_hash": "c273226cda4e682e4f2074a73ee0d7a0",
     "semantic_hash": ""
   },
   "Servidor/README.md": {
@@ -220,13 +220,13 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785820459.4077318,
-    "ast_hash": "7827eeebe96769b978cdbbbd18b12f03",
+    "mtime": 1785860190.4553595,
+    "ast_hash": "d237432cd9868749544f714b31c2ef82",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
-    "mtime": 1785796307.966766,
-    "ast_hash": "fbfbbca4c0b8a11e4e600853ccec0c7a",
+    "mtime": 1785860213.5023723,
+    "ast_hash": "07240500d6004959729b8973383eb8bc",
     "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785821199.2245855,
-    "ast_hash": "def3c679660a30c0bfc94ed1ded4adf6",
+    "mtime": 1785860334.2516973,
+    "ast_hash": "5e456b289ae42925f71b15b84d01e668",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/README.md": {
-    "mtime": 1785800140.4368277,
-    "ast_hash": "1a8aaf821242cf269d8d60f08e2c2e4e",
+    "mtime": 1785860139.506511,
+    "ast_hash": "2b78318f62e1fdfb5995d5c531bd08f1",
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785821199.2245855,
-    "ast_hash": "81ae3711408d072574e45fbe8c6e5008",
+    "mtime": 1785860122.651883,
+    "ast_hash": "23bd2cfc58f6e86f7950debceaea9e54",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -1525,7 +1525,7 @@
     "semantic_hash": ""
   },
   "tools/modpack/generate_modpack_docs.py": {
-    "mtime": 1785820716.909871,
+    "mtime": 1785856062.885068,
     "ast_hash": "15bb2e15386f9ab6b7b90465199067c4",
     "semantic_hash": ""
   },
@@ -3127,6 +3127,16 @@
   "graphify-out/memory/query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito.md": {
     "mtime": 1785820921.9937081,
     "ast_hash": "633bbf02322ad398a64b920a066aad17",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
+    "mtime": 1785860202.844934,
+    "ast_hash": "cce9bbd405829d63fd764dbcdf836a5a",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
+    "mtime": 1785860343.9503362,
+    "ast_hash": "91258d82cd3f4f65b0a77824f064c4c0",
     "semantic_hash": ""
   }
 }

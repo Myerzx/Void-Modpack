@@ -2512,8 +2512,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_apps_launcher_api_test_launcher_api_test_releasefixture",
-      "community": 143,
-      "community_name": "launcher-api/src/app.ts",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "releasefixture()"
     },
     {
@@ -9684,8 +9684,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export",
-      "community": 191,
-      "community_name": "audit-chain-export.ts",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "audit-chain-export.ts"
     },
     {
@@ -9695,8 +9695,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifestschema",
-      "community": 191,
-      "community_name": "audit-chain-export.ts",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "auditchainexportmanifestschema"
     },
     {
@@ -9706,8 +9706,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_auditchainexportmanifest",
-      "community": 191,
-      "community_name": "audit-chain-export.ts",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "auditchainexportmanifest"
     },
     {
@@ -9717,8 +9717,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_audit_chain_export_validateauditchainexportmanifest",
-      "community": 191,
-      "community_name": "audit-chain-export.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "validateauditchainexportmanifest()"
     },
     {
@@ -9871,7 +9871,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_catalog_reconciliation_catalogreconciliationreportschema",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "catalogreconciliationreportschema"
     },
@@ -9992,8 +9992,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_contractschemaversion",
-      "community": 114,
-      "community_name": "moderation-case.ts",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "contractschemaversion"
     },
     {
@@ -10003,8 +10003,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_uuidschema",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "uuidschema"
     },
     {
@@ -10014,8 +10014,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_isodatetimeschema",
-      "community": 191,
-      "community_name": "audit-chain-export.ts",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "isodatetimeschema"
     },
     {
@@ -10025,8 +10025,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_sha256schema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 159,
+      "community_name": "audit-event.ts",
       "norm_label": "sha256schema"
     },
     {
@@ -10036,8 +10036,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_base64urlschema",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "base64urlschema"
     },
     {
@@ -10047,8 +10047,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_slugschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "slugschema"
     },
     {
@@ -10080,8 +10080,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_semanticversionschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "semanticversionschema"
     },
     {
@@ -10091,8 +10091,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_buildidschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "buildidschema"
     },
     {
@@ -10146,8 +10146,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_jsonobjectschema",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "jsonobjectschema"
     },
     {
@@ -10169,7 +10169,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_actorrefschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "actorrefschema"
     },
     {
@@ -10179,8 +10179,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_common_signatureschema",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "signatureschema"
     },
     {
@@ -10223,7 +10223,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "export-schemas.ts"
     },
@@ -10234,7 +10234,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas_schemas",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "schemas"
     },
@@ -10245,7 +10245,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_export_schemas_schemadirectory",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "schemadirectory"
     },
@@ -10256,8 +10256,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "forge-build-request.ts"
     },
     {
@@ -10267,8 +10267,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_forgebuildrequestschema",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 114,
+      "community_name": "export-schemas.ts",
       "norm_label": "forgebuildrequestschema"
     },
     {
@@ -10278,8 +10278,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_forgebuildrequest",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "forgebuildrequest"
     },
     {
@@ -10289,8 +10289,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_forge_build_request_validateforgebuildrequest",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 25,
+      "community_name": "contracts/src/common.ts",
       "norm_label": "validateforgebuildrequest()"
     },
     {
@@ -10301,7 +10301,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_index",
       "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community_name": "launcher-state.ts",
       "norm_label": "contracts/src/index.ts"
     },
     {
@@ -10388,8 +10388,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_inventorysnapshotschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 91,
+      "community_name": "catalog-reconciliation.ts",
       "norm_label": "inventorysnapshotschema"
     },
     {
@@ -10477,7 +10477,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_normalizedpath",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "normalizedpath()"
     },
     {
@@ -10488,7 +10488,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_inventory_snapshot_validateinventorysnapshot",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validateinventorysnapshot()"
     },
     {
@@ -10498,8 +10498,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "job.ts"
     },
     {
@@ -10509,7 +10509,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_jobschema",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "jobschema"
     },
@@ -10520,8 +10520,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_job",
-      "community": 159,
-      "community_name": "audit-event.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "job"
     },
     {
@@ -10531,8 +10531,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_job_validatejob",
-      "community": 160,
-      "community_name": "semanticIssue",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "validatejob()"
     },
     {
@@ -10542,8 +10542,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "launcher-channel.ts"
     },
     {
@@ -10553,8 +10553,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_previouschannelrevisionschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "previouschannelrevisionschema"
     },
     {
@@ -10564,8 +10564,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_launcherchannelschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "launcherchannelschema"
     },
     {
@@ -10575,8 +10575,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_launcherchannel",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "launcherchannel"
     },
     {
@@ -10586,7 +10586,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_channel_validatelauncherchannel",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "validatelauncherchannel()"
     },
@@ -10597,8 +10597,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 123,
+      "community_name": "launcher-state.ts",
       "norm_label": "launcher-state.ts"
     },
     {
@@ -10608,8 +10608,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_launchermanagedstateschema",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 123,
+      "community_name": "launcher-state.ts",
       "norm_label": "launchermanagedstateschema"
     },
     {
@@ -10619,8 +10619,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_launchermanagedstate",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 123,
+      "community_name": "launcher-state.ts",
       "norm_label": "launchermanagedstate"
     },
     {
@@ -10630,8 +10630,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_normalizedpath",
-      "community": 160,
-      "community_name": "semanticIssue",
+      "community": 123,
+      "community_name": "launcher-state.ts",
       "norm_label": "normalizedpath()"
     },
     {
@@ -10641,8 +10641,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_launcher_state_validatelaunchermanagedstate",
-      "community": 160,
-      "community_name": "semanticIssue",
+      "community": 123,
+      "community_name": "launcher-state.ts",
       "norm_label": "validatelaunchermanagedstate()"
     },
     {
@@ -10653,7 +10653,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "minecraft-permission-binding.ts"
     },
     {
@@ -10664,7 +10664,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftgroupschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "minecraftgroupschema"
     },
     {
@@ -10675,7 +10675,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_permissionsynchronizationschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "permissionsynchronizationschema"
     },
     {
@@ -10686,7 +10686,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftpermissionbindingschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "minecraftpermissionbindingschema"
     },
     {
@@ -10697,7 +10697,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_minecraftpermissionbinding",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "minecraftpermissionbinding"
     },
     {
@@ -10707,8 +10707,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_minecraft_permission_binding_validateminecraftpermissionbinding",
-      "community": 160,
-      "community_name": "semanticIssue",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "validateminecraftpermissionbinding()"
     },
     {
@@ -10751,8 +10751,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_mod_catalog_entry_validatemodcatalogentry",
-      "community": 25,
-      "community_name": "contracts/src/common.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "validatemodcatalogentry()"
     },
     {
@@ -10774,7 +10774,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "moderation-case.ts"
     },
     {
@@ -10785,7 +10785,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationactionschema",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "moderationactionschema"
     },
     {
@@ -10796,7 +10796,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationtransitionschema",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "moderationtransitionschema"
     },
     {
@@ -10806,7 +10806,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationcaseschema",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "moderationcaseschema"
     },
@@ -10818,7 +10818,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationaction",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "moderationaction"
     },
     {
@@ -10829,7 +10829,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_moderationcase",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "moderationcase"
     },
     {
@@ -10840,7 +10840,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_moderation_case_validatemoderationcase",
       "community": 114,
-      "community_name": "moderation-case.ts",
+      "community_name": "export-schemas.ts",
       "norm_label": "validatemoderationcase()"
     },
     {
@@ -10851,7 +10851,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "player-data-policy.ts"
     },
     {
@@ -10862,7 +10862,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategoryschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "playerdatacategoryschema"
     },
     {
@@ -10873,7 +10873,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdataruleschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "playerdataruleschema"
     },
     {
@@ -10884,7 +10884,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicyschema",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "playerdatapolicyschema"
     },
     {
@@ -10895,7 +10895,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatacategory",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "playerdatacategory"
     },
     {
@@ -10906,7 +10906,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_playerdatapolicy",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "playerdatapolicy"
     },
     {
@@ -10917,7 +10917,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_categoryorder",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "categoryorder"
     },
     {
@@ -10928,7 +10928,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_data_policy_validateplayerdatapolicy",
       "community": 158,
-      "community_name": "export-schemas.ts",
+      "community_name": "player-data-policy.ts",
       "norm_label": "validateplayerdatapolicy()"
     },
     {
@@ -10938,8 +10938,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "player-profile.ts"
     },
     {
@@ -10949,8 +10949,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_minecraftaliasschema",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "minecraftaliasschema"
     },
     {
@@ -10960,7 +10960,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_playerprofileschema",
-      "community": 158,
+      "community": 114,
       "community_name": "export-schemas.ts",
       "norm_label": "playerprofileschema"
     },
@@ -10971,8 +10971,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_minecraftalias",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 115,
+      "community_name": "player-governance/src/types.ts",
       "norm_label": "minecraftalias"
     },
     {
@@ -10982,8 +10982,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_playerprofile",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "playerprofile"
     },
     {
@@ -10993,8 +10993,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_normalizealias",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "normalizealias()"
     },
     {
@@ -11004,8 +11004,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_player_profile_validateplayerprofile",
-      "community": 123,
-      "community_name": "contracts/src/index.ts",
+      "community": 160,
+      "community_name": "appendSemanticIssues",
       "norm_label": "validateplayerprofile()"
     },
     {
@@ -11015,7 +11015,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "release-manifest.ts"
     },
@@ -11026,8 +11026,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_releasemanifestschema",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 138,
+      "community_name": "semanticIssue",
       "norm_label": "releasemanifestschema"
     },
     {
@@ -11037,7 +11037,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_releasemanifest",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "releasemanifest"
     },
@@ -11048,7 +11048,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_normalizedpath",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "normalizedpath()"
     },
@@ -11059,7 +11059,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatecanonicalpaths",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "validatecanonicalpaths()"
     },
@@ -11070,7 +11070,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_release_manifest_validatereleasemanifest",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "validatereleasemanifest()"
     },
@@ -11092,8 +11092,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_contractvalidationissue",
-      "community": 158,
-      "community_name": "export-schemas.ts",
+      "community": 169,
+      "community_name": "validateContract",
       "norm_label": "contractvalidationissue"
     },
     {
@@ -11103,8 +11103,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_contractvalidationresult",
-      "community": 169,
-      "community_name": "validateContract",
+      "community": 158,
+      "community_name": "player-data-policy.ts",
       "norm_label": "contractvalidationresult"
     },
     {
@@ -11191,7 +11191,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_semanticissue",
-      "community": 160,
+      "community": 138,
       "community_name": "semanticIssue",
       "norm_label": "semanticissue()"
     },
@@ -11203,7 +11203,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_src_validation_appendsemanticissues",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "appendsemanticissues()"
     },
     {
@@ -11214,7 +11214,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "contracts.test.ts"
     },
     {
@@ -11225,7 +11225,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_hasha",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "hasha"
     },
     {
@@ -11236,7 +11236,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_hashb",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "hashb"
     },
     {
@@ -11247,7 +11247,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_signature",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "signature"
     },
     {
@@ -11258,7 +11258,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validjob",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validjob()"
     },
     {
@@ -11269,7 +11269,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validcatalogentry",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validcatalogentry()"
     },
     {
@@ -11280,7 +11280,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validmanifest",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validmanifest()"
     },
     {
@@ -11291,7 +11291,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validinventorysnapshot",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validinventorysnapshot()"
     },
     {
@@ -11302,7 +11302,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_contracts_test_contracts_test_validreconciliationreport",
       "community": 160,
-      "community_name": "semanticIssue",
+      "community_name": "appendSemanticIssues",
       "norm_label": "validreconciliationreport()"
     },
     {
@@ -12083,7 +12083,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database.ts"
     },
     {
@@ -12094,7 +12094,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlresult",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "sqlresult"
     },
     {
@@ -12105,7 +12105,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "sqlclient"
     },
     {
@@ -12127,7 +12127,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_sqlclient_executescript",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": ".executescript()"
     },
     {
@@ -12137,7 +12137,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database",
-      "community": 38,
+      "community": 40,
       "community_name": "Database",
       "norm_label": "database"
     },
@@ -12148,7 +12148,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_transaction",
-      "community": 38,
+      "community": 40,
       "community_name": "Database",
       "norm_label": ".transaction()"
     },
@@ -12159,7 +12159,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_database_database_close",
-      "community": 38,
+      "community": 40,
       "community_name": "Database",
       "norm_label": ".close()"
     },
@@ -12248,7 +12248,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_index",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database/src/index.ts"
     },
     {
@@ -12259,7 +12259,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrations.ts"
     },
     {
@@ -12270,7 +12270,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationrow",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrationrow"
     },
     {
@@ -12281,7 +12281,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_migrationsdirectory",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "migrationsdirectory()"
     },
     {
@@ -12292,7 +12292,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_migrations_runmigrations",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "runmigrations()"
     },
     {
@@ -12457,7 +12457,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_sessionrepository",
       "community": 40,
-      "community_name": "SessionRepository",
+      "community_name": "Database",
       "norm_label": "sessionrepository"
     },
     {
@@ -12468,7 +12468,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_sessionrepository_constructor",
       "community": 40,
-      "community_name": "SessionRepository",
+      "community_name": "Database",
       "norm_label": ".constructor()"
     },
     {
@@ -12479,7 +12479,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_sessionrepository_create",
       "community": 40,
-      "community_name": "SessionRepository",
+      "community_name": "Database",
       "norm_label": ".create()"
     },
     {
@@ -12501,7 +12501,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_sessionrepository_touch",
       "community": 40,
-      "community_name": "SessionRepository",
+      "community_name": "Database",
       "norm_label": ".touch()"
     },
     {
@@ -12512,7 +12512,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_sessionrepository_revoke",
       "community": 40,
-      "community_name": "SessionRepository",
+      "community_name": "Database",
       "norm_label": ".revoke()"
     },
     {
@@ -12522,8 +12522,8 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository",
-      "community": 173,
-      "community_name": "PermissionRepository",
+      "community": 40,
+      "community_name": "Database",
       "norm_label": "permissionrepository"
     },
     {
@@ -12533,8 +12533,8 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository_constructor",
-      "community": 173,
-      "community_name": "PermissionRepository",
+      "community": 40,
+      "community_name": "Database",
       "norm_label": ".constructor()"
     },
     {
@@ -12544,8 +12544,8 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_permissionrepository_foruser",
-      "community": 173,
-      "community_name": "PermissionRepository",
+      "community": 40,
+      "community_name": "Database",
       "norm_label": ".foruser()"
     },
     {
@@ -12863,8 +12863,8 @@
       "source_location": "L738",
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_jobrepository_constructor",
-      "community": 51,
-      "community_name": "JobRepository",
+      "community": 40,
+      "community_name": "Database",
       "norm_label": ".constructor()"
     },
     {
@@ -12963,7 +12963,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_repositories_createrepositories",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "createrepositories()"
     },
     {
@@ -12974,7 +12974,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "testing.ts"
     },
     {
@@ -12985,7 +12985,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pglitequeryresult",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "pglitequeryresult"
     },
     {
@@ -12996,7 +12996,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_pgliteclient",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "pgliteclient()"
     },
     {
@@ -13007,7 +13007,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_src_testing_createpglitetestdatabase",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "createpglitetestdatabase()"
     },
     {
@@ -13018,7 +13018,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_database_test_database_test",
       "community": 38,
-      "community_name": "Database",
+      "community_name": "database.ts",
       "norm_label": "database.test.ts"
     },
     {
@@ -14216,7 +14216,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": "adapter.ts"
     },
@@ -14227,8 +14227,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_processobservation",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "processobservation"
     },
     {
@@ -14238,8 +14238,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "minecraftprocessadapter"
     },
     {
@@ -14249,8 +14249,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_inspect",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -14260,8 +14260,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_start",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".start()"
     },
     {
@@ -14271,8 +14271,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_requestgracefulstop",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -14282,8 +14282,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapter_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -14294,7 +14294,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsoleadapter"
     },
     {
@@ -14305,7 +14305,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_inspect",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -14316,7 +14316,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_readconsole",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": ".readconsole()"
     },
     {
@@ -14327,7 +14327,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftconsoleadapter_requestconsolecommand",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -14359,7 +14359,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_minecraftprocessadapteroptions",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": "minecraftprocessadapteroptions"
     },
@@ -14381,7 +14381,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_adapter_managedminecraftprocessadapter_constructor",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": ".constructor()"
     },
@@ -14547,7 +14547,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "console.ts"
     },
     {
@@ -14557,8 +14557,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolecommand"
     },
     {
@@ -14568,8 +14568,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraft_console_commands",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": "minecraft_console_commands"
     },
     {
@@ -14580,7 +14580,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_command_literals",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "command_literals"
     },
     {
@@ -14591,7 +14591,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsoleline",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsoleline"
     },
     {
@@ -14602,7 +14602,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolestreamsnapshot",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolestreamsnapshot"
     },
     {
@@ -14613,7 +14613,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolesnapshot",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolesnapshot"
     },
     {
@@ -14624,7 +14624,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolesnapshotoptions",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolesnapshotoptions"
     },
     {
@@ -14635,7 +14635,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommandreceipt",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolecommandreceipt"
     },
     {
@@ -14646,7 +14646,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_validateminecraftconsolecommand",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "validateminecraftconsolecommand()"
     },
     {
@@ -14657,7 +14657,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_minecraftconsolecommandliteral",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "minecraftconsolecommandliteral()"
     },
     {
@@ -14668,7 +14668,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_validateboundedinteger",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "validateboundedinteger()"
     },
     {
@@ -14679,7 +14679,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_sanitizeline",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "sanitizeline()"
     },
     {
@@ -14690,7 +14690,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_streamsnapshot",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "streamsnapshot()"
     },
     {
@@ -14701,7 +14701,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_console_createminecraftconsolesnapshot",
       "community": 88,
-      "community_name": "adapter.ts",
+      "community_name": "console.ts",
       "norm_label": "createminecraftconsolesnapshot()"
     },
     {
@@ -14810,8 +14810,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolrequesterror",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "processcontrolrequesterror"
     },
     {
@@ -14821,8 +14821,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_processcontrolrequesterror_constructor",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -14832,8 +14832,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_controller_minecraftprocesscontrolleroptions",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "minecraftprocesscontrolleroptions"
     },
     {
@@ -15075,7 +15075,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_index",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "minecraft-process/src/index.ts"
     },
     {
@@ -15085,8 +15085,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "launch-plan.ts"
     },
     {
@@ -15096,7 +15096,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_supportedhostplatform",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": "supportedhostplatform"
     },
@@ -15107,8 +15107,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_minecraftprocessconfig",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "minecraftprocessconfig"
     },
     {
@@ -15118,8 +15118,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_processlaunchplan",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "processlaunchplan"
     },
     {
@@ -15129,8 +15129,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_platformpath",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "platformpath()"
     },
     {
@@ -15140,8 +15140,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_assertplainvalue",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "assertplainvalue()"
     },
     {
@@ -15151,8 +15151,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_validateprocesslaunchplan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "validateprocesslaunchplan()"
     },
     {
@@ -15162,8 +15162,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_launch_plan_createminecraftprocessplan",
-      "community": 93,
-      "community_name": "controller.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "createminecraftprocessplan()"
     },
     {
@@ -15272,7 +15272,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_hostmetricssampler",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": "hostmetricssampler"
     },
@@ -15283,7 +15283,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_hostmetricssampler_sample",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": ".sample()"
     },
@@ -15294,7 +15294,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_nodehostmetricssampler",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": "nodehostmetricssampler"
     },
@@ -15305,7 +15305,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_metrics_nodehostmetricssampler_sample",
-      "community": 88,
+      "community": 101,
       "community_name": "adapter.ts",
       "norm_label": ".sample()"
     },
@@ -15449,7 +15449,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "node-runtime.ts"
     },
     {
@@ -15460,7 +15460,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_boundedbytebuffer",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "boundedbytebuffer"
     },
     {
@@ -15471,7 +15471,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_boundedbytebuffer_constructor",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -15482,7 +15482,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_boundedbytebuffer_append",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".append()"
     },
     {
@@ -15493,7 +15493,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_boundedbytebuffer_snapshot",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".snapshot()"
     },
     {
@@ -15503,8 +15503,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_minimalenvironment",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "minimalenvironment()"
     },
     {
@@ -15514,8 +15514,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": "nodespawnedprocess"
     },
     {
@@ -15525,8 +15525,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_constructor",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".constructor()"
     },
     {
@@ -15536,8 +15536,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_pid",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".pid()"
     },
     {
@@ -15547,8 +15547,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_getexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".getexit()"
     },
     {
@@ -15558,8 +15558,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".readoutput()"
     },
     {
@@ -15569,8 +15569,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_requestconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -15580,8 +15580,8 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_requestgracefulstop",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -15591,8 +15591,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_writeliteral",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".#writeliteral()"
     },
     {
@@ -15602,8 +15602,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodespawnedprocess_waitforexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": ".waitforexit()"
     },
     {
@@ -15614,7 +15614,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntimeoptions",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "nodeprocessruntimeoptions"
     },
     {
@@ -15624,8 +15624,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "nodeprocessruntime"
     },
     {
@@ -15635,8 +15635,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_constructor",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -15646,8 +15646,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_node_runtime_nodeprocessruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -15658,7 +15658,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "runtime.ts"
     },
     {
@@ -15668,8 +15668,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 173,
+      "community_name": "NodeSpawnedProcess",
       "norm_label": "processexit"
     },
     {
@@ -15680,7 +15680,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processoutputsnapshot",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "processoutputsnapshot"
     },
     {
@@ -15691,7 +15691,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": "spawnedprocess"
     },
     {
@@ -15702,7 +15702,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_getexit",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".getexit()"
     },
     {
@@ -15713,7 +15713,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_readoutput",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -15724,7 +15724,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_requestconsolecommand",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -15735,7 +15735,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_requestgracefulstop",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -15746,7 +15746,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_spawnedprocess_waitforexit",
       "community": 101,
-      "community_name": "node-runtime.ts",
+      "community_name": "adapter.ts",
       "norm_label": ".waitforexit()"
     },
     {
@@ -15756,8 +15756,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "processruntime"
     },
     {
@@ -15767,8 +15767,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_src_runtime_processruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -15943,8 +15943,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": "trackingruntime"
     },
     {
@@ -15954,8 +15954,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_constructor",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -15965,8 +15965,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_trackingruntime_spawn",
-      "community": 83,
-      "community_name": "minecraft-process.test.ts",
+      "community": 101,
+      "community_name": "adapter.ts",
       "norm_label": ".spawn()"
     },
     {
@@ -15998,8 +15998,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": "fakeminecraftprocessadapter"
     },
     {
@@ -16009,8 +16009,8 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_constructor",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -16020,8 +16020,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_inspect",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".inspect()"
     },
     {
@@ -16031,8 +16031,8 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_start",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".start()"
     },
     {
@@ -16042,8 +16042,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_requestgracefulstop",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -16053,8 +16053,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -16064,8 +16064,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_fakeminecraftprocessadapter_observation",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 93,
+      "community_name": "controller.ts",
       "norm_label": ".#observation()"
     },
     {
@@ -16086,8 +16086,8 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_waitforstate",
-      "community": 138,
-      "community_name": "ProcessObservation",
+      "community": 83,
+      "community_name": "minecraft-process.test.ts",
       "norm_label": "waitforstate()"
     },
     {
@@ -16108,8 +16108,8 @@
       "source_location": "L686",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": "commandtrackinghandle"
     },
     {
@@ -16119,8 +16119,8 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_getexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": ".getexit()"
     },
     {
@@ -16130,8 +16130,8 @@
       "source_location": "L694",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": ".readoutput()"
     },
     {
@@ -16141,8 +16141,8 @@
       "source_location": "L703",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestconsolecommand",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": ".requestconsolecommand()"
     },
     {
@@ -16152,8 +16152,8 @@
       "source_location": "L708",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_requestgracefulstop",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": ".requestgracefulstop()"
     },
     {
@@ -16163,8 +16163,8 @@
       "source_location": "L710",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_commandtrackinghandle_waitforexit",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 88,
+      "community_name": "console.ts",
       "norm_label": ".waitforexit()"
     },
     {
@@ -16196,8 +16196,8 @@
       "source_location": "L969",
       "_origin": "ast",
       "id": "plataforma_packages_minecraft_process_test_minecraft_process_test_neverexitinghandle_readoutput",
-      "community": 101,
-      "community_name": "node-runtime.ts",
+      "community": 135,
+      "community_name": "NeverExitingHandle",
       "norm_label": ".readoutput()"
     },
     {
@@ -18297,8 +18297,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_channel_signing_signlauncherchannel",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 149,
+      "community_name": "canonicalJsonBytes",
       "norm_label": "signlauncherchannel()"
     },
     {
@@ -19012,8 +19012,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_publishreleaseinput",
-      "community": 147,
-      "community_name": "modpack-release.test.ts",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "publishreleaseinput"
     },
     {
@@ -19133,8 +19133,8 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_channelrollbackplan",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 146,
+      "community_name": "modpack-release/src/types.ts",
       "norm_label": "channelrollbackplan"
     },
     {
@@ -19177,8 +19177,8 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror",
-      "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community": 147,
+      "community_name": "modpack-release.test.ts",
       "norm_label": "releaserepositoryerror"
     },
     {
@@ -19188,8 +19188,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror_constructor",
-      "community": 149,
-      "community_name": "canonicalJsonBytes",
+      "community": 147,
+      "community_name": "modpack-release.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -19232,8 +19232,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror",
-      "community": 145,
-      "community_name": "sanitization.ts",
+      "community": 149,
+      "community_name": "canonicalJsonBytes",
       "norm_label": "releasebuilderror"
     },
     {
@@ -19243,8 +19243,8 @@
       "source_location": "L241",
       "_origin": "ast",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror_constructor",
-      "community": 145,
-      "community_name": "sanitization.ts",
+      "community": 149,
+      "community_name": "canonicalJsonBytes",
       "norm_label": ".constructor()"
     },
     {
@@ -23049,8 +23049,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "server-configuration/src/manifest.ts"
     },
     {
@@ -23061,7 +23061,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifest",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "configurationrevisionmanifest"
     },
     {
@@ -23071,8 +23071,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_invalidmanifest",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "invalidmanifest()"
     },
     {
@@ -23082,8 +23082,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_exactkeys",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "exactkeys()"
     },
     {
@@ -23093,8 +23093,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_validatemanifestobject",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "validatemanifestobject()"
     },
     {
@@ -23104,8 +23104,8 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_canonicalobject",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "canonicalobject()"
     },
     {
@@ -23115,8 +23115,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_serializeconfigurationrevisionmanifest",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "serializeconfigurationrevisionmanifest()"
     },
     {
@@ -23126,8 +23126,8 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_parseconfigurationrevisionmanifest",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "parseconfigurationrevisionmanifest()"
     },
     {
@@ -23137,8 +23137,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifestsha256",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "configurationrevisionmanifestsha256()"
     },
     {
@@ -23292,7 +23292,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_properties_diffpropertiesdocuments",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "diffpropertiesdocuments()"
     },
     {
@@ -23302,7 +23302,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "server-configuration/src/service.ts"
     },
@@ -23313,7 +23313,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_repositorylayout",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "repositorylayout"
     },
@@ -23324,7 +23324,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_readplainfile",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "readplainfile"
     },
@@ -23336,7 +23336,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_mutationmaterial",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "mutationmaterial"
     },
     {
@@ -23346,7 +23346,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_commonmutationplan",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "commonmutationplan"
     },
@@ -23357,7 +23357,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_isnodeerror",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "isnodeerror()"
     },
@@ -23368,7 +23368,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_normalizecomparablepath",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "normalizecomparablepath()"
     },
@@ -23379,7 +23379,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_samepath",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "samepath()"
     },
@@ -23391,7 +23391,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_iswithin",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "iswithin()"
     },
     {
@@ -23402,7 +23402,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_sha256",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "sha256()"
     },
     {
@@ -23412,7 +23412,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_pathexists",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "pathexists()"
     },
@@ -23424,7 +23424,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_rejectlinkedpathcomponents",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "rejectlinkedpathcomponents()"
     },
     {
@@ -23435,7 +23435,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_requireplaindirectory",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "requireplaindirectory()"
     },
     {
@@ -23446,7 +23446,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_readboundedplainfile",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "readboundedplainfile()"
     },
     {
@@ -23478,7 +23478,7 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_acquirelock",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "acquirelock()"
     },
@@ -23490,7 +23490,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_releaselock",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "releaselock()"
     },
     {
@@ -23501,7 +23501,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_cleanpartial",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "cleanpartial()"
     },
     {
@@ -23512,7 +23512,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_cleantemporary",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "cleantemporary()"
     },
     {
@@ -23523,7 +23523,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_writedurableexclusive",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "writedurableexclusive()"
     },
     {
@@ -23534,7 +23534,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_validatelease",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "validatelease()"
     },
     {
@@ -23545,7 +23545,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "filesystemconfigurationservice"
     },
     {
@@ -23555,7 +23555,7 @@
       "source_location": "L330",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_constructor",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": ".constructor()"
     },
@@ -23578,7 +23578,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_rollbackconfiguration",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".rollbackconfiguration()"
     },
     {
@@ -23589,7 +23589,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_resource",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#resource()"
     },
     {
@@ -23600,7 +23600,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_withguard",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#withguard()"
     },
     {
@@ -23611,7 +23611,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_preparelayout",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#preparelayout()"
     },
     {
@@ -23622,7 +23622,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_mutate",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#mutate()"
     },
     {
@@ -23633,7 +23633,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_replacewithrecovery",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#replacewithrecovery()"
     },
     {
@@ -23644,7 +23644,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_verifyrevisiondirectory",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#verifyrevisiondirectory()"
     },
     {
@@ -23655,7 +23655,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_service_filesystemconfigurationservice_readrevision",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": ".#readrevision()"
     },
     {
@@ -23677,7 +23677,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_format",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "voidfall_configuration_revision_format"
     },
     {
@@ -23688,7 +23688,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_schema_version",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "voidfall_configuration_revision_schema_version"
     },
     {
@@ -23699,7 +23699,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_java_properties_v1",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "java_properties_v1"
     },
     {
@@ -23787,7 +23787,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationresourcedefinition",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "configurationresourcedefinition"
     },
     {
@@ -23809,7 +23809,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_rollbackconfigurationplan",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "rollbackconfigurationplan"
     },
     {
@@ -23886,7 +23886,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationoperation",
       "community": 103,
-      "community_name": "server-configuration/src/service.ts",
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "configurationoperation"
     },
     {
@@ -23897,7 +23897,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_configurationmutationreceipt",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "configurationmutationreceipt"
     },
     {
@@ -23962,7 +23962,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_types_filesystemconfigurationserviceoptions",
-      "community": 103,
+      "community": 102,
       "community_name": "server-configuration/src/service.ts",
       "norm_label": "filesystemconfigurationserviceoptions"
     },
@@ -24040,7 +24040,7 @@
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_validation_canonicaltimestamp",
       "community": 102,
-      "community_name": ".#mutate",
+      "community_name": "server-configuration/src/service.ts",
       "norm_label": "canonicaltimestamp()"
     },
     {
@@ -24050,8 +24050,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "plataforma_packages_server_configuration_src_validation_parsecanonicaltimestamp",
-      "community": 100,
-      "community_name": "server-configuration/src/validation.ts",
+      "community": 103,
+      "community_name": "server-configuration/src/manifest.ts",
       "norm_label": "parsecanonicaltimestamp()"
     },
     {
@@ -26706,6 +26706,567 @@
       "norm_label": "consequencias"
     },
     {
+      "label": "FINAL_IMPLEMENTATION_PLAN.md",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "final_implementation_plan.md"
+    },
+    {
+      "label": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "plano de implementacao das fases finais"
+    },
+    {
+      "label": "Como usar este plano",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_como_usar_este_plano",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "como usar este plano"
+    },
+    {
+      "label": "Linha de base",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_linha_de_base",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "linha de base"
+    },
+    {
+      "label": "Defini\u00e7\u00e3o de projeto conclu\u00eddo",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "definicao de projeto concluido"
+    },
+    {
+      "label": "Vis\u00e3o das fases finais",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "visao das fases finais"
+    },
+    {
+      "label": "Gates transversais",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gates transversais"
+    },
+    {
+      "label": "Gate G1 \u2014 dados e privacidade",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gate g1 \u2014 dados e privacidade"
+    },
+    {
+      "label": "Gate G2 \u2014 efeitos externos",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gate g2 \u2014 efeitos externos"
+    },
+    {
+      "label": "Gate G3 \u2014 runtime Minecraft",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L80",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gate g3 \u2014 runtime minecraft"
+    },
+    {
+      "label": "Gate G4 \u2014 distribui\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gate g4 \u2014 distribuicao"
+    },
+    {
+      "label": "Gate G5 \u2014 qualidade",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L92",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_gate_g5_qualidade",
+      "community": 194,
+      "community_name": "Gates transversais",
+      "norm_label": "gate g5 \u2014 qualidade"
+    },
+    {
+      "label": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L101",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "community": 197,
+      "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "norm_label": "fase 7 \u2014 configuracoes verificaveis"
+    },
+    {
+      "label": "7.0 \u2014 corrigir a base de compatibilidade usada pelo painel",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel",
+      "community": 197,
+      "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "norm_label": "7.0 \u2014 corrigir a base de compatibilidade usada pelo painel"
+    },
+    {
+      "label": "7.1 \u2014 registrar a decis\u00e3o do primeiro schema",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema",
+      "community": 197,
+      "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "norm_label": "7.1 \u2014 registrar a decisao do primeiro schema"
+    },
+    {
+      "label": "7.2 \u2014 persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o",
+      "community": 197,
+      "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "norm_label": "7.2 \u2014 persistencia e operacao de configuracao"
+    },
+    {
+      "label": "7.3 \u2014 API, agente e painel",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L150",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel",
+      "community": 197,
+      "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
+      "norm_label": "7.3 \u2014 api, agente e painel"
+    },
+    {
+      "label": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L177",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "community": 198,
+      "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "norm_label": "fase 8 \u2014 entrada adaptativa de mods e incompatibilidades"
+    },
+    {
+      "label": "8.1 \u2014 inspe\u00e7\u00e3o segura de artefato",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L181",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato",
+      "community": 198,
+      "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "norm_label": "8.1 \u2014 inspecao segura de artefato"
+    },
+    {
+      "label": "8.2 \u2014 motor de compatibilidade",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L190",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade",
+      "community": 198,
+      "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "norm_label": "8.2 \u2014 motor de compatibilidade"
+    },
+    {
+      "label": "8.3 \u2014 persist\u00eancia, API e revis\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o",
+      "community": 198,
+      "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "norm_label": "8.3 \u2014 persistencia, api e revisao"
+    },
+    {
+      "label": "8.4 \u2014 experi\u00eancia do painel",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L224",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel",
+      "community": 198,
+      "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "norm_label": "8.4 \u2014 experiencia do painel"
+    },
+    {
+      "label": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L250",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
+      "community": 200,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
+      "norm_label": "fase 9 \u2014 nucleo operacional e painel funcional minimo"
+    },
+    {
+      "label": "9.1 \u2014 contratos operacionais e persist\u00eancia",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L254",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia",
+      "community": 200,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
+      "norm_label": "9.1 \u2014 contratos operacionais e persistencia"
+    },
+    {
+      "label": "9.2 \u2014 transporte real Control API \u2194 Server Agent",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L262",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent",
+      "community": 200,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
+      "norm_label": "9.2 \u2014 transporte real control api \u2194 server agent"
+    },
+    {
+      "label": "9.3 \u2014 painel din\u00e2mico",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L271",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico",
+      "community": 200,
+      "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
+      "norm_label": "9.3 \u2014 painel dinamico"
+    },
+    {
+      "label": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L289",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "fase 10 \u2014 operacoes completas do servidor"
+    },
+    {
+      "label": "10.1 \u2014 processo e console",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L293",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_10_1_processo_e_console",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "10.1 \u2014 processo e console"
+    },
+    {
+      "label": "10.2 \u2014 arquivos e configura\u00e7\u00f5es",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L301",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "10.2 \u2014 arquivos e configuracoes"
+    },
+    {
+      "label": "10.3 \u2014 backups e restore",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L309",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "10.3 \u2014 backups e restore"
+    },
+    {
+      "label": "10.4 \u2014 m\u00e9tricas, logs e alertas",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L317",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "10.4 \u2014 metricas, logs e alertas"
+    },
+    {
+      "label": "10.5 \u2014 agendamentos",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L326",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_10_5_agendamentos",
+      "community": 192,
+      "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
+      "norm_label": "10.5 \u2014 agendamentos"
+    },
+    {
+      "label": "Fase 11 \u2014 jogadores, permiss\u00f5es e modera\u00e7\u00e3o reais",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L341",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "fase 11 \u2014 jogadores, permissoes e moderacao reais"
+    },
+    {
+      "label": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L364",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "community": 195,
+      "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "norm_label": "fase 12 \u2014 release, launcher e forge bridge"
+    },
+    {
+      "label": "12.1 \u2014 cat\u00e1logo e build de produ\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L368",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o",
+      "community": 195,
+      "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "norm_label": "12.1 \u2014 catalogo e build de producao"
+    },
+    {
+      "label": "12.2 \u2014 assinatura, canais e launcher",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L377",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher",
+      "community": 195,
+      "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "norm_label": "12.2 \u2014 assinatura, canais e launcher"
+    },
+    {
+      "label": "12.3 \u2014 Forge Bridge e `/atualizar-modpack`",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L387",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack",
+      "community": 195,
+      "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "norm_label": "12.3 \u2014 forge bridge e `/atualizar-modpack`"
+    },
+    {
+      "label": "12.4 \u2014 certifica\u00e7\u00e3o da release",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L396",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release",
+      "community": 195,
+      "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
+      "norm_label": "12.4 \u2014 certificacao da release"
+    },
+    {
+      "label": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L414",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "community": 196,
+      "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "norm_label": "fase 13 \u2014 producao, seguranca e encerramento"
+    },
+    {
+      "label": "13.1 \u2014 decis\u00f5es finais obrigat\u00f3rias",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L418",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias",
+      "community": 196,
+      "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "norm_label": "13.1 \u2014 decisoes finais obrigatorias"
+    },
+    {
+      "label": "13.2 \u2014 implanta\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L428",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o",
+      "community": 196,
+      "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "norm_label": "13.2 \u2014 implantacao"
+    },
+    {
+      "label": "13.3 \u2014 seguran\u00e7a e resili\u00eancia",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L438",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia",
+      "community": 196,
+      "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "norm_label": "13.3 \u2014 seguranca e resiliencia"
+    },
+    {
+      "label": "13.4 \u2014 aceite final",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L449",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_13_4_aceite_final",
+      "community": 196,
+      "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
+      "norm_label": "13.4 \u2014 aceite final"
+    },
+    {
+      "label": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L467",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "protocolo de execucao no terminal"
+    },
+    {
+      "label": "In\u00edcio de uma sess\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L469",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "inicio de uma sessao"
+    },
+    {
+      "label": "Baseline antes de uma fase",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L481",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "baseline antes de uma fase"
+    },
+    {
+      "label": "Ciclo de cada fatia",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L492",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "ciclo de cada fatia"
+    },
+    {
+      "label": "Comandos de valida\u00e7\u00e3o por escopo",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L505",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "comandos de validacao por escopo"
+    },
+    {
+      "label": "Divis\u00e3o obrigat\u00f3ria de commits",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L527",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits",
+      "community": 193,
+      "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
+      "norm_label": "divisao obrigatoria de commits"
+    },
+    {
+      "label": "Primeira sequ\u00eancia recomendada",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L541",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "primeira sequencia recomendada"
+    },
+    {
+      "label": "Sa\u00edda esperada de cada sess\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L555",
+      "_origin": "ast",
+      "id": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o",
+      "community": 191,
+      "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
+      "norm_label": "saida esperada de cada sessao"
+    },
+    {
       "label": "PHASE_2_VALIDATION.md",
       "file_type": "document",
       "source_file": "docs/plataforma/PHASE_2_VALIDATION.md",
@@ -28705,6 +29266,61 @@
       "id": "graphify_out_memory_query_20260804_052201_antes_de_ir_para_fase_7_vamos_executar_essa_audito_source_nodes",
       "community": 190,
       "community_name": "Q: antes de ir para fase 7 vamos executar essa auditoria do modpack",
+      "norm_label": "source nodes"
+    },
+    {
+      "label": "query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame",
+      "community": 199,
+      "community_name": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
+      "norm_label": "query_20260804_161903_ai_faca_uma_documentacao_e_salva_como_um_planejame.md"
+    },
+    {
+      "label": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_q_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejamento_para_executar_porque_agora_eu_vou_come\u00e7ar_a_usar_o_terminal_pra_codar",
+      "community": 199,
+      "community_name": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
+      "norm_label": "q: ai faca uma documentacao e salva como um planejamento para executar, porque agora eu vou comecar a usar o terminal pra codar."
+    },
+    {
+      "label": "Answer",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_answer",
+      "community": 199,
+      "community_name": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
+      "norm_label": "answer"
+    },
+    {
+      "label": "Outcome",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_outcome",
+      "community": 199,
+      "community_name": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
+      "norm_label": "outcome"
+    },
+    {
+      "label": "Source Nodes",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_source_nodes",
+      "community": 199,
+      "community_name": "Q: A\u00ed fa\u00e7a uma documenta\u00e7\u00e3o e salva como um planejamento para executar, porque agora eu vou come\u00e7ar a usar o terminal pra codar.",
       "norm_label": "source nodes"
     },
     {
@@ -78634,6 +79250,556 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan",
+      "target": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_como_usar_este_plano",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L289",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L341",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L414",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L177",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L250",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_linha_de_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L541",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L467",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L555",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
+      "target": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "target": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "target": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "target": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "target": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_gates_transversais",
+      "target": "docs_plataforma_final_implementation_plan_gate_g5_qualidade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "target": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "target": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "target": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
+      "target": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L181",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "target": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "target": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L215",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "target": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L224",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
+      "target": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L254",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
+      "target": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L262",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
+      "target": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L271",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
+      "target": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L293",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "target": "docs_plataforma_final_implementation_plan_10_1_processo_e_console",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L301",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "target": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L309",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "target": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L317",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "target": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L326",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
+      "target": "docs_plataforma_final_implementation_plan_10_5_agendamentos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L368",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "target": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L377",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "target": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L387",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "target": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L396",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
+      "target": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L418",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "target": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L428",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "target": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L438",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "target": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L449",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
+      "target": "docs_plataforma_final_implementation_plan_13_4_aceite_final",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L481",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "target": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L492",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "target": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L505",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "target": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L527",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "target": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
+      "source_location": "L469",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
+      "target": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/PHASE_2_VALIDATION.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -80416,6 +81582,50 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame",
+      "target": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_q_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejamento_para_executar_porque_agora_eu_vou_come\u00e7ar_a_usar_o_terminal_pra_codar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_q_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejamento_para_executar_porque_agora_eu_vou_come\u00e7ar_a_usar_o_terminal_pra_codar",
+      "target": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_answer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_q_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejamento_para_executar_porque_agora_eu_vou_come\u00e7ar_a_usar_o_terminal_pra_codar",
+      "target": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_outcome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_q_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejamento_para_executar_porque_agora_eu_vou_come\u00e7ar_a_usar_o_terminal_pra_codar",
+      "target": "graphify_out_memory_query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame_source_nodes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tools/modpack/README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -81496,5 +82706,5 @@
       "source_file": "Servidor/AGENTS.md"
     }
   ],
-  "built_at_commit": "a6ad202605b22da65fa6e77c5af533a88bc06a97"
+  "built_at_commit": "89fa9d918ef8203a9cbfc6b8f5c43e5e9cd18756"
 }
