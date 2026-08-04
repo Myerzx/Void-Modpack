@@ -60,6 +60,7 @@ Aplicação e rollback do OpenLoader foram comprovados em diretório temporário
 - gate completo local: 194 testes descobertos, 192 executados no Windows e dois sockets Unix ignorados; todos os builds/typechecks, Java 17, Forge Bridge e painel estático aprovados;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - validação documental: 299 componentes, 298 artefatos, 1.363 conexões, nenhuma dependência ausente e 26 arquivos públicos do servidor aprovados;
+- Graphify: 3.003 nós e 5.098 arestas; nenhum endpoint ausente/pendente, duplicata ou colapso. O diagnóstico reporta duas autociclagens SQL: a autorreferência intencional de `configuration_revisions.source_revision_id` e uma relação atribuída pelo extrator à própria declaração de `configuration_resources`;
 - matriz Windows/Linux pendente de execução após o push.
 
 ## Próximo recorte

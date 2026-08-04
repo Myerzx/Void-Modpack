@@ -158,6 +158,7 @@
 - gate completo local da Fase 7.2 aprovado: 194 testes descobertos, 192 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - validação documental da Fase 7.2: 299 componentes, 298 artefatos, 1.363 conexões, zero dependências ausentes e 26 arquivos públicos do servidor aprovados;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
+- Graphify da Fase 7.2: 3.003 nós, 5.098 arestas, sem endpoints ausentes/pendentes, duplicatas ou colapsos; duas autociclagens SQL permanecem visíveis, uma pela FK autorreferente de revisão/rollback e outra pela atribuição do extrator à declaração de `configuration_resources`;
 - Fase 7.1: `@voidfall/configuration-schemas` passou build, typecheck e 13 casos; os 5 casos OpenLoader fixam identidade, round-trip, restart, limite e rejeições;
 - gate completo local da Fase 7.1 aprovado: 190 casos descobertos, 188 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - regressões Python da Fase 7.1: 3 casos aprovados; validador confirmou um único schema selecionado, path exato, SHA-256, campos, limite e proibição de path fornecido pelo usuário;
@@ -246,6 +247,7 @@
 - política exata, base/finalidade, prazos e responsáveis por atividade/chat/coordenadas continuam P1; nenhum dado foi coletado;
 - cadeia SHA-256 detecta alteração interna, mas ainda não possui assinatura/âncora externa, storage imutável, criptografia, retenção ou cerimônia de export;
 - `AuditRepository` limita verificação/export a 100.000 registros por operação e ainda não possui paginação/âncora incremental para partições maiores;
+- o diagnóstico Graphify registra duas autociclagens `references` na migration 0004; uma representa a FK autorreferente legítima de rollback e a outra é limitação observada do extrator SQL, não uma dependência operacional inventada;
 
 ## Próximo recorte recomendado
 
