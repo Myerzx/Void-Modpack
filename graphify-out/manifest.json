@@ -70,8 +70,8 @@
     "semantic_hash": "8a826859f2b66291f24d0bcebf16cc9e"
   },
   "README.md": {
-    "mtime": 1785790203.8356206,
-    "ast_hash": "9c1fb0783b34ab275773fe8dd7192a68",
+    "mtime": 1785820411.3857162,
+    "ast_hash": "c1e6f99a70a19b377c9aec3cceedc033",
     "semantic_hash": ""
   },
   "Servidor/README.md": {
@@ -90,9 +90,9 @@
     "semantic_hash": "e37c38e0d1bcf33d49c8fd2c70fcdd6b"
   },
   "docs/launcher/README.md": {
-    "mtime": 1785719202.153458,
-    "ast_hash": "7dbd4f3a425a637ddda3588aab60000f",
-    "semantic_hash": "7dbd4f3a425a637ddda3588aab60000f"
+    "mtime": 1785820411.3872945,
+    "ast_hash": "317bbf5ca24a117251c481445ead407f",
+    "semantic_hash": ""
   },
   "docs/launcher/arquitetura.md": {
     "mtime": 1785719202.154472,
@@ -180,9 +180,9 @@
     "semantic_hash": "b5b3492310af31e7f5e618bc6d25bc10"
   },
   "docs/servidor/README.md": {
-    "mtime": 1785728844.7450156,
-    "ast_hash": "76d39cefd6293e0f07778648ef086d8d",
-    "semantic_hash": "76d39cefd6293e0f07778648ef086d8d"
+    "mtime": 1785820411.3872945,
+    "ast_hash": "9d76c18a0189f9b85e5d2bfc458a1ecb",
+    "semantic_hash": ""
   },
   "docs/servidor/arquitetura.md": {
     "mtime": 1785728844.7450156,
@@ -220,8 +220,8 @@
     "semantic_hash": "cf4b885a4847f11b53112c26b8952324"
   },
   "Plataforma/AGENTS.md": {
-    "mtime": 1785800140.4322953,
-    "ast_hash": "57b615d79fc354ae43a6a668ac7c388f",
+    "mtime": 1785820459.4077318,
+    "ast_hash": "7827eeebe96769b978cdbbbd18b12f03",
     "semantic_hash": ""
   },
   "Plataforma/README.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785800140.4353125,
-    "ast_hash": "f8e36da54bf27ad4b87b90eb2cb3666b",
+    "mtime": 1785820427.730752,
+    "ast_hash": "cee213235fc37eb71fdb4f4457da85e8",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785800140.433801,
-    "ast_hash": "2cefe9245908ecd5ed77c46fbc73f966",
+    "mtime": 1785820427.7292435,
+    "ast_hash": "9a332ec369a1d0e2add44508f36e71f9",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -660,8 +660,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next-env.d.ts": {
-    "mtime": 1785799625.4749656,
-    "ast_hash": "046e52b4b128f4cbfaba8f9820b3bd7a",
+    "mtime": 1785820653.9126184,
+    "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/next.config.ts": {
@@ -750,8 +750,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/platform-ci.yml": {
-    "mtime": 1785768660.4893422,
-    "ast_hash": "b052753833da59755eef0bfc654e2caa",
+    "mtime": 1785820459.4077318,
+    "ast_hash": "605b876a309444d5dd6766758eb6a9de",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_3_PROCESS_ADAPTERS.md": {
@@ -1472,6 +1472,1656 @@
   "graphify-out/memory/query_20260803_233041_como_a_fase_6_completa_separa_identidade_uuid__per.md": {
     "mtime": 1785799841.9726915,
     "ast_hash": "4bd1393b0543a94f9bc95ed8c2c254b5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/compatibilidade.json": {
+    "mtime": 1785820740.68196,
+    "ast_hash": "ea862d0b4c0bb73f301dc6fff0e5fe97",
+    "semantic_hash": ""
+  },
+  "docs/modpack/conexoes.json": {
+    "mtime": 1785820740.6744163,
+    "ast_hash": "91a5d21096c57d057885adfdde7f4e17",
+    "semantic_hash": ""
+  },
+  "docs/modpack/configuracoes.json": {
+    "mtime": 1785820740.6910655,
+    "ast_hash": "df6377163f600e70746ab6e627c1da02",
+    "semantic_hash": ""
+  },
+  "docs/modpack/dependencias.json": {
+    "mtime": 1785820740.665299,
+    "ast_hash": "57883a7601b9c938506d7a51a1db6c04",
+    "semantic_hash": ""
+  },
+  "docs/modpack/inventario.json": {
+    "mtime": 1785820740.6547184,
+    "ast_hash": "31988f3163f611beb9164addbd4e8f44",
+    "semantic_hash": ""
+  },
+  "docs/modpack/performance.json": {
+    "mtime": 1785820740.6895561,
+    "ast_hash": "0c988fca82906465ba6f87b667b63611",
+    "semantic_hash": ""
+  },
+  "docs/modpack/relatorio-final.json": {
+    "mtime": 1785820740.914392,
+    "ast_hash": "94c49ece8115270d93db3d983e8fde19",
+    "semantic_hash": ""
+  },
+  "docs/modpack/remocoes.json": {
+    "mtime": 1785820740.688049,
+    "ast_hash": "9cf186a7dacad81c5a503358d89dbf25",
+    "semantic_hash": ""
+  },
+  "docs/modpack/resumo.json": {
+    "mtime": 1785820740.6350484,
+    "ast_hash": "cc8f1b6e8cf35d169421ff3231906700",
+    "semantic_hash": ""
+  },
+  "docs/modpack/riscos.json": {
+    "mtime": 1785820740.6834693,
+    "ast_hash": "9781b076f47d3e92c87f4e39e2593212",
+    "semantic_hash": ""
+  },
+  "tools/modpack/generate_modpack_docs.py": {
+    "mtime": 1785820716.909871,
+    "ast_hash": "15bb2e15386f9ab6b7b90465199067c4",
+    "semantic_hash": ""
+  },
+  "tools/modpack/validate_modpack_docs.py": {
+    "mtime": 1785820316.1470485,
+    "ast_hash": "ed4ef62d41ec4fda8db7bd8fd0dfee8d",
+    "semantic_hash": ""
+  },
+  "tools/modpack/verified_sources.json": {
+    "mtime": 1785820016.2048993,
+    "ast_hash": "aba729f8c98c96df44e283b446dda60a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/armazenamento.md": {
+    "mtime": 1785820740.879621,
+    "ast_hash": "66048338998ae7087ad18dcb551b7010",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/automacao.md": {
+    "mtime": 1785820740.879621,
+    "ast_hash": "ecb9d6ca0be978c47fe20b2e89a8ecd0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/bibliotecas.md": {
+    "mtime": 1785820740.8755934,
+    "ast_hash": "aca625d27bfdd85290c06592ad12c020",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/cliente.md": {
+    "mtime": 1785820740.8770995,
+    "ast_hash": "f611639cad504aa73e3cc803cd71c2eb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/combate.md": {
+    "mtime": 1785820740.879621,
+    "ast_hash": "bb098995b0382a348d6bcfeba661c087",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/magia.md": {
+    "mtime": 1785820740.8770995,
+    "ast_hash": "195a16390768ff9e333fdfa23bd04d62",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/mundo.md": {
+    "mtime": 1785820740.8770995,
+    "ast_hash": "db2a2bb1fbbbb3414ae36c2b28e1e91e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/otimizacao.md": {
+    "mtime": 1785820740.8791146,
+    "ast_hash": "6bfcf025186a3e2459ce0a43190d677f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/outros.md": {
+    "mtime": 1785820740.8811269,
+    "ast_hash": "8a47f180ed22f31bf0802b018918711e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/progressao.md": {
+    "mtime": 1785820740.879621,
+    "ast_hash": "d40d8884d7832b1a1ba2d4e854ddf848",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/rede.md": {
+    "mtime": 1785820740.8811269,
+    "ast_hash": "46ef092754f57231b74b22a536547d06",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/scripts.md": {
+    "mtime": 1785820740.8811269,
+    "ast_hash": "667c62eef9e7e4c6dc6fb3de2aa4f4a7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/servidor.md": {
+    "mtime": 1785820740.8786068,
+    "ast_hash": "8e4dbe3ca6549c0cf8e3850b3b6ef124",
+    "semantic_hash": ""
+  },
+  "docs/modpack/categorias/tecnologia.md": {
+    "mtime": 1785820740.8755934,
+    "ast_hash": "571f6d05a837c7c37e7c492e8d7e6704",
+    "semantic_hash": ""
+  },
+  "docs/modpack/graficos/arvore-dependencias.txt": {
+    "mtime": 1785820740.8856494,
+    "ast_hash": "b3399ccfa6c344ab16c84c85eb946aa2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/index.md": {
+    "mtime": 1785820740.8871574,
+    "ast_hash": "a5c2abde63a065746ddc481f434b3414",
+    "semantic_hash": ""
+  },
+  "docs/modpack/metodologia.md": {
+    "mtime": 1785820740.8871574,
+    "ast_hash": "b0f76fb64cd5058830dbf0d2ee506d4b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aaa_particles.yaml": {
+    "mtime": 1785820740.6910655,
+    "ast_hash": "d53fa1c207394a923e8870a89a9be1e0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aaa_particles_world.yaml": {
+    "mtime": 1785820740.6925776,
+    "ast_hash": "b5f26671fb2cf8eb0a60a13bbb635466",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/acceleratedrendering.yaml": {
+    "mtime": 1785820740.6925776,
+    "ast_hash": "a45edf4b569af1be4353cc0d800f7154",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/additionalentityattributes.yaml": {
+    "mtime": 1785820740.6940916,
+    "ast_hash": "cf0f8016849679b47ed55305fae44561",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aether.yaml": {
+    "mtime": 1785820740.6940916,
+    "ast_hash": "1e66f7817f665dae16f60c4b91425780",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ageingspawners.yaml": {
+    "mtime": 1785820740.6940916,
+    "ast_hash": "3b6387f2fca90d65a982ac3dcb5208b2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/alexsmobs.yaml": {
+    "mtime": 1785820740.6956,
+    "ast_hash": "e52971b2c35b92e96d7a38f716f1211b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ancient_obelisks.yaml": {
+    "mtime": 1785820740.6956,
+    "ast_hash": "42fc01ce54e7b6728f718fdb25acdeeb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/antibonemeal.yaml": {
+    "mtime": 1785820740.6956,
+    "ast_hash": "042e6dc039d3e8d4c937c039219f52b6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/apoli.yaml": {
+    "mtime": 1785820740.6971085,
+    "ast_hash": "f3fc21488e5585a1ec3e01dec0a63582",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aquaculture.yaml": {
+    "mtime": 1785820740.6971085,
+    "ast_hash": "fb0e547dcc421d9d9084aeb40c5248c0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aquaculturedelight.yaml": {
+    "mtime": 1785820740.6986196,
+    "ast_hash": "38d5c6a5939e5e2ca83268281ac1c4a2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/aquamirae.yaml": {
+    "mtime": 1785820740.6986196,
+    "ast_hash": "a53523bea955059c7d745c6d624f2de1",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/architectury.yaml": {
+    "mtime": 1785820740.6986196,
+    "ast_hash": "f0ea51b8ca2fff322dce63e3a12eaa7f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/armoroftheages.yaml": {
+    "mtime": 1785820740.700128,
+    "ast_hash": "4bef484f294d5cb91db83147c7abdd67",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/armourers_workshop.yaml": {
+    "mtime": 1785820740.700128,
+    "ast_hash": "1567eac3c3accf7f02378f1b8d8d4782",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/artifacts.yaml": {
+    "mtime": 1785820740.700128,
+    "ast_hash": "7e2d1fe5771be70a51f8828569c81e6a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ash_of_sin_better_ai.yaml": {
+    "mtime": 1785820740.7016354,
+    "ast_hash": "0fd28c77daad5faba5431550684a1785",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ash_of_sin_custom_anti_seat_entity.yaml": {
+    "mtime": 1785820740.7016354,
+    "ast_hash": "207f292198ce11790940051d4c772276",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ash_of_sin_no_more_invalid_statistic.yaml": {
+    "mtime": 1785820740.7016354,
+    "ast_hash": "9d5d9d88d24c5f637abce98a6c595bfe",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ash_of_sin_soul_like_boss_battle.yaml": {
+    "mtime": 1785820740.7031832,
+    "ast_hash": "b3267f72735be6224e119569def95949",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/athena.yaml": {
+    "mtime": 1785820740.7031832,
+    "ast_hash": "d903186b4fc4209e4834b233191533b9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/atistructures.yaml": {
+    "mtime": 1785820740.704692,
+    "ast_hash": "b9d6ad6d65e021b6008acfdd92ffc827",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/attributefix.yaml": {
+    "mtime": 1785820740.704692,
+    "ast_hash": "24db73eef3d3197584931a7f2850d492",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/attributeslib.yaml": {
+    "mtime": 1785820740.704692,
+    "ast_hash": "42fc58a5f458d9724d96292e030208ee",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ba_bt.yaml": {
+    "mtime": 1785820740.7062001,
+    "ast_hash": "63bff926652d6d1ac9fec04a0d4ae9b2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/badmobs.yaml": {
+    "mtime": 1785820740.7062001,
+    "ast_hash": "8ba595dc66a481380240c83edfab4c3e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/balm.yaml": {
+    "mtime": 1785820740.7077067,
+    "ast_hash": "a4e5c53f3ff7ee0041d50444489b5738",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/beb.yaml": {
+    "mtime": 1785820740.7077067,
+    "ast_hash": "2cb11160ad009227d9d27c9b25616530",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/better_structure_block.yaml": {
+    "mtime": 1785820740.7077067,
+    "ast_hash": "cc323b7856cacaded9061ac546d91215",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/better_trident_model.yaml": {
+    "mtime": 1785820740.709213,
+    "ast_hash": "3c0e879fc2f628519ac29fac5f71f5a0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/betterendcities.yaml": {
+    "mtime": 1785820740.709213,
+    "ast_hash": "5491a42dbd0ea5e702f29f0e6a97514f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/betterendisland.yaml": {
+    "mtime": 1785820740.709213,
+    "ast_hash": "80ac933c365809b5d88d4eb3a68a85b6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/betterlockon.yaml": {
+    "mtime": 1785820740.7107234,
+    "ast_hash": "f758799705b5a4a016ee83c43d2a73cd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/beyonddimensions.yaml": {
+    "mtime": 1785820740.7107234,
+    "ast_hash": "eae3a043c7e522eb1f56b3c7ce8450e7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/biomesoplenty.yaml": {
+    "mtime": 1785820740.7122319,
+    "ast_hash": "08f75f2e5cd548320fa21504ee6e8312",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/biomespy.yaml": {
+    "mtime": 1785820740.7122319,
+    "ast_hash": "ac68847471459464cc0c1a909348b384",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/biomeswevegone.yaml": {
+    "mtime": 1785820740.7122319,
+    "ast_hash": "2041a927adf8a7f6865c726920b004b7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/blue_skies.yaml": {
+    "mtime": 1785820740.7137432,
+    "ast_hash": "2800ed7a9e5614a71ff6e1477e2120bb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/bookofdragons.yaml": {
+    "mtime": 1785820740.7137432,
+    "ast_hash": "652d3c1ad251b9f7f94924e9d2a41aee",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/bookshelf.yaml": {
+    "mtime": 1785820740.7137432,
+    "ast_hash": "36c67f9044ea3366d57c83ff15c8dbcb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/born_in_chaos_v1.yaml": {
+    "mtime": 1785820740.7152543,
+    "ast_hash": "ef3adb6b5585bebafc14f56179287a5c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/bosses_of_mass_destruction.yaml": {
+    "mtime": 1785820740.7152543,
+    "ast_hash": "dd478eb210b53ac9e00cabe2110f8fde",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/bountiful.yaml": {
+    "mtime": 1785820740.7167625,
+    "ast_hash": "a62a6725546d5d39100219256bd3cb4c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/bountiful_npc.yaml": {
+    "mtime": 1785820740.7167625,
+    "ast_hash": "ccaf9db6909e9a1fcd79915ee0ae8d52",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/caelus.yaml": {
+    "mtime": 1785820740.7167625,
+    "ast_hash": "d442c3470c259e298af7baad2deb3fb2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/calio.yaml": {
+    "mtime": 1785820740.7183166,
+    "ast_hash": "594ca9332fc48e4a642a5ba1902312e7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/callablehorses.yaml": {
+    "mtime": 1785820740.7183166,
+    "ast_hash": "339cfca1db43b40b08ec6ea977c9619f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cataclysm.yaml": {
+    "mtime": 1785820740.7198298,
+    "ast_hash": "e0e3a1c1b0b8c01ce42d4fb6b0c404d0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cataclysm_dimension.yaml": {
+    "mtime": 1785820740.7198298,
+    "ast_hash": "fa97b8bc0694341460502b9c1f88ea18",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cerbons_api.yaml": {
+    "mtime": 1785820740.7198298,
+    "ast_hash": "2d315cdb288796d223d27b11da8bc477",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cfm.yaml": {
+    "mtime": 1785820740.7213378,
+    "ast_hash": "f301ad822bcfd2d3e4b7e58ce938dc1d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/chatplus.yaml": {
+    "mtime": 1785820740.7213378,
+    "ast_hash": "1e0b97468a7bc8a284c99e269ca5b6f8",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/chipped.yaml": {
+    "mtime": 1785820740.7228475,
+    "ast_hash": "6691f0dea8457036d15948bdbdf5b6d3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/chloride.yaml": {
+    "mtime": 1785820740.7228475,
+    "ast_hash": "7567d4542759908094f98f40a1b3b245",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/chunksending.yaml": {
+    "mtime": 1785820740.7228475,
+    "ast_hash": "f9f9d4c68591fa424db8fa37b9394516",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/chunky.yaml": {
+    "mtime": 1785820740.7243562,
+    "ast_hash": "607aa7233db58b230b706f7ef80f0785",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cinematiccataclysm.yaml": {
+    "mtime": 1785820740.7243562,
+    "ast_hash": "a9d762f946e98f413d1a7e2fdec3d919",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/citadel.yaml": {
+    "mtime": 1785820740.7258642,
+    "ast_hash": "c57b6922eb1622a130ba58a951beb73e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/clearwater.yaml": {
+    "mtime": 1785820740.7258642,
+    "ast_hash": "464d0f294252916ec87a0d8beb9f8cb5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cloth_config.yaml": {
+    "mtime": 1785820740.7258642,
+    "ast_hash": "3371ada08f045a0aea2c53095d58e8d6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/clumps.yaml": {
+    "mtime": 1785820740.7273724,
+    "ast_hash": "7a588f43cd1b7fcedf2fdb1943ac530c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/combat_evolution.yaml": {
+    "mtime": 1785820740.7273724,
+    "ast_hash": "f1997d8683a788ecf23cd0ad48b8824b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/combatroll.yaml": {
+    "mtime": 1785820740.7273724,
+    "ast_hash": "b750525f8ab25cb19fcf7904aba510e6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/configured.yaml": {
+    "mtime": 1785820740.728882,
+    "ast_hash": "4e8f78abe00e8e2e55c18322997b2317",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/corgilib.yaml": {
+    "mtime": 1785820740.728882,
+    "ast_hash": "bbe5f76f04a5616e5b59bc8ef08e02bb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/coroutil.yaml": {
+    "mtime": 1785820740.728882,
+    "ast_hash": "1c5aa3fe2910e2b90cccc188e2084390",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/corpse.yaml": {
+    "mtime": 1785820740.7303927,
+    "ast_hash": "90d6667f05de24844b41b0c552034b16",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cosmeticarmorreworked.yaml": {
+    "mtime": 1785820740.7303927,
+    "ast_hash": "6f3ac84baaee3e43cda9e24db4882347",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cristellib.yaml": {
+    "mtime": 1785820740.7319014,
+    "ast_hash": "63c7537e5fdedf9e53e5836f9b4f6dba",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cte2modpackarmors.yaml": {
+    "mtime": 1785820740.7319014,
+    "ast_hash": "5cd5eed06d91e15c7ea9440c6f7c2271",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cte_essentials.yaml": {
+    "mtime": 1785820740.7334588,
+    "ast_hash": "35841d1d94e2d80c3876b130c6646cff",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cumulus_menus.yaml": {
+    "mtime": 1785820740.7334588,
+    "ast_hash": "f0f07143ba438d00b9b2a16ae2b2d7dc",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/cupboard.yaml": {
+    "mtime": 1785820740.7334588,
+    "ast_hash": "973285a7b13a4cda6753f28b82d26958",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/curios.yaml": {
+    "mtime": 1785820740.7349713,
+    "ast_hash": "5a50def7e63838bb5df3e1c505975db3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/curseforge_project_326818.yaml": {
+    "mtime": 1785820740.7349713,
+    "ast_hash": "56f5f8e0d7b0eef620d559a8d22602d6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/curseforge_project_380969.yaml": {
+    "mtime": 1785820740.7364826,
+    "ast_hash": "6f126975623d0556c608c4f9af3c15fa",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/curseforge_project_385587.yaml": {
+    "mtime": 1785820740.7364826,
+    "ast_hash": "54d4fdd4374046417de3235a95c0a3ca",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/curseforge_project_627557.yaml": {
+    "mtime": 1785820740.7364826,
+    "ast_hash": "9d91660ee6b5fedca951ac57486de683",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/customskinloader.yaml": {
+    "mtime": 1785820740.7379913,
+    "ast_hash": "737342cda4eeef323d70a19046e86553",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/defaultoptions.yaml": {
+    "mtime": 1785820740.7379913,
+    "ast_hash": "e7a9b82519d73abcb121d36f8e2333fa",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/despawntimers.yaml": {
+    "mtime": 1785820740.7394993,
+    "ast_hash": "c3f7b0b2c7e8d5b9eac47fcc648585ec",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/distanthorizons.yaml": {
+    "mtime": 1785820740.7394993,
+    "ast_hash": "57958b32bb6bb77e1d4948e1703156d6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/dodge_parry_reward.yaml": {
+    "mtime": 1785820740.7394993,
+    "ast_hash": "4b571c409c565d7814c93ece0e043b17",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/dodosmobs.yaml": {
+    "mtime": 1785820740.7410052,
+    "ast_hash": "5f507fbb7785472ea128f399bf4d53ff",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/domesticationinnovation.yaml": {
+    "mtime": 1785820740.7410052,
+    "ast_hash": "ed4a09ba60b6b897b04b75f947022459",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/drippyloadingscreen.yaml": {
+    "mtime": 1785820740.7425122,
+    "ast_hash": "22b313acb3b1ac5763d650c26d5d7940",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/dummmmmmy.yaml": {
+    "mtime": 1785820740.7425122,
+    "ast_hash": "359467459ba142283e1631d7ff38a53b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/dungeon_realm.yaml": {
+    "mtime": 1785820740.7425122,
+    "ast_hash": "e479bb42006c2bfd09eba2eeaff77705",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/dungeons_arise.yaml": {
+    "mtime": 1785820740.744019,
+    "ast_hash": "dea169954b4bbf52ff2a0cf11a64873f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/easy_npc.yaml": {
+    "mtime": 1785820740.744019,
+    "ast_hash": "3673924c3104384a04906a62d60ef040",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/efm_compat.yaml": {
+    "mtime": 1785820740.745526,
+    "ast_hash": "b297995dd6e99c072a3d7d0bbe5acdfe",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/efn.yaml": {
+    "mtime": 1785820740.745526,
+    "ast_hash": "34e732798f26bba10c6be736328aa09a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/efn_enhance.yaml": {
+    "mtime": 1785820740.745526,
+    "ast_hash": "2c41047f6364affcfdde6e291cd11e80",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/efs_iss.yaml": {
+    "mtime": 1785820740.7470362,
+    "ast_hash": "c2d3ab738fe4f4303a9be3bd7cf702fd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/embeddium.yaml": {
+    "mtime": 1785820740.7470362,
+    "ast_hash": "cb7c734f7258821647d6b4cfd1a823bd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/enchantinginfuser.yaml": {
+    "mtime": 1785820740.7485838,
+    "ast_hash": "aa280c3dd8d8ba497f25834b7389a3c1",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/enchdesc.yaml": {
+    "mtime": 1785820740.7485838,
+    "ast_hash": "82d9c92177d752124e162ce5535806d3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/enemyexpansion.yaml": {
+    "mtime": 1785820740.7500925,
+    "ast_hash": "e1fea5e4fea39bd7c041d76768a424f1",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/entityculling.yaml": {
+    "mtime": 1785820740.7500925,
+    "ast_hash": "ac0505c816ed1a1ae0ebef94da61846e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/entityjs.yaml": {
+    "mtime": 1785820740.7500925,
+    "ast_hash": "c0def8c4b3c82e4a5b85ed3d08abcc82",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/entityrespawner.yaml": {
+    "mtime": 1785820740.7516005,
+    "ast_hash": "875a8244fad94962ecfc11abeb96e6e4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epic_fight_avalon.yaml": {
+    "mtime": 1785820740.7516005,
+    "ast_hash": "b2cd291381db386aade24ed9ceba783f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epicfight.yaml": {
+    "mtime": 1785820740.7531078,
+    "ast_hash": "a5b26fc18e426d3069ccb8d875b5248a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epicfight_arachne.yaml": {
+    "mtime": 1785820740.7531078,
+    "ast_hash": "37ecc0a5ee652989b753ecded5c3fb05",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epicfight_leonidas.yaml": {
+    "mtime": 1785820740.7531078,
+    "ast_hash": "b5dc3b5952d432caf051e23c02ea0584",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epicfightx.yaml": {
+    "mtime": 1785820740.7546165,
+    "ast_hash": "bc672f25f9d0fe60e8aa35578f8b1be5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/epicskills.yaml": {
+    "mtime": 1785820740.7546165,
+    "ast_hash": "a9ad8d569f5d8a0d4302c4ca272d2b5c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/exile_overlay.yaml": {
+    "mtime": 1785820740.7561252,
+    "ast_hash": "2795c1994353b8f92b4307a52d2ee57d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/expandability.yaml": {
+    "mtime": 1785820740.7561252,
+    "ast_hash": "ec094c8da0e117d85d83b4d174285f6f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/explorerscompass.yaml": {
+    "mtime": 1785820740.7561252,
+    "ast_hash": "eff3c8b2586fe28c691047c5e8ac7d2a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/extrasounds.yaml": {
+    "mtime": 1785820740.7576337,
+    "ast_hash": "9d868bad53f2cb35bbac676701a6c79c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/falchionmoveset.yaml": {
+    "mtime": 1785820740.7576337,
+    "ast_hash": "b6b6a44633e0aa4f86fcb5f3233b0693",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fallingtrees.yaml": {
+    "mtime": 1785820740.7576337,
+    "ast_hash": "80207cffeede3dd9f9deb3406635add5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fancy_trail.yaml": {
+    "mtime": 1785820740.759143,
+    "ast_hash": "613480842f213f5b1e43d757f61cd441",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fancymenu.yaml": {
+    "mtime": 1785820740.759143,
+    "ast_hash": "1bbde5e2b024cccb0f360874628b1816",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fantasy_armor.yaml": {
+    "mtime": 1785820740.7606502,
+    "ast_hash": "f7dc8cd05ce61a6b23270ae3860a5afe",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/farmersdelight.yaml": {
+    "mtime": 1785820740.7606502,
+    "ast_hash": "95c710cdff246c8675808aa839362ee5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fast_event.yaml": {
+    "mtime": 1785820740.7621584,
+    "ast_hash": "a9a3111aad713968b3103374e195c2ad",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fast_tpa.yaml": {
+    "mtime": 1785820740.7621584,
+    "ast_hash": "0d7be8ca3811c665165a82fb74e9e04e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fastasyncworldsave.yaml": {
+    "mtime": 1785820740.7621584,
+    "ast_hash": "8e9ae7776780c050c504bd7595b75c8b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fdlib.yaml": {
+    "mtime": 1785820740.763667,
+    "ast_hash": "8884e4fb478135778bf1c93f657b48c6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ferritecore.yaml": {
+    "mtime": 1785820740.763667,
+    "ast_hash": "16025a99e613317e39d8f8ff54da2baa",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/flerovium.yaml": {
+    "mtime": 1785820740.7652307,
+    "ast_hash": "892a0fe0260a6a1be5f912fff8145ed3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/flib.yaml": {
+    "mtime": 1785820740.7652307,
+    "ast_hash": "32b5651460f36304c5c57571d129936c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fluid_tick_structure_processor.yaml": {
+    "mtime": 1785820740.766742,
+    "ast_hash": "fef6f64adeddb7cd181991095f177de3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/flywheel.yaml": {
+    "mtime": 1785820740.766742,
+    "ast_hash": "721270e492e2942e93c81bab9e6ff295",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/framedblocks.yaml": {
+    "mtime": 1785820740.766742,
+    "ast_hash": "ac885f6be6a7ed7d3086e4539a629d02",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fruitsdelight.yaml": {
+    "mtime": 1785820740.7682517,
+    "ast_hash": "c38cb87a7c51f1afa1065e89b6d78762",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ftbessentials.yaml": {
+    "mtime": 1785820740.7682517,
+    "ast_hash": "cd711e9e1551060a801941c16ec6d0b2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ftblibrary.yaml": {
+    "mtime": 1785820740.769759,
+    "ast_hash": "bbdc67a1187462ab8bdc40dfc35d5095",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ftbquests.yaml": {
+    "mtime": 1785820740.769759,
+    "ast_hash": "3e7172947f4cb632b5f4e23a73ee99d2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ftbteams.yaml": {
+    "mtime": 1785820740.769759,
+    "ast_hash": "183b102625cd738462397440b7801fe8",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ftbxmodcompat.yaml": {
+    "mtime": 1785820740.7712681,
+    "ast_hash": "bfe15fdf434e304c1f665a7b97aa65bf",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/fullstackwatchdog.yaml": {
+    "mtime": 1785820740.7712681,
+    "ast_hash": "2d0a65b581e7837459a986a888528682",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/geckoanimfix.yaml": {
+    "mtime": 1785820740.7727764,
+    "ast_hash": "3ce8c515ef8554e37ec75d1e6bd8cf9a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/geckolib.yaml": {
+    "mtime": 1785820740.7727764,
+    "ast_hash": "4409354cbd048fc845bf4e8ab46e0666",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/glitchcore.yaml": {
+    "mtime": 1785820740.7742836,
+    "ast_hash": "dda36e2737f7ae8664503c6e528c0726",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/globalshaderpackproperties.yaml": {
+    "mtime": 1785820740.7742836,
+    "ast_hash": "e93cc48285595bfac7b9f84cbbc6b5c0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/gnetum.yaml": {
+    "mtime": 1785820740.7742836,
+    "ast_hash": "3ddd7010e7daeb9ffcfc5ec8333cdc86",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/goblins_tyranny.yaml": {
+    "mtime": 1785820740.7757905,
+    "ast_hash": "c90591d97618f7186be2bd9c46b05bc1",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/gottschcore.yaml": {
+    "mtime": 1785820740.7757905,
+    "ast_hash": "878aff75668406e4fbf2da4fb701fc4e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/gpu_tape.yaml": {
+    "mtime": 1785820740.7772975,
+    "ast_hash": "1e33c5b3526133c89cf94efc87f852e5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/graveyard.yaml": {
+    "mtime": 1785820740.7772975,
+    "ast_hash": "4459a56dda8c76d86c67f343902d8122",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/hole_filler_mod.yaml": {
+    "mtime": 1785820740.7772975,
+    "ast_hash": "eb3c64a94c935aa2098e73d2fac31b24",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/hungerstrike.yaml": {
+    "mtime": 1785820740.7788103,
+    "ast_hash": "72338119520bd9ef555c87cfef5a7011",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/iceberg.yaml": {
+    "mtime": 1785820740.7788103,
+    "ast_hash": "ed12b1ddc45c4a369bb77d9aa2abcd5a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/immersive_optimization.yaml": {
+    "mtime": 1785820740.7803652,
+    "ast_hash": "919e20447e4933b03d7e9725b4e54c73",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/incontrol.yaml": {
+    "mtime": 1785820740.7803652,
+    "ast_hash": "2e1dfcceb9170d63911649c2bd778376",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/indestructible.yaml": {
+    "mtime": 1785820740.7803652,
+    "ast_hash": "f6ec746c0ff2e9a89216e0df5a368252",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/invincible.yaml": {
+    "mtime": 1785820740.781872,
+    "ast_hash": "7bdfa7640b9a424a533f3a7709ffcd01",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/invmove.yaml": {
+    "mtime": 1785820740.781872,
+    "ast_hash": "b26fa9a5bc39a1133455ee5cf259b7a4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/irons_spellbooks.yaml": {
+    "mtime": 1785820740.7833805,
+    "ast_hash": "0072d67a4bc9516545a533a5c06d1b49",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/itemborders.yaml": {
+    "mtime": 1785820740.7833805,
+    "ast_hash": "3dfe2ac3858cfa0034ad57376a506f24",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/jade.yaml": {
+    "mtime": 1785820740.7833805,
+    "ast_hash": "d88f4564dfcca05ac739c8a4793aa9f6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/jadeaddons.yaml": {
+    "mtime": 1785820740.7848868,
+    "ast_hash": "abceab42a09c8242aa2fc68e53bfe9aa",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/jecharacters.yaml": {
+    "mtime": 1785820740.7848868,
+    "ast_hash": "8a79d6a12c7e3b52838afea52f3c047d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/jei.yaml": {
+    "mtime": 1785820740.7863932,
+    "ast_hash": "be8d2da259b75fdcbbc45b3929303123",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/jeresources.yaml": {
+    "mtime": 1785820740.7863932,
+    "ast_hash": "de97ce0ef6e4ec006016ada666e292cb",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/kambrik.yaml": {
+    "mtime": 1785820740.7863932,
+    "ast_hash": "9de4e90ef3be9c79e35dba8323fc08d9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/killcam.yaml": {
+    "mtime": 1785820740.7878995,
+    "ast_hash": "c8608046b823a8e493b773994769663f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/konkrete.yaml": {
+    "mtime": 1785820740.7878995,
+    "ast_hash": "0ffde4164ae06c974af72934f99a0f4a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/kotlinforforge.yaml": {
+    "mtime": 1785820740.7894082,
+    "ast_hash": "c0752d3992bbbdf67b475d5cc27f5288",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/krypton_fnp.yaml": {
+    "mtime": 1785820740.7894082,
+    "ast_hash": "ba2c5584344be716e0ff38777094683c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/kubejs.yaml": {
+    "mtime": 1785820740.7894082,
+    "ast_hash": "3b462fd283f0c9f9b15a966ba8f844b9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/kuma_api.yaml": {
+    "mtime": 1785820740.7909179,
+    "ast_hash": "41e26a59b265b0bc6808ababb51c0ee2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/l2harvester.yaml": {
+    "mtime": 1785820740.7909179,
+    "ast_hash": "3726f79d8ec6739c4a33b98bc79c0b46",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/l2library.yaml": {
+    "mtime": 1785820740.7924254,
+    "ast_hash": "82c33aca063c5a3a257104ecc8556074",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lang_amend.yaml": {
+    "mtime": 1785820740.7924254,
+    "ast_hash": "139c66a8884e792acdaf476c115441a6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lazyyyyy_lexforge_core.yaml": {
+    "mtime": 1785820740.7924254,
+    "ast_hash": "7c5d9f67ad30c92231dcf8b41a067bfc",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/legendary_additions.yaml": {
+    "mtime": 1785820740.7939332,
+    "ast_hash": "33bbf963292a2c1f069dc56afb039dbd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/legendarytooltips.yaml": {
+    "mtime": 1785820740.7939332,
+    "ast_hash": "d26793e3baab3ce38eb81d61c00a0f10",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/library_of_exile.yaml": {
+    "mtime": 1785820740.795444,
+    "ast_hash": "74ba637902735f2f786ea3a51b73cd74",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lightmanscurrency.yaml": {
+    "mtime": 1785820740.795444,
+    "ast_hash": "5debb8d0945087397a00d238b13f221f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/limitedchunks.yaml": {
+    "mtime": 1785820740.7969902,
+    "ast_hash": "bf0a8c395d57eca96118db893c843180",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lionfishapi.yaml": {
+    "mtime": 1785820740.7969902,
+    "ast_hash": "e3e10f5afbb7e14c66485758a511ff13",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lithostitched.yaml": {
+    "mtime": 1785820740.7969902,
+    "ast_hash": "1cd0b9a9cad18a5521b0f19ff8e4f6b8",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/logbegone.yaml": {
+    "mtime": 1785820740.798497,
+    "ast_hash": "34d137ef0916c3b40237f182f374ef3f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lootr.yaml": {
+    "mtime": 1785820740.798497,
+    "ast_hash": "5e1878647706ff5f6d86023940b35dea",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/lost_aether_content.yaml": {
+    "mtime": 1785820740.798497,
+    "ast_hash": "757436689582d5bb6d33d218b7a7f69d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/magistuarmory.yaml": {
+    "mtime": 1785820740.800006,
+    "ast_hash": "2fa96f7bee0b5ed79f3a667abbbbc8ca",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/medievalmusic.yaml": {
+    "mtime": 1785820740.800006,
+    "ast_hash": "db5b9cad42558b0e668e5a1e5221967d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/melody.yaml": {
+    "mtime": 1785820740.8015156,
+    "ast_hash": "6e694b58f77c1ea6aba0867f49b1c323",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mimic.yaml": {
+    "mtime": 1785820740.8015156,
+    "ast_hash": "ae2878f594ebe5e39bdde67595b30107",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mine_and_meals.yaml": {
+    "mtime": 1785820740.8015156,
+    "ast_hash": "f4f8c09b0381ffc1e43424b4017c47d3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mixin_booster.yaml": {
+    "mtime": 1785820740.8030236,
+    "ast_hash": "76428f201ecdbd139d2cb92a136e2307",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mixinextras.yaml": {
+    "mtime": 1785820740.8030236,
+    "ast_hash": "beae40fdab9844476a53867f289505b4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mixinsquared.yaml": {
+    "mtime": 1785820740.8045318,
+    "ast_hash": "b93a7702bc5a4f92816fe97174ceb7af",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mmorpg.yaml": {
+    "mtime": 1785820740.8045318,
+    "ast_hash": "022c00a26ecc6363ebef540c234fbef6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mns.yaml": {
+    "mtime": 1785820740.8060386,
+    "ast_hash": "85a6abecacac8de98f62da9cce7d5203",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mns_compat.yaml": {
+    "mtime": 1785820740.8060386,
+    "ast_hash": "73aad1493e481de6d7f4201fc5a58187",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mns_extras.yaml": {
+    "mtime": 1785820740.807547,
+    "ast_hash": "c8681b0e8144a4ce9bab48dea501ed31",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/modder_name_lib.yaml": {
+    "mtime": 1785820740.807547,
+    "ast_hash": "6ae975c5382edcc0195be4a255ad062f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/modernfix.yaml": {
+    "mtime": 1785820740.807547,
+    "ast_hash": "1e1aea6275d81ed8debc35eec6ddf25a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/modernui.yaml": {
+    "mtime": 1785820740.8090532,
+    "ast_hash": "122b8eaa82a50f9a9c57c8dab914c900",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/moogs_structures.yaml": {
+    "mtime": 1785820740.8090532,
+    "ast_hash": "011c065b173c2e9e3f973e98294a1183",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/moonlight.yaml": {
+    "mtime": 1785820740.8105612,
+    "ast_hash": "7db269e3ee5714cc7604ddc222ec12f6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mousetweaks.yaml": {
+    "mtime": 1785820740.8105612,
+    "ast_hash": "640f0412358b413c8a962d20fb0b17a0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mowziesmobs.yaml": {
+    "mtime": 1785820740.8105612,
+    "ast_hash": "2486992fa4b4a2768a3001a987b3ec4f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/mr_trek.yaml": {
+    "mtime": 1785820740.812101,
+    "ast_hash": "3807f6bc33bc568d2e95212f608e7cb4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/naturescompass.yaml": {
+    "mtime": 1785820740.812101,
+    "ast_hash": "5e107e05fed2916ab267e38599eabab7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/necronomicon.yaml": {
+    "mtime": 1785820740.8136072,
+    "ast_hash": "b75d996511ffa6440f45d62a935df903",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/nitrogen_internals.yaml": {
+    "mtime": 1785820740.8136072,
+    "ast_hash": "0598927e7c57c23f8d9da3c2bfac723b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/noisium.yaml": {
+    "mtime": 1785820740.8151157,
+    "ast_hash": "fcc69686ff5127b8691f2ae3e3fa9c54",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/notenoughcrashes.yaml": {
+    "mtime": 1785820740.8151157,
+    "ast_hash": "102ae4e467bba09fd31dad2ff82f7d8b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/noworldgenwarning.yaml": {
+    "mtime": 1785820740.8166263,
+    "ast_hash": "24ff31436bb0c4ae5d2559ff0d6c8821",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/obscure_api.yaml": {
+    "mtime": 1785820740.8166263,
+    "ast_hash": "f7962fe81a8749fdb521448cf9e1acd7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/oculus.yaml": {
+    "mtime": 1785820740.8166263,
+    "ast_hash": "7f6f255c9ab652b5ee8d7a0922e4c3de",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ohthetreesyoullgrow.yaml": {
+    "mtime": 1785820740.8181353,
+    "ast_hash": "7bddebf8e8cec9cc931cf90c76d433ca",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/opack2reload.yaml": {
+    "mtime": 1785820740.8181353,
+    "ast_hash": "7dfeca4abec4de46897af95216af04ff",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/openloader.yaml": {
+    "mtime": 1785820740.819646,
+    "ast_hash": "dcc04cd4d6ab94ac4917ad2e1323558e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/origins.yaml": {
+    "mtime": 1785820740.819646,
+    "ast_hash": "46754e76df6b6642f383be3478ea33c9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/p1nero_bow.yaml": {
+    "mtime": 1785820740.819646,
+    "ast_hash": "ebbaa9b5f10c7b2363d8b1176393df73",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/p1nero_dl.yaml": {
+    "mtime": 1785820740.8211546,
+    "ast_hash": "41f5aefe91316cf31255d066b34a9fc5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/p1nero_ec.yaml": {
+    "mtime": 1785820740.8211546,
+    "ast_hash": "3608ce1ce0f350c7768fdaea7846be81",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/packetfixer.yaml": {
+    "mtime": 1785820740.8226638,
+    "ast_hash": "2c26c359c839c4ab446857ba005af594",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/pandalib.yaml": {
+    "mtime": 1785820740.8226638,
+    "ast_hash": "5c967aabe4d774be639b6ef65c12677a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/parcool.yaml": {
+    "mtime": 1785820740.8241704,
+    "ast_hash": "e5b968cb15ff8f26013a7400a0c169e0",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/patchouli.yaml": {
+    "mtime": 1785820740.8241704,
+    "ast_hash": "2f56d21dd6d84b485158f8a3b95c3f38",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/pbf1.yaml": {
+    "mtime": 1785820740.8241704,
+    "ast_hash": "518203c182958797c3279806075e7dca",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/pehkui.yaml": {
+    "mtime": 1785820740.8256786,
+    "ast_hash": "d4c368ae5c59c7a56af01843bcc26d6e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/placebo.yaml": {
+    "mtime": 1785820740.8256786,
+    "ast_hash": "0f3ff9da7d61bda53e82b6b41da07e66",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/playeranimator.yaml": {
+    "mtime": 1785820740.8271875,
+    "ast_hash": "d9a40cf728a007886d1d170338d2d945",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/playertrade.yaml": {
+    "mtime": 1785820740.8271875,
+    "ast_hash": "bf8bc6c2268762d2c843317f826bef4d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ponder.yaml": {
+    "mtime": 1785820740.8287172,
+    "ast_hash": "be17f485e00e1c66103c9f7374f474a3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/preloading_tricks.yaml": {
+    "mtime": 1785820740.8287172,
+    "ast_hash": "a7e1fc43dde6df57232e10c7b21fe8f3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/prism.yaml": {
+    "mtime": 1785820740.8287172,
+    "ast_hash": "122eba19ddb36a609aa229ca4a21b1bd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/puzzlesaccessapi.yaml": {
+    "mtime": 1785820740.8302238,
+    "ast_hash": "1e7a470b699ae9abc34e45271918db9b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/puzzleslib.yaml": {
+    "mtime": 1785820740.8302238,
+    "ast_hash": "606d06b8653c8a575ca49f8d9810e6d9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/quark.yaml": {
+    "mtime": 1785820740.831733,
+    "ast_hash": "f617a43ee3ad02ba522e4f3848056a13",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/quick_pack.yaml": {
+    "mtime": 1785820740.831733,
+    "ast_hash": "96c690cf29b2403c842a58374670f990",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/radiantgear.yaml": {
+    "mtime": 1785820740.8332412,
+    "ast_hash": "a78b03ebf5d628ae0ee7b462a7ce7219",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/rebind_narrator.yaml": {
+    "mtime": 1785820740.8332412,
+    "ast_hash": "35d2bb254145f1b2e5f3341dd6ec1b1f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/resourcefulconfig.yaml": {
+    "mtime": 1785820740.8332412,
+    "ast_hash": "09e2692c860f89e38c39c27981db0a4b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/resourcefullib.yaml": {
+    "mtime": 1785820740.834749,
+    "ast_hash": "0fc0b24ccb67101e1298d74148770d89",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/rhino.yaml": {
+    "mtime": 1785820740.834749,
+    "ast_hash": "26cb9cce0bafd487e018c4a4b5d15002",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/ribbits.yaml": {
+    "mtime": 1785820740.8362556,
+    "ast_hash": "4e20173f847c8809e292a807b5340cd8",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/roe_weapons.yaml": {
+    "mtime": 1785820740.8362556,
+    "ast_hash": "e223fadb310d993a1fbc5ad9bc220a75",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/rpg_origins.yaml": {
+    "mtime": 1785820740.8362556,
+    "ast_hash": "5ba6225c960965fa0c156d34f1442590",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/rubidium.yaml": {
+    "mtime": 1785820740.8377619,
+    "ast_hash": "4141c51249b456435ad0e350388ddacc",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/saintsdragons.yaml": {
+    "mtime": 1785820740.8377619,
+    "ast_hash": "a8a4f907e28165a3dc55592995d2747c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/servercore.yaml": {
+    "mtime": 1785820740.8392715,
+    "ast_hash": "2d27cf8985c4fb7388362495cef8c605",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/shinyhorses.yaml": {
+    "mtime": 1785820740.8392715,
+    "ast_hash": "c6bffc378a12716a1daa723aecf57e2a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/shouldersurfing.yaml": {
+    "mtime": 1785820740.840778,
+    "ast_hash": "553717192b8e9d7a69b5b74cfc17fc03",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/simplebedrockmodel.yaml": {
+    "mtime": 1785820740.840778,
+    "ast_hash": "fe4ab11adf48a8abb94d1dc940789b14",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/simplyswords.yaml": {
+    "mtime": 1785820740.842286,
+    "ast_hash": "5e7921e7cc979afb6577b72b851f74b5",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/smoothchunk.yaml": {
+    "mtime": 1785820740.842286,
+    "ast_hash": "92747fb11d3eb72297f874d8c9dd8153",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/smsn.yaml": {
+    "mtime": 1785820740.843796,
+    "ast_hash": "8fd6a2e9046d2c08424aaa493a813ec8",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/sodiumdynamiclights.yaml": {
+    "mtime": 1785820740.843796,
+    "ast_hash": "eff210ef48321452e3c410b13456b69f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/sodiumoptionsapi.yaml": {
+    "mtime": 1785820740.8453422,
+    "ast_hash": "fd015bbea2b51081e5543829f770321d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/soul_like_armors_reworked.yaml": {
+    "mtime": 1785820740.8453422,
+    "ast_hash": "bee8556bd593e66fc90341fed3a01971",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/soulslikeuniverse.yaml": {
+    "mtime": 1785820740.8453422,
+    "ast_hash": "2425c24007c3376899c8da3b19f716e4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/sound_physics_remastered.yaml": {
+    "mtime": 1785820740.8468568,
+    "ast_hash": "b2d84194dd0c9fe00107c8ffc97a01d4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/spark.yaml": {
+    "mtime": 1785820740.8468568,
+    "ast_hash": "e12f69382711112156284f28e195438e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/spiral_tower_village.yaml": {
+    "mtime": 1785820740.8483682,
+    "ast_hash": "73962c1484f5137a8e371a3386052996",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/starlight.yaml": {
+    "mtime": 1785820740.8483682,
+    "ast_hash": "7f4c44ed4c7fa11f8fbb6ca5b48b269e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/structure_gel.yaml": {
+    "mtime": 1785820740.8483682,
+    "ast_hash": "220b573180dadd903d9fece7d5d0f370",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/structure_layout_optimizer.yaml": {
+    "mtime": 1785820740.8498766,
+    "ast_hash": "165295fe7d96836b0e7b3c681f4c866a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/summoningrituals.yaml": {
+    "mtime": 1785820740.8498766,
+    "ast_hash": "f63df8d46c61ce01168d734da827f6e4",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/super_golem.yaml": {
+    "mtime": 1785820740.851386,
+    "ast_hash": "ec5eeeead6eb9b9031b84a2c020e7552",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/super_warden.yaml": {
+    "mtime": 1785820740.851386,
+    "ast_hash": "4326b26048f64b97b5968d306593d34e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/supplementaries.yaml": {
+    "mtime": 1785820740.8528943,
+    "ast_hash": "e9018a178102e8ba618966bb8e798322",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/swem.yaml": {
+    "mtime": 1785820740.8528943,
+    "ast_hash": "3a8b2664199d264704fac77f1b0a019d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/sword_soaring.yaml": {
+    "mtime": 1785820740.8528943,
+    "ast_hash": "c54af4ea08c177cdcbb2368e3dc99dfd",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/t_and_t.yaml": {
+    "mtime": 1785820740.8544023,
+    "ast_hash": "ddba71f490728bd83e9c3aa3bfef95a3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tabstats.yaml": {
+    "mtime": 1785820740.8544023,
+    "ast_hash": "eeaacd667a30fce0f76b96935defed6a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/taxfreelevels.yaml": {
+    "mtime": 1785820740.8559105,
+    "ast_hash": "b8cc629185e5255a00775b2393000920",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tcr_bosses.yaml": {
+    "mtime": 1785820740.8559105,
+    "ast_hash": "eb8c68e40555556e2cd525fca66c588e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tcrcore.yaml": {
+    "mtime": 1785820740.8559105,
+    "ast_hash": "0296ce9b8288c06e98938cc52582d2b3",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tcrmeshes.yaml": {
+    "mtime": 1785820740.8574169,
+    "ast_hash": "e778c843efecbb7529905e576c2cf14c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tcrmodfilter.yaml": {
+    "mtime": 1785820740.8574169,
+    "ast_hash": "3527df85a361f5e8bb1092bc333d371f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tectonic.yaml": {
+    "mtime": 1785820740.858923,
+    "ast_hash": "09402a5c2b7c1b849265f9a957c47ad9",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/terrablender.yaml": {
+    "mtime": 1785820740.858923,
+    "ast_hash": "6d7a98a23ad78c90206b97d34bf1bb40",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/the_harvest.yaml": {
+    "mtime": 1785820740.858923,
+    "ast_hash": "c465afac552d0ea6564d6e8d5cdfc29c",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tlc.yaml": {
+    "mtime": 1785820740.860469,
+    "ast_hash": "3ac2d1aaba76781bf1818a416a0c8054",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/torchmaster.yaml": {
+    "mtime": 1785820740.860469,
+    "ast_hash": "381b684a31516699a684cd8867aeee3e",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/travelerstitles.yaml": {
+    "mtime": 1785820740.8619773,
+    "ast_hash": "2febd8035d040ba87da003d783245b28",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/treechop.yaml": {
+    "mtime": 1785820740.8619773,
+    "ast_hash": "047b29320be2d5d94985624e5f9728dc",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/tudigong.yaml": {
+    "mtime": 1785820740.8634918,
+    "ast_hash": "94e8ec79ef670ccdae31485e7767e952",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/twilight_lib.yaml": {
+    "mtime": 1785820740.8634918,
+    "ast_hash": "df9e1bc3ebfa48ab00b5169f633896e2",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/uchicraftana.yaml": {
+    "mtime": 1785820740.8634918,
+    "ast_hash": "dd89e315c827d57960b71c6d3aa09792",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/uniqueaccessories.yaml": {
+    "mtime": 1785820740.8649993,
+    "ast_hash": "b89177bf6d8538bb91d16cdba44fd2f7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/visual_keybinder.yaml": {
+    "mtime": 1785820740.8649993,
+    "ast_hash": "7e3bac421cd8572be2511fcb1880300f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/voicechat.yaml": {
+    "mtime": 1785820740.8665059,
+    "ast_hash": "2e47fba04520efe4fc611e91f0361776",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/voicechat_api.yaml": {
+    "mtime": 1785820740.8665059,
+    "ast_hash": "70040e697654e3991cc101aa0b7cb93d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/void_mns_prof_compat.yaml": {
+    "mtime": 1785820740.8680143,
+    "ast_hash": "577b2c173e970ec5fc83e4daa462c81d",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/waystones.yaml": {
+    "mtime": 1785820740.8680143,
+    "ast_hash": "dfd454789d1ded1bc7f076b357df2b26",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/wom.yaml": {
+    "mtime": 1785820740.8695216,
+    "ast_hash": "b9e5af8503b100489a56158569544caf",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/worldedit.yaml": {
+    "mtime": 1785820740.8695216,
+    "ast_hash": "86915517e70ea961c7ff70f5d21303dc",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/wraithon.yaml": {
+    "mtime": 1785820740.8695216,
+    "ast_hash": "850b6076de2512e7f25e81ffed35e9b7",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/xaerolib.yaml": {
+    "mtime": 1785820740.871028,
+    "ast_hash": "b16cbe0897a6db9b555b717efe0c6911",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/xaerominimap.yaml": {
+    "mtime": 1785820740.871028,
+    "ast_hash": "7e2f58d9d2c6ab389043502f60de8011",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/xaeroworldmap.yaml": {
+    "mtime": 1785820740.8725348,
+    "ast_hash": "a3374295a5b9646fdc62fc1738c37e0a",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/xpbook.yaml": {
+    "mtime": 1785820740.8725348,
+    "ast_hash": "e06b4272d1481e43b0a30664f76a72c1",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/yet_another_config_lib_v3.yaml": {
+    "mtime": 1785820740.8725348,
+    "ast_hash": "1595ed239369dfef7d64308a0a591a97",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/you_died.yaml": {
+    "mtime": 1785820740.8740406,
+    "ast_hash": "d93cafa2e90efadd5be89f4850640de6",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/yungsapi.yaml": {
+    "mtime": 1785820740.8740406,
+    "ast_hash": "7ae111582b6248a4f00890c9a58cdd5f",
+    "semantic_hash": ""
+  },
+  "docs/modpack/mods/zeta.yaml": {
+    "mtime": 1785820740.8755934,
+    "ast_hash": "f860912dff2b1c2e27cd832c43f4789b",
+    "semantic_hash": ""
+  },
+  "docs/modpack/relatorio-final.md": {
+    "mtime": 1785820740.8901749,
+    "ast_hash": "31dcf5328749698eb2c8a58663bdfb5f",
+    "semantic_hash": ""
+  },
+  "tools/modpack/README.md": {
+    "mtime": 1785819746.8346667,
+    "ast_hash": "a8f7628dc9d220f8c1954277d049a8dd",
     "semantic_hash": ""
   }
 }
