@@ -177,6 +177,7 @@
 - `git diff --check` sem erro;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - a primeira execução de CI da Fase 7.3 ([30957869169](https://github.com/Myerzx/Void-Modpack/actions/runs/30957869169)) falhou nos dois sistemas: a prova E2E importava o worker e a capability pelos entry points dos pacotes, e `npm run check` roda `typecheck` antes de `build:apps`, então `apps/*/dist` ainda não existe em checkout limpo. Corrigido em `433ab8f` importando por caminho de origem e revalidado apagando todos os `apps/*/dist` antes do gate;
+- matriz CI da Fase 7.3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30958519999](https://github.com/Myerzx/Void-Modpack/actions/runs/30958519999), incluindo gate completo, validador documental e auditoria de runtime;
 - Fase 7.2: `@voidfall/configuration-schemas` passou build/typecheck e 14 testes; `@voidfall/database`, 5 testes PostgreSQL/PGlite; `@voidfall/server-configuration`, 13 descobertos, 12 executados no Windows e um socket Unix reservado à CI Linux;
 - integração Fase 7.2 comprovou aplicação, rollback, falha sanitizada, concorrência otimista, liberação de lock e auditoria encadeada sem valores;
 - gate completo local da Fase 7.2 aprovado: 194 testes descobertos, 192 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;

@@ -170,7 +170,7 @@ Critério de conclusão da Fase 7:
 - [x] validação, concorrência, falha e rollback estão testados;
 - [x] nenhum formato não registrado pode ser editado.
 
-Status: concluída tecnicamente em isolamento em 2026-08-04. Os contratos v1 fixam identificadores e valores escalares revisados sem payload extensível; a migration `0005_configuration_permissions.sql` mantém as quatro permissões deny-by-default; a capability `configuration.apply` resolve raiz, path, schema e codec somente por configuração confiável local; e o painel expõe diff seguro com restart apenas como metadata. Consulte [API, agente e painel da Fase 7.3](PHASE_7_CONFIGURATION_API.md).
+Status: concluída tecnicamente em isolamento em 2026-08-04. Os contratos v1 fixam identificadores e valores escalares revisados sem payload extensível; a migration `0005_configuration_permissions.sql` mantém as quatro permissões deny-by-default; a capability `configuration.apply` resolve raiz, path, schema e codec somente por configuração confiável local; e o painel expõe diff seguro com restart apenas como metadata. O gate local e a [matriz Windows/Linux 30958519999](https://github.com/Myerzx/Void-Modpack/actions/runs/30958519999) passaram. Consulte [API, agente e painel da Fase 7.3](PHASE_7_CONFIGURATION_API.md).
 
 Commits sugeridos:
 

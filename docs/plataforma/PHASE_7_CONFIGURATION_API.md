@@ -1,6 +1,6 @@
 # Fase 7.3: API, agente e painel da configuração
 
-Status: concluída tecnicamente em isolamento em 2026-08-04; gate local aprovado e matriz CI Windows/Linux registrada abaixo.
+Status: concluída tecnicamente em isolamento em 2026-08-04; gate local aprovado e [matriz CI Windows/Linux 30958519999](https://github.com/Myerzx/Void-Modpack/actions/runs/30958519999) aprovada nos dois sistemas.
 
 ## Resultado
 
