@@ -140,7 +140,7 @@ Decisão: usar `openloader_advanced_options_v1`, limitado a `config/openloader/a
 
 Gate: sem ADR e schema congelado, não iniciar API ou painel de edição.
 
-Status: concluído em 2026-08-04. O schema aceita somente os dois campos booleanos `enabled`, fixa `additionalFolders` como vazio, exige restart e possui codec/fixtures determinísticos em `@voidfall/configuration-schemas`. O gate local e a [matriz Windows/Linux 30943931215](https://github.com/Myerzx/Void-Modpack/actions/runs/30943931215) passaram. Persistência e aplicação real continuam bloqueadas até a Fase 7.2.
+Status: concluído em 2026-08-04. O schema aceita somente os dois campos booleanos `enabled`, fixa `additionalFolders` como vazio, exige restart e possui codec/fixtures determinísticos em `@voidfall/configuration-schemas`. O gate local e a [matriz Windows/Linux 30943931215](https://github.com/Myerzx/Void-Modpack/actions/runs/30943931215) passaram. A persistência e a aplicação isolada foram concluídas na Fase 7.2; integração operacional continua bloqueada até a Fase 7.3.
 
 ### 7.2 — persistência e operação de configuração
 
@@ -151,7 +151,7 @@ Status: concluído em 2026-08-04. O schema aceita somente os dois campos boolean
 - [x] integrar lock operacional compartilhado;
 - [x] registrar ator, motivo e auditoria sem valores sensíveis.
 
-Status: concluído tecnicamente em isolamento em 2026-08-04. O registro de produto aceita somente o codec OpenLoader revisado; a migration `0004_configuration_operations.sql` persiste schemas, recursos, revisões, estado e lock compartilhado; e `PersistentConfigurationService` correlaciona PostgreSQL, filesystem temporário, falha e rollback sem persistir valores. Consulte [Persistência e operação da Fase 7.2](PHASE_7_CONFIGURATION_PERSISTENCE.md). API, agente e painel permanecem fora deste recorte.
+Status: concluído tecnicamente em isolamento em 2026-08-04. O registro de produto aceita somente o codec OpenLoader revisado; a migration `0004_configuration_operations.sql` persiste schemas, recursos, revisões, estado e lock compartilhado; e `PersistentConfigurationService` correlaciona PostgreSQL, filesystem temporário, falha e rollback sem persistir valores. O gate local e a [matriz Windows/Linux 30952093047](https://github.com/Myerzx/Void-Modpack/actions/runs/30952093047) passaram. Consulte [Persistência e operação da Fase 7.2](PHASE_7_CONFIGURATION_PERSISTENCE.md). API, agente e painel permanecem fora deste recorte.
 
 ### 7.3 — API, agente e painel
 

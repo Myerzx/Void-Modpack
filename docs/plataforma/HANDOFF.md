@@ -4,7 +4,7 @@
 
 - Data: 2026-08-04
 - Responsável: Codex
-- Fase: 7.2 — concluída tecnicamente em isolamento; persistência/operação OpenLoader implementada, aguardando registro do gate CI após o push
+- Fase: 7.2 — concluída tecnicamente em isolamento; persistência/operação OpenLoader implementada e matriz CI Windows/Linux aprovada
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -159,6 +159,7 @@
 - validação documental da Fase 7.2: 299 componentes, 298 artefatos, 1.363 conexões, zero dependências ausentes e 26 arquivos públicos do servidor aprovados;
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - Graphify da Fase 7.2: 3.008 nós, 5.102 arestas, sem endpoints ausentes/pendentes, duplicatas ou colapsos; duas autociclagens SQL permanecem visíveis, uma pela FK autorreferente de revisão/rollback e outra pela atribuição do extrator à declaração de `configuration_resources`;
+- matriz CI da Fase 7.2 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30952093047](https://github.com/Myerzx/Void-Modpack/actions/runs/30952093047), incluindo gerador fixture-only, validador documental, gate completo e auditoria de runtime;
 - Fase 7.1: `@voidfall/configuration-schemas` passou build, typecheck e 13 casos; os 5 casos OpenLoader fixam identidade, round-trip, restart, limite e rejeições;
 - gate completo local da Fase 7.1 aprovado: 190 casos descobertos, 188 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e painel estático aprovados;
 - regressões Python da Fase 7.1: 3 casos aprovados; validador confirmou um único schema selecionado, path exato, SHA-256, campos, limite e proibição de path fornecido pelo usuário;
@@ -316,5 +317,10 @@ Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `074ef65` — seleção única do schema OpenLoader no inventário gerado e validador.
 - `e35ff45` — ADR-008, fechamento da Fase 7.1 e avanço do handoff;
 - `d52ee1f` — Graphify atualizado com o schema OpenLoader e memória da decisão.
+- `928bea6` — registro fechado do codec OpenLoader revisado;
+- `4dd12d3` — persistência PostgreSQL de schemas, recursos, revisões, estados e locks;
+- `b49b8a7` — coordenação persistida de aplicação, falha e rollback OpenLoader;
+- `464c97c` — fechamento documental e validação local da Fase 7.2;
+- `c4a87f0` — Graphify atualizado com o fluxo persistido da Fase 7.2.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

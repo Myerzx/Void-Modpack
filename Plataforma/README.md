@@ -1,8 +1,8 @@
 # Plataforma de gerenciamento
 
-Status: **Fases 2–6 tecnicamente concluídas em isolamento; Fases 7–13 planejadas; ativação operacional, publicação stable e comando no jogo bloqueados pelos gates aplicáveis**.
+Status: **Fases 2–6 e recortes 7.0–7.2 tecnicamente concluídos em isolamento; Fases 7.3–13 planejadas; ativação operacional, publicação stable e comando no jogo bloqueados pelos gates aplicáveis**.
 
-Esta pasta é a raiz implementada do painel, das APIs, do agente, do worker, do Bridge e dos contratos da plataforma VoidFall. As Fases 2 a 5 foram implementadas em isolamento e validadas somente contra fixtures/diretórios temporários. Nenhuma operação foi ligada ao servidor ou launcher privado.
+Esta pasta é a raiz implementada do painel, das APIs, do agente, do worker, do Bridge e dos contratos da plataforma VoidFall. As Fases 2 a 6 e os recortes 7.0–7.2 foram implementados em isolamento e validados somente contra documentação pública, fixtures sanitizadas, bancos efêmeros e diretórios temporários. Nenhuma operação foi ligada ao servidor ou launcher privado.
 
 ## Linguagens definidas
 

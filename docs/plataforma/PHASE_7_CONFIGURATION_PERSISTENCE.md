@@ -1,6 +1,6 @@
 # Fase 7.2: persistência e operação de configuração
 
-Status: concluída tecnicamente em isolamento em 2026-08-04; gate local aprovado e matriz CI pendente de execução após o push.
+Status: concluída tecnicamente em isolamento em 2026-08-04; gate local e matriz CI Windows/Linux aprovados.
 
 ## Resultado
 
@@ -61,7 +61,7 @@ Aplicação e rollback do OpenLoader foram comprovados em diretório temporário
 - `npm audit --omit=dev`: zero vulnerabilidades de runtime;
 - validação documental: 299 componentes, 298 artefatos, 1.363 conexões, nenhuma dependência ausente e 26 arquivos públicos do servidor aprovados;
 - Graphify: 3.008 nós e 5.102 arestas; nenhum endpoint ausente/pendente, duplicata ou colapso. O diagnóstico reporta duas autociclagens SQL: a autorreferência intencional de `configuration_revisions.source_revision_id` e uma relação atribuída pelo extrator à própria declaração de `configuration_resources`;
-- matriz Windows/Linux pendente de execução após o push.
+- matriz CI aprovada em `ubuntu-latest` e `windows-latest`: [execução 30952093047](https://github.com/Myerzx/Void-Modpack/actions/runs/30952093047), incluindo gerador fixture-only, validação documental, gate completo e auditoria de runtime.
 
 ## Próximo recorte
 
