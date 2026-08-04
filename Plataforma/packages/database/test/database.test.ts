@@ -2,8 +2,16 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { describe, it } from 'node:test';
 import { hashPassword } from '@voidfall/authentication';
+import {
+  OPENLOADER_ADVANCED_OPTIONS_V1,
+  hashConfigurationSchema,
+} from '@voidfall/configuration-schemas';
 import type { AuditEvent, Job } from '@voidfall/contracts';
-import { createRepositories, runMigrations } from '../src/index.js';
+import {
+  ConfigurationPersistenceError,
+  createRepositories,
+  runMigrations,
+} from '../src/index.js';
 import { createPGliteTestDatabase } from '../src/testing.js';
 
 describe('PostgreSQL foundation', () => {
@@ -14,6 +22,7 @@ describe('PostgreSQL foundation', () => {
         '0001_foundation.sql',
         '0002_rbac_seed.sql',
         '0003_audit_chain.sql',
+        '0004_configuration_operations.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
@@ -130,6 +139,218 @@ describe('PostgreSQL foundation', () => {
       );
       assert.equal(await repositories.jobs.complete(first.id, workerId, { ok: true }, now), true);
       assert.equal((await repositories.jobs.findById(first.id))?.status, 'succeeded');
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('persists reviewed configuration state with optimistic transitions and atomic audit', async () => {
+    const database = await createPGliteTestDatabase();
+    try {
+      await runMigrations(database);
+      const repositories = createRepositories(database);
+      const serverInstanceId = randomUUID();
+      await repositories.servers.create({
+        id: serverInstanceId,
+        slug: 'configuration-test',
+        displayName: 'Configuration Test',
+        environment: 'test',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '47.4.4',
+        maxPlayers: 20,
+      });
+      const schemaSha256 = hashConfigurationSchema(OPENLOADER_ADVANCED_OPTIONS_V1);
+      const actorId = randomUUID();
+      const registeredSchema = await repositories.configuration.registerSchema({
+        revisionId: 'openloader-schema-v1',
+        actorId,
+        reasonCode: 'reviewed-schema',
+        createdAt: '2026-08-04T18:00:00.000Z',
+        expectedSchemaSha256: null,
+        schema: OPENLOADER_ADVANCED_OPTIONS_V1,
+      });
+      assert.equal(registeredSchema.schemaSha256, schemaSha256);
+      assert.equal(
+        (await repositories.configuration.currentSchema('openloader-advanced-options'))
+          ?.schemaSha256,
+        schemaSha256,
+      );
+      await assert.rejects(
+        repositories.configuration.registerSchema({
+          revisionId: 'unreviewed-schema-v2',
+          actorId,
+          reasonCode: 'unreviewed-schema',
+          createdAt: '2026-08-04T18:00:01.000Z',
+          expectedSchemaSha256: schemaSha256,
+          schema: { ...OPENLOADER_ADVANCED_OPTIONS_V1, schemaVersion: '1.0.1' },
+        }),
+        (error) =>
+          error instanceof ConfigurationPersistenceError &&
+          error.code === 'schema-not-reviewed',
+      );
+
+      const initialSha256 = '1'.repeat(64);
+      const nextSha256 = '2'.repeat(64);
+      const registered = await repositories.configuration.registerResource({
+        serverInstanceId,
+        resourceId: 'openloader-advanced-options',
+        expectedSchemaSha256: schemaSha256,
+        initialCurrentSha256: initialSha256,
+        createdAt: '2026-08-04T18:01:00.000Z',
+      });
+      assert.equal(registered.resource.relativeFilePath, 'config/openloader/advanced_options.json');
+      assert.equal(registered.state.version, 1);
+
+      const correlationId = randomUUID();
+      const prepared = await repositories.configuration.prepare({
+        revisionId: 'openloader-update-1',
+        serverInstanceId,
+        resourceId: 'openloader-advanced-options',
+        operation: 'update',
+        sourceRevisionId: null,
+        expectedCurrentSha256: initialSha256,
+        expectedStateVersion: 1,
+        requestedFields: ['dataPacks.enabled'],
+        actor: { type: 'panel-user', id: actorId },
+        reasonCode: 'operator-change',
+        correlationId,
+        createdAt: '2026-08-04T18:02:00.000Z',
+      });
+      assert.equal(prepared.state.status, 'prepared');
+      assert.equal(prepared.state.version, 2);
+      await assert.rejects(
+        repositories.configuration.prepare({
+          revisionId: 'stale-update',
+          serverInstanceId,
+          resourceId: 'openloader-advanced-options',
+          operation: 'update',
+          sourceRevisionId: null,
+          expectedCurrentSha256: initialSha256,
+          expectedStateVersion: 1,
+          requestedFields: ['resourcePacks.enabled'],
+          actor: { type: 'panel-user', id: actorId },
+          reasonCode: 'stale-change',
+          correlationId: randomUUID(),
+          createdAt: '2026-08-04T18:02:01.000Z',
+        }),
+        (error) =>
+          error instanceof ConfigurationPersistenceError &&
+          error.code === 'concurrent-modification',
+      );
+
+      const applied = await repositories.configuration.markApplied({
+        revisionId: prepared.revision.revisionId,
+        expectedRevisionVersion: prepared.revision.version,
+        expectedStateVersion: prepared.state.version,
+        previousSha256: initialSha256,
+        currentSha256: nextSha256,
+        manifestSha256: '3'.repeat(64),
+        changedFields: ['dataPacks.enabled'],
+        restartRequired: true,
+        completedAt: '2026-08-04T18:03:00.000Z',
+        auditEventId: randomUUID(),
+      });
+      assert.equal(applied.state.status, 'applied');
+      assert.equal(applied.state.currentSha256, nextSha256);
+      assert.equal(applied.state.version, 3);
+      assert.equal(applied.auditSequence, 1);
+      const audit = await repositories.audit.list();
+      assert.equal(audit[0]?.correlationId, correlationId);
+      assert.equal(audit[0]?.action, 'configuration.update.applied');
+      assert.equal(JSON.stringify(audit).includes('additionalFolders'), false);
+      assert.equal(JSON.stringify(audit).includes('configurationValues'), false);
+
+      const rollback = await repositories.configuration.prepare({
+        revisionId: 'openloader-rollback-1',
+        serverInstanceId,
+        resourceId: 'openloader-advanced-options',
+        operation: 'rollback',
+        sourceRevisionId: applied.revision.revisionId,
+        expectedCurrentSha256: nextSha256,
+        expectedStateVersion: applied.state.version,
+        requestedFields: [],
+        actor: { type: 'panel-user', id: actorId },
+        reasonCode: 'operator-rollback',
+        correlationId: randomUUID(),
+        createdAt: '2026-08-04T18:04:00.000Z',
+      });
+      const failed = await repositories.configuration.markFailed({
+        revisionId: rollback.revision.revisionId,
+        expectedRevisionVersion: rollback.revision.version,
+        expectedStateVersion: rollback.state.version,
+        failureCode: 'replacement-failed',
+        failureStage: 'replace',
+        completedAt: '2026-08-04T18:05:00.000Z',
+        auditEventId: randomUUID(),
+      });
+      assert.equal(failed.state.status, 'failed');
+      assert.equal(failed.state.currentSha256, nextSha256);
+      assert.equal(failed.revision.failureCode, 'replacement-failed');
+      assert.equal((await repositories.audit.verifyPartition('configuration')).valid, true);
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('leases the shared operational lock and replaces it only after expiry', async () => {
+    const database = await createPGliteTestDatabase();
+    try {
+      await runMigrations(database);
+      const repositories = createRepositories(database);
+      const serverInstanceId = randomUUID();
+      await repositories.servers.create({
+        id: serverInstanceId,
+        slug: 'lock-test',
+        displayName: 'Lock Test',
+        environment: 'test',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '47.4.4',
+        maxPlayers: 20,
+      });
+      const firstOwner = randomUUID();
+      const first = await repositories.operationalLocks.acquire({
+        serverInstanceId,
+        lockName: 'minecraft-exclusive',
+        ownerId: firstOwner,
+        operation: 'configuration.update',
+        acquiredAt: '2026-08-04T19:00:00.000Z',
+        leaseExpiresAt: '2026-08-04T19:01:00.000Z',
+      });
+      assert.equal(first.version, 1);
+      const secondOwner = randomUUID();
+      await assert.rejects(
+        repositories.operationalLocks.acquire({
+          serverInstanceId,
+          lockName: 'minecraft-exclusive',
+          ownerId: secondOwner,
+          operation: 'backup.create',
+          acquiredAt: '2026-08-04T19:00:30.000Z',
+          leaseExpiresAt: '2026-08-04T19:01:30.000Z',
+        }),
+        (error) =>
+          error instanceof ConfigurationPersistenceError && error.code === 'lock-unavailable',
+      );
+      const replaced = await repositories.operationalLocks.acquire({
+        serverInstanceId,
+        lockName: 'minecraft-exclusive',
+        ownerId: secondOwner,
+        operation: 'backup.create',
+        acquiredAt: '2026-08-04T19:01:00.000Z',
+        leaseExpiresAt: '2026-08-04T19:02:00.000Z',
+      });
+      assert.equal(replaced.version, 2);
+      assert.equal(await repositories.operationalLocks.release({
+        serverInstanceId,
+        lockName: 'minecraft-exclusive',
+        ownerId: firstOwner,
+      }), false);
+      assert.equal(await repositories.operationalLocks.release({
+        serverInstanceId,
+        lockName: 'minecraft-exclusive',
+        ownerId: secondOwner,
+      }), true);
     } finally {
       await database.close();
     }

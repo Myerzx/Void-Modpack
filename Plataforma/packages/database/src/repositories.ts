@@ -1,6 +1,5 @@
 import { randomUUID } from 'node:crypto';
 import {
-  chainAuditEvent,
   createAuditExport,
   verifyAuditChain,
   type AuditChainRecord,
@@ -19,6 +18,11 @@ import {
 } from '@voidfall/contracts';
 import type { PanelPermission, PanelRole } from '@voidfall/permissions';
 import type { Database, SqlClient } from './database.js';
+import { appendAuditRecord } from './audit-persistence.js';
+import {
+  ConfigurationRepository,
+  OperationalLockRepository,
+} from './configuration-repositories.js';
 
 function asIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
@@ -317,74 +321,7 @@ export class AuditRepository {
   constructor(private readonly database: Database) {}
 
   async append(event: AuditEvent, partitionId = 'administrative'): Promise<AuditChainRecord> {
-    return this.database.transaction(async (client) => {
-      await client.query(
-        `INSERT INTO audit_chain_heads (partition_id, last_sequence, last_hash, updated_at)
-         VALUES ($1, 0, NULL, $2)
-         ON CONFLICT (partition_id) DO NOTHING`,
-        [partitionId, event.occurredAt],
-      );
-      const headResult = await client.query<{
-        readonly last_sequence: number | string;
-        readonly last_hash: string | null;
-      }>(
-        `SELECT last_sequence, last_hash
-         FROM audit_chain_heads WHERE partition_id = $1 FOR UPDATE`,
-        [partitionId],
-      );
-      const head = headResult.rows[0];
-      if (head === undefined) throw new Error('Audit chain head was not created.');
-      const sequence = Number(head.last_sequence) + 1;
-      const record = chainAuditEvent({
-        partitionId,
-        sequence,
-        previousHash: head.last_hash,
-        event,
-      });
-      const chainedEvent = record.event;
-      await client.query(
-        `INSERT INTO audit_events (
-           id, occurred_at, correlation_id, actor, source, action, resource, outcome,
-           reason, before_redacted, after_redacted, metadata_redacted, previous_hash, integrity_hash,
-           partition_id, chain_sequence
-         ) VALUES (
-           $1,$2,$3,$4::jsonb,$5,$6,$7::jsonb,$8,$9,$10::jsonb,$11::jsonb,$12::jsonb,
-           $13,$14,$15,$16
-         )`,
-        [
-          chainedEvent.id,
-          chainedEvent.occurredAt,
-          chainedEvent.correlationId,
-          JSON.stringify(chainedEvent.actor),
-          chainedEvent.source,
-          chainedEvent.action,
-          JSON.stringify(chainedEvent.resource),
-          chainedEvent.outcome,
-          chainedEvent.reason ?? null,
-          chainedEvent.before === undefined ? null : JSON.stringify(chainedEvent.before),
-          chainedEvent.after === undefined ? null : JSON.stringify(chainedEvent.after),
-          chainedEvent.metadata === undefined ? null : JSON.stringify(chainedEvent.metadata),
-          chainedEvent.integrity?.previousHash ?? null,
-          chainedEvent.integrity?.eventHash ?? null,
-          record.partitionId,
-          record.sequence,
-        ],
-      );
-      const updated = await client.query(
-        `UPDATE audit_chain_heads
-         SET last_sequence = $2, last_hash = $3, updated_at = $4
-         WHERE partition_id = $1 AND last_sequence = $5`,
-        [
-          record.partitionId,
-          record.sequence,
-          chainedEvent.integrity?.eventHash ?? null,
-          chainedEvent.occurredAt,
-          Number(head.last_sequence),
-        ],
-      );
-      if (updated.rowCount !== 1) throw new Error('Audit chain head update conflict.');
-      return record;
-    });
+    return this.database.transaction((client) => appendAuditRecord(client, event, partitionId));
   }
 
   async list(limit = 100): Promise<readonly AuditEvent[]> {
@@ -901,6 +838,8 @@ export interface Repositories {
   readonly audit: AuditRepository;
   readonly agents: AgentRepository;
   readonly jobs: JobRepository;
+  readonly configuration: ConfigurationRepository;
+  readonly operationalLocks: OperationalLockRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -912,5 +851,7 @@ export function createRepositories(database: Database): Repositories {
     audit: new AuditRepository(database),
     agents: new AgentRepository(database),
     jobs: new JobRepository(database),
+    configuration: new ConfigurationRepository(database),
+    operationalLocks: new OperationalLockRepository(database),
   };
 }
