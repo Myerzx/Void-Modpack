@@ -19,6 +19,12 @@ export interface TrustedConfigurationCodec {
   readonly schemaSha256: string;
   readonly maximumBytes: number;
   readonly applyMode: 'offline-only';
+  /**
+   * Reviewed field names whose value must never leave the trust boundary.
+   * The list comes from the accepted policy, not from caller input, so a
+   * reader cannot widen what it is allowed to publish.
+   */
+  readonly secretFields: readonly string[];
   readonly parse: (input: string) => Readonly<Record<string, GenericConfigurationValue>>;
   readonly serialize: (values: unknown) => string;
 }
@@ -36,7 +42,7 @@ export class TrustedConfigurationRegistryError extends Error {
 }
 
 function freezeCodec(codec: TrustedConfigurationCodec): TrustedConfigurationCodec {
-  return Object.freeze({ ...codec });
+  return Object.freeze({ ...codec, secretFields: Object.freeze([...codec.secretFields]) });
 }
 
 const OPENLOADER_ADVANCED_OPTIONS_CODEC_V1 = freezeCodec({
@@ -45,6 +51,7 @@ const OPENLOADER_ADVANCED_OPTIONS_CODEC_V1 = freezeCodec({
   schemaSha256: hashConfigurationSchema(OPENLOADER_ADVANCED_OPTIONS_V1),
   maximumBytes: OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES,
   applyMode: OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.applyMode,
+  secretFields: OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.secretFields,
   parse: (input) => Object.freeze({ ...parseOpenLoaderAdvancedOptions(input) }),
   serialize: serializeOpenLoaderAdvancedOptions,
 });

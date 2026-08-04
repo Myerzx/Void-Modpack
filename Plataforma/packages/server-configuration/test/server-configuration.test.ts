@@ -29,7 +29,11 @@ import {
   JAVA_PROPERTIES_V1,
   PersistentConfigurationService,
   createReviewedConfigurationResource,
+  describeReviewedConfiguration,
+  isPublishableConfigurationField,
+  listReviewedConfigurationIds,
   parseConfigurationRevisionManifest,
+  presentConfigurationValues,
   type ApplyConfigurationPlan,
   type ConfigurationConsistencyLease,
   type ConfigurationFileReplacer,
@@ -928,3 +932,152 @@ async function directoryExists(path: string): Promise<boolean> {
     }
   }
 }
+
+describe('typed configuration reads and redaction policy', () => {
+  it('reads a reviewed resource under the guard without exposing bytes or a path', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'voidfall-configuration-read-'));
+    try {
+      const configurationRoot = join(root, 'instance');
+      const openLoaderDirectory = join(configurationRoot, 'config', 'openloader');
+      const repositoryRoot = join(root, 'revision-repository');
+      const filePath = join(openLoaderDirectory, 'advanced_options.json');
+      const original = `${JSON.stringify(
+        {
+          resourcePacks: { enabled: true, additionalFolders: [] },
+          dataPacks: { enabled: false, additionalFolders: [] },
+        },
+        null,
+        2,
+      )}\n`;
+      await mkdir(openLoaderDirectory, { recursive: true });
+      await mkdir(repositoryRoot);
+      await writeFile(filePath, original, 'utf8');
+      const resource = createReviewedConfigurationResource(
+        configurationRoot,
+        'openloader-advanced-options',
+      );
+      const guard = new TrackingGuard();
+      const configuration = new FilesystemConfigurationService({
+        repositoryRoot,
+        resources: [resource],
+        guard,
+        clock: () => NOW,
+      });
+
+      const read = await configuration.readConfiguration(resource.resourceId);
+
+      assert.equal(read.resourceId, 'openloader-advanced-options');
+      assert.equal(read.currentSha256, digest(original));
+      assert.equal(read.schemaSha256, resource.schemaSha256);
+      assert.deepEqual({ ...read.values }, {
+        'dataPacks.enabled': false,
+        'resourcePacks.enabled': true,
+      });
+      // The guard must have been used, and no path or byte content may leak.
+      assert.equal(guard.calls.length > 0, true);
+      assert.equal(Object.hasOwn(read, 'filePath'), false);
+      assert.equal(Object.hasOwn(read, 'content'), false);
+      assert.equal(JSON.stringify(read).includes(root), false);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('refuses to read an unregistered resource', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'voidfall-configuration-read-denied-'));
+    try {
+      const configurationRoot = join(root, 'instance');
+      const openLoaderDirectory = join(configurationRoot, 'config', 'openloader');
+      const repositoryRoot = join(root, 'revision-repository');
+      await mkdir(openLoaderDirectory, { recursive: true });
+      await mkdir(repositoryRoot);
+      await writeFile(
+        join(openLoaderDirectory, 'advanced_options.json'),
+        `${JSON.stringify(
+          {
+            resourcePacks: { enabled: true, additionalFolders: [] },
+            dataPacks: { enabled: true, additionalFolders: [] },
+          },
+          null,
+          2,
+        )}\n`,
+        'utf8',
+      );
+      const resource = createReviewedConfigurationResource(
+        configurationRoot,
+        'openloader-advanced-options',
+      );
+      const configuration = new FilesystemConfigurationService({
+        repositoryRoot,
+        resources: [resource],
+        guard: new TrackingGuard(),
+        clock: () => NOW,
+      });
+
+      await expectCode(configuration.readConfiguration('server-basic'), 'resource-not-found');
+      await expectCode(
+        configuration.readConfiguration('../../etc/passwd'),
+        'resource-not-found',
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('describes only the reviewed resource, without any path', () => {
+    assert.deepEqual(listReviewedConfigurationIds(), ['openloader-advanced-options']);
+
+    const descriptor = describeReviewedConfiguration('openloader-advanced-options', true);
+    assert.equal(descriptor.codecId, 'openloader-advanced-options-v1');
+    assert.equal(descriptor.applyMode, 'offline-only');
+    assert.equal(descriptor.restartRequired, true);
+    assert.equal(descriptor.registered, true);
+    assert.deepEqual(
+      descriptor.fields.map((field) => field.name),
+      ['dataPacks.enabled', 'resourcePacks.enabled'],
+    );
+    assert.equal(
+      descriptor.fields.every((field) => field.type === 'boolean' && field.readable),
+      true,
+    );
+    const serialized = JSON.stringify(descriptor);
+    assert.equal(serialized.includes('config/openloader'), false);
+    assert.equal(serialized.includes('advanced_options.json'), false);
+    assert.equal(serialized.includes('filePath'), false);
+
+    assert.throws(() => describeReviewedConfiguration('server-basic', true));
+  });
+
+  it('publishes reviewed values and redacts anything it cannot vouch for', () => {
+    const published = presentConfigurationValues('openloader-advanced-options', {
+      'dataPacks.enabled': false,
+      'resourcePacks.enabled': true,
+    });
+    assert.deepEqual(published, [
+      { name: 'dataPacks.enabled', redacted: false, value: false },
+      { name: 'resourcePacks.enabled', redacted: false, value: true },
+    ]);
+
+    // A missing or wrongly typed observation is redacted, never guessed.
+    const partial = presentConfigurationValues('openloader-advanced-options', {
+      'resourcePacks.enabled': 'true' as never,
+    });
+    assert.deepEqual(partial, [
+      { name: 'dataPacks.enabled', redacted: true },
+      { name: 'resourcePacks.enabled', redacted: true },
+    ]);
+    assert.equal(partial.every((field) => !Object.hasOwn(field, 'value')), true);
+
+    // A value observed for a field outside the reviewed schema is dropped.
+    const injected = presentConfigurationValues('openloader-advanced-options', {
+      'dataPacks.enabled': true,
+      'resourcePacks.enabled': true,
+      'rcon.password': 'super-secret' as never,
+    });
+    assert.equal(injected.length, 2);
+    assert.equal(JSON.stringify(injected).includes('super-secret'), false);
+
+    assert.equal(isPublishableConfigurationField('openloader-advanced-options', 'dataPacks.enabled'), true);
+    assert.equal(isPublishableConfigurationField('openloader-advanced-options', 'rcon.password'), false);
+  });
+});

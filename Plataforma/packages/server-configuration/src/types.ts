@@ -68,6 +68,22 @@ export interface RollbackConfigurationPlan {
   readonly reasonCode: string;
 }
 
+/**
+ * Result of a guarded typed read. It never carries bytes, a path or a manifest;
+ * redaction for external consumers is applied separately by the presentation
+ * policy, which is the only thing allowed to publish a value.
+ */
+export interface ConfigurationReadResult {
+  readonly resourceId: string;
+  readonly schemaId: string;
+  readonly schemaVersion: string;
+  readonly schemaSha256: string;
+  readonly currentSha256: string;
+  readonly byteLength: number;
+  readonly values: Readonly<Record<string, ConfigurationValue>>;
+  readonly observedAt: string;
+}
+
 export interface ConfigurationConsistencyLease {
   readonly method: 'offline-exclusive-v1';
   readonly acquiredAt: Date;

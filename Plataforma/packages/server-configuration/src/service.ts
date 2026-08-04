@@ -35,6 +35,7 @@ import {
   type ConfigurationMutationReceipt,
   type ConfigurationOperation,
   ConfigurationOperationError,
+  type ConfigurationReadResult,
   type ConfigurationResourceDefinition,
   type FilesystemConfigurationServiceOptions,
   type RollbackConfigurationPlan,
@@ -408,6 +409,33 @@ export class FilesystemConfigurationService {
         });
       }),
     );
+  }
+
+  /**
+   * Reads one registered resource under the same exclusive offline guard used
+   * by mutations. Only the resourceId crosses the boundary: the path, size
+   * limit and codec come from the reviewed definition, and the caller receives
+   * typed values plus the observed hash, never bytes or a path.
+   */
+  async readConfiguration(resourceIdInput: string): Promise<ConfigurationReadResult> {
+    if (typeof resourceIdInput !== 'string') {
+      throw new ConfigurationOperationError('invalid-plan', 'plan');
+    }
+    const resource = this.#resource(resourceIdInput);
+    return this.#withGuard(resource, async (observedAt) => {
+      const current = await readBoundedPlainFile(resource.filePath, resource.maximumBytes);
+      const parsed = parseConfigurationDocument(current.content, resource);
+      return Object.freeze({
+        resourceId: resource.resourceId,
+        schemaId: resource.schemaId,
+        schemaVersion: resource.schemaVersion,
+        schemaSha256: resource.schemaSha256,
+        currentSha256: sha256(current.content),
+        byteLength: current.content.byteLength,
+        values: Object.freeze({ ...parsed.values }),
+        observedAt,
+      });
+    });
   }
 
   #resource(resourceId: string): ConfigurationResourceDefinition {
