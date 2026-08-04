@@ -35,6 +35,11 @@ import Fastify, {
   type FastifyReply,
   type FastifyRequest,
 } from 'fastify';
+import {
+  registerConfigurationRoutes,
+  type ConfigurationPermission,
+  type ConfigurationValueReader,
+} from './configuration-routes.js';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -79,6 +84,12 @@ export interface BuildControlApiOptions {
   readonly cookieSecure?: boolean;
   readonly logger?: boolean;
   readonly agentTransportVerifier?: AgentTransportVerifier;
+  /**
+   * Authorized typed reader for configuration values. It is optional and
+   * deny-by-default: without it the API reports values as unavailable rather
+   * than caching, guessing or persisting them.
+   */
+  readonly configurationReader?: ConfigurationValueReader;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -174,7 +185,12 @@ const AgentRegistrationBodySchema = Type.Object(
     publicKeyPem: Type.String({ minLength: 64, maxLength: 4_096, pattern: '^-----BEGIN PUBLIC KEY-----' }),
     certificateFingerprint: Type.String({ pattern: '^[a-f0-9]{64}$' }),
     softwareVersion: SemanticVersionSchema,
-    capabilities: Type.Array(Type.Literal('heartbeat'), { minItems: 1, maxItems: 1, uniqueItems: true }),
+    // Closed capability list. A capability is a named, reviewed operation; it
+    // never authorizes a generic executor.
+    capabilities: Type.Array(
+      Type.Union([Type.Literal('heartbeat'), Type.Literal('configuration.apply')]),
+      { minItems: 1, maxItems: 2, uniqueItems: true },
+    ),
   },
   { additionalProperties: false },
 );
@@ -486,8 +502,35 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     },
   );
 
+  registerConfigurationRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: ConfigurationPermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'configuration-resource', id: input.resourceId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
+    ...(options.configurationReader === undefined
+      ? {}
+      : { configurationReader: options.configurationReader }),
+  });
+
   return app;
 }
+
+export type { ConfigurationValueReader } from './configuration-routes.js';
 
 export function repositoriesFor(database: Database): Repositories {
   return createRepositories(database);

@@ -6,6 +6,7 @@ import type {
   ConfigurationFieldDescriptor,
   ConfigurationFieldValue,
   ConfigurationSchemaDescriptor,
+  ConfigurationValueIssue,
 } from '@voidfall/contracts';
 
 import {
@@ -146,6 +147,80 @@ export function listReviewedConfigurationIds(): readonly string[] {
   return frozen(
     VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.list().map((codec) => codec.schema.resourceId),
   );
+}
+
+export interface ConfigurationChangeSetEvaluation {
+  readonly valid: boolean;
+  readonly issues: readonly ConfigurationValueIssue[];
+  /** True when at least one accepted field declares a restart requirement. */
+  readonly restartRequired: boolean;
+}
+
+function changeIssue(
+  field: GenericConfigurationField,
+  value: ConfigurationValue,
+): ConfigurationValueIssue['code'] | undefined {
+  switch (field.type) {
+    case 'boolean':
+      return typeof value === 'boolean' ? undefined : 'invalid-type';
+    case 'integer':
+      if (typeof value !== 'number' || !Number.isSafeInteger(value)) return 'invalid-type';
+      return value < field.minimum || value > field.maximum ? 'out-of-range' : undefined;
+    case 'enum':
+      if (typeof value !== 'string') return 'invalid-type';
+      return field.values.includes(value) ? undefined : 'pattern-mismatch';
+    case 'string':
+      if (typeof value !== 'string') return 'invalid-type';
+      return value.length > field.maximumLength ? 'too-long' : undefined;
+    case 'number':
+      return 'invalid-type';
+  }
+}
+
+/**
+ * Evaluates a partial change set against the reviewed schema without touching
+ * the filesystem or producing any revision. It is the validate-without-apply
+ * primitive: an unknown or duplicated field is an issue, never a silent drop.
+ */
+export function evaluateConfigurationChangeSet(
+  resourceId: string,
+  changes: readonly { readonly name: string; readonly value: ConfigurationValue }[],
+): ConfigurationChangeSetEvaluation {
+  const codec = reviewedCodec(resourceId);
+  if (!Array.isArray(changes) || changes.length === 0 || changes.length > 64) {
+    throw new ConfigurationOperationError('invalid-plan', 'plan');
+  }
+  const issues: ConfigurationValueIssue[] = [];
+  const seen = new Set<string>();
+  let restartRequired = false;
+
+  for (const change of changes) {
+    if (change === null || typeof change !== 'object' || typeof change.name !== 'string') {
+      throw new ConfigurationOperationError('invalid-plan', 'plan');
+    }
+    if (seen.has(change.name)) {
+      issues.push(frozen({ field: change.name, code: 'duplicate-field' as const }));
+      continue;
+    }
+    seen.add(change.name);
+    const field = codec.schema.fields[change.name];
+    if (field === undefined) {
+      issues.push(frozen({ field: change.name, code: 'unknown-field' as const }));
+      continue;
+    }
+    const code = changeIssue(field, change.value);
+    if (code !== undefined) {
+      issues.push(frozen({ field: change.name, code }));
+      continue;
+    }
+    if (field.restartRequired) restartRequired = true;
+  }
+
+  return frozen({
+    valid: issues.length === 0,
+    issues: frozen(issues),
+    restartRequired: issues.length === 0 && restartRequired,
+  });
 }
 
 function matchesDeclaredType(field: GenericConfigurationField, value: ConfigurationValue): boolean {

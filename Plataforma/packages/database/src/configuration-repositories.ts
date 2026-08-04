@@ -962,6 +962,30 @@ export class ConfigurationRepository {
     return result.rows[0] === undefined ? undefined : mapRevision(result.rows[0]);
   }
 
+  /**
+   * Lists the most recent revisions of one resource, newest first. The bound is
+   * mandatory so a caller can never request an unbounded scan.
+   */
+  public async listRevisions(
+    serverInstanceIdInput: string,
+    resourceIdInput: string,
+    limit = 50,
+  ): Promise<readonly PersistedConfigurationRevision[]> {
+    const serverInstanceId = uuid(serverInstanceIdInput);
+    const resourceId = identifier(resourceIdInput);
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) {
+      throw new ConfigurationPersistenceError('invalid-input');
+    }
+    const result = await this.database.query<RevisionRow>(
+      `SELECT ${REVISION_COLUMNS} FROM configuration_revisions
+       WHERE server_instance_id = $1 AND resource_id = $2
+       ORDER BY created_at DESC, revision_id DESC
+       LIMIT $3`,
+      [serverInstanceId, resourceId, limit],
+    );
+    return Object.freeze(result.rows.map(mapRevision));
+  }
+
   async #lockedPrepared(client: SqlClient, revisionId: string): Promise<PreparedConfigurationOperation> {
     const revisionResult = await client.query<RevisionRow>(
       `SELECT ${REVISION_COLUMNS} FROM configuration_revisions
