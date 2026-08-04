@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import {
   canPublishInStable,
   validateAgentEnvelope,
+  validateArtifactInspectionReport,
   validateAgentHeartbeatPayload,
   validateAuditChainExportManifest,
   validateAuditEvent,
@@ -1141,5 +1142,103 @@ describe('ServerConfiguration boundary contracts', () => {
       assert.equal(validateJob({ ...validJob(), type }).success, true);
     }
     assert.equal(validateJob({ ...validJob(), type: 'configuration.write' }).success, false);
+  });
+});
+
+describe('ArtifactInspectionReport', () => {
+  const validReport = () => ({
+    schemaVersion: 1,
+    sha256: hashA,
+    sizeBytes: 4_096,
+    inspectedAt: '2026-08-04T12:00:00Z',
+    container: 'zip',
+    entryCount: 12,
+    expandedBytes: 900,
+    loaders: ['forge'],
+    mods: [
+      {
+        modId: 'voidfall_probe',
+        displayName: 'VoidFall Probe',
+        version: '${file.jarVersion}',
+        loader: 'forge',
+        dependencies: [
+          {
+            target: 'forge',
+            mandatory: true,
+            versionRange: '[47,)',
+            side: 'BOTH',
+            evidence: 'META-INF/mods.toml',
+          },
+        ],
+        evidence: 'META-INF/mods.toml',
+      },
+    ],
+    embeddedLibraries: [],
+    evidence: ['META-INF/mods.toml'],
+    metadataIssues: [],
+    features: {
+      containsClasses: true,
+      containsData: false,
+      containsAssets: false,
+      containsMixins: false,
+      containsNestedJars: false,
+    },
+  });
+
+  it('accepts a declared report and preserves an unresolved version verbatim', () => {
+    const report = validReport();
+    assert.equal(validateArtifactInspectionReport(report).success, true);
+    const declared = report.mods[0];
+    assert.ok(declared);
+    assert.equal(declared.version, '${file.jarVersion}');
+  });
+
+  it('refuses a path, absolute location or raw bytes anywhere in the report', () => {
+    for (const injected of ['filePath', 'absolutePath', 'content', 'payload']) {
+      assert.equal(
+        validateArtifactInspectionReport({ ...validReport(), [injected]: 'x' }).success,
+        false,
+      );
+    }
+    // Evidence is a closed set, so an arbitrary entry name cannot be reported.
+    assert.equal(
+      validateArtifactInspectionReport({ ...validReport(), evidence: ['config/secret.toml'] }).success,
+      false,
+    );
+  });
+
+  it('requires every mod loader and evidence to be declared by the report', () => {
+    const reportWith = (overrides: Record<string, unknown>) => {
+      const report = validReport();
+      const declared = report.mods[0];
+      assert.ok(declared);
+      return { ...report, mods: [{ ...declared, ...overrides }] };
+    };
+
+    assert.equal(validateArtifactInspectionReport(reportWith({ loader: 'fabric' })).success, false);
+    assert.equal(
+      validateArtifactInspectionReport(reportWith({ evidence: 'fabric.mod.json' })).success,
+      false,
+    );
+  });
+
+  it('treats unknown as the absence of a declaration', () => {
+    const unknown = { ...validReport(), loaders: ['unknown'], mods: [], evidence: [] };
+    assert.equal(validateArtifactInspectionReport(unknown).success, true);
+    assert.equal(
+      validateArtifactInspectionReport({ ...unknown, loaders: ['unknown', 'forge'] }).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactInspectionReport({ ...validReport(), loaders: ['unknown'] }).success,
+      false,
+    );
+  });
+
+  it('rejects an implausible expansion for the archive size', () => {
+    assert.equal(
+      validateArtifactInspectionReport({ ...validReport(), sizeBytes: 10, expandedBytes: 1_000_000 }).success,
+      false,
+    );
   });
 });
