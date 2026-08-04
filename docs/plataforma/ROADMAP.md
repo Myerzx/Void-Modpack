@@ -80,7 +80,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 5 — build e launcher | 100% técnico | 7 de 7 itens concluídos em isolamento; ativação operacional bloqueada pelos P0 |
 | 6 — jogadores e auditoria | 100% técnico | 6 de 6 itens concluídos em isolamento; ingestão e efeitos reais bloqueados |
 | pré-7 — auditoria técnica do modpack | 100% documental | 299 componentes, 298 artefatos e 737 conexões; base contextual corrigida |
-| 7 — configurações específicas | 100% | Fases 7.0–7.3 concluídas; próxima fatia é a Fase 8.1 |
+| 7 — configurações específicas | 100% | Fases 7.0–7.3 concluídas e aprovadas em CI |
 | 8 — mods adaptativos | 0% | planejada; correção contextual concluída, ainda depende da ordem das fatias finais |
 | 9 — núcleo operacional e painel | 0% | planejada; domínios continuam isolados |
 | 10 — operações completas | 0% | planejada; sem ligação ao runtime real |

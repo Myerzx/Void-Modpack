@@ -188,12 +188,14 @@ Objetivo: permitir adicionar um artefato para análise, registrar incompatibilid
 
 ### 8.1 — inspeção segura de artefato
 
-- [ ] criar `packages/artifact-inspection` ou responsabilidade equivalente isolada;
-- [ ] ler ZIP central directory, `mods.toml`, `neoforge.mods.toml`, `fabric.mod.json`, manifesto e JarJar;
-- [ ] limitar tamanho expandido, quantidade de entradas, profundidade e nomes;
-- [ ] rejeitar path traversal, ZIP bomb, arquivo truncado e metadata excessiva;
-- [ ] nunca carregar classe, executar JAR ou deserializar objeto arbitrário;
-- [ ] emitir relatório versionado com hash e evidências.
+- [x] criar `packages/artifact-inspection` ou responsabilidade equivalente isolada;
+- [x] ler ZIP central directory, `mods.toml`, `neoforge.mods.toml`, `fabric.mod.json`, manifesto e JarJar;
+- [x] limitar tamanho expandido, quantidade de entradas, profundidade e nomes;
+- [x] rejeitar path traversal, ZIP bomb, arquivo truncado e metadata excessiva;
+- [x] nunca carregar classe, executar JAR ou deserializar objeto arbitrário;
+- [x] emitir relatório versionado com hash e evidências.
+
+Status: concluída tecnicamente em isolamento em 2026-08-04. `@voidfall/artifact-inspection` lê somente o conjunto fechado de descritores revisados e infla apenas eles; o único decodificador é DEFLATE bruto do `node:zlib`, nenhum JAR aninhado é aberto e nada é escrito em disco. Uma versão declarada como `${file.jarVersion}` só é resolvida pelo manifesto que a declara e, caso contrário, permanece literal. Um descritor presente mas ilegível dentro do subconjunto estrito vira issue registrada, nunca omissão. As fixtures são construídas em código por um escritor ZIP determinístico, de modo que cada campo corrompido por um teste permanece revisável no diff.
 
 ### 8.2 — motor de compatibilidade
 

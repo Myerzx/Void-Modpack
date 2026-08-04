@@ -4,7 +4,7 @@
 
 - Data: 2026-08-04
 - Responsável: Claude
-- Fase: 7.3 — concluída tecnicamente em isolamento; a Fase 7 inteira está fechada. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 8.1 — concluída tecnicamente em isolamento; a Fase 7 inteira está fechada e aprovada em CI. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -146,6 +146,17 @@
   - runner durável reutilizando a fila `SKIP LOCKED`, falhando payload malformado antes de chamar a capability;
   - tela `/configuracoes` com view model puro: diff seguro, campo não legível marcado como não comparável e excluído do envio, restart apenas como metadata e estados loading/vazio/negado/conflito/erro/sucesso;
   - prova E2E com oito cenários contra diretório temporário do SO;
+- Fase 8.1 com:
+  - `@voidfall/artifact-inspection`, que lê o central directory do ZIP e infla apenas o conjunto fechado de descritores revisados;
+  - nenhuma classe carregada, nenhum artefato executado, nenhum JAR aninhado aberto e nada escrito em disco; o único decodificador é DEFLATE bruto do `node:zlib`;
+  - limites de bytes do arquivo, entradas, comprimento de nome, profundidade, descritor, expansão total e razão de compressão;
+  - recusa de path traversal, caminho absoluto, prefixo de unidade, barra invertida, caractere de controle, ZIP bomb, arquivo truncado, ZIP64, multi-disco, entrada cifrada e método não suportado;
+  - verificação de caractere de controle por ponto de código, não por literal de regex, para que um acidente de codificação no fonte não enfraqueça a guarda;
+  - razão de compressão e orçamento verificados contra tamanhos declarados antes de qualquer alocação, com `maxOutputLength` como parada dura e conferência do tamanho real;
+  - `${file.jarVersion}` resolvido somente pelo manifesto que o declara, permanecendo literal caso contrário;
+  - descritor presente mas ilegível registrado como issue, nunca omitido;
+  - contrato `ArtifactInspectionReport` v1 com evidência como união fechada dos seis descritores revisados;
+  - fixtures construídas em código por escritor ZIP determinístico, não commitadas como binários;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -278,7 +289,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 8.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): inspeção limitada de ZIP/JAR, sem carregar classe nem executar artefato, reutilizando `@voidfall/artifact-quarantine`. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 8.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): motor de compatibilidade contextual sobre as declarações da Fase 8.1, com `unknown` bloqueante, códigos estáveis e evidência, sem inventar correção. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
@@ -358,6 +369,7 @@ Executar a **Fase 8.1** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `d620ceb` — prova E2E do fluxo da Fase 7;
 - `bbf8000` — fechamento documental da Fase 7.3;
 - `8702ac9` — Graphify atualizado com o fluxo da Fase 7.3;
-- `433ab8f` — correção da ordem de typecheck/build da prova E2E na CI.
+- `433ab8f` — correção da ordem de typecheck/build da prova E2E na CI;
+- inspeção limitada de metadata declarada da Fase 8.1.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
