@@ -252,7 +252,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): expor leitura, validação, aplicação e rollback autorizados por contratos estreitos; adicionar operação tipada no Server Agent e tela com diff seguro/restart visível; testar E2E somente contra diretório temporário. Não conectar o runtime privado nem iniciar trabalho da Fase 8.
+Executar a **Fase 7.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): expor leitura, validação, aplicação e rollback autorizados por contratos estreitos; adicionar operação tipada no Server Agent e tela com diff seguro/restart visível; testar E2E somente contra diretório temporário. Não conectar o runtime privado nem iniciar trabalho da Fase 8. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 

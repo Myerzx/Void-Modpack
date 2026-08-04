@@ -76,3 +76,7 @@ Cada agente deve informar:
 - validações executadas;
 - riscos/dívidas restantes;
 - commit criado e ponto de continuação.
+
+## Continuação das fases finais
+
+O handoff operacional para o Claude continuar da Fase 7.3 até a Fase 13 está em [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](CLAUDE_FINAL_EXECUTION_HANDOFF.md). O arquivo orienta execução, gates, validação, commits e pontos que exigem decisão do proprietário; o planejamento canônico permanece em [`FINAL_IMPLEMENTATION_PLAN.md`](../plataforma/FINAL_IMPLEMENTATION_PLAN.md).
