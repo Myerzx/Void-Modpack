@@ -3,6 +3,8 @@ import { describe, it } from 'node:test';
 import {
   canPublishInStable,
   validateAgentEnvelope,
+  validateArtifactCompatibilityPlan,
+  validateArtifactCompatibilityReport,
   validateArtifactInspectionReport,
   validateAgentHeartbeatPayload,
   validateAuditChainExportManifest,
@@ -1238,6 +1240,321 @@ describe('ArtifactInspectionReport', () => {
   it('rejects an implausible expansion for the archive size', () => {
     assert.equal(
       validateArtifactInspectionReport({ ...validReport(), sizeBytes: 10, expandedBytes: 1_000_000 }).success,
+      false,
+    );
+  });
+});
+
+describe('ArtifactCompatibilityPlan', () => {
+  const inspection = () => ({
+    schemaVersion: 1,
+    sha256: hashA,
+    sizeBytes: 4_096,
+    inspectedAt: '2026-08-05T12:00:00Z',
+    container: 'zip',
+    entryCount: 12,
+    expandedBytes: 900,
+    loaders: ['forge'],
+    mods: [
+      {
+        modId: 'voidfall_probe',
+        displayName: 'VoidFall Probe',
+        version: '1.0.0',
+        loader: 'forge',
+        dependencies: [
+          {
+            target: 'minecraft',
+            mandatory: true,
+            versionRange: '[1.20.1]',
+            side: 'BOTH',
+            evidence: 'META-INF/mods.toml',
+          },
+        ],
+        evidence: 'META-INF/mods.toml',
+      },
+    ],
+    embeddedLibraries: [],
+    evidence: ['META-INF/mods.toml'],
+    metadataIssues: [],
+    features: {
+      containsClasses: true,
+      containsData: false,
+      containsAssets: false,
+      containsMixins: false,
+      containsNestedJars: false,
+    },
+  });
+
+  const validPlan = () => ({
+    schemaVersion: 1,
+    analysisId: 'phase-8-2-probe',
+    generatedAt: '2026-08-05T12:00:00Z',
+    contexts: [
+      {
+        contextId: 'server-active',
+        kind: 'server_active',
+        side: 'server',
+        runtime: { minecraftVersion: '1.20.1', loader: 'forge', loaderVersion: '1.20.1-47.4.4' },
+        javaVersion: '17',
+      },
+    ],
+    candidates: [
+      {
+        artifactId: 'candidate-probe',
+        filename: 'probe-1.0.0.jar',
+        inspection: inspection(),
+        reviewedSide: 'both',
+        targetContextIds: ['server-active'],
+        distributionReviewed: true,
+      },
+    ],
+    installed: [],
+    explicitConflicts: [],
+  });
+
+  it('accepts a reviewed plan', () => {
+    assert.equal(validateArtifactCompatibilityPlan(validPlan()).success, true);
+  });
+
+  it('refuses a target context that cannot load mods', () => {
+    const plan = validPlan();
+    const context = plan.contexts[0];
+    assert.ok(context);
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...plan,
+        contexts: [{ ...context, runtime: { ...context.runtime, loader: 'vanilla' } }],
+      }).success,
+      false,
+    );
+  });
+
+  it('requires a context kind to agree with its side', () => {
+    const plan = validPlan();
+    const context = plan.contexts[0];
+    assert.ok(context);
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...plan,
+        contexts: [{ ...context, kind: 'launcher_current' }],
+      }).success,
+      false,
+    );
+  });
+
+  it('refuses an unknown target context and an artifact that is both candidate and installed', () => {
+    const plan = validPlan();
+    const candidate = plan.candidates[0];
+    assert.ok(candidate);
+
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...plan,
+        candidates: [{ ...candidate, targetContextIds: ['launcher-current'] }],
+      }).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...plan,
+        installed: [
+          {
+            artifactId: candidate.artifactId,
+            filename: 'probe-1.0.0.jar',
+            sha256: hashB,
+            contextIds: ['server-active'],
+            mods: [],
+          },
+        ],
+      }).success,
+      false,
+    );
+  });
+
+  it('refuses a mod that conflicts with itself', () => {
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...validPlan(),
+        explicitConflicts: [{ modId: 'voidfall_probe', conflictsWith: 'voidfall_probe' }],
+      }).success,
+      false,
+    );
+  });
+
+  it('requires a reviewed side to be stated, even as null', () => {
+    const plan = validPlan();
+    const candidate = plan.candidates[0];
+    assert.ok(candidate);
+    const { reviewedSide: _omitted, ...withoutSide } = candidate;
+    assert.equal(
+      validateArtifactCompatibilityPlan({ ...plan, candidates: [withoutSide] }).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactCompatibilityPlan({
+        ...plan,
+        candidates: [{ ...candidate, reviewedSide: null }],
+      }).success,
+      true,
+    );
+  });
+});
+
+describe('ArtifactCompatibilityReport', () => {
+  const validReport = () => ({
+    schemaVersion: 1,
+    analysisId: 'phase-8-2-probe',
+    generatedAt: '2026-08-05T12:00:00Z',
+    contexts: [
+      {
+        contextId: 'server-active',
+        kind: 'server_active',
+        side: 'server',
+        runtime: { minecraftVersion: '1.20.1', loader: 'forge', loaderVersion: '1.20.1-47.4.4' },
+        javaVersion: '17',
+      },
+    ],
+    artifacts: [
+      {
+        artifactId: 'candidate-probe',
+        filename: 'probe-1.0.0.jar',
+        sha256: hashA,
+        modIds: ['voidfall_probe'],
+        status: 'incompatible',
+        contexts: [{ contextId: 'server-active', status: 'incompatible' }],
+      },
+    ],
+    relatedInstalled: [],
+    issues: [
+      {
+        code: 'minecraft-version-mismatch',
+        severity: 'blocker',
+        determinacy: 'proven',
+        reason: 'declared-mismatch',
+        contextIds: ['server-active'],
+        artifactIds: ['candidate-probe'],
+        modIds: ['voidfall_probe'],
+        evidence: ['META-INF/mods.toml'],
+        detail: 'expected=1.20.1;declared=[1.19.2]',
+        explanation: 'The mod declares a Minecraft range that excludes the target version.',
+        recommendedAction: 'match-minecraft-version',
+      },
+    ],
+    summary: {
+      compatibleArtifacts: 0,
+      incompatibleArtifacts: 1,
+      unknownArtifacts: 0,
+      blockerCount: 1,
+      warningCount: 0,
+      informationCount: 0,
+    },
+  });
+
+  it('accepts a report whose totals match its content', () => {
+    assert.equal(validateArtifactCompatibilityReport(validReport()).success, true);
+  });
+
+  it('refuses totals that contradict the report', () => {
+    const report = validReport();
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        summary: { ...report.summary, blockerCount: 0 },
+      }).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        summary: { ...report.summary, incompatibleArtifacts: 0, compatibleArtifacts: 1 },
+      }).success,
+      false,
+    );
+  });
+
+  it('requires every identifier an issue cites to be declared by the report', () => {
+    const report = validReport();
+    const issue = report.issues[0];
+    assert.ok(issue);
+
+    for (const override of [
+      { artifactIds: ['unlisted-artifact'] },
+      { contextIds: ['launcher-current'] },
+      { modIds: ['undeclared_mod'] },
+    ]) {
+      assert.equal(
+        validateArtifactCompatibilityReport({ ...report, issues: [{ ...issue, ...override }] }).success,
+        false,
+      );
+    }
+  });
+
+  it('refuses evidence outside the reviewed descriptors and a path in the detail', () => {
+    const report = validReport();
+    const issue = report.issues[0];
+    assert.ok(issue);
+
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        issues: [{ ...issue, evidence: ['config/secret.toml'] }],
+      }).success,
+      false,
+    );
+    for (const detail of ['/etc/passwd', 'C:\\servidor\\mods', 'a"b']) {
+      assert.equal(
+        validateArtifactCompatibilityReport({ ...report, issues: [{ ...issue, detail }] }).success,
+        false,
+      );
+    }
+  });
+
+  it('keeps unknown blocking: an unproven issue may not be downgraded', () => {
+    const report = validReport();
+    const issue = report.issues[0];
+    assert.ok(issue);
+
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        artifacts: report.artifacts.map((artifact) => ({
+          ...artifact,
+          status: 'unknown',
+          contexts: [{ contextId: 'server-active', status: 'unknown' }],
+        })),
+        issues: [{ ...issue, determinacy: 'unproven', reason: 'not-declared' }],
+        summary: { ...report.summary, incompatibleArtifacts: 0, unknownArtifacts: 1 },
+      }).success,
+      true,
+    );
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        issues: [{ ...issue, determinacy: 'unproven', reason: 'not-declared', severity: 'warning' }],
+        summary: { ...report.summary, blockerCount: 0, warningCount: 1 },
+      }).success,
+      false,
+    );
+  });
+
+  it('refuses an artifact evaluated twice for the same context', () => {
+    const report = validReport();
+    const artifact = report.artifacts[0];
+    assert.ok(artifact);
+
+    assert.equal(
+      validateArtifactCompatibilityReport({
+        ...report,
+        artifacts: [
+          {
+            ...artifact,
+            contexts: [
+              { contextId: 'server-active', status: 'incompatible' },
+              { contextId: 'server-active', status: 'compatible' },
+            ],
+          },
+        ],
+      }).success,
       false,
     );
   });

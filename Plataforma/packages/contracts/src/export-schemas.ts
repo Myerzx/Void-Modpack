@@ -1,5 +1,9 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { AgentEnvelopeSchema } from './agent-envelope.js';
+import {
+  ArtifactCompatibilityPlanSchema,
+  ArtifactCompatibilityReportSchema,
+} from './artifact-compatibility.js';
 import { ArtifactInspectionReportSchema } from './artifact-inspection.js';
 import { AuditChainExportManifestSchema } from './audit-chain-export.js';
 import { AuditEventSchema } from './audit-event.js';
@@ -34,6 +38,8 @@ import {
 
 const schemas = [
   ['agent-envelope.schema.json', AgentEnvelopeSchema],
+  ['artifact-compatibility-plan.schema.json', ArtifactCompatibilityPlanSchema],
+  ['artifact-compatibility-report.schema.json', ArtifactCompatibilityReportSchema],
   ['artifact-inspection-report.schema.json', ArtifactInspectionReportSchema],
   ['audit-chain-export-manifest.schema.json', AuditChainExportManifestSchema],
   ['audit-event.schema.json', AuditEventSchema],
