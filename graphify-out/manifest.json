@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1785899939.0046642,
-    "ast_hash": "b9b670f33551ab006b8e16301b948a40",
+    "mtime": 1785958497.9131873,
+    "ast_hash": "fd54e15727e86b55254fd9684277eb7a",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785953930.805632,
-    "ast_hash": "20eb95a2e1eada198513ab7215a92676",
+    "mtime": 1785958510.023403,
+    "ast_hash": "4dd253eefbf91ee99cad29fdb661ce1f",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785953937.3990614,
-    "ast_hash": "57fec5377f5314e2a09cc335288b902e",
+    "mtime": 1785958510.0088296,
+    "ast_hash": "583339ad92baeacfb931737ac35163b8",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785954112.1131656,
-    "ast_hash": "e3dc18b7ce3851e9933126d161a3cd73",
+    "mtime": 1785958019.1537921,
+    "ast_hash": "5546b741d602565d8dc0d372a25d775b",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/index.ts": {
-    "mtime": 1785946781.5694304,
-    "ast_hash": "7064442ce6bf05a504709efcc610c5b3",
+    "mtime": 1785958657.8971279,
+    "ast_hash": "29a14b3adb8aed7d5bcef5ff4a59630a",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/migrations.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1785946781.5709403,
-    "ast_hash": "9bc7d3d0e59451197bb831b369deb19a",
+    "mtime": 1785958657.9340765,
+    "ast_hash": "864bb0589e8a14a7b53daf2e90471f08",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database.test.ts": {
-    "mtime": 1785950705.2379696,
-    "ast_hash": "5c6d148f7447669e57707d690cc18ace",
+    "mtime": 1785958657.9355867,
+    "ast_hash": "40dbf00b019b3d18abccff0db6450d53",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/tsconfig.build.json": {
@@ -545,13 +545,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1785955982.6604483,
-    "ast_hash": "963e7e3625876a654432f8efd720ad84",
+    "mtime": 1785958842.4131854,
+    "ast_hash": "6b2c8eb8c87bf711bfb82d2b5e59e5ce",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1785954359.1043792,
-    "ast_hash": "37a1f71fcf3f22cf6fd2e304610357a4",
+    "mtime": 1785958734.509988,
+    "ast_hash": "9b6b4ba8bdea9aab8981e5a475733020",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -615,8 +615,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/package.json": {
-    "mtime": 1785950705.170236,
-    "ast_hash": "52144ed132b376dbf44f39967d5fea5b",
+    "mtime": 1785957311.0280194,
+    "ast_hash": "2434eb1774b49fc5f7ceb2f52ca4f8fb",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
@@ -795,28 +795,28 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/package.json": {
-    "mtime": 1785783488.494198,
-    "ast_hash": "65a1aeb6ebbe0c4502a06042018ba8a7",
+    "mtime": 1785957666.7055318,
+    "ast_hash": "0012dd2c8474704de990104fc1bd9d1b",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/src/index.ts": {
-    "mtime": 1785783488.4967992,
-    "ast_hash": "788ba75fe754f8ee52239171cc868ed3",
+    "mtime": 1785956779.2180834,
+    "ast_hash": "08a9208c2ce4add26e24fc0e5b9ce446",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/src/manifest.ts": {
-    "mtime": 1785784002.7507434,
-    "ast_hash": "642be6d0b9e62f984ee67d4e2ff6d879",
+    "mtime": 1785956555.3783758,
+    "ast_hash": "5f89fdd60700ee16681cdd354fbd74c8",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/src/service.ts": {
-    "mtime": 1785784002.7522519,
-    "ast_hash": "3e6b9943a1f11100bd400218c1a71a43",
+    "mtime": 1785956759.130385,
+    "ast_hash": "bab8d700022fc94df5892b6c2d0eadb1",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/src/types.ts": {
-    "mtime": 1785783488.4967992,
-    "ast_hash": "9809bb7c12d61b9d3cf1d95aa16e3abe",
+    "mtime": 1785956620.9195554,
+    "ast_hash": "feda7f69643c09ca5807cd2df87684a2",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/src/validation.ts": {
@@ -825,8 +825,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/test/server-backup.test.ts": {
-    "mtime": 1785784273.010453,
-    "ast_hash": "964da1f2a13821e071004818ea066742",
+    "mtime": 1785956796.4885175,
+    "ast_hash": "6844b5dec2ac48f8b0922341987e0eeb",
     "semantic_hash": ""
   },
   "Plataforma/packages/server-backup/tsconfig.build.json": {
@@ -3130,8 +3130,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1785956244.470889,
-    "ast_hash": "4552e643ea4552ac7e36adbe82ce3dac",
+    "mtime": 1785958973.4921646,
+    "ast_hash": "ab5080600c22017671bff05594d3b8bc",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -3530,8 +3530,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/server-operation.ts": {
-    "mtime": 1785950597.7231789,
-    "ast_hash": "5910ae1de4bcefa733aa710822371697",
+    "mtime": 1785957288.256981,
+    "ast_hash": "e02b6d5933d8e169cd58ca16a8aae8f5",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0007_operational_core.sql": {
@@ -3540,8 +3540,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/operational-repositories.ts": {
-    "mtime": 1785950597.7231789,
-    "ast_hash": "c266ef6671e80f6e6edd6fd11690f527",
+    "mtime": 1785957288.2579827,
+    "ast_hash": "edddefa314ddaba2f08f29408b07e082",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_9_OPERATIONAL_CORE.md": {
@@ -3555,8 +3555,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/agent-transport.ts": {
-    "mtime": 1785947282.8588974,
-    "ast_hash": "c1c6ef9404dfe9a6bfcd83b55bdf93fd",
+    "mtime": 1785956966.2690053,
+    "ast_hash": "6475d5fa565e0f21137cefd22a9b5ab1",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0008_agent_transport.sql": {
@@ -3712,6 +3712,191 @@
   "docs/plataforma/PHASE_10_AUTHORIZED_FILES.md": {
     "mtime": 1785956233.721605,
     "ast_hash": "5d5a07ac1b9ce54700ab14416a7caea8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-backup/src/encryption.ts": {
+    "mtime": 1785956501.223811,
+    "ast_hash": "ccd5e454495a6d4e3b55b96bde08410a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-backup/src/retention.ts": {
+    "mtime": 1785956526.32719,
+    "ast_hash": "c786cca7d50610c9d884ff7afca9f5eb",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-backup/src/seal.ts": {
+    "mtime": 1785956475.9821951,
+    "ast_hash": "bae168e19aaff26cfa4eb8ab07d589f5",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-backup/test/backup-seal-encryption.test.ts": {
+    "mtime": 1785956863.491022,
+    "ast_hash": "abc7ed0b30dce73fe02d7fd8cbc2bcc3",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/backup-routes.ts": {
+    "mtime": 1785957310.962327,
+    "ast_hash": "b731630592d07ef228437a60963c71c5",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/backup-api.test.ts": {
+    "mtime": 1785957597.5634274,
+    "ast_hash": "95f73ccd921923350ca0b0384cae6c77",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/src/backup-operation.ts": {
+    "mtime": 1785957310.9638338,
+    "ast_hash": "08c0d330614c608f1d250520eddca305",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/backup-operation.ts": {
+    "mtime": 1785956997.6430652,
+    "ast_hash": "8b8c7b2d23cb3489b67b50a0d145eb4d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/server-telemetry.ts": {
+    "mtime": 1785957817.8426497,
+    "ast_hash": "828deae83aa0fcb420a6a2d4a21fbf5e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0011_backup_catalogue.sql": {
+    "mtime": 1785957288.256981,
+    "ast_hash": "aae1cf40dd8b986755fb78c9daedc543",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/backup-repositories.ts": {
+    "mtime": 1785957071.5492313,
+    "ast_hash": "d0d21dafd5d881662c3ad7d2c1ae7022",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-backup/test/disaster-recovery-rehearsal.test.ts": {
+    "mtime": 1785957658.4545643,
+    "ast_hash": "fcaca142cfdb75ed40457c342e562218",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/package.json": {
+    "mtime": 1785957865.979298,
+    "ast_hash": "bc85cae54d65d24dc24c61a120f6ce51",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/src/aggregation.ts": {
+    "mtime": 1785957896.1501715,
+    "ast_hash": "852797ed67fe38f65657415c790b937d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/src/alerts.ts": {
+    "mtime": 1785957939.3347309,
+    "ast_hash": "2dbc1606fa6f5ee963f5534c189fa128",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/src/log-grouping.ts": {
+    "mtime": 1785958163.6612425,
+    "ast_hash": "c8c72395596c8328d1324e7306077cc2",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/tsconfig.build.json": {
+    "mtime": 1785957866.1748023,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/tsconfig.test.json": {
+    "mtime": 1785957866.301807,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_10_BACKUP_RESTORE.md": {
+    "mtime": 1785957723.9804187,
+    "ast_hash": "6b956b93259d1d2ac916efcdafa73c00",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/telemetry-routes.ts": {
+    "mtime": 1785958281.8345501,
+    "ast_hash": "f2416257b05c4ccdc01e85ed2abab8f3",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/telemetry-api.test.ts": {
+    "mtime": 1785958339.5863955,
+    "ast_hash": "9440ea5abcd46cf4140e5696f7fcf3b6",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0012_telemetry.sql": {
+    "mtime": 1785958201.795945,
+    "ast_hash": "d828c9ecb57381d2ae9e1530ca523ae8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/telemetry-repositories.ts": {
+    "mtime": 1785958239.07644,
+    "ast_hash": "3ce7f0dc666b1016f9d9bd6c569d974c",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/src/index.ts": {
+    "mtime": 1785958058.556358,
+    "ast_hash": "9eed300e7bb9d4d44adf1262c49457aa",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-telemetry/test/server-telemetry.test.ts": {
+    "mtime": 1785958142.8824327,
+    "ast_hash": "ea68a87f7155c968e7a13112efa4f338",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/schedule-routes.ts": {
+    "mtime": 1785958721.3551152,
+    "ast_hash": "9896487b56446c789da540cbfc80f12e",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/schedule-api.test.ts": {
+    "mtime": 1785958830.184558,
+    "ast_hash": "27f92d75dd7d45e7f0d2247c43640a6d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/server-schedule.ts": {
+    "mtime": 1785958432.9471877,
+    "ast_hash": "c7068a6db0d0758a438b56dabd7a7e97",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0013_schedules.sql": {
+    "mtime": 1785958594.8702128,
+    "ast_hash": "87105868231397c92a0029e1c66dcdd7",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/schedule-repositories.ts": {
+    "mtime": 1785958667.5868995,
+    "ast_hash": "9661b14bf10e463b16c894ccd6b507b3",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/package.json": {
+    "mtime": 1785958484.4894872,
+    "ast_hash": "e0c130c0c12b6dba5b6d8149e9d56b05",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/src/index.ts": {
+    "mtime": 1785958484.593805,
+    "ast_hash": "9b34b2e4cc0da214a0cf12ee910fadf3",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/src/schedule.ts": {
+    "mtime": 1785958497.8403716,
+    "ast_hash": "a6cc563e4d61f515f7761daf9d45a201",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/test/server-schedule.test.ts": {
+    "mtime": 1785958563.242463,
+    "ast_hash": "9969b9b97815f793b6cd79ddb0cd8ed7",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/tsconfig.build.json": {
+    "mtime": 1785958484.528414,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/server-schedule/tsconfig.test.json": {
+    "mtime": 1785958484.5624404,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_10_TELEMETRY_SCHEDULES.md": {
+    "mtime": 1785958949.4274356,
+    "ast_hash": "89bf8fe993c8fae4f7df6cd545ef6264",
     "semantic_hash": ""
   }
 }

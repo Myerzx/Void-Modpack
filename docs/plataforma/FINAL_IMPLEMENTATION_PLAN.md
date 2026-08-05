@@ -334,27 +334,33 @@ Status: concluída tecnicamente em isolamento em 2026-08-05. Toda mutação obed
 
 ### 10.3 — backups e restore
 
-- [ ] backend local/objeto escolhido;
-- [ ] quotas, retenção, criptografia e integridade autenticada;
-- [ ] backup offline ou protocolo online confirmado pelo Forge Bridge;
-- [ ] restore com preflight, parada, lock, troca atômica e boot de verificação;
-- [ ] ensaio de disaster recovery documentado.
+- [x] backend local/objeto escolhido;
+- [x] quotas, retenção, criptografia e integridade autenticada;
+- [x] backup offline ou protocolo online confirmado pelo Forge Bridge;
+- [x] restore com preflight, parada, lock, troca atômica e boot de verificação;
+- [x] ensaio de disaster recovery documentado.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. O backend é o repositório local no host do agente; o de objeto não foi ligado porque exigiria credencial e endpoint atravessando o plano de controle. A integridade passou a ser autenticada: um manifesto de SHA-256 atesta a si mesmo, e quem escreve no repositório reescreve payload e digest juntos — o selo HMAC sob chave que nunca vive lá é o que recusa essa reescrita, e há teste que a executa. A criptografia é AES-256-GCM por arquivo, com o manifesto guardando o digest do texto claro para que a verificação prove que o backup ainda restaura para os mesmos bytes. A quota é conferida antes da cópia e a retenção nunca libera o backup mais novo nem propõe esvaziar o repositório. Restore exige reconhecimento explícito de perda de dados, a parada precedente tendo de fato concluído, e um backup medido e selado; a troca é atômica em pai isolado e o boot de verificação exige observar `online`. O ensaio de disaster recovery roda como teste e cobre também perda de chave, adulteração e destino ocupado. Consulte [Backups e restore da Fase 10.3](PHASE_10_BACKUP_RESTORE.md).
 
 ### 10.4 — métricas, logs e alertas
 
-- [ ] coleta autenticada de host, processo e JVM;
-- [ ] TPS/MSPT via provider aprovado;
-- [ ] armazenamento agregado com retenção;
-- [ ] logs estruturados, agrupamento de erro e correlação;
-- [ ] alertas de disco, memória, crash, agente offline e job falho;
-- [ ] cada valor mostra fonte e qualidade.
+- [x] coleta autenticada de host, processo e JVM;
+- [x] TPS/MSPT via provider aprovado;
+- [x] armazenamento agregado com retenção;
+- [x] logs estruturados, agrupamento de erro e correlação;
+- [x] alertas de disco, memória, crash, agente offline e job falho;
+- [x] cada valor mostra fonte e qualidade.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. Toda leitura carrega um valor **ou** um motivo para não ter um, nunca um padrão fazendo as vezes de valor. TPS e MSPT exigem um provider aprovado no jogo, que depende do Forge Bridge e permanece desligado: eles voltam como indisponíveis com motivo, e tanto o contrato quanto uma constraint de tabela recusam qualquer outra fonte alegando tê-los medido — nenhum bug de coletor consegue colocar um número inventado num gráfico. Qualidade não tira média: um bucket vale o que vale seu pior insumo, e leituras sem valor são descartadas em vez de contadas como zero. Uma leitura indisponível nunca fecha um alerta, porque um coletor parado é indistinguível de um disco que parou de encher. Consulte [Métricas, logs e agendamentos das Fases 10.4 e 10.5](PHASE_10_TELEMETRY_SCHEDULES.md).
 
 ### 10.5 — agendamentos
 
-- [ ] agenda persistente com timezone explícito;
-- [ ] avisos, backup, manutenção e restart como passos tipados;
-- [ ] lease, deduplicação, cancelamento e recuperação após crash;
-- [ ] verificação pós-restart antes de concluir.
+- [x] agenda persistente com timezone explícito;
+- [x] avisos, backup, manutenção e restart como passos tipados;
+- [x] lease, deduplicação, cancelamento e recuperação após crash;
+- [x] verificação pós-restart antes de concluir.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. Um agendamento é plano tipado de catálogo fechado, nunca script; a ordem dos passos é validada, porque um backup depois do restart capturaria o mundo que o restart produziu. O fuso é obrigatório e o cálculo caminha dia a dia no fuso alvo em vez de somar blocos de 24 horas — uma transição de horário de verão deslocaria a janela e a manteria deslocada. Uma hora que não existe vai para o primeiro instante que existe, e uma hora que acontece duas vezes vale na primeira. Uma execução pertence a uma ocorrência, e o índice único sobre `(schedule_id, scheduled_for)` faz a deduplicação ser trabalho do banco: dois agendadores acordando juntos não podem ambos achar que ganharam. Reivindicações expiram, então um agendador que morre libera a sua por decurso. Ocorrências perdidas são reportadas, nunca executadas. Uma execução que reiniciou só reporta sucesso se viu o servidor voltar. Consulte [Métricas, logs e agendamentos das Fases 10.4 e 10.5](PHASE_10_TELEMETRY_SCHEDULES.md).
 
 Critério de conclusão da Fase 10:
 
