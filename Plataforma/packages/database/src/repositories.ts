@@ -18,6 +18,11 @@ import {
 } from '@voidfall/contracts';
 import type { PanelPermission, PanelRole } from '@voidfall/permissions';
 import { ArtifactReviewRepository } from './artifact-review-repositories.js';
+import {
+  OperationRepository,
+  OutboxRepository,
+  ProcessStateRepository,
+} from './operational-repositories.js';
 import type { Database, SqlClient } from './database.js';
 import { appendAuditRecord } from './audit-persistence.js';
 import {
@@ -329,6 +334,44 @@ export class ServerRepository {
   }
 }
 
+interface AuditEventRow {
+  readonly id: string;
+  readonly occurred_at: Date | string;
+  readonly correlation_id: string;
+  readonly actor: ActorRef | string;
+  readonly source: AuditEvent['source'];
+  readonly action: string;
+  readonly resource: ResourceRef | string;
+  readonly outcome: AuditEvent['outcome'];
+  readonly reason: string | null;
+  readonly before_redacted: JsonObject | string | null;
+  readonly after_redacted: JsonObject | string | null;
+  readonly metadata_redacted: JsonObject | string | null;
+  readonly previous_hash: string | null;
+  readonly integrity_hash: string | null;
+}
+
+function mapAuditEvent(row: AuditEventRow): AuditEvent {
+  return {
+    schemaVersion: 1,
+    id: row.id,
+    occurredAt: asIso(row.occurred_at),
+    correlationId: row.correlation_id,
+    actor: parseJson(row.actor),
+    source: row.source,
+    action: row.action,
+    resource: parseJson(row.resource),
+    outcome: row.outcome,
+    ...(row.reason === null ? {} : { reason: row.reason }),
+    ...(row.before_redacted === null ? {} : { before: parseJson(row.before_redacted) }),
+    ...(row.after_redacted === null ? {} : { after: parseJson(row.after_redacted) }),
+    ...(row.metadata_redacted === null ? {} : { metadata: parseJson(row.metadata_redacted) }),
+    ...(row.integrity_hash === null
+      ? {}
+      : { integrity: { previousHash: row.previous_hash, eventHash: row.integrity_hash } }),
+  };
+}
+
 export class AuditRepository {
   constructor(private readonly database: Database) {}
 
@@ -337,45 +380,62 @@ export class AuditRepository {
   }
 
   async list(limit = 100): Promise<readonly AuditEvent[]> {
-    const result = await this.database.query<{
-      readonly id: string;
-      readonly occurred_at: Date | string;
-      readonly correlation_id: string;
-      readonly actor: ActorRef | string;
-      readonly source: AuditEvent['source'];
-      readonly action: string;
-      readonly resource: ResourceRef | string;
-      readonly outcome: AuditEvent['outcome'];
-      readonly reason: string | null;
-      readonly before_redacted: JsonObject | string | null;
-      readonly after_redacted: JsonObject | string | null;
-      readonly metadata_redacted: JsonObject | string | null;
-      readonly previous_hash: string | null;
-      readonly integrity_hash: string | null;
-    }>(
+    const result = await this.database.query<AuditEventRow>(
       `SELECT id, occurred_at, correlation_id, actor, source, action, resource, outcome,
               reason, before_redacted, after_redacted, metadata_redacted, previous_hash, integrity_hash
        FROM audit_events ORDER BY occurred_at DESC, id DESC LIMIT $1`,
       [Math.min(Math.max(limit, 1), 500)],
     );
-    return result.rows.map((row) => ({
-      schemaVersion: 1,
-      id: row.id,
-      occurredAt: asIso(row.occurred_at),
-      correlationId: row.correlation_id,
-      actor: parseJson(row.actor),
-      source: row.source,
-      action: row.action,
-      resource: parseJson(row.resource),
-      outcome: row.outcome,
-      ...(row.reason === null ? {} : { reason: row.reason }),
-      ...(row.before_redacted === null ? {} : { before: parseJson(row.before_redacted) }),
-      ...(row.after_redacted === null ? {} : { after: parseJson(row.after_redacted) }),
-      ...(row.metadata_redacted === null ? {} : { metadata: parseJson(row.metadata_redacted) }),
-      ...(row.integrity_hash === null
-        ? {}
-        : { integrity: { previousHash: row.previous_hash, eventHash: row.integrity_hash } }),
-    }));
+    return result.rows.map(mapAuditEvent);
+  }
+
+  /**
+   * Bounded, filterable listing for the administrative screens.
+   *
+   * The limit is clamped in the repository as well as at the route, so no
+   * caller — including a future internal one — can ask for an unbounded scan
+   * of the audit chain.
+   */
+  async listPage(input: {
+    readonly limit: number;
+    readonly offset: number;
+    readonly correlationId?: string;
+    readonly action?: string;
+    readonly outcome?: AuditEvent['outcome'];
+  }): Promise<{ readonly events: readonly AuditEvent[]; readonly total: number }> {
+    const limit = Math.min(Math.max(Math.trunc(input.limit), 1), 100);
+    const offset = Math.min(Math.max(Math.trunc(input.offset), 0), 1_000_000);
+    const parameters: unknown[] = [];
+    let clause = '';
+    if (input.correlationId !== undefined) {
+      parameters.push(input.correlationId);
+      clause += ` AND correlation_id = $${parameters.length}`;
+    }
+    if (input.action !== undefined) {
+      parameters.push(input.action);
+      clause += ` AND action = $${parameters.length}`;
+    }
+    if (input.outcome !== undefined) {
+      parameters.push(input.outcome);
+      clause += ` AND outcome = $${parameters.length}`;
+    }
+
+    const total = await this.database.query<{ readonly count: string | number }>(
+      `SELECT COUNT(*) AS count FROM audit_events WHERE TRUE${clause}`,
+      parameters,
+    );
+    const rows = await this.database.query<AuditEventRow>(
+      `SELECT id, occurred_at, correlation_id, actor, source, action, resource, outcome,
+              reason, before_redacted, after_redacted, metadata_redacted, previous_hash, integrity_hash
+       FROM audit_events WHERE TRUE${clause}
+       ORDER BY occurred_at DESC, id DESC
+       LIMIT $${parameters.length + 1} OFFSET $${parameters.length + 2}`,
+      [...parameters, limit, offset],
+    );
+    return {
+      events: rows.rows.map(mapAuditEvent),
+      total: Number(total.rows[0]?.count ?? 0),
+    };
   }
 
   async listChain(
@@ -465,6 +525,7 @@ export class AuditRepository {
     );
     return Number(result.rows[0]?.last_sequence ?? 0);
   }
+
 }
 
 export interface RegisteredAgent {
@@ -853,6 +914,9 @@ export interface Repositories {
   readonly configuration: ConfigurationRepository;
   readonly operationalLocks: OperationalLockRepository;
   readonly artifactReview: ArtifactReviewRepository;
+  readonly operations: OperationRepository;
+  readonly processStates: ProcessStateRepository;
+  readonly outbox: OutboxRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -867,5 +931,8 @@ export function createRepositories(database: Database): Repositories {
     configuration: new ConfigurationRepository(database),
     operationalLocks: new OperationalLockRepository(database),
     artifactReview: new ArtifactReviewRepository(database),
+    operations: new OperationRepository(database),
+    processStates: new ProcessStateRepository(database),
+    outbox: new OutboxRepository(database),
   };
 }
