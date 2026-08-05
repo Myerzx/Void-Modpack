@@ -18,6 +18,7 @@ export * from './mod-compatibility.js';
 export * from './moderation-case.js';
 export * from './player-data-policy.js';
 export * from './player-profile.js';
+export * from './process-operation.js';
 export * from './release-manifest.js';
 export * from './server-configuration.js';
 export * from './server-operation.js';

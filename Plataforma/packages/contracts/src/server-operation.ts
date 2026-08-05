@@ -36,6 +36,7 @@ export const ServerOperationKindSchema = Type.Union([
   Type.Literal('server.stop'),
   Type.Literal('server.restart'),
   Type.Literal('server.command'),
+  Type.Literal('server.force-kill'),
   Type.Literal('backup.create'),
   Type.Literal('configuration.apply'),
   Type.Literal('configuration.rollback'),

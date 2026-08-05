@@ -34,6 +34,12 @@ import {
 import { ModerationCaseSchema } from './moderation-case.js';
 import { PlayerDataPolicySchema } from './player-data-policy.js';
 import { PlayerProfileSchema } from './player-profile.js';
+import {
+  ConsoleCommandRequestSchema,
+  ConsolePageSchema,
+  ProcessControlRequestSchema,
+  ProcessForceKillRequestSchema,
+} from './process-operation.js';
 import { ReleaseManifestSchema } from './release-manifest.js';
 import {
   OutboxEventSchema,
@@ -93,6 +99,10 @@ const schemas = [
   ['outbox-event.schema.json', OutboxEventSchema],
   ['player-data-policy.schema.json', PlayerDataPolicySchema],
   ['player-profile.schema.json', PlayerProfileSchema],
+  ['console-command-request.schema.json', ConsoleCommandRequestSchema],
+  ['console-page.schema.json', ConsolePageSchema],
+  ['process-control-request.schema.json', ProcessControlRequestSchema],
+  ['process-force-kill-request.schema.json', ProcessForceKillRequestSchema],
   ['release-manifest.schema.json', ReleaseManifestSchema],
   ['server-operation.schema.json', ServerOperationSchema],
   ['server-operation-page.schema.json', ServerOperationPageSchema],

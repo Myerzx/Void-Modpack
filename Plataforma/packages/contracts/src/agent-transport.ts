@@ -36,6 +36,8 @@ export const AgentCapabilitySchema = Type.Union([
   Type.Literal('artifact.inspect'),
   Type.Literal('artifact.analyze'),
   Type.Literal('process.observe'),
+  Type.Literal('process.control'),
+  Type.Literal('process.force-kill'),
 ]);
 
 export const AgentCredentialStatusSchema = Type.Union([
@@ -176,6 +178,10 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   'artifact.inspect': ['artifact.inspect'],
   'artifact.analyze': ['artifact.analyze'],
   'process.observe': [],
+  'process.control': ['server.start', 'server.stop', 'server.restart'],
+  // Deliberately separate: granting ordinary control must never imply the
+  // authority to kill a running server.
+  'process.force-kill': ['server.force-kill'],
 });
 
 export function jobTypesForCapability(capability: AgentCapability): readonly string[] {

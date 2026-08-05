@@ -27,6 +27,7 @@ export const JobSchema = Type.Object(
       Type.Literal('server.start'),
       Type.Literal('server.stop'),
       Type.Literal('server.restart'),
+      Type.Literal('server.force-kill'),
       Type.Literal('configuration.apply'),
       Type.Literal('configuration.rollback'),
       Type.Literal('artifact.inspect'),
