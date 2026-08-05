@@ -23,6 +23,7 @@ import {
   OutboxRepository,
   ProcessStateRepository,
 } from './operational-repositories.js';
+import { ModCatalogRepository } from './mod-catalog-repositories.js';
 import type { Database, SqlClient } from './database.js';
 import { appendAuditRecord } from './audit-persistence.js';
 import {
@@ -917,6 +918,7 @@ export interface Repositories {
   readonly operations: OperationRepository;
   readonly processStates: ProcessStateRepository;
   readonly outbox: OutboxRepository;
+  readonly modCatalog: ModCatalogRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -934,5 +936,6 @@ export function createRepositories(database: Database): Repositories {
     operations: new OperationRepository(database),
     processStates: new ProcessStateRepository(database),
     outbox: new OutboxRepository(database),
+    modCatalog: new ModCatalogRepository(database),
   };
 }

@@ -213,14 +213,6 @@ export const OutboxEventSchema = Type.Object(
 export const MAXIMUM_ADMINISTRATIVE_PAGE = 100;
 export const DEFAULT_ADMINISTRATIVE_PAGE = 50;
 
-export const AdministrativePageQuerySchema = Type.Object(
-  {
-    limit: Type.Integer({ minimum: 1, maximum: MAXIMUM_ADMINISTRATIVE_PAGE }),
-    offset: Type.Integer({ minimum: 0, maximum: 1_000_000 }),
-  },
-  { additionalProperties: false },
-);
-
 export const ServerOperationPageSchema = Type.Object(
   {
     schemaVersion: ContractSchemaVersion,
@@ -244,7 +236,6 @@ export type ServerOperation = Static<typeof ServerOperationSchema>;
 export type ServerProcessState = Static<typeof ServerProcessStateSchema>;
 export type OutboxTopic = Static<typeof OutboxTopicSchema>;
 export type OutboxEvent = Static<typeof OutboxEventSchema>;
-export type AdministrativePageQuery = Static<typeof AdministrativePageQuerySchema>;
 export type ServerOperationPage = Static<typeof ServerOperationPageSchema>;
 
 const IN_FLIGHT: ReadonlySet<ServerOperationStatus> = new Set(['accepted', 'running']);
