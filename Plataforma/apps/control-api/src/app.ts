@@ -41,6 +41,10 @@ import {
   type ArtifactQuarantineStore,
 } from './artifact-routes.js';
 import {
+  registerOperationalRoutes,
+  type OperationalPermission,
+} from './operational-routes.js';
+import {
   registerConfigurationRoutes,
   type ConfigurationPermission,
   type ConfigurationValueReader,
@@ -536,6 +540,13 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.configurationReader === undefined
       ? {}
       : { configurationReader: options.configurationReader }),
+  });
+
+  registerOperationalRoutes(app, {
+    repositories,
+    authenticate,
+    requirePermission: (permission: OperationalPermission) => requirePermission(permission),
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
   });
 
   registerArtifactRoutes(app, {

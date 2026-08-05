@@ -311,6 +311,39 @@ describe('artifact review endpoints', () => {
     assert.equal(approved.json().total, 0);
   });
 
+  it('accepts a page bound as a query parameter and refuses one past the limit', async () => {
+    const context = await fixture({ store: quarantineStore() });
+    await submitted(context);
+
+    // A query parameter arrives as a string; the API validates without
+    // coercion, so a bound has to be parsed explicitly rather than assumed.
+    const paged = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/artifacts?limit=1&offset=0`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(paged.statusCode, 200);
+    assert.equal(paged.json().limit, 1);
+    assert.equal(paged.json().submissions.length, 1);
+
+    const beyondPage = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/artifacts?offset=50`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(beyondPage.json().submissions.length, 0);
+    assert.equal(beyondPage.json().total, 1);
+
+    for (const query of ['limit=0', 'limit=5000', 'limit=abc', 'offset=-1']) {
+      const response = await context.app.inject({
+        method: 'GET',
+        url: `${BASE}/${context.server.id}/artifacts?${query}`,
+        headers: { cookie: context.cookie },
+      });
+      assert.equal(response.statusCode, 400, `expected ${query} to be refused`);
+    }
+  });
+
   it('returns a detail whose reports are absent until they exist', async () => {
     const context = await fixture({ store: quarantineStore() });
     const submissionId = await submitted(context);

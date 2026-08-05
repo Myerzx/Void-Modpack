@@ -91,8 +91,10 @@ const ListQuerySchema = Type.Object(
         Type.Literal('rejected'),
       ]),
     ),
-    limit: Type.Optional(Type.Integer({ minimum: 1, maximum: MAXIMUM_PAGE })),
-    offset: Type.Optional(Type.Integer({ minimum: 0, maximum: 1_000_000 })),
+    // A query parameter arrives as a string and this API runs its validator
+    // without coercion, so a bound is declared as digits and converted here.
+    limit: Type.Optional(Type.String({ pattern: '^[0-9]{1,7}$' })),
+    offset: Type.Optional(Type.String({ pattern: '^[0-9]{1,7}$' })),
   },
   { additionalProperties: false },
 );
@@ -158,6 +160,21 @@ export function registerArtifactRoutes(
       done(null, payload);
     },
   );
+
+  /** Refuses a bound the caller tried to argue past, rather than clamping it. */
+  function boundedNumber(
+    raw: string | undefined,
+    fallback: number,
+    minimum: number,
+    maximum: number,
+  ): number {
+    if (raw === undefined) return fallback;
+    const value = Number(raw);
+    if (!Number.isSafeInteger(value) || value < minimum || value > maximum) {
+      throw apiError(400, 'ARTIFACT_REQUEST_INVALID', 'Paginação inválida.');
+    }
+    return value;
+  }
 
   function panelActor(request: FastifyRequest): ActorRef {
     const auth = request.authContext;
@@ -336,8 +353,8 @@ export function registerArtifactRoutes(
       const page: ArtifactSubmissionPage = await repositories.artifactReview.list({
         serverInstanceId: serverId,
         states,
-        limit: request.query.limit ?? DEFAULT_PAGE,
-        offset: request.query.offset ?? 0,
+        limit: boundedNumber(request.query.limit, DEFAULT_PAGE, 1, MAXIMUM_PAGE),
+        offset: boundedNumber(request.query.offset, 0, 0, 1_000_000),
       });
       return page;
     },
