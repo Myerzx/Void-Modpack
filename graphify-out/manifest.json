@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1785947789.3616583,
-    "ast_hash": "65aefa34dde8b209d95b121eb0221628",
+    "mtime": 1785951382.2013223,
+    "ast_hash": "6645b3ac97b90dfec58492ad5eade4f9",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785917402.71352,
-    "ast_hash": "501eadad1963aa127d111353e09e412e",
+    "mtime": 1785951105.6519296,
+    "ast_hash": "0d870d665c9bbdc1d5a33d7d4480f8c3",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database.test.ts": {
-    "mtime": 1785946981.981761,
-    "ast_hash": "40b85b90ac057ecdb8c503b4e6bc1a35",
+    "mtime": 1785950705.2379696,
+    "ast_hash": "5c6d148f7447669e57707d690cc18ace",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/tsconfig.build.json": {
@@ -615,8 +615,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/package.json": {
-    "mtime": 1785947169.8956811,
-    "ast_hash": "21071bad610e9e8c767b0b969d41b924",
+    "mtime": 1785950705.170236,
+    "ast_hash": "52144ed132b376dbf44f39967d5fea5b",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
@@ -625,8 +625,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/index.ts": {
-    "mtime": 1785947156.2091446,
-    "ast_hash": "0bff02493b33362333cca0881339f033",
+    "mtime": 1785950656.1038978,
+    "ast_hash": "ee9b3b4e8a38a230c12b628d674fc330",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/agent-client.test.ts": {
@@ -3530,8 +3530,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/server-operation.ts": {
-    "mtime": 1785946729.4722466,
-    "ast_hash": "835ee127cdf77f868f609c717b31bbb1",
+    "mtime": 1785950597.7231789,
+    "ast_hash": "5910ae1de4bcefa733aa710822371697",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0007_operational_core.sql": {
@@ -3540,8 +3540,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/operational-repositories.ts": {
-    "mtime": 1785917592.1416433,
-    "ast_hash": "02b0bdf4b7b6666b047edeb76a8c2607",
+    "mtime": 1785950597.7231789,
+    "ast_hash": "c266ef6671e80f6e6edd6fd11690f527",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_9_OPERATIONAL_CORE.md": {
@@ -3650,8 +3650,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/process-routes.ts": {
-    "mtime": 1785947282.8588974,
-    "ast_hash": "ceae617f9637c100cdc3f7726141dc0f",
+    "mtime": 1785950618.9199693,
+    "ast_hash": "3fc4a9f2f68dc496a1a5c1d91f723bc8",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/process-api.test.ts": {
@@ -3665,8 +3665,23 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_10_PROCESS_CONSOLE.md": {
-    "mtime": 1785947758.2114942,
-    "ast_hash": "74ae8c1df0e25d2462e12b0b46ba7cc1",
+    "mtime": 1785951382.1998131,
+    "ast_hash": "db9e8802aa720381438d4a6177db2cfc",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/src/console-operation.ts": {
+    "mtime": 1785950645.7071006,
+    "ast_hash": "eba43e1f9683c625b3c8edf5473afd9d",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/test/console-operation.test.ts": {
+    "mtime": 1785950693.4634793,
+    "ast_hash": "57994adfc55b74bc258aabffcb7fb0d0",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0010_console_command.sql": {
+    "mtime": 1785950744.1281085,
+    "ast_hash": "ecdeb7c35543b4fbf4659bac83bbc10d",
     "semantic_hash": ""
   }
 }
