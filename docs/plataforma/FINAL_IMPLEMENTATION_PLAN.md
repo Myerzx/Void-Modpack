@@ -199,13 +199,13 @@ Status: concluída tecnicamente em isolamento em 2026-08-04. `@voidfall/artifact
 
 ### 8.2 — motor de compatibilidade
 
-- [ ] comparar Minecraft, loader, loader version, lado e dependências por contexto;
-- [ ] resolver ranges suportados e manter os demais como `unknown` bloqueante;
-- [ ] detectar IDs, hashes e filenames duplicados;
-- [ ] detectar dependência obrigatória ausente, ciclo e conflito explícito;
-- [ ] classificar issue como `blocker`, `warning` ou `information`;
-- [ ] manter códigos estáveis e mensagem humana separada;
-- [ ] produzir explicação, evidência e ação manual recomendada, sem inventar correção.
+- [x] comparar Minecraft, loader, loader version, lado e dependências por contexto;
+- [x] resolver ranges suportados e manter os demais como `unknown` bloqueante;
+- [x] detectar IDs, hashes e filenames duplicados;
+- [x] detectar dependência obrigatória ausente, ciclo e conflito explícito;
+- [x] classificar issue como `blocker`, `warning` ou `information`;
+- [x] manter códigos estáveis e mensagem humana separada;
+- [x] produzir explicação, evidência e ação manual recomendada, sem inventar correção.
 
 Códigos mínimos:
 
@@ -221,6 +221,8 @@ Códigos mínimos:
 - `explicit-conflict`;
 - `metadata-unverified`;
 - `distribution-unreviewed`.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. `@voidfall/artifact-compatibility` julga as declarações da Fase 8.1 contra um ou mais contextos alvo e separa dois eixos: `code` nomeia o assunto e é estável, `determinacy` diz se aquilo foi provado ou apenas não pôde ser descartado. O contrato recusa qualquer issue `unproven` que não bloqueie, então desconhecido bloqueia sem virar defeito provado. Além dos doze códigos mínimos, `dependency-cycle` cobre mods que se exigem mutuamente. Lado e conflito explícito vêm de revisão humana, nunca de presença ou filename; uma dependência obrigatória ausente vira `possibly-embedded` e não provada quando o artefato declara bibliotecas JarJar que nunca foram abertas; e o avaliador de ranges Maven da Fase 7.0 é reutilizado em vez de reimplementado. O `detail` é sanitizado pelo motor contra um charset sem separador de caminho nem prefixo de unidade. Consulte [Motor de compatibilidade da Fase 8.2](PHASE_8_COMPATIBILITY_ENGINE.md).
 
 ### 8.3 — persistência, API e revisão
 

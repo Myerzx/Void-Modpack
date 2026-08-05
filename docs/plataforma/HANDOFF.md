@@ -2,9 +2,9 @@
 
 ## Estado atual
 
-- Data: 2026-08-04
+- Data: 2026-08-05
 - Responsável: Claude
-- Fase: 8.1 — concluída tecnicamente em isolamento; a Fase 7 inteira está fechada e aprovada em CI. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 8.2 — concluída tecnicamente em isolamento; a Fase 8.1 e a Fase 7 inteira estão fechadas e aprovadas em CI. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -158,6 +158,22 @@
   - contrato `ArtifactInspectionReport` v1 com evidência como união fechada dos seis descritores revisados;
   - fixtures construídas em código por escritor ZIP determinístico, não commitadas como binários;
   - gate local de 298 casos descobertos, 296 executados no Windows e dois sockets Unix ignorados, com [matriz Windows/Linux 30961224930](https://github.com/Myerzx/Void-Modpack/actions/runs/30961224930) aprovada nos dois sistemas;
+- Fase 8.2 com:
+  - `@voidfall/artifact-compatibility`, motor puro e determinístico que julga as declarações da Fase 8.1 contra um ou mais contextos alvo;
+  - contratos v1 `ArtifactCompatibilityPlan` e `ArtifactCompatibilityReport`; o pacote de contratos passou de 28 para 30 JSON Schemas exportados;
+  - dois eixos separados: `code` nomeia o assunto e é estável, `determinacy` distingue `proven` de `unproven`, e o contrato recusa qualquer issue `unproven` que não bloqueie;
+  - treze códigos: os doze mínimos do plano mais `dependency-cycle` para mods que se exigem mutuamente;
+  - mensagem humana e ação manual em tabela fechada indexada por `code:reason`, fora do código estável, sem nenhuma ação que uma máquina pudesse executar sozinha;
+  - todo contexto do plano é alvo, sem contexto de referência ou histórico cuja severidade pudesse ser suavizada, e um contexto sem loader é recusado;
+  - lado vindo somente de revisão humana: sem revisão o resultado é `metadata-unverified:side-not-reviewed`, nunca `both` presumido;
+  - conflito explícito vindo somente de revisão, porque a Fase 8.1 não lê nenhuma declaração de `breaks`;
+  - dependência obrigatória ausente reportada como `possibly-embedded` e não provada quando o artefato declara bibliotecas JarJar nunca abertas;
+  - dependência opcional ausente sem issue, e dependência opcional presente fora do range como blocker;
+  - alvo de loader que o contexto não roda ignorado na dependência, para não contar o mesmo fato duas vezes depois de `loader-mismatch`;
+  - avaliador de ranges Maven da Fase 7.0 reutilizado em vez de reimplementado, mantendo uma única semântica de qualifier e build no repositório;
+  - componentes fortemente conexos por Tarjan iterativo, com nós e arestas ordenados, sem recursão que pudesse estourar a pilha;
+  - `detail` sanitizado pelo motor contra um charset sem separador de caminho, prefixo de unidade, aspas ou caractere de controle, de modo que um range hostil não vaze caminho nem quebre a validação do próprio relatório;
+  - fechamento de referências: todo `artifactId`, `contextId` e `modId` citado por uma issue é declarado pelo relatório, com `relatedInstalled` existindo para manter esse fechamento;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -182,6 +198,10 @@
 
 ## Validação
 
+- Fase 8.2 por componente: `artifact-compatibility` 40 casos e `contracts` 65 casos com 30 JSON Schemas exportados; os 12 códigos mínimos do plano, `dependency-cycle`, os dois eixos `code`/`determinacy`, o veredito por contexto, o limite de citação e a sanitização de `detail` estão cobertos;
+- gate completo local da Fase 8.2 aprovado: 350 casos descobertos, 348 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
+- baseline registrada antes da fatia: 298 descobertos e 296 executados, sem falha preexistente; a fatia acrescentou 12 casos de contrato e 40 do motor;
+- `git diff --check` sem erro;
 - Fase 7.3 por componente: contratos 48 casos e 27 JSON Schemas; permissões 5; database 6; `server-configuration` 17 descobertos e 16 executados no Windows; `server-agent` 9; `build-worker` 11; `control-api` 33, incluindo os 8 cenários E2E; `panel-web` 15;
 - gate completo local da Fase 7.3 aprovado: 268 casos descobertos, 266 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
 - baseline registrada antes da fatia: 192 descobertos, 190 executados e dois sockets Unix ignorados, sem falha preexistente;
@@ -287,10 +307,17 @@
 - cadeia SHA-256 detecta alteração interna, mas ainda não possui assinatura/âncora externa, storage imutável, criptografia, retenção ou cerimônia de export;
 - `AuditRepository` limita verificação/export a 100.000 registros por operação e ainda não possui paginação/âncora incremental para partições maiores;
 - o diagnóstico Graphify registra duas autociclagens `references` na migration 0004; uma representa a FK autorreferente legítima de rollback e a outra é limitação observada do extrator SQL, não uma dependência operacional inventada;
+- a inspeção da Fase 8.1 comprova estrutura e declaração, mas não certifica malware, autoria, licença ou comportamento em jogo; CRC-32 por entrada ainda não é verificado e o tamanho declarado continua a autoridade;
+- o motor da Fase 8.2 julga declaração, não comportamento: nada nele prova que o mod carrega, funciona em jogo ou não conflita em runtime;
+- um contexto Quilt recebe `loader-mismatch` para artefato Fabric, porque nenhuma compatibilidade herdada entre loaders foi revisada e o motor não a inventa;
+- bibliotecas JarJar continuam sem análise própria, então `possibly-embedded` é a resposta honesta e não uma resolução;
+- um artefato instalado não declara dependências no plano de compatibilidade, então um ciclo que só se fecha através dele não é observável;
+- a lista de conflitos explícitos é revisada manualmente e ainda não possui persistência, ator, autorização ou trilha de auditoria; isso é da Fase 8.3;
+- o plano de compatibilidade é montado por quem chama: não existe repositório, endpoint, job durável ou painel ligado ao motor;
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 8.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): motor de compatibilidade contextual sobre as declarações da Fase 8.1, com `unknown` bloqueante, códigos estáveis e evidência, sem inventar correção. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 8.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): persistência, API e revisão da entrada de mods — upload, quarentena, inspeção, issues e decisão humana com ator, motivo e hash analisado; endpoint streaming autenticado com limite e rate limit; jobs duráveis; e os estados `uploaded`, `quarantined`, `analyzing`, `blocked`, `reviewable`, `approved` e `rejected`, lembrando que aprovação altera estado de revisão e não instala mod. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
@@ -372,5 +399,7 @@ Executar a **Fase 8.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `8702ac9` — Graphify atualizado com o fluxo da Fase 7.3;
 - `433ab8f` — correção da ordem de typecheck/build da prova E2E na CI;
 - inspeção limitada de metadata declarada da Fase 8.1.
+- contratos versionados do plano e do relatório de compatibilidade da Fase 8.2;
+- motor determinístico de compatibilidade sobre as declarações da Fase 8.1.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.
