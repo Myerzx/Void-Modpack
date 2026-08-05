@@ -8,7 +8,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "test": "tsx --test test/dashboard-fixture.test.ts test/configuration-view.test.ts",
+    "test": "tsx --test test/dashboard-fixture.test.ts test/configuration-view.test.ts test/artifact-view.test.ts",
     "typecheck": "next typegen && tsc --noEmit"
   },
   "devDependencies": {
