@@ -324,11 +324,13 @@ Status: concluída tecnicamente em isolamento em 2026-08-05. A capability `proce
 
 ### 10.2 — arquivos e configurações
 
-- [ ] descoberta somente em raízes autorizadas;
-- [ ] criar, renomear, mover, copiar e excluir com revisão e política;
-- [ ] upload/download limitados e sem execução;
-- [ ] proteção contra junction, symlink e alias cross-platform;
-- [ ] diff e restauração de texto sem revelar segredos.
+- [x] descoberta somente em raízes autorizadas;
+- [x] criar, renomear, mover, copiar e excluir com revisão e política;
+- [x] upload/download limitados e sem execução;
+- [x] proteção contra junction, symlink e alias cross-platform;
+- [x] diff e restauração de texto sem revelar segredos.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. Toda mutação obedece a três regras: nada é sobrescrito, o que se perde é preservado como revisão imutável antes da perda, e a mutação fica dentro de uma raiz. Renomear é o caso do move em que origem e destino compartilham o pai, não uma operação separada. O contrato recusa barra invertida e dois-pontos de saída, o que torna `C:\...`, prefixo UNC e fluxo alternativo NTFS inexprimíveis em qualquer plataforma, e recusa nomes que resolvem para arquivo diferente do que se lê (ponto ou espaço final, dispositivo reservado, não-NFC). O diff casa linhas cruas e redige na saída, de modo que uma troca de credencial aparece como mudança sem que nenhum dos dois valores apareça. A restauração só preenche caminho ausente e nunca devolve os bytes preservados ao chamador. Nenhuma raiz real foi configurada. Consulte [Arquivos autorizados da Fase 10.2](PHASE_10_AUTHORIZED_FILES.md).
 
 ### 10.3 — backups e restore
 

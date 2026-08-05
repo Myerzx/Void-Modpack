@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785946678.0308156,
-    "ast_hash": "85b937c416d69092ecc638453214f6f0",
+    "mtime": 1785953930.805632,
+    "ast_hash": "20eb95a2e1eada198513ab7215a92676",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785946678.0308156,
-    "ast_hash": "91f9976e7f95a823829c5ece66fcd133",
+    "mtime": 1785953937.3990614,
+    "ast_hash": "57fec5377f5314e2a09cc335288b902e",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785951105.6519296,
-    "ast_hash": "0d870d665c9bbdc1d5a33d7d4480f8c3",
+    "mtime": 1785954112.1131656,
+    "ast_hash": "e3dc18b7ce3851e9933126d161a3cd73",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -545,13 +545,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1785947349.7076037,
-    "ast_hash": "6744e8f07ed56b826e0c7280791efcef",
+    "mtime": 1785955982.6604483,
+    "ast_hash": "963e7e3625876a654432f8efd720ad84",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1785947286.715565,
-    "ast_hash": "e7ff37b758cfd9559fe3efa583b74a1d",
+    "mtime": 1785954359.1043792,
+    "ast_hash": "37a1f71fcf3f22cf6fd2e304610357a4",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -1025,23 +1025,23 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/package.json": {
-    "mtime": 1785792229.5052595,
-    "ast_hash": "682a9356f8ad74660914f3c8c28b7f26",
+    "mtime": 1785953772.6040988,
+    "ast_hash": "144068f6625d0a190106370739c56a2c",
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/src/index.ts": {
-    "mtime": 1785792229.508275,
-    "ast_hash": "f8711130dc48b82f1475ed0c267dbffb",
+    "mtime": 1785953625.9517052,
+    "ast_hash": "5a6528a54405128f1969c9baeaf3f672",
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/src/service.ts": {
-    "mtime": 1785793146.2569816,
-    "ast_hash": "bc1a0b10971ecb0c8651fd77736f9334",
+    "mtime": 1785953685.3577397,
+    "ast_hash": "0aa66a99cd0ee777681da9b701eeeadf",
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/src/types.ts": {
-    "mtime": 1785792284.1243825,
-    "ast_hash": "8aacdc7a689de52c85e342a5e993229e",
+    "mtime": 1785953639.820823,
+    "ast_hash": "6ed6bf65fe586bb1653d055c73d26b5b",
     "semantic_hash": ""
   },
   "Plataforma/packages/authorized-files/test/authorized-files.test.ts": {
@@ -3130,8 +3130,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1785947789.3616583,
-    "ast_hash": "d2a1c51a8244881bda2d237121a37f16",
+    "mtime": 1785956244.470889,
+    "ast_hash": "4552e643ea4552ac7e36adbe82ce3dac",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -3682,6 +3682,36 @@
   "Plataforma/packages/database/migrations/0010_console_command.sql": {
     "mtime": 1785950744.1281085,
     "ast_hash": "ecdeb7c35543b4fbf4659bac83bbc10d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/authorized-files/src/text-diff.ts": {
+    "mtime": 1785953797.669511,
+    "ast_hash": "2983503537b3399d6b0f1350725fafcb",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/authorized-files/test/authorized-file-mutations.test.ts": {
+    "mtime": 1785953756.9616601,
+    "ast_hash": "0f855fb41ee6f2fcb15ebc4b0e5a42f4",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/authorized-file-operation.ts": {
+    "mtime": 1785954011.0451095,
+    "ast_hash": "d75cdb896746b77e973ab3a27580054d",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/authorized-file-routes.ts": {
+    "mtime": 1785954327.5977767,
+    "ast_hash": "10759f34573699abbc20a5f7e9c4366f",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/authorized-file-api.test.ts": {
+    "mtime": 1785956106.852009,
+    "ast_hash": "9e2fd93fa717f1e7cee776123113fbeb",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_10_AUTHORIZED_FILES.md": {
+    "mtime": 1785956233.721605,
+    "ast_hash": "5d5a07ac1b9ce54700ab14416a7caea8",
     "semantic_hash": ""
   }
 }
