@@ -9,7 +9,7 @@
     "bootstrap-owner": "tsx src/bootstrap-owner.ts",
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "start": "node dist/main.js",
-    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts test/configuration-e2e.test.ts",
+    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts test/configuration-e2e.test.ts test/artifact-api.test.ts test/artifact-e2e.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {

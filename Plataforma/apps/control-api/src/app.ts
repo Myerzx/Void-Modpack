@@ -36,6 +36,11 @@ import Fastify, {
   type FastifyRequest,
 } from 'fastify';
 import {
+  registerArtifactRoutes,
+  type ArtifactPermission,
+  type ArtifactQuarantineStore,
+} from './artifact-routes.js';
+import {
   registerConfigurationRoutes,
   type ConfigurationPermission,
   type ConfigurationValueReader,
@@ -90,6 +95,12 @@ export interface BuildControlApiOptions {
    * than caching, guessing or persisting them.
    */
   readonly configurationReader?: ConfigurationValueReader;
+  /**
+   * Store that receives an uploaded artifact as a stream. It is optional and
+   * deny-by-default: without it an upload is refused rather than accepted into
+   * a location nobody configured.
+   */
+  readonly artifactQuarantineStore?: ArtifactQuarantineStore;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -527,10 +538,36 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
       : { configurationReader: options.configurationReader }),
   });
 
+  registerArtifactRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: ArtifactPermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'artifact-submission', id: input.submissionId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
+    ...(options.artifactQuarantineStore === undefined
+      ? {}
+      : { quarantineStore: options.artifactQuarantineStore }),
+  });
+
   return app;
 }
 
 export type { ConfigurationValueReader } from './configuration-routes.js';
+export type { ArtifactQuarantineStore } from './artifact-routes.js';
 
 export function repositoriesFor(database: Database): Repositories {
   return createRepositories(database);
