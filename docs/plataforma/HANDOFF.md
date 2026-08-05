@@ -228,6 +228,7 @@
   - redação na entrada e não na leitura, com o redator substituindo e comparando em vez de testar antes;
   - append e poda na mesma transação;
   - lacuna da Fase 9.2 fechada: o lease passou a carregar o tipo de job, porque uma capability serve vários e o agente teria que adivinhar;
+  - comando de console chegando ao agente: a rota o aceitava e descartava, então o payload do job não o levava e a capability não poderia existir; ele passou a viver na operação durável, restrito ao catálogo pelo banco, com a capability `console.command` resolvendo-o pelo job e despachando sob o mesmo lock;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -253,7 +254,7 @@
 ## Validação
 
 - Fase 10.1 por componente: `database` 36 casos e `control-api` 74, incluindo 13 das rotas de processo e console;
-- gate completo local da Fase 10.1 aprovado com código de saída 0: 500 casos descobertos, 498 executados no Windows e dois sockets Unix ignorados;
+- gate completo local da Fase 10.1 aprovado com código de saída 0: 505 casos descobertos, 503 executados no Windows e dois sockets Unix ignorados, já incluindo a capability de console;
 - matriz CI da Fase 10.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31026584693](https://github.com/Myerzx/Void-Modpack/actions/runs/31026584693);
 - baseline registrada antes da fatia: 482 descobertos e 480 executados; a fatia acrescentou 18 casos;
 - `git diff --check` sem erro;

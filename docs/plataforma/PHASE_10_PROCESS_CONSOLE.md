@@ -38,6 +38,12 @@ Append e poda compartilham uma transação: podar em separado deixaria uma janel
 
 O catálogo de comandos continua fechado e é publicado pela API, para que um cliente não precise adivinhá-lo.
 
+### O comando chega ao agente pela operação
+
+A rota aceitava um comando do catálogo e **o descartava**: o payload do job carregava só o servidor e uma versão, então nenhum agente teria como saber o que executar. O comando passou a viver na operação durável — auditável ali, restrito ao catálogo pelo próprio banco — e a fila continua carregando apenas referência opaca, de modo que texto livre de comando segue sem poder atravessá-la.
+
+Um comando pertence a uma operação de console e a mais nada; esse vínculo é exigido no contrato e de novo como constraint de tabela. A capability `console.command` resolve a operação a partir do job, lê o literal revisado e o despacha sob o mesmo `minecraft-exclusive`, de modo que um comando não roda contra um servidor em meio a um restart.
+
 ## Lacuna fechada da Fase 9.2
 
 Um lease nomeava a capability mas não o tipo de job — e uma capability pode servir vários. O agente não conseguia distinguir um stop de um restart e teria que adivinhar o que lhe foi pedido. O lease passou a carregar o tipo de job, e o contrato recusa um par que aquela capability não pode servir.
@@ -54,5 +60,4 @@ Um lease nomeava a capability mas não o tipo de job — e uma capability pode s
 - a capability existe e é testada, mas o `main.ts` do agente ainda não a instancia: ligar o processo real é operação, não código;
 - a reconciliação de PID órfão usa o `reconcileStale` da Fase 9.1, que continua sem agendador;
 - o timeout da requisição limita a espera, não o processo: uma operação que estoura fica observada como excedida e o processo exatamente como estava;
-- o comando de console é aceito e enfileirado, mas nenhuma capability de console foi implementada ainda — só o tipo e a concessão existem;
 - a captura de console acontece ao fim da operação; não há streaming contínuo enquanto o servidor roda.
