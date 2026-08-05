@@ -98,7 +98,13 @@ describe('startup configuration', () => {
   it('refuses a half-configured file root instead of coming up without it', () => {
     // Forgetting one of a pair is a typo, and coming up with file access
     // silently disabled is worse than refusing to start.
-    const issues = issuesOf(minimal({ VOIDFALL_AUTHORIZED_ROOT_CONFIG: 'C:\\temp\\config' }));
+    //
+    // A leading-slash path is absolute on both POSIX and Win32, so this test
+    // asserts the same single issue everywhere. A drive-letter path would be
+    // absolute only on Windows and would add a second, platform-dependent
+    // issue on Linux — which is exactly how a test starts describing the
+    // runner instead of the code.
+    const issues = issuesOf(minimal({ VOIDFALL_AUTHORIZED_ROOT_CONFIG: '/srv/voidfall/config' }));
     assert.deepEqual(issues, ['VOIDFALL_AUTHORIZED_REVISION_ROOT=incomplete-group']);
   });
 
