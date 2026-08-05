@@ -40,6 +40,7 @@ import {
   type ArtifactPermission,
   type ArtifactQuarantineStore,
 } from './artifact-routes.js';
+import { registerAgentWorkRoutes } from './agent-work-routes.js';
 import {
   registerOperationalRoutes,
   type OperationalPermission,
@@ -540,6 +541,33 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.configurationReader === undefined
       ? {}
       : { configurationReader: options.configurationReader }),
+  });
+
+  registerAgentWorkRoutes(app, {
+    repositories,
+    clock,
+    verifyAgentTransport,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    computePayloadHash: computeAgentPayloadHash,
+    verifySignature: verifyAgentEnvelopeSignature,
+    isFresh: isAgentEnvelopeFresh,
+    safeEqualHex,
+    hashNonce: hashOpaqueToken,
+    newId: () => randomUUID(),
+    audit: async (input) => {
+      await repositories.audit.append({
+        schemaVersion: 1,
+        id: randomUUID(),
+        occurredAt: clock().toISOString(),
+        correlationId: input.correlationId,
+        actor: { type: 'agent', id: input.agentId },
+        source: 'agent',
+        action: input.action,
+        resource: { type: 'agent', id: input.agentId },
+        outcome: input.outcome,
+        ...(input.reason === undefined ? {} : { reason: input.reason }),
+      });
+    },
   });
 
   registerOperationalRoutes(app, {

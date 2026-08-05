@@ -33,6 +33,7 @@ export type AgentTransportErrorCode =
   | 'capability-not-granted'
   | 'lease-not-found'
   | 'lease-expired'
+  | 'lease-job-mismatch'
   | 'invalid-record';
 
 export class AgentTransportError extends Error {
@@ -374,10 +375,17 @@ export class AgentTransportRepository {
     });
   }
 
-  /** Closes a lease the agent still holds. An expired one is refused. */
+  /**
+   * Closes a lease the agent still holds.
+   *
+   * The job the result names is checked *inside* the transaction, before
+   * anything is written. Settling first and validating afterwards would let a
+   * result naming the wrong job consume the lease and strand the real work.
+   */
   async settleLease(input: {
     readonly leaseId: string;
     readonly agentId: string;
+    readonly expectedJobId: string;
     readonly outcome: 'succeeded' | 'failed';
     readonly failureCode?: AgentWorkFailureCode;
     readonly now: Date;
@@ -395,6 +403,9 @@ export class AgentTransportRepository {
       const row = current.rows[0];
       if (row === undefined || row.settled_at !== null) {
         throw new AgentTransportError('lease-not-found');
+      }
+      if (row.job_id !== input.expectedJobId) {
+        throw new AgentTransportError('lease-job-mismatch');
       }
       if (Date.parse(isoString(row.expires_at)) <= input.now.getTime()) {
         throw new AgentTransportError('lease-expired');

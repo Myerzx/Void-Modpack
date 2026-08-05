@@ -1646,6 +1646,7 @@ describe('agent transport persistence', () => {
         repositories.agentTransport.settleLease({
           leaseId: claimed.leaseId,
           agentId: randomUUID(),
+          expectedJobId: claimed.jobId,
           outcome: 'succeeded',
           now: new Date('2026-08-05T12:00:10Z'),
         }),
@@ -1656,15 +1657,31 @@ describe('agent transport persistence', () => {
         repositories.agentTransport.settleLease({
           leaseId: randomUUID(),
           agentId,
+          expectedJobId: claimed.jobId,
           outcome: 'succeeded',
           now: new Date('2026-08-05T12:00:10Z'),
         }),
         (error: unknown) => error instanceof AgentTransportError && error.code === 'lease-not-found',
       );
 
+      // A result naming another job is refused before anything is written, so
+      // it cannot consume the lease and strand the real work.
+      await assert.rejects(
+        repositories.agentTransport.settleLease({
+          leaseId: claimed.leaseId,
+          agentId,
+          expectedJobId: randomUUID(),
+          outcome: 'succeeded',
+          now: new Date('2026-08-05T12:00:15Z'),
+        }),
+        (error: unknown) =>
+          error instanceof AgentTransportError && error.code === 'lease-job-mismatch',
+      );
+
       const settled = await repositories.agentTransport.settleLease({
         leaseId: claimed.leaseId,
         agentId,
+        expectedJobId: claimed.jobId,
         outcome: 'succeeded',
         now: new Date('2026-08-05T12:00:20Z'),
       });
@@ -1675,6 +1692,7 @@ describe('agent transport persistence', () => {
         repositories.agentTransport.settleLease({
           leaseId: claimed.leaseId,
           agentId,
+          expectedJobId: claimed.jobId,
           outcome: 'succeeded',
           now: new Date('2026-08-05T12:00:30Z'),
         }),
@@ -1704,6 +1722,7 @@ describe('agent transport persistence', () => {
         repositories.agentTransport.settleLease({
           leaseId: claimed.leaseId,
           agentId,
+          expectedJobId: claimed.jobId,
           outcome: 'succeeded',
           now: new Date('2026-08-05T12:01:00Z'),
         }),
