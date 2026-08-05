@@ -226,6 +226,7 @@
 - gate completo local da Fase 9.1 aprovado: 427 casos descobertos, 425 executados no Windows e dois sockets Unix ignorados;
 - baseline registrada antes da fatia: 393 descobertos e 391 executados; a fatia acrescentou 34 casos;
 - matriz CI da Fase 9.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30989284065](https://github.com/Myerzx/Void-Modpack/actions/runs/30989284065);
+- correção do catálogo e refresh do grafo aprovados na [execução 31014054565](https://github.com/Myerzx/Void-Modpack/actions/runs/31014054565);
 - uma auditoria posterior encontrou um terceiro defeito: `mod_catalog_entries` foi criada e o checkbox "persistir catálogos" marcado, mas nenhum código usava a tabela; o repositório foi implementado e testado, e o export morto `AdministrativePageQuerySchema` removido;
 - o gate encontrou dois defeitos que o runner de testes não pegaria: a paginação por query string, que nunca funcionou porque a API valida sem coerção, e uma edição por script que removeu quatro métodos do `AuditRepository` ao casar o fim de bloco com a chave da classe;
 - `git diff --check` sem erro;
