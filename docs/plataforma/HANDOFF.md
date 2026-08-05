@@ -4,7 +4,7 @@
 
 - Data: 2026-08-05
 - Responsável: Claude
-- Fase: 9.2 — a Fase 8 inteira está fechada e aprovada em CI, e as Fases 9.1 e 9.2 estão concluídas tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 9.3 — a Fase 8 inteira está fechada e aprovada em CI, e a Fase 9 inteira está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -209,6 +209,14 @@
   - supervisor no Server Agent com espera pelo intervalo pedido, backoff geométrico até teto, reset ao recuperar, encerramento limpo por sinal e `bootId` novo por execução;
   - capacidade sem handler recusada explicitamente, em vez de improvisar um executor genérico;
   - correção de defeito achado pelo E2E: a rota de resultado liquidava o lease antes de conferir o job, então um resultado com job errado consumia o lease e abandonava o trabalho real;
+- Fase 9.3 com:
+  - shell de painel declarando `loading`, `empty`, `unavailable`, `denied` e `error`, renderizando conteúdo só quando pronto;
+  - recusa nunca apresentada como erro: `401`/`403` viram negado, `404` vazio, `503` indisponível;
+  - ação sem permissão não renderizada, em vez de desabilitada, para não revelar capacidade que o usuário não tem;
+  - permissão e disponibilidade separadas: iniciar/parar/reiniciar, console, backup e instalação continuam desabilitados mesmo para `owner`, nomeando a fase que os implementa;
+  - procedência em todo tile — origem, qualidade e horário —, com processo nunca observado reportado como desconhecido e observação sem acompanhamento marcada como desatualizada;
+  - sessão real contra a Control API sem guardar credencial, distinguindo senha errada, bloqueio por rate limit e falha;
+  - seletor de instância real, lista de operações com recibo e correlação, e auditoria paginada no servidor;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -233,6 +241,10 @@
 
 ## Validação
 
+- Fase 9.3 por componente: `panel-web` 55 casos;
+- gate completo local da Fase 9.3 aprovado com código de saída 0: 482 casos descobertos, 480 executados no Windows e dois sockets Unix ignorados;
+- baseline registrada antes da fatia: 455 descobertos e 453 executados; a fatia acrescentou 27 casos;
+- matriz CI da Fase 9.2 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31020693016](https://github.com/Myerzx/Void-Modpack/actions/runs/31020693016);
 - Fase 9.2 por componente: `database` 31 casos, `server-agent` 22 e `control-api` 61, incluindo 7 cenários E2E do transporte;
 - gate completo local da Fase 9.2 aprovado com código de saída 0: 455 casos descobertos, 453 executados no Windows e dois sockets Unix ignorados;
 - baseline registrada antes da fatia: 427 descobertos e 425 executados; a fatia acrescentou 28 casos;
@@ -377,7 +389,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 9.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): painel dinâmico — login/logout/sessão consumindo a Control API, seletor de instância real, dashboard com fonte/qualidade/horário, páginas de servidor, jobs, mods, configurações e auditoria, os estados loading/vazio/indisponível/negado/erro, ações escondidas sem permissão e mutações perigosas desabilitadas. As Fases 9.1 e 9.2 já deixaram os contratos e endpoints estáveis sobre os quais o painel pode ser construído. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 10** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): operações completas do servidor — processo, console, arquivos, backups, restore, métricas, logs, alertas e agendamentos, com locks duráveis. A Fase 9 inteira está fechada: o núcleo operacional tem memória, o transporte do agente é real e o painel consome dados reais nas áreas implementadas. As mutações perigosas do painel já estão desenhadas como desabilitadas esperando exatamente esta fase. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 

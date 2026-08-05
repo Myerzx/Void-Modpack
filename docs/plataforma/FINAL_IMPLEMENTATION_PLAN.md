@@ -290,13 +290,15 @@ Status: concluída tecnicamente em isolamento em 2026-08-05. A migration `0008_a
 
 ### 9.3 — painel dinâmico
 
-- [ ] login/logout/sessão consumindo Control API;
-- [ ] seletor de instância real;
-- [ ] dashboard com fonte, qualidade e timestamp;
-- [ ] páginas de servidor, jobs, mods, configurações e auditoria;
-- [ ] estados loading, vazio, indisponível, negado e erro;
-- [ ] esconder ações sem permissão;
-- [ ] manter mutações perigosas desabilitadas até a fase correspondente.
+- [x] login/logout/sessão consumindo Control API;
+- [x] seletor de instância real;
+- [x] dashboard com fonte, qualidade e timestamp;
+- [x] páginas de servidor, jobs, mods, configurações e auditoria;
+- [x] estados loading, vazio, indisponível, negado e erro;
+- [x] esconder ações sem permissão;
+- [x] manter mutações perigosas desabilitadas até a fase correspondente.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. O shell expressa três regras uma vez só: a tela declara em qual estado está e só renderiza conteúdo quando pronta, uma recusa nunca vira erro, e uma ação sem permissão não é renderizada em vez de aparecer desabilitada. Permissão e disponibilidade são separadas: iniciar, parar e reiniciar servidor, comando de console, backup e instalação de artefato continuam desabilitados mesmo para `owner`, nomeando a fase que os implementa. Todo tile carrega origem, qualidade e horário; um processo que ninguém observou é reportado como desconhecido e não como desligado, e as áreas que seguem fixture são nomeadas dentro da própria view. Consulte [Painel dinâmico da Fase 9.3](PHASE_9_DYNAMIC_PANEL.md).
 
 Critério de conclusão da Fase 9:
 
