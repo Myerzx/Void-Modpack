@@ -14,10 +14,12 @@
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "start": "node dist/main.js",
-    "test": "tsx --test test/worker.test.ts test/configuration-worker.test.ts",
+    "test": "tsx --test test/worker.test.ts test/configuration-worker.test.ts test/artifact-worker.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
+    "@voidfall/artifact-compatibility": "0.1.0",
+    "@voidfall/artifact-inspection": "0.1.0",
     "@voidfall/contracts": "0.1.0",
     "@voidfall/database": "0.1.0"
   },
