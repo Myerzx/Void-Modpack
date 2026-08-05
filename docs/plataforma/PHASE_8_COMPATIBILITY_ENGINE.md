@@ -1,6 +1,6 @@
 # Fase 8.2: motor de compatibilidade
 
-Status: concluída tecnicamente em isolamento em 2026-08-05.
+Status: concluída tecnicamente em isolamento em 2026-08-05; gate local aprovado e [matriz Windows/Linux 30974767140](https://github.com/Myerzx/Void-Modpack/actions/runs/30974767140) aprovada nos dois sistemas.
 
 ## Resultado
 

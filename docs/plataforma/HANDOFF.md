@@ -200,6 +200,7 @@
 
 - Fase 8.2 por componente: `artifact-compatibility` 40 casos e `contracts` 65 casos com 30 JSON Schemas exportados; os 12 códigos mínimos do plano, `dependency-cycle`, os dois eixos `code`/`determinacy`, o veredito por contexto, o limite de citação e a sanitização de `detail` estão cobertos;
 - gate completo local da Fase 8.2 aprovado: 350 casos descobertos, 348 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
+- matriz CI da Fase 8.2 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30974767140](https://github.com/Myerzx/Void-Modpack/actions/runs/30974767140);
 - baseline registrada antes da fatia: 298 descobertos e 296 executados, sem falha preexistente; a fatia acrescentou 12 casos de contrato e 40 do motor;
 - `git diff --check` sem erro;
 - Fase 7.3 por componente: contratos 48 casos e 27 JSON Schemas; permissões 5; database 6; `server-configuration` 17 descobertos e 16 executados no Windows; `server-agent` 9; `build-worker` 11; `control-api` 33, incluindo os 8 cenários E2E; `panel-web` 15;
