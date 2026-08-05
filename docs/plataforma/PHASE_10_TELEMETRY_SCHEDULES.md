@@ -109,3 +109,15 @@ Cumprido, e por dois caminhos independentes. O painel rotula os próprios dados 
 - os passos do agendamento ainda não enfileiram as operações duráveis correspondentes das Fases 10.1 e 10.3;
 - os alertas são avaliados por funções puras testadas, mas nada os avalia periodicamente nem notifica ninguém;
 - `game.players.online` fica indisponível junto com TPS/MSPT, embora em princípio pudesse vir de outra fonte aprovada no futuro.
+
+## Instabilidade conhecida na matriz Windows
+
+O gate local aprovou (`CHECK_EXIT=0`, 622 descobertos, 620 aprovados, 2 pulados) e a matriz aprovou nos dois sistemas — mas **só na segunda tentativa** no Windows. A primeira caiu com um erro fatal do V8 dentro do Postgres WASM:
+
+```
+# Check failed: jit_page_->allocations_.erase(addr) == 1.
+```
+
+Não é asserção de teste: é o alocador de páginas JIT do V8 quebrando. `database.test.ts` instancia **dezesseis** Postgres WASM em um processo, e as três migrações desta fase aumentaram o trabalho de cada instanciação, o que eleva a chance de tropeçar nesse defeito. A re-execução passou sem nenhuma mudança de código, então não é regressão — mas também não é acaso puro, e vale registrar.
+
+Mitigação pendente: dividir `database.test.ts`, já que o runner do Node cria um processo por arquivo e isso reduziria a rotatividade de WASM por processo. Não foi feito aqui porque partir um arquivo de 1.900 linhas ao fim da fase arrisca perder testes silenciosamente — é trabalho próprio, com revisão própria.
