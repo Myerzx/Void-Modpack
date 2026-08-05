@@ -269,11 +269,13 @@ Objetivo: conectar os domínios já testados à aplicação real sem liberar tod
 
 ### 9.1 — contratos operacionais e persistência
 
-- [ ] persistir comandos, idempotência, locks, PID observado e recibos;
-- [ ] persistir catálogos, configurações, análises e jobs atualmente em memória;
-- [ ] criar paginação, filtros e limites para endpoints administrativos;
-- [ ] correlacionar job, operação do agente e evento de auditoria;
-- [ ] adicionar outbox/eventos sem dual write.
+- [x] persistir comandos, idempotência, locks, PID observado e recibos;
+- [x] persistir catálogos, configurações, análises e jobs atualmente em memória;
+- [x] criar paginação, filtros e limites para endpoints administrativos;
+- [x] correlacionar job, operação do agente e evento de auditoria;
+- [x] adicionar outbox/eventos sem dual write.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. A migration `0007_operational_core.sql` guarda operações com recibo, estado observado do processo, o outbox e o catálogo revisado. Três propriedades passam a sobreviver a um restart: a idempotência, por chave única mais fingerprint dos campos estáveis do pedido; a exclusão mútua, por índice único parcial que permite no máximo uma operação em voo por servidor; e o PID observado, sempre acompanhado do `boot_id` que o identifica. O evento de outbox é escrito na mesma transação da mudança de estado, e a entrega é marcada depois de acontecer, logo a garantia é at-least-once. Um `correlationId` atravessa operação, job e auditoria, e `GET /api/v1/correlations/:correlationId` devolve os três juntos. Toda listagem administrativa é limitada na rota e novamente no repositório, e um limite acima do máximo é recusado em vez de reduzido em silêncio. Consulte [Núcleo operacional da Fase 9.1](PHASE_9_OPERATIONAL_CORE.md).
 
 ### 9.2 — transporte real Control API ↔ Server Agent
 

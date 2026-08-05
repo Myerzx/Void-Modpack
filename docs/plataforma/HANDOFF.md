@@ -4,7 +4,7 @@
 
 - Data: 2026-08-05
 - Responsável: Claude
-- Fase: 8.4 — a Fase 8 inteira está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 9.1 — a Fase 8 inteira está fechada e aprovada em CI, e a Fase 9.1 está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -188,6 +188,15 @@
   - view model puro do painel com busca, lado, versão, estado, progresso de envio, drawer de incompatibilidade, filtro por severidade e grafo de dependências sob demanda;
   - `buildInstallActionView()` devolvendo `present: false` por construção, de modo que nenhuma tela renderize botão de instalação habilitado;
   - correção trazida da Fase 8.1: o discriminador `format` emitido pelo serviço era recusado pelo próprio contrato publicado, porque os testes validavam objetos construídos à mão; o campo entrou no contrato e o worker passou a validar antes de gravar;
+- Fase 9.1 com:
+  - migration `0007_operational_core.sql` para operações com recibo, estado observado do processo, outbox e catálogo revisado;
+  - idempotência durável por chave única mais fingerprint dos campos estáveis, sem nada volátil que transformasse replay honesto em conflito;
+  - exclusão mútua durável por índice único parcial: no máximo uma operação em voo por servidor, arbitrada pelo banco e não por uma leitura anterior;
+  - PID observado sempre acompanhado do `boot_id`, e reconciliação que devolve `unknown` em vez de acreditar numa observação que ninguém acompanha;
+  - outbox escrito na mesma transação da mudança de estado, com entrega marcada só depois de acontecer, logo at-least-once com `eventId` estável;
+  - `correlationId` atravessando operação, job durável e cadeia de auditoria, com uma rota que devolve os três juntos;
+  - paginação, filtros e limites em toda listagem administrativa, validados na rota e novamente no repositório, recusando com 400 um limite acima do máximo;
+  - correção de um defeito latente da Fase 8.3: a paginação por query string nunca funcionou, porque a API valida sem coerção de tipos e o parâmetro chegava como string;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -212,6 +221,11 @@
 
 ## Validação
 
+- Fase 9.1 por componente: `contracts` 86 casos e 39 JSON Schemas; `database` 19; `control-api` 53, incluindo 7 casos dos endpoints administrativos;
+- gate completo local da Fase 9.1 aprovado: 423 casos descobertos, 421 executados no Windows e dois sockets Unix ignorados;
+- baseline registrada antes da fatia: 393 descobertos e 391 executados; a fatia acrescentou 30 casos;
+- o gate encontrou dois defeitos que o runner de testes não pegaria: a paginação por query string, que nunca funcionou porque a API valida sem coerção, e uma edição por script que removeu quatro métodos do `AuditRepository` ao casar o fim de bloco com a chave da classe;
+- `git diff --check` sem erro;
 - Fases 8.3/8.4 por componente: `contracts` 73 casos e 35 JSON Schemas exportados; `database` 10; `build-worker` 16; `control-api` 46, incluindo 11 casos de API de artefato e 2 cenários E2E da Fase 8; `panel-web` 28;
 - gate completo local das Fases 8.3/8.4 aprovado: 393 casos descobertos, 391 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
 - baseline registrada antes da fatia: 350 descobertos e 348 executados; a fatia acrescentou 43 casos;
@@ -343,7 +357,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 9** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): núcleo operacional e painel funcional mínimo — persistência restante, transporte autenticado real entre Control API e Server Agent, idempotência durável e telas ligadas a dados reais. A Fase 8 inteira está fechada. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 9.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): transporte real entre Control API e Server Agent — mTLS ou transporte autenticado aprovado, rotação e revogação de identidade do agente, protocolo outbound-only com lease e proteção de replay, supervisor do agente e reconciliação após restart, e capacidades anunciadas e autorizadas individualmente. A Fase 9.1 já deixou pronto o que a 9.2 precisa: operação durável com recibo, exclusão mútua, estado observado e outbox. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
