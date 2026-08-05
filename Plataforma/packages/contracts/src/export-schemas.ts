@@ -18,6 +18,16 @@ import {
   ArtifactUploadAcceptanceSchema,
 } from './artifact-review.js';
 import { AuditChainExportManifestSchema } from './audit-chain-export.js';
+import {
+  AuthorizedFileDiffRequestSchema,
+  AuthorizedFileDiffResponseSchema,
+  AuthorizedFileMutationReceiptSchema,
+  CopyAuthorizedFileRequestSchema,
+  CreateAuthorizedFileRequestSchema,
+  DeleteAuthorizedFileRequestSchema,
+  MoveAuthorizedFileRequestSchema,
+  RestoreAuthorizedFileRequestSchema,
+} from './authorized-file-operation.js';
 import { AuditEventSchema } from './audit-event.js';
 import { CatalogReconciliationReportSchema } from './catalog-reconciliation.js';
 import { ForgeBuildRequestSchema } from './forge-build-request.js';
@@ -75,6 +85,14 @@ const schemas = [
   ['artifact-upload-acceptance.schema.json', ArtifactUploadAcceptanceSchema],
   ['audit-chain-export-manifest.schema.json', AuditChainExportManifestSchema],
   ['audit-event.schema.json', AuditEventSchema],
+  ['authorized-file-diff-request.schema.json', AuthorizedFileDiffRequestSchema],
+  ['authorized-file-diff-response.schema.json', AuthorizedFileDiffResponseSchema],
+  ['authorized-file-mutation-receipt.schema.json', AuthorizedFileMutationReceiptSchema],
+  ['copy-authorized-file-request.schema.json', CopyAuthorizedFileRequestSchema],
+  ['create-authorized-file-request.schema.json', CreateAuthorizedFileRequestSchema],
+  ['delete-authorized-file-request.schema.json', DeleteAuthorizedFileRequestSchema],
+  ['move-authorized-file-request.schema.json', MoveAuthorizedFileRequestSchema],
+  ['restore-authorized-file-request.schema.json', RestoreAuthorizedFileRequestSchema],
   ['catalog-reconciliation-report.schema.json', CatalogReconciliationReportSchema],
   ['configuration-apply-request.schema.json', ConfigurationApplyRequestSchema],
   ['configuration-operation-acceptance.schema.json', ConfigurationOperationAcceptanceSchema],

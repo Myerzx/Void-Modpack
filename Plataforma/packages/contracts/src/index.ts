@@ -5,6 +5,7 @@ export * from './artifact-inspection.js';
 export * from './artifact-review.js';
 export * from './audit-chain-export.js';
 export * from './audit-event.js';
+export * from './authorized-file-operation.js';
 export * from './catalog-reconciliation.js';
 export * from './common.js';
 export * from './forge-build-request.js';

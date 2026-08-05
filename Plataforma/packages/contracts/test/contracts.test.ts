@@ -19,6 +19,11 @@ import {
   validateAgentHeartbeatPayload,
   validateAuditChainExportManifest,
   validateAuditEvent,
+  validateAuthorizedFileDiffRequest,
+  validateCopyAuthorizedFileRequest,
+  validateCreateAuthorizedFileRequest,
+  validateDeleteAuthorizedFileRequest,
+  validateMoveAuthorizedFileRequest,
   validateCatalogReconciliationReport,
   validateConfigurationApplyRequest,
   validateConfigurationOperationCommand,
@@ -2076,5 +2081,126 @@ describe('OutboxEvent', () => {
       false,
     );
     assert.equal(validateOutboxEvent(validEvent({ topic: 'anything.else' })).success, false);
+  });
+});
+
+describe('authorized file operations', () => {
+  const create = (overrides: Record<string, unknown> = {}) => ({
+    schemaVersion: 1,
+    rootId: 'server-config',
+    filePath: 'config/server.properties',
+    reasonCode: 'operator-request',
+    content: 'motd=VoidFall\n',
+    ...overrides,
+  });
+
+  it('accepts a plain relative path inside a named root', () => {
+    assert.equal(validateCreateAuthorizedFileRequest(create()).success, true);
+  });
+
+  it('refuses every way of naming somewhere else', () => {
+    for (const filePath of [
+      '../escape.properties',
+      'config/../../escape.properties',
+      '/etc/passwd',
+      'C:/Windows/system.ini',
+      'C:\\Windows\\system.ini',
+      'config\\server.properties',
+      '\\\\host\\share\\server.properties',
+      // An NTFS alternate data stream: the colon is refused outright, so this
+      // cannot be expressed even on a platform where it would be honoured.
+      'config/server.properties:$DATA',
+      'config//server.properties',
+      'config/./server.properties',
+    ]) {
+      assert.equal(
+        validateCreateAuthorizedFileRequest(create({ filePath })).success,
+        false,
+        `expected ${filePath} to be refused`,
+      );
+    }
+  });
+
+  it('refuses names that resolve to a different file than they read as', () => {
+    // Windows strips a trailing dot, so this opens `server.properties`.
+    assert.equal(
+      validateCreateAuthorizedFileRequest(create({ filePath: 'config/server.properties.' })).success,
+      false,
+    );
+    assert.equal(
+      validateCreateAuthorizedFileRequest(create({ filePath: 'config/server.properties ' })).success,
+      false,
+    );
+    assert.equal(validateCreateAuthorizedFileRequest(create({ filePath: 'con.properties' })).success, false);
+    // Composed and decomposed forms would be two indistinguishable names.
+    assert.equal(
+      validateCreateAuthorizedFileRequest(create({ filePath: 'config/servic\u0327o.properties' })).success,
+      false,
+    );
+  });
+
+  it('refuses content carrying control characters', () => {
+    assert.equal(validateCreateAuthorizedFileRequest(create({ content: 'a\u0000b' })).success, false);
+    assert.equal(validateCreateAuthorizedFileRequest(create({ content: 'a\u001bb' })).success, false);
+    // Tabs and newlines are ordinary in a configuration file.
+    assert.equal(validateCreateAuthorizedFileRequest(create({ content: 'a\tb\nc\n' })).success, true);
+  });
+
+  it('refuses a move or copy onto its own source', () => {
+    const move = {
+      schemaVersion: 1,
+      rootId: 'server-config',
+      sourcePath: 'config/server.properties',
+      destinationPath: 'config/server.properties',
+      revisionId: 'revision-1',
+      reasonCode: 'operator-request',
+      expectedSha256: 'a'.repeat(64),
+    };
+    assert.equal(validateMoveAuthorizedFileRequest(move).success, false);
+    assert.equal(
+      validateMoveAuthorizedFileRequest({ ...move, destinationPath: 'backup/server.properties' })
+        .success,
+      true,
+    );
+    const { revisionId: _unused, ...copy } = move;
+    assert.equal(validateCopyAuthorizedFileRequest(copy).success, false);
+  });
+
+  it('will not let a deletion be reached by omitting the acknowledgement', () => {
+    const remove = {
+      schemaVersion: 1,
+      rootId: 'server-config',
+      filePath: 'config/server.properties',
+      revisionId: 'revision-1',
+      reasonCode: 'operator-request',
+      expectedSha256: 'a'.repeat(64),
+      acknowledgesDataLoss: true,
+    };
+    assert.equal(validateDeleteAuthorizedFileRequest(remove).success, true);
+    const { acknowledgesDataLoss: _dropped, ...withoutAcknowledgement } = remove;
+    assert.equal(validateDeleteAuthorizedFileRequest(withoutAcknowledgement).success, false);
+    assert.equal(
+      validateDeleteAuthorizedFileRequest({ ...remove, acknowledgesDataLoss: false }).success,
+      false,
+    );
+  });
+
+  it('accepts a diff against a revision or against proposed text, and nothing else', () => {
+    const base = { schemaVersion: 1, rootId: 'server-config', filePath: 'config/server.properties' };
+    assert.equal(
+      validateAuthorizedFileDiffRequest({ ...base, against: { type: 'revision', revisionId: 'r-1' } })
+        .success,
+      true,
+    );
+    assert.equal(
+      validateAuthorizedFileDiffRequest({ ...base, against: { type: 'proposed', content: 'a=1\n' } })
+        .success,
+      true,
+    );
+    assert.equal(
+      validateAuthorizedFileDiffRequest({ ...base, against: { type: 'path', path: '/etc/shadow' } })
+        .success,
+      false,
+    );
   });
 });
