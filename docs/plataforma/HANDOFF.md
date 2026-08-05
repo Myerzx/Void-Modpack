@@ -4,7 +4,7 @@
 
 - Data: 2026-08-05
 - Responsável: Claude
-- Fase: 8.2 — concluída tecnicamente em isolamento; a Fase 8.1 e a Fase 7 inteira estão fechadas e aprovadas em CI. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 8.4 — a Fase 8 inteira está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -174,6 +174,20 @@
   - componentes fortemente conexos por Tarjan iterativo, com nós e arestas ordenados, sem recursão que pudesse estourar a pilha;
   - `detail` sanitizado pelo motor contra um charset sem separador de caminho, prefixo de unidade, aspas ou caractere de controle, de modo que um range hostil não vaze caminho nem quebre a validação do próprio relatório;
   - fechamento de referências: todo `artifactId`, `contextId` e `modId` citado por uma issue é declarado pelo relatório, com `relatedInstalled` existindo para manter esse fechamento;
+- Fases 8.3 e 8.4 com:
+  - migration `0006_artifact_review.sql` para submissões, relatórios de inspeção e compatibilidade, issues como linhas e log append-only de decisões;
+  - máquina de estados `uploaded → quarantined → analyzing → blocked|reviewable → approved|rejected`, validada no contrato, no repositório e nas CHECKs do banco;
+  - `blocked` sem transição para `approved`: a única saída é rejeição explícita registrada por uma pessoa;
+  - decisão que nomeia o hash analisado e a versão lida, recusando `analysis-mismatch` e `stale-submission` em vez de aplicar sobre análise obsoleta;
+  - índice único por `(server_instance_id, sha256)`, de modo que o mesmo conteúdo reenviado resolve para a revisão existente;
+  - upload streaming que recusa pelo `content-length` antes de ler um byte, com quarentena injetada e `503` deny-by-default sem ela;
+  - nome de arquivo validado por ponto de código, não por literal de regex, seguindo a regra da Fase 8.1;
+  - jobs duráveis `artifact.inspect` e `artifact.analyze` na fila `SKIP LOCKED`, com referência opaca no payload e falha antes de tocar os pacotes de artefato;
+  - relatório gravado somente depois de satisfazer o contrato público;
+  - quatro rotas autenticadas com RBAC, CSRF nas mutações e rate limit próprio, sem permissão nova: `mods.view`, `mods.manage` e `mods.classify` já eram menor privilégio;
+  - view model puro do painel com busca, lado, versão, estado, progresso de envio, drawer de incompatibilidade, filtro por severidade e grafo de dependências sob demanda;
+  - `buildInstallActionView()` devolvendo `present: false` por construção, de modo que nenhuma tela renderize botão de instalação habilitado;
+  - correção trazida da Fase 8.1: o discriminador `format` emitido pelo serviço era recusado pelo próprio contrato publicado, porque os testes validavam objetos construídos à mão; o campo entrou no contrato e o worker passou a validar antes de gravar;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -198,6 +212,11 @@
 
 ## Validação
 
+- Fases 8.3/8.4 por componente: `contracts` 73 casos e 35 JSON Schemas exportados; `database` 10; `build-worker` 16; `control-api` 46, incluindo 11 casos de API de artefato e 2 cenários E2E da Fase 8; `panel-web` 28;
+- gate completo local das Fases 8.3/8.4 aprovado: 393 casos descobertos, 391 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
+- baseline registrada antes da fatia: 350 descobertos e 348 executados; a fatia acrescentou 43 casos;
+- o gate encontrou dois defeitos que o runner de testes não pegaria: o discriminador `format` do relatório de inspeção, recusado pelo contrato da própria Fase 8.1, e um array `readonly` atribuído a um campo mutável no fixture de compatibilidade do teste de banco — `tsx` não typecheca, então só `tsc --noEmit` os revelou;
+- `git diff --check` sem erro;
 - Fase 8.2 por componente: `artifact-compatibility` 40 casos e `contracts` 65 casos com 30 JSON Schemas exportados; os 12 códigos mínimos do plano, `dependency-cycle`, os dois eixos `code`/`determinacy`, o veredito por contexto, o limite de citação e a sanitização de `detail` estão cobertos;
 - gate completo local da Fase 8.2 aprovado: 350 casos descobertos, 348 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
 - matriz CI da Fase 8.2 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30974767140](https://github.com/Myerzx/Void-Modpack/actions/runs/30974767140);
@@ -314,11 +333,16 @@
 - bibliotecas JarJar continuam sem análise própria, então `possibly-embedded` é a resposta honesta e não uma resolução;
 - um artefato instalado não declara dependências no plano de compatibilidade, então um ciclo que só se fecha através dele não é observável;
 - a lista de conflitos explícitos é revisada manualmente e ainda não possui persistência, ator, autorização ou trilha de auditoria; isso é da Fase 8.3;
-- o plano de compatibilidade é montado por quem chama: não existe repositório, endpoint, job durável ou painel ligado ao motor;
+- a quarentena e o leitor de bytes das Fases 8.3/8.4 são colaboradores injetados; o wiring de produção com `@voidfall/artifact-quarantine` sobre raiz confiável ainda não existe;
+- o plano de compatibilidade é montado por quem chama o worker: não há origem persistida dos contextos alvo nem reconciliação com o inventário real;
+- o upload recusa cedo pelo `content-length` declarado; um cliente que mentir é recusado depois, ao conferir digest e tamanho reais, mas os bytes já terão trafegado;
+- a análise não é reexecutada quando o contexto do servidor muda, então uma revisão aprovada continua descrevendo o runtime da época;
+- uma submissão parada em `analyzing` após crash depende de reenfileiramento manual; não existe varredura de submissões paradas;
+- `reviewedSide` só é gravado quando um revisor o informa junto da decisão; não existe tela dedicada de classificação de lado;
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 8.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): persistência, API e revisão da entrada de mods — upload, quarentena, inspeção, issues e decisão humana com ator, motivo e hash analisado; endpoint streaming autenticado com limite e rate limit; jobs duráveis; e os estados `uploaded`, `quarantined`, `analyzing`, `blocked`, `reviewable`, `approved` e `rejected`, lembrando que aprovação altera estado de revisão e não instala mod. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 9** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): núcleo operacional e painel funcional mínimo — persistência restante, transporte autenticado real entre Control API e Server Agent, idempotência durável e telas ligadas a dados reais. A Fase 8 inteira está fechada. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
@@ -401,6 +425,9 @@ Executar a **Fase 8.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION
 - `433ab8f` — correção da ordem de typecheck/build da prova E2E na CI;
 - inspeção limitada de metadata declarada da Fase 8.1.
 - contratos versionados do plano e do relatório de compatibilidade da Fase 8.2;
-- motor determinístico de compatibilidade sobre as declarações da Fase 8.1.
+- motor determinístico de compatibilidade sobre as declarações da Fase 8.1;
+- contratos versionados do ciclo de revisão de artefato da Fase 8.3;
+- persistência, jobs duráveis e endpoints autenticados da revisão de artefato;
+- tela de revisão de mods e prova de ponta a ponta do critério da Fase 8.
 
 Acrescentar decisões e validações a cada recorte. Nunca apagar riscos ainda abertos.

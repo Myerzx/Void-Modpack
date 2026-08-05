@@ -226,22 +226,26 @@ Status: concluída tecnicamente em isolamento em 2026-08-05. `@voidfall/artifact
 
 ### 8.3 — persistência, API e revisão
 
-- [ ] persistir upload, quarentena, inspeção, issues e decisão humana;
-- [ ] endpoint streaming autenticado com limite e rate limit;
-- [ ] jobs duráveis para inspeção e análise;
-- [ ] estados `uploaded`, `quarantined`, `analyzing`, `blocked`, `reviewable`, `approved`, `rejected`;
-- [ ] aprovação não instala o mod; apenas altera o estado de revisão;
-- [ ] toda decisão registra ator, motivo e hash analisado.
+- [x] persistir upload, quarentena, inspeção, issues e decisão humana;
+- [x] endpoint streaming autenticado com limite e rate limit;
+- [x] jobs duráveis para inspeção e análise;
+- [x] estados `uploaded`, `quarantined`, `analyzing`, `blocked`, `reviewable`, `approved`, `rejected`;
+- [x] aprovação não instala o mod; apenas altera o estado de revisão;
+- [x] toda decisão registra ator, motivo e hash analisado.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. A migration `0006_artifact_review.sql` guarda submissões, os dois relatórios, as issues como linhas e um log append-only de decisões; a máquina de estados é validada no contrato, no repositório e nas CHECKs do banco. Uma decisão nomeia o hash analisado e a versão lida, então uma decisão sobre análise obsoleta é recusada em vez de aplicada, e `blocked` só sai por rejeição explícita. O upload é streaming, recusa pelo `content-length` antes de ler um byte e depende de uma quarentena injetada — sem ela responde `503`. Os jobs `artifact.inspect` e `artifact.analyze` reutilizam a fila `SKIP LOCKED` e carregam apenas referência opaca. Nenhuma permissão nova foi criada: `mods.view`/`mods.manage`/`mods.classify` já eram menor privilégio. Consulte [Persistência, API e painel das Fases 8.3 e 8.4](PHASE_8_ARTIFACT_REVIEW.md).
 
 ### 8.4 — experiência do painel
 
-- [ ] lista compacta de mods com busca, lado, versão e estado;
-- [ ] upload com progresso e estado de quarentena;
-- [ ] janela/drawer de incompatibilidade com severidade, motivo e evidência;
-- [ ] filtro por blocker/warning/information;
-- [ ] grafo de dependências sob demanda;
-- [ ] botão de instalação ausente ou desabilitado nesta fase;
-- [ ] fixture de erro substituída por dados reais da API quando disponível.
+- [x] lista compacta de mods com busca, lado, versão e estado;
+- [x] upload com progresso e estado de quarentena;
+- [x] janela/drawer de incompatibilidade com severidade, motivo e evidência;
+- [x] filtro por blocker/warning/information;
+- [x] grafo de dependências sob demanda;
+- [x] botão de instalação ausente ou desabilitado nesta fase;
+- [x] fixture de erro substituída por dados reais da API quando disponível.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. O view model é puro e testável sem navegador: a busca cobre arquivo, mod id e prefixo de hash; o progresso descreve somente bytes enviados, porque quarentena e análise são passos duráveis à parte; o grafo é derivado sob demanda do que o artefato declara, sem abrir JAR aninhado. Um lado que ninguém revisou aparece como não revisado, e um bloqueio apenas não comprovado é apresentado como tal. `buildInstallActionView()` devolve `present: false` por construção, de modo que nenhuma tela consegue renderizar um botão de instalação habilitado.
 
 Critério de conclusão da Fase 8:
 
