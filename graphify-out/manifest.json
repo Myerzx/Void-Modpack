@@ -3940,8 +3940,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime-config.ts": {
-    "mtime": 1785962703.8313603,
-    "ast_hash": "92a1bbe59c3e16681a05a22f5e92a2e1",
+    "mtime": 1785964459.4083407,
+    "ast_hash": "3c08b75f7042ace958e7641137734692",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
@@ -3955,8 +3955,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime-config.test.ts": {
-    "mtime": 1785962965.617002,
-    "ast_hash": "849fbff0a93e9b636bf7e96e511de104",
+    "mtime": 1785964382.2458093,
+    "ast_hash": "37e42879c5f62ed739010d20606041ed",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
