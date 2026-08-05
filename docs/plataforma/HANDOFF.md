@@ -254,6 +254,7 @@
 
 - Fase 10.1 por componente: `database` 36 casos e `control-api` 74, incluindo 13 das rotas de processo e console;
 - gate completo local da Fase 10.1 aprovado com código de saída 0: 500 casos descobertos, 498 executados no Windows e dois sockets Unix ignorados;
+- matriz CI da Fase 10.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31026584693](https://github.com/Myerzx/Void-Modpack/actions/runs/31026584693);
 - baseline registrada antes da fatia: 482 descobertos e 480 executados; a fatia acrescentou 18 casos;
 - `git diff --check` sem erro;
 - Fase 9.3 por componente: `panel-web` 55 casos;

@@ -1,6 +1,6 @@
 # Fase 10.1: processo e console
 
-Status: concluída tecnicamente em isolamento em 2026-08-05.
+Status: concluída tecnicamente em isolamento em 2026-08-05; gate local aprovado e [matriz Windows/Linux 31026584693](https://github.com/Myerzx/Void-Modpack/actions/runs/31026584693) aprovada nos dois sistemas.
 
 ## Resultado
 
