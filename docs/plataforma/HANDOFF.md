@@ -4,7 +4,7 @@
 
 - Data: 2026-08-05
 - Responsável: Claude
-- Fase: 9.1 — a Fase 8 inteira está fechada e aprovada em CI, e a Fase 9.1 está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 9.2 — a Fase 8 inteira está fechada e aprovada em CI, e as Fases 9.1 e 9.2 estão concluídas tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -198,6 +198,17 @@
   - paginação, filtros e limites em toda listagem administrativa, validados na rota e novamente no repositório, recusando com 400 um limite acima do máximo;
   - correção de um defeito latente da Fase 8.3: a paginação por query string nunca funcionou, porque a API valida sem coerção de tipos e o parâmetro chegava como string;
   - `ModCatalogRepository` com concorrência otimista, ator e motivo por mudança, identidade de conteúdo única por servidor e paginação, tornando verdadeiro o item "persistir catálogos";
+- Fase 9.2 com:
+  - migration `0008_agent_transport.sql` para histórico de credenciais, concessões de capacidade e leases de trabalho;
+  - rotação que substitui em vez de editar, com índice único parcial garantindo uma credencial ativa por agente e um fingerprint superado que nunca mais autentica;
+  - revogação que retira credencial e concessões juntas, recusada em toda rota e não só na que checou;
+  - capacidade concedida individualmente: anunciar não autoriza, e o claim confere também os tipos de job que aquela capacidade pode servir;
+  - `claimWork` reservando o job e gravando o lease na mesma transação, sem janela em que uma queda estranhe trabalho sem lease;
+  - `reclaimExpiredLeases` devolvendo à fila enquanto houver tentativa, falhando de vez quando o orçamento acaba, nunca deixando job preso em `running` e idempotente ao repetir;
+  - endpoints `POST /agent/v1/work/claim` e `POST /agent/v1/work/result` reutilizando a cadeia de autenticação existente — fingerprint de transporte, assinatura Ed25519, janela de frescor e nonce de uso único;
+  - supervisor no Server Agent com espera pelo intervalo pedido, backoff geométrico até teto, reset ao recuperar, encerramento limpo por sinal e `bootId` novo por execução;
+  - capacidade sem handler recusada explicitamente, em vez de improvisar um executor genérico;
+  - correção de defeito achado pelo E2E: a rota de resultado liquidava o lease antes de conferir o job, então um resultado com job errado consumia o lease e abandonava o trabalho real;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -222,6 +233,11 @@
 
 ## Validação
 
+- Fase 9.2 por componente: `database` 31 casos, `server-agent` 22 e `control-api` 61, incluindo 7 cenários E2E do transporte;
+- gate completo local da Fase 9.2 aprovado com código de saída 0: 455 casos descobertos, 453 executados no Windows e dois sockets Unix ignorados;
+- baseline registrada antes da fatia: 427 descobertos e 425 executados; a fatia acrescentou 28 casos;
+- cenários de queda comprovados: identidade revogada recusada com assinatura válida, envelope reenviado recusado, agente caído com lease aberto recuperado por outra execução, orçamento de tentativas esgotado falhando de vez, API fora do ar com backoff e recuperação, resultado duplicado recusado e resultado com job errado recusado antes de escrever;
+- `git diff --check` sem erro;
 - Fase 9.1 por componente: `contracts` 86 casos e 39 JSON Schemas; `database` 19; `control-api` 53, incluindo 7 casos dos endpoints administrativos;
 - gate completo local da Fase 9.1 aprovado: 427 casos descobertos, 425 executados no Windows e dois sockets Unix ignorados;
 - baseline registrada antes da fatia: 393 descobertos e 391 executados; a fatia acrescentou 34 casos;
@@ -361,7 +377,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 9.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): transporte real entre Control API e Server Agent — mTLS ou transporte autenticado aprovado, rotação e revogação de identidade do agente, protocolo outbound-only com lease e proteção de replay, supervisor do agente e reconciliação após restart, e capacidades anunciadas e autorizadas individualmente. A Fase 9.1 já deixou pronto o que a 9.2 precisa: operação durável com recibo, exclusão mútua, estado observado e outbox. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 9.3** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): painel dinâmico — login/logout/sessão consumindo a Control API, seletor de instância real, dashboard com fonte/qualidade/horário, páginas de servidor, jobs, mods, configurações e auditoria, os estados loading/vazio/indisponível/negado/erro, ações escondidas sem permissão e mutações perigosas desabilitadas. As Fases 9.1 e 9.2 já deixaram os contratos e endpoints estáveis sobre os quais o painel pode ser construído. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 

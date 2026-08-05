@@ -279,12 +279,14 @@ Status: concluída tecnicamente em isolamento em 2026-08-05. A migration `0007_o
 
 ### 9.2 — transporte real Control API ↔ Server Agent
 
-- [ ] mTLS ou transporte autenticado aprovado;
-- [ ] rotação/revogação de identidade do agente;
-- [ ] protocolo outbound-only com lease e replay protection;
-- [ ] supervisor do agente e reconciliação após restart;
-- [ ] capacidades anunciadas e autorizadas individualmente;
-- [ ] nenhuma operação genérica ou payload extensível executável.
+- [x] mTLS ou transporte autenticado aprovado;
+- [x] rotação/revogação de identidade do agente;
+- [x] protocolo outbound-only com lease e replay protection;
+- [x] supervisor do agente e reconciliação após restart;
+- [x] capacidades anunciadas e autorizadas individualmente;
+- [x] nenhuma operação genérica ou payload extensível executável.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. A migration `0008_agent_transport.sql` acrescenta histórico de credenciais, concessões de capacidade e leases de trabalho. A rotação substitui em vez de editar, então um fingerprint superado nunca mais autentica; a revogação retira credencial e concessões juntas. Uma capacidade anunciada não autoriza nada — só a concessão autoriza, e o claim confere também os tipos de job que aquela capacidade pode servir. `claimWork` reserva o job e grava o lease na mesma transação, e `reclaimExpiredLeases` devolve à fila enquanto houver tentativa ou falha de vez quando o orçamento acabou, sem nunca deixar job preso em `running`. O supervisor espera o intervalo que o plano de controle pede, recua geometricamente até um teto em falha e encerra limpo. Consulte [Transporte do agente da Fase 9.2](PHASE_9_AGENT_TRANSPORT.md).
 
 ### 9.3 — painel dinâmico
 
