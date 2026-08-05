@@ -129,6 +129,16 @@ export const ServerOperationSchema = Type.Object(
     jobId: Type.Union([UuidSchema, Type.Null()]),
     requestedBy: ActorRefSchema,
     reasonCode: ReasonCodeSchema,
+    /**
+     * The reviewed console command, for a console operation only. It lives on
+     * the operation rather than in the job payload so it stays auditable and
+     * constrained, and so the queue keeps carrying only an opaque reference.
+     */
+    consoleCommand: Type.Union([
+      Type.Literal('list-players'),
+      Type.Literal('save-all'),
+      Type.Null(),
+    ]),
     receipt: Type.Union([ServerOperationReceiptSchema, Type.Null()]),
     version: Type.Integer({ minimum: 1, maximum: 9_007_199_254_740_991 }),
     acceptedAt: IsoDateTimeSchema,
@@ -301,6 +311,12 @@ export function validateServerOperation(
     if (operation.receipt.observedPid !== null && operation.receipt.bootId === null) {
       issues.push(semanticIssue('/receipt/observedPid', 'an observed pid requires its boot id'));
     }
+  }
+  // A command belongs to a console operation and to nothing else.
+  if ((operation.kind === 'server.command') !== (operation.consoleCommand !== null)) {
+    issues.push(
+      semanticIssue('/consoleCommand', 'only a console operation carries a console command'),
+    );
   }
   if (Date.parse(operation.updatedAt) < Date.parse(operation.acceptedAt)) {
     issues.push(semanticIssue('/updatedAt', 'an operation cannot be updated before it was accepted'));

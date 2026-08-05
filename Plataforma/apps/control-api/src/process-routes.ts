@@ -159,6 +159,7 @@ export function registerProcessRoutes(
     readonly idempotencyKey: string;
     readonly reasonCode: string;
     readonly actionName: string;
+    readonly consoleCommand?: 'list-players' | 'save-all';
   }): Promise<ServerOperation> {
     const now = clock();
     const actor = panelActor(input.request);
@@ -174,6 +175,7 @@ export function registerProcessRoutes(
         correlationId: input.request.correlationId,
         requestedBy: actor,
         reasonCode: input.reasonCode,
+        ...(input.consoleCommand === undefined ? {} : { consoleCommand: input.consoleCommand }),
         now,
       });
     } catch (error) {
@@ -364,6 +366,7 @@ export function registerProcessRoutes(
         idempotencyKey: request.body.idempotencyKey,
         reasonCode: request.body.reasonCode,
         actionName: 'console.command',
+        consoleCommand: request.body.command,
       });
       return reply.code(202).send(operation);
     },

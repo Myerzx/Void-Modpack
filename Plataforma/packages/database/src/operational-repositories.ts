@@ -64,6 +64,7 @@ interface OperationRow {
   readonly job_id: string | null;
   readonly requested_by: ActorRef;
   readonly reason_code: string;
+  readonly console_command: 'list-players' | 'save-all' | null;
   readonly receipt_outcome: 'succeeded' | 'failed' | null;
   readonly receipt_failure_code: ServerOperationFailureCode | null;
   readonly receipt_lifecycle: ObservedProcessLifecycle | null;
@@ -76,7 +77,7 @@ interface OperationRow {
 }
 
 const OPERATION_COLUMNS = `operation_id, server_instance_id, kind, status, idempotency_key,
-  request_fingerprint, correlation_id, job_id, requested_by, reason_code,
+  request_fingerprint, correlation_id, job_id, requested_by, reason_code, console_command,
   receipt_outcome, receipt_failure_code, receipt_lifecycle, receipt_pid, receipt_boot_id,
   completed_at, version, accepted_at, updated_at`;
 
@@ -97,6 +98,7 @@ function mapOperation(row: OperationRow): ServerOperation {
     jobId: row.job_id,
     requestedBy: row.requested_by,
     reasonCode: row.reason_code,
+    consoleCommand: row.console_command,
     receipt:
       row.receipt_outcome === null || row.receipt_lifecycle === null || row.completed_at === null
         ? null
@@ -153,6 +155,8 @@ export interface AcceptOperationInput {
   readonly requestedBy: ActorRef;
   readonly reasonCode: string;
   readonly jobId?: string;
+  /** Required for a console operation, refused for every other kind. */
+  readonly consoleCommand?: 'list-players' | 'save-all';
   readonly now: Date;
 }
 
@@ -255,8 +259,9 @@ export class OperationRepository {
         inserted = await client.query<OperationRow>(
           `INSERT INTO server_operations (
              operation_id, server_instance_id, kind, status, idempotency_key, request_fingerprint,
-             correlation_id, job_id, requested_by, reason_code, accepted_at, updated_at
-           ) VALUES ($1,$2,$3,'accepted',$4,$5,$6,$7,$8::jsonb,$9,$10,$10)
+             correlation_id, job_id, requested_by, reason_code, console_command,
+             accepted_at, updated_at
+           ) VALUES ($1,$2,$3,'accepted',$4,$5,$6,$7,$8::jsonb,$9,$10,$11,$11)
            RETURNING ${OPERATION_COLUMNS}`,
           [
             input.operationId,
@@ -268,6 +273,7 @@ export class OperationRepository {
             input.jobId ?? null,
             JSON.stringify(input.requestedBy),
             input.reasonCode,
+            input.consoleCommand ?? null,
             input.now,
           ],
         );
@@ -397,6 +403,16 @@ export class OperationRepository {
       `SELECT ${OPERATION_COLUMNS} FROM server_operations
        WHERE server_instance_id = $1 AND status IN ('accepted', 'running')`,
       [serverInstanceId],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapOperation(row);
+  }
+
+  /** Resolves the operation a leased job belongs to. */
+  async findByJobId(jobId: string): Promise<ServerOperation | undefined> {
+    const result = await this.database.query<OperationRow>(
+      `SELECT ${OPERATION_COLUMNS} FROM server_operations WHERE job_id = $1`,
+      [jobId],
     );
     const row = result.rows[0];
     return row === undefined ? undefined : mapOperation(row);

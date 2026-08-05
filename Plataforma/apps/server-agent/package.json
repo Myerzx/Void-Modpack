@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/agent-client.test.ts test/configuration-operation.test.ts test/supervisor.test.ts",
+    "test": "tsx --test test/agent-client.test.ts test/configuration-operation.test.ts test/supervisor.test.ts test/console-operation.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {

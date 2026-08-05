@@ -1856,6 +1856,7 @@ describe('ServerOperation', () => {
     jobId: null,
     requestedBy: { type: 'panel-user', id: otherUuid },
     reasonCode: 'operator-request',
+    consoleCommand: null,
     receipt: null,
     version: 1,
     acceptedAt: '2026-08-05T12:00:00Z',
@@ -1919,6 +1920,25 @@ describe('ServerOperation', () => {
       validateServerOperation(settled({ receipt: receipt({ completedAt: '2026-08-05T11:00:00Z' }) }))
         .success,
       false,
+    );
+  });
+
+  it('binds a console command to a console operation and to nothing else', () => {
+    // A start that carried a command, and a console operation that carried
+    // none, are both meaningless.
+    assert.equal(
+      validateServerOperation(validOperation({ consoleCommand: 'save-all' })).success,
+      false,
+    );
+    assert.equal(
+      validateServerOperation(validOperation({ kind: 'server.command' })).success,
+      false,
+    );
+    assert.equal(
+      validateServerOperation(
+        validOperation({ kind: 'server.command', consoleCommand: 'list-players' }),
+      ).success,
+      true,
     );
   });
 
