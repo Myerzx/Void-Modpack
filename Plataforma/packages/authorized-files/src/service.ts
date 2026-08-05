@@ -14,18 +14,34 @@ import {
 import { basename, dirname, extname, isAbsolute, join, parse, relative, resolve, sep } from 'node:path';
 import { TextDecoder } from 'node:util';
 
+import { diffText, type TextDiff } from './text-diff.js';
 import {
   AuthorizedFileOperationError,
   type AuthorizedDirectorySnapshot,
+  type AuthorizedFileMutationReceipt,
   type AuthorizedFileRevisionManifest,
   type AuthorizedFileRootDefinition,
   type AuthorizedFileServiceOptions,
   type AuthorizedFileSnapshot,
+  type CopyAuthorizedFilePlan,
+  type CreateAuthorizedFilePlan,
+  type DeleteAuthorizedFilePlan,
+  type DiffAuthorizedFilePlan,
   type ListAuthorizedDirectoryPlan,
+  type MoveAuthorizedFilePlan,
   type ReadAuthorizedFilePlan,
   type ReplaceAuthorizedFilePlan,
   type ReplaceAuthorizedFileReceipt,
+  type RestoreAuthorizedFilePlan,
 } from './types.js';
+
+export interface AuthorizedFileDiffSnapshot {
+  readonly rootId: string;
+  readonly filePath: string;
+  readonly previousLabel: string;
+  readonly currentLabel: string;
+  readonly diff: TextDiff;
+}
 
 const IDENTIFIER = /^[a-z][a-z0-9._-]{0,63}$/u;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u;
@@ -33,6 +49,8 @@ const SHA256 = /^[a-f0-9]{64}$/u;
 const EXTENSION = /^\.[a-z0-9][a-z0-9._-]{0,15}$/u;
 const MAXIMUM_CONFIGURED_BYTES = 16 * 1_024 * 1_024;
 const MAXIMUM_DIRECTORY_ENTRIES = 10_000;
+/** A manifest is a handful of fields; anything larger is not one. */
+const MAXIMUM_MANIFEST_BYTES = 64 * 1_024;
 
 interface FrozenRootDefinition extends AuthorizedFileRootDefinition {
   readonly readableExtensionSet: ReadonlySet<string>;
@@ -168,7 +186,12 @@ async function rejectLinkedComponents(root: string, target: string): Promise<voi
   let current = root;
   for (const segment of relativePath.split(sep).filter((item) => item.length > 0)) {
     current = join(current, segment);
-    const stat = await lstat(current);
+    // A component that cannot be stat'd — most often because it simply is not
+    // there — is refused as an unsafe path rather than escaping as a raw
+    // filesystem error a caller would have to interpret.
+    const stat = await lstat(current).catch(() => {
+      throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+    });
     if (stat.isSymbolicLink()) {
       throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
     }
@@ -513,6 +536,8 @@ export class AuthorizedFileService {
       throw new AuthorizedFileOperationError('content-too-large', 'plan');
     }
     const mutationKey = `${root.rootId}\u0000${input.filePath.toLocaleLowerCase('en-US')}`;
+    // Same key shape the mutation set holds, so a replace and a delete of the
+    // same file exclude each other rather than each believing it is alone.
     if (this.#activeMutations.has(mutationKey)) {
       throw new AuthorizedFileOperationError('operation-in-progress', 'preflight');
     }
@@ -633,6 +658,627 @@ export class AuthorizedFileService {
           });
         }
       }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // The mutation set.
+  //
+  // Three rules hold across all four operations and are what make them safe to
+  // expose:
+  //
+  //   1. No mutation ever overwrites. A destination that already exists is a
+  //      conflict, never a silent replacement — so no sequence of calls can
+  //      destroy a file the caller never named.
+  //   2. Every step that loses bytes writes them to an immutable revision
+  //      *before* the loss, exactly as `replace` does.
+  //   3. A mutation stays inside one root. Crossing roots would let the policy
+  //      on a strict root be escaped by moving a file into a permissive one.
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Resolves a path that must **not** exist yet.
+   *
+   * `#target` lstats the final entry, so it can only resolve something already
+   * there; a destination needs the same guards applied to its parent and then
+   * the opposite conclusion about itself.
+   */
+  async #targetForNew(root: FrozenRootDefinition, relativePath: string): Promise<string> {
+    const target = resolve(root.rootPath, ...relativePath.split('/'));
+    if (!isWithin(root.rootPath, target)) {
+      throw new AuthorizedFileOperationError('unsafe-path', 'preflight');
+    }
+    await requireCanonicalDirectory(root.rootPath, root.rootPath);
+    // The parent must already exist and be a real directory: a mutation never
+    // conjures the tree it is writing into.
+    const parent = dirname(target);
+    await requireCanonicalDirectory(root.rootPath, parent);
+    await rejectLinkedComponents(root.rootPath, parent);
+    if (await pathExists(target)) {
+      throw new AuthorizedFileOperationError('destination-exists', 'preflight');
+    }
+    return target;
+  }
+
+  /**
+   * Holds the mutation keys for every path a step touches.
+   *
+   * Both ends of a move are held, so a concurrent operation cannot be writing
+   * the destination while this one is deciding the destination is free.
+   */
+  #holdPaths(root: FrozenRootDefinition, paths: readonly string[]): () => void {
+    const keys = [
+      ...new Set(paths.map((path) => `${root.rootId}\u0000${path.toLocaleLowerCase('en-US')}`)),
+    ].sort(compareOrdinal);
+    const held: string[] = [];
+    try {
+      for (const key of keys) {
+        if (this.#activeMutations.has(key)) {
+          throw new AuthorizedFileOperationError('operation-in-progress', 'preflight');
+        }
+        this.#activeMutations.add(key);
+        held.push(key);
+      }
+    } catch (error) {
+      for (const key of held) this.#activeMutations.delete(key);
+      throw error;
+    }
+    return () => {
+      for (const key of held) this.#activeMutations.delete(key);
+    };
+  }
+
+  #requireWritableExtension(root: FrozenRootDefinition, relativePath: string): void {
+    const extension = extname(relativePath).toLocaleLowerCase('en-US');
+    if (!root.writableExtensionSet.has(extension)) {
+      throw new AuthorizedFileOperationError('unsupported-extension', 'plan');
+    }
+  }
+
+  #validateActor(input: Record<string, unknown>): void {
+    if (
+      typeof input.actorId !== 'string' ||
+      !UUID.test(input.actorId) ||
+      typeof input.reasonCode !== 'string' ||
+      !IDENTIFIER.test(input.reasonCode) ||
+      !canonicalTimestamp(input.changedAt)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+  }
+
+  /** Reads an existing file and refuses unless it is exactly the expected bytes. */
+  async #verifiedSource(
+    root: FrozenRootDefinition,
+    relativePath: string,
+    expectedSha256: string,
+  ): Promise<PlainFile> {
+    const target = await this.#target(root, relativePath, false);
+    const file = await readPlainFile(target, root.maximumFileBytes);
+    if (sha256(file.bytes) !== expectedSha256) {
+      throw new AuthorizedFileOperationError('concurrent-modification', 'preflight');
+    }
+    return file;
+  }
+
+  /**
+   * Writes the bytes a destructive step is about to lose and publishes the
+   * revision atomically, exactly as `replace` does.
+   *
+   * The revision is published *before* the loss, so a crash between the two
+   * leaves a recoverable revision and an untouched file — never the reverse.
+   */
+  async #preserveRevision(input: {
+    readonly root: FrozenRootDefinition;
+    readonly filePath: string;
+    readonly revisionId: string;
+    readonly actorId: string;
+    readonly reasonCode: string;
+    readonly changedAt: string;
+    readonly bytes: Buffer;
+    readonly state: 'preserved-before-move' | 'preserved-before-delete';
+    readonly movedToPath?: string;
+  }): Promise<{ readonly revisionReference: string; readonly manifestSha256: string }> {
+    const layout = await this.#prepareRevisionLayout(input.root.rootId);
+    const stagingDirectory = join(
+      layout.stagingRoot,
+      `${input.root.rootId}-${input.revisionId}`,
+    );
+    const revisionDirectory = join(layout.revisionsForRoot, input.revisionId);
+    if ((await pathExists(stagingDirectory)) || (await pathExists(revisionDirectory))) {
+      throw new AuthorizedFileOperationError('revision-conflict', 'revision');
+    }
+    await mkdir(stagingDirectory, { recursive: false, mode: 0o700 });
+
+    let published = false;
+    try {
+      const previousSha256 = sha256(input.bytes);
+      const manifest: AuthorizedFileRevisionManifest = {
+        format: 'voidfall-authorized-file-revision',
+        schemaVersion: 1,
+        revisionId: input.revisionId,
+        rootId: input.root.rootId,
+        filePath: input.filePath,
+        actorId: input.actorId,
+        reasonCode: input.reasonCode,
+        changedAt: input.changedAt,
+        state: input.state,
+        previousSha256,
+        // A move keeps the bytes, only elsewhere; a delete leaves nothing, and
+        // saying so is what lets a restorer tell the two apart.
+        intendedSha256: input.state === 'preserved-before-move' ? previousSha256 : null,
+        previousSizeBytes: input.bytes.byteLength,
+        intendedSizeBytes:
+          input.state === 'preserved-before-move' ? input.bytes.byteLength : null,
+        previousPayload: 'previous.bin',
+        ...(input.movedToPath === undefined ? {} : { movedToPath: input.movedToPath }),
+      };
+      const manifestBytes = Buffer.from(canonicalJson(manifest), 'utf8');
+      await writeExclusive(join(stagingDirectory, 'previous.bin'), input.bytes, 0o600);
+      await writeExclusive(join(stagingDirectory, 'manifest.json'), manifestBytes, 0o600);
+      await rename(stagingDirectory, revisionDirectory);
+      published = true;
+      return {
+        revisionReference: `revisions/${input.root.rootId}/${input.revisionId}`,
+        manifestSha256: sha256(manifestBytes),
+      };
+    } finally {
+      if (!published) {
+        if (dirname(stagingDirectory) !== join(this.#revisionRoot, 'staging')) {
+          throw new AuthorizedFileOperationError('cleanup-failed', 'cleanup');
+        }
+        await rm(stagingDirectory, { recursive: true, force: true }).catch(() => {
+          throw new AuthorizedFileOperationError('cleanup-failed', 'cleanup');
+        });
+      }
+    }
+  }
+
+  /**
+   * Creates a file that does not exist yet.
+   *
+   * Nothing is lost, so there is no revision to take. The entry is created
+   * exclusively, so the filesystem — not a prior existence check — decides
+   * which of two concurrent creates wins.
+   */
+  public async create(input: CreateAuthorizedFilePlan): Promise<AuthorizedFileMutationReceipt> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, ['rootId', 'filePath', 'actorId', 'reasonCode', 'changedAt', 'content']) ||
+      !validateRelativePath(input.filePath, false) ||
+      typeof input.content !== 'string' ||
+      input.content.includes('\u0000') ||
+      Buffer.from(input.content, 'utf8').toString('utf8') !== input.content
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    this.#validateActor(input);
+    const root = this.#root(input.rootId);
+    this.#requireWritableExtension(root, input.filePath);
+    const content = Buffer.from(input.content, 'utf8');
+    if (content.byteLength > root.maximumFileBytes) {
+      throw new AuthorizedFileOperationError('content-too-large', 'plan');
+    }
+
+    const release = this.#holdPaths(root, [input.filePath]);
+    try {
+      const target = await this.#targetForNew(root, input.filePath);
+      try {
+        await writeExclusive(target, content, 0o600);
+      } catch (error) {
+        if (isNodeError(error) && error.code === 'EEXIST') {
+          throw new AuthorizedFileOperationError('destination-exists', 'replace');
+        }
+        throw new AuthorizedFileOperationError('replacement-failed', 'replace');
+      }
+      const applied = await readPlainFile(target, root.maximumFileBytes);
+      if (decodeText(applied.bytes) !== input.content) {
+        throw new AuthorizedFileOperationError('verification-failed', 'verify');
+      }
+      return freezeDeep({
+        operation: 'create' as const,
+        rootId: root.rootId,
+        filePath: input.filePath,
+        destinationPath: null,
+        sha256: sha256(content),
+        revisionReference: null,
+      });
+    } finally {
+      release();
+    }
+  }
+
+  /**
+   * Moves a file within one root. A rename is the case where both paths share
+   * a parent; the guards and the failure modes are identical, so it is not a
+   * separate operation.
+   */
+  public async move(input: MoveAuthorizedFilePlan): Promise<AuthorizedFileMutationReceipt> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, [
+        'rootId',
+        'sourcePath',
+        'destinationPath',
+        'revisionId',
+        'actorId',
+        'reasonCode',
+        'changedAt',
+        'expectedSha256',
+      ]) ||
+      !validateRelativePath(input.sourcePath, false) ||
+      !validateRelativePath(input.destinationPath, false) ||
+      typeof input.revisionId !== 'string' ||
+      !IDENTIFIER.test(input.revisionId) ||
+      typeof input.expectedSha256 !== 'string' ||
+      !SHA256.test(input.expectedSha256)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    this.#validateActor(input);
+    if (input.sourcePath === input.destinationPath) {
+      throw new AuthorizedFileOperationError('no-change', 'plan');
+    }
+    const root = this.#root(input.rootId);
+    // Both ends must be writable: the source is losing its file and the
+    // destination is gaining one.
+    this.#requireWritableExtension(root, input.sourcePath);
+    this.#requireWritableExtension(root, input.destinationPath);
+
+    const release = this.#holdPaths(root, [input.sourcePath, input.destinationPath]);
+    try {
+      const source = await this.#verifiedSource(root, input.sourcePath, input.expectedSha256);
+      const sourcePath = await this.#target(root, input.sourcePath, false);
+      const destination = await this.#targetForNew(root, input.destinationPath);
+
+      const revision = await this.#preserveRevision({
+        root,
+        filePath: input.sourcePath,
+        revisionId: input.revisionId,
+        actorId: input.actorId,
+        reasonCode: input.reasonCode,
+        changedAt: input.changedAt,
+        bytes: source.bytes,
+        state: 'preserved-before-move',
+        movedToPath: input.destinationPath,
+      });
+
+      try {
+        // `rename` refuses to clobber a directory but will happily replace a
+        // file on POSIX, so `#targetForNew` having found the destination absent
+        // is what keeps this from overwriting — and the hold is what keeps that
+        // finding true.
+        await rename(sourcePath, destination);
+      } catch {
+        throw new AuthorizedFileOperationError('replacement-failed', 'replace');
+      }
+
+      const moved = await readPlainFile(destination, root.maximumFileBytes);
+      if (sha256(moved.bytes) !== input.expectedSha256) {
+        throw new AuthorizedFileOperationError('verification-failed', 'verify');
+      }
+      return freezeDeep({
+        operation: 'move' as const,
+        rootId: root.rootId,
+        filePath: input.sourcePath,
+        destinationPath: input.destinationPath,
+        sha256: input.expectedSha256,
+        revisionReference: revision.revisionReference,
+      });
+    } finally {
+      release();
+    }
+  }
+
+  /** Copies a file within one root. Nothing is lost, so no revision is taken. */
+  public async copy(input: CopyAuthorizedFilePlan): Promise<AuthorizedFileMutationReceipt> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, [
+        'rootId',
+        'sourcePath',
+        'destinationPath',
+        'actorId',
+        'reasonCode',
+        'changedAt',
+        'expectedSha256',
+      ]) ||
+      !validateRelativePath(input.sourcePath, false) ||
+      !validateRelativePath(input.destinationPath, false) ||
+      typeof input.expectedSha256 !== 'string' ||
+      !SHA256.test(input.expectedSha256)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    this.#validateActor(input);
+    if (input.sourcePath === input.destinationPath) {
+      throw new AuthorizedFileOperationError('no-change', 'plan');
+    }
+    const root = this.#root(input.rootId);
+    // The source is only read, so readable is enough for it; the destination is
+    // written, so it must be writable.
+    const sourceExtension = extname(input.sourcePath).toLocaleLowerCase('en-US');
+    if (!root.readableExtensionSet.has(sourceExtension)) {
+      throw new AuthorizedFileOperationError('unsupported-extension', 'plan');
+    }
+    this.#requireWritableExtension(root, input.destinationPath);
+
+    const release = this.#holdPaths(root, [input.sourcePath, input.destinationPath]);
+    try {
+      const source = await this.#verifiedSource(root, input.sourcePath, input.expectedSha256);
+      const destination = await this.#targetForNew(root, input.destinationPath);
+      try {
+        await writeExclusive(destination, source.bytes, 0o600);
+      } catch (error) {
+        if (isNodeError(error) && error.code === 'EEXIST') {
+          throw new AuthorizedFileOperationError('destination-exists', 'replace');
+        }
+        throw new AuthorizedFileOperationError('replacement-failed', 'replace');
+      }
+      const written = await readPlainFile(destination, root.maximumFileBytes);
+      if (sha256(written.bytes) !== input.expectedSha256) {
+        throw new AuthorizedFileOperationError('verification-failed', 'verify');
+      }
+      return freezeDeep({
+        operation: 'copy' as const,
+        rootId: root.rootId,
+        filePath: input.sourcePath,
+        destinationPath: input.destinationPath,
+        sha256: input.expectedSha256,
+        revisionReference: null,
+      });
+    } finally {
+      release();
+    }
+  }
+
+  /**
+   * Deletes a file after preserving its bytes.
+   *
+   * The revision is published first: a delete that lost the bytes would be the
+   * one mutation nothing could undo.
+   */
+  public async delete(input: DeleteAuthorizedFilePlan): Promise<AuthorizedFileMutationReceipt> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, [
+        'rootId',
+        'filePath',
+        'revisionId',
+        'actorId',
+        'reasonCode',
+        'changedAt',
+        'expectedSha256',
+      ]) ||
+      !validateRelativePath(input.filePath, false) ||
+      typeof input.revisionId !== 'string' ||
+      !IDENTIFIER.test(input.revisionId) ||
+      typeof input.expectedSha256 !== 'string' ||
+      !SHA256.test(input.expectedSha256)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    this.#validateActor(input);
+    const root = this.#root(input.rootId);
+    this.#requireWritableExtension(root, input.filePath);
+
+    const release = this.#holdPaths(root, [input.filePath]);
+    try {
+      const source = await this.#verifiedSource(root, input.filePath, input.expectedSha256);
+      const target = await this.#target(root, input.filePath, false);
+
+      const revision = await this.#preserveRevision({
+        root,
+        filePath: input.filePath,
+        revisionId: input.revisionId,
+        actorId: input.actorId,
+        reasonCode: input.reasonCode,
+        changedAt: input.changedAt,
+        bytes: source.bytes,
+        state: 'preserved-before-delete',
+      });
+
+      try {
+        await unlink(target);
+      } catch {
+        throw new AuthorizedFileOperationError('replacement-failed', 'replace');
+      }
+      if (await pathExists(target)) {
+        throw new AuthorizedFileOperationError('verification-failed', 'verify');
+      }
+      return freezeDeep({
+        operation: 'delete' as const,
+        rootId: root.rootId,
+        filePath: input.filePath,
+        destinationPath: null,
+        sha256: input.expectedSha256,
+        revisionReference: revision.revisionReference,
+      });
+    } finally {
+      release();
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Review and restoration.
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Reads a preserved revision back.
+   *
+   * The manifest is re-validated on the way in rather than trusted: it lives on
+   * disk, and a revision directory whose manifest was tampered with must not be
+   * able to redirect a restore at some other file.
+   */
+  async #readRevision(
+    root: FrozenRootDefinition,
+    revisionId: string,
+  ): Promise<{ readonly manifest: AuthorizedFileRevisionManifest; readonly bytes: Buffer }> {
+    const layout = await this.#prepareRevisionLayout(root.rootId);
+    const directory = join(layout.revisionsForRoot, revisionId);
+    if (!(await pathExists(directory))) {
+      throw new AuthorizedFileOperationError('unknown-revision', 'read');
+    }
+    await requireCanonicalDirectory(this.#revisionRoot, directory);
+
+    const manifestFile = await readPlainFile(join(directory, 'manifest.json'), MAXIMUM_MANIFEST_BYTES);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(decodeText(manifestFile.bytes));
+    } catch {
+      throw new AuthorizedFileOperationError('unknown-revision', 'read');
+    }
+    if (
+      !isRecord(parsed) ||
+      parsed.format !== 'voidfall-authorized-file-revision' ||
+      parsed.schemaVersion !== 1 ||
+      parsed.revisionId !== revisionId ||
+      // A manifest naming another root is refused outright: honouring it would
+      // let a revision under a permissive root restore into a strict one.
+      parsed.rootId !== root.rootId ||
+      !validateRelativePath(parsed.filePath, false) ||
+      typeof parsed.previousSha256 !== 'string' ||
+      !SHA256.test(parsed.previousSha256) ||
+      parsed.previousPayload !== 'previous.bin' ||
+      (parsed.state !== 'prepared-before-replacement' &&
+        parsed.state !== 'preserved-before-move' &&
+        parsed.state !== 'preserved-before-delete')
+    ) {
+      throw new AuthorizedFileOperationError('unknown-revision', 'read');
+    }
+
+    const payload = await readPlainFile(join(directory, 'previous.bin'), root.maximumFileBytes);
+    if (sha256(payload.bytes) !== parsed.previousSha256) {
+      throw new AuthorizedFileOperationError('verification-failed', 'verify');
+    }
+    return { manifest: parsed as unknown as AuthorizedFileRevisionManifest, bytes: payload.bytes };
+  }
+
+  /**
+   * Compares the file on disk against a revision or against proposed text.
+   *
+   * Every line comes back redacted, so a reviewer can see *that* a credential
+   * changed without the review screen becoming a way to read it.
+   */
+  public async diff(input: DiffAuthorizedFilePlan): Promise<AuthorizedFileDiffSnapshot> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, ['rootId', 'filePath', 'against']) ||
+      !validateRelativePath(input.filePath, false) ||
+      !isRecord(input.against)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    const against = input.against;
+    const isRevision = against.type === 'revision';
+    if (isRevision) {
+      if (
+        !exactKeys(against, ['type', 'revisionId']) ||
+        typeof against.revisionId !== 'string' ||
+        !IDENTIFIER.test(against.revisionId)
+      ) {
+        throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+      }
+    } else if (
+      against.type !== 'proposed' ||
+      !exactKeys(against, ['type', 'content']) ||
+      typeof against.content !== 'string'
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+
+    const root = this.#root(input.rootId);
+    const extension = extname(input.filePath).toLocaleLowerCase('en-US');
+    if (!root.readableExtensionSet.has(extension)) {
+      throw new AuthorizedFileOperationError('unsupported-extension', 'plan');
+    }
+
+    // A file that is not there compares as empty rather than failing: that is
+    // exactly the case after a delete, and it is the case a reviewer most needs
+    // to see before restoring.
+    const targetPath = resolve(root.rootPath, ...input.filePath.split('/'));
+    const currentText = (await pathExists(targetPath))
+      ? decodeText((await readPlainFile(await this.#target(root, input.filePath, false), root.maximumFileBytes)).bytes)
+      : '';
+
+    if (isRevision) {
+      const revision = await this.#readRevision(root, String(against.revisionId));
+      const previousText = decodeText(revision.bytes);
+      return freezeDeep({
+        rootId: root.rootId,
+        filePath: input.filePath,
+        previousLabel: `revision:${revision.manifest.revisionId}`,
+        currentLabel: 'current',
+        diff: diffText(previousText, currentText),
+      });
+    }
+
+    const proposed = String(against.content);
+    if (Buffer.byteLength(proposed, 'utf8') > root.maximumFileBytes) {
+      throw new AuthorizedFileOperationError('content-too-large', 'plan');
+    }
+    return freezeDeep({
+      rootId: root.rootId,
+      filePath: input.filePath,
+      previousLabel: 'current',
+      currentLabel: 'proposed',
+      diff: diffText(currentText, proposed),
+    });
+  }
+
+  /**
+   * Puts a preserved revision back at its own recorded path.
+   *
+   * Restoration only fills an absent path. A file that is present is a
+   * different operation — a replacement, which requires the caller to state the
+   * hash they believe they are replacing — and silently overwriting here would
+   * be the one way this package could destroy data without being asked to.
+   *
+   * The preserved bytes never leave the service on this path, so a revision can
+   * be restored by someone who is not allowed to read what it contains.
+   */
+  public async restore(input: RestoreAuthorizedFilePlan): Promise<AuthorizedFileMutationReceipt> {
+    if (
+      !isRecord(input) ||
+      !exactKeys(input, ['rootId', 'revisionId', 'actorId', 'reasonCode', 'changedAt']) ||
+      typeof input.revisionId !== 'string' ||
+      !IDENTIFIER.test(input.revisionId)
+    ) {
+      throw new AuthorizedFileOperationError('invalid-plan', 'plan');
+    }
+    this.#validateActor(input);
+    const root = this.#root(input.rootId);
+    const revision = await this.#readRevision(root, input.revisionId);
+    const filePath = revision.manifest.filePath;
+    // Re-checked against the live policy, not against whatever was writable when
+    // the revision was taken.
+    this.#requireWritableExtension(root, filePath);
+
+    const release = this.#holdPaths(root, [filePath]);
+    try {
+      const target = await this.#targetForNew(root, filePath);
+      try {
+        await writeExclusive(target, revision.bytes, 0o600);
+      } catch (error) {
+        if (isNodeError(error) && error.code === 'EEXIST') {
+          throw new AuthorizedFileOperationError('destination-exists', 'replace');
+        }
+        throw new AuthorizedFileOperationError('replacement-failed', 'replace');
+      }
+      const applied = await readPlainFile(target, root.maximumFileBytes);
+      if (sha256(applied.bytes) !== revision.manifest.previousSha256) {
+        throw new AuthorizedFileOperationError('verification-failed', 'verify');
+      }
+      return freezeDeep({
+        operation: 'restore' as const,
+        rootId: root.rootId,
+        filePath,
+        destinationPath: null,
+        sha256: revision.manifest.previousSha256,
+        revisionReference: `revisions/${root.rootId}/${input.revisionId}`,
+      });
+    } finally {
+      release();
     }
   }
 }
