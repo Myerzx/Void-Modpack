@@ -372,6 +372,20 @@ Critério de conclusão da Fase 10:
 
 ## Fase 11 — jogadores, permissões e moderação reais
 
+### 11.0 — gate de entrada operacional
+
+- [x] auditoria de saída da Fase 10 confirmada contra o código;
+- [x] capabilities registradas no runtime por injeção explícita;
+- [x] validação de configuração no startup, com ausente e malformado tratados diferente;
+- [x] readiness por capability, com motivo quando indisponível;
+- [x] raízes autorizadas e repositório de backup em diretórios temporários, chaves fora do Git;
+- [x] coletores básicos ligados, com TPS/MSPT indisponíveis;
+- [x] loop do agendador com lease, deduplicação, recuperação e encerramento limpo;
+- [x] reconciliação de PID órfão com dono no startup e periódica.
+
+Status: concluído em 2026-08-05. A auditoria encontrou uma afirmação errada da Fase 10.1: `process.force-kill` tinha nome de capability no contrato mas **nenhum handler no agente** — não era falta de instanciação, era falta de implementação. Corrigido no documento e distinguido na readiness como `deliberately-disabled`. Uma capability só é anunciada quando todas as suas dependências existem, e o mapa de handlers é derivado da readiness em vez de montado ao lado dela, porque o supervisor reivindica exatamente o que anuncia. Consulte o [gate de entrada operacional](PHASE_11_OPERATIONAL_ENTRY_GATE.md).
+
+
 Objetivo: conectar o domínio puro da Fase 6 a providers aprovados e às telas operacionais.
 
 - [ ] decidir autenticação Minecraft e provider de permissões em ADRs;

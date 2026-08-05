@@ -18,7 +18,9 @@ Cada ação carrega a própria permissão. Ter `server.control.start` nunca impl
 
 ## Force kill é outro fluxo, não uma flag
 
-Rota própria, permissão própria (`server.control.force`, que nem `administrator` tem), tipo de operação próprio, tipo de job próprio e **capability própria** — ter controle comum nunca implica autoridade para matar.
+Rota própria, permissão própria (`server.control.force`, que nem `administrator` tem), tipo de operação próprio, tipo de job próprio e **nome de capability próprio** — ter controle comum nunca implica autoridade para matar.
+
+> **Correção (2026-08-05, auditoria de entrada da Fase 11).** Este documento dizia "capability própria" e listava como risco apenas que o `main.ts` não a instanciava. Isso estava errado: o nome existe no contrato, mas **nunca houve handler no agente**. Não era falta de instanciação, era falta de implementação. Ela permanece deliberadamente desligada, e a readiness do agente a distingue das demais com o motivo `deliberately-disabled`. Consulte o [gate de entrada operacional](PHASE_11_OPERATIONAL_ENTRY_GATE.md).
 
 Além disso ele exige:
 
@@ -57,7 +59,8 @@ Um lease nomeava a capability mas não o tipo de job — e uma capability pode s
 
 ## Riscos abertos após a Fase 10.1
 
-- a capability existe e é testada, mas o `main.ts` do agente ainda não a instancia: ligar o processo real é operação, não código;
-- a reconciliação de PID órfão usa o `reconcileStale` da Fase 9.1, que continua sem agendador;
+- `process.control` e `console.command` existem, são testadas e passaram a ser registradas pelo runtime do agente — mas só quando um controlador e um adaptador existem, o que ainda não acontece: ligar o processo real é operação, não código;
+- `process.force-kill` **não tem handler nenhum** (veja a correção acima) e segue deliberadamente desligada;
+- ~~a reconciliação de PID órfão usa o `reconcileStale` da Fase 9.1, que continua sem agendador~~ — **resolvido**: `AgentRuntime` a executa no startup e a cada 60 segundos;
 - o timeout da requisição limita a espera, não o processo: uma operação que estoura fica observada como excedida e o processo exatamente como estava;
 - a captura de console acontece ao fim da operação; não há streaming contínuo enquanto o servidor roda.
