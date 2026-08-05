@@ -9,7 +9,7 @@
     "bootstrap-owner": "tsx src/bootstrap-owner.ts",
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "start": "node dist/main.js",
-    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts test/configuration-e2e.test.ts test/artifact-api.test.ts test/artifact-e2e.test.ts test/operational-api.test.ts test/agent-work-e2e.test.ts test/process-api.test.ts test/authorized-file-api.test.ts test/backup-api.test.ts",
+    "test": "tsx --test test/control-api.test.ts test/configuration-api.test.ts test/configuration-e2e.test.ts test/artifact-api.test.ts test/artifact-e2e.test.ts test/operational-api.test.ts test/agent-work-e2e.test.ts test/process-api.test.ts test/authorized-file-api.test.ts test/backup-api.test.ts test/telemetry-api.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@voidfall/database": "0.1.0",
     "@voidfall/permissions": "0.1.0",
     "@voidfall/server-configuration": "0.1.0",
+    "@voidfall/server-telemetry": "0.1.0",
     "fastify": "5.11.2"
   },
   "devDependencies": {

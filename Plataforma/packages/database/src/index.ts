@@ -8,3 +8,4 @@ export * from './migrations.js';
 export * from './mod-catalog-repositories.js';
 export * from './operational-repositories.js';
 export * from './repositories.js';
+export * from './telemetry-repositories.js';

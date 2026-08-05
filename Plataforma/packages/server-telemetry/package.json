@@ -1,0 +1,23 @@
+{
+  "name": "@voidfall/server-telemetry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Metric aggregation, structured log grouping and alert evaluation for VoidFall",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/server-telemetry.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/contracts": "0.1.0"
+  }
+}

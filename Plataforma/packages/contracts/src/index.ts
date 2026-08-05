@@ -23,5 +23,6 @@ export * from './player-profile.js';
 export * from './process-operation.js';
 export * from './release-manifest.js';
 export * from './server-configuration.js';
+export * from './server-telemetry.js';
 export * from './server-operation.js';
 export * from './validation.js';

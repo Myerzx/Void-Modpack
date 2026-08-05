@@ -57,6 +57,7 @@ import {
 } from './authorized-file-routes.js';
 import type { AuthorizedFileService } from '@voidfall/authorized-files';
 import { registerBackupRoutes, type BackupPermission } from './backup-routes.js';
+import { registerTelemetryRoutes, type TelemetryPermission } from './telemetry-routes.js';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -119,6 +120,12 @@ export interface BuildControlApiOptions {
    * rather than falling back to a root nobody declared.
    */
   readonly authorizedFiles?: AuthorizedFileService;
+  /**
+   * Whether an approved in-game metrics provider is connected. Absent means no,
+   * and the metrics route reports tick timing as unavailable rather than
+   * leaving the panel to draw a number nobody measured.
+   */
+  readonly gameProviderConnected?: boolean;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -611,6 +618,17 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     authenticate,
     requirePermission: (permission: OperationalPermission) => requirePermission(permission),
     apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+  });
+
+  registerTelemetryRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: TelemetryPermission) => requirePermission(permission),
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    ...(options.gameProviderConnected === undefined
+      ? {}
+      : { gameProviderConnected: options.gameProviderConnected }),
   });
 
   registerBackupRoutes(app, {

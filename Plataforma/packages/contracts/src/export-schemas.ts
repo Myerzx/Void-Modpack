@@ -58,6 +58,12 @@ import {
 } from './process-operation.js';
 import { ReleaseManifestSchema } from './release-manifest.js';
 import {
+  AlertPageSchema,
+  AlertSchema,
+  MetricSeriesSchema,
+  MetricSnapshotSchema,
+} from './server-telemetry.js';
+import {
   OutboxEventSchema,
   ServerOperationPageSchema,
   ServerOperationSchema,
@@ -131,6 +137,10 @@ const schemas = [
   ['console-page.schema.json', ConsolePageSchema],
   ['process-control-request.schema.json', ProcessControlRequestSchema],
   ['process-force-kill-request.schema.json', ProcessForceKillRequestSchema],
+  ['alert.schema.json', AlertSchema],
+  ['alert-page.schema.json', AlertPageSchema],
+  ['metric-series.schema.json', MetricSeriesSchema],
+  ['metric-snapshot.schema.json', MetricSnapshotSchema],
   ['release-manifest.schema.json', ReleaseManifestSchema],
   ['server-operation.schema.json', ServerOperationSchema],
   ['server-operation-page.schema.json', ServerOperationPageSchema],
