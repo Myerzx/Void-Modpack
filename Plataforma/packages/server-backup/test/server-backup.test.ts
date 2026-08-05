@@ -92,6 +92,13 @@ function createPlan(fixture: Fixture, backupId = 'backup-0001'): CreateBackupPla
   };
 }
 
+/**
+ * A fixed seal key for the tests. The seal is mandatory, so every service
+ * built here supplies one; the value is arbitrary but stable, which is what
+ * lets a test verify a snapshot it wrote earlier.
+ */
+const sealKey = { keyId: 'test-seal', secret: new Uint8Array(32).fill(7) };
+
 function createService(
   fixture: Fixture,
   guard: OfflineExclusiveBackupGuard = new TrackingOfflineGuard(),
@@ -100,6 +107,7 @@ function createService(
   return new FilesystemBackupService({
     repositoryRoot: fixture.repository,
     guard,
+    sealKey,
     limits: { minimumFreeBytesAfterCopy: 0 },
     clock: () => new Date(operationTime),
     ...(fileCopier === undefined ? {} : { fileCopier }),
@@ -395,6 +403,7 @@ describe('filesystem backup and isolated restore', () => {
       const limitedService = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: {
           maximumFileBytes: 3,
           maximumTotalBytes: 100,
@@ -409,6 +418,7 @@ describe('filesystem backup and isolated restore', () => {
       const totalLimitedService = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: {
           maximumFileBytes: 40,
           maximumTotalBytes: 40,
@@ -423,6 +433,7 @@ describe('filesystem backup and isolated restore', () => {
       const depthLimitedService = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: { maximumDepth: 1, minimumFreeBytesAfterCopy: 0 },
       });
       await assert.rejects(
@@ -433,6 +444,7 @@ describe('filesystem backup and isolated restore', () => {
       const countLimitedService = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: { maximumFiles: 1, minimumFreeBytesAfterCopy: 0 },
       });
       await assert.rejects(
@@ -443,6 +455,7 @@ describe('filesystem backup and isolated restore', () => {
       const spaceLimitedService = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: { minimumFreeBytesAfterCopy: Number.MAX_SAFE_INTEGER },
       });
       await assert.rejects(
@@ -513,6 +526,7 @@ describe('filesystem backup and isolated restore', () => {
       const service = new FilesystemBackupService({
         repositoryRoot: fixture.repository,
         guard: new TrackingOfflineGuard(),
+        sealKey,
         limits: { minimumFreeBytesAfterCopy: 0 },
         clock: () => new Date(Number.NaN),
       });

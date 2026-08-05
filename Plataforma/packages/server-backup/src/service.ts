@@ -33,6 +33,8 @@ import {
 import {
   BackupOperationError,
   DEFAULT_BACKUP_LIMITS,
+  DEFAULT_BACKUP_QUOTA,
+  DEFAULT_RETENTION_POLICY,
   VOIDFALL_BACKUP_FORMAT,
   VOIDFALL_BACKUP_SCHEMA_VERSION,
   type BackupConsistencyLease,
@@ -46,6 +48,32 @@ import {
   type RestoreBackupPlan,
   type RestoreReceipt,
 } from './types.js';
+import {
+  decryptBytes,
+  encryptBytes,
+  encryptedSizeFor,
+  readWholeFile,
+  validateEncryptionKey,
+  MAXIMUM_ENCRYPTABLE_BYTES,
+  type BackupEncryptionKey,
+} from './encryption.js';
+import {
+  assertQuotaAllows,
+  selectExpiredBackups,
+  validateQuota,
+  validateRetentionPolicy,
+  type BackupQuota,
+  type RetentionPolicy,
+  type StoredBackupSummary,
+} from './retention.js';
+import {
+  createBackupSeal,
+  parseBackupSeal,
+  serializeBackupSeal,
+  validateSealKey,
+  verifyBackupSeal,
+  type BackupSealKey,
+} from './seal.js';
 import {
   clockTimestamp,
   parseCanonicalTimestamp,
@@ -106,7 +134,7 @@ function isWithin(parent: string, child: string): boolean {
   return value === '' || (!value.startsWith(`..${sep}`) && value !== '..' && !isAbsolute(value));
 }
 
-function unsafePath(stage: 'preflight' | 'verify'): never {
+function unsafePath(stage: 'preflight' | 'verify' | 'cleanup'): never {
   throw new BackupOperationError('unsafe-path', stage);
 }
 
@@ -350,10 +378,54 @@ async function sha256File(path: string): Promise<string> {
   return hash.digest('hex');
 }
 
+/**
+ * Writes one file, encrypting it when the repository has a key.
+ *
+ * The digest recorded is always the **plaintext** digest, taken from the source
+ * before encryption and re-derived from the destination by decrypting it. That
+ * is what makes a later verification prove the backup still restores to the
+ * same bytes, rather than proving only that the ciphertext is unchanged.
+ */
+async function writePayloadFile(
+  entry: InventoryFile,
+  destination: string,
+  copier: BackupFileCopier,
+  encryptionKey: BackupEncryptionKey | undefined,
+): Promise<string> {
+  if (encryptionKey === undefined) {
+    try {
+      await copier.copyFile(entry.sourcePath, destination);
+    } catch (error) {
+      if (error instanceof BackupOperationError) throw error;
+      throw new BackupOperationError('filesystem-failure', 'copy');
+    }
+    return sha256File(destination);
+  }
+
+  const plaintext = await readWholeFile(entry.sourcePath, MAXIMUM_ENCRYPTABLE_BYTES);
+  const plaintextHash = createHash('sha256').update(plaintext).digest('hex');
+  try {
+    await writeFile(destination, encryptBytes(encryptionKey, plaintext), { flag: 'wx' });
+  } catch (error) {
+    if (error instanceof BackupOperationError) throw error;
+    throw new BackupOperationError('filesystem-failure', 'copy');
+  }
+  // Read it back through decryption: a write that landed wrong, or a key that
+  // does not round-trip, is caught here rather than on the day of a restore.
+  const stored = await readWholeFile(destination, MAXIMUM_ENCRYPTABLE_BYTES + 1_024);
+  const roundTripped = decryptBytes(encryptionKey, stored);
+  const roundTrippedHash = createHash('sha256').update(roundTripped).digest('hex');
+  if (roundTrippedHash !== plaintextHash) {
+    throw new BackupOperationError('integrity-mismatch', 'verify');
+  }
+  return plaintextHash;
+}
+
 async function copyInventory(
   inventory: Inventory,
   payloadRoot: string,
   copier: BackupFileCopier,
+  encryptionKey?: BackupEncryptionKey,
 ): Promise<readonly BackupManifestEntry[]> {
   const manifestEntries: BackupManifestEntry[] = [];
   for (const entry of inventory.entries) {
@@ -367,31 +439,25 @@ async function copyInventory(
       manifestEntries.push(Object.freeze({ path: entry.path, type: 'directory' }));
       continue;
     }
-    try {
-      await copier.copyFile(entry.sourcePath, destination);
-    } catch (error) {
-      if (error instanceof BackupOperationError) throw error;
-      throw new BackupOperationError('filesystem-failure', 'copy');
-    }
+    const plaintextHash = await writePayloadFile(entry, destination, copier, encryptionKey);
     let destinationStat;
     try {
       destinationStat = await lstat(destination);
     } catch {
       throw new BackupOperationError('filesystem-failure', 'verify');
     }
+    const expectedStoredSize =
+      encryptionKey === undefined ? entry.sizeBytes : encryptedSizeFor(entry.sizeBytes);
     if (
       !destinationStat.isFile() ||
       destinationStat.isSymbolicLink() ||
       destinationStat.nlink > 1 ||
-      destinationStat.size !== entry.sizeBytes
+      destinationStat.size !== expectedStoredSize
     ) {
       throw new BackupOperationError('integrity-mismatch', 'verify');
     }
-    const [sourceHash, destinationHash] = await Promise.all([
-      sha256File(entry.sourcePath),
-      sha256File(destination),
-    ]);
-    if (sourceHash !== destinationHash) {
+    const sourceHash = await sha256File(entry.sourcePath);
+    if (sourceHash !== plaintextHash) {
       throw new BackupOperationError('integrity-mismatch', 'verify');
     }
     manifestEntries.push(
@@ -399,18 +465,93 @@ async function copyInventory(
         path: entry.path,
         type: 'file',
         sizeBytes: entry.sizeBytes,
-        sha256: destinationHash,
+        sha256: plaintextHash,
       }),
     );
   }
   return Object.freeze(manifestEntries);
 }
 
+/**
+ * Writes a snapshot back out as plaintext.
+ *
+ * Restoration is not a copy when the snapshot is encrypted, and treating it as
+ * one would put ciphertext where a server expects its world. Decryption also
+ * authenticates, so a payload file altered in the repository fails here rather
+ * than becoming a corrupt world nobody notices until it is loaded.
+ */
+async function restoreInventory(input: {
+  readonly manifest: BackupManifest;
+  readonly payloadRoot: string;
+  readonly destinationRoot: string;
+  readonly copier: BackupFileCopier;
+  readonly encryptionKey?: BackupEncryptionKey;
+}): Promise<void> {
+  const encrypted = input.manifest.encryption !== null;
+  if (encrypted && input.encryptionKey === undefined) {
+    throw new BackupOperationError('integrity-mismatch', 'verify');
+  }
+  for (const entry of input.manifest.entries) {
+    const source = safeTarget(input.payloadRoot, entry.path, 'verify');
+    const destination = safeTarget(input.destinationRoot, entry.path, 'copy');
+    if (entry.type === 'directory') {
+      try {
+        await mkdir(destination, { recursive: true });
+      } catch {
+        throw new BackupOperationError('filesystem-failure', 'copy');
+      }
+      continue;
+    }
+    if (!encrypted || input.encryptionKey === undefined) {
+      try {
+        await input.copier.copyFile(source, destination);
+      } catch (error) {
+        if (error instanceof BackupOperationError) throw error;
+        throw new BackupOperationError('filesystem-failure', 'copy');
+      }
+      continue;
+    }
+    const stored = await readWholeFile(source, MAXIMUM_ENCRYPTABLE_BYTES + 1_024);
+    const plaintext = decryptBytes(input.encryptionKey, stored);
+    try {
+      await writeFile(destination, plaintext, { flag: 'wx' });
+    } catch {
+      throw new BackupOperationError('filesystem-failure', 'copy');
+    }
+  }
+}
+
+/**
+ * Checks a tree against a manifest.
+ *
+ * `form` says what is on disk, and it is a parameter rather than something
+ * inferred from the manifest because both forms are legitimate: a stored
+ * snapshot holds ciphertext, and a freshly restored tree holds plaintext. The
+ * manifest describes the plaintext either way, so guessing would silently check
+ * the wrong thing exactly once — on the restore that mattered.
+ */
 async function verifyPayload(
   payloadRoot: string,
   manifest: BackupManifest,
   limits: BackupLimits,
+  options: {
+    readonly form: 'as-stored' | 'plaintext';
+    readonly encryptionKey?: BackupEncryptionKey;
+  } = { form: 'plaintext' },
 ): Promise<void> {
+  let activeKey: BackupEncryptionKey | undefined;
+  if (options.form === 'as-stored' && manifest.encryption !== null) {
+    // A manifest that says it is encrypted cannot be verified without the key.
+    // Pretending otherwise would let a stored backup be declared good on the
+    // strength of never having been read.
+    if (
+      options.encryptionKey === undefined ||
+      manifest.encryption.keyId !== options.encryptionKey.keyId
+    ) {
+      throw new BackupOperationError('integrity-mismatch', 'verify');
+    }
+    activeKey = options.encryptionKey;
+  }
   const resolvedSources: ResolvedSource[] = [];
   for (const source of manifest.sources) {
     const sourcePath = safeTarget(payloadRoot, source.logicalName, 'verify');
@@ -432,11 +573,25 @@ async function verifyPayload(
       throw new BackupOperationError('integrity-mismatch', 'verify');
     }
     if (expected.type === 'file') {
-      if (observed.type !== 'file' || observed.sizeBytes !== expected.sizeBytes) {
+      const expectedStoredSize =
+        activeKey === undefined ? expected.sizeBytes : encryptedSizeFor(expected.sizeBytes);
+      if (observed.type !== 'file' || observed.sizeBytes !== expectedStoredSize) {
         throw new BackupOperationError('integrity-mismatch', 'verify');
       }
-      const hash = await sha256File(observed.sourcePath);
-      if (hash !== expected.sha256) {
+      if (activeKey === undefined) {
+        if ((await sha256File(observed.sourcePath)) !== expected.sha256) {
+          throw new BackupOperationError('integrity-mismatch', 'verify');
+        }
+        continue;
+      }
+      // Decryption authenticates the ciphertext; the digest then proves it is
+      // the plaintext this manifest actually describes.
+      const stored = await readWholeFile(observed.sourcePath, MAXIMUM_ENCRYPTABLE_BYTES + 1_024);
+      const plaintext = decryptBytes(activeKey, stored);
+      if (
+        plaintext.byteLength !== expected.sizeBytes ||
+        createHash('sha256').update(plaintext).digest('hex') !== expected.sha256
+      ) {
         throw new BackupOperationError('integrity-mismatch', 'verify');
       }
     }
@@ -494,6 +649,10 @@ export class FilesystemBackupService {
   readonly #limits: BackupLimits;
   readonly #clock: () => Date;
   readonly #fileCopier: BackupFileCopier;
+  readonly #sealKey: BackupSealKey;
+  readonly #encryptionKey: BackupEncryptionKey | undefined;
+  readonly #quota: BackupQuota;
+  readonly #retentionPolicy: RetentionPolicy;
 
   constructor(options: FilesystemBackupServiceOptions) {
     validateSafePathInput(options.repositoryRoot);
@@ -508,6 +667,141 @@ export class FilesystemBackupService {
     this.#limits = resolveLimits(DEFAULT_BACKUP_LIMITS, options.limits);
     this.#clock = options.clock ?? (() => new Date());
     this.#fileCopier = options.fileCopier ?? new NodeBackupFileCopier();
+    // The seal key is not optional. A repository without one holds manifests
+    // that attest to nothing but themselves.
+    this.#sealKey = validateSealKey(options.sealKey);
+    this.#encryptionKey =
+      options.encryptionKey === undefined ? undefined : validateEncryptionKey(options.encryptionKey);
+    this.#quota = validateQuota(options.quota ?? DEFAULT_BACKUP_QUOTA);
+    this.#retentionPolicy = validateRetentionPolicy(
+      options.retentionPolicy ?? DEFAULT_RETENTION_POLICY,
+    );
+  }
+
+  /**
+   * Lists what the repository holds, using each snapshot's own manifest for the
+   * size rather than walking the tree: retention has to be decidable without
+   * reading every byte it might delete.
+   */
+  async listBackups(): Promise<readonly StoredBackupSummary[]> {
+    const snapshotsRoot = resolve(this.#repositoryRoot, 'snapshots');
+    if (!(await pathExists(snapshotsRoot))) return Object.freeze([]);
+    let names: string[];
+    try {
+      names = await readdir(snapshotsRoot);
+    } catch {
+      throw new BackupOperationError('filesystem-failure', 'preflight');
+    }
+    const summaries: StoredBackupSummary[] = [];
+    for (const name of names.sort(compareManifestPaths)) {
+      if (name.endsWith('.lock')) continue;
+      const snapshotPath = resolve(snapshotsRoot, name);
+      let stat;
+      try {
+        stat = await lstat(snapshotPath);
+      } catch {
+        continue;
+      }
+      if (!stat.isDirectory() || stat.isSymbolicLink()) continue;
+      let manifest: BackupManifest;
+      try {
+        manifest = parseBackupManifest(
+          await readFile(resolve(snapshotPath, 'manifest.json'), 'utf8'),
+        );
+      } catch {
+        // A snapshot whose manifest will not parse is not counted as stored.
+        // It is also never selected for deletion here: deciding to remove
+        // something unreadable is an operator's call, not retention's.
+        continue;
+      }
+      summaries.push(
+        Object.freeze({
+          backupId: manifest.backupId,
+          createdAt: manifest.createdAt,
+          sizeBytes: manifest.totals.bytes,
+        }),
+      );
+    }
+    return Object.freeze(summaries);
+  }
+
+  /**
+   * Verifies a stored backup end to end: seal first, then payload.
+   *
+   * Seal first is the point. A tampered manifest is refused before anything
+   * reads a byte it describes, so a forged manifest cannot steer verification
+   * at files of its own choosing.
+   */
+  async verifyBackup(backupId: string): Promise<{ readonly manifestSha256: string }> {
+    validateBackupId(backupId);
+    const snapshotsRoot = await requirePlainDirectory(
+      resolve(this.#repositoryRoot, 'snapshots'),
+      'verify',
+    );
+    const snapshotPath = await requirePlainDirectory(resolve(snapshotsRoot, backupId), 'verify');
+    const manifest = await this.#readSealedManifest(snapshotPath, backupId);
+    const payloadRoot = await requirePlainDirectory(resolve(snapshotPath, 'payload'), 'verify');
+    await verifyPayload(payloadRoot, manifest, this.#limits, {
+      form: 'as-stored',
+      ...(this.#encryptionKey === undefined ? {} : { encryptionKey: this.#encryptionKey }),
+    });
+    return Object.freeze({ manifestSha256: backupManifestSha256(manifest) });
+  }
+
+  async #readSealedManifest(snapshotPath: string, backupId: string): Promise<BackupManifest> {
+    let manifestBytes: Buffer;
+    let sealText: string;
+    try {
+      manifestBytes = await readFile(resolve(snapshotPath, 'manifest.json'));
+      sealText = await readFile(resolve(snapshotPath, 'seal.json'), 'utf8');
+    } catch {
+      throw new BackupOperationError('integrity-mismatch', 'verify');
+    }
+    const seal = parseBackupSeal(sealText);
+    verifyBackupSeal({ key: this.#sealKey, seal, backupId, manifestBytes });
+    const manifest = parseBackupManifest(manifestBytes.toString('utf8'));
+    if (manifest.backupId !== backupId) {
+      throw new BackupOperationError('integrity-mismatch', 'verify');
+    }
+    if (seal.manifestSha256 !== backupManifestSha256(manifest)) {
+      throw new BackupOperationError('integrity-mismatch', 'verify');
+    }
+    return manifest;
+  }
+
+  /**
+   * Removes what retention no longer keeps.
+   *
+   * Returns what it removed so a caller can record it. A snapshot is deleted
+   * only after its lock is held, so pruning cannot race a restore reading the
+   * same snapshot.
+   */
+  async pruneExpiredBackups(): Promise<readonly string[]> {
+    const stored = await this.listBackups();
+    const expired = selectExpiredBackups({
+      policy: this.#retentionPolicy,
+      stored,
+      now: this.#clock(),
+    });
+    const snapshotsRoot = resolve(this.#repositoryRoot, 'snapshots');
+    const removed: string[] = [];
+    for (const backup of expired) {
+      const snapshotPath = resolve(snapshotsRoot, backup.backupId);
+      const lockPath = resolve(snapshotsRoot, `${backup.backupId}.lock`);
+      if (!isWithin(snapshotsRoot, snapshotPath) || snapshotPath === snapshotsRoot) {
+        unsafePath('cleanup');
+      }
+      const lock = await acquireLock(lockPath);
+      try {
+        await rm(snapshotPath, { recursive: true, force: true });
+        removed.push(backup.backupId);
+      } catch {
+        throw new BackupOperationError('cleanup-failed', 'cleanup');
+      } finally {
+        await releaseLock(lock, lockPath);
+      }
+    }
+    return Object.freeze(removed);
   }
 
   async createBackup(inputPlan: CreateBackupPlan): Promise<BackupReceipt> {
@@ -578,16 +872,30 @@ export class FilesystemBackupService {
         throw new BackupOperationError('destination-conflict', 'preflight');
       }
       const inventory = await inventorySources(sources, this.#limits);
+      // The quota is checked before the copy, not after: checking afterwards
+      // means the disk already holds the bytes the quota exists to prevent.
+      assertQuotaAllows({
+        quota: this.#quota,
+        stored: await this.listBackups(),
+        incomingBytes: inventory.totals.bytes,
+      });
       await ensureFreeSpace(
         repositoryRoot,
-        inventory.totals.bytes,
+        this.#encryptionKey === undefined
+          ? inventory.totals.bytes
+          : encryptedSizeFor(inventory.totals.bytes),
         this.#limits.minimumFreeBytesAfterCopy,
       );
       await mkdir(stagingPath);
       partialCreated = true;
       const payloadRoot = resolve(stagingPath, 'payload');
       await mkdir(payloadRoot);
-      const entries = await copyInventory(inventory, payloadRoot, this.#fileCopier);
+      const entries = await copyInventory(
+        inventory,
+        payloadRoot,
+        this.#fileCopier,
+        this.#encryptionKey,
+      );
       const manifest: BackupManifest = Object.freeze({
         format: VOIDFALL_BACKUP_FORMAT,
         schemaVersion: VOIDFALL_BACKUP_SCHEMA_VERSION,
@@ -603,6 +911,10 @@ export class FilesystemBackupService {
         ),
         entries,
         totals: inventory.totals,
+        encryption:
+          this.#encryptionKey === undefined
+            ? null
+            : Object.freeze({ algorithm: 'aes-256-gcm' as const, keyId: this.#encryptionKey.keyId }),
       });
       const serializedManifest = serializeBackupManifest(manifest);
       try {
@@ -613,12 +925,30 @@ export class FilesystemBackupService {
       } catch {
         throw new BackupOperationError('filesystem-failure', 'copy');
       }
-      await verifyPayload(payloadRoot, manifest, this.#limits);
-      const storedManifest = parseBackupManifest(
-        await readFile(resolve(stagingPath, 'manifest.json'), 'utf8'),
-      );
+      await verifyPayload(payloadRoot, manifest, this.#limits, {
+      form: 'as-stored',
+      ...(this.#encryptionKey === undefined ? {} : { encryptionKey: this.#encryptionKey }),
+    });
+      const storedManifestBytes = await readFile(resolve(stagingPath, 'manifest.json'));
+      const storedManifest = parseBackupManifest(storedManifestBytes.toString('utf8'));
       if (backupManifestSha256(storedManifest) !== backupManifestSha256(manifest)) {
         throw new BackupOperationError('integrity-mismatch', 'verify');
+      }
+      // Sealed over the bytes actually on disk, not over the in-memory object:
+      // the seal has to attest to what a later reader will read.
+      const seal = createBackupSeal({
+        key: this.#sealKey,
+        backupId: plan.backupId,
+        manifestBytes: storedManifestBytes,
+        manifestSha256: backupManifestSha256(storedManifest),
+      });
+      try {
+        await writeFile(resolve(stagingPath, 'seal.json'), serializeBackupSeal(seal), {
+          encoding: 'utf8',
+          flag: 'wx',
+        });
+      } catch {
+        throw new BackupOperationError('filesystem-failure', 'copy');
       }
       try {
         await rename(stagingPath, snapshotPath);
@@ -689,18 +1019,14 @@ export class FilesystemBackupService {
       unsafePath('preflight');
     }
 
-    let manifest: BackupManifest;
-    try {
-      manifest = parseBackupManifest(await readFile(resolve(snapshotPath, 'manifest.json'), 'utf8'));
-    } catch (error) {
-      if (error instanceof BackupOperationError) throw error;
-      throw new BackupOperationError('integrity-mismatch', 'verify');
-    }
-    if (manifest.backupId !== plan.backupId) {
-      throw new BackupOperationError('integrity-mismatch', 'verify');
-    }
+    // The seal is checked before anything else is trusted. A manifest that was
+    // rewritten in the repository must not be able to steer a restore.
+    const manifest = await this.#readSealedManifest(snapshotPath, plan.backupId);
     const payloadRoot = await requirePlainDirectory(resolve(snapshotPath, 'payload'), 'verify');
-    await verifyPayload(payloadRoot, manifest, this.#limits);
+    await verifyPayload(payloadRoot, manifest, this.#limits, {
+      form: 'as-stored',
+      ...(this.#encryptionKey === undefined ? {} : { encryptionKey: this.#encryptionKey }),
+    });
 
     const lock = await acquireLock(lockPath);
     let partialCreated = false;
@@ -718,26 +1044,18 @@ export class FilesystemBackupService {
       );
       await mkdir(partialPath);
       partialCreated = true;
-      const inventoryEntries: InventoryEntry[] = manifest.entries.map((entry) => {
-        const sourcePath = safeTarget(payloadRoot, entry.path, 'verify');
-        return entry.type === 'directory'
-          ? { path: entry.path, type: 'directory', sourcePath }
-          : {
-              path: entry.path,
-              type: 'file',
-              sourcePath,
-              sizeBytes: entry.sizeBytes,
-            };
+      await restoreInventory({
+        manifest,
+        payloadRoot,
+        destinationRoot: partialPath,
+        copier: this.#fileCopier,
+        ...(manifest.encryption === null || this.#encryptionKey === undefined
+          ? {}
+          : { encryptionKey: this.#encryptionKey }),
       });
-      await copyInventory(
-        {
-          entries: inventoryEntries,
-          totals: manifest.totals,
-        },
-        partialPath,
-        this.#fileCopier,
-      );
-      await verifyPayload(partialPath, manifest, this.#limits);
+      // Verified without a key: what was restored is plaintext, whatever the
+      // snapshot held. Passing the key here would check the wrong thing.
+      await verifyPayload(partialPath, manifest, this.#limits, { form: 'plaintext' });
       try {
         await rename(partialPath, targetPath);
       } catch {

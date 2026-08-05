@@ -50,6 +50,18 @@ export interface BackupManifest {
   }[];
   readonly entries: readonly BackupManifestEntry[];
   readonly totals: BackupTotals;
+  /**
+   * How the payload is stored. `null` means as-is.
+   *
+   * The entries always describe the **plaintext**: its digest and its size.
+   * Verification therefore proves the backup still restores to the same bytes,
+   * not merely that the ciphertext is intact — a much weaker claim, and the one
+   * an encrypted-but-unverifiable backup would leave you with.
+   */
+  readonly encryption: {
+    readonly algorithm: 'aes-256-gcm';
+    readonly keyId: string;
+  } | null;
 }
 
 const SHA256_PATTERN = /^[a-f0-9]{64}$/u;
@@ -128,6 +140,7 @@ function validateManifestValue(value: unknown): BackupManifest {
     'sources',
     'entries',
     'totals',
+    'encryption',
   ]);
   if (
     value['format'] !== VOIDFALL_BACKUP_FORMAT ||
@@ -257,6 +270,24 @@ function validateManifestValue(value: unknown): BackupManifest {
     invalidManifest();
   }
 
+  // Present and explicitly `null` when the payload is stored as-is. Omitting
+  // the key for unencrypted backups would make "not encrypted" and "written by
+  // an older writer that did not know about encryption" the same manifest.
+  const encryptionValue = value['encryption'];
+  let encryption: BackupManifest['encryption'] = null;
+  if (encryptionValue !== null) {
+    if (!isRecord(encryptionValue)) invalidManifest();
+    exactKeys(encryptionValue, ['algorithm', 'keyId']);
+    if (
+      encryptionValue['algorithm'] !== 'aes-256-gcm' ||
+      typeof encryptionValue['keyId'] !== 'string' ||
+      !/^[a-z][a-z0-9._-]{0,63}$/u.test(encryptionValue['keyId'])
+    ) {
+      invalidManifest();
+    }
+    encryption = Object.freeze({ algorithm: 'aes-256-gcm' as const, keyId: encryptionValue['keyId'] });
+  }
+
   return Object.freeze({
     format: VOIDFALL_BACKUP_FORMAT,
     schemaVersion: VOIDFALL_BACKUP_SCHEMA_VERSION,
@@ -273,6 +304,7 @@ function validateManifestValue(value: unknown): BackupManifest {
     sources: Object.freeze(sources),
     entries: Object.freeze(entries),
     totals,
+    encryption,
   });
 }
 

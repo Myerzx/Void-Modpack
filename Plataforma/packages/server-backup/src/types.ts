@@ -1,3 +1,7 @@
+import type { BackupEncryptionKey } from './encryption.js';
+import type { BackupQuota, RetentionPolicy } from './retention.js';
+import type { BackupSealKey } from './seal.js';
+
 export const VOIDFALL_BACKUP_FORMAT = 'voidfall-backup' as const;
 export const VOIDFALL_BACKUP_SCHEMA_VERSION = 1 as const;
 
@@ -130,4 +134,29 @@ export interface FilesystemBackupServiceOptions {
   readonly limits?: Partial<BackupLimits>;
   readonly clock?: () => Date;
   readonly fileCopier?: BackupFileCopier;
+  /**
+   * Key for the manifest seal. Required: without it a manifest attests only to
+   * itself, and anyone who can write the repository can rewrite a payload and
+   * its digests together.
+   */
+  readonly sealKey: BackupSealKey;
+  /**
+   * Key for payload encryption. Optional, because an operator may hold the
+   * repository on already-encrypted storage — but its absence is recorded in
+   * every manifest, so "not encrypted" is a visible fact rather than a silence.
+   */
+  readonly encryptionKey?: BackupEncryptionKey;
+  readonly quota?: BackupQuota;
+  readonly retentionPolicy?: RetentionPolicy;
 }
+
+export const DEFAULT_BACKUP_QUOTA: BackupQuota = Object.freeze({
+  maximumBackups: 64,
+  maximumTotalBytes: 1_024 ** 4,
+});
+
+export const DEFAULT_RETENTION_POLICY: RetentionPolicy = Object.freeze({
+  policyId: 'default',
+  keepLatest: 7,
+  maximumAgeDays: 30,
+});

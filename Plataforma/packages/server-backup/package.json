@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/server-backup.test.ts",
+    "test": "tsx --test test/server-backup.test.ts test/backup-seal-encryption.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   }
 }
