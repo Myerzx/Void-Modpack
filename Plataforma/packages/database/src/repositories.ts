@@ -17,6 +17,7 @@ import {
   type ResourceRef,
 } from '@voidfall/contracts';
 import type { PanelPermission, PanelRole } from '@voidfall/permissions';
+import { ArtifactReviewRepository } from './artifact-review-repositories.js';
 import type { Database, SqlClient } from './database.js';
 import { appendAuditRecord } from './audit-persistence.js';
 import {
@@ -314,6 +315,17 @@ export class ServerRepository {
        FROM server_instances ORDER BY display_name, id`,
     );
     return result.rows.map(mapServer);
+  }
+
+  async findById(id: string): Promise<ServerInstance | undefined> {
+    const result = await this.database.query<ServerRow>(
+      `SELECT id, slug, display_name, environment, desired_state, observed_state,
+              minecraft_version, loader, loader_version, max_players, version
+       FROM server_instances WHERE id = $1`,
+      [id],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapServer(row);
   }
 }
 
@@ -840,6 +852,7 @@ export interface Repositories {
   readonly jobs: JobRepository;
   readonly configuration: ConfigurationRepository;
   readonly operationalLocks: OperationalLockRepository;
+  readonly artifactReview: ArtifactReviewRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -853,5 +866,6 @@ export function createRepositories(database: Database): Repositories {
     jobs: new JobRepository(database),
     configuration: new ConfigurationRepository(database),
     operationalLocks: new OperationalLockRepository(database),
+    artifactReview: new ArtifactReviewRepository(database),
   };
 }
