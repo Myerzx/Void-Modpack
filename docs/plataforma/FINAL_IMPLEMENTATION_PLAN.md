@@ -314,11 +314,13 @@ Objetivo: tornar processo, console, arquivos, backups, métricas, logs e agendam
 
 ### 10.1 — processo e console
 
-- [ ] lock durável compartilhado e reconciliação de PID/processo órfão;
-- [ ] start, stop e restart com timeout, estado observado e recuperação;
-- [ ] cursor de console, limitação, redação e retenção;
-- [ ] comandos continuam em catálogo fechado;
-- [ ] force kill permanece em fluxo separado e altamente restrito.
+- [x] lock durável compartilhado e reconciliação de PID/processo órfão;
+- [x] start, stop e restart com timeout, estado observado e recuperação;
+- [x] cursor de console, limitação, redação e retenção;
+- [x] comandos continuam em catálogo fechado;
+- [x] force kill permanece em fluxo separado e altamente restrito.
+
+Status: concluída tecnicamente em isolamento em 2026-08-05. A capability `process.control` toma o `minecraft-exclusive` — o mesmo lock que a configuração já usava e que nenhuma operação de processo consumia —, então um start não corre mais contra um apply. Cada ação carrega a própria permissão, e a operação é aceita antes de existir job, de modo que uma segunda requisição é recusada antes de haver o que executar duas vezes. Force kill tem rota, permissão, tipo de operação, tipo de job e capability próprios, exige a parada graciosa que sucede e que ela tenha de fato falhado, e exige reconhecimento explícito de perda de dados sem valor padrão. O console é append-only por sequência, com cursor que sobrevive à retenção, redação na entrada e poda na mesma transação do append. Consulte [Processo e console da Fase 10.1](PHASE_10_PROCESS_CONSOLE.md).
 
 ### 10.2 — arquivos e configurações
 

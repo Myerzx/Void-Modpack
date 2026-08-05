@@ -4,7 +4,7 @@
 
 - Data: 2026-08-05
 - Responsável: Claude
-- Fase: 9.3 — a Fase 8 inteira está fechada e aprovada em CI, e a Fase 9 inteira está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Fase: 10.1 — a Fase 8 inteira está fechada e aprovada em CI, a Fase 9 inteira está fechada e aprovada em CI, e a Fase 10.1 está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -217,6 +217,17 @@
   - procedência em todo tile — origem, qualidade e horário —, com processo nunca observado reportado como desconhecido e observação sem acompanhamento marcada como desatualizada;
   - sessão real contra a Control API sem guardar credencial, distinguindo senha errada, bloqueio por rate limit e falha;
   - seletor de instância real, lista de operações com recibo e correlação, e auditoria paginada no servidor;
+- Fase 10.1 com:
+  - migration `0009_process_console.sql` para console append-only por sequência e o tipo de operação `server.force-kill`;
+  - capability `process.control` consumindo o `minecraft-exclusive`, o mesmo lock da configuração, que nenhuma operação de processo usava antes;
+  - permissão por ação: ter start nunca implica autoridade para parar;
+  - operação aceita antes de existir job, recusando a segunda requisição antes de haver o que executar duas vezes;
+  - force kill com rota, permissão, tipo de operação, tipo de job e capability próprios, exigindo a parada graciosa que sucede, que ela tenha falhado, e reconhecimento explícito de perda de dados sem valor padrão;
+  - cursor de console por sequência que sobrevive à retenção, com a página informando a sequência mais antiga retida;
+  - sequência nunca reusada, mesmo depois de a retenção apagar tudo;
+  - redação na entrada e não na leitura, com o redator substituindo e comparando em vez de testar antes;
+  - append e poda na mesma transação;
+  - lacuna da Fase 9.2 fechada: o lease passou a carregar o tipo de job, porque uma capability serve vários e o agente teria que adivinhar;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -241,6 +252,10 @@
 
 ## Validação
 
+- Fase 10.1 por componente: `database` 36 casos e `control-api` 74, incluindo 13 das rotas de processo e console;
+- gate completo local da Fase 10.1 aprovado com código de saída 0: 500 casos descobertos, 498 executados no Windows e dois sockets Unix ignorados;
+- baseline registrada antes da fatia: 482 descobertos e 480 executados; a fatia acrescentou 18 casos;
+- `git diff --check` sem erro;
 - Fase 9.3 por componente: `panel-web` 55 casos;
 - gate completo local da Fase 9.3 aprovado com código de saída 0: 482 casos descobertos, 480 executados no Windows e dois sockets Unix ignorados;
 - baseline registrada antes da fatia: 455 descobertos e 453 executados; a fatia acrescentou 27 casos;
@@ -390,7 +405,7 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 10** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): operações completas do servidor — processo, console, arquivos, backups, restore, métricas, logs, alertas e agendamentos, com locks duráveis. A Fase 9 inteira está fechada: o núcleo operacional tem memória, o transporte do agente é real e o painel consome dados reais nas áreas implementadas. As mutações perigosas do painel já estão desenhadas como desabilitadas esperando exatamente esta fase. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Executar a **Fase 10.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): arquivos e configurações — descoberta somente em raízes autorizadas, criar/renomear/mover/copiar/excluir com revisão e política, upload e download limitados e sem execução, proteção contra junction, symlink e alias cross-platform, e diff e restauração de texto sem revelar segredos. O pacote `@voidfall/authorized-files` já implementa boa parte dessas garantias em isolamento e ainda não tem rota nem operação. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
 
 ## Commits relevantes
 
