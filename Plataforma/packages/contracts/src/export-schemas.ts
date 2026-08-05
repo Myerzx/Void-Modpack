@@ -31,6 +31,12 @@ import { PlayerDataPolicySchema } from './player-data-policy.js';
 import { PlayerProfileSchema } from './player-profile.js';
 import { ReleaseManifestSchema } from './release-manifest.js';
 import {
+  OutboxEventSchema,
+  ServerOperationPageSchema,
+  ServerOperationSchema,
+  ServerProcessStateSchema,
+} from './server-operation.js';
+import {
   ConfigurationApplyRequestSchema,
   ConfigurationOperationAcceptanceSchema,
   ConfigurationOperationCommandSchema,
@@ -76,9 +82,13 @@ const schemas = [
   ['mod-compatibility-analysis-plan.schema.json', ModCompatibilityAnalysisPlanSchema],
   ['mod-compatibility-report.schema.json', ModCompatibilityReportSchema],
   ['moderation-case.schema.json', ModerationCaseSchema],
+  ['outbox-event.schema.json', OutboxEventSchema],
   ['player-data-policy.schema.json', PlayerDataPolicySchema],
   ['player-profile.schema.json', PlayerProfileSchema],
   ['release-manifest.schema.json', ReleaseManifestSchema],
+  ['server-operation.schema.json', ServerOperationSchema],
+  ['server-operation-page.schema.json', ServerOperationPageSchema],
+  ['server-process-state.schema.json', ServerProcessStateSchema],
 ] as const;
 
 const schemaDirectory = new URL('./schemas/', import.meta.url);

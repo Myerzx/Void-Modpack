@@ -6,6 +6,12 @@ import {
   validateArtifactCompatibilityPlan,
   validateArtifactCompatibilityReport,
   validateArtifactInspectionReport,
+  validateOutboxEvent,
+  validateServerOperation,
+  validateServerOperationPage,
+  validateServerProcessState,
+  isAllowedOperationTransition,
+  isOperationInFlight,
   validateArtifactSubmission,
   validateArtifactSubmissionDetail,
   validateArtifactSubmissionPage,
@@ -1824,5 +1830,231 @@ describe('ArtifactSubmission', () => {
       ).success,
       false,
     );
+  });
+});
+
+describe('ServerOperation', () => {
+  const receipt = (overrides: Record<string, unknown> = {}) => ({
+    outcome: 'succeeded',
+    failureCode: null,
+    observedLifecycle: 'online',
+    observedPid: 4242,
+    bootId: otherUuid,
+    completedAt: '2026-08-05T12:05:00Z',
+    ...overrides,
+  });
+
+  const validOperation = (overrides: Record<string, unknown> = {}) => ({
+    schemaVersion: 1,
+    operationId: uuid,
+    serverInstanceId: otherUuid,
+    kind: 'server.start',
+    status: 'accepted',
+    idempotencyKey: 'operation-start-0001',
+    requestFingerprint: hashA,
+    correlationId: uuid,
+    jobId: null,
+    requestedBy: { type: 'panel-user', id: otherUuid },
+    reasonCode: 'operator-request',
+    receipt: null,
+    version: 1,
+    acceptedAt: '2026-08-05T12:00:00Z',
+    updatedAt: '2026-08-05T12:00:00Z',
+    ...overrides,
+  });
+
+  const settled = (overrides: Record<string, unknown> = {}) =>
+    validOperation({ status: 'succeeded', receipt: receipt(), updatedAt: '2026-08-05T12:05:00Z', ...overrides });
+
+  it('accepts an operation still in flight and one that settled', () => {
+    assert.equal(validateServerOperation(validOperation()).success, true);
+    assert.equal(validateServerOperation(settled()).success, true);
+  });
+
+  it('ties the receipt to the status it belongs to', () => {
+    // In flight means no receipt yet.
+    assert.equal(validateServerOperation(validOperation({ receipt: receipt() })).success, false);
+    // Settled means the receipt must exist and agree with the status.
+    assert.equal(validateServerOperation(validOperation({ status: 'succeeded' })).success, false);
+    assert.equal(validateServerOperation(settled({ status: 'failed' })).success, false);
+    // A rejected operation never ran, so it produces nothing.
+    assert.equal(
+      validateServerOperation(validOperation({ status: 'rejected', receipt: receipt() })).success,
+      false,
+    );
+  });
+
+  it('requires a failure to be named and a success not to name one', () => {
+    assert.equal(
+      validateServerOperation(
+        settled({ status: 'failed', receipt: receipt({ outcome: 'failed', failureCode: 'agent-refused' }) }),
+      ).success,
+      true,
+    );
+    assert.equal(
+      validateServerOperation(
+        settled({ status: 'failed', receipt: receipt({ outcome: 'failed', failureCode: null }) }),
+      ).success,
+      false,
+    );
+    assert.equal(
+      validateServerOperation(settled({ receipt: receipt({ failureCode: 'timed-out' }) })).success,
+      false,
+    );
+  });
+
+  it('refuses a pid without the boot it belongs to', () => {
+    assert.equal(
+      validateServerOperation(settled({ receipt: receipt({ bootId: null }) })).success,
+      false,
+    );
+  });
+
+  it('refuses a receipt or an update that precedes the operation', () => {
+    assert.equal(
+      validateServerOperation(validOperation({ updatedAt: '2026-08-05T11:00:00Z' })).success,
+      false,
+    );
+    assert.equal(
+      validateServerOperation(settled({ receipt: receipt({ completedAt: '2026-08-05T11:00:00Z' }) }))
+        .success,
+      false,
+    );
+  });
+
+  it('never reopens a settled operation', () => {
+    assert.equal(isAllowedOperationTransition('accepted', 'running'), true);
+    assert.equal(isAllowedOperationTransition('running', 'succeeded'), true);
+    assert.equal(isAllowedOperationTransition('accepted', 'rejected'), true);
+    for (const from of ['succeeded', 'failed', 'rejected'] as const) {
+      for (const to of ['accepted', 'running', 'succeeded', 'failed', 'rejected'] as const) {
+        assert.equal(isAllowedOperationTransition(from, to), false);
+      }
+    }
+    assert.equal(isOperationInFlight('accepted'), true);
+    assert.equal(isOperationInFlight('running'), true);
+    assert.equal(isOperationInFlight('succeeded'), false);
+  });
+
+  it('never presents two in-flight operations for one server', () => {
+    const page = (operations: readonly unknown[]) => ({
+      schemaVersion: 1,
+      operations: [...operations],
+      total: operations.length,
+      limit: 50,
+      offset: 0,
+    });
+
+    assert.equal(validateServerOperationPage(page([validOperation()])).success, true);
+    assert.equal(
+      validateServerOperationPage(
+        page([
+          validOperation(),
+          validOperation({ operationId: otherUuid, idempotencyKey: 'operation-start-0002' }),
+        ]),
+      ).success,
+      false,
+    );
+    // Two settled operations for one server are perfectly ordinary.
+    assert.equal(
+      validateServerOperationPage(
+        page([settled(), settled({ operationId: otherUuid, idempotencyKey: 'operation-start-0002' })]),
+      ).success,
+      true,
+    );
+  });
+});
+
+describe('ServerProcessState', () => {
+  const validState = (overrides: Record<string, unknown> = {}) => ({
+    schemaVersion: 1,
+    serverInstanceId: uuid,
+    lifecycle: 'online',
+    observedPid: 4242,
+    bootId: otherUuid,
+    observedBy: otherUuid,
+    observedAt: '2026-08-05T12:00:00Z',
+    stale: false,
+    version: 1,
+    ...overrides,
+  });
+
+  it('accepts a current observation and a reconciled unknown one', () => {
+    assert.equal(validateServerProcessState(validState()).success, true);
+    assert.equal(
+      validateServerProcessState(
+        validState({
+          lifecycle: 'unknown',
+          observedPid: null,
+          bootId: null,
+          observedBy: null,
+          stale: true,
+        }),
+      ).success,
+      true,
+    );
+  });
+
+  it('refuses a pid that nothing can identify or that cannot be running', () => {
+    assert.equal(validateServerProcessState(validState({ bootId: null })).success, false);
+    assert.equal(validateServerProcessState(validState({ lifecycle: 'offline' })).success, false);
+    assert.equal(validateServerProcessState(validState({ lifecycle: 'unknown' })).success, false);
+  });
+
+  it('treats a state nobody is observing as stale by definition', () => {
+    const unobserved = (stale: boolean) =>
+      validateServerProcessState(
+        validState({
+          observedBy: null,
+          observedPid: null,
+          bootId: null,
+          lifecycle: 'offline',
+          stale,
+        }),
+      ).success;
+
+    assert.equal(unobserved(false), false);
+    assert.equal(unobserved(true), true);
+  });
+});
+
+describe('OutboxEvent', () => {
+  const validEvent = (overrides: Record<string, unknown> = {}) => ({
+    schemaVersion: 1,
+    eventId: uuid,
+    topic: 'operation.completed',
+    correlationId: otherUuid,
+    resourceType: 'server-instance',
+    resourceId: otherUuid,
+    occurredAt: '2026-08-05T12:00:00Z',
+    publishedAt: null,
+    attempts: 0,
+    payload: { status: 'succeeded', outcome: 'succeeded', failureCode: null },
+    ...overrides,
+  });
+
+  it('accepts an unpublished and a published event', () => {
+    assert.equal(validateOutboxEvent(validEvent()).success, true);
+    assert.equal(
+      validateOutboxEvent(validEvent({ publishedAt: '2026-08-05T12:00:01Z', attempts: 1 })).success,
+      true,
+    );
+  });
+
+  it('refuses a publication that precedes the event', () => {
+    assert.equal(
+      validateOutboxEvent(validEvent({ publishedAt: '2026-08-05T11:00:00Z' })).success,
+      false,
+    );
+  });
+
+  it('carries no payload beyond the reviewed status fields', () => {
+    assert.equal(
+      validateOutboxEvent(
+        validEvent({ payload: { status: 'x', outcome: null, failureCode: null, path: '/srv' } }),
+      ).success,
+      false,
+    );
+    assert.equal(validateOutboxEvent(validEvent({ topic: 'anything.else' })).success, false);
   });
 });
