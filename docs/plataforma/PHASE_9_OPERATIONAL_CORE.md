@@ -1,6 +1,6 @@
 # Fase 9.1: contratos operacionais e persistência
 
-Status: concluída tecnicamente em isolamento em 2026-08-05.
+Status: concluída tecnicamente em isolamento em 2026-08-05; gate local aprovado e [matriz Windows/Linux 30989284065](https://github.com/Myerzx/Void-Modpack/actions/runs/30989284065) aprovada nos dois sistemas.
 
 ## Resultado
 
