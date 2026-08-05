@@ -1,6 +1,6 @@
 # Fases 8.3 e 8.4: persistência, API, revisão e painel
 
-Status: concluídas tecnicamente em isolamento em 2026-08-05.
+Status: concluídas tecnicamente em isolamento em 2026-08-05; gate local aprovado e [matriz Windows/Linux 30977108776](https://github.com/Myerzx/Void-Modpack/actions/runs/30977108776) aprovada nos dois sistemas.
 
 ## Resultado
 

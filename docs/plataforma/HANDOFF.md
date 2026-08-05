@@ -215,6 +215,7 @@
 - Fases 8.3/8.4 por componente: `contracts` 73 casos e 35 JSON Schemas exportados; `database` 10; `build-worker` 16; `control-api` 46, incluindo 11 casos de API de artefato e 2 cenários E2E da Fase 8; `panel-web` 28;
 - gate completo local das Fases 8.3/8.4 aprovado: 393 casos descobertos, 391 executados no Windows e dois sockets Unix ignorados; builds/typechecks de todos os workspaces, Java 17, Forge Bridge e export estático do painel aprovados;
 - baseline registrada antes da fatia: 350 descobertos e 348 executados; a fatia acrescentou 43 casos;
+- matriz CI das Fases 8.3/8.4 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30977108776](https://github.com/Myerzx/Void-Modpack/actions/runs/30977108776), fechando a Fase 8;
 - o gate encontrou dois defeitos que o runner de testes não pegaria: o discriminador `format` do relatório de inspeção, recusado pelo contrato da própria Fase 8.1, e um array `readonly` atribuído a um campo mutável no fixture de compatibilidade do teste de banco — `tsx` não typecheca, então só `tsc --noEmit` os revelou;
 - `git diff --check` sem erro;
 - Fase 8.2 por componente: `artifact-compatibility` 40 casos e `contracts` 65 casos com 30 JSON Schemas exportados; os 12 códigos mínimos do plano, `dependency-cycle`, os dois eixos `code`/`determinacy`, o veredito por contexto, o limite de citação e a sanitização de `detail` estão cobertos;
