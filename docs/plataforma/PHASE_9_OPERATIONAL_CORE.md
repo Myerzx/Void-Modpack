@@ -55,10 +55,17 @@ Toda listagem administrativa é limitada e filtrável. O limite é validado na r
 
 Um limite acima do máximo é **recusado com 400**, não silenciosamente reduzido: um pedido que o chamador não pode ter é melhor negado do que atendido por outra coisa.
 
-## Dois defeitos encontrados pelo gate
+## Catálogo de mods persistido
+
+`mod-catalog` era um domínio puro: uma reconciliação podia ser calculada mas nunca lembrada, então cada restart perdia a revisão humana que a produziu. A entrada revisada agora é guardada inteira e validada contra o contrato público; as colunas ao lado existem para indexar e impor concorrência, nunca para virar uma segunda fonte de verdade.
+
+Toda mudança nomeia ator e motivo, sobre a versão que o chamador leu — uma classificação decidida contra uma entrada obsoleta perde em vez de sobrescrever uma revisão mais nova. E a identidade de conteúdo é única por servidor, então os mesmos bytes não podem ser catalogados sob dois identificadores lógicos.
+
+## Três defeitos encontrados e corrigidos
 
 1. **Paginação nunca funcionou por query string.** A API roda o validador com `coerceTypes: false`, então um `limit=1` chegava como string e falhava contra `Type.Integer`. A rota de artefatos da Fase 8.3 tinha o mesmo defeito latente — nenhum teste passava `limit` por query. Agora o parâmetro é declarado como dígitos e convertido explicitamente, com regressão nas duas rotas.
 2. **Uma edição por script removeu métodos do `AuditRepository`.** Um marcador de fim de bloco casou com a chave de fechamento da classe e levou junto `listChain`, `verifyPartition`, `exportPartition` e `#lastSequence`. Os testes com `tsx` não pegaram porque `tsx` não typecheca; `tsc --noEmit` pegou. Os métodos foram restaurados do HEAD e o diff conferido linha a linha.
+3. **A tabela do catálogo nasceu morta.** A migration criou `mod_catalog_entries` e o checkbox "persistir catálogos" foi marcado, mas nenhum código TypeScript referenciava a tabela — o catálogo continuava só em memória. O `ModCatalogRepository` foi implementado com concorrência otimista, identidade de conteúdo única e paginação, e o checkbox passou a ser verdadeiro. Um export morto, `AdministrativePageQuerySchema`, também foi removido: ele declarava inteiros que jamais casariam com uma query string nesta API e enganaria o próximo chamador.
 
 ## Limites mantidos
 
@@ -73,5 +80,5 @@ Um limite acima do máximo é **recusado com 400**, não silenciosamente reduzid
 - o despachante de outbox existe como repositório (claim/lease/mark), mas nenhum processo o roda: os eventos acumulam até a Fase 9.2 dar-lhes destino;
 - `server_operations` não está ligada aos adaptadores de processo; a Fase 9.2 é quem faz uma operação aceita virar trabalho real;
 - o lock `operational_locks` continua compartilhável mas ainda só é consumido pela configuração;
-- o catálogo de mods revisado ganhou tabela, mas a Fase 9.1 não migrou o pacote puro `mod-catalog` para usá-la;
+- o catálogo revisado é persistido pelo repositório, mas o pacote puro `mod-catalog` ainda calcula reconciliação sem ler ou escrever essa tabela; ligar os dois é trabalho da fase que der operação ao catálogo;
 - a lista de auditoria pagina por `offset`, o que fica caro em partições muito grandes; um cursor por sequência é o próximo passo natural.

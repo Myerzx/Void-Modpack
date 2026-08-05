@@ -197,6 +197,7 @@
   - `correlationId` atravessando operação, job durável e cadeia de auditoria, com uma rota que devolve os três juntos;
   - paginação, filtros e limites em toda listagem administrativa, validados na rota e novamente no repositório, recusando com 400 um limite acima do máximo;
   - correção de um defeito latente da Fase 8.3: a paginação por query string nunca funcionou, porque a API valida sem coerção de tipos e o parâmetro chegava como string;
+  - `ModCatalogRepository` com concorrência otimista, ator e motivo por mudança, identidade de conteúdo única por servidor e paginação, tornando verdadeiro o item "persistir catálogos";
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
 ## Limites obrigatórios
@@ -222,9 +223,10 @@
 ## Validação
 
 - Fase 9.1 por componente: `contracts` 86 casos e 39 JSON Schemas; `database` 19; `control-api` 53, incluindo 7 casos dos endpoints administrativos;
-- gate completo local da Fase 9.1 aprovado: 423 casos descobertos, 421 executados no Windows e dois sockets Unix ignorados;
-- baseline registrada antes da fatia: 393 descobertos e 391 executados; a fatia acrescentou 30 casos;
+- gate completo local da Fase 9.1 aprovado: 427 casos descobertos, 425 executados no Windows e dois sockets Unix ignorados;
+- baseline registrada antes da fatia: 393 descobertos e 391 executados; a fatia acrescentou 34 casos;
 - matriz CI da Fase 9.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 30989284065](https://github.com/Myerzx/Void-Modpack/actions/runs/30989284065);
+- uma auditoria posterior encontrou um terceiro defeito: `mod_catalog_entries` foi criada e o checkbox "persistir catálogos" marcado, mas nenhum código usava a tabela; o repositório foi implementado e testado, e o export morto `AdministrativePageQuerySchema` removido;
 - o gate encontrou dois defeitos que o runner de testes não pegaria: a paginação por query string, que nunca funcionou porque a API valida sem coerção, e uma edição por script que removeu quatro métodos do `AuditRepository` ao casar o fim de bloco com a chave da classe;
 - `git diff --check` sem erro;
 - Fases 8.3/8.4 por componente: `contracts` 73 casos e 35 JSON Schemas exportados; `database` 10; `build-worker` 16; `control-api` 46, incluindo 11 casos de API de artefato e 2 cenários E2E da Fase 8; `panel-web` 28;
