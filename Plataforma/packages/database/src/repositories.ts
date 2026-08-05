@@ -17,6 +17,7 @@ import {
   type ResourceRef,
 } from '@voidfall/contracts';
 import type { PanelPermission, PanelRole } from '@voidfall/permissions';
+import { AgentTransportRepository } from './agent-transport-repositories.js';
 import { ArtifactReviewRepository } from './artifact-review-repositories.js';
 import {
   OperationRepository,
@@ -919,6 +920,7 @@ export interface Repositories {
   readonly processStates: ProcessStateRepository;
   readonly outbox: OutboxRepository;
   readonly modCatalog: ModCatalogRepository;
+  readonly agentTransport: AgentTransportRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -937,5 +939,6 @@ export function createRepositories(database: Database): Repositories {
     processStates: new ProcessStateRepository(database),
     outbox: new OutboxRepository(database),
     modCatalog: new ModCatalogRepository(database),
+    agentTransport: new AgentTransportRepository(database),
   };
 }

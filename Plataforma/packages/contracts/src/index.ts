@@ -1,4 +1,5 @@
 export * from './agent-envelope.js';
+export * from './agent-transport.js';
 export * from './artifact-compatibility.js';
 export * from './artifact-inspection.js';
 export * from './artifact-review.js';

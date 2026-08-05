@@ -1,6 +1,11 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { AgentEnvelopeSchema } from './agent-envelope.js';
 import {
+  AgentCredentialSchema,
+  AgentWorkClaimResponseSchema,
+  AgentWorkLeaseSchema,
+} from './agent-transport.js';
+import {
   ArtifactCompatibilityPlanSchema,
   ArtifactCompatibilityReportSchema,
 } from './artifact-compatibility.js';
@@ -50,7 +55,10 @@ import {
 } from './server-configuration.js';
 
 const schemas = [
+  ['agent-credential.schema.json', AgentCredentialSchema],
   ['agent-envelope.schema.json', AgentEnvelopeSchema],
+  ['agent-work-claim-response.schema.json', AgentWorkClaimResponseSchema],
+  ['agent-work-lease.schema.json', AgentWorkLeaseSchema],
   ['artifact-compatibility-plan.schema.json', ArtifactCompatibilityPlanSchema],
   ['artifact-compatibility-report.schema.json', ArtifactCompatibilityReportSchema],
   ['artifact-inspection-report.schema.json', ArtifactInspectionReportSchema],
