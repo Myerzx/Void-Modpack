@@ -77,6 +77,23 @@ Uma execução **pulada** — a verificação de manutenção disse que agora n�
 
 ---
 
+---
+
+## Critérios de conclusão da Fase 10
+
+O plano fixa três critérios para a fase inteira. Onde cada um está:
+
+**1. Toda operação passa por RBAC, job, agente, lock, auditoria e recibo.**
+Vale para processo (10.1), arquivos (10.2), backup e restore (10.3). Todas atravessam permissão própria, operação durável com idempotência e regra de uma-em-voo, job enfileirado, capability do agente sob o `minecraft-exclusive`, evento de auditoria e recibo. Agendamentos (10.5) enfileiram por meio dessas mesmas operações quando o loop existir — hoje o armazenamento e a deduplicação existem e nada os aciona.
+
+**2. Backup e restore completam um ensaio em ambiente isolado.**
+Cumprido. O ensaio roda como teste (`disaster-recovery-rehearsal.test.ts`) contra diretórios temporários: perde o mundo, recupera de snapshot selado e cifrado, compara byte a byte, e ensaia perda de chave, adulteração e destino ocupado.
+
+**3. O painel não apresenta métrica simulada como real.**
+Cumprido, e por dois caminhos independentes. O painel rotula os próprios dados — "Esta tela usa fixtures locais e não representa o estado do servidor real", com a grade de indicadores anunciada como *Indicadores simulados*. E o caminho real recusa fabricar: contrato e banco rejeitam qualquer fonte que não seja um provider aprovado alegando ter medido TPS/MSPT, e a API responde `unavailable` com motivo. O painel ainda **não consome** as rotas reais; quando consumir, o que ele receber já vem com fonte e qualidade.
+
+---
+
 ## Limites mantidos
 
 1. Nenhum contrato, rota ou coluna carrega comando, caminho ou executável.
