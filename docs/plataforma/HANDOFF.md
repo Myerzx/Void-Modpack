@@ -244,6 +244,7 @@
 - Fase 9.3 por componente: `panel-web` 55 casos;
 - gate completo local da Fase 9.3 aprovado com código de saída 0: 482 casos descobertos, 480 executados no Windows e dois sockets Unix ignorados;
 - baseline registrada antes da fatia: 455 descobertos e 453 executados; a fatia acrescentou 27 casos;
+- matriz CI da Fase 9.3 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31022309693](https://github.com/Myerzx/Void-Modpack/actions/runs/31022309693), fechando a Fase 9;
 - matriz CI da Fase 9.2 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31020693016](https://github.com/Myerzx/Void-Modpack/actions/runs/31020693016);
 - Fase 9.2 por componente: `database` 31 casos, `server-agent` 22 e `control-api` 61, incluindo 7 cenários E2E do transporte;
 - gate completo local da Fase 9.2 aprovado com código de saída 0: 455 casos descobertos, 453 executados no Windows e dois sockets Unix ignorados;
