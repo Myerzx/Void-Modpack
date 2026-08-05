@@ -35,6 +35,7 @@ function lease(overrides: Partial<AgentWorkLease> = {}): AgentWorkLease {
     leaseId: randomUUID(),
     jobId: randomUUID(),
     capability: 'artifact.inspect',
+    jobType: 'artifact.inspect',
     correlationId: randomUUID(),
     parameters: {
       resourceType: 'artifact-submission',
@@ -178,7 +179,7 @@ describe('agent supervisor', () => {
   });
 
   it('refuses a capability it has no handler for instead of improvising', async () => {
-    const work = lease({ capability: 'configuration.apply' });
+    const work = lease({ capability: 'configuration.apply', jobType: 'configuration.apply' });
     const { transport, seen } = scriptedTransport([{ claim: [work] }, { result: true }]);
     const supervisor = new AgentSupervisor({
       identity: identity(),

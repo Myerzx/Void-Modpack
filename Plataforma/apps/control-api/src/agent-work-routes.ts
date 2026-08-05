@@ -200,6 +200,7 @@ export function registerAgentWorkRoutes(
         leaseId: work.leaseId,
         jobId: work.jobId,
         capability: work.capability,
+        jobType: work.jobType,
         correlationId: work.correlationId,
         parameters: {
           resourceType: work.resourceType,

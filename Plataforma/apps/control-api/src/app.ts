@@ -41,6 +41,7 @@ import {
   type ArtifactQuarantineStore,
 } from './artifact-routes.js';
 import { registerAgentWorkRoutes } from './agent-work-routes.js';
+import { registerProcessRoutes, type ProcessPermission } from './process-routes.js';
 import {
   registerOperationalRoutes,
   type OperationalPermission,
@@ -567,6 +568,29 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
         outcome: input.outcome,
         ...(input.reason === undefined ? {} : { reason: input.reason }),
       });
+    },
+  });
+
+  registerProcessRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: ProcessPermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    newId: () => randomUUID(),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'server-instance', id: input.serverId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
     },
   });
 

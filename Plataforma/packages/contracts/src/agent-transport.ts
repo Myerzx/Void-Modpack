@@ -38,6 +38,7 @@ export const AgentCapabilitySchema = Type.Union([
   Type.Literal('process.observe'),
   Type.Literal('process.control'),
   Type.Literal('process.force-kill'),
+  Type.Literal('console.command'),
 ]);
 
 export const AgentCredentialStatusSchema = Type.Union([
@@ -97,6 +98,12 @@ export const AgentWorkLeaseSchema = Type.Object(
     leaseId: UuidSchema,
     jobId: UuidSchema,
     capability: AgentCapabilitySchema,
+    /**
+     * The job type this lease covers. A capability may serve more than one, so
+     * without it the agent could not tell a stop from a restart and would have
+     * to guess at what it was asked to do.
+     */
+    jobType: Type.String({ minLength: 3, maxLength: 64, pattern: '^[a-z][a-z0-9.-]{2,63}$' }),
     correlationId: UuidSchema,
     parameters: Type.Object(
       {
@@ -182,6 +189,9 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   // Deliberately separate: granting ordinary control must never imply the
   // authority to kill a running server.
   'process.force-kill': ['server.force-kill'],
+  // The closed console catalogue is served by its own capability, so console
+  // access never rides along with process control.
+  'console.command': ['server.command'],
 });
 
 export function jobTypesForCapability(capability: AgentCapability): readonly string[] {
@@ -220,9 +230,11 @@ export function validateAgentWorkLease(value: unknown): ContractValidationResult
   if (Date.parse(lease.expiresAt) <= Date.parse(lease.leasedAt)) {
     issues.push(semanticIssue('/expiresAt', 'a lease must expire after it was taken'));
   }
-  // A lease may only name a capability that can actually serve leasable work.
+  // A lease may only pair a capability with a job type it is allowed to serve.
   if (jobTypesForCapability(lease.capability).length === 0) {
     issues.push(semanticIssue('/capability', 'this capability serves no leasable work'));
+  } else if (!capabilityServesJobType(lease.capability, lease.jobType)) {
+    issues.push(semanticIssue('/jobType', 'this capability may not serve that job type'));
   }
   return appendSemanticIssues(result, issues);
 }
