@@ -39,6 +39,10 @@ export const AgentCapabilitySchema = Type.Union([
   Type.Literal('process.control'),
   Type.Literal('process.force-kill'),
   Type.Literal('console.command'),
+  // Backup and restore are separate capabilities. An agent trusted to copy a
+  // world is not thereby trusted to overwrite one with an older copy.
+  Type.Literal('backup.create'),
+  Type.Literal('backup.restore'),
 ]);
 
 export const AgentCredentialStatusSchema = Type.Union([
@@ -192,6 +196,10 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   // The closed console catalogue is served by its own capability, so console
   // access never rides along with process control.
   'console.command': ['server.command'],
+  'backup.create': ['backup.create'],
+  // Restoring replaces a live world with an older one. Taking a backup must
+  // never imply the authority to undo one.
+  'backup.restore': ['backup.restore'],
 });
 
 export function jobTypesForCapability(capability: AgentCapability): readonly string[] {

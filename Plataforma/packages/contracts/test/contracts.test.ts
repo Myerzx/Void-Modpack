@@ -1862,6 +1862,7 @@ describe('ServerOperation', () => {
     requestedBy: { type: 'panel-user', id: otherUuid },
     reasonCode: 'operator-request',
     consoleCommand: null,
+    backupId: null,
     receipt: null,
     version: 1,
     acceptedAt: '2026-08-05T12:00:00Z',
@@ -1925,6 +1926,26 @@ describe('ServerOperation', () => {
       validateServerOperation(settled({ receipt: receipt({ completedAt: '2026-08-05T11:00:00Z' }) }))
         .success,
       false,
+    );
+  });
+
+  it('binds a backup identifier to a backup operation and to nothing else', () => {
+    // A start naming a backup, or a backup naming none, would both be
+    // meaningless — and the second would leave an agent with no target.
+    assert.equal(validateServerOperation(validOperation({ backupId: 'backup-0001' })).success, false);
+    assert.equal(
+      validateServerOperation(validOperation({ kind: 'backup.create', backupId: null })).success,
+      false,
+    );
+    assert.equal(
+      validateServerOperation(validOperation({ kind: 'backup.create', backupId: 'backup-0001' }))
+        .success,
+      true,
+    );
+    assert.equal(
+      validateServerOperation(validOperation({ kind: 'backup.restore', backupId: 'backup-0001' }))
+        .success,
+      true,
     );
   });
 

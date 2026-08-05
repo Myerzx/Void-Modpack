@@ -19,6 +19,12 @@ import {
 } from './artifact-review.js';
 import { AuditChainExportManifestSchema } from './audit-chain-export.js';
 import {
+  BackupPageSchema,
+  BackupRecordSchema,
+  CreateBackupRequestSchema,
+  RestoreBackupRequestSchema,
+} from './backup-operation.js';
+import {
   AuthorizedFileDiffRequestSchema,
   AuthorizedFileDiffResponseSchema,
   AuthorizedFileMutationReceiptSchema,
@@ -85,6 +91,10 @@ const schemas = [
   ['artifact-upload-acceptance.schema.json', ArtifactUploadAcceptanceSchema],
   ['audit-chain-export-manifest.schema.json', AuditChainExportManifestSchema],
   ['audit-event.schema.json', AuditEventSchema],
+  ['backup-page.schema.json', BackupPageSchema],
+  ['backup-record.schema.json', BackupRecordSchema],
+  ['create-backup-request.schema.json', CreateBackupRequestSchema],
+  ['restore-backup-request.schema.json', RestoreBackupRequestSchema],
   ['authorized-file-diff-request.schema.json', AuthorizedFileDiffRequestSchema],
   ['authorized-file-diff-response.schema.json', AuthorizedFileDiffResponseSchema],
   ['authorized-file-mutation-receipt.schema.json', AuthorizedFileMutationReceiptSchema],

@@ -56,6 +56,7 @@ import {
   type AuthorizedFilePermission,
 } from './authorized-file-routes.js';
 import type { AuthorizedFileService } from '@voidfall/authorized-files';
+import { registerBackupRoutes, type BackupPermission } from './backup-routes.js';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -610,6 +611,29 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     authenticate,
     requirePermission: (permission: OperationalPermission) => requirePermission(permission),
     apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+  });
+
+  registerBackupRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: BackupPermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    newId: () => randomUUID(),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'server-instance', id: input.serverId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
   });
 
   registerAuthorizedFileRoutes(app, {

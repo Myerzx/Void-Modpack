@@ -37,6 +37,10 @@ export const ServerOperationKindSchema = Type.Union([
   Type.Literal('server.restart'),
   Type.Literal('server.command'),
   Type.Literal('server.force-kill'),
+  // Restoring is its own kind. Modelling it as a backup would blur the one
+  // distinction that matters: taking a copy is safe, putting one back destroys
+  // everything the world became since.
+  Type.Literal('backup.restore'),
   Type.Literal('backup.create'),
   Type.Literal('configuration.apply'),
   Type.Literal('configuration.rollback'),
@@ -137,6 +141,15 @@ export const ServerOperationSchema = Type.Object(
     consoleCommand: Type.Union([
       Type.Literal('list-players'),
       Type.Literal('save-all'),
+      Type.Null(),
+    ]),
+    /**
+     * Which snapshot a backup operation is about. On the operation for the same
+     * reason the console command is: an agent that read its target from the job
+     * payload would be taking direction from the wire.
+     */
+    backupId: Type.Union([
+      Type.String({ minLength: 1, maxLength: 64, pattern: '^[a-z][a-z0-9._-]{0,63}$' }),
       Type.Null(),
     ]),
     receipt: Type.Union([ServerOperationReceiptSchema, Type.Null()]),
@@ -313,6 +326,10 @@ export function validateServerOperation(
     }
   }
   // A command belongs to a console operation and to nothing else.
+  const isBackupKind = operation.kind === 'backup.create' || operation.kind === 'backup.restore';
+  if (isBackupKind !== (operation.backupId !== null)) {
+    issues.push(semanticIssue('/backupId', 'only a backup operation names a backup'));
+  }
   if ((operation.kind === 'server.command') !== (operation.consoleCommand !== null)) {
     issues.push(
       semanticIssue('/consoleCommand', 'only a console operation carries a console command'),

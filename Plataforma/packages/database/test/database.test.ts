@@ -40,6 +40,7 @@ describe('PostgreSQL foundation', () => {
         '0008_agent_transport.sql',
         '0009_process_console.sql',
         '0010_console_command.sql',
+        '0011_backup_catalogue.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
