@@ -51,6 +51,11 @@ import {
   type ConfigurationPermission,
   type ConfigurationValueReader,
 } from './configuration-routes.js';
+import {
+  registerAuthorizedFileRoutes,
+  type AuthorizedFilePermission,
+} from './authorized-file-routes.js';
+import type { AuthorizedFileService } from '@voidfall/authorized-files';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -107,6 +112,12 @@ export interface BuildControlApiOptions {
    * a location nobody configured.
    */
   readonly artifactQuarantineStore?: ArtifactQuarantineStore;
+  /**
+   * Service holding the authorized file roots. It is optional and
+   * deny-by-default: without it the file routes report themselves unavailable
+   * rather than falling back to a root nobody declared.
+   */
+  readonly authorizedFiles?: AuthorizedFileService;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -599,6 +610,30 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     authenticate,
     requirePermission: (permission: OperationalPermission) => requirePermission(permission),
     apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+  });
+
+  registerAuthorizedFileRoutes(app, {
+    clock,
+    authenticate,
+    requirePermission: (permission: AuthorizedFilePermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'authorized-file', id: input.rootId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
+    ...(options.authorizedFiles === undefined
+      ? {}
+      : { authorizedFiles: options.authorizedFiles }),
   });
 
   registerArtifactRoutes(app, {
