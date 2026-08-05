@@ -20,6 +20,7 @@ import type { PanelPermission, PanelRole } from '@voidfall/permissions';
 import { AgentTransportRepository } from './agent-transport-repositories.js';
 import { ArtifactReviewRepository } from './artifact-review-repositories.js';
 import { BackupRepository } from './backup-repositories.js';
+import { ScheduleRepository } from './schedule-repositories.js';
 import { TelemetryRepository } from './telemetry-repositories.js';
 import { ConsoleRepository } from './console-repositories.js';
 import {
@@ -927,6 +928,7 @@ export interface Repositories {
   readonly console: ConsoleRepository;
   readonly backups: BackupRepository;
   readonly telemetry: TelemetryRepository;
+  readonly schedules: ScheduleRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -949,5 +951,6 @@ export function createRepositories(database: Database): Repositories {
     console: new ConsoleRepository(database),
     backups: new BackupRepository(database),
     telemetry: new TelemetryRepository(database),
+    schedules: new ScheduleRepository(database),
   };
 }

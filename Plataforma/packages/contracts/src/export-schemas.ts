@@ -57,6 +57,7 @@ import {
   ProcessForceKillRequestSchema,
 } from './process-operation.js';
 import { ReleaseManifestSchema } from './release-manifest.js';
+import { ScheduleRunSchema, ServerScheduleSchema } from './server-schedule.js';
 import {
   AlertPageSchema,
   AlertSchema,
@@ -138,6 +139,8 @@ const schemas = [
   ['process-control-request.schema.json', ProcessControlRequestSchema],
   ['process-force-kill-request.schema.json', ProcessForceKillRequestSchema],
   ['alert.schema.json', AlertSchema],
+  ['schedule-run.schema.json', ScheduleRunSchema],
+  ['server-schedule.schema.json', ServerScheduleSchema],
   ['alert-page.schema.json', AlertPageSchema],
   ['metric-series.schema.json', MetricSeriesSchema],
   ['metric-snapshot.schema.json', MetricSnapshotSchema],
