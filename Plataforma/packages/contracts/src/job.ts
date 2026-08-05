@@ -29,6 +29,8 @@ export const JobSchema = Type.Object(
       Type.Literal('server.restart'),
       Type.Literal('configuration.apply'),
       Type.Literal('configuration.rollback'),
+      Type.Literal('artifact.inspect'),
+      Type.Literal('artifact.analyze'),
       Type.Literal('system.noop'),
     ]),
     resource: ResourceRefSchema,

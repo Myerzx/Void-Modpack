@@ -6,6 +6,10 @@ import {
   validateArtifactCompatibilityPlan,
   validateArtifactCompatibilityReport,
   validateArtifactInspectionReport,
+  validateArtifactSubmission,
+  validateArtifactSubmissionDetail,
+  validateArtifactSubmissionPage,
+  isAllowedSubmissionTransition,
   validateAgentHeartbeatPayload,
   validateAuditChainExportManifest,
   validateAuditEvent,
@@ -1149,6 +1153,7 @@ describe('ServerConfiguration boundary contracts', () => {
 
 describe('ArtifactInspectionReport', () => {
   const validReport = () => ({
+    format: 'voidfall-artifact-inspection',
     schemaVersion: 1,
     sha256: hashA,
     sizeBytes: 4_096,
@@ -1247,6 +1252,7 @@ describe('ArtifactInspectionReport', () => {
 
 describe('ArtifactCompatibilityPlan', () => {
   const inspection = () => ({
+    format: 'voidfall-artifact-inspection',
     schemaVersion: 1,
     sha256: hashA,
     sizeBytes: 4_096,
@@ -1555,6 +1561,267 @@ describe('ArtifactCompatibilityReport', () => {
           },
         ],
       }).success,
+      false,
+    );
+  });
+});
+
+describe('ArtifactSubmission', () => {
+  const analysis = (overrides: Record<string, unknown> = {}) => ({
+    inspected: true,
+    analyzed: true,
+    loaders: ['forge'],
+    modIds: ['voidfall_probe'],
+    declaredVersions: ['1.0.0'],
+    verdict: 'unknown',
+    blockerCount: 1,
+    warningCount: 0,
+    informationCount: 0,
+    provenBlockerCount: 0,
+    ...overrides,
+  });
+
+  const emptyAnalysis = () =>
+    analysis({
+      inspected: false,
+      analyzed: false,
+      loaders: [],
+      modIds: [],
+      declaredVersions: [],
+      verdict: null,
+      blockerCount: 0,
+    });
+
+  const validSubmission = (overrides: Record<string, unknown> = {}) => ({
+    schemaVersion: 1,
+    submissionId: uuid,
+    filename: 'probe-1.0.0.jar',
+    sha256: hashA,
+    sizeBytes: 4_096,
+    state: 'reviewable',
+    submittedBy: { type: 'panel-user', id: otherUuid },
+    reviewedSide: 'both',
+    submittedAt: '2026-08-05T12:00:00Z',
+    updatedAt: '2026-08-05T12:01:00Z',
+    version: 3,
+    analysis: analysis(),
+    failure: null,
+    decision: null,
+    ...overrides,
+  });
+
+  const approval = (overrides: Record<string, unknown> = {}) => ({
+    decision: 'approved',
+    actor: { type: 'panel-user', id: otherUuid },
+    reasonCode: 'reviewed',
+    analyzedSha256: hashA,
+    decidedAt: '2026-08-05T12:02:00Z',
+    ...overrides,
+  });
+
+  it('accepts a reviewable submission awaiting a decision', () => {
+    assert.equal(validateArtifactSubmission(validSubmission()).success, true);
+  });
+
+  it('refuses an analysis reported before it could have run', () => {
+    for (const state of ['uploaded', 'quarantined']) {
+      assert.equal(validateArtifactSubmission(validSubmission({ state })).success, false);
+      assert.equal(
+        validateArtifactSubmission(validSubmission({ state, analysis: emptyAnalysis() })).success,
+        true,
+      );
+    }
+    // Compatibility cannot run on an artifact that was never inspected.
+    assert.equal(
+      validateArtifactSubmission(
+        validSubmission({ analysis: analysis({ inspected: false, loaders: [], modIds: [] }) }),
+      ).success,
+      false,
+    );
+  });
+
+  it('keeps a proven blocker out of reviewable and approved', () => {
+    assert.equal(
+      validateArtifactSubmission(validSubmission({ analysis: analysis({ provenBlockerCount: 1 }) }))
+        .success,
+      false,
+    );
+    assert.equal(
+      validateArtifactSubmission(
+        validSubmission({
+          state: 'approved',
+          analysis: analysis({ provenBlockerCount: 1 }),
+          decision: approval(),
+        }),
+      ).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactSubmission(
+        validSubmission({ analysis: analysis({ provenBlockerCount: 2, blockerCount: 1 }) }),
+      ).success,
+      false,
+    );
+  });
+
+  it('requires blocked to be justified by a blocker or a failure', () => {
+    assert.equal(validateArtifactSubmission(validSubmission({ state: 'blocked' })).success, false);
+    assert.equal(
+      validateArtifactSubmission(
+        validSubmission({ state: 'blocked', analysis: analysis({ provenBlockerCount: 1 }) }),
+      ).success,
+      true,
+    );
+    assert.equal(
+      validateArtifactSubmission(
+        validSubmission({
+          state: 'blocked',
+          analysis: emptyAnalysis(),
+          failure: { code: 'not-a-zip-container', stage: 'inspection' },
+        }),
+      ).success,
+      true,
+    );
+  });
+
+  it('binds a decision to its state and to the analyzed artifact', () => {
+    const decided = (overrides: Record<string, unknown>) =>
+      validateArtifactSubmission(
+        validSubmission({ state: 'approved', decision: approval(overrides) }),
+      ).success;
+
+    assert.equal(decided({}), true);
+    // A decision naming other bytes could be replayed onto another artifact.
+    assert.equal(decided({ analyzedSha256: hashB }), false);
+    assert.equal(decided({ decision: 'rejected' }), false);
+    assert.equal(validateArtifactSubmission(validSubmission({ decision: approval() })).success, false);
+    assert.equal(
+      validateArtifactSubmission(validSubmission({ state: 'approved', decision: null })).success,
+      false,
+    );
+  });
+
+  it('allows only the reviewed transitions', () => {
+    assert.equal(isAllowedSubmissionTransition('uploaded', 'quarantined'), true);
+    assert.equal(isAllowedSubmissionTransition('quarantined', 'analyzing'), true);
+    assert.equal(isAllowedSubmissionTransition('analyzing', 'reviewable'), true);
+    assert.equal(isAllowedSubmissionTransition('reviewable', 'approved'), true);
+    assert.equal(isAllowedSubmissionTransition('blocked', 'rejected'), true);
+    // A blocked artifact is never silently admitted, and a decision is final.
+    assert.equal(isAllowedSubmissionTransition('blocked', 'approved'), false);
+    assert.equal(isAllowedSubmissionTransition('blocked', 'reviewable'), false);
+    assert.equal(isAllowedSubmissionTransition('uploaded', 'approved'), false);
+    assert.equal(isAllowedSubmissionTransition('approved', 'rejected'), false);
+  });
+
+  it('keeps a page consistent with its own bounds', () => {
+    const page = (overrides: Record<string, unknown> = {}) => ({
+      schemaVersion: 1,
+      submissions: [validSubmission()],
+      total: 1,
+      limit: 50,
+      offset: 0,
+      ...overrides,
+    });
+
+    assert.equal(validateArtifactSubmissionPage(page()).success, true);
+    assert.equal(validateArtifactSubmissionPage(page({ total: 0 })).success, false);
+    assert.equal(
+      validateArtifactSubmissionPage(page({ submissions: [validSubmission(), validSubmission()], total: 2 }))
+        .success,
+      false,
+    );
+    // A malformed submission cannot hide inside a well formed page.
+    assert.equal(
+      validateArtifactSubmissionPage(
+        page({ submissions: [validSubmission({ state: 'approved', decision: null })] }),
+      ).success,
+      false,
+    );
+  });
+
+  it('requires a detail to carry the reports it claims, about this artifact', () => {
+    const inspection = {
+      format: 'voidfall-artifact-inspection',
+      schemaVersion: 1,
+      sha256: hashA,
+      sizeBytes: 4_096,
+      inspectedAt: '2026-08-05T12:00:30Z',
+      container: 'zip',
+      entryCount: 12,
+      expandedBytes: 900,
+      loaders: ['forge'],
+      mods: [],
+      embeddedLibraries: [],
+      evidence: [],
+      metadataIssues: [],
+      features: {
+        containsClasses: true,
+        containsData: false,
+        containsAssets: false,
+        containsMixins: false,
+        containsNestedJars: false,
+      },
+    };
+    const compatibility = {
+      schemaVersion: 1,
+      analysisId: 'submission-probe',
+      generatedAt: '2026-08-05T12:00:40Z',
+      contexts: [
+        {
+          contextId: 'server-active',
+          kind: 'server_active',
+          side: 'server',
+          runtime: { minecraftVersion: '1.20.1', loader: 'forge', loaderVersion: '1.20.1-47.4.4' },
+          javaVersion: '17',
+        },
+      ],
+      artifacts: [
+        {
+          artifactId: 'submission-probe',
+          filename: 'probe-1.0.0.jar',
+          sha256: hashA,
+          modIds: [],
+          status: 'unknown',
+          contexts: [{ contextId: 'server-active', status: 'unknown' }],
+        },
+      ],
+      relatedInstalled: [],
+      issues: [],
+      summary: {
+        compatibleArtifacts: 0,
+        incompatibleArtifacts: 0,
+        unknownArtifacts: 1,
+        blockerCount: 0,
+        warningCount: 0,
+        informationCount: 0,
+      },
+    };
+    const detail = (overrides: Record<string, unknown> = {}) => ({
+      schemaVersion: 1,
+      submission: validSubmission(),
+      inspection,
+      compatibility,
+      ...overrides,
+    });
+
+    assert.equal(validateArtifactSubmissionDetail(detail()).success, true);
+    // A claimed report may not be missing, and may not describe other bytes.
+    assert.equal(validateArtifactSubmissionDetail(detail({ inspection: null })).success, false);
+    assert.equal(validateArtifactSubmissionDetail(detail({ compatibility: null })).success, false);
+    assert.equal(
+      validateArtifactSubmissionDetail(detail({ inspection: { ...inspection, sha256: hashB } })).success,
+      false,
+    );
+    assert.equal(
+      validateArtifactSubmissionDetail(
+        detail({
+          compatibility: {
+            ...compatibility,
+            artifacts: compatibility.artifacts.map((artifact) => ({ ...artifact, sha256: hashB })),
+          },
+        }),
+      ).success,
       false,
     );
   });

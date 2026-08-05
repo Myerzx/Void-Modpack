@@ -5,6 +5,13 @@ import {
   ArtifactCompatibilityReportSchema,
 } from './artifact-compatibility.js';
 import { ArtifactInspectionReportSchema } from './artifact-inspection.js';
+import {
+  ArtifactReviewDecisionRequestSchema,
+  ArtifactSubmissionDetailSchema,
+  ArtifactSubmissionPageSchema,
+  ArtifactSubmissionSchema,
+  ArtifactUploadAcceptanceSchema,
+} from './artifact-review.js';
 import { AuditChainExportManifestSchema } from './audit-chain-export.js';
 import { AuditEventSchema } from './audit-event.js';
 import { CatalogReconciliationReportSchema } from './catalog-reconciliation.js';
@@ -41,6 +48,11 @@ const schemas = [
   ['artifact-compatibility-plan.schema.json', ArtifactCompatibilityPlanSchema],
   ['artifact-compatibility-report.schema.json', ArtifactCompatibilityReportSchema],
   ['artifact-inspection-report.schema.json', ArtifactInspectionReportSchema],
+  ['artifact-review-decision-request.schema.json', ArtifactReviewDecisionRequestSchema],
+  ['artifact-submission.schema.json', ArtifactSubmissionSchema],
+  ['artifact-submission-detail.schema.json', ArtifactSubmissionDetailSchema],
+  ['artifact-submission-page.schema.json', ArtifactSubmissionPageSchema],
+  ['artifact-upload-acceptance.schema.json', ArtifactUploadAcceptanceSchema],
   ['audit-chain-export-manifest.schema.json', AuditChainExportManifestSchema],
   ['audit-event.schema.json', AuditEventSchema],
   ['catalog-reconciliation-report.schema.json', CatalogReconciliationReportSchema],

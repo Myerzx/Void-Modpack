@@ -64,6 +64,7 @@ function inspection(
   overrides: Partial<ArtifactInspectionReportContract> = {},
 ): ArtifactInspectionReportContract {
   return {
+    format: 'voidfall-artifact-inspection',
     schemaVersion: 1,
     sha256: hash('a'),
     sizeBytes: 4_096,

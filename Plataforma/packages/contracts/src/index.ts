@@ -1,6 +1,7 @@
 export * from './agent-envelope.js';
 export * from './artifact-compatibility.js';
 export * from './artifact-inspection.js';
+export * from './artifact-review.js';
 export * from './audit-chain-export.js';
 export * from './audit-event.js';
 export * from './catalog-reconciliation.js';

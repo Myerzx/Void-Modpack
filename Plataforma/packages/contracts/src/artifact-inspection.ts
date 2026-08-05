@@ -82,6 +82,8 @@ export const EmbeddedLibrarySchema = Type.Object(
 
 export const ArtifactInspectionReportSchema = Type.Object(
   {
+    /** Self-describing discriminator emitted by the inspection service. */
+    format: Type.Literal('voidfall-artifact-inspection'),
     schemaVersion: ContractSchemaVersion,
     sha256: Sha256Schema,
     sizeBytes: Type.Integer({ minimum: 1, maximum: 1_073_741_824 }),
