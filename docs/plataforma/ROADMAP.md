@@ -143,9 +143,16 @@ As fases posteriores preservam a numeração histórica das Fases 1–7 e acresc
 1. **Fase 8 — mods adaptativos:** inspeção segura, análise contextual, quarentena, revisão e janela de incompatibilidades, sem instalação automática.
 2. **Fase 9 — núcleo operacional e painel:** persistência, transporte autenticado, idempotência durável, APIs e painel dinâmico.
 3. **Fase 10 — operações completas:** processo, console, arquivos, backups, restore, métricas, logs, alertas e agendamentos.
-4. **Fase 11 — jogadores e permissões reais:** providers aprovados, persistência, moderação, privacidade e telas operacionais.
-5. **Fase 12 — release, launcher e Bridge:** catálogo aprovado, build de produção, assinatura, canais, launcher, Forge Bridge e smoke tests.
-6. **Fase 13 — produção e certificação:** decisões finais, deploy, segurança, disaster recovery, E2E e aceite.
+4. **Fase 11 — identidade de jogador:** **encerrada** em 2026-08-06 com identidade estável, reivindicações, aliases, perfis e casos de moderação persistidos. O restante do escopo original foi adiado.
+
+O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) esclareceu o objetivo central e reordenou o que vem depois. O VoidFall é, antes de tudo, um **painel pessoal de construção, configuração e publicação** de servidores e modpacks Forge: importar, inventariar, configurar, testar em sandbox descartável e publicar. Gestão de jogadores não está nesse caminho.
+
+5. **Fase 12 — importação e inventário:** analisador estático de JAR, descoberta de configurações, datapacks, scripts e recursos, e classificação do nível de edição de cada mod.
+6. **Fase 13 — edição segura por esquema inferido:** formulário gerado, validação, staging, diff e rollback, sem presumir semântica que ninguém revisou.
+7. **Fase 14 — sandbox descartável:** boot isolado a partir dos mods e arquivos mínimos, para gerar arquivos de runtime e confirmar que uma alteração inicia. Nunca contra o mundo original.
+8. **Fase 15 — adaptadores específicos:** Mine and Slash como primeiro adaptador completo. Assistência de IA somente como sugestão, com confiança explícita e confirmação humana.
+9. **Fase 16 — construtor de release:** ZIP do servidor, modpack CurseForge, manifesto com hashes, changelog automático, arquivos por lado e rollback.
+10. **Fase 17 — runtime e administração de jogadores:** retoma o que a Fase 11 deixou decidido nos ADRs 009, 010, 012 e 013 e não implementado. Adiar não é revogar.
 
 O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
 

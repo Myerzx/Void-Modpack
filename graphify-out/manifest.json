@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1786029915.857873,
-    "ast_hash": "5b3c810770714eb683334f4a2bb6aa34",
+    "mtime": 1786034303.30747,
+    "ast_hash": "7842b4d172c1e70258541ad103771011",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1786029915.857873,
-    "ast_hash": "b168771989900cd9020b39ec375a58db",
+    "mtime": 1786034303.30747,
+    "ast_hash": "3d8dd038d6b37deae7a78f5c02e61b11",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1786027738.533062,
-    "ast_hash": "39f66a475fb5696e3f8a3243324b5836",
+    "mtime": 1786034525.8515368,
+    "ast_hash": "485a7ec4b378b017416122480b5a9171",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -470,8 +470,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/package.json": {
-    "mtime": 1786030091.0914326,
-    "ast_hash": "b6f9fc2c7070cbcb8edf23cebbfada73",
+    "mtime": 1786034818.6514463,
+    "ast_hash": "121b9dba2bd94d0b16bbbca97f62b318",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/database.ts": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/index.ts": {
-    "mtime": 1786030027.044544,
-    "ast_hash": "a5ee32b5a4b9279110dd1ce198a8ed73",
+    "mtime": 1786034749.46082,
+    "ast_hash": "9ab02b652182cc9893c8d64cd464e0c0",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/migrations.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1786030018.4588647,
-    "ast_hash": "6e66f98a01d3419276a8331da7491643",
+    "mtime": 1786034749.4623287,
+    "ast_hash": "20d5bbde1c498ebf9f0f96199e06bd56",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -1350,8 +1350,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/moderation-case.ts": {
-    "mtime": 1785798437.0281272,
-    "ast_hash": "ad04d66a6a0cd968bf282a1980f3a118",
+    "mtime": 1786034257.855677,
+    "ast_hash": "e9aa5ed96dfd5a647bdd1cef6c187c51",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/player-data-policy.ts": {
@@ -1360,8 +1360,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/player-profile.ts": {
-    "mtime": 1785798437.0266185,
-    "ast_hash": "e762717487af88437f099a30b32d22e7",
+    "mtime": 1786034257.8541653,
+    "ast_hash": "318ae40166f114aa92704c3c96888d45",
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/package.json": {
@@ -1380,8 +1380,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/src/moderation.ts": {
-    "mtime": 1785799055.333259,
-    "ast_hash": "de238a26f1e308d99bc65b486659251d",
+    "mtime": 1786034377.4028509,
+    "ast_hash": "7dc548d38235bcec7f3377b5862a59e5",
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/src/permissions.ts": {
@@ -1395,18 +1395,18 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/src/profiles.ts": {
-    "mtime": 1785799055.3317497,
-    "ast_hash": "abd5f43d3d5147b2e670b2f1826aef31",
+    "mtime": 1786034363.8056138,
+    "ast_hash": "41572152b3fd989295f75a364ac263f3",
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/src/types.ts": {
-    "mtime": 1785798804.7704055,
-    "ast_hash": "c6d242f5d2b9c2626373b879b604b171",
+    "mtime": 1786034349.727937,
+    "ast_hash": "4ffc6a71be94823a4ce477b3a4418d80",
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/test/player-governance.test.ts": {
-    "mtime": 1785798946.351242,
-    "ast_hash": "7c78b37b624d5a99441d14071c19e76d",
+    "mtime": 1786034474.7111533,
+    "ast_hash": "3fda0c2b8fee060166a6ef932ffcbe1f",
     "semantic_hash": ""
   },
   "Plataforma/packages/player-governance/tsconfig.build.json": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786030027.0913055,
-    "ast_hash": "cc6ab37359cdebbc2a1b6c4bb5640a4e",
+    "mtime": 1786034569.7396896,
+    "ast_hash": "ab3d83dd611a4d92ce85b584178718af",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -4085,8 +4085,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/player-identity.ts": {
-    "mtime": 1786029906.4412978,
-    "ast_hash": "32c8bbbc465e077ff585aa7d67905e68",
+    "mtime": 1786034598.69358,
+    "ast_hash": "9e85a8102eb6b9abf22be3501adb71ee",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0015_player_identity.sql": {
@@ -4095,13 +4095,33 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/player-identity-repositories.ts": {
-    "mtime": 1786030000.5311584,
-    "ast_hash": "3a9a2571e77ab656f0cf6b77a2a94fa3",
+    "mtime": 1786034598.69358,
+    "ast_hash": "829d23f6b7ad1c51df486d1324ddb2b6",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/player-identity.test.ts": {
     "mtime": 1786030076.9355173,
     "ast_hash": "06727df4dcfe7d358f222414c2895de6",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/claim-evidence.ts": {
+    "mtime": 1786034292.644951,
+    "ast_hash": "461f7fb3b1ee701e4fc561916e2419a5",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0016_player_profiles_and_moderation.sql": {
+    "mtime": 1786034856.662778,
+    "ast_hash": "acc3c56d210d1b3ffef18026f84aef4f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/player-record-repositories.ts": {
+    "mtime": 1786034877.835959,
+    "ast_hash": "386162efde5f8212fc422cbf8066260f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/test/player-records.test.ts": {
+    "mtime": 1786034896.7648017,
+    "ast_hash": "bf60f8bd388fe22ff2d162c204e1783e",
     "semantic_hash": ""
   }
 }

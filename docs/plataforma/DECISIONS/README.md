@@ -16,3 +16,4 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-011 — Dados de jogador, retenção e acesso](ADR-011-dados-de-jogador-e-retencao.md)
 - [ADR-012 — Credenciais, tickets de login e rotação de chaves](ADR-012-credenciais-e-tickets-de-login.md)
 - [ADR-013 — Capacidade tipada de permissões no Forge Bridge](ADR-013-permissoes-tipadas-no-forge-bridge.md)
+- [ADR-014 — Objetivo central do produto e replanejamento das fases](ADR-014-objetivo-central-e-replanejamento.md)

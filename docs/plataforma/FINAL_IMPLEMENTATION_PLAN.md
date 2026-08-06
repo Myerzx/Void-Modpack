@@ -43,23 +43,28 @@ O projeto só estará concluído quando todos estes resultados existirem simulta
 
 ## Visão das fases finais
 
+Reordenado pelo [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) em torno do objetivo central: um painel pessoal de construção, configuração e publicação de servidores e modpacks.
+
 ```mermaid
 flowchart LR
-    G7["Fase 7\nConfigurações verificáveis"] --> G8["Fase 8\nMods adaptativos"]
-    G8 --> G9["Fase 9\nNúcleo operacional e painel"]
-    G9 --> G10["Fase 10\nOperações completas"]
-    G9 --> G11["Fase 11\nJogadores e permissões"]
-    G10 --> G12["Fase 12\nRelease, launcher e Bridge"]
-    G11 --> G12
-    G12 --> G13["Fase 13\nProdução e certificação"]
+    G10["Fase 10 — operações completas"] --> G11["Fase 11 — identidade, encerrada"]
+    G10 --> G12["Fase 12 — importação e inventário"]
+    G12 --> G13["Fase 13 — edição por esquema"]
+    G13 --> G14["Fase 14 — sandbox descartável"]
+    G14 --> G15["Fase 15 — adaptadores"]
+    G14 --> G16["Fase 16 — construtor de release"]
+    G16 --> G17["Fase 17 — runtime e jogadores"]
 ```
 
 | Marco | Quando acontece | Resultado |
 | --- | --- | --- |
 | Painel executável | já disponível | demonstração estática, sem operação real |
 | Painel funcional mínimo | fim da Fase 9 | login, servidor, jobs, configurações, catálogo e incompatibilidades reais |
-| Painel funcional completo | fim da Fase 12 | operações, jogadores e pipeline de release integrados |
-| Produção liberada | fim da Fase 13 | segurança, deploy, recuperação e smoke tests aprovados |
+| **Caminho vertical completo** | fim da Fase 14 | importar, editar um valor, validar, aplicar em staging, iniciar sandbox e reverter |
+| **Release publicável** | fim da Fase 16 | ZIP de servidor, modpack CurseForge, manifesto, changelog e rollback |
+| Administração de jogadores | fim da Fase 17 | autenticação, claims, moderação e LuckPerms ligados |
+
+A Fase 11 aparece **encerrada**, não concluída: ela entregou identidade, reivindicações, perfis e casos persistidos, e o resto do seu escopo foi adiado para a Fase 17.
 
 ## Gates transversais
 
@@ -393,21 +398,120 @@ Objetivo: conectar o domínio puro da Fase 6 a providers aprovados e às telas o
 - [ ] implementar importação/reconciliação por UUID sem confiar em nome — reinterpretado pelo [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md) como reconciliação pela reivindicação. `importLegacyClaim` traz uma conta anterior como registro que não concede nada, e `proveLegacyClaim` é a reivindicação que os 7 operadores precisam fazer;
 - [ ] ligar provider Forge deny-by-default — núcleo do Bridge implementado em 2026-08-06 conforme [ADR-013](DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md): contrato tipado das quatro operações, `PermissionCommandService` com resolução de reivindicação, releitura pós-mutação, rebind transacional e readiness com motivo nomeado; falta a ligação concreta à API do LuckPerms na camada de mod, o job durável e a capability do agente;
 - [ ] ligar executor tipado de kick, ban, mute, whitelist e grupo — grupo e nó cobertos pelas quatro operações iniciais; kick, ban, mute e whitelist continuam fora do conjunto por decisão do ADR-013;
-- [ ] exigir motivo e autorização por ação;
-- [ ] definir política de chat, coordenadas e atividade antes da coleta;
-- [ ] criar API paginada e telas de perfil, histórico e moderação;
-- [ ] auditar leitura de dados sensíveis e aplicar retenção;
-- [ ] testar expiração, concorrência e falha do provider.
+- [ ] exigir motivo e autorização por ação — **adiado**;
+- [ ] definir política de chat, coordenadas e atividade antes da coleta — decidido pelo [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md): fora do escopo até haver finalidade nomeada;
+- [ ] criar API paginada e telas de perfil, histórico e moderação — **adiado**;
+- [ ] auditar leitura de dados sensíveis e aplicar retenção — **adiado**;
+- [ ] testar expiração, concorrência e falha do provider — **adiado**.
 
-Critério de conclusão da Fase 11:
+### Encerramento da Fase 11
 
-- identidade é UUID, `player` continua grupo padrão e nenhum fake é tratado como provider real;
-- ações administrativas possuem recibo do provider e auditoria;
-- dados sem política aprovada continuam indisponíveis.
+O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) esclareceu o objetivo central do produto: o VoidFall é um **painel pessoal de construção, configuração e publicação** de servidores e modpacks. Gestão de jogadores não está no caminho principal, e nada dos sete passos desse caminho precisa de autenticação, claims, moderação ou LuckPerms.
+
+A fase é encerrada em 2026-08-06 com o que está íntegro e testado:
+
+- identidade estável, reivindicações com revisão, aliases, perfis e casos de moderação persistidos, chaveados pela identidade;
+- contrato tipado das quatro operações de permissão, `ClaimEvidence` e `ClaimInvalidation`;
+- núcleo do Forge Bridge para permissões, com resolução de reivindicação, releitura pós-mutação e rebind transacional.
+
+Os itens marcados **adiado** — e a implementação restante dos ADRs 009, 010, 012 e 013 — passam para a Fase 17. Os ADRs permanecem aceitos: adiar não é revogar, e cada um continua sendo a decisão vigente para quando esse trabalho começar.
 
 ---
 
-## Fase 12 — release, launcher e Forge Bridge
+## Fases 12–17 — replanejadas em torno do caminho principal
+
+O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) reordena o que vem depois. As fases abaixo substituem o antigo par 12–13, que continua registrado adiante como referência do que já estava planejado para release e produção.
+
+### Fase 12 — importação e inventário
+
+Objetivo: ler um servidor ou modpack e saber exatamente o que existe nele.
+
+- [ ] importar um workspace a partir de um diretório ou pacote, sem tocar na origem;
+- [ ] analisador estático de JAR: mod id, versão, dependências, lado, loader;
+- [ ] descoberta de arquivos de configuração TOML, JSON e properties;
+- [ ] descoberta de datapacks, scripts e recursos;
+- [ ] classificar cada mod em `FULLY_MANAGED`, `STRUCTURED`, `RAW_EDITABLE`, `UNSUPPORTED` ou `RUNTIME_ONLY`;
+- [ ] inventário reproduzível, com hash por arquivo.
+
+`UNSUPPORTED` é resultado legítimo e frequente. Um inventário que classifica tudo como editável está mentindo sobre o que sabe.
+
+### Fase 13 — edição segura por esquema inferido
+
+Objetivo: alterar configuração sem entender semântica que ninguém revisou.
+
+- [ ] inferir esquema de um arquivo estruturado e gerar formulário;
+- [ ] editar valor com validação de tipo e limite;
+- [ ] aplicar em staging, nunca no workspace ativo;
+- [ ] diff legível e rollback por revisão;
+- [ ] modo avançado para `RAW_EDITABLE`, com aviso explícito.
+
+### Fase 14 — sandbox descartável
+
+Objetivo: provar que uma alteração inicia, sem arriscar nada real.
+
+- [ ] montar sandbox a partir dos mods e arquivos mínimos necessários;
+- [ ] **nunca** copiar nem modificar o mundo original;
+- [ ] boot isolado para gerar arquivos que só existem em runtime;
+- [ ] confirmar boot e capturar o resultado como evidência;
+- [ ] descartar a sandbox ao final, por construção.
+
+### Fase 15 — adaptadores específicos
+
+Objetivo: dar semântica aos mods que a merecem, um por vez.
+
+- [ ] **Mine and Slash** como primeiro adaptador completo;
+- [ ] categorias: balanceamento, status, spells, talentos, mobs, itens e raridades;
+- [ ] assistência de IA somente como sugestão, com confiança explícita e confirmação humana.
+
+Nenhuma sugestão é aplicada sozinha. Uma sugestão aplicada sem confirmação seria o executor genérico que esta base recusa em toda parte.
+
+### Fase 16 — construtor de release
+
+Objetivo: produzir, a partir do estado aprovado, tudo o que uma versão precisa.
+
+- [ ] ZIP do servidor;
+- [ ] ZIP/estrutura do modpack CurseForge;
+- [ ] manifesto com hashes e versões;
+- [ ] mods adicionados, removidos e atualizados;
+- [ ] configurações, datapacks e scripts alterados;
+- [ ] changelog automático;
+- [ ] arquivos apenas de cliente e apenas de servidor;
+- [ ] resultado dos testes de boot;
+- [ ] rollback para a versão anterior.
+
+### Fase 17 — runtime e administração de jogadores
+
+Objetivo: retomar o que a Fase 11 deixou decidido e não implementado.
+
+- [ ] armazenamento de credencial e protocolo de tickets ([ADR-012](DECISIONS/ADR-012-credenciais-e-tickets-de-login.md));
+- [ ] `SessionBinding` do Forge Bridge e o resolvedor de sessão;
+- [ ] tipo de job de permissão e capability do agente;
+- [ ] adaptação concreta à API oficial do LuckPerms ([ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md), [ADR-013](DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md));
+- [ ] telas de perfil, histórico e moderação;
+- [ ] teste de boot e de pré-login contra o pack completo.
+
+### Caminho vertical, antes da largura
+
+O primeiro fio atravessa as Fases 12–14 inteiras, de ponta a ponta, antes de qualquer uma delas ganhar largura:
+
+1. importar workspace;
+2. detectar um mod;
+3. identificar seus arquivos;
+4. gerar um formulário;
+5. alterar um valor;
+6. validar;
+7. aplicar em staging;
+8. iniciar sandbox;
+9. confirmar boot;
+10. gerar diff e rollback.
+
+---
+
+## Referência: o planejamento anterior de release e produção
+
+---
+
+### Fase 12 (anterior) — release, launcher e Forge Bridge
 
 Objetivo: ativar o pipeline reproduzível e a atualização do cliente depois de resolver os gates de distribuição.
 
@@ -457,7 +561,7 @@ Critério de conclusão da Fase 12:
 
 ---
 
-## Fase 13 — produção, segurança e encerramento
+### Fase 13 (anterior) — produção, segurança e encerramento
 
 Objetivo: transformar o sistema integrado em serviço recuperável e auditável de produção.
 
