@@ -1,4 +1,6 @@
-import type { AgentCapability } from '@voidfall/contracts';
+import { randomUUID } from 'node:crypto';
+
+import type { AgentCapability, AlertKind, MetricReading } from '@voidfall/contracts';
 import type { Repositories } from '@voidfall/database';
 import type { MinecraftConsoleAdapter, MinecraftProcessController } from '@voidfall/minecraft-process';
 import { AuthorizedFileService } from '@voidfall/authorized-files';
@@ -19,6 +21,7 @@ import { createConsoleCommandHandler } from './console-operation.js';
 import { createProcessControlHandler } from './process-operation.js';
 import { evaluateReadiness, type AgentReadiness, type RuntimeDependencies } from './readiness.js';
 import type { AgentRuntimeConfiguration } from './runtime-config.js';
+import { createDurableScheduleExecutor } from './schedule-executor.js';
 import { SchedulerLoop, type ScheduleStepExecutor } from './scheduler-loop.js';
 import { AgentSupervisor, type LeaseHandler, type SupervisorEvent } from './supervisor.js';
 import type { AgentWorkTransport } from './work-transport.js';
@@ -44,6 +47,24 @@ const DEFAULT_STALE_PROCESS_SECONDS = 120;
 const DEFAULT_RECONCILE_INTERVAL_MS = 60_000;
 const DEFAULT_METRICS_INTERVAL_MS = 60_000;
 const DEFAULT_METRICS_BUCKET_SECONDS = 60;
+/** Retention runs far less often than it changes anything. */
+const DEFAULT_RETENTION_INTERVAL_MS = 3_600_000;
+const METRICS_RETENTION_DAYS = 30;
+
+/**
+ * The alert kinds this agent decides.
+ *
+ * The two it does not: `agent.offline`, because an agent that has stopped
+ * reporting cannot evaluate its own absence and a running one would clear it
+ * every cycle; and `job.failed`, because it counts failures nobody has
+ * acknowledged and acknowledgement happens in the panel — from here the count
+ * only grows, so the alert would open once and never resolve.
+ */
+const AGENT_OWNED_ALERT_KINDS: ReadonlySet<AlertKind> = new Set<AlertKind>([
+  'disk.low',
+  'memory.low',
+  'server.crashed',
+]);
 
 export interface AgentRuntimeDependencies {
   readonly configuration: AgentRuntimeConfiguration;
@@ -80,6 +101,8 @@ export type AgentRuntimeEvent =
   | { readonly kind: 'reconciled'; readonly count: number }
   | { readonly kind: 'metrics-recorded'; readonly count: number }
   | { readonly kind: 'metrics-failed' }
+  | { readonly kind: 'alerts-reconciled'; readonly opened: number; readonly resolved: number }
+  | { readonly kind: 'retention-pruned'; readonly buckets: number; readonly backups: number }
   | { readonly kind: 'supervisor'; readonly event: SupervisorEvent }
   | {
       readonly kind: 'work-loop-skipped';
@@ -151,16 +174,26 @@ export class AgentRuntime {
 
     this.#handlers = this.#registerHandlers();
 
-    this.#scheduler =
-      configuration.schedulerEnabled && dependencies.scheduleExecutor !== undefined
-        ? new SchedulerLoop({
-            repositories: dependencies.repositories,
-            serverInstanceId: configuration.serverInstanceId,
-            agentId: configuration.agentId,
-            executor: dependencies.scheduleExecutor,
-            ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
-          })
-        : null;
+    // An enabled scheduler gets an executor either way. Building the loop only
+    // when one was injected meant `schedulerEnabled=true` could come up with
+    // nothing running the windows and nothing saying so — the schedules were
+    // simply never claimed, which looks exactly like a scheduler that has
+    // nothing due.
+    this.#scheduler = configuration.schedulerEnabled
+      ? new SchedulerLoop({
+          repositories: dependencies.repositories,
+          serverInstanceId: configuration.serverInstanceId,
+          agentId: configuration.agentId,
+          executor:
+            dependencies.scheduleExecutor ??
+            createDurableScheduleExecutor({
+              repositories: dependencies.repositories,
+              serverInstanceId: configuration.serverInstanceId,
+              ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
+            }),
+          ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
+        })
+      : null;
 
     // The supervisor is built only when it has somewhere to dial, something to
     // sign with, and at least one capability to serve. It is given the runtime's
@@ -337,10 +370,15 @@ export class AgentRuntime {
   }
 
   /**
-   * Takes one metrics sample and stores it as buckets.
+   * Takes one sample, stores it, and decides what it means.
    *
-   * Failure is swallowed and reported as an event. Losing a metrics sample must
-   * never take down an agent that is otherwise serving operations.
+   * One sample for both, deliberately. Evaluating alerts against a second,
+   * separately taken sample would raise an alert naming a number that is not
+   * the number stored, and an operator who went to check the metric that
+   * raised it would find a different one.
+   *
+   * Failure is swallowed and reported as an event. Losing a sample must never
+   * take down an agent that is otherwise serving operations.
    */
   public async collectAndStoreMetrics(): Promise<number> {
     try {
@@ -359,11 +397,111 @@ export class AgentRuntime {
         now: (this.#dependencies.clock ?? (() => new Date()))(),
       });
       this.#dependencies.onEvent?.({ kind: 'metrics-recorded', count: stored });
+      await this.#reconcileAlerts(readings);
       return stored;
     } catch {
       this.#dependencies.onEvent?.({ kind: 'metrics-failed' });
       return 0;
     }
+  }
+
+  /**
+   * Opens and resolves the alerts this agent is in a position to judge.
+   *
+   * Deliberately only three of the five kinds. `agent.offline` is decided by
+   * whoever notices the silence — an agent that has stopped reporting cannot
+   * evaluate its own absence, and one that is running would clear the alert
+   * every cycle. `job.failed` counts failures nobody has acknowledged, and
+   * acknowledgement happens in the panel; from here the count only ever grows,
+   * so the alert would open once and never be resolvable.
+   *
+   * Both the candidates and the open alerts are filtered to the same set.
+   * Passing every open alert while producing only some kinds of candidate would
+   * resolve the control plane's alerts on the strength of this agent not having
+   * looked at them.
+   */
+  async #reconcileAlerts(readings: readonly MetricReading[]): Promise<void> {
+    const { evaluateAlerts, reconcileAlerts } = await import('@voidfall/server-telemetry');
+    const { repositories, configuration } = this.#dependencies;
+    const now = (this.#dependencies.clock ?? (() => new Date()))();
+
+    const state = await repositories.processStates.find(configuration.serverInstanceId);
+    const candidates = evaluateAlerts({
+      readings,
+      observed: {
+        // `error` is the lifecycle a process reaches by exiting without having
+        // been asked to. A stale state is not evidence of a crash — it is
+        // evidence that nobody is looking.
+        serverCrashed: state?.lifecycle === 'error' && state.stale !== true,
+        // Fixed inputs for the two kinds this agent does not own, so their
+        // candidates never appear and the filter below has nothing to drop.
+        agentLastSeenAt: now.toISOString(),
+        failedJobCount: 0,
+      },
+      now,
+    }).filter((candidate) => AGENT_OWNED_ALERT_KINDS.has(candidate.kind));
+
+    const open = (
+      await repositories.telemetry.listAlerts({
+        serverInstanceId: configuration.serverInstanceId,
+        status: 'open',
+        limit: 200,
+      })
+    ).filter((alert) => AGENT_OWNED_ALERT_KINDS.has(alert.kind));
+
+    const { toOpen, toResolve } = reconcileAlerts({
+      open: open.map((alert) => ({ kind: alert.kind, alertId: alert.alertId })),
+      candidates,
+      readings,
+    });
+
+    for (const candidate of toOpen) {
+      await repositories.telemetry.openAlert({
+        alertId: randomUUID(),
+        serverInstanceId: configuration.serverInstanceId,
+        kind: candidate.kind,
+        severity: candidate.severity,
+        metricName: candidate.metricName,
+        observedValue: candidate.observedValue,
+        threshold: candidate.threshold,
+        // Carried through so an operator can tell an alert raised from a
+        // measurement apart from one derived or asserted.
+        source: candidate.source,
+        now,
+      });
+    }
+    for (const alertId of toResolve) {
+      await repositories.telemetry.resolveAlert(alertId, now);
+    }
+    if (toOpen.length > 0 || toResolve.length > 0) {
+      this.#dependencies.onEvent?.({
+        kind: 'alerts-reconciled',
+        opened: toOpen.length,
+        resolved: toResolve.length,
+      });
+    }
+  }
+
+  /**
+   * Discards what the retention windows no longer cover.
+   *
+   * It runs on a timer as well as after a backup, because a repository that
+   * stopped growing still has expiries passing: an agent that only pruned when
+   * something new arrived would hold a stopped server's last snapshots forever.
+   *
+   * Failures are swallowed per target. Metrics retention and backup retention
+   * are unrelated, and a disk error in one is no reason to stop trimming the
+   * other.
+   */
+  public async pruneRetention(): Promise<{ readonly buckets: number; readonly backups: number }> {
+    const now = (this.#dependencies.clock ?? (() => new Date()))();
+    const before = new Date(now.getTime() - METRICS_RETENTION_DAYS * 86_400_000);
+    const buckets = await this.#dependencies.repositories.telemetry
+      .pruneBuckets(before)
+      .catch(() => 0);
+    const backups = (await this.#backupService?.pruneExpiredBackups().catch(() => []))?.length ?? 0;
+    this.#dependencies.onEvent?.({ kind: 'retention-pruned', buckets, backups });
+    return { buckets, backups };
   }
 
   /**
@@ -400,11 +538,15 @@ export class AgentRuntime {
     const metricsTimer = setInterval(() => {
       void this.collectAndStoreMetrics();
     }, DEFAULT_METRICS_INTERVAL_MS);
+    const retentionTimer = setInterval(() => {
+      void this.pruneRetention().catch(() => undefined);
+    }, DEFAULT_RETENTION_INTERVAL_MS);
     // Timers must not hold the process open on their own; shutdown is decided
     // by the signal, not by whether a periodic task happens to be pending.
     reconcileTimer.unref();
     metricsTimer.unref();
-    this.#timers = [reconcileTimer, metricsTimer];
+    retentionTimer.unref();
+    this.#timers = [reconcileTimer, metricsTimer, retentionTimer];
 
     // Both loops take the same signal, so one shutdown stops the whole agent
     // rather than leaving a work loop claiming jobs a stopped scheduler can no

@@ -147,6 +147,46 @@ O `keyId` é uma impressão digital da chave pública, não uma variável. Não 
 
 ---
 
+## Parte 4 — agendamento durável, alertas e retenção
+
+### O agendador deixa de ser inerte
+
+`schedulerEnabled=true` sem executor injetado construía **nenhum** loop: as janelas simplesmente nunca eram reivindicadas, o que é indistinguível de um agendador sem nada vencido. Agora um agendador habilitado sempre recebe executor — o injetado, ou `createDurableScheduleExecutor`.
+
+O executor não faz o trabalho. Ele enfileira **a mesma operação durável** que a API de controle enfileiraria se um operador pedisse, e espera ela liquidar. O lock exclusivo, a idempotência, a regra de um-em-voo e o recibo já existem naquele caminho; um agendador que passasse por fora seria um segundo jeito de iniciar um servidor sem nenhuma dessas propriedades.
+
+A espera é o ponto. Reportar o passo como concluído no instante em que o job foi enfileirado registraria "o restart noturno terminou" para um restart que ainda nem foi tentado, e `postRestartVerified` estaria afirmando um boot que ninguém observou.
+
+O identificador do que se enfileira vem do run **e da posição do passo** — daí `stepIndex` no contrato do executor. Derivado só do run, dois passos de backup no mesmo agendamento colidiriam num nome; aleatório, um replay honesto viraria um segundo snapshot.
+
+Quando a operação não liquida dentro da janela, o passo falha como `operation-did-not-settle`, nunca como um dos dois desfechos. A operação continua lá fora; o que o run registra é que ninguém a viu terminar, que é a única coisa efetivamente sabida.
+
+### Dois passos recusados, com nome
+
+- **`warn-players`:** o catálogo revisado de console tem `list-players` e `save-all` e nada que fale com jogadores. Quem escreveu o agendamento pediu um aviso antes da interrupção; rodar a interrupção sem ele não é o agendamento que essa pessoa escreveu. Falha com `no-approved-broadcast-command`.
+- **`maintenance-check`:** jogadores online continua `no-approved-provider`. Uma guarda que não pode ser avaliada não é uma guarda que passou, e tratá-la assim reiniciaria um servidor povoado. Falha com `no-approved-player-provider`.
+
+Ambos param o run em vez de o deixarem seguir. E uma operação já em voo faz o passo ceder (`operation-in-flight`) em vez de a pré-emptar: um restart agendado que passasse por cima do restore de um operador seria o agendamento causando dano num timer.
+
+### Alertas com dono
+
+`evaluateAlerts` e `reconcileAlerts` eram funções puras que nada acionava. Agora rodam **na mesma amostra** que vira métrica — avaliar contra uma segunda amostra levantaria um alerta nomeando um número que não é o número armazenado, e quem fosse conferir a métrica encontraria outra.
+
+O agente decide três dos cinco tipos: `disk.low`, `memory.low` e `server.crashed`. Os outros dois não são dele:
+
+- `agent.offline` — um agente que parou de reportar não pode avaliar a própria ausência, e um rodando limparia o alerta todo ciclo;
+- `job.failed` — conta falhas que ninguém reconheceu, e o reconhecimento acontece no painel; daqui a contagem só cresce, então o alerta abriria uma vez e nunca seria resolvível.
+
+Candidatos **e** alertas abertos são filtrados pelo mesmo conjunto. Passar todos os abertos produzindo só alguns tipos de candidato resolveria alertas do plano de controle na força de este agente não ter olhado para eles.
+
+`server.crashed` só sai de um estado não obsoleto: um estado que ninguém observou é evidência sobre o observador, não sobre o servidor.
+
+### Retenção com quem a acione
+
+`pruneRetention()` roda de hora em hora além de após cada backup. Um repositório que parou de crescer continua com expirações vencendo; um agente que só podasse quando algo novo chegasse guardaria para sempre os últimos snapshots de um servidor parado. Métricas e backups são podados independentemente — um erro de disco num não é motivo para parar de aparar o outro.
+
+---
+
 ## Limites mantidos
 
 1. Nenhum processo Minecraft é iniciado; controlador e adaptador de console não são construídos.
@@ -157,8 +197,9 @@ O `keyId` é uma impressão digital da chave pública, não uma variável. Não 
 
 ## Riscos restantes
 
-- o executor de passos do agendamento é injetado e não tem implementação padrão: um agendamento com `backup` ou `restart` não enfileira as operações duráveis das Fases 10.1 e 10.3;
+- **nenhum guard de acesso exclusivo offline é construído**, então em produção o agente sobe anunciando **nada** e registra `work-loop-skipped: no-capability-handler`. O laço de trabalho está ligado; o que falta é a primeira capability com dependências reais, e todo guard real depende do controlador de processo;
+- pelo mesmo motivo, o executor de agendamento enfileira operações que **nenhuma capability anunciada pode servir** nesta fatia: o passo espera e termina em `operation-did-not-settle`. Enfileirar e esperar está correto; o que falta do outro lado é `process.control`;
+- `warn-players` e `maintenance-check` continuam sem provider aprovado e recusam por decisão registrada, não por defeito;
 - não há endpoint HTTP de readiness; ela é calculada e registrada no log de startup;
-- a poda de retenção de métricas e de backups continua sem quem a chame periodicamente;
-- alertas continuam avaliáveis por funções puras que nada aciona;
-- nenhum guard de acesso exclusivo offline é construído, então em produção o agente sobe anunciando **nada** e registra `work-loop-skipped: no-capability-handler`. O laço de trabalho está ligado; o que falta é a primeira capability com dependências reais.
+- `agent.offline` e `job.failed` continuam sem quem os avalie: pertencem ao plano de controle, e nada lá os aciona ainda;
+- o agente não envia heartbeat: `main.ts` constrói o transporte de trabalho, não o cliente de identidade.

@@ -615,8 +615,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
-    "mtime": 1785766734.9781647,
-    "ast_hash": "22888a27fa10df24de3bbba3d4e26fca",
+    "mtime": 1785983780.9967954,
+    "ast_hash": "45ad3bc87f8c54bc1ea2df686201712d",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/index.ts": {
@@ -625,8 +625,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/agent-client.test.ts": {
-    "mtime": 1785766734.9781647,
-    "ast_hash": "b73594247faa391a7e638fa1fa6ae6fb",
+    "mtime": 1785984099.3550248,
+    "ast_hash": "2cf126fe4d2f7aa2c43102bf729e9612",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/tsconfig.build.json": {
@@ -3285,13 +3285,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/configuration-operation.ts": {
-    "mtime": 1785882251.391695,
-    "ast_hash": "df08818bbf98350ece4519265fff5c0c",
+    "mtime": 1785967918.558848,
+    "ast_hash": "f0b4436b2c60c2dc78f076f59dcc267e",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/configuration-operation.test.ts": {
-    "mtime": 1785882386.6228251,
-    "ast_hash": "b2ddfcd28e61fba24f4bf532b76f6da1",
+    "mtime": 1785984038.3709018,
+    "ast_hash": "de62909beb9d444a182fb7ac8d1109fe",
     "semantic_hash": ""
   },
   "Plataforma/apps/build-worker/src/configuration-worker.ts": {
@@ -3575,8 +3575,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/supervisor.ts": {
-    "mtime": 1785942889.508713,
-    "ast_hash": "dcc877e8000ef2e0d49c0f2da6eb2af4",
+    "mtime": 1785983650.8010635,
+    "ast_hash": "2a983617497b804e05d413b38c28a3f6",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/work-transport.ts": {
@@ -3930,23 +3930,23 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/main.ts": {
-    "mtime": 1785962907.2966259,
-    "ast_hash": "c0118d5ccf2b9ce799a717e9b950414e",
+    "mtime": 1785983805.560127,
+    "ast_hash": "52d9db069a95f7a078a315c4b030762b",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/readiness.ts": {
-    "mtime": 1785962739.2995856,
-    "ast_hash": "45b4f2352ab3922dde37a771714ba756",
+    "mtime": 1785983636.858274,
+    "ast_hash": "b5d00e1c19ee94379f6736508edf8baf",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime-config.ts": {
-    "mtime": 1785964459.4083407,
-    "ast_hash": "3c08b75f7042ace958e7641137734692",
+    "mtime": 1785983768.5689695,
+    "ast_hash": "e91c623f606e20ead8fbe11245f49f4a",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
-    "mtime": 1785962867.105985,
-    "ast_hash": "0614805d45b69b8766c65948db03c7d2",
+    "mtime": 1785983723.5135374,
+    "ast_hash": "5fbf8edf1c55db9bb65aba1ffec108db",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/scheduler-loop.ts": {
@@ -3955,18 +3955,18 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime-config.test.ts": {
-    "mtime": 1785964382.2458093,
-    "ast_hash": "37e42879c5f62ed739010d20606041ed",
+    "mtime": 1785984076.5799384,
+    "ast_hash": "a31e3cc3ee2c10619fc35cc6f63a077e",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
-    "mtime": 1785963144.9132142,
-    "ast_hash": "f167c8cb1434835179f7ae64c9f4cf33",
+    "mtime": 1785984146.5148313,
+    "ast_hash": "64c1113f6c9f379b18bd6027448b84c9",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md": {
-    "mtime": 1785963295.7543354,
-    "ast_hash": "4720c147f21ca1cf2c84d7d98c647c7e",
+    "mtime": 1785984796.1970286,
+    "ast_hash": "5336f2c301c02c557f1a87c81e17b16d",
     "semantic_hash": ""
   }
 }

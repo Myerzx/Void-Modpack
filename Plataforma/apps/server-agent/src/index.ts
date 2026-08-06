@@ -7,6 +7,7 @@ export * from './process-operation.js';
 export * from './readiness.js';
 export * from './runtime.js';
 export * from './runtime-config.js';
+export * from './schedule-executor.js';
 export * from './scheduler-loop.js';
 export * from './supervisor.js';
 export * from './work-transport.js';

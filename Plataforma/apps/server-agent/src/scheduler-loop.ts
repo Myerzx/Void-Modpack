@@ -34,6 +34,13 @@ export interface ScheduleStepExecutor {
     readonly schedule: ServerSchedule;
     readonly step: ScheduleStep;
     readonly runId: string;
+    /**
+     * Where the step sits in the schedule. Passed so an executor can name what
+     * it enqueues deterministically: a schedule may hold two backup steps, and
+     * an identifier derived from the run alone would collide between them —
+     * while a random one would turn an honest replay into a second snapshot.
+     */
+    readonly stepIndex: number;
   }): Promise<{ readonly outcome: 'continue' | 'skip' | 'failed'; readonly failureCode?: string }>;
 }
 
@@ -256,7 +263,7 @@ export class SchedulerLoop {
       }
 
       const result = await this.#options.executor
-        .execute({ schedule, step, runId })
+        .execute({ schedule, step, runId, stepIndex: index })
         .catch(() => ({ outcome: 'failed' as const, failureCode: 'executor-failed' }));
 
       if (result.outcome === 'skip') {

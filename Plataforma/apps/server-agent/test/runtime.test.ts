@@ -687,3 +687,101 @@ describe('the scheduler loop', () => {
     assert.equal(runs[0]?.postRestartVerified, false);
   });
 });
+
+describe('alerts and retention', () => {
+  it('opens the alerts it can judge and leaves the rest to the control plane', async () => {
+    const context = await fixture();
+    // A process that exited without being asked to.
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      lifecycle: 'error',
+      bootId: randomUUID(),
+      observedBy: AGENT_ID,
+      eventId: randomUUID(),
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+
+    const { runtime, events } = runtimeFor(context);
+    await runtime.collectAndStoreMetrics();
+
+    const open = await context.repositories.telemetry.listAlerts({
+      serverInstanceId: context.server.id,
+      status: 'open',
+    });
+    const kinds = open.map((alert) => alert.kind);
+    assert.ok(kinds.includes('server.crashed'));
+    // An agent cannot evaluate its own absence, and a running one would clear
+    // the alert every cycle. That judgement is not its to make.
+    assert.equal(kinds.includes('agent.offline'), false);
+    // Unacknowledged failures are counted where acknowledgement happens. From
+    // here the count only grows, so the alert could never be resolved.
+    assert.equal(kinds.includes('job.failed'), false);
+    assert.ok(events.some((event) => event.kind === 'alerts-reconciled'));
+  });
+
+  it('does not raise a crash from a state nobody is observing', async () => {
+    const context = await fixture();
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      lifecycle: 'error',
+      bootId: randomUUID(),
+      observedBy: AGENT_ID,
+      eventId: randomUUID(),
+      correlationId: randomUUID(),
+      now: new Date(NOW.getTime() - 3_600_000),
+    });
+    const { runtime } = runtimeFor(context);
+    // Reconciliation marks it stale first: a state nobody has looked at is
+    // evidence about the observer, not about the server.
+    await runtime.reconcileOrphanProcessStates();
+    await runtime.collectAndStoreMetrics();
+
+    const open = await context.repositories.telemetry.listAlerts({
+      serverInstanceId: context.server.id,
+      status: 'open',
+    });
+    assert.equal(
+      open.some((alert) => alert.kind === 'server.crashed'),
+      false,
+    );
+  });
+
+  it('opens a crash alert once rather than every cycle', async () => {
+    const context = await fixture();
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      lifecycle: 'error',
+      bootId: randomUUID(),
+      observedBy: AGENT_ID,
+      eventId: randomUUID(),
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+    const { runtime } = runtimeFor(context);
+    await runtime.collectAndStoreMetrics();
+    await runtime.collectAndStoreMetrics();
+
+    const open = await context.repositories.telemetry.listAlerts({
+      serverInstanceId: context.server.id,
+      status: 'open',
+    });
+    // One alert an operator can act on, not a new one every sample.
+    assert.equal(open.filter((alert) => alert.kind === 'server.crashed').length, 1);
+  });
+
+  it('prunes metric buckets past the retention window and keeps the rest', async () => {
+    const context = await fixture();
+    const { runtime, events } = runtimeFor(context);
+    await runtime.collectAndStoreMetrics();
+
+    // Nothing is old enough yet, so nothing is discarded.
+    assert.deepEqual(await runtime.pruneRetention(), { buckets: 0, backups: 0 });
+    assert.ok(events.some((event) => event.kind === 'retention-pruned'));
+
+    // A year on, the same buckets are past the window.
+    const later = runtimeFor(context, { clock: () => new Date(NOW.getTime() + 365 * 86_400_000) });
+    const pruned = await later.runtime.pruneRetention();
+    assert.ok(pruned.buckets > 0);
+  });
+});
