@@ -1,7 +1,8 @@
-import { randomUUID, type KeyLike } from 'node:crypto';
+import { createPrivateKey, createPublicKey, randomUUID, type KeyLike } from 'node:crypto';
 import {
   computeAgentPayloadHash,
   createOpaqueToken,
+  sha256Hex,
   signAgentEnvelope,
 } from '@voidfall/authentication';
 import { validateAgentEnvelope, type AgentEnvelope } from '@voidfall/contracts';
@@ -26,6 +27,31 @@ export interface AgentIdentity {
   readonly serverInstanceId: string;
   readonly privateKey: KeyLike;
   readonly keyId: string;
+}
+
+/**
+ * Builds the signing identity from configuration the operator supplied.
+ *
+ * The key id is a thumbprint of the public key rather than a configured string.
+ * Two reasons: there is no extra variable to get wrong, and rotating the key
+ * changes the id by construction — an identifier an operator can set by hand is
+ * one that can outlive the key it names, and then a receipt says it was signed
+ * with a key that is no longer the signing key.
+ */
+export function createAgentIdentity(input: {
+  readonly agentId: string;
+  readonly serverInstanceId: string;
+  /** Already validated as an Ed25519 private key by the configuration loader. */
+  readonly privateKeyPem: string;
+}): AgentIdentity {
+  const privateKey = createPrivateKey(input.privateKeyPem);
+  const publicKeyDer = createPublicKey(privateKey).export({ type: 'spki', format: 'der' });
+  return Object.freeze({
+    agentId: input.agentId,
+    serverInstanceId: input.serverInstanceId,
+    privateKey,
+    keyId: `ed25519-${sha256Hex(publicKeyDer).slice(0, 32)}`,
+  });
 }
 
 export interface HeartbeatInput {

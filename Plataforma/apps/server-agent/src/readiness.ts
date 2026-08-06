@@ -20,6 +20,8 @@ import type { AgentRuntimeConfiguration } from './runtime-config.js';
 export type CapabilityUnavailableReason =
   | 'no-handler-implemented'
   | 'no-authorized-root-configured'
+  | 'no-configuration-guard-configured'
+  | 'no-reviewed-resource-authorized'
   | 'no-backup-repository-configured'
   | 'no-process-controller-configured'
   | 'no-console-adapter-configured'
@@ -50,6 +52,10 @@ export interface AgentReadiness {
  */
 export interface RuntimeDependencies {
   readonly hasAuthorizedFiles: boolean;
+  /** The injected proof of exclusive offline access a configuration write needs. */
+  readonly hasConfigurationGuard: boolean;
+  /** The typed capability was constructed, not merely asked for. */
+  readonly hasConfigurationCapability: boolean;
   readonly hasBackupService: boolean;
   readonly hasProcessController: boolean;
   readonly hasConsoleAdapter: boolean;
@@ -106,7 +112,15 @@ function missingDependency(
 ): CapabilityUnavailableReason | null {
   switch (capability) {
     case 'configuration.apply':
-      return dependencies.hasAuthorizedFiles ? null : 'no-authorized-root-configured';
+      // Three separate things, reported separately, because they are three
+      // separate fixes. A missing root is a deployment that did not authorize
+      // one; a missing guard is a host that cannot yet prove the server is
+      // offline while the file is rewritten; a capability that would not build
+      // means no reviewed resource applies to it. Collapsing them into one
+      // "unavailable" would leave an operator guessing which to go and change.
+      if (!dependencies.hasAuthorizedFiles) return 'no-authorized-root-configured';
+      if (!dependencies.hasConfigurationGuard) return 'no-configuration-guard-configured';
+      return dependencies.hasConfigurationCapability ? null : 'no-reviewed-resource-authorized';
     case 'process.control':
       return dependencies.hasProcessController ? null : 'no-process-controller-configured';
     case 'console.command':

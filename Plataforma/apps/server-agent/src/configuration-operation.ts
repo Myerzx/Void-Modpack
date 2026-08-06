@@ -6,6 +6,7 @@ import {
   validateConfigurationOperationCommand,
   validateConfigurationOperationResult,
   type AgentEnvelope,
+  type AgentWorkLease,
   type ConfigurationOperationCommand,
   type ConfigurationOperationResult,
 } from '@voidfall/contracts';
@@ -13,6 +14,7 @@ import {
   ConfigurationPersistenceError,
   type ConfigurationRepository,
   type OperationalLockRepository,
+  type Repositories,
 } from '@voidfall/database';
 import {
   ConfigurationOperationError,
@@ -25,6 +27,7 @@ import {
 } from '@voidfall/server-configuration';
 
 import type { AgentIdentity } from './agent-client.js';
+import type { LeaseHandlerResult } from './supervisor.js';
 
 /**
  * Typed configuration capability for the Server Agent.
@@ -310,6 +313,145 @@ function requireSourceRevision(command: ConfigurationOperationCommand): string {
     throw new ConfigurationCapabilityError('invalid-command');
   }
   return command.sourceRevisionId;
+}
+
+/**
+ * The job types `configuration.apply` serves, and the command operation each
+ * one must carry.
+ *
+ * Pairing them is the point. A lease that named `configuration.rollback` while
+ * the stored command said `update` would be a job whose type no longer
+ * describes what it does, and the agent refuses it rather than picking one of
+ * the two to believe.
+ */
+const CONFIGURATION_JOB_OPERATIONS: Readonly<
+  Record<string, ConfigurationOperationCommand['operation']>
+> = Object.freeze({
+  'configuration.apply': 'update',
+  'configuration.rollback': 'rollback',
+});
+
+/**
+ * Configuration failures that mean the request itself cannot be applied.
+ *
+ * Nothing was touched and nothing will be: the content is wrong, the schema
+ * does not match, the resource is not there. Retrying the identical request
+ * produces the identical answer, so it is reported as unsupported rather than
+ * as something that failed on the way.
+ */
+const UNSUPPORTED_FAILURE_CODES: ReadonlySet<string> = new Set([
+  'content-too-large',
+  'invalid-content',
+  'invalid-plan',
+  'resource-not-found',
+  'schema-mismatch',
+  'unsafe-path',
+  'unsupported-entry',
+]);
+
+/**
+ * Failures that mean the world moved under the request.
+ *
+ * Somebody else edited the resource, the exclusive lock is held, the revision
+ * the caller expected is no longer current. The same request may well succeed
+ * later, which is exactly what separates it from a failure while applying — an
+ * operator reading a receipt needs to know whether to retry or to investigate.
+ */
+const PRECONDITION_FAILURE_CODES: ReadonlySet<string> = new Set([
+  'concurrent-modification',
+  'consistency-unavailable',
+  'invalid-transition',
+  'lock-unavailable',
+  'no-change',
+  'revision-conflict',
+]);
+
+function leaseFailureCode(
+  failureCode: string | null,
+): NonNullable<LeaseHandlerResult['failureCode']> {
+  if (failureCode === null) return 'operation-failed';
+  if (UNSUPPORTED_FAILURE_CODES.has(failureCode)) return 'unsupported-parameters';
+  if (PRECONDITION_FAILURE_CODES.has(failureCode)) return 'precondition-not-met';
+  // Everything else — a replacement that could not be verified, a recovery that
+  // did not complete, a revision whose stored bytes no longer match their hash
+  // — is a failure during the attempt, not a refusal before it.
+  return 'operation-failed';
+}
+
+export interface ConfigurationLeaseHandlerOptions {
+  readonly repositories: Repositories;
+  readonly capability: ConfigurationOperationCapability;
+  /** The server this agent is responsible for; a lease for another is refused. */
+  readonly serverInstanceId: string;
+}
+
+/**
+ * Adapts the typed capability to the work loop.
+ *
+ * The capability is a class that speaks commands; the supervisor speaks leases.
+ * Without an adapter `configuration.apply` was the one capability the runtime
+ * announced and never registered — the agent would have claimed a configuration
+ * job and then refused it as unsupported, which is precisely the outcome
+ * readiness exists to prevent.
+ *
+ * The command is read from the durable job, never from the lease, exactly as
+ * the console capability reads its reviewed literal. A lease names a job and a
+ * server; the reviewed values were written when an authorized operator's request
+ * was accepted, and that stored record is what gets applied. Nothing arriving in
+ * the claim response can select a file, a root or a value.
+ */
+export function createConfigurationApplyHandler(
+  options: ConfigurationLeaseHandlerOptions,
+): (lease: AgentWorkLease) => Promise<LeaseHandlerResult> {
+  const unsupported: LeaseHandlerResult = {
+    outcome: 'failed',
+    failureCode: 'unsupported-parameters',
+  };
+
+  return async (lease: AgentWorkLease): Promise<LeaseHandlerResult> => {
+    const expectedOperation = CONFIGURATION_JOB_OPERATIONS[lease.jobType];
+    if (expectedOperation === undefined) return unsupported;
+    if (
+      lease.parameters.resourceType !== 'server-instance' ||
+      lease.parameters.resourceId !== options.serverInstanceId
+    ) {
+      return unsupported;
+    }
+
+    const job = await options.repositories.jobs.findById(lease.jobId);
+    // The job's own type and resource are re-checked against the lease. They are
+    // written by the control plane at different moments, and applying a command
+    // whose job disagrees with the lease that delivered it would mean trusting
+    // whichever of the two happened to be read second.
+    if (
+      job === undefined ||
+      job.type !== lease.jobType ||
+      job.resource.type !== 'server-instance' ||
+      job.resource.id !== options.serverInstanceId
+    ) {
+      return unsupported;
+    }
+
+    const validation = validateConfigurationOperationCommand(
+      (job.payload.parameters as { readonly command?: unknown }).command,
+    );
+    if (!validation.success || validation.value.operation !== expectedOperation) {
+      return unsupported;
+    }
+
+    try {
+      const result = await options.capability.execute(validation.value);
+      return result.outcome === 'applied'
+        ? { outcome: 'succeeded' }
+        : { outcome: 'failed', failureCode: leaseFailureCode(result.failureCode) };
+    } catch (error) {
+      // A refused command never became a revision or an audited operation, so
+      // it is reported as one the agent may not serve rather than as work that
+      // was attempted and broke.
+      if (error instanceof ConfigurationCapabilityError) return unsupported;
+      return { outcome: 'failed', failureCode: 'operation-failed' };
+    }
+  };
 }
 
 /**

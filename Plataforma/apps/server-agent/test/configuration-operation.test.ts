@@ -10,7 +10,11 @@ import {
   OPENLOADER_ADVANCED_OPTIONS_V1 as OPENLOADER_SCHEMA_V1,
   hashConfigurationSchema,
 } from '@voidfall/configuration-schemas';
-import { validateAgentEnvelope, type ConfigurationOperationCommand } from '@voidfall/contracts';
+import {
+  validateAgentEnvelope,
+  type AgentWorkLease,
+  type ConfigurationOperationCommand,
+} from '@voidfall/contracts';
 import { createRepositories, runMigrations } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
 import type {
@@ -22,6 +26,7 @@ import {
   AGENT_CONFIGURATION_CAPABILITY,
   ConfigurationCapabilityError,
   ConfigurationOperationCapability,
+  createConfigurationApplyHandler,
   createConfigurationResultEnvelope,
 } from '../src/configuration-operation.js';
 
@@ -322,6 +327,180 @@ describe('server agent typed configuration capability', () => {
       const serialized = JSON.stringify(envelope);
       assert.equal(serialized.includes(context.root), false);
       assert.equal(serialized.includes('advanced_options.json'), false);
+    } finally {
+      await context.close();
+    }
+  });
+});
+
+describe('the configuration lease handler', () => {
+  const SERVER_RESOURCE = 'server-instance';
+
+  function lease(
+    jobId: string,
+    serverInstanceId: string,
+    overrides: Partial<AgentWorkLease> = {},
+  ): AgentWorkLease {
+    return {
+      schemaVersion: 1,
+      leaseId: randomUUID(),
+      jobId,
+      capability: 'configuration.apply',
+      jobType: 'configuration.apply',
+      correlationId: randomUUID(),
+      parameters: {
+        resourceType: SERVER_RESOURCE,
+        resourceId: serverInstanceId,
+        expectedVersion: 1,
+      },
+      leasedAt: NOW.toISOString(),
+      expiresAt: new Date(NOW.getTime() + 60_000).toISOString(),
+      attempt: 1,
+      ...overrides,
+    };
+  }
+
+  /** Enqueues the job the control API would have written when it accepted the request. */
+  async function enqueue(
+    context: Awaited<ReturnType<typeof harness>>,
+    typed: ConfigurationOperationCommand,
+    overrides: { readonly type?: 'configuration.apply' | 'configuration.rollback' } = {},
+  ): Promise<string> {
+    const jobId = randomUUID();
+    await context.repositories.jobs.enqueue({
+      schemaVersion: 1,
+      id: jobId,
+      type: overrides.type ?? 'configuration.apply',
+      resource: { type: SERVER_RESOURCE, id: context.server.id },
+      status: 'queued',
+      stage: 'queued',
+      priority: 50,
+      payload: { schemaVersion: 1, parameters: { command: typed } },
+      idempotencyKey: `cfg-${randomUUID()}`,
+      requestedBy: typed.actor,
+      correlationId: typed.correlationId,
+      availableAt: NOW.toISOString(),
+      attempt: 0,
+      maxAttempts: 1,
+    });
+    return jobId;
+  }
+
+  function handler(context: Awaited<ReturnType<typeof harness>>) {
+    return createConfigurationApplyHandler({
+      repositories: context.repositories,
+      capability: context.capability,
+      serverInstanceId: context.server.id,
+    });
+  }
+
+  it('applies the command stored on the job, not anything from the lease', async () => {
+    const context = await harness();
+    try {
+      const typed = command(context.server.id);
+      const jobId = await enqueue(context, typed);
+
+      const result = await handler(context)(lease(jobId, context.server.id));
+      assert.deepEqual(result, { outcome: 'succeeded' });
+
+      // The file really changed, through the same durable path the capability
+      // takes when it is called directly.
+      assert.equal(await readFile(context.filePath, 'utf8'), openLoaderDocument(false, true));
+      const revision = await context.repositories.configuration.revision('agent-update-1');
+      assert.equal(revision?.status, 'applied');
+    } finally {
+      await context.close();
+    }
+  });
+
+  it('refuses a lease for another server, and one whose job is missing', async () => {
+    const context = await harness();
+    try {
+      const jobId = await enqueue(context, command(context.server.id));
+      const refuse = { outcome: 'failed', failureCode: 'unsupported-parameters' };
+
+      // Another server's work: this agent is responsible for exactly one.
+      assert.deepEqual(
+        await handler(context)(lease(jobId, context.server.id, {
+          parameters: { resourceType: SERVER_RESOURCE, resourceId: randomUUID(), expectedVersion: 1 },
+        })),
+        refuse,
+      );
+      // A lease naming a job that does not exist carries no command to apply,
+      // and the agent has nowhere else to get one.
+      assert.deepEqual(await handler(context)(lease(randomUUID(), context.server.id)), refuse);
+      // Untouched throughout.
+      assert.equal(await readFile(context.filePath, 'utf8'), context.original);
+    } finally {
+      await context.close();
+    }
+  });
+
+  it('refuses a lease whose type disagrees with the stored job', async () => {
+    const context = await harness();
+    try {
+      // The job is an apply; the lease claims a rollback. One of the two is
+      // wrong and the agent will not pick which to believe.
+      const jobId = await enqueue(context, command(context.server.id));
+      const result = await handler(context)(
+        lease(jobId, context.server.id, { jobType: 'configuration.rollback' }),
+      );
+      assert.deepEqual(result, { outcome: 'failed', failureCode: 'unsupported-parameters' });
+      assert.equal(await readFile(context.filePath, 'utf8'), context.original);
+    } finally {
+      await context.close();
+    }
+  });
+
+  it('refuses a job whose type and stored operation do not agree', async () => {
+    const context = await harness();
+    try {
+      // A rollback job carrying an update command. The type says one thing, the
+      // reviewed record says another, and applying either would mean trusting
+      // whichever was read second.
+      const jobId = await enqueue(context, command(context.server.id), {
+        type: 'configuration.rollback',
+      });
+      const result = await handler(context)(
+        lease(jobId, context.server.id, { jobType: 'configuration.rollback' }),
+      );
+      assert.deepEqual(result, { outcome: 'failed', failureCode: 'unsupported-parameters' });
+      assert.equal(await readFile(context.filePath, 'utf8'), context.original);
+    } finally {
+      await context.close();
+    }
+  });
+
+  it('reports a stale revision as a precondition rather than a broken operation', async () => {
+    const context = await harness();
+    try {
+      // The caller's expected hash is not what is on disk: somebody else edited
+      // the resource. The same request may well succeed once refreshed, which is
+      // what separates it from a failure while applying.
+      const jobId = await enqueue(
+        context,
+        command(context.server.id, { expectedCurrentSha256: digest('something else') }),
+      );
+      const result = await handler(context)(lease(jobId, context.server.id));
+      assert.equal(result.outcome, 'failed');
+      assert.equal(result.failureCode, 'precondition-not-met');
+    } finally {
+      await context.close();
+    }
+  });
+
+  it('reports a command the capability refuses as unsupported, not as failed work', async () => {
+    const context = await harness();
+    try {
+      // A resource this host does not authorize. The capability throws before
+      // anything becomes a revision or an audited operation, so nothing was
+      // attempted and the receipt must not suggest otherwise.
+      const jobId = await enqueue(
+        context,
+        command(context.server.id, { resourceId: 'server-basic' }),
+      );
+      const result = await handler(context)(lease(jobId, context.server.id));
+      assert.deepEqual(result, { outcome: 'failed', failureCode: 'unsupported-parameters' });
     } finally {
       await context.close();
     }

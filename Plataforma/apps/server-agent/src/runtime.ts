@@ -3,15 +3,25 @@ import type { Repositories } from '@voidfall/database';
 import type { MinecraftConsoleAdapter, MinecraftProcessController } from '@voidfall/minecraft-process';
 import { AuthorizedFileService } from '@voidfall/authorized-files';
 import { FilesystemBackupService, type OfflineExclusiveBackupGuard } from '@voidfall/server-backup';
+import {
+  listReviewedConfigurationIds,
+  type OfflineExclusiveConfigurationGuard,
+} from '@voidfall/server-configuration';
 
+import type { AgentIdentity } from './agent-client.js';
 import { createBackupHandler, createRestoreHandler } from './backup-operation.js';
 import { collectReadings } from './collectors.js';
+import {
+  ConfigurationOperationCapability,
+  createConfigurationApplyHandler,
+} from './configuration-operation.js';
 import { createConsoleCommandHandler } from './console-operation.js';
 import { createProcessControlHandler } from './process-operation.js';
 import { evaluateReadiness, type AgentReadiness, type RuntimeDependencies } from './readiness.js';
 import type { AgentRuntimeConfiguration } from './runtime-config.js';
 import { SchedulerLoop, type ScheduleStepExecutor } from './scheduler-loop.js';
-import type { LeaseHandler } from './supervisor.js';
+import { AgentSupervisor, type LeaseHandler, type SupervisorEvent } from './supervisor.js';
+import type { AgentWorkTransport } from './work-transport.js';
 
 /**
  * Assembles the agent from validated configuration and injected dependencies.
@@ -47,7 +57,20 @@ export interface AgentRuntimeDependencies {
   readonly consoleAdapter?: MinecraftConsoleAdapter;
   /** Guards the exclusive offline window a backup needs. */
   readonly backupGuard?: OfflineExclusiveBackupGuard;
+  /**
+   * Guards the exclusive offline window a configuration write needs. Its
+   * absence disables `configuration.apply`: rewriting a file a running server
+   * has open is how a world comes back with half a config.
+   */
+  readonly configurationGuard?: OfflineExclusiveConfigurationGuard;
   readonly scheduleExecutor?: ScheduleStepExecutor;
+  /**
+   * The signing identity and the outbound transport. Both or neither: an
+   * identity with nowhere to dial and a transport with nothing to sign are each
+   * half of a work loop, and half a work loop claims nothing.
+   */
+  readonly identity?: AgentIdentity;
+  readonly workTransport?: AgentWorkTransport;
   readonly clock?: () => Date;
   readonly onEvent?: (event: AgentRuntimeEvent) => void;
 }
@@ -57,15 +80,22 @@ export type AgentRuntimeEvent =
   | { readonly kind: 'reconciled'; readonly count: number }
   | { readonly kind: 'metrics-recorded'; readonly count: number }
   | { readonly kind: 'metrics-failed' }
+  | { readonly kind: 'supervisor'; readonly event: SupervisorEvent }
+  | {
+      readonly kind: 'work-loop-skipped';
+      readonly reason: 'no-transport-configured' | 'no-capability-handler';
+    }
   | { readonly kind: 'shutdown' };
 
 export class AgentRuntime {
   readonly #dependencies: AgentRuntimeDependencies;
   readonly #authorizedFiles: AuthorizedFileService | null;
   readonly #backupService: FilesystemBackupService | null;
+  readonly #configurationCapability: ConfigurationOperationCapability | null;
   readonly #readiness: AgentReadiness;
   readonly #handlers: Readonly<Partial<Record<AgentCapability, LeaseHandler>>>;
   readonly #scheduler: SchedulerLoop | null;
+  readonly #supervisor: AgentSupervisor | null;
   #timers: NodeJS.Timeout[] = [];
 
   public constructor(dependencies: AgentRuntimeDependencies) {
@@ -102,9 +132,13 @@ export class AgentRuntime {
             ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
           });
 
+    this.#configurationCapability = this.#buildConfigurationCapability();
+
     // --- Readiness from what exists, not from what was asked for. -----------
     const runtimeDependencies: RuntimeDependencies = {
       hasAuthorizedFiles: this.#authorizedFiles !== null,
+      hasConfigurationGuard: dependencies.configurationGuard !== undefined,
+      hasConfigurationCapability: this.#configurationCapability !== null,
       hasBackupService: this.#backupService !== null,
       hasProcessController: dependencies.processController !== undefined,
       hasConsoleAdapter: dependencies.consoleAdapter !== undefined,
@@ -127,6 +161,58 @@ export class AgentRuntime {
             ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
           })
         : null;
+
+    // The supervisor is built only when it has somewhere to dial, something to
+    // sign with, and at least one capability to serve. It is given the runtime's
+    // boot id rather than minting its own, so a receipt, a process state and a
+    // console capture from this process all name the same run.
+    this.#supervisor =
+      dependencies.identity === undefined ||
+      dependencies.workTransport === undefined ||
+      Object.keys(this.#handlers).length === 0
+        ? null
+        : new AgentSupervisor({
+            identity: dependencies.identity,
+            transport: dependencies.workTransport,
+            handlers: this.#handlers,
+            bootId: dependencies.bootId,
+            ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
+            onEvent: (event) => dependencies.onEvent?.({ kind: 'supervisor', event }),
+          });
+  }
+
+  /**
+   * Builds the typed configuration capability, or nothing.
+   *
+   * `null` rather than a throw: a capability that cannot be constructed is one
+   * this deployment does not have, and readiness reports it with a reason. The
+   * alternative — letting construction fail the whole startup — would take an
+   * agent that can still serve backups and process control offline over a
+   * configuration root it was never going to use.
+   */
+  #buildConfigurationCapability(): ConfigurationOperationCapability | null {
+    const { configuration, repositories, configurationGuard } = this.#dependencies;
+    if (configuration.authorizedFiles === null || configurationGuard === undefined) return null;
+    // The allowlist is the closed product registry, never anything the control
+    // plane sends. A command may select a reviewed resource; it may not name one.
+    const authorizedResourceIds = listReviewedConfigurationIds();
+    if (authorizedResourceIds.length === 0) return null;
+    try {
+      return new ConfigurationOperationCapability({
+        serverInstanceId: configuration.serverInstanceId,
+        runtime: {
+          configurationRoot: configuration.authorizedFiles.rootPath,
+          revisionRepositoryRoot: configuration.authorizedFiles.revisionRoot,
+          authorizedResourceIds,
+        },
+        guard: configurationGuard,
+        configurationRepository: repositories.configuration,
+        operationalLocks: repositories.operationalLocks,
+        ...(this.#dependencies.clock === undefined ? {} : { clock: this.#dependencies.clock }),
+      });
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -141,6 +227,14 @@ export class AgentRuntime {
     const { configuration, repositories, bootId } = this.#dependencies;
     const handlers: Partial<Record<AgentCapability, LeaseHandler>> = {};
     const available = new Set(this.#readiness.announced);
+
+    if (available.has('configuration.apply') && this.#configurationCapability !== null) {
+      handlers['configuration.apply'] = createConfigurationApplyHandler({
+        repositories,
+        capability: this.#configurationCapability,
+        serverInstanceId: configuration.serverInstanceId,
+      });
+    }
 
     if (available.has('process.control') && this.#dependencies.processController !== undefined) {
       handlers['process.control'] = createProcessControlHandler({
@@ -210,6 +304,15 @@ export class AgentRuntime {
     return this.#authorizedFiles;
   }
 
+  public get configurationCapability(): ConfigurationOperationCapability | null {
+    return this.#configurationCapability;
+  }
+
+  /** `null` when this agent is not claiming work, for whatever reason. */
+  public get supervisor(): AgentSupervisor | null {
+    return this.#supervisor;
+  }
+
   public get backupService(): FilesystemBackupService | null {
     return this.#backupService;
   }
@@ -268,12 +371,28 @@ export class AgentRuntime {
    *
    * Reconciliation runs once before anything is scheduled, so an agent that
    * crashed mid-operation does not serve a first request against a state it
-   * knows is stale.
+   * knows is stale. Only then does the work loop start claiming: the first job
+   * this agent accepts must not be decided against a state it already knows to
+   * be false.
    */
   public async start(signal: AbortSignal): Promise<void> {
     await this.reconcileOrphanProcessStates();
     await this.collectAndStoreMetrics();
     this.#dependencies.onEvent?.({ kind: 'ready', announced: this.#readiness.announced });
+
+    if (this.#supervisor === null) {
+      // Not claiming work is a state worth naming. An agent that quietly never
+      // dials looks identical to one whose control plane went away, and only
+      // one of those is something an operator can fix.
+      this.#dependencies.onEvent?.({
+        kind: 'work-loop-skipped',
+        reason:
+          this.#dependencies.identity === undefined ||
+          this.#dependencies.workTransport === undefined
+            ? 'no-transport-configured'
+            : 'no-capability-handler',
+      });
+    }
 
     const reconcileTimer = setInterval(() => {
       void this.reconcileOrphanProcessStates().catch(() => undefined);
@@ -287,7 +406,11 @@ export class AgentRuntime {
     metricsTimer.unref();
     this.#timers = [reconcileTimer, metricsTimer];
 
+    // Both loops take the same signal, so one shutdown stops the whole agent
+    // rather than leaving a work loop claiming jobs a stopped scheduler can no
+    // longer settle.
     const scheduler = this.#scheduler?.run(signal);
+    const work = this.#supervisor?.run(signal);
     await new Promise<void>((resolve) => {
       if (signal.aborted) {
         resolve();
@@ -296,6 +419,7 @@ export class AgentRuntime {
       signal.addEventListener('abort', () => resolve(), { once: true });
     });
     await scheduler;
+    await work;
     await this.shutdown();
   }
 

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { generateKeyPairSync, randomUUID } from 'node:crypto';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -9,10 +9,16 @@ import type { ScheduleStep, ServerSchedule } from '@voidfall/contracts';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
 import type { BackupConsistencyLease, OfflineExclusiveBackupGuard } from '@voidfall/server-backup';
+import type {
+  ConfigurationConsistencyLease,
+  OfflineExclusiveConfigurationGuard,
+} from '@voidfall/server-configuration';
 
+import { createAgentIdentity } from '../src/agent-client.js';
 import { AgentRuntime, type AgentRuntimeEvent } from '../src/runtime.js';
 import { loadAgentConfiguration, type Environment } from '../src/runtime-config.js';
 import { SchedulerLoop, type ScheduleStepExecutor } from '../src/scheduler-loop.js';
+import { AgentWorkTransport } from '../src/work-transport.js';
 
 /**
  * The agent runtime brought up for real, against temporary directories, a
@@ -27,6 +33,9 @@ import { SchedulerLoop, type ScheduleStepExecutor } from '../src/scheduler-loop.
 const AGENT_ID = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
 const NOW = new Date('2026-08-05T12:00:00.000Z');
 const KEY = Buffer.alloc(32, 7).toString('base64');
+/** A real key, because the loader now parses it rather than taking its word. */
+const KEY_PAIR = generateKeyPairSync('ed25519');
+const PRIVATE_KEY_PEM = KEY_PAIR.privateKey.export({ type: 'pkcs8', format: 'pem' }).toString();
 
 const cleanup: Array<{ database: Database; directory: string }> = [];
 
@@ -45,6 +54,20 @@ class ImmediateOfflineGuard implements OfflineExclusiveBackupGuard {
     operation: (lease: BackupConsistencyLease) => Promise<T>,
   ): Promise<T> {
     return operation({ method: 'offline-exclusive-v1', acquiredAt: NOW.toISOString() });
+  }
+}
+
+/**
+ * Stands in for the proof that the server is offline while a config file is
+ * rewritten. A real one needs a process controller; this slice has none, which
+ * is exactly why the guard is injected rather than built.
+ */
+class ImmediateConfigurationGuard implements OfflineExclusiveConfigurationGuard {
+  async runWithExclusiveOfflineAccess<T>(
+    _resourceId: string,
+    operation: (lease: ConfigurationConsistencyLease) => Promise<T>,
+  ): Promise<T> {
+    return operation({ method: 'offline-exclusive-v1', acquiredAt: NOW });
   }
 }
 
@@ -91,7 +114,7 @@ async function fixture(options: { readonly withBackups?: boolean; readonly withF
     VOIDFALL_AGENT_ID: AGENT_ID,
     VOIDFALL_SERVER_INSTANCE_ID: server.id,
     VOIDFALL_CONTROL_API_URL: 'https://control.voidfall.invalid',
-    VOIDFALL_AGENT_PRIVATE_KEY_PEM: '-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----',
+    VOIDFALL_AGENT_PRIVATE_KEY_PEM: PRIVATE_KEY_PEM,
     VOIDFALL_DATABASE_URL: 'postgres://voidfall@localhost/voidfall',
     VOIDFALL_SERVER_RELEASE: '1.20.1-forge-47.4.4',
     VOIDFALL_METRICS_DISK_PATH: directory,
@@ -136,11 +159,39 @@ function runtimeFor(
     repositories: context.repositories,
     bootId: randomUUID(),
     backupGuard: new ImmediateOfflineGuard(),
+    configurationGuard: new ImmediateConfigurationGuard(),
     clock: () => NOW,
     onEvent: (event) => events.push(event),
     ...overrides,
   });
   return { runtime, events };
+}
+
+/** A scripted control plane, so the work loop is observable and deterministic. */
+function scriptedTransport(
+  answer: (call: number) => { readonly ok: boolean; readonly body: unknown },
+): { readonly transport: AgentWorkTransport; readonly paths: string[] } {
+  const paths: string[] = [];
+  let call = 0;
+  const transport = new AgentWorkTransport({
+    baseUrl: 'http://control.invalid',
+    allowInsecureDevelopment: true,
+    fetch: async (url) => {
+      paths.push(url.pathname);
+      call += 1;
+      const scripted = answer(call);
+      return { ok: scripted.ok, status: scripted.ok ? 200 : 503, json: async () => scripted.body };
+    },
+  });
+  return { transport, paths };
+}
+
+function testIdentity(context: Awaited<ReturnType<typeof fixture>>) {
+  return createAgentIdentity({
+    agentId: AGENT_ID,
+    serverInstanceId: context.server.id,
+    privateKeyPem: PRIVATE_KEY_PEM,
+  });
 }
 
 describe('readiness never announces a capability it cannot serve', () => {
@@ -172,6 +223,27 @@ describe('readiness never announces a capability it cannot serve', () => {
     assert.ok(ready.announced.includes('configuration.apply'));
   });
 
+  it('refuses to announce configuration without a guard, and says which fix is missing', async () => {
+    const context = await fixture({ withFiles: true });
+    // A root, but nothing that can prove the server is offline while the file is
+    // rewritten. Rewriting a config a running server holds open is how a world
+    // comes back with half a configuration.
+    const runtime = new AgentRuntime({
+      configuration: loadAgentConfiguration(context.environment),
+      repositories: context.repositories,
+      bootId: randomUUID(),
+      clock: () => NOW,
+    });
+    const entry = runtime.readiness.capabilities.find(
+      (capability) => capability.capability === 'configuration.apply',
+    );
+    assert.equal(entry?.available, false);
+    // Not the same fault as an unconfigured root, and not the same fix.
+    assert.equal(entry?.reason, 'no-configuration-guard-configured');
+    assert.equal(runtime.handlers['configuration.apply'], undefined);
+    assert.equal(runtime.configurationCapability, null);
+  });
+
   it('refuses to announce backup.restore without a controller to verify the boot', async () => {
     const context = await fixture({ withBackups: true });
     const { runtime } = runtimeFor(context);
@@ -199,18 +271,20 @@ describe('readiness never announces a capability it cannot serve', () => {
     assert.equal(forceKill?.reason, 'deliberately-disabled');
   });
 
-  it('keeps every announced capability backed by a registered handler', async () => {
+  it('keeps announced and registered exactly equal, in both directions', async () => {
     const context = await fixture({ withBackups: true, withFiles: true });
     const { runtime } = runtimeFor(context);
-    // The two lists are derived from one another, so they cannot drift: an
-    // agent claiming work it cannot serve is the failure this prevents.
-    const announced = [...runtime.readiness.announced].sort();
-    const registered = Object.keys(runtime.handlers).sort();
-    // configuration.apply is announced but served by the capability class, not
-    // by a lease handler in this slice; everything else must match.
-    for (const capability of registered) {
-      assert.ok(announced.includes(capability as never), `${capability} registered but not announced`);
-    }
+    // The two lists are derived from one another, so they cannot drift. Equality
+    // rather than containment is the point: a capability announced without a
+    // handler is a job claimed and then refused, and a handler registered
+    // without an announcement is work this agent can do and never gets asked
+    // for. Until this slice `configuration.apply` was the standing exception.
+    assert.deepEqual(
+      Object.keys(runtime.handlers).sort(),
+      [...runtime.readiness.announced].sort(),
+    );
+    assert.ok(runtime.readiness.announced.includes('configuration.apply'));
+    assert.ok(runtime.handlers['configuration.apply'] !== undefined);
   });
 });
 
@@ -282,6 +356,120 @@ describe('startup, reconciliation and shutdown', () => {
     const { runtime } = runtimeFor(context);
     await runtime.shutdown();
     await runtime.shutdown();
+  });
+});
+
+describe('the work loop', () => {
+  it('claims work for exactly the capabilities it announced', async () => {
+    const context = await fixture({ withBackups: true, withFiles: true });
+    const { transport, paths } = scriptedTransport(() => ({
+      ok: true,
+      body: { schemaVersion: 1, leases: [], retryAfterSeconds: 3_600 },
+    }));
+    const { runtime } = runtimeFor(context, {
+      identity: testIdentity(context),
+      workTransport: transport,
+    });
+
+    assert.notEqual(runtime.supervisor, null);
+    // What it will ask for is what readiness allowed, with nothing added.
+    assert.deepEqual(
+      [...(runtime.supervisor?.servedCapabilities ?? [])],
+      [...runtime.readiness.announced].sort(),
+    );
+
+    await runtime.supervisor?.runOnce();
+    assert.deepEqual(paths, ['/agent/v1/work/claim']);
+  });
+
+  it('reports one boot id across the process rather than two', async () => {
+    const context = await fixture({ withFiles: true });
+    const bootId = randomUUID();
+    const { runtime } = runtimeFor(context, {
+      bootId,
+      identity: testIdentity(context),
+      workTransport: scriptedTransport(() => ({
+        ok: true,
+        body: { schemaVersion: 1, leases: [], retryAfterSeconds: 60 },
+      })).transport,
+    });
+    // A receipt whose boot id did not match the process state and the console
+    // lines from the same run would correlate with nothing.
+    assert.equal(runtime.supervisor?.bootId, bootId);
+    assert.equal(runtime.readiness.bootId, bootId);
+  });
+
+  it('does not dial at all when it has nothing to serve, and says so', async () => {
+    const context = await fixture();
+    const { transport, paths } = scriptedTransport(() => ({
+      ok: true,
+      body: { schemaVersion: 1, leases: [], retryAfterSeconds: 60 },
+    }));
+    const { runtime, events } = runtimeFor(context, {
+      identity: testIdentity(context),
+      workTransport: transport,
+    });
+
+    assert.deepEqual(runtime.readiness.announced, []);
+    assert.equal(runtime.supervisor, null);
+
+    const controller = new AbortController();
+    const running = runtime.start(controller.signal);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    controller.abort();
+    await running;
+
+    // Nothing was claimed, and the reason is on the record: an agent that
+    // quietly never dials looks like one whose control plane went away.
+    assert.deepEqual(paths, []);
+    assert.ok(
+      events.some(
+        (event) => event.kind === 'work-loop-skipped' && event.reason === 'no-capability-handler',
+      ),
+    );
+  });
+
+  it('names the missing transport rather than the missing handlers', async () => {
+    const context = await fixture({ withFiles: true });
+    const { runtime, events } = runtimeFor(context);
+    assert.equal(runtime.supervisor, null);
+
+    const controller = new AbortController();
+    const running = runtime.start(controller.signal);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    controller.abort();
+    await running;
+
+    assert.ok(
+      events.some(
+        (event) => event.kind === 'work-loop-skipped' && event.reason === 'no-transport-configured',
+      ),
+    );
+  });
+
+  it('stops the work loop on the same signal that stops everything else', async () => {
+    const context = await fixture({ withFiles: true });
+    const { transport } = scriptedTransport(() => ({
+      ok: true,
+      body: { schemaVersion: 1, leases: [], retryAfterSeconds: 1 },
+    }));
+    const { runtime, events } = runtimeFor(context, {
+      identity: testIdentity(context),
+      workTransport: transport,
+    });
+
+    const controller = new AbortController();
+    const running = runtime.start(controller.signal);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    controller.abort();
+    // Returns rather than hanging: one signal stops the whole agent, instead of
+    // leaving a work loop claiming jobs nothing is left to settle.
+    await running;
+
+    assert.ok(
+      events.some((event) => event.kind === 'supervisor' && event.event.kind === 'stopped'),
+    );
+    assert.ok(events.some((event) => event.kind === 'shutdown'));
   });
 });
 

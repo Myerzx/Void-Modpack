@@ -1,3 +1,4 @@
+import { createPrivateKey } from 'node:crypto';
 import { isAbsolute, resolve } from 'node:path';
 
 /**
@@ -49,6 +50,7 @@ export type AgentConfigurationIssueCode =
   | 'not-an-https-url'
   | 'not-a-base64-key'
   | 'key-too-short'
+  | 'not-an-ed25519-private-key'
   | 'not-an-identifier'
   | 'incomplete-group';
 
@@ -166,6 +168,22 @@ function requireAbsolute(
 }
 
 /**
+ * Whether the PEM is a key this agent can actually sign with.
+ *
+ * The algorithm is checked as well as the parse. Every envelope is Ed25519, so
+ * an operator who pasted an RSA key has a key that loads and then signs nothing
+ * — a fault worth naming at startup rather than discovering as a rejected
+ * envelope with no explanation on this side of the wire.
+ */
+function isEd25519PrivateKeyPem(value: string): boolean {
+  try {
+    return createPrivateKey(value).asymmetricKeyType === 'ed25519';
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Reads and validates the whole configuration.
  *
  * Every issue is collected before throwing rather than failing on the first:
@@ -208,7 +226,13 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
     }
   }
 
+  // Parsed here rather than at the first signature. An unusable key is a
+  // malformed variable, and finding out at startup beats finding out when the
+  // first claim is refused for a reason that names none of this.
   const privateKeyPem = requireValue('VOIDFALL_AGENT_PRIVATE_KEY_PEM');
+  if (privateKeyPem !== undefined && !isEd25519PrivateKeyPem(privateKeyPem)) {
+    issues.push({ key: 'VOIDFALL_AGENT_PRIVATE_KEY_PEM', code: 'not-an-ed25519-private-key' });
+  }
   const databaseUrl = requireValue('VOIDFALL_DATABASE_URL');
   const serverRelease = requireValue('VOIDFALL_SERVER_RELEASE');
 

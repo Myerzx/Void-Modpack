@@ -24,7 +24,7 @@ O startup importa tanto quanto o período: a execução anterior deste mesmo age
 
 | Capability | Handler no código | Registrada no runtime | Situação |
 | --- | --- | --- | --- |
-| `configuration.apply` | `ConfigurationOperationCapability` (classe, não lease handler) | anunciada com raiz configurada | serviçável |
+| `configuration.apply` | `createConfigurationApplyHandler` (adaptador da classe) | só com raiz **e** guard | serviçável com guard injetado |
 | `process.control` | `createProcessControlHandler` | só com controlador | **sem controlador nesta fatia** |
 | `console.command` | `createConsoleCommandHandler` | só com adaptador + controlador | **sem adaptador nesta fatia** |
 | `backup.create` | `createBackupHandler` | só com repositório + selo | serviçável com config temporária |
@@ -109,6 +109,44 @@ Se o lease for tomado no meio da execução, o loop **para** em vez de continuar
 
 ---
 
+## Parte 3 — o laço de trabalho conectado
+
+A Fase 11.0 fechou com o supervisor existindo e nada o ligando ao transporte. Esta parte liga.
+
+### Anunciado e registrado deixam de divergir
+
+`configuration.apply` era o único caso em que o runtime anunciava uma capability sem registrar handler para ela: a implementação era uma classe que fala comandos, e o supervisor fala leases. O agente teria reivindicado um job de configuração e depois o recusado como `unsupported-parameters` — exatamente o resultado que a readiness existe para evitar.
+
+`createConfigurationApplyHandler` é o adaptador. Ele lê o comando **do job durável**, nunca do lease, do mesmo jeito que o console lê seu literal revisado. O lease nomeia um job e um servidor; os valores revisados foram gravados quando o pedido de um operador autorizado foi aceito, e é esse registro que se aplica. Nada que chegue na resposta do claim seleciona arquivo, raiz ou valor.
+
+O tipo do job é reconferido contra o lease, e a operação armazenada contra o tipo do job. Os três são escritos em momentos diferentes; aplicar um comando cujo job discorda do lease que o entregou seria confiar em qualquer um dos dois que tivesse sido lido por último.
+
+O teste que garante isso passou a exigir **igualdade nos dois sentidos** entre anunciado e registrado, não mais contenção com uma exceção documentada.
+
+### `configuration.apply` exige guard
+
+Reescrever um arquivo de configuração que um servidor vivo mantém aberto é como um mundo volta com metade de uma configuração. A capability agora só é anunciada quando existe o guard de acesso exclusivo offline — simétrico ao que os backups já exigiam — e a readiness distingue três defeitos porque são três consertos diferentes: `no-authorized-root-configured`, `no-configuration-guard-configured`, `no-reviewed-resource-authorized`.
+
+Como esta fatia não constrói guard nenhum, `configuration.apply` fica indisponível em produção **com motivo**, em vez de anunciada sem handler.
+
+### Um processo, um boot id
+
+O supervisor recebe o boot id do runtime em vez de gerar o seu. Um recibo cujo boot id não batesse com o estado de processo e com as linhas de console da mesma execução não correlacionaria com nada.
+
+### Não reivindicar é um estado com nome
+
+O supervisor só é construído quando há identidade, transporte **e** pelo menos um handler. Quando não há, o startup registra `work-loop-skipped` com o motivo (`no-transport-configured` ou `no-capability-handler`): um agente que silenciosamente nunca disca é indistinguível de um cujo plano de controle sumiu, e só um dos dois é algo que o operador pode consertar.
+
+Os dois laços — agendador e trabalho — tomam o mesmo `AbortSignal`, então um desligamento para o agente inteiro em vez de deixar um laço reivindicando jobs que o outro não pode mais liquidar.
+
+### Chave de assinatura validada no startup
+
+A PEM passou a ser lida e conferida como Ed25519 pelo carregador de configuração (`not-an-ed25519-private-key`). Uma chave RSA carrega bem e depois não assina nada que este protocolo aceite; descobrir isso no startup é melhor do que descobrir no primeiro claim recusado, cuja resposta não nomeia nada disso.
+
+O `keyId` é uma impressão digital da chave pública, não uma variável. Não há mais uma variável para errar, e rotacionar a chave muda o identificador por construção — um id que o operador define à mão é um id que pode sobreviver à chave que ele nomeia.
+
+---
+
 ## Limites mantidos
 
 1. Nenhum processo Minecraft é iniciado; controlador e adaptador de console não são construídos.
@@ -119,9 +157,8 @@ Se o lease for tomado no meio da execução, o loop **para** em vez de continuar
 
 ## Riscos restantes
 
-- o supervisor existe e o runtime produz seu mapa de handlers, mas **nada conecta o supervisor ao transporte** ainda: `main.ts` sobe o runtime, a reconciliação, os coletores e o agendador, e não roda o laço de claim;
-- `configuration.apply` é anunciada quando há raiz configurada, mas sua implementação é uma classe e não um `LeaseHandler` — falta um adaptador para ela entrar no mapa;
 - o executor de passos do agendamento é injetado e não tem implementação padrão: um agendamento com `backup` ou `restart` não enfileira as operações duráveis das Fases 10.1 e 10.3;
 - não há endpoint HTTP de readiness; ela é calculada e registrada no log de startup;
 - a poda de retenção de métricas e de backups continua sem quem a chame periodicamente;
-- alertas continuam avaliáveis por funções puras que nada aciona.
+- alertas continuam avaliáveis por funções puras que nada aciona;
+- nenhum guard de acesso exclusivo offline é construído, então em produção o agente sobe anunciando **nada** e registra `work-loop-skipped: no-capability-handler`. O laço de trabalho está ligado; o que falta é a primeira capability com dependências reais.

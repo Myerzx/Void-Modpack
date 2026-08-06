@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { generateKeyPairSync } from 'node:crypto';
 import { describe, it } from 'node:test';
 
 import {
@@ -20,12 +21,17 @@ const AGENT_ID = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
 const SERVER_ID = '018f6b8c-76a3-7d10-9f2e-1d9e52a63703';
 const KEY = Buffer.alloc(32, 7).toString('base64');
 
+/** A real key, because the loader now parses it rather than taking its word. */
+const PRIVATE_KEY_PEM = generateKeyPairSync('ed25519')
+  .privateKey.export({ type: 'pkcs8', format: 'pem' })
+  .toString();
+
 function minimal(overrides: Environment = {}): Environment {
   return {
     VOIDFALL_AGENT_ID: AGENT_ID,
     VOIDFALL_SERVER_INSTANCE_ID: SERVER_ID,
     VOIDFALL_CONTROL_API_URL: 'https://control.voidfall.invalid',
-    VOIDFALL_AGENT_PRIVATE_KEY_PEM: '-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----',
+    VOIDFALL_AGENT_PRIVATE_KEY_PEM: PRIVATE_KEY_PEM,
     VOIDFALL_DATABASE_URL: 'postgres://voidfall@localhost/voidfall',
     VOIDFALL_SERVER_RELEASE: '1.20.1-forge-47.4.4',
     ...overrides,
@@ -136,6 +142,22 @@ describe('startup configuration', () => {
     assert.ok(
       backup(Buffer.alloc(8, 1).toString('base64')).includes('VOIDFALL_BACKUP_SEAL_KEY=key-too-short'),
     );
+  });
+
+  it('refuses a signing key that does not parse or is the wrong algorithm', () => {
+    // Both faults are found at startup rather than at the first claim, where
+    // the answer would be a rejected envelope that names none of this.
+    assert.deepEqual(
+      issuesOf(minimal({ VOIDFALL_AGENT_PRIVATE_KEY_PEM: '-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----' })),
+      ['VOIDFALL_AGENT_PRIVATE_KEY_PEM=not-an-ed25519-private-key'],
+    );
+    // An RSA key loads fine and then signs nothing this protocol accepts.
+    const rsa = generateKeyPairSync('rsa', { modulusLength: 2_048 })
+      .privateKey.export({ type: 'pkcs8', format: 'pem' })
+      .toString();
+    assert.deepEqual(issuesOf(minimal({ VOIDFALL_AGENT_PRIVATE_KEY_PEM: rsa })), [
+      'VOIDFALL_AGENT_PRIVATE_KEY_PEM=not-an-ed25519-private-key',
+    ]);
   });
 
   it('accepts a full backup group and treats the cipher as genuinely optional', () => {

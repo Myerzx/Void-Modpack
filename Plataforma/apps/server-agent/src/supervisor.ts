@@ -38,6 +38,12 @@ export interface SupervisorOptions {
   readonly transport: AgentWorkTransport;
   /** One handler per capability the agent actually serves. */
   readonly handlers: Readonly<Partial<Record<AgentCapability, LeaseHandler>>>;
+  /**
+   * Identifies this run. Supplied by the runtime so one process reports one
+   * boot: a receipt whose boot id did not match the process state and the
+   * console lines from the same run would correlate with nothing.
+   */
+  readonly bootId?: string;
   readonly leaseSeconds?: number;
   readonly minimumBackoffMs?: number;
   readonly maximumBackoffMs?: number;
@@ -79,11 +85,12 @@ function defaultSleep(milliseconds: number, signal: AbortSignal): Promise<void> 
 export class AgentSupervisor {
   readonly #options: SupervisorOptions;
   /** A fresh identifier per run, so a restart is visible to the control plane. */
-  readonly #bootId = randomUUID();
+  readonly #bootId: string;
   #backoffMs: number;
 
   public constructor(options: SupervisorOptions) {
     this.#options = options;
+    this.#bootId = options.bootId ?? randomUUID();
     this.#backoffMs = options.minimumBackoffMs ?? DEFAULT_MINIMUM_BACKOFF_MS;
   }
 
