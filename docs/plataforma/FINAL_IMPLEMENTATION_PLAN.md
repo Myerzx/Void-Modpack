@@ -426,12 +426,21 @@ O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) reordena o q
 
 Objetivo: ler um servidor ou modpack e saber exatamente o que existe nele.
 
-- [ ] importar um workspace a partir de um diretório ou pacote, sem tocar na origem;
-- [ ] analisador estático de JAR: mod id, versão, dependências, lado, loader;
-- [ ] descoberta de arquivos de configuração TOML, JSON e properties;
-- [ ] descoberta de datapacks, scripts e recursos;
-- [ ] classificar cada mod em `FULLY_MANAGED`, `STRUCTURED`, `RAW_EDITABLE`, `UNSUPPORTED` ou `RUNTIME_ONLY`;
-- [ ] inventário reproduzível, com hash por arquivo.
+- [x] importar um workspace a partir de um **diretório**, sem tocar na origem — `@voidfall/workspace-inventory`, 2026-08-06. Import de **pacote** continua pendente: é o import de diretório com um passo de descompactação na frente;
+- [x] analisador estático de JAR: mod id, versão, dependências, lado, loader — composto com `@voidfall/artifact-inspection`, que já lê metadados declarados sem carregar classe nem executar nada;
+- [x] descoberta de arquivos de configuração TOML, JSON e properties;
+- [x] descoberta de datapacks, scripts e recursos, por raiz e extensão;
+- [x] classificar cada mod em `FULLY_MANAGED`, `STRUCTURED`, `RAW_EDITABLE`, `UNSUPPORTED` ou `RUNTIME_ONLY`;
+- [x] inventário reproduzível, com hash por arquivo e digest do próprio inventário.
+
+Decisões de recorte tomadas na implementação:
+
+- **estado privado é recusado e nomeado**, não pulado: mundo, logs, crash reports, `server.properties`, `ops.json`, `whitelist.json`, caches. Um inventário que os omitisse em silêncio seria indistinguível de um que falhou em olhar;
+- **symlink não é seguido.** Um link dentro de um pack importado aponta para qualquer lugar do host, e um scanner que o seguisse poderia ser levado a hashear arquivos fora da árvore;
+- **nada de timestamp entra no digest.** É o que faz duas varreduras da mesma árvore compararem iguais, e é o que dá sentido a um diff entre versões;
+- **mod id casa exato, nunca por prefixo.** `jei` não reivindica a configuração de `jeitweaker`;
+- **revisado é um upgrade sobre uma correspondência, nunca uma correspondência.** Um defeito encontrado pelo próprio teste: casar só por ser revisado atribuiria o recurso de um mod a todos os outros, e o `FULLY_MANAGED` resultante seria a afirmação de que alguém entendeu campos que nunca viu;
+- **`RUNTIME_ONLY` é a resposta quando nada é encontrado**, não `UNSUPPORTED`. A maioria dos mods Forge escreve sua configuração no primeiro boot, então a resposta honesta nomeia o que resolveria — que é exatamente o que a sandbox da Fase 14 faz.
 
 `UNSUPPORTED` é resultado legítimo e frequente. Um inventário que classifica tudo como editável está mentindo sobre o que sabe.
 

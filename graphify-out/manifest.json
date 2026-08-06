@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786027521.208877,
-    "ast_hash": "f1e778c35ab14f3670cd35df857e57d4",
+    "mtime": 1786035342.3113887,
+    "ast_hash": "32c4b214b12d4a9bf5392db70ee2be48",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786025443.15486,
-    "ast_hash": "26ae09a9eb4f951d0d2a511139cd30c5",
+    "mtime": 1786035399.8391876,
+    "ast_hash": "69c4be571a8638629c3e7650ec1d5877",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786030648.574402,
-    "ast_hash": "2fbb42177d6a8105bacbe431880bac4c",
+    "mtime": 1786035379.9081187,
+    "ast_hash": "d2780c3b1bb5a8d8992787a22ba84625",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4122,6 +4122,11 @@
   "Plataforma/packages/database/test/player-records.test.ts": {
     "mtime": 1786034896.7648017,
     "ast_hash": "bf60f8bd388fe22ff2d162c204e1783e",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-014-objetivo-central-e-replanejamento.md": {
+    "mtime": 1786035264.1427877,
+    "ast_hash": "5d6758013860e2a49ee418fe39141e74",
     "semantic_hash": ""
   }
 }
