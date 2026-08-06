@@ -2,7 +2,11 @@ import { randomUUID } from 'node:crypto';
 
 import type { AgentCapability, AlertKind, MetricReading } from '@voidfall/contracts';
 import type { Repositories } from '@voidfall/database';
-import type { MinecraftConsoleAdapter, MinecraftProcessController } from '@voidfall/minecraft-process';
+import type {
+  MinecraftConsoleAdapter,
+  MinecraftProcessAdapter,
+  MinecraftProcessController,
+} from '@voidfall/minecraft-process';
 import { AuthorizedFileService } from '@voidfall/authorized-files';
 import { FilesystemBackupService, type OfflineExclusiveBackupGuard } from '@voidfall/server-backup';
 import {
@@ -18,6 +22,10 @@ import {
   createConfigurationApplyHandler,
 } from './configuration-operation.js';
 import { createConsoleCommandHandler } from './console-operation.js';
+import {
+  createOfflineExclusiveBackupGuard,
+  createOfflineExclusiveConfigurationGuard,
+} from './offline-guards.js';
 import { createProcessControlHandler } from './process-operation.js';
 import { evaluateReadiness, type AgentReadiness, type RuntimeDependencies } from './readiness.js';
 import type { AgentRuntimeConfiguration } from './runtime-config.js';
@@ -76,7 +84,16 @@ export interface AgentRuntimeDependencies {
    */
   readonly processController?: MinecraftProcessController;
   readonly consoleAdapter?: MinecraftConsoleAdapter;
-  /** Guards the exclusive offline window a backup needs. */
+  /**
+   * What the guards ask whether the server is running. Given separately from
+   * the controller because a guard must observe without being able to start
+   * anything: the whole claim it makes is that nothing started.
+   */
+  readonly processAdapter?: MinecraftProcessAdapter;
+  /**
+   * Guards the exclusive offline window a backup needs. Built from the adapter
+   * when absent; injectable so a test can hold a window open deliberately.
+   */
   readonly backupGuard?: OfflineExclusiveBackupGuard;
   /**
    * Guards the exclusive offline window a configuration write needs. Its
@@ -113,6 +130,8 @@ export type AgentRuntimeEvent =
 export class AgentRuntime {
   readonly #dependencies: AgentRuntimeDependencies;
   readonly #authorizedFiles: AuthorizedFileService | null;
+  readonly #backupGuard: OfflineExclusiveBackupGuard | undefined;
+  readonly #configurationGuard: OfflineExclusiveConfigurationGuard | undefined;
   readonly #backupService: FilesystemBackupService | null;
   readonly #configurationCapability: ConfigurationOperationCapability | null;
   readonly #readiness: AgentReadiness;
@@ -142,12 +161,41 @@ export class AgentRuntime {
             ],
           });
 
+    // Guards first: they are what makes `offline-exclusive-v1` an assertion
+    // rather than a label, and the backup service below cannot be built without
+    // one. They exist exactly when there is an adapter to ask.
+    this.#backupGuard =
+      dependencies.backupGuard ??
+      (dependencies.processAdapter === undefined
+        ? undefined
+        : createOfflineExclusiveBackupGuard({
+            repositories: dependencies.repositories,
+            adapter: dependencies.processAdapter,
+            serverInstanceId: configuration.serverInstanceId,
+            // The backup capability takes the lock as this agent.
+            ownsLock: (lease) => lease.ownerId === configuration.agentId,
+            ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
+          }));
+    this.#configurationGuard =
+      dependencies.configurationGuard ??
+      (dependencies.processAdapter === undefined
+        ? undefined
+        : createOfflineExclusiveConfigurationGuard({
+            repositories: dependencies.repositories,
+            adapter: dependencies.processAdapter,
+            serverInstanceId: configuration.serverInstanceId,
+            // The persistent configuration service mints its own owner id, so
+            // the window is recognised by what it was taken for.
+            ownsLock: (lease) => lease.operation.startsWith('configuration.'),
+            ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
+          }));
+
     this.#backupService =
-      configuration.backups === null || dependencies.backupGuard === undefined
+      configuration.backups === null || this.#backupGuard === undefined
         ? null
         : new FilesystemBackupService({
             repositoryRoot: configuration.backups.repositoryRoot,
-            guard: dependencies.backupGuard,
+            guard: this.#backupGuard,
             sealKey: configuration.backups.sealKey,
             ...(configuration.backups.encryptionKey === null
               ? {}
@@ -160,7 +208,7 @@ export class AgentRuntime {
     // --- Readiness from what exists, not from what was asked for. -----------
     const runtimeDependencies: RuntimeDependencies = {
       hasAuthorizedFiles: this.#authorizedFiles !== null,
-      hasConfigurationGuard: dependencies.configurationGuard !== undefined,
+      hasConfigurationGuard: this.#configurationGuard !== undefined,
       hasConfigurationCapability: this.#configurationCapability !== null,
       hasBackupService: this.#backupService !== null,
       hasProcessController: dependencies.processController !== undefined,
@@ -224,7 +272,8 @@ export class AgentRuntime {
    * configuration root it was never going to use.
    */
   #buildConfigurationCapability(): ConfigurationOperationCapability | null {
-    const { configuration, repositories, configurationGuard } = this.#dependencies;
+    const { configuration, repositories } = this.#dependencies;
+    const configurationGuard = this.#configurationGuard;
     if (configuration.authorizedFiles === null || configurationGuard === undefined) return null;
     // The allowlist is the closed product registry, never anything the control
     // plane sends. A command may select a reviewed resource; it may not name one.
@@ -483,6 +532,42 @@ export class AgentRuntime {
   }
 
   /**
+   * Publishes readiness where the control plane can read it.
+   *
+   * This agent never listens, so there is nothing on the host to ask. Readiness
+   * is published instead of served, which is the same reason the work loop
+   * dials out rather than accepting connections.
+   *
+   * `degraded` when anything an operator could still fix is missing. Force kill
+   * and the capabilities that belong to other processes are excluded: a host
+   * that is exactly as capable as it was designed to be is not degraded, and an
+   * agent permanently reporting `degraded` is one nobody looks at.
+   */
+  public async publishReadiness(): Promise<void> {
+    const { repositories, configuration } = this.#dependencies;
+    const now = (this.#dependencies.clock ?? (() => new Date()))();
+    const fixable = this.#readiness.capabilities.filter(
+      (entry) => !entry.available && entry.reason !== 'no-handler-implemented' && entry.reason !== 'deliberately-disabled',
+    );
+    await repositories.agents
+      .publishReadiness({
+        agentId: configuration.agentId,
+        status: fixable.length === 0 ? 'online' : 'degraded',
+        capabilities: this.#readiness.announced,
+        readiness: this.#readiness.capabilities.map((entry) => ({
+          capability: entry.capability,
+          available: entry.available,
+          reason: entry.reason,
+        })),
+        observedAt: now,
+      })
+      // Swallowed: an agent that cannot publish what it can do can still do it,
+      // and refusing to serve because the notice did not land would be worse
+      // than serving quietly.
+      .catch(() => undefined);
+  }
+
+  /**
    * Discards what the retention windows no longer cover.
    *
    * It runs on a timer as well as after a backup, because a repository that
@@ -515,6 +600,7 @@ export class AgentRuntime {
    */
   public async start(signal: AbortSignal): Promise<void> {
     await this.reconcileOrphanProcessStates();
+    await this.publishReadiness();
     await this.collectAndStoreMetrics();
     this.#dependencies.onEvent?.({ kind: 'ready', announced: this.#readiness.announced });
 
@@ -536,6 +622,10 @@ export class AgentRuntime {
       void this.reconcileOrphanProcessStates().catch(() => undefined);
     }, DEFAULT_RECONCILE_INTERVAL_MS);
     const metricsTimer = setInterval(() => {
+      // Republished on the same tick: it also moves `last_seen_at`, and an
+      // agent that published once at boot and then went quiet is exactly the
+      // one an operator needs to be able to tell apart from a healthy one.
+      void this.publishReadiness();
       void this.collectAndStoreMetrics();
     }, DEFAULT_METRICS_INTERVAL_MS);
     const retentionTimer = setInterval(() => {

@@ -1,10 +1,22 @@
 import { randomUUID } from 'node:crypto';
 
 import { PostgresDatabase, createRepositories } from '@voidfall/database';
+import {
+  LinuxMinecraftProcessAdapter,
+  MinecraftProcessController,
+  NodeProcessRuntime,
+  WindowsMinecraftProcessAdapter,
+  createMinecraftProcessPlan,
+  type SupportedHostPlatform,
+} from '@voidfall/minecraft-process';
 
 import { createAgentIdentity, type AgentFetch } from './agent-client.js';
 import { AgentRuntime } from './runtime.js';
-import { AgentConfigurationError, loadAgentConfiguration } from './runtime-config.js';
+import {
+  AgentConfigurationError,
+  loadAgentConfiguration,
+  type ProcessConfiguration,
+} from './runtime-config.js';
 import { AgentWorkTransport } from './work-transport.js';
 
 /**
@@ -15,18 +27,19 @@ import { AgentWorkTransport } from './work-transport.js';
  * in `AgentRuntime`, which takes its dependencies as arguments — so the tests
  * exercise the same assembly this file performs rather than a parallel one.
  *
- * Nothing here connects to a Minecraft process. The process controller, the
- * console adapter and both offline guards are deliberately not constructed:
- * this slice brings the agent up against a database, temporary directories and
- * injected keys, and readiness reports the capabilities that need a runtime as
- * unavailable, with reasons. Connecting the real runtime is a separate,
- * explicitly authorized step.
+ * This file connects three things the runtime cannot build for itself: the
+ * database handle, the outbound work transport with its signing identity, and
+ * the Minecraft process runtime.
  *
- * What this file *does* connect is the work loop. The transport and the signing
- * identity are built here and handed to the runtime, which claims work only for
- * capabilities it announced. With no guard and no controller that set is empty,
- * so the agent comes up, reconciles, collects metrics and reports that it is
- * claiming nothing — rather than claiming jobs it would have to refuse.
+ * The process runtime is built only when the deployment configured one. A host
+ * that holds backups and configuration for a server it does not launch is a
+ * valid deployment, not a broken one — and readiness reports which of the two
+ * this is, with a reason per capability, rather than announcing everything and
+ * failing later.
+ *
+ * What is still deliberately absent: `process.force-kill` has no handler, by a
+ * decision recorded in the phase notes. Killing a server can lose everything
+ * since the last save.
  */
 
 /**
@@ -37,6 +50,42 @@ import { AgentWorkTransport } from './work-transport.js';
  * anything else on the response would be a transport that could grow a second
  * protocol without anyone deciding to add one.
  */
+/**
+ * Builds the adapter and controller that hold this host's server process.
+ *
+ * Returns nothing when the deployment did not configure one, which is an
+ * ordinary state: a host that runs backups and configuration for a server it
+ * does not launch is a valid deployment, and readiness reports the difference.
+ *
+ * A launch plan that will not build refuses the startup rather than disabling
+ * the capability quietly. The configuration loader has already checked the
+ * shape of every value; anything the plan still rejects is a combination an
+ * operator has to see, not one to come up without.
+ */
+function buildProcessRuntime(configuration: ProcessConfiguration | null): {
+  readonly adapter: WindowsMinecraftProcessAdapter | LinuxMinecraftProcessAdapter;
+  readonly controller: MinecraftProcessController;
+} | null {
+  if (configuration === null) return null;
+  if (process.platform !== 'win32' && process.platform !== 'linux') {
+    // The supported set is closed on purpose. Spawning a JVM through an
+    // untested platform's process semantics is not something to improvise on
+    // the host that holds the world.
+    throw new Error(`voidfall-agent: unsupported host platform ${process.platform}`);
+  }
+  const platform: SupportedHostPlatform = process.platform;
+  const launchPlan = createMinecraftProcessPlan({ platform, ...configuration });
+  const runtime = new NodeProcessRuntime();
+  // One adapter serves as process, console and metrics adapter. It is the
+  // thing that owns the child handle, and two of them would each believe they
+  // did.
+  const adapter =
+    platform === 'win32'
+      ? new WindowsMinecraftProcessAdapter({ runtime })
+      : new LinuxMinecraftProcessAdapter({ runtime });
+  return { adapter, controller: new MinecraftProcessController({ adapter, launchPlan }) };
+}
+
 const agentFetch: AgentFetch = async (url, init) => {
   const response = await fetch(url, {
     method: init.method,
@@ -90,6 +139,8 @@ export async function main(): Promise<number> {
     allowInsecureDevelopment: true,
   });
 
+  const minecraft = buildProcessRuntime(configuration.process);
+
   const controller = new AbortController();
   const runtime = new AgentRuntime({
     configuration,
@@ -97,6 +148,13 @@ export async function main(): Promise<number> {
     bootId: randomUUID(),
     identity,
     workTransport,
+    ...(minecraft === null
+      ? {}
+      : {
+          processController: minecraft.controller,
+          consoleAdapter: minecraft.adapter,
+          processAdapter: minecraft.adapter,
+        }),
     onEvent: (event) => {
       process.stdout.write(`voidfall-agent: ${JSON.stringify(event)}\n`);
     },

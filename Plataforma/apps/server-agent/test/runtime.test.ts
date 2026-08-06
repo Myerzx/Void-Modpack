@@ -8,6 +8,13 @@ import { afterEach, describe, it } from 'node:test';
 import type { ScheduleStep, ServerSchedule } from '@voidfall/contracts';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
+import {
+  MinecraftProcessController,
+  createMinecraftProcessPlan,
+  type MinecraftConsoleAdapter,
+  type MinecraftProcessAdapter,
+  type ProcessObservation,
+} from '@voidfall/minecraft-process';
 import type { BackupConsistencyLease, OfflineExclusiveBackupGuard } from '@voidfall/server-backup';
 import type {
   ConfigurationConsistencyLease,
@@ -783,5 +790,152 @@ describe('alerts and retention', () => {
     const later = runtimeFor(context, { clock: () => new Date(NOW.getTime() + 365 * 86_400_000) });
     const pruned = await later.runtime.pruneRetention();
     assert.ok(pruned.buckets > 0);
+  });
+});
+
+describe('a host that actually launches a server', () => {
+  /** Scripted so no JVM is spawned; the controller and adapter are the real ones. */
+  class OfflineAdapter implements MinecraftProcessAdapter, MinecraftConsoleAdapter {
+    async inspect(): Promise<ProcessObservation> {
+      return { state: 'offline', observedAt: NOW.toISOString(), source: 'process-adapter' };
+    }
+    async start(): Promise<ProcessObservation> {
+      throw new Error('This test never starts a server.');
+    }
+    async requestGracefulStop(): Promise<ProcessObservation> {
+      throw new Error('This test never stops a server.');
+    }
+    readOutput(): never {
+      throw new Error('not used');
+    }
+    readConsole(): never {
+      throw new Error('not used');
+    }
+    async requestConsoleCommand(): Promise<never> {
+      throw new Error('This test never dispatches a command.');
+    }
+  }
+
+  function withProcess(context: Awaited<ReturnType<typeof fixture>>) {
+    const adapter = new OfflineAdapter();
+    const launchPlan = createMinecraftProcessPlan({
+      platform: process.platform === 'win32' ? 'win32' : 'linux',
+      // Built from the platform's own temp root, so the plan is absolute on the
+      // runner it runs on rather than on the one it was written on.
+      javaExecutable: join(tmpdir(), 'java', process.platform === 'win32' ? 'java.exe' : 'java'),
+      serverDirectory: join(tmpdir(), 'voidfall-server'),
+      serverJar: 'forge-server.jar',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 2_048,
+    });
+    return runtimeFor(context, {
+      processController: new MinecraftProcessController({ adapter, launchPlan }),
+      consoleAdapter: adapter,
+      processAdapter: adapter,
+      // Deliberately no injected guards: the runtime must build the real ones
+      // from the adapter, which is the whole point of this case.
+      backupGuard: undefined as never,
+      configurationGuard: undefined as never,
+    });
+  }
+
+  it('announces everything a configured host can serve, and only that', async () => {
+    const context = await fixture({ withBackups: true, withFiles: true });
+    const { runtime } = withProcess(context);
+
+    const announced = [...runtime.readiness.announced].sort();
+    assert.deepEqual(announced, [
+      'backup.create',
+      'backup.restore',
+      'configuration.apply',
+      'console.command',
+      'process.control',
+    ]);
+    // Still equal in both directions, now with five capabilities instead of two.
+    assert.deepEqual(Object.keys(runtime.handlers).sort(), announced);
+
+    // Force kill remains a decision, not a missing dependency.
+    assert.equal(
+      runtime.readiness.capabilities.find((entry) => entry.capability === 'process.force-kill')
+        ?.reason,
+      'deliberately-disabled',
+    );
+  });
+
+  it('builds the real guards from the adapter rather than announcing without one', async () => {
+    const bare = await fixture({ withFiles: true });
+    // No adapter: nothing can prove the server is offline, so nothing is built.
+    assert.equal(
+      runtimeFor(bare, { backupGuard: undefined as never, configurationGuard: undefined as never })
+        .runtime.readiness.capabilities.find(
+          (entry) => entry.capability === 'configuration.apply',
+        )?.reason,
+      'no-configuration-guard-configured',
+    );
+
+    const configured = await fixture({ withFiles: true });
+    assert.ok(withProcess(configured).runtime.readiness.announced.includes('configuration.apply'));
+  });
+});
+
+describe('readiness published where the control plane can read it', () => {
+  it('publishes what it serves and why the rest is missing', async () => {
+    const context = await fixture({ withFiles: true });
+    const { runtime } = runtimeFor(context);
+    await runtime.publishReadiness();
+
+    const agent = await context.repositories.agents.findById(AGENT_ID);
+    assert.deepEqual([...(agent?.capabilities ?? [])], ['configuration.apply']);
+    // Degraded, because backups and process control are absent for reasons an
+    // operator could still act on.
+    assert.equal(agent?.status, 'degraded');
+    // And it moved last_seen_at: an agent that just wrote this is here.
+    assert.equal(agent?.lastSeenAt, NOW.toISOString());
+  });
+
+  it('reports online when nothing fixable is missing', async () => {
+    const context = await fixture({ withBackups: true, withFiles: true });
+    const adapter = {
+      async inspect(): Promise<ProcessObservation> {
+        return { state: 'offline', observedAt: NOW.toISOString(), source: 'process-adapter' };
+      },
+      async start(): Promise<ProcessObservation> {
+        throw new Error('unused');
+      },
+      async requestGracefulStop(): Promise<ProcessObservation> {
+        throw new Error('unused');
+      },
+      readOutput(): never {
+        throw new Error('unused');
+      },
+      readConsole(): never {
+        throw new Error('unused');
+      },
+      async requestConsoleCommand(): Promise<never> {
+        throw new Error('unused');
+      },
+    };
+    const launchPlan = createMinecraftProcessPlan({
+      platform: process.platform === 'win32' ? 'win32' : 'linux',
+      javaExecutable: join(tmpdir(), 'java', process.platform === 'win32' ? 'java.exe' : 'java'),
+      serverDirectory: join(tmpdir(), 'voidfall-server'),
+      serverJar: 'forge-server.jar',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 2_048,
+    });
+    const { runtime } = runtimeFor(context, {
+      processController: new MinecraftProcessController({ adapter, launchPlan }),
+      consoleAdapter: adapter,
+      processAdapter: adapter,
+      backupGuard: undefined as never,
+      configurationGuard: undefined as never,
+    });
+    await runtime.publishReadiness();
+
+    const agent = await context.repositories.agents.findById(AGENT_ID);
+    // Force kill and the build worker's capabilities are absent by design. A
+    // host exactly as capable as it was meant to be is not degraded, and an
+    // agent permanently reporting degraded is one nobody looks at.
+    assert.equal(agent?.status, 'online');
   });
 });

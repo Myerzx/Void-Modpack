@@ -187,19 +187,60 @@ Candidatos **e** alertas abertos são filtrados pelo mesmo conjunto. Passar todo
 
 ---
 
+## Parte 5 — o runtime real conectado
+
+Autorizado explicitamente pelo proprietário em 2026-08-06.
+
+### Controlador e adaptador construídos a partir do ambiente
+
+Cinco variáveis novas formam um grupo tudo-ou-nada: `VOIDFALL_JAVA_EXECUTABLE`, `VOIDFALL_SERVER_DIRECTORY`, `VOIDFALL_SERVER_JAR`, `VOIDFALL_SERVER_INITIAL_MEMORY_MIB` e `VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB` — 22 no total. Ausente é uma escolha: um host que guarda backups e configuração de um servidor que ele não lança é um deployment válido, e a readiness diz qual dos dois é.
+
+O JAR é conferido como nome puro. Um JAR nomeado com caminho alcançaria fora do diretório que o operador autorizou, e a diferença vale ser recusada no startup. Tamanhos de heap são lidos estritamente, não por `Number` — que aceitaria `0x400`, `1e3` e espaço à esquerda, três jeitos de alguém achar que configurou algo que não configurou. Um heap que começa acima do teto é recusado pelo nome das duas variáveis em vez de pela JVM no lançamento.
+
+Um adaptador serve como processo, console e métricas. Dois adaptadores cada um acreditaria ser o dono do processo filho.
+
+### Os guards deixam de ser fronteira injetada
+
+`offline-exclusive-v1` era um rótulo sem implementação fora dos testes. Agora afirma duas coisas, e o guard confere as duas:
+
+- **Offline** — pergunta ao adaptador, não ao banco. Um ciclo de vida armazenado é a observação anterior de alguém; o adaptador é o que segura o processo filho.
+- **Exclusivo** — o lock durável `minecraft-exclusive` existe, não venceu, e é a janela desta operação. Estar offline num instante não significa nada sozinho: sem o lock, o start de um operador pode cair no meio.
+
+Ambas são reconferidas **depois** da operação. Uma cópia tirada enquanto alguém subiu o servidor é a cópia de um mundo em estado desconhecido, e descobrir depois é a diferença entre um backup que falhou e um backup ruim que ninguém sabe que é ruim.
+
+O guard nunca toma o lock. Quem roda a operação o segura pela coisa inteira, inclusive as partes antes e depois da janela do guard; um guard que adquirisse e soltasse o próprio deixaria essas partes desprotegidas parecendo tê-las coberto.
+
+Como reconhecer a janela é passado por quem chama, porque os dois caminhos tomam o lock com donos diferentes: a capability de backup toma como este agente, o `PersistentConfigurationService` cunha um dono próprio. Um guard que assumisse um dos formatos passaria para um chamador e recusaria o outro para sempre.
+
+### Cinco capabilities anunciadas
+
+Com host configurado: `configuration.apply`, `process.control`, `console.command`, `backup.create` e `backup.restore` — anunciado e registrado continuam iguais nos dois sentidos, agora com cinco em vez de duas. `process.force-kill` segue deliberadamente desligada.
+
+### Readiness publicada, não servida
+
+O agente é outbound-only: ele disca e nunca escuta, então "este agente está pronto, e se não, por quê" não pode ser respondido perguntando a ele — não há nada no host para perguntar. A migração `0014_agent_readiness.sql` dá à readiness onde morar: `capabilities` já registrava o que o agente anuncia; `readiness` registra a outra metade que o operador precisa — quais capabilities faltam e por qual motivo. "Backups indisponível" sem causa é indistinguível de defeito.
+
+Publicada no boot e a cada minuto, movendo `last_seen_at` junto: um agente que publicou uma vez e ficou quieto é exatamente o que precisa ser distinguível de um saudável. `degraded` só quando falta algo que um operador ainda poderia consertar — force kill e as capabilities de outros processos ficam de fora, porque um host exatamente tão capaz quanto foi projetado não está degradado, e um agente permanentemente `degraded` é um que ninguém olha.
+
+Anunciar continua não sendo autorizar. O que chega ali descreve o host; se o plano de controle vai arrendar algo disso é decidido em outro lugar.
+
+---
+
 ## Limites mantidos
 
-1. Nenhum processo Minecraft é iniciado; controlador e adaptador de console não são construídos.
+1. Nenhum processo Minecraft é iniciado em teste: o adaptador é scriptado, e é isso que torna as recusas do guard arranjáveis e confiáveis.
 2. `Launcher/workspace/**` e `Servidor/workspace/**` não foram lidos, escritos nem referenciados.
-3. Toda raiz e todo repositório em teste são diretórios temporários.
+3. Toda raiz e todo repositório em teste são diretórios temporários, montados a partir do `tmpdir()` da própria plataforma — nenhum caminho absoluto escrito à mão.
 4. Chaves vêm do ambiente em base64; nenhuma está no Git.
 5. Force kill continua sem implementação, por decisão registrada.
+6. O agente não escuta em porta nenhuma. A readiness é publicada, não servida.
 
 ## Riscos restantes
 
-- **nenhum guard de acesso exclusivo offline é construído**, então em produção o agente sobe anunciando **nada** e registra `work-loop-skipped: no-capability-handler`. O laço de trabalho está ligado; o que falta é a primeira capability com dependências reais, e todo guard real depende do controlador de processo;
-- pelo mesmo motivo, o executor de agendamento enfileira operações que **nenhuma capability anunciada pode servir** nesta fatia: o passo espera e termina em `operation-did-not-settle`. Enfileirar e esperar está correto; o que falta do outro lado é `process.control`;
-- `warn-players` e `maintenance-check` continuam sem provider aprovado e recusam por decisão registrada, não por defeito;
-- não há endpoint HTTP de readiness; ela é calculada e registrada no log de startup;
-- `agent.offline` e `job.failed` continuam sem quem os avalie: pertencem ao plano de controle, e nada lá os aciona ainda;
-- o agente não envia heartbeat: `main.ts` constrói o transporte de trabalho, não o cliente de identidade.
+- **nenhum servidor Minecraft real foi iniciado ainda.** O caminho existe e está coberto por adaptador scriptado; o primeiro start real contra um JAR de verdade é evidência que ainda não foi produzida, e nenhum teste aqui a substitui;
+- `warn-players` e `maintenance-check` continuam sem provider aprovado e recusam por decisão registrada, não por defeito. Um agendamento que os use falha por completo;
+- TPS, MSPT e jogadores online seguem `no-approved-provider`;
+- `agent.offline` e `job.failed` continuam sem quem os avalie. Agora há o que ler — `last_seen_at` se move a cada publicação de readiness — mas nada no plano de controle os aciona;
+- o agente não envia heartbeat assinado: `main.ts` constrói o transporte de trabalho, não o cliente de identidade. A liveness viaja pela readiness publicada, que é escrita direto no banco em vez de por envelope assinado;
+- o painel ainda não lê a coluna `readiness`;
+- `process.force-kill` continua sem implementação, por decisão.

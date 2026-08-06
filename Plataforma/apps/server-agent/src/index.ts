@@ -3,6 +3,7 @@ export * from './backup-operation.js';
 export * from './collectors.js';
 export * from './configuration-operation.js';
 export * from './console-operation.js';
+export * from './offline-guards.js';
 export * from './process-operation.js';
 export * from './readiness.js';
 export * from './runtime.js';

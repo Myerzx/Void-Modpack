@@ -665,6 +665,40 @@ export class AgentRepository {
     });
   }
 
+  /**
+   * Publishes what the agent is ready to serve, and why the rest is missing.
+   *
+   * The agent never listens, so this is how a readiness question gets answered
+   * at all: it is published rather than polled. `last_seen_at` moves with it
+   * because an agent that just wrote this is, definitionally, here.
+   *
+   * Announcing is not authorizing. What lands here describes the host; whether
+   * the control plane will lease any of it is decided elsewhere.
+   */
+  async publishReadiness(input: {
+    readonly agentId: string;
+    readonly status: 'online' | 'degraded';
+    readonly capabilities: readonly string[];
+    readonly readiness: readonly {
+      readonly capability: string;
+      readonly available: boolean;
+      readonly reason: string | null;
+    }[];
+    readonly observedAt: Date;
+  }): Promise<void> {
+    await this.database.query(
+      `UPDATE agents SET status = $2, capabilities = $3::jsonb, readiness = $4::jsonb,
+         readiness_published_at = $5, last_seen_at = $5, updated_at = $5 WHERE id = $1`,
+      [
+        input.agentId,
+        input.status,
+        JSON.stringify([...input.capabilities]),
+        JSON.stringify([...input.readiness]),
+        input.observedAt.toISOString(),
+      ],
+    );
+  }
+
   async recordHeartbeat(input: {
     readonly agentId: string;
     readonly status: 'online' | 'degraded';

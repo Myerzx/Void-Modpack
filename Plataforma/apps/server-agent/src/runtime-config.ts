@@ -39,6 +39,11 @@ export const AGENT_ENVIRONMENT_KEYS = Object.freeze([
   'VOIDFALL_BACKUP_ENCRYPTION_KEY_ID',
   'VOIDFALL_METRICS_DISK_PATH',
   'VOIDFALL_SCHEDULER_ENABLED',
+  'VOIDFALL_JAVA_EXECUTABLE',
+  'VOIDFALL_SERVER_DIRECTORY',
+  'VOIDFALL_SERVER_JAR',
+  'VOIDFALL_SERVER_INITIAL_MEMORY_MIB',
+  'VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB',
 ] as const);
 
 export type AgentEnvironmentKey = (typeof AGENT_ENVIRONMENT_KEYS)[number];
@@ -52,6 +57,8 @@ export type AgentConfigurationIssueCode =
   | 'key-too-short'
   | 'not-an-ed25519-private-key'
   | 'not-an-identifier'
+  | 'not-a-jar-filename'
+  | 'not-a-memory-size'
   | 'incomplete-group';
 
 export interface AgentConfigurationIssue {
@@ -87,6 +94,22 @@ export interface BackupConfiguration {
   readonly encryptionKey: { readonly keyId: string; readonly secret: Uint8Array } | null;
 }
 
+/**
+ * What it takes to launch this host's server.
+ *
+ * All of it local and trusted. The control plane never names a JAR, a Java
+ * binary or a heap size: a lease that could choose what to execute would make
+ * the agent a remote shell with extra steps.
+ */
+export interface ProcessConfiguration {
+  readonly javaExecutable: string;
+  readonly serverDirectory: string;
+  /** A bare filename inside the server directory, never a path. */
+  readonly serverJar: string;
+  readonly initialMemoryMiB: number;
+  readonly maximumMemoryMiB: number;
+}
+
 export interface AgentRuntimeConfiguration {
   readonly agentId: string;
   readonly serverInstanceId: string;
@@ -100,12 +123,22 @@ export interface AgentRuntimeConfiguration {
   readonly backups: BackupConfiguration | null;
   /** Which filesystem the disk metric reports on. Absent disables that reading. */
   readonly metricsDiskPath: string | null;
+  /**
+   * Absent means this deployment does not start a Minecraft server, which
+   * disables process control, the console and restore verification.
+   */
+  readonly process: ProcessConfiguration | null;
   readonly schedulerEnabled: boolean;
 }
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u;
 const IDENTIFIER = /^[a-z][a-z0-9._-]{0,63}$/u;
+/** A bare filename: no separator, no traversal, and it really is a JAR. */
+const JAR_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}\.jar$/u;
 const MINIMUM_KEY_BYTES = 32;
+/** The bounds the launch plan enforces, refused here by name instead. */
+const MINIMUM_MEMORY_MIB = 512;
+const MAXIMUM_MEMORY_MIB = 262_144;
 
 export type Environment = Readonly<Record<string, string | undefined>>;
 
@@ -165,6 +198,31 @@ function requireAbsolute(
     return undefined;
   }
   return resolve(value);
+}
+
+/**
+ * Reads a heap size in mebibytes.
+ *
+ * Parsed strictly rather than with `Number`, which accepts `0x200`, `1e3` and
+ * leading whitespace — a heap size written three different ways is three ways
+ * for an operator to think they configured something they did not.
+ */
+function readMemory(
+  value: string | undefined,
+  key: AgentEnvironmentKey,
+  issues: AgentConfigurationIssue[],
+): number | undefined {
+  if (value === undefined) return undefined;
+  if (!/^[0-9]{1,7}$/u.test(value)) {
+    issues.push({ key, code: 'not-a-memory-size' });
+    return undefined;
+  }
+  const parsed = Number.parseInt(value, 10);
+  if (parsed < MINIMUM_MEMORY_MIB || parsed > MAXIMUM_MEMORY_MIB) {
+    issues.push({ key, code: 'not-a-memory-size' });
+    return undefined;
+  }
+  return parsed;
 }
 
 /**
@@ -347,6 +405,74 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
   const metricsDiskPath =
     diskRaw === undefined ? null : (requireAbsolute(diskRaw, 'VOIDFALL_METRICS_DISK_PATH', issues) ?? null);
 
+  // --- The server process: all or nothing. -----------------------------------
+  const processKeys = [
+    'VOIDFALL_JAVA_EXECUTABLE',
+    'VOIDFALL_SERVER_DIRECTORY',
+    'VOIDFALL_SERVER_JAR',
+    'VOIDFALL_SERVER_INITIAL_MEMORY_MIB',
+    'VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB',
+  ] as const;
+  const processValues = processKeys.map((key) => read(environment, key));
+  let processConfiguration: ProcessConfiguration | null = null;
+  if (processValues.some((value) => value !== undefined)) {
+    for (const [index, key] of processKeys.entries()) {
+      if (processValues[index] === undefined) issues.push({ key, code: 'incomplete-group' });
+    }
+    const [javaRaw, directoryRaw, jarRaw, initialRaw, maximumRaw] = processValues;
+    const javaExecutable =
+      javaRaw === undefined
+        ? undefined
+        : requireAbsolute(javaRaw, 'VOIDFALL_JAVA_EXECUTABLE', issues);
+    const serverDirectory =
+      directoryRaw === undefined
+        ? undefined
+        : requireAbsolute(directoryRaw, 'VOIDFALL_SERVER_DIRECTORY', issues);
+    // A bare filename, checked here rather than left to the launch plan. A JAR
+    // named with a path would reach outside the server directory the operator
+    // authorized, and the difference is worth refusing at startup.
+    if (jarRaw !== undefined && !JAR_FILENAME.test(jarRaw)) {
+      issues.push({ key: 'VOIDFALL_SERVER_JAR', code: 'not-a-jar-filename' });
+    }
+    const initialMemoryMiB = readMemory(
+      initialRaw,
+      'VOIDFALL_SERVER_INITIAL_MEMORY_MIB',
+      issues,
+    );
+    const maximumMemoryMiB = readMemory(
+      maximumRaw,
+      'VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB',
+      issues,
+    );
+    // A heap that starts larger than its ceiling is refused by the JVM at
+    // launch. Refusing here names the two variables instead.
+    if (
+      initialMemoryMiB !== undefined &&
+      maximumMemoryMiB !== undefined &&
+      initialMemoryMiB > maximumMemoryMiB
+    ) {
+      issues.push({ key: 'VOIDFALL_SERVER_INITIAL_MEMORY_MIB', code: 'not-a-memory-size' });
+    }
+
+    if (
+      javaExecutable !== undefined &&
+      serverDirectory !== undefined &&
+      jarRaw !== undefined &&
+      JAR_FILENAME.test(jarRaw) &&
+      initialMemoryMiB !== undefined &&
+      maximumMemoryMiB !== undefined &&
+      initialMemoryMiB <= maximumMemoryMiB
+    ) {
+      processConfiguration = {
+        javaExecutable,
+        serverDirectory,
+        serverJar: jarRaw,
+        initialMemoryMiB,
+        maximumMemoryMiB,
+      };
+    }
+  }
+
   if (issues.length > 0) throw new AgentConfigurationError(issues);
 
   return Object.freeze({
@@ -359,6 +485,7 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
     authorizedFiles,
     backups,
     metricsDiskPath,
+    process: processConfiguration,
     schedulerEnabled: read(environment, 'VOIDFALL_SCHEDULER_ENABLED') === 'true',
   });
 }

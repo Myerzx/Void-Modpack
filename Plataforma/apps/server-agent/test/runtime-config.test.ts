@@ -190,6 +190,59 @@ describe('startup configuration', () => {
     );
   });
 
+  it('refuses a half-configured server process and a JAR that is a path', () => {
+    const issues = issuesOf(
+      minimal({
+        VOIDFALL_JAVA_EXECUTABLE: '/opt/java/bin/java',
+        // A JAR named with a path would reach outside the directory the
+        // operator authorized.
+        VOIDFALL_SERVER_JAR: '../../etc/payload.jar',
+      }),
+    );
+    assert.ok(issues.includes('VOIDFALL_SERVER_DIRECTORY=incomplete-group'));
+    assert.ok(issues.includes('VOIDFALL_SERVER_INITIAL_MEMORY_MIB=incomplete-group'));
+    assert.ok(issues.includes('VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB=incomplete-group'));
+    assert.ok(issues.includes('VOIDFALL_SERVER_JAR=not-a-jar-filename'));
+  });
+
+  it('refuses a heap size written in a way the JVM would not take', () => {
+    const withMemory = (initial: string, maximum: string) =>
+      issuesOf(
+        minimal({
+          VOIDFALL_JAVA_EXECUTABLE: '/opt/java/bin/java',
+          VOIDFALL_SERVER_DIRECTORY: '/srv/voidfall',
+          VOIDFALL_SERVER_JAR: 'forge-server.jar',
+          VOIDFALL_SERVER_INITIAL_MEMORY_MIB: initial,
+          VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB: maximum,
+        }),
+      );
+    // Not Number(): it would take all three of these and mean three things.
+    assert.ok(withMemory('0x400', '2048').includes('VOIDFALL_SERVER_INITIAL_MEMORY_MIB=not-a-memory-size'));
+    assert.ok(withMemory('1e3', '2048').includes('VOIDFALL_SERVER_INITIAL_MEMORY_MIB=not-a-memory-size'));
+    assert.ok(withMemory('16', '2048').includes('VOIDFALL_SERVER_INITIAL_MEMORY_MIB=not-a-memory-size'));
+    // A heap that starts above its ceiling is refused by name here rather than
+    // by the JVM at launch.
+    assert.ok(withMemory('4096', '2048').includes('VOIDFALL_SERVER_INITIAL_MEMORY_MIB=not-a-memory-size'));
+    assert.deepEqual(withMemory('1024', '2048'), []);
+  });
+
+  it('accepts a full process group and leaves it absent when nothing is set', () => {
+    assert.equal(loadAgentConfiguration(minimal()).process, null);
+
+    const configured = loadAgentConfiguration(
+      minimal({
+        VOIDFALL_JAVA_EXECUTABLE: '/opt/java/bin/java',
+        VOIDFALL_SERVER_DIRECTORY: '/srv/voidfall',
+        VOIDFALL_SERVER_JAR: 'forge-server.jar',
+        VOIDFALL_SERVER_INITIAL_MEMORY_MIB: '1024',
+        VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB: '4096',
+      }),
+    );
+    assert.equal(configured.process?.serverJar, 'forge-server.jar');
+    assert.equal(configured.process?.initialMemoryMiB, 1_024);
+    assert.equal(configured.process?.maximumMemoryMiB, 4_096);
+  });
+
   it('treats blank and whitespace-only values as absent, not as configured', () => {
     // A variable set to empty by a broken template is not a configuration.
     const issues = issuesOf(minimal({ VOIDFALL_DATABASE_URL: '   ' }));
