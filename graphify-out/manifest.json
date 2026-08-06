@@ -210,9 +210,9 @@
     "semantic_hash": "0e61e8319e304a36320ab0e4eaf845be"
   },
   "docs/servidor/seguranca.md": {
-    "mtime": 1785728844.7465255,
-    "ast_hash": "cd7310e8cffd48cdeda97724ae10c710",
-    "semantic_hash": "cd7310e8cffd48cdeda97724ae10c710"
+    "mtime": 1786025463.654439,
+    "ast_hash": "73e1e8e23f24f5fc7e7bc8b4a595506b",
+    "semantic_hash": ""
   },
   "docs/servidor/sistemas-customizados.md": {
     "mtime": 1785728901.8888714,
@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786023889.3094757,
-    "ast_hash": "3f5c6e2be67fb62b1c34477a628867af",
+    "mtime": 1786025414.572778,
+    "ast_hash": "c06824ae81396a461af216dce8bfe0cd",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1785887052.804165,
-    "ast_hash": "860060ec2f0efea5b7257fbd14977565",
+    "mtime": 1786025443.15486,
+    "ast_hash": "26ae09a9eb4f951d0d2a511139cd30c5",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786023895.5026407,
-    "ast_hash": "e045c611a2aafbaa8ad15e55fb05e32e",
+    "mtime": 1786025424.8224041,
+    "ast_hash": "fd3c917bb60c075e9533ef722ee364d9",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -3995,18 +3995,18 @@
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md": {
-    "mtime": 1786023787.3194203,
-    "ast_hash": "c08272c0076c865d27c629d572aaed83",
+    "mtime": 1786025311.5193717,
+    "ast_hash": "b3aa96083bc179b36c67a1982d60234e",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md": {
-    "mtime": 1786023839.751938,
-    "ast_hash": "10d03ff5cddcac0d757d97e662abde38",
+    "mtime": 1786025357.7413125,
+    "ast_hash": "deeeb73b256d8347c6ca0430fe17369f",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md": {
-    "mtime": 1786023881.8697813,
-    "ast_hash": "3ca434b3a42b97852e647c221331fb69",
+    "mtime": 1786025406.4732163,
+    "ast_hash": "9d697b9b4b9d74706fb7d735e2eb2193",
     "semantic_hash": ""
   }
 }

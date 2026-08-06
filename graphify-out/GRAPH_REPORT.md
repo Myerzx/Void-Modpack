@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-06)
 
 ## Corpus Check
-- 501 files · ~740,406 words
+- 501 files · ~741,171 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4860 nodes · 8367 edges · 305 communities (277 shown, 28 thin omitted)
+- 4866 nodes · 8373 edges · 306 communities (278 shown, 28 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 98 edges (avg confidence: 0.66)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3786178d`
+- Built from commit: `5e99bbb2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -70,7 +70,7 @@
 - minecraft-process/package.json
 - server-agent/tsconfig.test.json
 - server-agent/tsconfig.build.json
-- configuration-e2e.test.ts
+- configuration-view.ts
 - contracts/tsconfig.test.json
 - server-telemetry/package.json
 - compilerOptions
@@ -220,7 +220,7 @@
 - Q: Como o Claude deve continuar da Fase 7.3 até a Fase 13 e executar todo o planejamento com segurança?
 - artifact-inspection/package.json
 - node-runtime.ts
-- Fase 7.2: persistência e operação de configuração
+- FINAL_IMPLEMENTATION_PLAN.md
 - Q: entendi, sobre isso algumas versao podem ser diferente, mas dentro do jogo funciona, entao nao fique muito preso nestá parte, vamos continuar
 - server-operation.ts
 - openloader-advanced-options.ts
@@ -267,8 +267,8 @@
 - runtime-config.ts
 - process-routes.ts
 - seal.ts
-- planner.ts
-- console-operation.ts
+- configuration-worker.test.ts
+- agent-client.ts
 - server-telemetry.ts
 - Fase 10.1: processo e console
 - backup-repositories.ts
@@ -281,7 +281,7 @@
 - server-agent/src/backup-operation.ts
 - server-backup/src/service.ts
 - server-schedule.ts
-- audit-chain/src/types.ts
+- configuration-client.ts
 - telemetry-repositories.ts
 - PostgresDatabase
 - SchedulerLoop
@@ -300,10 +300,12 @@
 - .#createGuardedBackup
 - AgentRuntime
 - trusted-registry.ts
-- ADR-009 — Autenticação Minecraft e topologia de acesso
-- ADR-010 — Provider de permissões Minecraft
+- ADR-009 — Autenticação Minecraft e identidade de jogador
+- Consequências
 - ADR-011 — Dados de jogador, retenção e acesso
 - NodeSpawnedProcess
+- configuration-e2e.test.ts
+- Parte 2 — a primeira fatia da Fase 11
 
 ## God Nodes (most connected - your core abstractions)
 1. `validateContract()` - 92 edges
@@ -339,7 +341,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (305 total, 28 thin omitted)
+## Communities (306 total, 28 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -494,7 +496,7 @@ Cohesion: 0.08
 Nodes (45): boundedText(), declaredDependenciesFor(), declaredEmbeddedLibraries(), declaredModsFromFabric(), declaredModsFromToml(), decodeUtf8(), normalizedSide(), parseJarManifest() (+37 more)
 
 ### Community 51 - "artifact-worker.ts"
-Cohesion: 0.15
+Cohesion: 0.16
 Nodes (8): ArtifactJobParameters, ArtifactWorkerResult, CompatibilityPlanFactory, exactParameters(), failureFor(), QuarantinedArtifactReader, runArtifactWorkerOnce(), WORKER_ID
 
 ### Community 52 - "backup-seal-encryption.test.ts"
@@ -553,9 +555,9 @@ Nodes (9): compilerOptions, declaration, declarationMap, sourceMap, extends, inc
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
-### Community 67 - "configuration-e2e.test.ts"
-Cohesion: 0.05
-Nodes (45): ConfigurationOperationExecutor, ConfigurationWorkerResult, exactCommand(), matchesJobType(), runConfigurationWorkerOnce(), databases, HASH_A, HASH_B (+37 more)
+### Community 67 - "configuration-view.ts"
+Cohesion: 0.13
+Nodes (22): ConfigurationPage(), PanelSession, ConfigurationClient, createConfigurationClient(), buildConfigurationScreen(), capabilitiesFor(), changeEntriesFor(), computeSafeDiff() (+14 more)
 
 ### Community 68 - "contracts/tsconfig.test.json"
 Cohesion: 0.20
@@ -674,8 +676,8 @@ Cohesion: 0.26
 Nodes (20): canonicalObject(), configurationRevisionManifestSha256(), exactKeys(), invalidManifest(), parseConfigurationRevisionManifest(), serializeConfigurationRevisionManifest(), validateManifestObject(), exactKeys() (+12 more)
 
 ### Community 101 - "supervisor.ts"
-Cohesion: 0.09
-Nodes (22): fixture(), NOW, resources, testClock(), AgentFetch, AgentHttpResponse, AgentIdentity, createAgentIdentity() (+14 more)
+Cohesion: 0.12
+Nodes (17): fixture(), NOW, resources, testClock(), AgentFetch, AgentIdentity, LeaseHandler, SupervisorEvent (+9 more)
 
 ### Community 102 - "persistent-service.ts"
 Cohesion: 0.16
@@ -918,8 +920,8 @@ Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 164 - "chain.ts"
-Cohesion: 0.21
-Nodes (16): canonicalJson(), compareOrdinal(), freezeRecursive(), immutable(), sha256(), visit(), assertPartition(), assertSequence() (+8 more)
+Cohesion: 0.14
+Nodes (24): canonicalJson(), compareOrdinal(), freezeRecursive(), immutable(), sha256(), visit(), assertPartition(), assertSequence() (+16 more)
 
 ### Community 165 - "audit-chain/tsconfig.build.json"
 Cohesion: 0.22
@@ -1065,8 +1067,8 @@ Nodes (13): description, exports, files, dist, license, name, private, scripts (
 Cohesion: 0.10
 Nodes (10): MinecraftConsoleCommand, ProcessLaunchPlan, BoundedByteBuffer, minimalEnvironment(), NodeProcessRuntime, NodeProcessRuntimeOptions, ProcessRuntime, SpawnedProcess (+2 more)
 
-### Community 217 - "Fase 7.2: persistência e operação de configuração"
-Cohesion: 0.22
+### Community 217 - "FINAL_IMPLEMENTATION_PLAN.md"
+Cohesion: 0.16
 Nodes (8): Coordenação isolada, Fase 7.2: persistência e operação de configuração, Limites mantidos, Persistência PostgreSQL, Próximo recorte, Registro confiável, Resultado, Validação
 
 ### Community 218 - "Q: entendi, sobre isso algumas versao podem ser diferente, mas dentro do jogo funciona, entao nao fique muito preso nestá parte, vamos continuar"
@@ -1091,7 +1093,7 @@ Nodes (77): ArtifactCompatibilityContext, ArtifactCompatibilityContextKind, Arti
 
 ### Community 224 - "artifact-e2e.test.ts"
 Cohesion: 0.20
-Nodes (8): archive, archiveSha256, fixture(), INCOMPATIBLE_MOD, NOW, quarantine(), resources, ArtifactSubmissionDetail
+Nodes (8): archive, archiveSha256, fixture(), INCOMPATIBLE_MOD, NOW, quarantine(), resources, buildInstallActionView()
 
 ### Community 225 - "Fase 8.1: inspeção segura de artefato"
 Cohesion: 0.17
@@ -1114,15 +1116,15 @@ Cohesion: 0.17
 Nodes (11): Contextos, Códigos, `detail` sanitizado, Dois eixos independentes, Evidência fechada, Fase 8.2: motor de compatibilidade, Julgamentos que o motor recusa fazer, Limites mantidos (+3 more)
 
 ### Community 230 - "Fase 11.0: gate de entrada operacional"
-Cohesion: 0.06
-Nodes (31): 1. Capability de console, 2. Reconciliação de PID órfão, 3. Capabilities: no código, registradas e desligadas, 4. `git status` final, Alertas com dono, Anunciado e registrado deixam de divergir, Chave de assinatura validada no startup, Cinco capabilities anunciadas (+23 more)
+Cohesion: 0.08
+Nodes (24): 1. Capability de console, 2. Reconciliação de PID órfão, 3. Capabilities: no código, registradas e desligadas, 4. `git status` final, Alertas com dono, Anunciado e registrado deixam de divergir, Chave de assinatura validada no startup, Cinco capabilities anunciadas (+16 more)
 
 ### Community 231 - "Fase 7.3: API, agente e painel da configuração"
 Cohesion: 0.14
 Nodes (13): Contratos públicos, Control API, Critério de conclusão da Fase 7, Fase 7.3: API, agente e painel da configuração, Job durável, Leitura tipada e redação, Limites mantidos, Painel (+5 more)
 
 ### Community 232 - "Fases 8.3 e 8.4: persistência, API, revisão e painel"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (13): Correção trazida da Fase 8.1, Critério de conclusão da Fase 8, Fases 8.3 e 8.4: persistência, API, revisão e painel, Jobs duráveis, Limites mantidos, Máquina de estados, Painel, Permissões (+5 more)
 
 ### Community 233 - "configuration-schemas.test.ts"
@@ -1171,7 +1173,7 @@ Nodes (18): dependencies, @voidfall/contracts, @voidfall/mod-catalog, descriptio
 
 ### Community 244 - "artifact-view.test.ts"
 Cohesion: 0.24
-Nodes (7): ArtifactSubmission, ArtifactSubmissionPage, buildInstallActionView(), CompatibilityIssue, detail(), issue(), submission()
+Nodes (7): ArtifactSubmission, ArtifactSubmissionDetail, ArtifactSubmissionPage, CompatibilityIssue, detail(), issue(), submission()
 
 ### Community 245 - "artifact-review-repositories.ts"
 Cohesion: 0.13
@@ -1214,8 +1216,8 @@ Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 255 - "launcher-api/src/app.ts"
-Cohesion: 0.09
-Nodes (21): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+13 more)
+Cohesion: 0.05
+Nodes (36): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+28 more)
 
 ### Community 256 - "ManagedMinecraftProcessAdapter"
 Cohesion: 0.30
@@ -1238,8 +1240,8 @@ Cohesion: 0.18
 Nodes (10): Ação sem permissão não é renderizada, Estado de tela explícito, Fase 9.3: painel dinâmico, Limites mantidos, Permissão e disponibilidade são coisas separadas, Procedência em cada valor, Resultado, Riscos abertos após a Fase 9.3 (+2 more)
 
 ### Community 261 - "server-agent/src/runtime.ts"
-Cohesion: 0.12
-Nodes (19): CollectorOptions, collectReadings(), measured(), PROVIDER_ONLY, ACTION_BY_JOB_TYPE, captureConsole(), createProcessControlHandler(), lifecycleFor() (+11 more)
+Cohesion: 0.08
+Nodes (23): CollectorOptions, collectReadings(), measured(), PROVIDER_ONLY, captureConsole(), ConsoleCommandCapabilityOptions, createConsoleCommandHandler(), ACTION_BY_JOB_TYPE (+15 more)
 
 ### Community 263 - "runtime-config.ts"
 Cohesion: 0.12
@@ -1253,13 +1255,13 @@ Nodes (16): ACTION_PERMISSION, CommandBody, CommandBodySchema, ConsoleQuery, Con
 Cohesion: 0.27
 Nodes (10): BACKUP_SEAL_ALGORITHM, BACKUP_SEAL_FORMAT, BACKUP_SEAL_SCHEMA_VERSION, BackupSeal, computeMac(), createBackupSeal(), invalidSeal(), parseBackupSeal() (+2 more)
 
-### Community 266 - "planner.ts"
-Cohesion: 0.12
-Nodes (15): compareOperation(), createPortableUpdatePlan(), normalizedPath(), validatePlannedAt(), LauncherProtocolError, LauncherProtocolErrorCode, PortableReleaseVerifier, PortableUpdateOperation (+7 more)
+### Community 266 - "configuration-worker.test.ts"
+Cohesion: 0.14
+Nodes (9): ConfigurationOperationExecutor, ConfigurationWorkerResult, exactCommand(), matchesJobType(), runConfigurationWorkerOnce(), databases, HASH_A, HASH_B (+1 more)
 
-### Community 267 - "console-operation.ts"
-Cohesion: 0.24
-Nodes (4): captureConsole(), ConsoleCommandCapabilityOptions, createConsoleCommandHandler(), NOW
+### Community 267 - "agent-client.ts"
+Cohesion: 0.26
+Nodes (5): AgentHttpResponse, createAgentIdentity(), createHeartbeatEnvelope(), HeartbeatInput, VoidFallAgentClient
 
 ### Community 268 - "server-telemetry.ts"
 Cohesion: 0.08
@@ -1309,9 +1311,9 @@ Nodes (17): BACKUP_ENCRYPTION_ALGORITHM, decryptBytes(), encryptBytes(), encrypt
 Cohesion: 0.14
 Nodes (15): isSupportedTimezone(), ScheduleRun, ScheduleRunSchema, ScheduleRunStatus, ScheduleRunStatusSchema, ScheduleStep, ScheduleStepKindSchema, ScheduleStepSchema (+7 more)
 
-### Community 280 - "audit-chain/src/types.ts"
-Cohesion: 0.23
-Nodes (8): InMemoryAuditChain, AuditChainErrorCode, AuditChainOptions, AuditChainVerificationIssue, AuditChainVerificationIssueCode, AuditChainVerificationResult, AuditExportArtifact, AuditExportRequest
+### Community 280 - "configuration-client.ts"
+Cohesion: 0.18
+Nodes (7): ConfigurationAcceptanceView, ConfigurationApiError, ConfigurationApiFailure, ConfigurationApplyInput, ConfigurationRollbackInput, ConfigurationSession, Fetcher
 
 ### Community 281 - "telemetry-repositories.ts"
 Cohesion: 0.16
@@ -1373,48 +1375,56 @@ Nodes (3): createOfflineExclusiveConfigurationGuard(), AGENT_OWNED_ALERT_KINDS, 
 Cohesion: 0.15
 Nodes (9): OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES, OPENLOADER_ADVANCED_OPTIONS_V1, OPENLOADER_ADVANCED_OPTIONS_CODEC_V1, TrustedConfigurationCodec, TrustedConfigurationCodecId, TrustedConfigurationRegistry, TrustedConfigurationRegistryErrorCode, GenericConfigurationSchema (+1 more)
 
-### Community 300 - "ADR-009 — Autenticação Minecraft e topologia de acesso"
-Cohesion: 0.18
-Nodes (11): ADR-009 — Autenticação Minecraft e topologia de acesso, Consequências, se A for aceita, Contexto, Estado atual, medido, Não autorização, Opção A — Direto, online-mode, Opção B — Proxy autenticador (Velocity + Ambassador ou PCF), Opção C — Manter offline, com whitelist e rede fechada (+3 more)
+### Community 300 - "ADR-009 — Autenticação Minecraft e identidade de jogador"
+Cohesion: 0.14
+Nodes (14): A camada de autenticação precisa de presença dentro do jogo, ADR-009 — Autenticação Minecraft e identidade de jogador, Consequências, Contexto, Decisão, Estado atual, medido, Histórico, Migração das identidades atuais (+6 more)
 
-### Community 301 - "ADR-010 — Provider de permissões Minecraft"
-Cohesion: 0.18
-Nodes (11): ADR-010 — Provider de permissões Minecraft, Consequências, se A for aceita, Contexto, Não autorização, O que existe hoje no servidor, O RBAC do painel já existe e é separado, Opção A — Forge PermissionAPI, deny-by-default, sem mod novo, Opção B — LuckPerms (Forge 1.20.1) (+3 more)
+### Community 301 - "Consequências"
+Cohesion: 0.15
+Nodes (13): ADR-010 — Provider de permissões Minecraft, Consequências, Contexto, Decisão, Deny-by-default continua valendo, Histórico, LuckPerms precisa passar pelo Gate G4, Não autorização (+5 more)
 
 ### Community 302 - "ADR-011 — Dados de jogador, retenção e acesso"
-Cohesion: 0.18
-Nodes (11): ADR-011 — Dados de jogador, retenção e acesso, Consequências, se A for aceita, Contexto, Não autorização, O que a Fase 11 quer guardar, Opção A — Núcleo mínimo, Opção B — Núcleo mais rede, com retenção curta, Opção C — Ampla, com chat e atividade (+3 more)
+Cohesion: 0.17
+Nodes (12): ADR-011 — Dados de jogador, retenção e acesso, Consequências, Contexto, Decisão, Não autorização, O que a Fase 11 quer guardar, Opção A — Núcleo mínimo, Opção B — Núcleo mais rede, com retenção curta (+4 more)
+
+### Community 304 - "configuration-e2e.test.ts"
+Cohesion: 0.31
+Nodes (7): digest(), NOW, OfflineGuard, openLoaderDocument(), stack(), teardown, screenStateForError()
+
+### Community 305 - "Parte 2 — a primeira fatia da Fase 11"
+Cohesion: 0.29
+Nodes (7): Coletores, Loop do agendador, Parte 2 — a primeira fatia da Fase 11, Raízes, repositório e chaves, Readiness por capability, Registro por injeção explícita, Validação de configuração no startup
 
 ## Knowledge Gaps
-- **2021 isolated node(s):** `Estado atual, medido`, `Restrição técnica: proxies e Forge 1.20.1`, `Opção A — Direto, online-mode`, `Opção B — Proxy autenticador (Velocity + Ambassador ou PCF)`, `Opção C — Manter offline, com whitelist e rede fechada` (+2016 more)
+- **2026 isolated node(s):** `Estado atual, medido`, `O que um UUID offline é, e o que não é`, `O que passa a ser a identidade`, `A camada de autenticação precisa de presença dentro do jogo`, `Onde a credencial mora é uma decisão que falta` (+2021 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Work-memory lessons
 
 **Preferred sources** — corroborated by past sessions; start here.
-- `FilesystemConfigurationService` (3× useful, score=2.840180038)
-- `ConfigurationRepository` (2× useful, score=1.938220229)
-- `OperationalLockRepository` (2× useful, score=1.938220229)
-- `PersistentConfigurationService` (2× useful, score=1.938220229)
-- `Handoff da plataforma` (2× useful, score=1.933601633)
-- `ConfigurationRevisionManifest` (2× useful, score=1.893499919)
-- `RollbackConfigurationPlan` (2× useful, score=1.893499919)
-- `CatalogReconciliationReportSchema` (2× useful, score=1.893073553)
-- `mod-catalog.test.ts` (2× useful, score=1.893073553)
-- `ModCatalogEntrySchema` (2× useful, score=1.892866569)
+- `FilesystemConfigurationService` (3× useful, score=2.819273107)
+- `ConfigurationRepository` (2× useful, score=1.923952741)
+- `OperationalLockRepository` (2× useful, score=1.923952741)
+- `PersistentConfigurationService` (2× useful, score=1.923952741)
+- `Handoff da plataforma` (2× useful, score=1.919368143)
+- `ConfigurationRevisionManifest` (2× useful, score=1.879561622)
+- `RollbackConfigurationPlan` (2× useful, score=1.879561622)
+- `CatalogReconciliationReportSchema` (2× useful, score=1.879138395)
+- `mod-catalog.test.ts` (2× useful, score=1.879138395)
+- `ModCatalogEntrySchema` (2× useful, score=1.878932935)
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Sha256` connect `authorized-files/src/service.ts` to `chain.ts`, `server-configuration/src/validation.ts`, `registry.ts`, `artifact-inspection/src/service.ts`, `authorized-file-routes.ts`, `artifact-routes.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
-  _High betweenness centrality (0.097) - this node is a cross-community bridge._
-- **Why does `validJob()` connect `configuration-repositories.ts` to `validateContract`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
+  _High betweenness centrality (0.104) - this node is a cross-community bridge._
+- **Why does `sha256()` connect `configuration-repositories.ts` to `authorized-files/src/service.ts`?**
+  _High betweenness centrality (0.045) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `buildControlApi()` (e.g. with `computeAgentPayloadHash()` and `hashOpaqueToken()`) actually correct?**
   _`buildControlApi()` has 5 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Estado atual, medido`, `Restrição técnica: proxies e Forge 1.20.1`, `Opção A — Direto, online-mode` to the rest of the system?**
-  _2021 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `Estado atual, medido`, `O que um UUID offline é, e o que não é`, `O que passa a ser a identidade` to the rest of the system?**
+  _2026 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Invariantes implementadas` be split into smaller, more focused modules?**
   _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
 - **Should `operational-repositories.ts` be split into smaller, more focused modules?**
