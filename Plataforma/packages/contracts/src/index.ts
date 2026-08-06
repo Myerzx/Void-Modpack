@@ -18,6 +18,7 @@ export * from './minecraft-permission-binding.js';
 export * from './mod-catalog-entry.js';
 export * from './mod-compatibility.js';
 export * from './moderation-case.js';
+export * from './permission-operation.js';
 export * from './player-data-policy.js';
 export * from './player-profile.js';
 export * from './process-operation.js';

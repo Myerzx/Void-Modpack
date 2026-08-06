@@ -3,6 +3,10 @@ import { describe, it } from 'node:test';
 import {
   canPublishInStable,
   validateAgentEnvelope,
+  validatePermissionOperation,
+  validatePermissionOperationReceipt,
+  validatePermissionRebindOperation,
+  validatePermissionSnapshot,
   validateArtifactCompatibilityPlan,
   validateArtifactCompatibilityReport,
   validateArtifactInspectionReport,
@@ -2222,6 +2226,196 @@ describe('authorized file operations', () => {
       validateAuthorizedFileDiffRequest({ ...base, against: { type: 'path', path: '/etc/shadow' } })
         .success,
       false,
+    );
+  });
+});
+
+describe('typed permission operations', () => {
+  const IDENTITY = '018f6b8c-76a3-7d10-9f2e-1d9e52a63711';
+  const SERVER = '018f6b8c-76a3-7d10-9f2e-1d9e52a63712';
+  const CLAIM = '018f6b8c-76a3-7d10-9f2e-1d9e52a63713';
+  const OPERATION = '018f6b8c-76a3-7d10-9f2e-1d9e52a63714';
+  const ISSUED = '2026-08-06T12:00:00.000Z';
+
+  const envelope = {
+    schemaVersion: 1,
+    operationId: OPERATION,
+    serverInstanceId: SERVER,
+    identityId: IDENTITY,
+    expectedClaimId: CLAIM,
+    actor: { type: 'panel-user', id: '018f6b8c-76a3-7d10-9f2e-1d9e52a63715' },
+    reason: 'promocao-para-moderador',
+    issuedAt: ISSUED,
+    expiresAt: '2026-08-06T12:01:00.000Z',
+  } as const;
+
+  it('accepts the four operations authorised to start, and nothing else', () => {
+    assert.equal(
+      validatePermissionOperation({ ...envelope, kind: 'USER_GROUP_ADD', group: 'moderator' })
+        .success,
+      true,
+    );
+    assert.equal(
+      validatePermissionOperation({ ...envelope, kind: 'USER_GROUP_REMOVE', group: 'moderator' })
+        .success,
+      true,
+    );
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        kind: 'USER_NODE_SET',
+        node: 'voidfall.build.request',
+        value: false,
+      }).success,
+      true,
+    );
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        kind: 'USER_NODE_UNSET',
+        node: 'voidfall.build.request',
+      }).success,
+      true,
+    );
+    // Kick is not one of the four. Widening the set is a decision, not a field.
+    assert.equal(
+      validatePermissionOperation({ ...envelope, kind: 'USER_KICK', group: 'moderator' }).success,
+      false,
+    );
+  });
+
+  it('refuses to carry a player name or a Minecraft UUID', () => {
+    // The property the whole design rests on. An offline UUID is derived from
+    // the name, so accepting either would let anyone operate on any identity by
+    // choosing the right name.
+    for (const extra of [
+      { playerName: 'Notch' },
+      { playerUuid: '018f6b8c-76a3-7d10-9f2e-1d9e52a63716' },
+      { minecraftUuid: '018f6b8c-76a3-7d10-9f2e-1d9e52a63716' },
+    ]) {
+      assert.equal(
+        validatePermissionOperation({
+          ...envelope,
+          kind: 'USER_GROUP_ADD',
+          group: 'moderator',
+          ...extra,
+        }).success,
+        false,
+        JSON.stringify(extra),
+      );
+    }
+  });
+
+  it('refuses an operation whose window is missing or too long', () => {
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        expiresAt: ISSUED,
+        kind: 'USER_GROUP_ADD',
+        group: 'moderator',
+      }).success,
+      false,
+    );
+    // Decided against a world that has since moved.
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        expiresAt: '2026-08-06T13:00:00.000Z',
+        kind: 'USER_GROUP_ADD',
+        group: 'moderator',
+      }).success,
+      false,
+    );
+  });
+
+  it('refuses a wildcard buried inside a node', () => {
+    // A node matches by prefix, so a trailing wildcard has a blast radius a
+    // reviewer can see. One in the middle does not.
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        kind: 'USER_NODE_UNSET',
+        node: 'voidfall.*',
+      }).success,
+      true,
+    );
+    assert.equal(
+      validatePermissionOperation({
+        ...envelope,
+        kind: 'USER_NODE_UNSET',
+        node: 'voidfall.*.request',
+      }).success,
+      false,
+    );
+  });
+
+  it('requires a rebind to name a claim other than the active one', () => {
+    const rebind = {
+      ...envelope,
+      kind: 'USER_REBIND',
+      newClaimId: '018f6b8c-76a3-7d10-9f2e-1d9e52a63717',
+    };
+    assert.equal(validatePermissionRebindOperation(rebind).success, true);
+    // Rebinding to the claim already active would revoke what it just promoted.
+    assert.equal(
+      validatePermissionRebindOperation({ ...rebind, newClaimId: CLAIM }).success,
+      false,
+    );
+    // And it carries no UUID either.
+    assert.equal(
+      validatePermissionRebindOperation({
+        ...rebind,
+        previousMinecraftUuid: '018f6b8c-76a3-7d10-9f2e-1d9e52a63718',
+      }).success,
+      false,
+    );
+  });
+
+  it('makes a receipt name its failure, and show what was read back', () => {
+    const snapshot = {
+      schemaVersion: 1,
+      identityId: IDENTITY,
+      claimId: CLAIM,
+      minecraftUuid: '018f6b8c-76a3-7d10-9f2e-1d9e52a63719',
+      groups: ['moderator'],
+      nodes: [{ node: 'voidfall.build.request', value: true }],
+      source: { providerId: 'luckperms', providerVersion: null },
+      observedAt: '2026-08-06T12:00:02.000Z',
+    };
+    assert.equal(validatePermissionSnapshot(snapshot).success, true);
+
+    const receipt = {
+      schemaVersion: 1,
+      operationId: OPERATION,
+      outcome: 'applied',
+      failureCode: null,
+      snapshot,
+      completedAt: '2026-08-06T12:00:02.000Z',
+    };
+    assert.equal(validatePermissionOperationReceipt(receipt).success, true);
+
+    // Applied with nothing read back is "it worked, I think" — not an outcome.
+    assert.equal(
+      validatePermissionOperationReceipt({ ...receipt, snapshot: null }).success,
+      false,
+    );
+    // A failure names itself, and a success does not.
+    assert.equal(
+      validatePermissionOperationReceipt({ ...receipt, outcome: 'failed' }).success,
+      false,
+    );
+    assert.equal(
+      validatePermissionOperationReceipt({ ...receipt, failureCode: 'claim-mismatch' }).success,
+      false,
+    );
+    assert.equal(
+      validatePermissionOperationReceipt({
+        ...receipt,
+        outcome: 'failed',
+        failureCode: 'claim-mismatch',
+        snapshot: null,
+      }).success,
+      true,
     );
   });
 });

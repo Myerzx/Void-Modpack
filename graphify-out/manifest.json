@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786025414.572778,
-    "ast_hash": "c06824ae81396a461af216dce8bfe0cd",
+    "mtime": 1786027521.208877,
+    "ast_hash": "f1e778c35ab14f3670cd35df857e57d4",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -3995,18 +3995,28 @@
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md": {
-    "mtime": 1786025311.5193717,
-    "ast_hash": "b3aa96083bc179b36c67a1982d60234e",
+    "mtime": 1786027534.3590577,
+    "ast_hash": "55e60be3d91cfef1b60c80ce14780a76",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md": {
-    "mtime": 1786025357.7413125,
-    "ast_hash": "deeeb73b256d8347c6ca0430fe17369f",
+    "mtime": 1786027521.2072976,
+    "ast_hash": "bcc52e8f896456044875b878f2482629",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md": {
-    "mtime": 1786025406.4732163,
-    "ast_hash": "9d697b9b4b9d74706fb7d735e2eb2193",
+    "mtime": 1786027507.2241516,
+    "ast_hash": "8f8bf699da784206b371c4dba43e0c37",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md": {
+    "mtime": 1786027447.383539,
+    "ast_hash": "c77be3c35aeb3cdc1a624a0b31d9288f",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md": {
+    "mtime": 1786027492.1814475,
+    "ast_hash": "b7c96a83d15cb135be2fe86275c26021",
     "semantic_hash": ""
   }
 }

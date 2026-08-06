@@ -391,8 +391,8 @@ Objetivo: conectar o domínio puro da Fase 6 a providers aprovados e às telas o
 - [x] decidir autenticação Minecraft e provider de permissões em ADRs — [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md), [ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md) e [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md) aceitos em 2026-08-06. `online-mode` permanece `false` porque o servidor aceita jogadores sem conta oficial, com camada de autenticação obrigatória e reivindicação de identidade; LuckPerms é o provider e a fonte de verdade, com o VoidFall enviando operações duráveis e não mantendo segunda fonte editável; dados de jogador ficam no núcleo mínimo. Duas pendências registradas bloqueiam os itens abaixo: **onde mora a credencial de autenticação** e **por qual caminho uma operação chega ao LuckPerms**;
 - [ ] persistir perfis, aliases, bindings, casos e recibos;
 - [ ] implementar importação/reconciliação por UUID sem confiar em nome;
-- [ ] ligar provider Forge deny-by-default;
-- [ ] ligar executor tipado de kick, ban, mute, whitelist e grupo;
+- [ ] ligar provider Forge deny-by-default — núcleo do Bridge implementado em 2026-08-06 conforme [ADR-013](DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md): contrato tipado das quatro operações, `PermissionCommandService` com resolução de reivindicação, releitura pós-mutação, rebind transacional e readiness com motivo nomeado; falta a ligação concreta à API do LuckPerms na camada de mod, o job durável e a capability do agente;
+- [ ] ligar executor tipado de kick, ban, mute, whitelist e grupo — grupo e nó cobertos pelas quatro operações iniciais; kick, ban, mute e whitelist continuam fora do conjunto por decisão do ADR-013;
 - [ ] exigir motivo e autorização por ação;
 - [ ] definir política de chat, coordenadas e atividade antes da coleta;
 - [ ] criar API paginada e telas de perfil, histórico e moderação;

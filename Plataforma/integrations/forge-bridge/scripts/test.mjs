@@ -6,4 +6,11 @@ const output = resolve(integrationRoot, 'build', 'test-classes');
 await cleanOutput(output);
 await mkdir(output, { recursive: true });
 await compileJava({ includeTests: true, output });
-await run('java', ['-ea', '-cp', output.split(delimiter).join(delimiter), 'dev.voidfall.forgebridge.BuildCommandServiceTest']);
+const classpath = output.split(delimiter).join(delimiter);
+const suites = [
+  'dev.voidfall.forgebridge.BuildCommandServiceTest',
+  'dev.voidfall.forgebridge.permissions.PermissionCommandServiceTest',
+];
+for (const suite of suites) {
+  await run('java', ['-ea', '-cp', classpath, suite]);
+}

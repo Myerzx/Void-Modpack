@@ -81,7 +81,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "adr-009-autenticacao-minecraft-e-topologia.md"
     },
@@ -100,7 +100,7 @@
       "label": "Contexto",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_contexto",
       "community": 300,
@@ -111,7 +111,7 @@
       "label": "Estado atual, medido",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_estado_atual_medido",
       "community": 300,
@@ -122,7 +122,7 @@
       "label": "O que um UUID offline \u00e9, e o que n\u00e3o \u00e9",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_o_que_um_uuid_offline_\u00e9_e_o_que_n\u00e3o_\u00e9",
       "community": 300,
@@ -133,7 +133,7 @@
       "label": "Decis\u00e3o",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_decis\u00e3o",
       "community": 300,
@@ -144,7 +144,7 @@
       "label": "O que passa a ser a identidade",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_o_que_passa_a_ser_a_identidade",
       "community": 300,
@@ -155,7 +155,7 @@
       "label": "Consequ\u00eancias",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
       "community": 300,
@@ -166,7 +166,7 @@
       "label": "A camada de autentica\u00e7\u00e3o precisa de presen\u00e7a dentro do jogo",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L51",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_a_camada_de_autentica\u00e7\u00e3o_precisa_de_presen\u00e7a_dentro_do_jogo",
       "community": 300,
@@ -177,7 +177,7 @@
       "label": "Onde a credencial mora \u00e9 uma decis\u00e3o que falta",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L64",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_onde_a_credencial_mora_\u00e9_uma_decis\u00e3o_que_falta",
       "community": 300,
@@ -188,7 +188,7 @@
       "label": "Requisito de revis\u00e3o para qualquer mod candidato",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L75",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_requisito_de_revis\u00e3o_para_qualquer_mod_candidato",
       "community": 300,
@@ -199,7 +199,7 @@
       "label": "Rede continua sendo camada, n\u00e3o substituto",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L84",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_rede_continua_sendo_camada_n\u00e3o_substituto",
       "community": 300,
@@ -210,7 +210,7 @@
       "label": "Migra\u00e7\u00e3o das identidades atuais",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L90",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_migra\u00e7\u00e3o_das_identidades_atuais",
       "community": 300,
@@ -221,7 +221,7 @@
       "label": "N\u00e3o autoriza\u00e7\u00e3o",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L98",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_n\u00e3o_autoriza\u00e7\u00e3o",
       "community": 300,
@@ -232,7 +232,7 @@
       "label": "Hist\u00f3rico",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L102",
+      "source_location": "L105",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_hist\u00f3rico",
       "community": 300,
@@ -246,7 +246,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "adr-010-provider-de-permissoes-minecraft.md"
     },
@@ -265,7 +265,7 @@
       "label": "Contexto",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_contexto",
       "community": 301,
@@ -276,7 +276,7 @@
       "label": "Decis\u00e3o",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_decis\u00e3o",
       "community": 301,
@@ -287,7 +287,7 @@
       "label": "O que \"n\u00e3o manter segunda fonte edit\u00e1vel\" significa na pr\u00e1tica",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_o_que_n\u00e3o_manter_segunda_fonte_edit\u00e1vel_significa_na_pr\u00e1tica",
       "community": 301,
@@ -298,7 +298,7 @@
       "label": "Consequ\u00eancias",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
       "community": 301,
@@ -309,7 +309,7 @@
       "label": "O caminho da opera\u00e7\u00e3o at\u00e9 o LuckPerms ainda n\u00e3o existe",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_o_caminho_da_opera\u00e7\u00e3o_at\u00e9_o_luckperms_ainda_n\u00e3o_existe",
       "community": 301,
@@ -320,7 +320,7 @@
       "label": "LuckPerms precisa passar pelo Gate G4",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_luckperms_precisa_passar_pelo_gate_g4",
       "community": 301,
@@ -331,7 +331,7 @@
       "label": "O defeito de pr\u00e9-login interage com o ADR-009",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L58",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_o_defeito_de_pr\u00e9_login_interage_com_o_adr_009",
       "community": 301,
@@ -342,7 +342,7 @@
       "label": "Deny-by-default continua valendo",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L64",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_deny_by_default_continua_valendo",
       "community": 301,
@@ -353,7 +353,7 @@
       "label": "Separa\u00e7\u00e3o de RBAC preservada",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L68",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_separa\u00e7\u00e3o_de_rbac_preservada",
       "community": 301,
@@ -364,7 +364,7 @@
       "label": "Pr\u00e9-requisito registrado",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L72",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_pr\u00e9_requisito_registrado",
       "community": 301,
@@ -375,7 +375,7 @@
       "label": "N\u00e3o autoriza\u00e7\u00e3o",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L76",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_n\u00e3o_autoriza\u00e7\u00e3o",
       "community": 301,
@@ -386,7 +386,7 @@
       "label": "Hist\u00f3rico",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L80",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_hist\u00f3rico",
       "community": 301,
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "adr-011-dados-de-jogador-e-retencao.md"
     },
@@ -493,21 +493,21 @@
       "norm_label": "decisao"
     },
     {
-      "label": "Pend\u00eancia aberta pelo ADR-009: credenciais",
+      "label": "Emenda de 2026-08-06 \u2014 credencial \u00e9 categoria separada",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
       "source_location": "L69",
       "_origin": "ast",
-      "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_pend\u00eancia_aberta_pelo_adr_009_credenciais",
+      "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_emenda_de_2026_08_06_credencial_\u00e9_categoria_separada",
       "community": 302,
       "community_name": "ADR-011 \u2014 Dados de jogador, reten\u00e7\u00e3o e acesso",
-      "norm_label": "pendencia aberta pelo adr-009: credenciais"
+      "norm_label": "emenda de 2026-08-06 \u2014 credencial e categoria separada"
     },
     {
       "label": "Recorte aceito",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L82",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_recorte_aceito",
       "community": 302,
@@ -518,7 +518,7 @@
       "label": "Consequ\u00eancias",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L100",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_consequ\u00eancias",
       "community": 302,
@@ -529,11 +529,275 @@
       "label": "N\u00e3o autoriza\u00e7\u00e3o",
       "file_type": "document",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L109",
+      "source_location": "L112",
       "_origin": "ast",
       "id": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_n\u00e3o_autoriza\u00e7\u00e3o",
       "community": 302,
       "community_name": "ADR-011 \u2014 Dados de jogador, reten\u00e7\u00e3o e acesso",
+      "norm_label": "nao autorizacao"
+    },
+    {
+      "label": "ADR-012-credenciais-e-tickets-de-login.md",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login",
+      "community": 305,
+      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "norm_label": "adr-012-credenciais-e-tickets-de-login.md"
+    },
+    {
+      "label": "ADR-012 \u2014 Credenciais, tickets de login e rota\u00e7\u00e3o de chaves",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "adr-012 \u2014 credenciais, tickets de login e rotacao de chaves"
+    },
+    {
+      "label": "Contexto",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_contexto",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "contexto"
+    },
+    {
+      "label": "Decis\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "decisao"
+    },
+    {
+      "label": "1. A credencial fica no VoidFall, em armazenamento pr\u00f3prio",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_1_a_credencial_fica_no_voidfall_em_armazenamento_pr\u00f3prio",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "1. a credencial fica no voidfall, em armazenamento proprio"
+    },
+    {
+      "label": "2. O verificador \u00e9 Argon2id",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_2_o_verificador_\u00e9_argon2id",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "2. o verificador e argon2id"
+    },
+    {
+      "label": "3. A senha nunca chega ao servidor Minecraft",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_3_a_senha_nunca_chega_ao_servidor_minecraft",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "3. a senha nunca chega ao servidor minecraft"
+    },
+    {
+      "label": "4. O ticket",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_4_o_ticket",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "4. o ticket"
+    },
+    {
+      "label": "5. Replay e rota\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_5_replay_e_rota\u00e7\u00e3o",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "5. replay e rotacao"
+    },
+    {
+      "label": "6. Nada disso permite login at\u00e9 estar completo",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_6_nada_disso_permite_login_at\u00e9_estar_completo",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "6. nada disso permite login ate estar completo"
+    },
+    {
+      "label": "Consequ\u00eancias",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_consequ\u00eancias",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "consequencias"
+    },
+    {
+      "label": "N\u00e3o autoriza\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_n\u00e3o_autoriza\u00e7\u00e3o",
+      "community": 266,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "nao autorizacao"
+    },
+    {
+      "label": "ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge",
+      "community": 305,
+      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "norm_label": "adr-013-permissoes-tipadas-no-forge-bridge.md"
+    },
+    {
+      "label": "ADR-013 \u2014 Capacidade tipada de permiss\u00f5es no Forge Bridge",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "adr-013 \u2014 capacidade tipada de permissoes no forge bridge"
+    },
+    {
+      "label": "Contexto",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_contexto",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "contexto"
+    },
+    {
+      "label": "Decis\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "decisao"
+    },
+    {
+      "label": "Opera\u00e7\u00f5es iniciais",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_opera\u00e7\u00f5es_iniciais",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "operacoes iniciais"
+    },
+    {
+      "label": "O Bridge nunca confia em nome nem em UUID da tela",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_o_bridge_nunca_confia_em_nome_nem_em_uuid_da_tela",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "o bridge nunca confia em nome nem em uuid da tela"
+    },
+    {
+      "label": "Leitura tipada, com origem e instante",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_leitura_tipada_com_origem_e_instante",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "leitura tipada, com origem e instante"
+    },
+    {
+      "label": "Troca de nome: rebind transacional",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_troca_de_nome_rebind_transacional",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "troca de nome: rebind transacional"
+    },
+    {
+      "label": "O `PermissionVerifier` s\u00f3 depois do login",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_o_permissionverifier_s\u00f3_depois_do_login",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "o `permissionverifier` so depois do login"
+    },
+    {
+      "label": "Valida\u00e7\u00e3o de handler no boot, e indisponibilidade com motivo",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_valida\u00e7\u00e3o_de_handler_no_boot_e_indisponibilidade_com_motivo",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "validacao de handler no boot, e indisponibilidade com motivo"
+    },
+    {
+      "label": "Consequ\u00eancias",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_consequ\u00eancias",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
+      "norm_label": "consequencias"
+    },
+    {
+      "label": "N\u00e3o autoriza\u00e7\u00e3o",
+      "file_type": "document",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_n\u00e3o_autoriza\u00e7\u00e3o",
+      "community": 280,
+      "community_name": "Decis\u00e3o",
       "norm_label": "nao autorizacao"
     },
     {
@@ -542,10 +806,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
-      "norm_label": "final_implementation_plan.md"
+      "norm_label": "final_implementation_plan.md",
+      "id": "docs_plataforma_final_implementation_plan"
     },
     {
       "label": "Plano de implementa\u00e7\u00e3o das fases finais",
@@ -553,10 +817,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "plano de implementacao das fases finais"
+      "norm_label": "plano de implementacao das fases finais",
+      "id": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais"
     },
     {
       "label": "Como usar este plano",
@@ -564,10 +828,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_como_usar_este_plano",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "como usar este plano"
+      "norm_label": "como usar este plano",
+      "id": "docs_plataforma_final_implementation_plan_como_usar_este_plano"
     },
     {
       "label": "Linha de base",
@@ -575,10 +839,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_linha_de_base",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "linha de base"
+      "norm_label": "linha de base",
+      "id": "docs_plataforma_final_implementation_plan_linha_de_base"
     },
     {
       "label": "Defini\u00e7\u00e3o de projeto conclu\u00eddo",
@@ -586,10 +850,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L26",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "definicao de projeto concluido"
+      "norm_label": "definicao de projeto concluido",
+      "id": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo"
     },
     {
       "label": "Vis\u00e3o das fases finais",
@@ -597,10 +861,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L44",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "visao das fases finais"
+      "norm_label": "visao das fases finais",
+      "id": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais"
     },
     {
       "label": "Gates transversais",
@@ -608,10 +872,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L64",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gates_transversais",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gates transversais"
+      "norm_label": "gates transversais",
+      "id": "docs_plataforma_final_implementation_plan_gates_transversais"
     },
     {
       "label": "Gate G1 \u2014 dados e privacidade",
@@ -619,10 +883,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L68",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gate g1 \u2014 dados e privacidade"
+      "norm_label": "gate g1 \u2014 dados e privacidade",
+      "id": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade"
     },
     {
       "label": "Gate G2 \u2014 efeitos externos",
@@ -630,10 +894,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L74",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gate g2 \u2014 efeitos externos"
+      "norm_label": "gate g2 \u2014 efeitos externos",
+      "id": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos"
     },
     {
       "label": "Gate G3 \u2014 runtime Minecraft",
@@ -641,10 +905,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L80",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gate g3 \u2014 runtime minecraft"
+      "norm_label": "gate g3 \u2014 runtime minecraft",
+      "id": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft"
     },
     {
       "label": "Gate G4 \u2014 distribui\u00e7\u00e3o",
@@ -652,10 +916,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L86",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gate g4 \u2014 distribuicao"
+      "norm_label": "gate g4 \u2014 distribuicao",
+      "id": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o"
     },
     {
       "label": "Gate G5 \u2014 qualidade",
@@ -663,10 +927,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L92",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_gate_g5_qualidade",
       "community": 194,
       "community_name": "Gates transversais",
-      "norm_label": "gate g5 \u2014 qualidade"
+      "norm_label": "gate g5 \u2014 qualidade",
+      "id": "docs_plataforma_final_implementation_plan_gate_g5_qualidade"
     },
     {
       "label": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
@@ -674,10 +938,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L101",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
       "community": 197,
       "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
-      "norm_label": "fase 7 \u2014 configuracoes verificaveis"
+      "norm_label": "fase 7 \u2014 configuracoes verificaveis",
+      "id": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis"
     },
     {
       "label": "7.0 \u2014 corrigir a base de compatibilidade usada pelo painel",
@@ -685,10 +949,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L105",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel",
       "community": 197,
       "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
-      "norm_label": "7.0 \u2014 corrigir a base de compatibilidade usada pelo painel"
+      "norm_label": "7.0 \u2014 corrigir a base de compatibilidade usada pelo painel",
+      "id": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel"
     },
     {
       "label": "7.1 \u2014 registrar a decis\u00e3o do primeiro schema",
@@ -696,10 +960,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L131",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema",
       "community": 197,
       "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
-      "norm_label": "7.1 \u2014 registrar a decisao do primeiro schema"
+      "norm_label": "7.1 \u2014 registrar a decisao do primeiro schema",
+      "id": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema"
     },
     {
       "label": "7.2 \u2014 persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
@@ -707,10 +971,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L145",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o",
       "community": 197,
       "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
-      "norm_label": "7.2 \u2014 persistencia e operacao de configuracao"
+      "norm_label": "7.2 \u2014 persistencia e operacao de configuracao",
+      "id": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o"
     },
     {
       "label": "7.3 \u2014 API, agente e painel",
@@ -718,10 +982,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L156",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel",
       "community": 197,
       "community_name": "Fase 7 \u2014 configura\u00e7\u00f5es verific\u00e1veis",
-      "norm_label": "7.3 \u2014 api, agente e painel"
+      "norm_label": "7.3 \u2014 api, agente e painel",
+      "id": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel"
     },
     {
       "label": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
@@ -729,10 +993,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L185",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
       "community": 198,
       "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
-      "norm_label": "fase 8 \u2014 entrada adaptativa de mods e incompatibilidades"
+      "norm_label": "fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
+      "id": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades"
     },
     {
       "label": "8.1 \u2014 inspe\u00e7\u00e3o segura de artefato",
@@ -740,10 +1004,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L189",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato",
       "community": 198,
       "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
-      "norm_label": "8.1 \u2014 inspecao segura de artefato"
+      "norm_label": "8.1 \u2014 inspecao segura de artefato",
+      "id": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato"
     },
     {
       "label": "8.2 \u2014 motor de compatibilidade",
@@ -751,10 +1015,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L200",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade",
       "community": 198,
       "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
-      "norm_label": "8.2 \u2014 motor de compatibilidade"
+      "norm_label": "8.2 \u2014 motor de compatibilidade",
+      "id": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade"
     },
     {
       "label": "8.3 \u2014 persist\u00eancia, API e revis\u00e3o",
@@ -762,10 +1026,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L227",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o",
       "community": 198,
       "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
-      "norm_label": "8.3 \u2014 persistencia, api e revisao"
+      "norm_label": "8.3 \u2014 persistencia, api e revisao",
+      "id": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o"
     },
     {
       "label": "8.4 \u2014 experi\u00eancia do painel",
@@ -773,10 +1037,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L238",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel",
       "community": 198,
       "community_name": "Fase 8 \u2014 entrada adaptativa de mods e incompatibilidades",
-      "norm_label": "8.4 \u2014 experiencia do painel"
+      "norm_label": "8.4 \u2014 experiencia do painel",
+      "id": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel"
     },
     {
       "label": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
@@ -784,10 +1048,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L266",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
       "community": 242,
       "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
-      "norm_label": "fase 9 \u2014 nucleo operacional e painel funcional minimo"
+      "norm_label": "fase 9 \u2014 nucleo operacional e painel funcional minimo",
+      "id": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo"
     },
     {
       "label": "9.1 \u2014 contratos operacionais e persist\u00eancia",
@@ -795,10 +1059,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L270",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia",
       "community": 242,
       "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
-      "norm_label": "9.1 \u2014 contratos operacionais e persistencia"
+      "norm_label": "9.1 \u2014 contratos operacionais e persistencia",
+      "id": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia"
     },
     {
       "label": "9.2 \u2014 transporte real Control API \u2194 Server Agent",
@@ -806,10 +1070,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L280",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent",
       "community": 242,
       "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
-      "norm_label": "9.2 \u2014 transporte real control api \u2194 server agent"
+      "norm_label": "9.2 \u2014 transporte real control api \u2194 server agent",
+      "id": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent"
     },
     {
       "label": "9.3 \u2014 painel din\u00e2mico",
@@ -817,10 +1081,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L291",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico",
       "community": 242,
       "community_name": "Fase 9 \u2014 n\u00facleo operacional e painel funcional m\u00ednimo",
-      "norm_label": "9.3 \u2014 painel dinamico"
+      "norm_label": "9.3 \u2014 painel dinamico",
+      "id": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico"
     },
     {
       "label": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
@@ -828,10 +1092,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L311",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "fase 10 \u2014 operacoes completas do servidor"
+      "norm_label": "fase 10 \u2014 operacoes completas do servidor",
+      "id": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor"
     },
     {
       "label": "10.1 \u2014 processo e console",
@@ -839,10 +1103,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L315",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_10_1_processo_e_console",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "10.1 \u2014 processo e console"
+      "norm_label": "10.1 \u2014 processo e console",
+      "id": "docs_plataforma_final_implementation_plan_10_1_processo_e_console"
     },
     {
       "label": "10.2 \u2014 arquivos e configura\u00e7\u00f5es",
@@ -850,10 +1114,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L325",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "10.2 \u2014 arquivos e configuracoes"
+      "norm_label": "10.2 \u2014 arquivos e configuracoes",
+      "id": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es"
     },
     {
       "label": "10.3 \u2014 backups e restore",
@@ -861,10 +1125,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L335",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "10.3 \u2014 backups e restore"
+      "norm_label": "10.3 \u2014 backups e restore",
+      "id": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore"
     },
     {
       "label": "10.4 \u2014 m\u00e9tricas, logs e alertas",
@@ -872,10 +1136,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L345",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "10.4 \u2014 metricas, logs e alertas"
+      "norm_label": "10.4 \u2014 metricas, logs e alertas",
+      "id": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas"
     },
     {
       "label": "10.5 \u2014 agendamentos",
@@ -883,10 +1147,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L356",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_10_5_agendamentos",
       "community": 192,
       "community_name": "Fase 10 \u2014 opera\u00e7\u00f5es completas do servidor",
-      "norm_label": "10.5 \u2014 agendamentos"
+      "norm_label": "10.5 \u2014 agendamentos",
+      "id": "docs_plataforma_final_implementation_plan_10_5_agendamentos"
     },
     {
       "label": "Fase 11 \u2014 jogadores, permiss\u00f5es e modera\u00e7\u00e3o reais",
@@ -894,10 +1158,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L373",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "fase 11 \u2014 jogadores, permissoes e moderacao reais"
+      "norm_label": "fase 11 \u2014 jogadores, permissoes e moderacao reais",
+      "id": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais"
     },
     {
       "label": "11.0 \u2014 gate de entrada operacional",
@@ -905,10 +1169,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L375",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_11_0_gate_de_entrada_operacional",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "11.0 \u2014 gate de entrada operacional"
+      "norm_label": "11.0 \u2014 gate de entrada operacional",
+      "id": "docs_plataforma_final_implementation_plan_11_0_gate_de_entrada_operacional"
     },
     {
       "label": "Fase 12 \u2014 release, launcher e Forge Bridge",
@@ -916,10 +1180,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L410",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
       "community": 195,
       "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
-      "norm_label": "fase 12 \u2014 release, launcher e forge bridge"
+      "norm_label": "fase 12 \u2014 release, launcher e forge bridge",
+      "id": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge"
     },
     {
       "label": "12.1 \u2014 cat\u00e1logo e build de produ\u00e7\u00e3o",
@@ -927,10 +1191,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L414",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o",
       "community": 195,
       "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
-      "norm_label": "12.1 \u2014 catalogo e build de producao"
+      "norm_label": "12.1 \u2014 catalogo e build de producao",
+      "id": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o"
     },
     {
       "label": "12.2 \u2014 assinatura, canais e launcher",
@@ -938,10 +1202,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L423",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher",
       "community": 195,
       "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
-      "norm_label": "12.2 \u2014 assinatura, canais e launcher"
+      "norm_label": "12.2 \u2014 assinatura, canais e launcher",
+      "id": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher"
     },
     {
       "label": "12.3 \u2014 Forge Bridge e `/atualizar-modpack`",
@@ -949,10 +1213,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L433",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack",
       "community": 195,
       "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
-      "norm_label": "12.3 \u2014 forge bridge e `/atualizar-modpack`"
+      "norm_label": "12.3 \u2014 forge bridge e `/atualizar-modpack`",
+      "id": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack"
     },
     {
       "label": "12.4 \u2014 certifica\u00e7\u00e3o da release",
@@ -960,10 +1224,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L442",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release",
       "community": 195,
       "community_name": "Fase 12 \u2014 release, launcher e Forge Bridge",
-      "norm_label": "12.4 \u2014 certificacao da release"
+      "norm_label": "12.4 \u2014 certificacao da release",
+      "id": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release"
     },
     {
       "label": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
@@ -971,10 +1235,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L460",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
       "community": 196,
       "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
-      "norm_label": "fase 13 \u2014 producao, seguranca e encerramento"
+      "norm_label": "fase 13 \u2014 producao, seguranca e encerramento",
+      "id": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento"
     },
     {
       "label": "13.1 \u2014 decis\u00f5es finais obrigat\u00f3rias",
@@ -982,10 +1246,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L464",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias",
       "community": 196,
       "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
-      "norm_label": "13.1 \u2014 decisoes finais obrigatorias"
+      "norm_label": "13.1 \u2014 decisoes finais obrigatorias",
+      "id": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias"
     },
     {
       "label": "13.2 \u2014 implanta\u00e7\u00e3o",
@@ -993,10 +1257,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L474",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o",
       "community": 196,
       "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
-      "norm_label": "13.2 \u2014 implantacao"
+      "norm_label": "13.2 \u2014 implantacao",
+      "id": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o"
     },
     {
       "label": "13.3 \u2014 seguran\u00e7a e resili\u00eancia",
@@ -1004,10 +1268,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L484",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia",
       "community": 196,
       "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
-      "norm_label": "13.3 \u2014 seguranca e resiliencia"
+      "norm_label": "13.3 \u2014 seguranca e resiliencia",
+      "id": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia"
     },
     {
       "label": "13.4 \u2014 aceite final",
@@ -1015,10 +1279,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L495",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_13_4_aceite_final",
       "community": 196,
       "community_name": "Fase 13 \u2014 produ\u00e7\u00e3o, seguran\u00e7a e encerramento",
-      "norm_label": "13.4 \u2014 aceite final"
+      "norm_label": "13.4 \u2014 aceite final",
+      "id": "docs_plataforma_final_implementation_plan_13_4_aceite_final"
     },
     {
       "label": "Protocolo de execu\u00e7\u00e3o no terminal",
@@ -1026,10 +1290,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L513",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "protocolo de execucao no terminal"
+      "norm_label": "protocolo de execucao no terminal",
+      "id": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal"
     },
     {
       "label": "In\u00edcio de uma sess\u00e3o",
@@ -1037,10 +1301,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L515",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "inicio de uma sessao"
+      "norm_label": "inicio de uma sessao",
+      "id": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o"
     },
     {
       "label": "Baseline antes de uma fase",
@@ -1048,10 +1312,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L527",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "baseline antes de uma fase"
+      "norm_label": "baseline antes de uma fase",
+      "id": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase"
     },
     {
       "label": "Ciclo de cada fatia",
@@ -1059,10 +1323,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L538",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "ciclo de cada fatia"
+      "norm_label": "ciclo de cada fatia",
+      "id": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia"
     },
     {
       "label": "Comandos de valida\u00e7\u00e3o por escopo",
@@ -1070,10 +1334,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L551",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "comandos de validacao por escopo"
+      "norm_label": "comandos de validacao por escopo",
+      "id": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo"
     },
     {
       "label": "Divis\u00e3o obrigat\u00f3ria de commits",
@@ -1081,10 +1345,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L573",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits",
       "community": 193,
       "community_name": "Protocolo de execu\u00e7\u00e3o no terminal",
-      "norm_label": "divisao obrigatoria de commits"
+      "norm_label": "divisao obrigatoria de commits",
+      "id": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits"
     },
     {
       "label": "Primeira sequ\u00eancia recomendada",
@@ -1092,10 +1356,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L587",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "primeira sequencia recomendada"
+      "norm_label": "primeira sequencia recomendada",
+      "id": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada"
     },
     {
       "label": "Sa\u00edda esperada de cada sess\u00e3o",
@@ -1103,10 +1367,10 @@
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L601",
       "_origin": "ast",
-      "id": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o",
       "community": 191,
       "community_name": "Plano de implementa\u00e7\u00e3o das fases finais",
-      "norm_label": "saida esperada de cada sessao"
+      "norm_label": "saida esperada de cada sessao",
+      "id": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o"
     },
     {
       "label": "server-agent/package.json",
@@ -3380,7 +3644,7 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "phase_11_operational_entry_gate.md",
       "id": "docs_plataforma_phase_11_operational_entry_gate"
@@ -3457,8 +3721,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "parte 2 \u2014 a primeira fatia da fase 11",
       "id": "docs_plataforma_phase_11_operational_entry_gate_parte_2_a_primeira_fatia_da_fase_11"
     },
@@ -3468,8 +3732,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L50",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "registro por injecao explicita",
       "id": "docs_plataforma_phase_11_operational_entry_gate_registro_por_inje\u00e7\u00e3o_expl\u00edcita"
     },
@@ -3479,8 +3743,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "validacao de configuracao no startup",
       "id": "docs_plataforma_phase_11_operational_entry_gate_valida\u00e7\u00e3o_de_configura\u00e7\u00e3o_no_startup"
     },
@@ -3490,8 +3754,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "readiness por capability",
       "id": "docs_plataforma_phase_11_operational_entry_gate_readiness_por_capability"
     },
@@ -3501,8 +3765,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L85",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "raizes, repositorio e chaves",
       "id": "docs_plataforma_phase_11_operational_entry_gate_ra\u00edzes_reposit\u00f3rio_e_chaves"
     },
@@ -3512,8 +3776,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L89",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "coletores",
       "id": "docs_plataforma_phase_11_operational_entry_gate_coletores"
     },
@@ -3523,8 +3787,8 @@
       "source_file": "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md",
       "source_location": "L100",
       "_origin": "ast",
-      "community": 305,
-      "community_name": "Parte 2 \u2014 a primeira fatia da Fase 11",
+      "community": 230,
+      "community_name": "Fase 11.0: gate de entrada operacional",
       "norm_label": "loop do agendador",
       "id": "docs_plataforma_phase_11_operational_entry_gate_loop_do_agendador"
     },
@@ -5404,8 +5668,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-worker.ts",
       "id": "plataforma_apps_build_worker_src_configuration_worker"
     },
@@ -5415,8 +5679,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationoperationexecutor",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor"
     },
@@ -5426,8 +5690,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": ".execute()",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationoperationexecutor_execute"
     },
@@ -5437,8 +5701,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationworkerresult",
       "id": "plataforma_apps_build_worker_src_configuration_worker_configurationworkerresult"
     },
@@ -5448,8 +5712,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L37",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "exactcommand()",
       "id": "plataforma_apps_build_worker_src_configuration_worker_exactcommand"
     },
@@ -5459,8 +5723,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "matchesjobtype()",
       "id": "plataforma_apps_build_worker_src_configuration_worker_matchesjobtype"
     },
@@ -5470,8 +5734,8 @@
       "source_file": "Plataforma/apps/build-worker/src/configuration-worker.ts",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "runconfigurationworkeronce()",
       "id": "plataforma_apps_build_worker_src_configuration_worker_runconfigurationworkeronce"
     },
@@ -5481,8 +5745,8 @@
       "source_file": "Plataforma/apps/build-worker/src/index.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 51,
+      "community_name": "artifact-worker.ts",
       "norm_label": "build-worker/src/index.ts",
       "id": "plataforma_apps_build_worker_src_index"
     },
@@ -5723,8 +5987,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-worker.test.ts",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test"
     },
@@ -5734,8 +5998,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "databases",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_databases"
     },
@@ -5745,8 +6009,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "now",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_now"
     },
@@ -5756,8 +6020,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "hash_a",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_hash_a"
     },
@@ -5767,8 +6031,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "hash_b",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_hash_b"
     },
@@ -5778,8 +6042,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "command()",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_command"
     },
@@ -5789,8 +6053,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "queuedjob()",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_queuedjob"
     },
@@ -5800,8 +6064,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L64",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "executorfor()",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_executorfor"
     },
@@ -5811,8 +6075,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "appliedresult()",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_appliedresult"
     },
@@ -5822,8 +6086,8 @@
       "source_file": "Plataforma/apps/build-worker/test/configuration-worker.test.ts",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 266,
-      "community_name": "configuration-worker.test.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "harness()",
       "id": "plataforma_apps_build_worker_test_configuration_worker_test_harness"
     },
@@ -8968,7 +9232,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-e2e.test.ts",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test"
@@ -8979,7 +9243,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "now",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_now"
@@ -8990,7 +9254,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "teardown",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_teardown"
@@ -9001,7 +9265,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L62",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "offlineguard",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_offlineguard"
@@ -9012,7 +9276,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": ".runwithexclusiveofflineaccess()",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_offlineguard_runwithexclusiveofflineaccess"
@@ -9023,7 +9287,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L71",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "digest()",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_digest"
@@ -9034,7 +9298,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "openloaderdocument()",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_openloaderdocument"
@@ -9045,7 +9309,7 @@
       "source_file": "Plataforma/apps/control-api/test/configuration-e2e.test.ts",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "stack()",
       "id": "plataforma_apps_control_api_test_configuration_e2e_test_stack"
@@ -10178,8 +10442,8 @@
       "source_file": "Plataforma/apps/launcher-api/test/launcher-api.test.ts",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 255,
-      "community_name": "launcher-api/src/app.ts",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "releasefixture()",
       "id": "plataforma_apps_launcher_api_test_launcher_api_test_releasefixture"
     },
@@ -10443,7 +10707,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuracoes/page.tsx",
       "id": "plataforma_apps_panel_web_app_configuracoes_page"
     },
@@ -10454,7 +10718,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "idempotencykey()",
       "id": "plataforma_apps_panel_web_app_configuracoes_page_idempotencykey"
     },
@@ -10465,7 +10729,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "panelsession",
       "id": "plataforma_apps_panel_web_app_configuracoes_page_panelsession"
     },
@@ -10476,7 +10740,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationpage()",
       "id": "plataforma_apps_panel_web_app_configuracoes_page_configurationpage"
     },
@@ -10728,8 +10992,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/artifact-view.ts",
       "source_location": "L71",
       "_origin": "ast",
-      "community": 244,
-      "community_name": "artifact-view.test.ts",
+      "community": 224,
+      "community_name": "artifact-e2e.test.ts",
       "norm_label": "artifactsubmissiondetail",
       "id": "plataforma_apps_panel_web_lib_artifact_view_artifactsubmissiondetail"
     },
@@ -10992,8 +11256,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/artifact-view.ts",
       "source_location": "L423",
       "_origin": "ast",
-      "community": 224,
-      "community_name": "artifact-e2e.test.ts",
+      "community": 244,
+      "community_name": "artifact-view.test.ts",
       "norm_label": "buildinstallactionview()",
       "id": "plataforma_apps_panel_web_lib_artifact_view_buildinstallactionview"
     },
@@ -11003,8 +11267,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-client.ts",
       "id": "plataforma_apps_panel_web_lib_configuration_client"
     },
@@ -11014,8 +11278,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationapifailure",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapifailure"
     },
@@ -11025,8 +11289,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationapierror",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapierror"
     },
@@ -11036,8 +11300,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": ".constructor()",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapierror_constructor"
     },
@@ -11047,8 +11311,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationsession",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationsession"
     },
@@ -11058,8 +11322,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationapplyinput",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationapplyinput"
     },
@@ -11069,8 +11333,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L47",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationrollbackinput",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationrollbackinput"
     },
@@ -11080,8 +11344,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationacceptanceview",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationacceptanceview"
     },
@@ -11091,8 +11355,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L64",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "fetcher",
       "id": "plataforma_apps_panel_web_lib_configuration_client_fetcher"
     },
@@ -11102,8 +11366,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "request()",
       "id": "plataforma_apps_panel_web_lib_configuration_client_request"
     },
@@ -11113,8 +11377,8 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-client.ts",
       "source_location": "L85",
       "_origin": "ast",
-      "community": 280,
-      "community_name": "configuration-client.ts",
+      "community": 67,
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "resourceurl()",
       "id": "plataforma_apps_panel_web_lib_configuration_client_resourceurl"
     },
@@ -11125,7 +11389,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "createconfigurationclient()",
       "id": "plataforma_apps_panel_web_lib_configuration_client_createconfigurationclient"
     },
@@ -11136,7 +11400,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationclient",
       "id": "plataforma_apps_panel_web_lib_configuration_client_configurationclient"
     },
@@ -11147,7 +11411,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-view.ts",
       "id": "plataforma_apps_panel_web_lib_configuration_view"
     },
@@ -11158,7 +11422,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationfielddescriptorview",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationfielddescriptorview"
     },
@@ -11169,7 +11433,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationschemaview",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationschemaview"
     },
@@ -11180,7 +11444,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationvalueview",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationvalueview"
     },
@@ -11191,7 +11455,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationresourcestateview",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationresourcestateview"
     },
@@ -11202,7 +11466,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationrevisionview",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationrevisionview"
     },
@@ -11213,7 +11477,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationpermissionname",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationpermissionname"
     },
@@ -11224,7 +11488,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationcapabilities",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationcapabilities"
     },
@@ -11235,7 +11499,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "capabilitiesfor()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_capabilitiesfor"
     },
@@ -11246,7 +11510,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationdraft",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationdraft"
     },
@@ -11257,7 +11521,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationdiffentry",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationdiffentry"
     },
@@ -11268,7 +11532,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationdiff",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationdiff"
     },
@@ -11279,7 +11543,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "computesafediff()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_computesafediff"
     },
@@ -11290,7 +11554,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "changeentriesfor()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_changeentriesfor"
     },
@@ -11301,7 +11565,7 @@
       "source_location": "L176",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configurationscreenstate",
       "id": "plataforma_apps_panel_web_lib_configuration_view_configurationscreenstate"
     },
@@ -11312,7 +11576,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "messages",
       "id": "plataforma_apps_panel_web_lib_configuration_view_messages"
     },
@@ -11322,7 +11586,7 @@
       "source_file": "Plataforma/apps/panel-web/lib/configuration-view.ts",
       "source_location": "L205",
       "_origin": "ast",
-      "community": 304,
+      "community": 67,
       "community_name": "configuration-e2e.test.ts",
       "norm_label": "screenstateforerror()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_screenstateforerror"
@@ -11334,7 +11598,7 @@
       "source_location": "L221",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "buildconfigurationscreen()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_buildconfigurationscreen"
     },
@@ -11345,7 +11609,7 @@
       "source_location": "L265",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "displayvalue()",
       "id": "plataforma_apps_panel_web_lib_configuration_view_displayvalue"
     },
@@ -12269,7 +12533,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "configuration-view.test.ts",
       "id": "plataforma_apps_panel_web_test_configuration_view_test"
     },
@@ -12280,7 +12544,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "owner_permissions",
       "id": "plataforma_apps_panel_web_test_configuration_view_test_owner_permissions"
     },
@@ -12291,7 +12555,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "schema()",
       "id": "plataforma_apps_panel_web_test_configuration_view_test_schema"
     },
@@ -12302,7 +12566,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "state()",
       "id": "plataforma_apps_panel_web_test_configuration_view_test_state"
     },
@@ -12313,7 +12577,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "community": 67,
-      "community_name": "configuration-view.ts",
+      "community_name": "configuration-e2e.test.ts",
       "norm_label": "revision()",
       "id": "plataforma_apps_panel_web_test_configuration_view_test_revision"
     },
@@ -12807,8 +13071,8 @@
       "source_file": "Plataforma/apps/server-agent/src/console-operation.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "console-operation.ts",
       "id": "plataforma_apps_server_agent_src_console_operation"
     },
@@ -12818,8 +13082,8 @@
       "source_file": "Plataforma/apps/server-agent/src/console-operation.ts",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "consolecommandcapabilityoptions",
       "id": "plataforma_apps_server_agent_src_console_operation_consolecommandcapabilityoptions"
     },
@@ -12829,8 +13093,8 @@
       "source_file": "Plataforma/apps/server-agent/src/console-operation.ts",
       "source_location": "L38",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "createconsolecommandhandler()",
       "id": "plataforma_apps_server_agent_src_console_operation_createconsolecommandhandler"
     },
@@ -12840,8 +13104,8 @@
       "source_file": "Plataforma/apps/server-agent/src/console-operation.ts",
       "source_location": "L117",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "captureconsole()",
       "id": "plataforma_apps_server_agent_src_console_operation_captureconsole"
     },
@@ -13082,8 +13346,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "console-operation.test.ts",
       "id": "plataforma_apps_server_agent_test_console_operation_test"
     },
@@ -13093,8 +13357,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "now",
       "id": "plataforma_apps_server_agent_test_console_operation_test_now"
     },
@@ -13104,8 +13368,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "consoleadapter()",
       "id": "plataforma_apps_server_agent_test_console_operation_test_consoleadapter"
     },
@@ -13115,8 +13379,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "fixture()",
       "id": "plataforma_apps_server_agent_test_console_operation_test_fixture"
     },
@@ -13126,8 +13390,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L70",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "lease()",
       "id": "plataforma_apps_server_agent_test_console_operation_test_lease"
     },
@@ -13137,8 +13401,8 @@
       "source_file": "Plataforma/apps/server-agent/test/console-operation.test.ts",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 261,
-      "community_name": "server-agent/src/runtime.ts",
+      "community": 304,
+      "community_name": "console-operation.ts",
       "norm_label": "queuedcommand()",
       "id": "plataforma_apps_server_agent_test_console_operation_test_queuedcommand"
     },
@@ -36975,7 +37239,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonical-json.ts",
       "id": "plataforma_packages_modpack_release_src_canonical_json"
     },
@@ -36986,7 +37250,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicaljsonvalue",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonvalue"
     },
@@ -36997,7 +37261,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicalize()",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicalize"
     },
@@ -37008,7 +37272,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "canonicaljson()",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljson"
     },
@@ -37018,8 +37282,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/canonical-json.ts",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "canonicaljsonbytes()",
       "id": "plataforma_packages_modpack_release_src_canonical_json_canonicaljsonbytes"
     },
@@ -37041,7 +37305,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "channel-signing.ts",
       "id": "plataforma_packages_modpack_release_src_channel_signing"
     },
@@ -37051,8 +37315,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/channel-signing.ts",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "unsignedlauncherchannel",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedlauncherchannel"
     },
@@ -37063,7 +37327,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedchannel()",
       "id": "plataforma_packages_modpack_release_src_channel_signing_unsignedchannel"
     },
@@ -37074,7 +37338,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "launcherchannelpayload()",
       "id": "plataforma_packages_modpack_release_src_channel_signing_launcherchannelpayload"
     },
@@ -37084,8 +37348,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/channel-signing.ts",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 144,
-      "community_name": "filesystem-repository.ts",
+      "community": 271,
+      "community_name": "signing.ts",
       "norm_label": "signlauncherchannel()",
       "id": "plataforma_packages_modpack_release_src_channel_signing_signlauncherchannel"
     },
@@ -37096,7 +37360,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "verifylauncherchannelsignature()",
       "id": "plataforma_packages_modpack_release_src_channel_signing_verifylauncherchannelsignature"
     },
@@ -37426,7 +37690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "modpack-release/src/index.ts",
       "id": "plataforma_packages_modpack_release_src_index"
     },
@@ -37536,7 +37800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "signing.ts",
       "id": "plataforma_packages_modpack_release_src_signing"
     },
@@ -37547,7 +37811,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedreleasemanifest",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedreleasemanifest"
     },
@@ -37558,7 +37822,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "unsignedmanifest()",
       "id": "plataforma_packages_modpack_release_src_signing_unsignedmanifest"
     },
@@ -37569,7 +37833,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "releasemanifestpayload()",
       "id": "plataforma_packages_modpack_release_src_signing_releasemanifestpayload"
     },
@@ -37580,7 +37844,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "ed25519releasesigner",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner"
     },
@@ -37591,7 +37855,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".constructor()",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_constructor"
     },
@@ -37602,7 +37866,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".sign()",
       "id": "plataforma_packages_modpack_release_src_signing_ed25519releasesigner_sign"
     },
@@ -37613,7 +37877,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "signreleasemanifest()",
       "id": "plataforma_packages_modpack_release_src_signing_signreleasemanifest"
     },
@@ -37624,7 +37888,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "verifyreleasemanifestsignature()",
       "id": "plataforma_packages_modpack_release_src_signing_verifyreleasemanifestsignature"
     },
@@ -37833,7 +38097,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "releasedocumentsigner",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner"
     },
@@ -37844,7 +38108,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".sign()",
       "id": "plataforma_packages_modpack_release_src_types_releasedocumentsigner_sign"
     },
@@ -37887,8 +38151,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/types.ts",
       "source_location": "L136",
       "_origin": "ast",
-      "community": 146,
-      "community_name": "modpack-release/src/types.ts",
+      "community": 144,
+      "community_name": "filesystem-repository.ts",
       "norm_label": "storedrelease",
       "id": "plataforma_packages_modpack_release_src_types_storedrelease"
     },
@@ -37965,7 +38229,7 @@
       "source_location": "L188",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": "releaserepositoryerror",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror"
     },
@@ -37976,7 +38240,7 @@
       "source_location": "L192",
       "_origin": "ast",
       "community": 271,
-      "community_name": "canonicalJsonBytes",
+      "community_name": "signing.ts",
       "norm_label": ".constructor()",
       "id": "plataforma_packages_modpack_release_src_types_releaserepositoryerror_constructor"
     },
@@ -38019,8 +38283,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/types.ts",
       "source_location": "L237",
       "_origin": "ast",
-      "community": 145,
-      "community_name": "sanitization.ts",
+      "community": 271,
+      "community_name": "signing.ts",
       "norm_label": "releasebuilderror",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror"
     },
@@ -38030,8 +38294,8 @@
       "source_file": "Plataforma/packages/modpack-release/src/types.ts",
       "source_location": "L241",
       "_origin": "ast",
-      "community": 145,
-      "community_name": "sanitization.ts",
+      "community": 271,
+      "community_name": "signing.ts",
       "norm_label": ".constructor()",
       "id": "plataforma_packages_modpack_release_src_types_releasebuilderror_constructor"
     },
@@ -42694,8 +42958,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/manifest.ts",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "configurationrevisionmanifest",
       "id": "plataforma_packages_server_configuration_src_manifest_configurationrevisionmanifest"
     },
@@ -43321,8 +43585,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/service.ts",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "mutationmaterial",
       "id": "plataforma_packages_server_configuration_src_service_mutationmaterial"
     },
@@ -43673,8 +43937,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/types.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "voidfall_configuration_revision_format",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_format"
     },
@@ -43684,8 +43948,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/types.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "voidfall_configuration_revision_schema_version",
       "id": "plataforma_packages_server_configuration_src_types_voidfall_configuration_revision_schema_version"
     },
@@ -43717,8 +43981,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/types.ts",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "configurationformat",
       "id": "plataforma_packages_server_configuration_src_types_configurationformat"
     },
@@ -43915,8 +44179,8 @@
       "source_file": "Plataforma/packages/server-configuration/src/types.ts",
       "source_location": "L110",
       "_origin": "ast",
-      "community": 106,
-      "community_name": "server-configuration/src/types.ts",
+      "community": 100,
+      "community_name": "server-configuration/src/validation.ts",
       "norm_label": "configurationoperation",
       "id": "plataforma_packages_server_configuration_src_types_configurationoperation"
     },
@@ -48909,7 +49173,7 @@
       "source_file": "docs/plataforma/PHASE_10_PROCESS_CONSOLE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 217,
+      "community": 305,
       "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
       "norm_label": "phase_10_process_console.md",
       "id": "docs_plataforma_phase_10_process_console"
@@ -50868,7 +51132,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "phase_7_configuration_persistence.md",
       "id": "docs_plataforma_phase_7_configuration_persistence"
     },
@@ -50879,7 +51143,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "fase 7.2: persistencia e operacao de configuracao",
       "id": "docs_plataforma_phase_7_configuration_persistence_fase_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o"
     },
@@ -50890,7 +51154,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "resultado",
       "id": "docs_plataforma_phase_7_configuration_persistence_resultado"
     },
@@ -50901,7 +51165,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "registro confiavel",
       "id": "docs_plataforma_phase_7_configuration_persistence_registro_confi\u00e1vel"
     },
@@ -50912,7 +51176,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "persistencia postgresql",
       "id": "docs_plataforma_phase_7_configuration_persistence_persist\u00eancia_postgresql"
     },
@@ -50923,7 +51187,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "coordenacao isolada",
       "id": "docs_plataforma_phase_7_configuration_persistence_coordena\u00e7\u00e3o_isolada"
     },
@@ -50934,7 +51198,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "limites mantidos",
       "id": "docs_plataforma_phase_7_configuration_persistence_limites_mantidos"
     },
@@ -50945,7 +51209,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "validacao",
       "id": "docs_plataforma_phase_7_configuration_persistence_valida\u00e7\u00e3o"
     },
@@ -50956,7 +51220,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community_name": "Fase 7.2: persist\u00eancia e opera\u00e7\u00e3o de configura\u00e7\u00e3o",
       "norm_label": "proximo recorte",
       "id": "docs_plataforma_phase_7_configuration_persistence_pr\u00f3ximo_recorte"
     },
@@ -51175,8 +51439,8 @@
       "source_file": "docs/plataforma/PHASE_8_ARTIFACT_REVIEW.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 217,
-      "community_name": "FINAL_IMPLEMENTATION_PLAN.md",
+      "community": 232,
+      "community_name": "Fases 8.3 e 8.4: persist\u00eancia, API, revis\u00e3o e painel",
       "norm_label": "phase_8_artifact_review.md",
       "id": "docs_plataforma_phase_8_artifact_review"
     },
@@ -53948,7 +54212,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L82",
+      "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
@@ -53959,7 +54223,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L66",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
@@ -53969,19 +54233,41 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L391",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_adr_009_autentica\u00e7\u00e3o_minecraft_e_identidade_de_jogador",
@@ -53992,7 +54278,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_adr_009_autentica\u00e7\u00e3o_minecraft_e_identidade_de_jogador",
@@ -54003,7 +54289,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_adr_009_autentica\u00e7\u00e3o_minecraft_e_identidade_de_jogador",
@@ -54014,7 +54300,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L102",
+      "source_location": "L105",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_adr_009_autentica\u00e7\u00e3o_minecraft_e_identidade_de_jogador",
@@ -54025,7 +54311,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L98",
+      "source_location": "L101",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_adr_009_autentica\u00e7\u00e3o_minecraft_e_identidade_de_jogador",
@@ -54036,7 +54322,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_contexto",
@@ -54047,7 +54333,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_contexto",
@@ -54058,7 +54344,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_decis\u00e3o",
@@ -54069,7 +54355,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L51",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
@@ -54080,7 +54366,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L90",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
@@ -54091,7 +54377,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L64",
+      "source_location": "L65",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
@@ -54102,7 +54388,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L84",
+      "source_location": "L87",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
@@ -54113,7 +54399,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md",
-      "source_location": "L75",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_009_autenticacao_minecraft_e_topologia_consequ\u00eancias",
@@ -54134,8 +54420,19 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L94",
+      "source_location": "L97",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao",
@@ -54149,15 +54446,15 @@
       "source_location": "L391",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_adr_010_provider_de_permiss\u00f5es_minecraft",
@@ -54168,7 +54465,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_adr_010_provider_de_permiss\u00f5es_minecraft",
@@ -54179,7 +54476,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_adr_010_provider_de_permiss\u00f5es_minecraft",
@@ -54190,7 +54487,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L80",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_adr_010_provider_de_permiss\u00f5es_minecraft",
@@ -54201,7 +54498,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L76",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_adr_010_provider_de_permiss\u00f5es_minecraft",
@@ -54212,7 +54509,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L25",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_decis\u00e3o",
@@ -54223,7 +54520,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L64",
+      "source_location": "L65",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54234,7 +54531,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54245,7 +54542,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54256,7 +54553,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L58",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54267,7 +54564,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L72",
+      "source_location": "L73",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54278,7 +54575,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md",
-      "source_location": "L68",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_010_provider_de_permissoes_minecraft_consequ\u00eancias",
@@ -54299,19 +54596,30 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md",
       "source_location": "L391",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L100",
+      "source_location": "L103",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_adr_011_dados_de_jogador_reten\u00e7\u00e3o_e_acesso",
@@ -54344,7 +54652,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L109",
+      "source_location": "L112",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_adr_011_dados_de_jogador_reten\u00e7\u00e3o_e_acesso",
@@ -54414,18 +54722,271 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_decis\u00e3o",
-      "target": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_pend\u00eancia_aberta_pelo_adr_009_credenciais",
+      "target": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_emenda_de_2026_08_06_credencial_\u00e9_categoria_separada",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md",
-      "source_location": "L82",
+      "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_decis\u00e3o",
       "target": "docs_plataforma_decisions_adr_011_dados_de_jogador_e_retencao_recorte_aceito",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_consequ\u00eancias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_contexto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_adr_012_credenciais_tickets_de_login_e_rota\u00e7\u00e3o_de_chaves",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_n\u00e3o_autoriza\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_1_a_credencial_fica_no_voidfall_em_armazenamento_pr\u00f3prio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_2_o_verificador_\u00e9_argon2id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_3_a_senha_nunca_chega_ao_servidor_minecraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_4_o_ticket",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_5_replay_e_rota\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-012-credenciais-e-tickets-de-login.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_012_credenciais_e_tickets_de_login_6_nada_disso_permite_login_at\u00e9_estar_completo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_consequ\u00eancias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_contexto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_adr_013_capacidade_tipada_de_permiss\u00f5es_no_forge_bridge",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_n\u00e3o_autoriza\u00e7\u00e3o",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_leitura_tipada_com_origem_e_instante",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_o_bridge_nunca_confia_em_nome_nem_em_uuid_da_tela",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_o_permissionverifier_s\u00f3_depois_do_login",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_opera\u00e7\u00f5es_iniciais",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_troca_de_nome_rebind_transacional",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_decis\u00e3o",
+      "target": "docs_plataforma_decisions_adr_013_permissoes_tipadas_no_forge_bridge_valida\u00e7\u00e3o_de_handler_no_boot_e_indisponibilidade_com_motivo",
       "confidence_score": 1.0
     },
     {
@@ -54446,9 +55007,9 @@
       "source_location": "L133",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_decisions_adr_008_openloader_como_primeiro_schema",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_decisions_adr_008_openloader_como_primeiro_schema"
     },
     {
       "relation": "contains",
@@ -54457,9 +55018,9 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais"
     },
     {
       "relation": "references",
@@ -54468,9 +55029,9 @@
       "source_location": "L333",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_10_authorized_files",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_10_authorized_files"
     },
     {
       "relation": "references",
@@ -54479,9 +55040,9 @@
       "source_location": "L343",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_10_backup_restore",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_10_backup_restore"
     },
     {
       "relation": "references",
@@ -54490,9 +55051,9 @@
       "source_location": "L323",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_10_process_console",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_10_process_console"
     },
     {
       "relation": "references",
@@ -54501,9 +55062,9 @@
       "source_location": "L354",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_10_telemetry_schedules",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_10_telemetry_schedules"
     },
     {
       "relation": "references",
@@ -54512,9 +55073,9 @@
       "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_11_operational_entry_gate",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_11_operational_entry_gate"
     },
     {
       "relation": "references",
@@ -54523,9 +55084,9 @@
       "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_7_configuration_api",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_7_configuration_api"
     },
     {
       "relation": "references",
@@ -54534,9 +55095,9 @@
       "source_location": "L154",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_7_configuration_persistence",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_7_configuration_persistence"
     },
     {
       "relation": "references",
@@ -54545,9 +55106,9 @@
       "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_7_contextual_compatibility",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_7_contextual_compatibility"
     },
     {
       "relation": "references",
@@ -54556,9 +55117,9 @@
       "source_location": "L198",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_8_artifact_inspection",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_8_artifact_inspection"
     },
     {
       "relation": "references",
@@ -54567,9 +55128,9 @@
       "source_location": "L236",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_8_artifact_review",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_8_artifact_review"
     },
     {
       "relation": "references",
@@ -54578,9 +55139,9 @@
       "source_location": "L225",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_8_compatibility_engine",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_8_compatibility_engine"
     },
     {
       "relation": "references",
@@ -54589,9 +55150,9 @@
       "source_location": "L289",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_9_agent_transport",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_9_agent_transport"
     },
     {
       "relation": "references",
@@ -54600,9 +55161,9 @@
       "source_location": "L301",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_9_dynamic_panel",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_9_dynamic_panel"
     },
     {
       "relation": "references",
@@ -54611,9 +55172,9 @@
       "source_location": "L278",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan",
-      "target": "docs_plataforma_phase_9_operational_core",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_phase_9_operational_core"
     },
     {
       "relation": "contains",
@@ -54622,9 +55183,9 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_como_usar_este_plano",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_como_usar_este_plano"
     },
     {
       "relation": "contains",
@@ -54633,9 +55194,9 @@
       "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_defini\u00e7\u00e3o_de_projeto_conclu\u00eddo"
     },
     {
       "relation": "contains",
@@ -54644,9 +55205,9 @@
       "source_location": "L311",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor"
     },
     {
       "relation": "contains",
@@ -54655,9 +55216,9 @@
       "source_location": "L373",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais"
     },
     {
       "relation": "contains",
@@ -54666,9 +55227,9 @@
       "source_location": "L410",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge"
     },
     {
       "relation": "contains",
@@ -54677,9 +55238,9 @@
       "source_location": "L460",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento"
     },
     {
       "relation": "contains",
@@ -54688,9 +55249,9 @@
       "source_location": "L101",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis"
     },
     {
       "relation": "contains",
@@ -54699,9 +55260,9 @@
       "source_location": "L185",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades"
     },
     {
       "relation": "contains",
@@ -54710,9 +55271,9 @@
       "source_location": "L266",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo"
     },
     {
       "relation": "contains",
@@ -54721,9 +55282,9 @@
       "source_location": "L64",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gates_transversais"
     },
     {
       "relation": "contains",
@@ -54732,9 +55293,9 @@
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_linha_de_base",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_linha_de_base"
     },
     {
       "relation": "contains",
@@ -54743,9 +55304,9 @@
       "source_location": "L587",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_primeira_sequ\u00eancia_recomendada"
     },
     {
       "relation": "contains",
@@ -54754,9 +55315,9 @@
       "source_location": "L513",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal"
     },
     {
       "relation": "contains",
@@ -54765,9 +55326,9 @@
       "source_location": "L601",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_sa\u00edda_esperada_de_cada_sess\u00e3o"
     },
     {
       "relation": "contains",
@@ -54776,9 +55337,9 @@
       "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_plano_de_implementa\u00e7\u00e3o_das_fases_finais",
-      "target": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_vis\u00e3o_das_fases_finais"
     },
     {
       "relation": "contains",
@@ -54787,9 +55348,9 @@
       "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "target": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gate_g1_dados_e_privacidade"
     },
     {
       "relation": "contains",
@@ -54798,9 +55359,9 @@
       "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "target": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gate_g2_efeitos_externos"
     },
     {
       "relation": "contains",
@@ -54809,9 +55370,9 @@
       "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "target": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gate_g3_runtime_minecraft"
     },
     {
       "relation": "contains",
@@ -54820,9 +55381,9 @@
       "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "target": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gate_g4_distribui\u00e7\u00e3o"
     },
     {
       "relation": "contains",
@@ -54831,9 +55392,9 @@
       "source_location": "L92",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_gates_transversais",
-      "target": "docs_plataforma_final_implementation_plan_gate_g5_qualidade",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_gate_g5_qualidade"
     },
     {
       "relation": "contains",
@@ -54842,9 +55403,9 @@
       "source_location": "L105",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
-      "target": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_7_0_corrigir_a_base_de_compatibilidade_usada_pelo_painel"
     },
     {
       "relation": "contains",
@@ -54853,9 +55414,9 @@
       "source_location": "L131",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
-      "target": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_7_1_registrar_a_decis\u00e3o_do_primeiro_schema"
     },
     {
       "relation": "contains",
@@ -54864,9 +55425,9 @@
       "source_location": "L145",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
-      "target": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_7_2_persist\u00eancia_e_opera\u00e7\u00e3o_de_configura\u00e7\u00e3o"
     },
     {
       "relation": "contains",
@@ -54875,9 +55436,9 @@
       "source_location": "L156",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_7_configura\u00e7\u00f5es_verific\u00e1veis",
-      "target": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_7_3_api_agente_e_painel"
     },
     {
       "relation": "contains",
@@ -54886,9 +55447,9 @@
       "source_location": "L189",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
-      "target": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_8_1_inspe\u00e7\u00e3o_segura_de_artefato"
     },
     {
       "relation": "contains",
@@ -54897,9 +55458,9 @@
       "source_location": "L200",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
-      "target": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_8_2_motor_de_compatibilidade"
     },
     {
       "relation": "contains",
@@ -54908,9 +55469,9 @@
       "source_location": "L227",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
-      "target": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_8_3_persist\u00eancia_api_e_revis\u00e3o"
     },
     {
       "relation": "contains",
@@ -54919,9 +55480,9 @@
       "source_location": "L238",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_8_entrada_adaptativa_de_mods_e_incompatibilidades",
-      "target": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_8_4_experi\u00eancia_do_painel"
     },
     {
       "relation": "contains",
@@ -54930,9 +55491,9 @@
       "source_location": "L270",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
-      "target": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_9_1_contratos_operacionais_e_persist\u00eancia"
     },
     {
       "relation": "contains",
@@ -54941,9 +55502,9 @@
       "source_location": "L280",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
-      "target": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_9_2_transporte_real_control_api_server_agent"
     },
     {
       "relation": "contains",
@@ -54952,9 +55513,9 @@
       "source_location": "L291",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_9_n\u00facleo_operacional_e_painel_funcional_m\u00ednimo",
-      "target": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_9_3_painel_din\u00e2mico"
     },
     {
       "relation": "contains",
@@ -54963,9 +55524,9 @@
       "source_location": "L315",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "target": "docs_plataforma_final_implementation_plan_10_1_processo_e_console",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_10_1_processo_e_console"
     },
     {
       "relation": "contains",
@@ -54974,9 +55535,9 @@
       "source_location": "L325",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "target": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_10_2_arquivos_e_configura\u00e7\u00f5es"
     },
     {
       "relation": "contains",
@@ -54985,9 +55546,9 @@
       "source_location": "L335",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "target": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_10_3_backups_e_restore"
     },
     {
       "relation": "contains",
@@ -54996,9 +55557,9 @@
       "source_location": "L345",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "target": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_10_4_m\u00e9tricas_logs_e_alertas"
     },
     {
       "relation": "contains",
@@ -55007,9 +55568,9 @@
       "source_location": "L356",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_10_opera\u00e7\u00f5es_completas_do_servidor",
-      "target": "docs_plataforma_final_implementation_plan_10_5_agendamentos",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_10_5_agendamentos"
     },
     {
       "relation": "contains",
@@ -55018,9 +55579,9 @@
       "source_location": "L375",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_11_jogadores_permiss\u00f5es_e_modera\u00e7\u00e3o_reais",
-      "target": "docs_plataforma_final_implementation_plan_11_0_gate_de_entrada_operacional",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_11_0_gate_de_entrada_operacional"
     },
     {
       "relation": "contains",
@@ -55029,9 +55590,9 @@
       "source_location": "L414",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
-      "target": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_12_1_cat\u00e1logo_e_build_de_produ\u00e7\u00e3o"
     },
     {
       "relation": "contains",
@@ -55040,9 +55601,9 @@
       "source_location": "L423",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
-      "target": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_12_2_assinatura_canais_e_launcher"
     },
     {
       "relation": "contains",
@@ -55051,9 +55612,9 @@
       "source_location": "L433",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
-      "target": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_12_3_forge_bridge_e_atualizar_modpack"
     },
     {
       "relation": "contains",
@@ -55062,9 +55623,9 @@
       "source_location": "L442",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_12_release_launcher_e_forge_bridge",
-      "target": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_12_4_certifica\u00e7\u00e3o_da_release"
     },
     {
       "relation": "contains",
@@ -55073,9 +55634,9 @@
       "source_location": "L464",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
-      "target": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_13_1_decis\u00f5es_finais_obrigat\u00f3rias"
     },
     {
       "relation": "contains",
@@ -55084,9 +55645,9 @@
       "source_location": "L474",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
-      "target": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_13_2_implanta\u00e7\u00e3o"
     },
     {
       "relation": "contains",
@@ -55095,9 +55656,9 @@
       "source_location": "L484",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
-      "target": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_13_3_seguran\u00e7a_e_resili\u00eancia"
     },
     {
       "relation": "contains",
@@ -55106,9 +55667,9 @@
       "source_location": "L495",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_fase_13_produ\u00e7\u00e3o_seguran\u00e7a_e_encerramento",
-      "target": "docs_plataforma_final_implementation_plan_13_4_aceite_final",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_13_4_aceite_final"
     },
     {
       "relation": "contains",
@@ -55117,9 +55678,9 @@
       "source_location": "L527",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "target": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_baseline_antes_de_uma_fase"
     },
     {
       "relation": "contains",
@@ -55128,9 +55689,9 @@
       "source_location": "L538",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "target": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_ciclo_de_cada_fatia"
     },
     {
       "relation": "contains",
@@ -55139,9 +55700,9 @@
       "source_location": "L551",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "target": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_comandos_de_valida\u00e7\u00e3o_por_escopo"
     },
     {
       "relation": "contains",
@@ -55150,9 +55711,9 @@
       "source_location": "L573",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "target": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_divis\u00e3o_obrigat\u00f3ria_de_commits"
     },
     {
       "relation": "contains",
@@ -55161,9 +55722,9 @@
       "source_location": "L515",
       "weight": 1.0,
       "_origin": "ast",
+      "confidence_score": 1.0,
       "source": "docs_plataforma_final_implementation_plan_protocolo_de_execu\u00e7\u00e3o_no_terminal",
-      "target": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o",
-      "confidence_score": 1.0
+      "target": "docs_plataforma_final_implementation_plan_in\u00edcio_de_uma_sess\u00e3o"
     },
     {
       "relation": "contains",
@@ -150211,5 +150772,5 @@
       "source_file": "Servidor/AGENTS.md"
     }
   ],
-  "built_at_commit": "5e99bbb23b0ba8038aceaf43530295ba905500f0"
+  "built_at_commit": "739101e7b3ddc8fbbb1fb310c2fa497aad7014b9"
 }
