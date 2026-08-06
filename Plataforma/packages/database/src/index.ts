@@ -7,6 +7,7 @@ export * from './console-repositories.js';
 export * from './migrations.js';
 export * from './mod-catalog-repositories.js';
 export * from './operational-repositories.js';
+export * from './player-identity-repositories.js';
 export * from './repositories.js';
 export * from './schedule-repositories.js';
 export * from './telemetry-repositories.js';

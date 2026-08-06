@@ -29,6 +29,7 @@ import {
   ProcessStateRepository,
 } from './operational-repositories.js';
 import { ModCatalogRepository } from './mod-catalog-repositories.js';
+import { PlayerIdentityRepository } from './player-identity-repositories.js';
 import type { Database, SqlClient } from './database.js';
 import { appendAuditRecord } from './audit-persistence.js';
 import {
@@ -963,6 +964,7 @@ export interface Repositories {
   readonly backups: BackupRepository;
   readonly telemetry: TelemetryRepository;
   readonly schedules: ScheduleRepository;
+  readonly playerIdentities: PlayerIdentityRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -986,5 +988,6 @@ export function createRepositories(database: Database): Repositories {
     backups: new BackupRepository(database),
     telemetry: new TelemetryRepository(database),
     schedules: new ScheduleRepository(database),
+    playerIdentities: new PlayerIdentityRepository(database),
   };
 }

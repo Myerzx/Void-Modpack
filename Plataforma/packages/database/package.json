@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/database-foundation.test.ts test/database-artifact-review.test.ts test/database-operational-core.test.ts test/database-mod-catalog.test.ts test/database-agent-transport.test.ts test/database-console.test.ts",
+    "test": "tsx --test test/database-foundation.test.ts test/database-artifact-review.test.ts test/database-operational-core.test.ts test/database-mod-catalog.test.ts test/database-agent-transport.test.ts test/database-console.test.ts test/player-identity.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {

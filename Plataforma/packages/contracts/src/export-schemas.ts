@@ -42,6 +42,7 @@ import { JobSchema } from './job.js';
 import { LauncherChannelSchema } from './launcher-channel.js';
 import { LauncherManagedStateSchema } from './launcher-state.js';
 import { MinecraftPermissionBindingSchema } from './minecraft-permission-binding.js';
+import { MinecraftClaimSchema, PlayerIdentitySchema } from './player-identity.js';
 import {
   PermissionOperationReceiptSchema,
   PermissionOperationSchema,
@@ -133,6 +134,8 @@ const schemas = [
   ['launcher-channel.schema.json', LauncherChannelSchema],
   ['launcher-managed-state.schema.json', LauncherManagedStateSchema],
   ['minecraft-permission-binding.schema.json', MinecraftPermissionBindingSchema],
+  ['player-identity.schema.json', PlayerIdentitySchema],
+  ['minecraft-claim.schema.json', MinecraftClaimSchema],
   ['permission-operation.schema.json', PermissionOperationSchema],
   ['permission-rebind-operation.schema.json', PermissionRebindOperationSchema],
   ['permission-snapshot.schema.json', PermissionSnapshotSchema],

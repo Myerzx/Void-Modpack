@@ -98,6 +98,16 @@ Fica em aberto, e não é decidido aqui: se o registro é livre ou por convite. 
 - uma identidade legada reivindicada preserva histórico, alias e casos de moderação, agora ancorados na identidade emitida;
 - uma identidade legada nunca reivindicada permanece como registro histórico e não é promovida por inatividade.
 
+### Tensão de chave com os contratos da Fase 6
+
+Registrada em 2026-08-06, ao persistir a identidade.
+
+`PlayerProfile` e `ModerationCase` foram escritos para o domínio puro da Fase 6 e são chaveados em `playerUuid`. Este ADR mudou a chave estável para a identidade emitida. Reinterpretar aquele campo como id de identidade seria uma troca semântica silenciosa: dois leitores da mesma coluna discordariam sobre o que ela significa, e nada no repositório registraria quando mudou.
+
+Por isso a persistência da identidade usa contratos novos — `PlayerIdentity` e `MinecraftClaim` — e os da Fase 6 ficam intactos. A consequência é que **casos de moderação ainda não têm persistência**: persisti-los exige decidir se `ModerationCase` ganha `identityId`, se é substituído, ou se um caso continua sendo sobre uma conta e não sobre uma pessoa.
+
+Isso não é decidido aqui. É a próxima decisão da Fase 11, e tem consequência real: um caso chaveado na conta se perde no rebind por troca de nome, e um chaveado na identidade sobrevive — que é provavelmente o que se quer de um histórico de punição, mas é escolha do proprietário.
+
 ## Não autorização
 
 Este ADR não autoriza adicionar mod ao pack, alterar o servidor real, iniciar processo, editar `Servidor/workspace/**`, criar tabela de credencial, nem persistir dado pessoal — este último segue gated pelo [ADR-011](ADR-011-dados-de-jogador-e-retencao.md).
