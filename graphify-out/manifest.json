@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1785958657.9340765,
-    "ast_hash": "864bb0589e8a14a7b53daf2e90471f08",
+    "mtime": 1785995130.7836165,
+    "ast_hash": "1e9ab5278786605857229c817dd05afc",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -610,8 +610,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/package.json": {
-    "mtime": 1785985273.203079,
-    "ast_hash": "6edc4c1edc0d863fe06d8ed466212080",
+    "mtime": 1785995303.4448357,
+    "ast_hash": "4f2d59e6c0e9fbb5ee68c84029a731a9",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/index.ts": {
-    "mtime": 1785985132.5639088,
-    "ast_hash": "b5b234404042ff8a05b130cae59f5509",
+    "mtime": 1785995073.241516,
+    "ast_hash": "28611678ce8885c38c41aba23aab85ae",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/agent-client.test.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1785962565.3493197,
-    "ast_hash": "98fe76a651572ff04563904788188276",
+    "mtime": 1785995723.149731,
+    "ast_hash": "32f8bc247f5a7cdadd33d22fbd9405c8",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -3930,8 +3930,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/main.ts": {
-    "mtime": 1785983805.560127,
-    "ast_hash": "52d9db069a95f7a078a315c4b030762b",
+    "mtime": 1785995196.3345273,
+    "ast_hash": "2130b199824446099ff6bb1beaf51b04",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/readiness.ts": {
@@ -3940,13 +3940,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime-config.ts": {
-    "mtime": 1785983768.5689695,
-    "ast_hash": "e91c623f606e20ead8fbe11245f49f4a",
+    "mtime": 1785994926.063408,
+    "ast_hash": "dfab70ef4d3b7ef8c7c05ba55d5f6620",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
-    "mtime": 1785985146.1606796,
-    "ast_hash": "cb3df62873854cd0aad23746cc2e1557",
+    "mtime": 1785995161.1188388,
+    "ast_hash": "73c0e7db920a9ce6393ffce939ed9608",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/scheduler-loop.ts": {
@@ -3955,18 +3955,18 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime-config.test.ts": {
-    "mtime": 1785984076.5799384,
-    "ast_hash": "a31e3cc3ee2c10619fc35cc6f63a077e",
+    "mtime": 1785995462.4515033,
+    "ast_hash": "ef9c9f903cd44fc5be61055b85ce160d",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
-    "mtime": 1785985172.2960021,
-    "ast_hash": "d7b7d6b27a7959a61abd5c0b02988b42",
+    "mtime": 1785995393.4459918,
+    "ast_hash": "87a0d017cbec414f0abaea7d0a21e0e4",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md": {
-    "mtime": 1785985952.9988568,
-    "ast_hash": "fc79f6187b197f5b3a911f5d08c8ee83",
+    "mtime": 1785996281.2263756,
+    "ast_hash": "f65347c725a58f7fa2cac1728e05147a",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/schedule-executor.ts": {
@@ -3977,6 +3977,21 @@
   "Plataforma/apps/server-agent/test/schedule-executor.test.ts": {
     "mtime": 1785985393.9517698,
     "ast_hash": "3cc6a1659db39639521fbf9ce9cc9aa2",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/src/offline-guards.ts": {
+    "mtime": 1785994988.6269011,
+    "ast_hash": "141c4697b17a072b6013d9c802dd7a25",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/test/offline-guards.test.ts": {
+    "mtime": 1785995339.7366343,
+    "ast_hash": "fef17afe0af64573a9639b906608f10e",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0014_agent_readiness.sql": {
+    "mtime": 1785995121.5862522,
+    "ast_hash": "96225e602afd0153d070aba43644e9f9",
     "semantic_hash": ""
   }
 }
