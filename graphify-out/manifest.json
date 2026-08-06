@@ -610,8 +610,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/package.json": {
-    "mtime": 1785963186.8246145,
-    "ast_hash": "0137f3ffdec16a45ebb428976c73764a",
+    "mtime": 1785985273.203079,
+    "ast_hash": "6edc4c1edc0d863fe06d8ed466212080",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/index.ts": {
-    "mtime": 1785962917.8253975,
-    "ast_hash": "9e250f03531f80071cfd06e5c5a683d6",
+    "mtime": 1785985132.5639088,
+    "ast_hash": "b5b234404042ff8a05b130cae59f5509",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/agent-client.test.ts": {
@@ -3945,13 +3945,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
-    "mtime": 1785983723.5135374,
-    "ast_hash": "5fbf8edf1c55db9bb65aba1ffec108db",
+    "mtime": 1785985146.1606796,
+    "ast_hash": "cb3df62873854cd0aad23746cc2e1557",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/scheduler-loop.ts": {
-    "mtime": 1785962817.8791919,
-    "ast_hash": "e33200c9a3091133a985605bd37897b4",
+    "mtime": 1785985051.6607165,
+    "ast_hash": "e63604689dbcb9789836b538d72d22dc",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime-config.test.ts": {
@@ -3960,13 +3960,23 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
-    "mtime": 1785984146.5148313,
-    "ast_hash": "64c1113f6c9f379b18bd6027448b84c9",
+    "mtime": 1785985172.2960021,
+    "ast_hash": "d7b7d6b27a7959a61abd5c0b02988b42",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md": {
-    "mtime": 1785984796.1970286,
-    "ast_hash": "5336f2c301c02c557f1a87c81e17b16d",
+    "mtime": 1785985952.9988568,
+    "ast_hash": "fc79f6187b197f5b3a911f5d08c8ee83",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/src/schedule-executor.ts": {
+    "mtime": 1785985128.7133977,
+    "ast_hash": "623132d64a28d3ae3c1d124e223f02bb",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/server-agent/test/schedule-executor.test.ts": {
+    "mtime": 1785985393.9517698,
+    "ast_hash": "3cc6a1659db39639521fbf9ce9cc9aa2",
     "semantic_hash": ""
   }
 }
