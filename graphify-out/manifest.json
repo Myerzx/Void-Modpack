@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1785958510.023403,
-    "ast_hash": "4dd253eefbf91ee99cad29fdb661ce1f",
+    "mtime": 1786027679.3192985,
+    "ast_hash": "fa4e94f140a03a778bce16485ad0084b",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
-    "mtime": 1785958510.0088296,
-    "ast_hash": "583339ad92baeacfb931737ac35163b8",
+    "mtime": 1786027660.1074176,
+    "ast_hash": "2dcb4f0faacc5a71f0e435b7b1d66769",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/job.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1785958019.1537921,
-    "ast_hash": "5546b741d602565d8dc0d372a25d775b",
+    "mtime": 1786027738.533062,
+    "ast_hash": "39f66a475fb5696e3f8a3243324b5836",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -1265,8 +1265,8 @@
     "semantic_hash": ""
   },
   "Plataforma/integrations/forge-bridge/scripts/test.mjs": {
-    "mtime": 1785795928.006663,
-    "ast_hash": "7b77548b14c5cc8e491f1477d029779b",
+    "mtime": 1786028020.3805141,
+    "ast_hash": "0b2167f90280078eef62bd1ae7e547c9",
     "semantic_hash": ""
   },
   "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/AgentGateway.java": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786025424.8224041,
-    "ast_hash": "fd3c917bb60c075e9533ef722ee364d9",
+    "mtime": 1786028587.3601785,
+    "ast_hash": "00cf662fcb8c19be025ebd8c1d176456",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4017,6 +4017,71 @@
   "docs/plataforma/DECISIONS/ADR-013-permissoes-tipadas-no-forge-bridge.md": {
     "mtime": 1786027492.1814475,
     "ast_hash": "b7c96a83d15cb135be2fe86275c26021",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/AuthenticatedPermissionVerifier.java": {
+    "mtime": 1786027932.735602,
+    "ast_hash": "5dba657fe87399d6c7f9afbab5c21def",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/ClaimResolver.java": {
+    "mtime": 1786027913.1100945,
+    "ast_hash": "9cd5988f02d5af8150774f4592b3b23d",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionCapabilityState.java": {
+    "mtime": 1786027851.538875,
+    "ast_hash": "0c6fa0de0fadcb5033546928648fc7d2",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionCommandService.java": {
+    "mtime": 1786027921.3645005,
+    "ast_hash": "c85df84b93ea8c220e5639809303c2cb",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionOperation.java": {
+    "mtime": 1786027839.30915,
+    "ast_hash": "1470f677ace3ea336eb63299ece19a92",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionOperationResult.java": {
+    "mtime": 1786027839.3586013,
+    "ast_hash": "c5b731f0895f12e0b6ca0390d41f0e4c",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionProvider.java": {
+    "mtime": 1786027813.1272645,
+    "ast_hash": "2d62d99c72fe15c3b20ae0a2c09426f5",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionProviderException.java": {
+    "mtime": 1786027813.1517484,
+    "ast_hash": "2f688fe32caee3c6bdfff350baea7b2a",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionSnapshot.java": {
+    "mtime": 1786027839.3345058,
+    "ast_hash": "bf5b4f425c225f0a469a263be833be21",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/PermissionState.java": {
+    "mtime": 1786027813.1018152,
+    "ast_hash": "21e266cbdd81db9912bd1d6825569ab4",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/main/java/dev/voidfall/forgebridge/permissions/ResolvedClaim.java": {
+    "mtime": 1786027792.179344,
+    "ast_hash": "42aaa128723137b301c7e63362c0221e",
+    "semantic_hash": ""
+  },
+  "Plataforma/integrations/forge-bridge/src/test/java/dev/voidfall/forgebridge/permissions/PermissionCommandServiceTest.java": {
+    "mtime": 1786028009.9672632,
+    "ast_hash": "3e5d2ab081b2b4a0bb9e48d4b743ccb4",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/contracts/src/permission-operation.ts": {
+    "mtime": 1786027653.165576,
+    "ast_hash": "33e768efae36d98fc9d9265fae9440af",
     "semantic_hash": ""
   }
 }
