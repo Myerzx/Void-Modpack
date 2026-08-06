@@ -388,7 +388,7 @@ Status: concluído em 2026-08-05. A auditoria encontrou uma afirmação errada d
 
 Objetivo: conectar o domínio puro da Fase 6 a providers aprovados e às telas operacionais.
 
-- [ ] decidir autenticação Minecraft e provider de permissões em ADRs;
+- [ ] decidir autenticação Minecraft e provider de permissões em ADRs — [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md), [ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md) e [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md) redigidos como **propostas** em 2026-08-06, com opções e recomendação; aguardam decisão do proprietário e bloqueiam os itens seguintes;
 - [ ] persistir perfis, aliases, bindings, casos e recibos;
 - [ ] implementar importação/reconciliação por UUID sem confiar em nome;
 - [ ] ligar provider Forge deny-by-default;

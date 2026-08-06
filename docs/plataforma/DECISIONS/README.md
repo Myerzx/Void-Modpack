@@ -10,3 +10,9 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-006 — Identidade VoidFall e início limitado da Fase 2](ADR-006-identidade-e-inicio-da-fase-2.md)
 - [ADR-007 — Encerramento da Fase 2 e abertura segura da Fase 3](ADR-007-fase-2-concluida-e-fase-3-segura.md)
 - [ADR-008 — OpenLoader como primeiro schema específico](ADR-008-openloader-como-primeiro-schema.md)
+
+Propostas aguardando decisão do proprietário. As três bloqueiam a Fase 11 e são independentes entre si, exceto onde indicado:
+
+- [ADR-009 — Autenticação Minecraft e topologia de acesso](ADR-009-autenticacao-minecraft-e-topologia.md) — **proposta**
+- [ADR-010 — Provider de permissões Minecraft](ADR-010-provider-de-permissoes-minecraft.md) — **proposta**
+- [ADR-011 — Dados de jogador, retenção e acesso](ADR-011-dados-de-jogador-e-retencao.md) — **proposta**
