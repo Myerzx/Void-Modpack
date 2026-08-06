@@ -29,10 +29,23 @@ export const MinecraftAliasSchema = Type.Object(
   { additionalProperties: false },
 );
 
+/**
+ * A player's record on one server, keyed by the identity VoidFall issued.
+ *
+ * It was keyed on `playerUuid` while the Phase 6 domain was pure. That field is
+ * gone rather than reinterpreted: in offline mode a Minecraft UUID is derived
+ * from the player's name, so keying a profile on it would tie the record to a
+ * name and lose it at the next rebind. The semantic dependency is removed by
+ * removing the field, not by giving it a new meaning nobody can see.
+ *
+ * Unique per `serverInstanceId` + `identityId`. Aliases still carry the names,
+ * as observations rather than as identification.
+ */
 export const PlayerProfileSchema = Type.Object(
   {
     schemaVersion: ContractSchemaVersion,
-    playerUuid: UuidSchema,
+    identityId: UuidSchema,
+    serverInstanceId: UuidSchema,
     revision: Type.Integer({ minimum: 1 }),
     status: Type.Union([
       Type.Literal('active'),

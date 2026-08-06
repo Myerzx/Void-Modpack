@@ -46,7 +46,9 @@ export class ModerationCaseRegistry {
     const replay = this.#replays.replay(plan.operationId, operationFingerprint);
     if (replay !== undefined) return replay;
     assertUuid(plan.caseId);
-    assertUuid(plan.playerUuid);
+    assertUuid(plan.subjectIdentityId);
+    assertUuid(plan.incidentContext.claimId);
+    assertUuid(plan.incidentContext.minecraftUuid);
     assertUuid(plan.serverInstanceId);
     assertActor(plan.requestedBy);
     assertReason(plan.reason);
@@ -66,7 +68,12 @@ export class ModerationCaseRegistry {
     const moderationCase: ModerationCase = {
       schemaVersion: 1,
       caseId: plan.caseId,
-      playerUuid: plan.playerUuid,
+      subjectIdentityId: plan.subjectIdentityId,
+      incidentContext: {
+        claimId: plan.incidentContext.claimId,
+        minecraftUuid: plan.incidentContext.minecraftUuid,
+        minecraftName: plan.incidentContext.minecraftName,
+      },
       serverInstanceId: plan.serverInstanceId,
       revision: 1,
       action: plan.action,
@@ -106,7 +113,7 @@ export class ModerationCaseRegistry {
       receipt = await this.#executor.apply({
         caseId: current.caseId,
         caseRevision: current.revision,
-        playerUuid: current.playerUuid,
+        subjectIdentityId: current.subjectIdentityId,
         serverInstanceId: current.serverInstanceId,
         action: current.action,
         reasonCode: current.reasonCode,

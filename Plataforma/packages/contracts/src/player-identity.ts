@@ -23,11 +23,11 @@ import {
  * the Minecraft UUID is a **claim** on that identity — observable, revocable,
  * and re-bindable when a name change moves it.
  *
- * These are deliberately separate contracts from `PlayerProfile` and
- * `ModerationCase`, which were written for the Phase 6 pure domain and are
- * keyed on `playerUuid`. Quietly reinterpreting that field as an identity id
- * would be the kind of silent semantic swap that leaves two readers of the same
- * column disagreeing about what it means.
+ * `PlayerProfile` and `ModerationCase` are keyed on this identity too. They
+ * used to be keyed on `playerUuid`; that field was removed rather than
+ * reinterpreted, because giving an existing field a new meaning leaves two
+ * readers of the same column disagreeing and nothing recording when it
+ * changed.
  */
 
 /** A claim that was never proven is not the same as one that was. */
@@ -50,6 +50,14 @@ export const MinecraftClaimSchema = Type.Object(
     serverInstanceId: UuidSchema,
     minecraftUuid: UuidSchema,
     status: MinecraftClaimStatusSchema,
+    /**
+     * Bumped whenever the claim changes hands or state.
+     *
+     * Signed claim evidence carries it, so the Bridge can refuse anything at or
+     * below a revision that has been invalidated. Without it a ticket minted
+     * before a revocation looks exactly like one minted after.
+     */
+    revision: Type.Integer({ minimum: 1 }),
     /** `null` exactly while the claim has never been proven. */
     claimedAt: Type.Union([IsoDateTimeSchema, Type.Null()]),
     revokedAt: Type.Union([IsoDateTimeSchema, Type.Null()]),

@@ -3,6 +3,9 @@ import { describe, it } from 'node:test';
 import {
   canPublishInStable,
   validateAgentEnvelope,
+  validateClaimEvidence,
+  validateClaimInvalidation,
+  validateSignedClaimEvidence,
   validatePermissionOperation,
   validatePermissionOperationReceipt,
   validatePermissionRebindOperation,
@@ -670,7 +673,8 @@ describe('AuditEvent', () => {
 describe('PlayerProfile', () => {
   const validProfile = () => ({
     schemaVersion: 1,
-    playerUuid: uuid,
+    identityId: uuid,
+    serverInstanceId: otherUuid,
     revision: 2,
     status: 'active',
     createdAt: '2026-08-03T12:00:00Z',
@@ -753,7 +757,12 @@ describe('ModerationCase', () => {
   const validCase = () => ({
     schemaVersion: 1,
     caseId: uuid,
-    playerUuid: uuid,
+    subjectIdentityId: uuid,
+    incidentContext: {
+      claimId: otherUuid,
+      minecraftUuid: uuid,
+      minecraftName: 'Void_Player',
+    },
     serverInstanceId: otherUuid,
     revision: 1,
     action: 'temporary-ban',
@@ -2416,6 +2425,104 @@ describe('typed permission operations', () => {
         snapshot: null,
       }).success,
       true,
+    );
+  });
+});
+
+describe('claim evidence', () => {
+  const IDENTITY = '018f6b8c-76a3-7d10-9f2e-1d9e52a63731';
+  const CLAIM = '018f6b8c-76a3-7d10-9f2e-1d9e52a63732';
+  const SERVER = '018f6b8c-76a3-7d10-9f2e-1d9e52a63733';
+  const ACCOUNT = '018f6b8c-76a3-7d10-9f2e-1d9e52a63734';
+
+  const evidence = () => ({
+    schemaVersion: 1,
+    identityId: IDENTITY,
+    claimId: CLAIM,
+    claimRevision: 3,
+    serverInstanceId: SERVER,
+    expectedMinecraftName: 'Void_Player',
+    expectedMinecraftUuid: ACCOUNT,
+    issuedAt: '2026-08-06T12:00:00.000Z',
+    expiresAt: '2026-08-06T12:02:00.000Z',
+  });
+
+  it('carries the revision, so a pre-revocation replay is distinguishable', () => {
+    assert.equal(validateClaimEvidence(evidence()).success, true);
+    // Without a revision, a ticket minted before a revocation would look
+    // exactly like one minted after it.
+    const { claimRevision, ...withoutRevision } = evidence();
+    assert.equal(validateClaimEvidence(withoutRevision).success, false);
+  });
+
+  it('expires within minutes, because it asserts a fact that can change', () => {
+    assert.equal(
+      validateClaimEvidence({ ...evidence(), expiresAt: '2026-08-06T12:00:00.000Z' }).success,
+      false,
+    );
+    // The window is the latency of a revocation the Bridge validates locally.
+    assert.equal(
+      validateClaimEvidence({ ...evidence(), expiresAt: '2026-08-06T18:00:00.000Z' }).success,
+      false,
+    );
+  });
+
+  it('names both the expected name and the expected account', () => {
+    // The Bridge compares the real connection name against one and derives the
+    // offline UUID to compare against the other. Dropping either would leave a
+    // check that a supplied value could satisfy on its own.
+    const { expectedMinecraftUuid, ...withoutUuid } = evidence();
+    assert.equal(validateClaimEvidence(withoutUuid).success, false);
+    const { expectedMinecraftName, ...withoutName } = evidence();
+    assert.equal(validateClaimEvidence(withoutName).success, false);
+  });
+
+  it('validates the evidence inside a signed envelope', () => {
+    const signed = {
+      schemaVersion: 1,
+      evidence: evidence(),
+      signature: { algorithm: 'Ed25519', keyId: 'agent-key-1', value: 'a'.repeat(86) },
+    };
+    assert.equal(validateSignedClaimEvidence(signed).success, true);
+    // A signature over evidence the contract rejects is still rejected.
+    assert.equal(
+      validateSignedClaimEvidence({
+        ...signed,
+        evidence: { ...evidence(), expiresAt: '2026-08-06T18:00:00.000Z' },
+      }).success,
+      false,
+    );
+  });
+
+  it('withdraws through a revision rather than syncing claim state', () => {
+    assert.equal(
+      validateClaimInvalidation({
+        schemaVersion: 1,
+        identityId: IDENTITY,
+        claimId: CLAIM,
+        invalidatedThroughRevision: 3,
+        serverInstanceId: SERVER,
+        reason: 'claim-revoked',
+        dropActiveSession: true,
+        issuedAt: '2026-08-06T12:00:00.000Z',
+      }).success,
+      true,
+    );
+    // It says one thing. Carrying the claim's whole state would rebuild the
+    // mirror this design avoids, by increments.
+    assert.equal(
+      validateClaimInvalidation({
+        schemaVersion: 1,
+        identityId: IDENTITY,
+        claimId: CLAIM,
+        invalidatedThroughRevision: 3,
+        serverInstanceId: SERVER,
+        reason: 'claim-revoked',
+        dropActiveSession: true,
+        issuedAt: '2026-08-06T12:00:00.000Z',
+        expectedMinecraftUuid: ACCOUNT,
+      }).success,
+      false,
     );
   });
 });

@@ -60,6 +60,7 @@ interface ClaimRow {
   readonly server_instance_id: string;
   readonly minecraft_uuid: string;
   readonly status: MinecraftClaimStatus;
+  readonly revision: string | number;
   readonly claimed_at: Date | string | null;
   readonly revoked_at: Date | string | null;
   readonly reason_code: string;
@@ -102,6 +103,7 @@ function mapClaim(row: ClaimRow): MinecraftClaim {
     serverInstanceId: row.server_instance_id,
     minecraftUuid: row.minecraft_uuid,
     status: row.status,
+    revision: Number(row.revision),
     claimedAt: isoOrNull(row.claimed_at),
     revokedAt: isoOrNull(row.revoked_at),
     reasonCode: row.reason_code,
@@ -116,7 +118,7 @@ function mapClaim(row: ClaimRow): MinecraftClaim {
 const IDENTITY_COLUMNS = `identity_id, status, first_seen_at, last_seen_at, created_by,
   created_at, updated_at, version`;
 const CLAIM_COLUMNS = `claim_id, identity_id, server_instance_id, minecraft_uuid, status,
-  claimed_at, revoked_at, reason_code, created_at, updated_at`;
+  revision, claimed_at, revoked_at, reason_code, created_at, updated_at`;
 
 export interface ImportLegacyClaimInput {
   readonly identityId: string;
@@ -260,7 +262,8 @@ export class PlayerIdentityRepository {
     try {
       result = await this.database.query<ClaimRow>(
         `UPDATE player_minecraft_claims
-            SET status = 'active', claimed_at = $3, reason_code = $4, updated_at = $3
+            SET status = 'active', claimed_at = $3, reason_code = $4, updated_at = $3,
+                revision = revision + 1
           WHERE claim_id = $1 AND identity_id = $2 AND status = 'legacy-unclaimed'
         RETURNING ${CLAIM_COLUMNS}`,
         [input.claimId, input.identityId, input.now.toISOString(), input.reasonCode],
@@ -282,7 +285,8 @@ export class PlayerIdentityRepository {
   async revokeClaim(input: ClaimIdentityInput): Promise<MinecraftClaim> {
     const result = await this.database.query<ClaimRow>(
       `UPDATE player_minecraft_claims
-          SET status = 'revoked', revoked_at = $3, reason_code = $4, updated_at = $3
+          SET status = 'revoked', revoked_at = $3, reason_code = $4, updated_at = $3,
+              revision = revision + 1
         WHERE claim_id = $1 AND identity_id = $2 AND status = 'active'
       RETURNING ${CLAIM_COLUMNS}`,
       [input.claimId, input.identityId, input.now.toISOString(), input.reasonCode],

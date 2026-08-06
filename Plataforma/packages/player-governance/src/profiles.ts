@@ -17,6 +17,17 @@ import {
   type PlayerProfileRegistryOptions,
 } from './types.js';
 
+/**
+ * A profile is unique per server and identity, so the key is the pair.
+ *
+ * Keyed on the identity rather than the account: a Minecraft UUID is derived
+ * from the name in offline mode, so a profile keyed on it would be lost the
+ * moment somebody renamed.
+ */
+function profileKey(identityId: string, serverInstanceId: string): string {
+  return `${serverInstanceId}:${identityId}`;
+}
+
 const MINECRAFT_ALIAS = /^[A-Za-z0-9_]{3,16}$/u;
 
 export class PlayerProfileRegistry {
@@ -42,12 +53,12 @@ export class PlayerProfileRegistry {
     const replay = this.#replays.replay(plan.operationId, operationFingerprint);
     if (replay !== undefined) return replay;
 
-    assertUuid(plan.playerUuid);
+    assertUuid(plan.identityId);
     assertUuid(plan.serverInstanceId);
     if (!MINECRAFT_ALIAS.test(plan.alias)) throw new PlayerGovernanceError('invalid-alias');
     const observedAt = canonicalTimestamp(plan.observedAt);
     const normalizedName = plan.alias.toLocaleLowerCase('en-US');
-    const current = this.#profiles.get(plan.playerUuid);
+    const current = this.#profiles.get(profileKey(plan.identityId, plan.serverInstanceId));
 
     if (current === undefined) {
       if (plan.expectedRevision !== null) throw new PlayerGovernanceError('revision-conflict');
@@ -56,7 +67,8 @@ export class PlayerProfileRegistry {
       }
       const created: PlayerProfile = {
         schemaVersion: 1,
-        playerUuid: plan.playerUuid,
+        identityId: plan.identityId,
+        serverInstanceId: plan.serverInstanceId,
         revision: 1,
         status: 'active',
         createdAt: observedAt,
@@ -126,11 +138,11 @@ export class PlayerProfileRegistry {
     const operationFingerprint = fingerprint(plan);
     const replay = this.#replays.replay(plan.operationId, operationFingerprint);
     if (replay !== undefined) return replay;
-    assertUuid(plan.playerUuid);
+    assertUuid(plan.identityId);
     assertActor(plan.actor);
     assertReason(plan.reason);
     const changedAt = canonicalTimestamp(plan.changedAt);
-    const current = this.#profiles.get(plan.playerUuid);
+    const current = this.#profiles.get(profileKey(plan.identityId, plan.serverInstanceId));
     if (current === undefined) throw new PlayerGovernanceError('profile-not-found');
     if (current.revision !== plan.expectedRevision) {
       throw new PlayerGovernanceError('revision-conflict');
@@ -148,14 +160,22 @@ export class PlayerProfileRegistry {
     return this.#store(plan.operationId, operationFingerprint, updated);
   }
 
-  public find(playerUuid: string): PlayerProfile | undefined {
-    assertUuid(playerUuid);
-    const profile = this.#profiles.get(playerUuid);
+  public find(identityId: string, serverInstanceId: string): PlayerProfile | undefined {
+    assertUuid(identityId);
+    assertUuid(serverInstanceId);
+    const profile = this.#profiles.get(profileKey(identityId, serverInstanceId));
     return profile === undefined ? undefined : immutable(profile);
   }
 
   public list(): readonly PlayerProfile[] {
-    return immutable([...this.#profiles.values()].sort((a, b) => compareOrdinal(a.playerUuid, b.playerUuid)));
+    return immutable(
+      [...this.#profiles.values()].sort((left, right) =>
+        compareOrdinal(
+          profileKey(left.identityId, left.serverInstanceId),
+          profileKey(right.identityId, right.serverInstanceId),
+        ),
+      ),
+    );
   }
 
   #store(operationId: string, operationFingerprint: string, profile: PlayerProfile): PlayerProfile {
@@ -163,7 +183,7 @@ export class PlayerProfileRegistry {
     if (!validation.success) throw new PlayerGovernanceError('invalid-operation');
     const stored = immutable(validation.value);
     this.#replays.remember(operationId, operationFingerprint, stored);
-    this.#profiles.set(stored.playerUuid, stored);
+    this.#profiles.set(profileKey(stored.identityId, stored.serverInstanceId), stored);
     return immutable(stored);
   }
 }

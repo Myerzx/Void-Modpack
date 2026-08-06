@@ -55,6 +55,7 @@ describe('PostgreSQL foundation', () => {
         '0013_schedules.sql',
         '0014_agent_readiness.sql',
         '0015_player_identity.sql',
+        '0016_player_profiles_and_moderation.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);

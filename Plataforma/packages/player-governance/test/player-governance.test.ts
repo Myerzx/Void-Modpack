@@ -12,6 +12,14 @@ import {
 } from '../src/index.js';
 
 const playerUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63701';
+/** The stable subject. A profile and a case are about this, not about a name. */
+const identityUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63721';
+const claimUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63722';
+const incidentContext = {
+  claimId: claimUuid,
+  minecraftUuid: playerUuid,
+  minecraftName: 'Void_Player',
+} as const;
 const serverUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
 const actorUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63703';
 const bindingUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63704';
@@ -35,7 +43,7 @@ describe('UUID player profiles and aliases', () => {
     const registry = new PlayerProfileRegistry({ ...options, maximumAliasesPerProfile: 4 });
     const plan = {
       operationId: op1,
-      playerUuid,
+      identityId: identityUuid,
       expectedRevision: null,
       alias: 'Void_Player',
       source: 'forge-bridge' as const,
@@ -51,7 +59,7 @@ describe('UUID player profiles and aliases', () => {
       alias: 'VOID_PLAYER',
       observedAt: '2026-08-03T12:05:00.000Z',
     });
-    assert.equal(updated.playerUuid, playerUuid);
+    assert.equal(updated.identityId, identityUuid);
     assert.equal(updated.revision, 2);
     assert.equal(updated.aliases.length, 1);
     assert.equal(updated.aliases[0]?.observationCount, 2);
@@ -63,7 +71,7 @@ describe('UUID player profiles and aliases', () => {
     const registry = new PlayerProfileRegistry({ ...options, maximumAliasesPerProfile: 1 });
     registry.observeAlias({
       operationId: op1,
-      playerUuid,
+      identityId: identityUuid,
       expectedRevision: null,
       alias: 'Player_One',
       source: 'manual-review',
@@ -74,7 +82,7 @@ describe('UUID player profiles and aliases', () => {
       () =>
         registry.observeAlias({
           operationId: op2,
-          playerUuid,
+          identityId: identityUuid,
           expectedRevision: 1,
           alias: 'Player_Two',
           source: 'manual-review',
@@ -85,7 +93,8 @@ describe('UUID player profiles and aliases', () => {
     );
     const retired = registry.changeStatus({
       operationId: op3,
-      playerUuid,
+      identityId: identityUuid,
+      serverInstanceId: serverUuid,
       expectedRevision: 1,
       status: 'retired',
       actor,
@@ -97,7 +106,7 @@ describe('UUID player profiles and aliases', () => {
       () =>
         registry.observeAlias({
           operationId: op2,
-          playerUuid,
+          identityId: identityUuid,
           expectedRevision: 2,
           alias: 'Player_One',
           source: 'manual-review',
@@ -112,7 +121,7 @@ describe('UUID player profiles and aliases', () => {
     const registry = new PlayerProfileRegistry({ ...options, maximumAliasesPerProfile: 4 });
     const plan = {
       operationId: op1,
-      playerUuid,
+      identityId: identityUuid,
       expectedRevision: null,
       alias: 'Player_One',
       source: 'manual-review' as const,
@@ -209,7 +218,8 @@ describe('typed moderation cases', () => {
   const requestPlan = {
     operationId: op1,
     caseId: caseUuid,
-    playerUuid,
+    subjectIdentityId: identityUuid,
+    incidentContext,
     serverInstanceId: serverUuid,
     action: 'temporary-ban' as const,
     reasonCode: 'abuse-review',

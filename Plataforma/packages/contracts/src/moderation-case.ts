@@ -40,11 +40,35 @@ const ModerationTransitionSchema = Type.Object(
   { additionalProperties: false },
 );
 
+/**
+ * What the incident looked like at the time, kept for the record.
+ *
+ * None of it is a key. A case is about a person, and the account, the name and
+ * the claim they held when it happened are context an operator needs when
+ * reading the case months later — not the thing that identifies whom it is
+ * about. Keying on any of them would lose the punishment at the next name
+ * change, which is precisely what a punishment must survive.
+ */
+const ModerationIncidentContextSchema = Type.Object(
+  {
+    claimId: UuidSchema,
+    minecraftUuid: UuidSchema,
+    minecraftName: Type.String({ minLength: 3, maxLength: 16, pattern: '^[A-Za-z0-9_]+$' }),
+  },
+  { additionalProperties: false },
+);
+
 export const ModerationCaseSchema = Type.Object(
   {
     schemaVersion: ContractSchemaVersion,
     caseId: UuidSchema,
-    playerUuid: UuidSchema,
+    /**
+     * Whom the case is about. Mandatory and stable: a punishment survives a
+     * name change, a rebind and the revocation of the claim it was recorded
+     * against.
+     */
+    subjectIdentityId: UuidSchema,
+    incidentContext: ModerationIncidentContextSchema,
     serverInstanceId: UuidSchema,
     revision: Type.Integer({ minimum: 1 }),
     action: ModerationActionSchema,
@@ -69,6 +93,7 @@ export const ModerationCaseSchema = Type.Object(
   },
 );
 
+export type ModerationIncidentContext = Static<typeof ModerationIncidentContextSchema>;
 export type ModerationAction = Static<typeof ModerationActionSchema>;
 export type ModerationCase = Static<typeof ModerationCaseSchema>;
 

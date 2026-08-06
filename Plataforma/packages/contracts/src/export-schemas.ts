@@ -36,6 +36,11 @@ import {
 } from './authorized-file-operation.js';
 import { AuditEventSchema } from './audit-event.js';
 import { CatalogReconciliationReportSchema } from './catalog-reconciliation.js';
+import {
+  ClaimEvidenceSchema,
+  ClaimInvalidationSchema,
+  SignedClaimEvidenceSchema,
+} from './claim-evidence.js';
 import { ForgeBuildRequestSchema } from './forge-build-request.js';
 import { InventorySnapshotSchema } from './inventory-snapshot.js';
 import { JobSchema } from './job.js';
@@ -134,6 +139,9 @@ const schemas = [
   ['launcher-channel.schema.json', LauncherChannelSchema],
   ['launcher-managed-state.schema.json', LauncherManagedStateSchema],
   ['minecraft-permission-binding.schema.json', MinecraftPermissionBindingSchema],
+  ['claim-evidence.schema.json', ClaimEvidenceSchema],
+  ['signed-claim-evidence.schema.json', SignedClaimEvidenceSchema],
+  ['claim-invalidation.schema.json', ClaimInvalidationSchema],
   ['player-identity.schema.json', PlayerIdentitySchema],
   ['minecraft-claim.schema.json', MinecraftClaimSchema],
   ['permission-operation.schema.json', PermissionOperationSchema],

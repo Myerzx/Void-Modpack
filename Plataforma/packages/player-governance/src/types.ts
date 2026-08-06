@@ -3,6 +3,7 @@ import type {
   MinecraftPermissionBinding,
   ModerationAction,
   ModerationCase,
+  ModerationIncidentContext,
   PlayerDataCategory,
   PlayerDataPolicy,
   PlayerProfile,
@@ -54,7 +55,8 @@ export interface PlayerProfileRegistryOptions extends GovernanceRegistryOptions 
 
 export interface ObservePlayerAliasPlan {
   readonly operationId: string;
-  readonly playerUuid: string;
+  /** Whom the profile is about. Never a Minecraft UUID; see the contract. */
+  readonly identityId: string;
   readonly expectedRevision: number | null;
   readonly alias: string;
   readonly source: PlayerProfile['aliases'][number]['source'];
@@ -64,7 +66,8 @@ export interface ObservePlayerAliasPlan {
 
 export interface ChangePlayerProfileStatusPlan {
   readonly operationId: string;
-  readonly playerUuid: string;
+  readonly identityId: string;
+  readonly serverInstanceId: string;
   readonly expectedRevision: number;
   readonly status: PlayerProfile['status'];
   readonly actor: ActorRef;
@@ -170,7 +173,9 @@ export interface MinecraftPermissionDecision {
 export interface RequestModerationCasePlan {
   readonly operationId: string;
   readonly caseId: string;
-  readonly playerUuid: string;
+  /** The subject: stable, and it outlives the account named in the context. */
+  readonly subjectIdentityId: string;
+  readonly incidentContext: ModerationIncidentContext;
   readonly serverInstanceId: string;
   readonly action: ModerationAction;
   readonly reasonCode: string;
@@ -183,7 +188,12 @@ export interface RequestModerationCasePlan {
 export interface ModerationExecutionRequest {
   readonly caseId: string;
   readonly caseRevision: number;
-  readonly playerUuid: string;
+  /**
+   * The subject, never an account. Which account that is now comes from signed
+   * claim evidence at the boundary, not from a field an executor could be
+   * handed.
+   */
+  readonly subjectIdentityId: string;
   readonly serverInstanceId: string;
   readonly action: ModerationAction;
   readonly reasonCode: string;
@@ -261,4 +271,10 @@ export interface PlayerDataDecision {
   readonly retentionExpiresAt?: string;
 }
 
-export type { MinecraftPermissionBinding, ModerationCase, PlayerDataPolicy, PlayerProfile };
+export type {
+  MinecraftPermissionBinding,
+  ModerationCase,
+  ModerationIncidentContext,
+  PlayerDataPolicy,
+  PlayerProfile,
+};
