@@ -5,6 +5,7 @@
 - Proprietário: `voidfall-product-owner`
 - Responde: ROADMAP pergunta 5
 - Desbloqueia: Fase 11 itens 4 e 5 (provider deny-by-default, executor tipado)
+- Resolvido depois: por qual caminho a operação chega ao LuckPerms — [ADR-013](ADR-013-permissoes-tipadas-no-forge-bridge.md)
 
 ## Contexto
 

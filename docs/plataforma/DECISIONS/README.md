@@ -14,3 +14,5 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-009 — Autenticação Minecraft e identidade de jogador](ADR-009-autenticacao-minecraft-e-topologia.md)
 - [ADR-010 — Provider de permissões Minecraft](ADR-010-provider-de-permissoes-minecraft.md)
 - [ADR-011 — Dados de jogador, retenção e acesso](ADR-011-dados-de-jogador-e-retencao.md)
+- [ADR-012 — Credenciais, tickets de login e rotação de chaves](ADR-012-credenciais-e-tickets-de-login.md)
+- [ADR-013 — Capacidade tipada de permissões no Forge Bridge](ADR-013-permissoes-tipadas-no-forge-bridge.md)

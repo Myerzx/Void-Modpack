@@ -66,16 +66,19 @@ O raciocínio é o mesmo que o resto desta base aplica em toda parte: não colet
 
 A Opção C não é aceita. Chat e coordenadas não são dados do operador sobre a operação — são dados de terceiros sobre terceiros, e ampliá-los exige razão nomeada e aviso aos jogadores.
 
-### Pendência aberta pelo ADR-009: credenciais
+### Emenda de 2026-08-06 — credencial é categoria separada
 
-O [ADR-009](ADR-009-autenticacao-minecraft-e-topologia.md) tornou obrigatória uma camada de autenticação offline. Isso implica um **verificador de senha** em algum lugar, e verificador de senha **não é** identidade, vínculo nem moderação — não está coberto por este recorte.
+O [ADR-009](ADR-009-autenticacao-minecraft-e-topologia.md) tornou obrigatória uma camada de autenticação offline, e este ADR registrou que um **verificador de senha não é** identidade, vínculo nem moderação — não estava coberto pelo núcleo mínimo.
 
-Registrado explicitamente para que não entre depois como uma coluna a mais numa migração:
+O [ADR-012](ADR-012-credenciais-e-tickets-de-login.md) resolveu a pendência: a credencial fica no VoidFall, **em armazenamento próprio de autenticação, separado de identidade, vínculo Minecraft e moderação**, e explicitamente não como coluna de perfil.
 
-- se a credencial ficar no **mod** aprovado pelo Gate G4, o VoidFall nunca a vê e este ADR permanece como está;
-- se a credencial ficar no **VoidFall**, este ADR precisa de emenda cobrindo função de derivação com custo, sal por usuário, rotação, política de acesso e purga.
+O que esta emenda faz, e só isso:
 
-Até essa decisão, **nenhuma tabela de credencial é criada**, e a persistência da Fase 11 fica limitada às três categorias do recorte abaixo.
+- reconhece **credencial** como categoria própria de dado, com regime próprio de derivação, rotação, revogação e purga, definido no ADR-012;
+- mantém o núcleo mínimo deste ADR **inalterado** — a credencial não entra na tabela abaixo, porque não é um atributo de perfil;
+- registra que a purga de credencial é **independente** da purga de perfil: revogar o acesso de alguém e apagar seu histórico de moderação são atos diferentes, com autorizações e consequências diferentes.
+
+Nenhuma tabela de credencial é criada por este ADR; ela pertence à fatia do ADR-012, que não permite login até estar completa.
 
 Um segundo efeito do ADR-009: a chave estável passa a ser a identidade emitida pelo VoidFall, e o UUID Minecraft vira vínculo. A tabela abaixo já está escrita nesses termos.
 

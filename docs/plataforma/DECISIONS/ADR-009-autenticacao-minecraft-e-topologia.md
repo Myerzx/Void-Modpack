@@ -5,6 +5,7 @@
 - Proprietário: `voidfall-product-owner`
 - Responde: ROADMAP pergunta 4
 - Desbloqueia: Fase 11 item 3 (importação e reconciliação de identidade)
+- Resolvido depois: onde mora a credencial — [ADR-012](ADR-012-credenciais-e-tickets-de-login.md)
 
 ## Contexto
 
@@ -62,6 +63,8 @@ O [Forge Bridge](../../../Plataforma/integrations/forge-bridge/) existe, mas hoj
 Candidatos server-side para Forge 1.20.1 levantados, **não revisados e não aprovados**: [SAuth](https://modrinth.com/mod/sauth) (`/register`, `/login`, credenciais em `config/serverreg/users.json`), ServerAuth e Player Safe Login. [Simple Login](https://www.curseforge.com/minecraft/mc-mods/simple-login) foi descartado por desenho: guarda a senha no cliente e a envia automaticamente ao entrar, o que é conveniência, não autenticação, e ainda exige mod no cliente.
 
 ### Onde a credencial mora é uma decisão que falta
+
+> **Resolvido em 2026-08-06 pelo [ADR-012](ADR-012-credenciais-e-tickets-de-login.md).** A credencial fica no VoidFall, em armazenamento próprio, com Argon2id. As duas subseções abaixo — a análise das opções e o requisito de revisão de mod candidato — ficam registradas como o raciocínio que levou até lá, e não descrevem mais o caminho escolhido: como o launcher é nosso, a senha nunca chega ao servidor Minecraft, o login passa por ticket assinado validado pelo Bridge, e **nenhum mod de autenticação de terceiro é necessário**. Os candidatos citados adiante resolvem o problema de quem não controla o cliente, que não é o nosso.
 
 Uma camada de autenticação implica um verificador de senha em algum lugar. Isso é uma categoria de dado que o [ADR-011](ADR-011-dados-de-jogador-e-retencao.md) **não** contempla — o núcleo mínimo é identidade, vínculo e moderação, e nenhum dos três é credencial.
 
