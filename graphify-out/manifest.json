@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1785871061.205414,
-    "ast_hash": "922ea3ff2fecc4fcafbae7062afa9167",
+    "mtime": 1786023889.3094757,
+    "ast_hash": "3f5c6e2be67fb62b1c34477a628867af",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1785963561.9980314,
-    "ast_hash": "388818cca7f62de1811e87b14d308688",
+    "mtime": 1786023895.5026407,
+    "ast_hash": "e045c611a2aafbaa8ad15e55fb05e32e",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -3992,6 +3992,21 @@
   "Plataforma/packages/database/migrations/0014_agent_readiness.sql": {
     "mtime": 1785995121.5862522,
     "ast_hash": "96225e602afd0153d070aba43644e9f9",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md": {
+    "mtime": 1786023787.3194203,
+    "ast_hash": "c08272c0076c865d27c629d572aaed83",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-010-provider-de-permissoes-minecraft.md": {
+    "mtime": 1786023839.751938,
+    "ast_hash": "10d03ff5cddcac0d757d97e662abde38",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-011-dados-de-jogador-e-retencao.md": {
+    "mtime": 1786023881.8697813,
+    "ast_hash": "3ca434b3a42b97852e647c221331fb69",
     "semantic_hash": ""
   }
 }

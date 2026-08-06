@@ -1,10 +1,10 @@
 # ADR-011 — Dados de jogador, retenção e acesso
 
-- Status: **proposta** — aguarda decisão do proprietário
+- Status: **aceita**
 - Data: 2026-08-06
 - Proprietário: `voidfall-product-owner`
 - Responde: ROADMAP pergunta 9
-- Bloqueia: Fase 11 itens 2, 7 e 9 (persistência, política antes da coleta, auditoria de leitura e retenção)
+- Desbloqueia: Fase 11 itens 2, 7 e 9 (persistência, política antes da coleta, auditoria de leitura e retenção)
 
 ## Contexto
 
@@ -58,36 +58,53 @@ A Opção B mais chat, coordenadas e eventos de inventário.
 - O volume muda de ordem de grandeza e traz seu próprio problema de retenção, custo e poda.
 - O Gate G1 já trata chat e coordenada como categorias a manter fora do Git; guardá-las no banco exige justificar por que a fronteira é diferente.
 
-## Recomendação
+## Decisão
 
-**Opção A agora, Opção B como ADR próprio quando houver um caso de evasão real.**
+**Opção A.** O núcleo mínimo — identidade, vínculo e moderação. IP, chat e coordenadas ficam fora do escopo até existirem finalidade, retenção e controle de acesso definidos.
 
 O raciocínio é o mesmo que o resto desta base aplica em toda parte: não coletar o que não se sabe usar. TPS e jogadores online são reportados como `no-approved-provider` em vez de zero; `warn-players` recusa em vez de aproximar; force kill não foi implementado antes de existir runtime. Guardar IP "para o caso de" é a versão de privacidade de anunciar uma capability sem handler.
 
-A Opção C não deveria ser aceita sem uma razão nomeada e um aviso aos jogadores. Chat e coordenadas não são dados do operador sobre a operação — são dados de terceiros sobre terceiros.
+A Opção C não é aceita. Chat e coordenadas não são dados do operador sobre a operação — são dados de terceiros sobre terceiros, e ampliá-los exige razão nomeada e aviso aos jogadores.
 
-### Recorte proposto, se A for aceita
+### Pendência aberta pelo ADR-009: credenciais
+
+O [ADR-009](ADR-009-autenticacao-minecraft-e-topologia.md) tornou obrigatória uma camada de autenticação offline. Isso implica um **verificador de senha** em algum lugar, e verificador de senha **não é** identidade, vínculo nem moderação — não está coberto por este recorte.
+
+Registrado explicitamente para que não entre depois como uma coluna a mais numa migração:
+
+- se a credencial ficar no **mod** aprovado pelo Gate G4, o VoidFall nunca a vê e este ADR permanece como está;
+- se a credencial ficar no **VoidFall**, este ADR precisa de emenda cobrindo função de derivação com custo, sal por usuário, rotação, política de acesso e purga.
+
+Até essa decisão, **nenhuma tabela de credencial é criada**, e a persistência da Fase 11 fica limitada às três categorias do recorte abaixo.
+
+Um segundo efeito do ADR-009: a chave estável passa a ser a identidade emitida pelo VoidFall, e o UUID Minecraft vira vínculo. A tabela abaixo já está escrita nesses termos.
+
+### Recorte aceito
 
 | Dado | Retenção | Quem lê |
 | --- | --- | --- |
-| UUID e alias atual | enquanto o perfil existir | `players.view` |
-| Histórico de alias | enquanto o perfil existir | `players.view` |
-| Grupos e nós | enquanto o perfil existir | `players.view` |
+| Identidade emitida pelo VoidFall | enquanto o perfil existir | `players.view` |
+| UUID Minecraft vinculado, e se foi reivindicado | enquanto o perfil existir | `players.view` |
+| Alias atual e histórico de alias | enquanto o perfil existir | `players.view` |
+| Grupos e nós, **lidos do provider** | não persistido como verdade; cache com origem e instante | `players.view` |
 | Caso de moderação ativo | enquanto ativo | `players.view` |
 | Caso encerrado | 2 anos após o fim | `players.view` |
 | Primeiro e último acesso | enquanto o perfil existir | `players.view` |
+
+Grupos e nós aparecem aqui como **leitura**, não como posse: o [ADR-010](ADR-010-provider-de-permissoes-minecraft.md) põe a fonte de verdade no LuckPerms, e o VoidFall não mantém segunda fonte editável. O que é persistido é cache de exibição, com a origem e o instante da leitura visíveis.
 
 - **Purga de perfil**: remover um perfil apaga alias, vínculos e sessões, e **anonimiza** casos encerrados preservando motivo, ator e datas — o histórico de moderação é registro da operação, não do jogador, e apagá-lo por completo destruiria a prestação de contas de quem puniu.
 - **Auditoria de leitura**: listagem e perfil não são auditados individualmente; leitura sob `player.activity.sensitive` é auditada com ator e motivo. Auditar toda listagem produz volume que ninguém lê, e um log que ninguém lê não é controle.
 - **Nada disso entra em Git.** Fixtures de teste usam UUIDs sintéticos e nomes inventados, como o resto da base já faz.
 
-## Consequências, se A for aceita
+## Consequências
 
-- a migração de jogadores pode ser escrita, com as colunas limitadas ao recorte acima;
+- a migração de jogadores pode ser escrita, com as colunas limitadas ao recorte acima e **sem tabela de credencial**;
 - `PlayerDataPolicyEngine` recebe essa política como conteúdo e passa a ter testes de expiração e purga;
 - ban por IP fica fora da Fase 11 e precisa de ADR próprio;
 - investigação de incidente continua dependendo dos logs do servidor, cuja retenção segue não governada pelo VoidFall — vale registrar como risco aberto;
-- ampliar para IP, chat ou coordenadas exige novo ADR com justificativa nomeada, não uma coluna a mais numa migração.
+- ampliar para IP, chat ou coordenadas exige novo ADR com justificativa nomeada, não uma coluna a mais numa migração;
+- onde a credencial de autenticação mora continua pendente, e é pré-requisito para qualquer persistência ligada ao login.
 
 ## Não autorização
 

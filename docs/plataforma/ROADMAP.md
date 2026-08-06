@@ -171,12 +171,12 @@ O escopo executável, dependências e definição de pronto de cada uma estão n
 1. [Respondida] O nome oficial é **VoidFall**. O versionamento de releases permanece SemVer e o schema possui versão própria.
 2. O cliente privado de 220 JARs será a base ou será reconstruído do catálogo?
 3. Quais launchers precisam ser suportados no primeiro release?
-4. O servidor usará autenticação oficial direta ou proxy? Qual topologia?
-5. Qual mod de permissões já existe ou pode ser introduzido sem conflito?
+4. [Respondida] Nenhum dos dois. `online-mode` permanece `false` porque o servidor aceita jogadores sem conta oficial, com camada de autenticação obrigatória e reivindicação de identidade — [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md). Onde mora a credencial continua pendente.
+5. [Respondida] Nenhum existe entre os 195 mods. LuckPerms é o provider e a fonte de verdade; a PermissionAPI do Forge fica como interface de compatibilidade — [ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md). O caminho da operação até o LuckPerms continua pendente.
 6. A produção inicial continuará em Windows ou migrará para Linux?
 7. Onde artifacts e backups serão armazenados e qual orçamento/retention?
 8. Quem pode aprovar/promover stable e rollback? Exige duas pessoas?
-9. Quais dados de jogador podem ser armazenados e por quanto tempo?
+9. [Respondida] Núcleo mínimo: identidade, vínculo e moderação, com casos encerrados por 2 anos. IP, chat e coordenadas ficam fora até haver finalidade, retenção e controle de acesso — [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md).
 10. O painel será acessível pela internet, VPN ou somente LAN?
 11. Qual política para mods extras/opcionais no cliente?
 12. O launcher será apenas protocolo/adaptadores ou aplicativo próprio no futuro?

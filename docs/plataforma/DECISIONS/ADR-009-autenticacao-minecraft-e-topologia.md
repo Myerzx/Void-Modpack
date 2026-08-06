@@ -1,19 +1,16 @@
-# ADR-009 — Autenticação Minecraft e topologia de acesso
+# ADR-009 — Autenticação Minecraft e identidade de jogador
 
-- Status: **proposta** — aguarda decisão do proprietário
+- Status: **aceita**
 - Data: 2026-08-06
 - Proprietário: `voidfall-product-owner`
 - Responde: ROADMAP pergunta 4
-- Bloqueia: Fase 11 itens 1 e 3 (importação e reconciliação por UUID)
+- Desbloqueia: Fase 11 item 3 (importação e reconciliação de identidade)
 
 ## Contexto
 
-A Fase 11 persiste perfis de jogador e reconcilia identidades **por UUID, sem confiar em nome**. Essa regra só é implementável depois de decidir de onde o UUID vem, porque os dois modos de operação produzem UUIDs diferentes para a mesma pessoa:
+A Fase 11 persiste perfis e reconcilia identidades **sem confiar em nome**. Uma proposta anterior deste ADR recomendou `online-mode=true`, tratando o modo offline como uma configuração herdada a corrigir.
 
-- **online-mode=true**: o servidor valida a sessão contra os serviços oficiais e recebe o UUID da conta. É estável, global e sobrevive a troca de nome.
-- **online-mode=false**: o servidor gera um UUID offline determinístico a partir do nome (`OfflinePlayer:<nome>`). Trocar de nome cria uma pessoa nova; dois servidores diferentes concordam por acaso, não por identidade.
-
-Persistir a segunda forma acreditando que é a primeira não erra às vezes — erra sempre, e o dado errado fica gravado. Reconciliar por UUID sob a suposição errada é pior do que não reconciliar.
+Essa recomendação estava errada por desconhecer um requisito de produto: **o servidor deve aceitar jogadores sem conta oficial.** Isso não é uma consequência do estado atual, é uma escolha, e ela decide o modo — o que resta a decidir é o que substitui a validação que os serviços oficiais fariam.
 
 ### Estado atual, medido
 
@@ -28,64 +25,80 @@ A [auditoria do servidor](../servidor/auditoria.md) de 2026-08-03 encontrou, no 
 | Operadores | 7 |
 | Usuários em cache | 7 |
 
-A auditoria classifica a combinação como crítica se o servidor for alcançável por rede não confiável, e já recomenda `online-mode=true` com whitelist para implantação direta, ou documentar a topologia de proxy antes de considerar modo offline.
+A auditoria classifica a combinação como crítica se o servidor for alcançável por rede não confiável. O achado permanece válido: o que esta decisão remove não é o modo offline, é a **ausência de qualquer autenticação**.
 
-**Portanto os UUIDs dos 7 usuários em cache são, hoje, UUIDs offline.** Qualquer importação futura precisa saber disso.
+### O que um UUID offline é, e o que não é
 
-### Restrição técnica: proxies e Forge 1.20.1
+Em `online-mode=false` o servidor deriva o UUID do nome (`OfflinePlayer:<nome>`). Ele é estável enquanto o nome não muda e **não prova nada sobre quem digitou aquele nome**. Qualquer pessoa que escolha o nome recebe o mesmo UUID.
 
-Velocity **não** suporta nativamente servidores Forge entre 1.13 e 1.20.1 — o suporte começa acima de 1.20.2 e as versões intermediárias não estão planejadas ([PaperMC](https://docs.papermc.io/velocity/server-compatibility/)). Para 1.20.1 a topologia de proxy exige um intermediário adicional:
+Portanto o UUID offline serve como *chave de continuidade local* e nunca como *prova de propriedade*. Tratar os dois como a mesma coisa é o defeito que esta decisão existe para impedir.
 
-- o plugin **Ambassador** no proxy, ou
-- o mod **Proxy-Compatible-Forge** / **NeoVelocity** no backend, implementando o modern forwarding do Velocity.
+## Decisão
 
-Todos exigem `online-mode=false` no backend, delegando a autenticação ao proxy. Ou seja: **a topologia de proxy reproduz exatamente a configuração que a auditoria hoje classifica como crítica** — a diferença é que passa a ser deliberada, com o backend inacessível de fora e um mod a mais no caminho da autenticação.
+1. **`online-mode` permanece `false`**, porque o servidor deve aceitar jogadores sem conta oficial.
+2. **Uma camada de autenticação é obrigatória**, integrada ao VoidFall ou fornecida por um mod aprovado pelo Gate G4. Nenhum jogador obtém privilégio antes de autenticar.
+3. **Os UUIDs atuais são preservados como identidades locais legadas**, e explicitamente **não** como prova de propriedade de conta.
+4. **Operadores reivindicam novamente suas identidades** antes de recuperar privilégios. Os 7 operadores atuais perdem privilégio até a reivindicação.
 
-## Opções
+### O que passa a ser a identidade
 
-### Opção A — Direto, online-mode
+A chave estável de um jogador passa a ser uma **identidade emitida pelo VoidFall**, estabelecida pela autenticação. O UUID Minecraft — offline hoje, possivelmente oficial no futuro para quem tiver conta — vira um **vínculo** a essa identidade: observável, revogável e re-vinculável após reivindicação.
 
-`online-mode=true`, `white-list=true`, `enforce-whitelist=true`, sem proxy.
+Consequência direta para a Fase 11: "reconciliar por UUID sem confiar em nome" passa a ler-se **reconciliar pela identidade reivindicada, sem confiar em nome nem em UUID offline**. O nome nunca foi confiável; o UUID offline é o nome com passos extras, e herdaria a mesma fraqueza se fosse promovido a chave.
 
-- UUIDs oficiais, estáveis, sobrevivem a troca de nome.
-- Zero mod novo no caminho da autenticação.
-- Fecha o achado crítico da auditoria pela via mais curta.
-- Os 7 UUIDs offline em cache **não migram**: são identidades diferentes e precisam ser reconstruídos, com whitelist e bans refeitos.
-- Um único servidor. Múltiplas instâncias no MVP ficariam sem porta de entrada comum (ROADMAP pergunta 13).
+## Consequências
 
-### Opção B — Proxy autenticador (Velocity + Ambassador ou PCF)
+### A camada de autenticação precisa de presença dentro do jogo
 
-Proxy em online-mode, backend em `online-mode=false` com forwarding assinado, backend fechado por firewall.
+O Server Agent é outbound-only e não tem presença no mundo: ele disca para o plano de controle e nunca escuta. Autenticar um jogador exige interceptar o login e bloquear ação até a credencial ser aceita — coisa que só acontece dentro do processo do servidor.
 
-- UUIDs oficiais também, encaminhados pelo proxy.
-- Abre caminho para múltiplas instâncias e uma porta única.
-- Acrescenta **dois** componentes no caminho de autenticação (proxy e shim), ambos fora do catálogo revisado, ambos com licença e proveniência a decidir pelo Gate G4.
-- O backend fica literalmente em modo offline: se o firewall falhar ou o forwarding secret vazar, qualquer identidade entra. O `enforce-whitelist` do backend deixa de ser a última linha.
-- O shim para 1.20.1 é software de terceiro no caminho crítico de login, e a busca já mostra incompatibilidades conhecidas entre ele e mods de permissão.
+O [Forge Bridge](../../../Plataforma/integrations/forge-bridge/) existe, mas hoje serve exclusivamente ao comando `/build` assinado, e seu `PermissionVerifier` é uma interface sem implementação. Uma camada nativa do VoidFall é, portanto, trabalho substancial de Bridge — território da Fase 12.
 
-### Opção C — Manter offline, com whitelist e rede fechada
+**Isto sequencia a Fase 11.** As duas saídas:
 
-`online-mode=false`, `white-list=true`, `enforce-whitelist=true`, acesso só por LAN ou VPN.
+- **Mod aprovado pelo Gate G4 agora**, com o VoidFall consumindo o resultado. Destrava a Fase 11 sem esperar a Fase 12.
+- **Camada nativa no Bridge**, que adia a moderação real da Fase 11 até a Bridge existir.
 
-- Nada muda para os 7 usuários existentes; a identidade atual é preservada.
-- Não exige mod nem proxy.
-- A identidade continua sendo o **nome**, não a conta: trocar de nome cria outra pessoa, e a regra "reconciliar por UUID sem confiar em nome" vira uma ficção — o UUID *é* o nome, com passos extras.
-- Não fecha o achado crítico; apenas o move para depender inteiramente da camada de rede.
+Candidatos server-side para Forge 1.20.1 levantados, **não revisados e não aprovados**: [SAuth](https://modrinth.com/mod/sauth) (`/register`, `/login`, credenciais em `config/serverreg/users.json`), ServerAuth e Player Safe Login. [Simple Login](https://www.curseforge.com/minecraft/mc-mods/simple-login) foi descartado por desenho: guarda a senha no cliente e a envia automaticamente ao entrar, o que é conveniência, não autenticação, e ainda exige mod no cliente.
 
-## Recomendação
+### Onde a credencial mora é uma decisão que falta
 
-**Opção A.** É a única em que o UUID significa o que a Fase 11 assume que significa, sem acrescentar componente de terceiro ao caminho de login. As perguntas 10 (exposição do painel) e 13 (múltiplas instâncias) do ROADMAP continuam em aberto, e nenhuma delas exige proxy no MVP; se a resposta a 13 virar "sim", a Opção B passa a ser um ADR próprio com migração, não uma extensão silenciosa deste.
+Uma camada de autenticação implica um verificador de senha em algum lugar. Isso é uma categoria de dado que o [ADR-011](ADR-011-dados-de-jogador-e-retencao.md) **não** contempla — o núcleo mínimo é identidade, vínculo e moderação, e nenhum dos três é credencial.
 
-A perda dos 7 UUIDs offline é real e vale registrar como custo aceito: eles não são identidades de conta, são derivações de nome, e importá-los como se fossem contas contaminaria a base de perfis desde o primeiro registro.
+Não vou resolver isso por dedução. As duas opções têm consequências diferentes e ambas precisam de decisão explícita:
 
-## Consequências, se A for aceita
+- **credencial no mod**: o VoidFall nunca vê senha nem verificador; ganha uma segunda fonte de identidade a conciliar;
+- **credencial no VoidFall**: fonte única, mas exige emenda ao ADR-011 com algoritmo de derivação, rotação e política de acesso.
 
-- a importação da Fase 11 trata os 7 UUIDs em cache como **não migráveis** e exige reconstrução explícita de whitelist, operadores e bans;
-- perfis persistidos guardam o UUID oficial como chave, e o nome apenas como alias observado com histórico;
-- a reconciliação por UUID passa a ser implementável como especificada;
-- RCON continua sendo superfície administrativa separada e permanece a ser revisada;
-- múltiplas instâncias, se decididas depois, exigem novo ADR com plano de migração de identidade.
+Enquanto isso não for decidido, nenhuma tabela de credencial é criada.
+
+### Requisito de revisão para qualquer mod candidato
+
+O Gate G4 já exige lado, origem, licença, hash e dependências. Para um mod de autenticação, acrescentar:
+
+- **derivação de senha**: SHA-256 puro não é hash de senha — é rápido e, sem sal por usuário, quebra em massa. O candidato precisa usar uma função de derivação com custo (Argon2, scrypt ou bcrypt) ou ser rejeitado;
+- **onde a credencial é gravada**, e se esse caminho é coberto pela retenção e pelas regras de Git;
+- **o que acontece antes do login**: movimento, chat, quebra de bloco e interação precisam estar bloqueados, não apenas desencorajados;
+- **interação com o pré-login do LuckPerms** descrita no [ADR-010](ADR-010-provider-de-permissoes-minecraft.md).
+
+### Rede continua sendo camada, não substituto
+
+`white-list` e `enforce-whitelist` permanecem ferramentas disponíveis, mas em modo offline a whitelist filtra **nomes**, e nome não é identidade — ela vale como redução de superfície, nunca como controle de acesso. RCON continua superfície administrativa separada e ainda a ser revisada.
+
+Fica em aberto, e não é decidido aqui: se o registro é livre ou por convite. Um servidor que aceita jogadores sem conta oficial e permite registro livre aceita, na prática, qualquer pessoa que alcance a porta.
+
+### Migração das identidades atuais
+
+- os 7 UUIDs em cache entram como **identidades locais legadas**, marcadas como não reivindicadas;
+- nenhuma delas concede privilégio;
+- `ops.json` deixa de ser fonte de autoridade para o VoidFall; os 7 operadores reivindicam antes de recuperar;
+- uma identidade legada reivindicada preserva histórico, alias e casos de moderação, agora ancorados na identidade emitida;
+- uma identidade legada nunca reivindicada permanece como registro histórico e não é promovida por inatividade.
 
 ## Não autorização
 
-Este ADR não autoriza alterar o servidor real, iniciar processo, editar `Servidor/workspace/**`, importar jogadores, nem persistir dado pessoal. A persistência é gated pelo [ADR-011](ADR-011-dados-de-jogador-e-retencao.md).
+Este ADR não autoriza adicionar mod ao pack, alterar o servidor real, iniciar processo, editar `Servidor/workspace/**`, criar tabela de credencial, nem persistir dado pessoal — este último segue gated pelo [ADR-011](ADR-011-dados-de-jogador-e-retencao.md).
+
+## Histórico
+
+A primeira versão desta proposta recomendava `online-mode=true` com perda dos UUIDs offline. O proprietário rejeitou a recomendação em 2026-08-06 por um requisito de produto que a proposta desconhecia — aceitar jogadores sem conta oficial — e substituiu a validação oficial por uma camada de autenticação obrigatória com reivindicação de identidade. A proposta não chegou a ser aceita, então foi reescrita em vez de superada.

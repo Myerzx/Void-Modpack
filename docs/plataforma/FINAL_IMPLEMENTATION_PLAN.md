@@ -388,7 +388,7 @@ Status: concluído em 2026-08-05. A auditoria encontrou uma afirmação errada d
 
 Objetivo: conectar o domínio puro da Fase 6 a providers aprovados e às telas operacionais.
 
-- [ ] decidir autenticação Minecraft e provider de permissões em ADRs — [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md), [ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md) e [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md) redigidos como **propostas** em 2026-08-06, com opções e recomendação; aguardam decisão do proprietário e bloqueiam os itens seguintes;
+- [x] decidir autenticação Minecraft e provider de permissões em ADRs — [ADR-009](DECISIONS/ADR-009-autenticacao-minecraft-e-topologia.md), [ADR-010](DECISIONS/ADR-010-provider-de-permissoes-minecraft.md) e [ADR-011](DECISIONS/ADR-011-dados-de-jogador-e-retencao.md) aceitos em 2026-08-06. `online-mode` permanece `false` porque o servidor aceita jogadores sem conta oficial, com camada de autenticação obrigatória e reivindicação de identidade; LuckPerms é o provider e a fonte de verdade, com o VoidFall enviando operações duráveis e não mantendo segunda fonte editável; dados de jogador ficam no núcleo mínimo. Duas pendências registradas bloqueiam os itens abaixo: **onde mora a credencial de autenticação** e **por qual caminho uma operação chega ao LuckPerms**;
 - [ ] persistir perfis, aliases, bindings, casos e recibos;
 - [ ] implementar importação/reconciliação por UUID sem confiar em nome;
 - [ ] ligar provider Forge deny-by-default;
