@@ -1,16 +1,16 @@
 # Graph Report - void pasta  (2026-08-07)
 
 ## Corpus Check
-- 588 files · ~799,581 words
+- 590 files · ~804,745 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 5703 nodes · 9629 edges · 366 communities (335 shown, 31 thin omitted)
+- 5731 nodes · 9642 edges · 374 communities (343 shown, 31 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 143 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `12b63033`
+- Built from commit: `2704f579`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -54,7 +54,7 @@
 - permissions/tsconfig.test.json
 - authentication/tsconfig.build.json
 - permissions/tsconfig.build.json
-- artifact-inspection/src/service.ts
+- metadata.ts
 - scan.ts
 - backup-seal-encryption.test.ts
 - worker.ts
@@ -91,7 +91,7 @@
 - authorized-file-routes.ts
 - .requestBuild
 - Inventário e catálogo reconciliado da Fase 4
-- export-schemas.ts
+- contracts/src/backup-operation.ts
 - authorized-files/package.json
 - Configurações básicas e revisões da Fase 3
 - catalog-reconciliation.ts
@@ -133,7 +133,7 @@
 - artifact-quarantine/tsconfig.build.json
 - authorized-files/src/service.ts
 - authorized-files/tsconfig.build.json
-- agent-transport.ts
+- validateContract
 - configuration-schemas/tsconfig.build.json
 - authorized-files/tsconfig.test.json
 - configuration-schemas/tsconfig.test.json
@@ -141,7 +141,7 @@
 - NeverExitingHandle
 - generate_modpack_docs.py
 - forge-bridge/package.json
-- semanticIssue
+- mod-compatibility.ts
 - builder.ts
 - modpack-release/package.json
 - modpack-release/tsconfig.build.json
@@ -163,7 +163,7 @@
 - Q: Como concluir a Fase 5 inteira sem violar os gates de cliente, licença e publicação stable?
 - configuration-routes.ts
 - Fase 9.2: transporte real Control API ↔ Server Agent
-- appendSemanticIssues
+- export-schemas.ts
 - audit-chain/package.json
 - audit-chain/tsconfig.test.json
 - player-governance/tsconfig.build.json
@@ -225,7 +225,7 @@
 - server-operation.ts
 - openloader-advanced-options.ts
 - dependencies
-- artifact-review.ts
+- artifact-compatibility.ts
 - toml.ts
 - Fase 8.1: inspeção segura de artefato
 - control-api/src/main.ts
@@ -242,11 +242,11 @@
 - engine.ts
 - Fase 9.1: contratos operacionais e persistência
 - server-backup/src/manifest.ts
-- validateContract
+- contracts/src/process-operation.ts
 - mod-catalog/src/types.ts
 - Fase 9 — núcleo operacional e painel funcional mínimo
 - artifact-compatibility/package.json
-- artifact-compatibility.ts
+- authorized-file-operation.ts
 - artifact-review-repositories.ts
 - artifact-routes.ts
 - operational-routes.ts
@@ -272,7 +272,7 @@
 - server-telemetry.ts
 - Fase 10.1: processo e console
 - backup-repositories.ts
-- signing.ts
+- canonicalJsonBytes
 - first-boot.ts
 - server-schedule/package.json
 - offline-guards.ts
@@ -303,7 +303,7 @@
 - Consequências
 - Consequências
 - ADR-011 — Dados de jogador, retenção e acesso
-- contracts/src/index.ts
+- claim-evidence.ts
 - sandbox.ts
 - PermissionCommandServiceTest
 - FailureCode
@@ -315,7 +315,7 @@
 - Code
 - configuration-inference/package.json
 - control-api/package.json
-- server-schedule.ts
+- planner.ts
 - server_instances
 - release-planner/package.json
 - mod-adapters/tsconfig.test.json
@@ -365,11 +365,19 @@
 - @voidfall/database
 - @voidfall/server-configuration
 - @voidfall/server-telemetry
+- artifact-inspection/src/service.ts
+- zip.ts
+- audit-chain/src/types.ts
+- player-identity.ts
+- Inspeção de artefato em camadas
+- artifact-inspection.test.ts
+- layered-inspection.test.ts
+- ArtifactInspectionLimits
 
 ## God Nodes (most connected - your core abstractions)
-1. `validateContract()` - 93 edges
-2. `semanticIssue()` - 79 edges
-3. `appendSemanticIssues()` - 77 edges
+1. `validateContract()` - 92 edges
+2. `semanticIssue()` - 78 edges
+3. `appendSemanticIssues()` - 76 edges
 4. `buildControlApi()` - 45 edges
 5. `ContractSchemaVersion` - 31 edges
 6. `ContractValidationResult` - 31 edges
@@ -400,7 +408,7 @@
 - **Five Initial Platform Architecture Decisions** — docs_plataforma_decisions_adr_001_linguagens_e_limites_typescript_control_plane_java_forge_bridge, docs_plataforma_decisions_adr_002_comunicacao_com_agente_outbound_authenticated_agent, docs_plataforma_decisions_adr_003_manifesto_e_publicacao_signed_immutable_release_manifest, docs_plataforma_decisions_adr_004_persistencia_e_fila_postgresql_durable_job_queue, docs_plataforma_decisions_adr_005_fonte_canonica_do_cliente_reviewed_canonical_client_catalog [EXTRACTED 1.00]
 - **Dedicated Server Publication Boundaries** — servidor_agents_server_agent_guide, servidor_pack_readme_dedicated_server_promotion_gate, servidor_source_readme_project_owned_source_gate [INFERRED 0.95]
 
-## Communities (366 total, 31 thin omitted)
+## Communities (374 total, 31 thin omitted)
 
 ### Community 0 - "Handoff da plataforma"
 Cohesion: 0.32
@@ -452,7 +460,7 @@ Nodes (6): ADR-006 — Identidade VoidFall e início limitado da Fase 2, Consequ
 
 ### Community 25 - "operational-repositories.ts"
 Cohesion: 0.09
-Nodes (15): AcceptOperationInput, isoString(), mapOperation(), mapOutboxEvent(), mapProcessState(), ObserveProcessInput, OperationalErrorCode, OperationRepository (+7 more)
+Nodes (16): SqlClient, AcceptOperationInput, isoString(), mapOperation(), mapOutboxEvent(), mapProcessState(), ObserveProcessInput, OperationalErrorCode (+8 more)
 
 ### Community 26 - "Plataforma/package.json"
 Cohesion: 0.06
@@ -500,11 +508,11 @@ Nodes (13): computeAgentPayloadHash(), createOpaqueToken(), EnvelopeFreshnessOpt
 
 ### Community 37 - "Database"
 Cohesion: 0.08
-Nodes (12): AppendConsoleInput, ConsoleErrorCode, ConsolePersistenceError, ConsoleRepository, ConsoleRow, isoString(), mapLine(), Database (+4 more)
+Nodes (10): AppendConsoleInput, ConsoleErrorCode, ConsolePersistenceError, ConsoleRepository, ConsoleRow, isoString(), mapLine(), Database (+2 more)
 
 ### Community 38 - "database/src/index.ts"
-Cohesion: 0.13
-Nodes (24): AgentTransportError, ArtifactReviewError, ConfigurationPersistenceError, SqlResult, runMigrations(), ModCatalogPersistenceError, OperationalPersistenceError, PlayerIdentityPersistenceError (+16 more)
+Cohesion: 0.10
+Nodes (24): AgentTransportError, ArtifactReviewError, ConfigurationPersistenceError, SqlResult, MigrationRow, runMigrations(), ModCatalogPersistenceError, OperationalPersistenceError (+16 more)
 
 ### Community 39 - "server_instances"
 Cohesion: 0.07
@@ -550,12 +558,12 @@ Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
-### Community 50 - "artifact-inspection/src/service.ts"
-Cohesion: 0.07
-Nodes (47): boundedText(), declaredDependenciesFor(), declaredEmbeddedLibraries(), declaredModsFromFabric(), declaredModsFromToml(), decodeUtf8(), normalizedSide(), parseJarManifest() (+39 more)
+### Community 50 - "metadata.ts"
+Cohesion: 0.20
+Nodes (17): boundedText(), declaredDependenciesFor(), declaredEmbeddedLibraries(), declaredModsFromFabric(), declaredModsFromToml(), decodeUtf8(), normalizedSide(), parseJarManifest() (+9 more)
 
 ### Community 51 - "scan.ts"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (43): classifyEditLevel(), CONFIGURATION_MATCH_RULES, configurationCandidatesFor(), EditLevelDecision, extensionOf(), RAW_EDITABLE_EXTENSIONS, STRUCTURED_EXTENSIONS, CONFIGURATION_EXTENSIONS (+35 more)
 
 ### Community 52 - "backup-seal-encryption.test.ts"
@@ -572,7 +580,7 @@ Nodes (3): buildInfoFile, outputDirectory, workspaceRoot
 
 ### Community 55 - "contracts/src/common.ts"
 Cohesion: 0.04
-Nodes (88): AgentEnvelope, AgentEnvelopeSchema, AgentHeartbeatPayload, AgentHeartbeatPayloadSchema, validateAgentEnvelope(), validateAgentHeartbeatPayload(), AuditChainExportManifest, AuditChainExportManifestSchema (+80 more)
+Nodes (87): AgentEnvelope, AgentEnvelopeSchema, AgentHeartbeatPayload, AgentHeartbeatPayloadSchema, validateAgentEnvelope(), AuditChainExportManifest, AuditChainExportManifestSchema, validateAuditChainExportManifest() (+79 more)
 
 ### Community 57 - "control-api/tsconfig.build.json"
 Cohesion: 0.22
@@ -682,9 +690,9 @@ Nodes (22): Override, AgentGateway, FunctionalInterface, BridgeCapabilities, Bui
 Cohesion: 0.12
 Nodes (15): Algoritmo de reconciliação, Bloqueios iniciais, Conflitos e precedência, Contrato `InventorySnapshot`, Determinismo, Entradas revisadas do catálogo, Estado dos dados atuais, Estados de correspondência (+7 more)
 
-### Community 88 - "export-schemas.ts"
-Cohesion: 0.06
-Nodes (34): AuthorizedFileDiffRequestSchema, AuthorizedFileDiffResponseSchema, AuthorizedFileMutationReceiptSchema, CopyAuthorizedFileRequestSchema, CreateAuthorizedFileRequestSchema, DeleteAuthorizedFileRequestSchema, MoveAuthorizedFileRequestSchema, RestoreAuthorizedFileRequestSchema (+26 more)
+### Community 88 - "contracts/src/backup-operation.ts"
+Cohesion: 0.12
+Nodes (16): BackupIdempotencyKeySchema, BackupIdSchema, BackupPageContract, BackupPageSchema, BackupReasonCodeSchema, BackupRecordContract, BackupRecordSchema, BackupScopeContract (+8 more)
 
 ### Community 89 - "authorized-files/package.json"
 Cohesion: 0.14
@@ -695,8 +703,8 @@ Cohesion: 0.13
 Nodes (14): Concorrência e consistência, Configurações básicas e revisões da Fase 3, Estados e erros, Fluxo de alteração, Fluxo de rollback, Formato inicial, Gate de saída, Manifesto da revisão (+6 more)
 
 ### Community 91 - "catalog-reconciliation.ts"
-Cohesion: 0.07
-Nodes (31): CatalogMatchState, CatalogMatchStateSchema, CatalogObservation, CatalogObservationSchema, CatalogReconciliationReport, CatalogReconciliationReportSchema, isStrictlySortedUnique(), observationKey() (+23 more)
+Cohesion: 0.08
+Nodes (29): CatalogMatchState, CatalogMatchStateSchema, CatalogObservation, CatalogObservationSchema, CatalogReconciliationReport, CatalogReconciliationReportSchema, isStrictlySortedUnique(), observationKey() (+21 more)
 
 ### Community 92 - "Console limitado da Fase 3"
 Cohesion: 0.20
@@ -731,8 +739,8 @@ Cohesion: 0.09
 Nodes (16): NodeConfigurationFileReplacer, ConfigurationConsistencyLease, ConfigurationFileReplacer, ConfigurationReplacementInput, OfflineExclusiveConfigurationGuard, CorruptingReplacer, createFixture(), digest() (+8 more)
 
 ### Community 100 - "server-configuration/src/validation.ts"
-Cohesion: 0.26
-Nodes (20): canonicalObject(), configurationRevisionManifestSha256(), exactKeys(), invalidManifest(), parseConfigurationRevisionManifest(), serializeConfigurationRevisionManifest(), validateManifestObject(), exactKeys() (+12 more)
+Cohesion: 0.21
+Nodes (24): canonicalObject(), ConfigurationRevisionManifest, configurationRevisionManifestSha256(), exactKeys(), invalidManifest(), parseConfigurationRevisionManifest(), serializeConfigurationRevisionManifest(), validateManifestObject() (+16 more)
 
 ### Community 101 - "supervisor.ts"
 Cohesion: 0.12
@@ -755,8 +763,8 @@ Cohesion: 0.10
 Nodes (20): dependencies, @voidfall/configuration-schemas, @voidfall/contracts, @voidfall/database, description, exports, files, dist (+12 more)
 
 ### Community 106 - "server-configuration/src/types.ts"
-Cohesion: 0.14
-Nodes (18): ConfigurationRevisionManifest, basicField(), createReviewedConfigurationResource(), MutationMaterial, BasicConfigurationField, BooleanConfigurationField, ConfigurationFieldBase, ConfigurationFormat (+10 more)
+Cohesion: 0.16
+Nodes (14): VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY, basicField(), createReviewedConfigurationResource(), BasicConfigurationField, BooleanConfigurationField, ConfigurationFieldBase, ConfigurationOperationError, ConfigurationOperationErrorCode (+6 more)
 
 ### Community 107 - "server-configuration/tsconfig.test.json"
 Cohesion: 0.20
@@ -850,9 +858,9 @@ Nodes (59): Sha256, AuthorizedFileDiffSnapshot, AuthorizedFileService, canonical
 Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
-### Community 130 - "agent-transport.ts"
-Cohesion: 0.09
-Nodes (23): AgentCapability, AgentCapabilitySchema, AgentCredential, AgentCredentialSchema, AgentCredentialStatus, AgentCredentialStatusSchema, AgentWorkClaimPayload, AgentWorkClaimPayloadSchema (+15 more)
+### Community 130 - "validateContract"
+Cohesion: 0.05
+Nodes (73): validateAgentHeartbeatPayload(), AgentCapability, AgentCapabilitySchema, AgentCredential, AgentCredentialSchema, AgentCredentialStatus, AgentCredentialStatusSchema, AgentWorkClaimPayload (+65 more)
 
 ### Community 131 - "configuration-schemas/tsconfig.build.json"
 Cohesion: 0.22
@@ -878,9 +886,9 @@ Nodes (58): Any, analyze_components(), artifact_component_id(), bool_value(), bu
 Cohesion: 0.20
 Nodes (9): description, license, name, private, scripts, build, test, type (+1 more)
 
-### Community 138 - "semanticIssue"
+### Community 138 - "mod-compatibility.ts"
 Cohesion: 0.09
-Nodes (28): contextIssues(), duplicateValues(), ModCompatibilityAnalysisPlan, ModCompatibilityAnalysisPlanSchema, ModCompatibilityComponent, ModCompatibilityComponentEvaluation, ModCompatibilityComponentEvaluationSchema, ModCompatibilityComponentSchema (+20 more)
+Nodes (22): ModCompatibilityAnalysisPlan, ModCompatibilityAnalysisPlanSchema, ModCompatibilityComponent, ModCompatibilityComponentEvaluation, ModCompatibilityComponentEvaluationSchema, ModCompatibilityComponentSchema, ModCompatibilityContext, ModCompatibilityContextEvaluation (+14 more)
 
 ### Community 139 - "builder.ts"
 Cohesion: 0.16
@@ -903,16 +911,16 @@ Cohesion: 0.17
 Nodes (11): BackupPermission, BackupRouteDependencies, CreateBody, CreateBodySchema, IdempotencyKey, ReasonCode, registerBackupRoutes(), RestoreBody (+3 more)
 
 ### Community 144 - "filesystem-repository.ts"
-Cohesion: 0.13
-Nodes (23): releaseFixture(), canonicalJsonBytes(), UnsignedLauncherChannel, ChannelMutationTarget, FilesystemReleaseRepository, isNodeError(), isWithin(), pathExists() (+15 more)
+Cohesion: 0.14
+Nodes (20): signLauncherChannel(), ChannelMutationTarget, FilesystemReleaseRepository, isNodeError(), isWithin(), pathExists(), readBoundedFile(), RepositoryLayout (+12 more)
 
 ### Community 145 - "sanitization.ts"
-Cohesion: 0.35
-Nodes (10): decodeUtf8(), normalizedKey(), SanitizedArtifact, sanitizeJson(), sanitizeProperties(), sanitizeReleaseArtifact(), SENSITIVE_KEYS, validateAllowedKeys() (+2 more)
+Cohesion: 0.27
+Nodes (11): decodeUtf8(), normalizedKey(), SanitizedArtifact, sanitizeJson(), sanitizeProperties(), sanitizeReleaseArtifact(), SENSITIVE_KEYS, validateAllowedKeys() (+3 more)
 
 ### Community 146 - "modpack-release/src/types.ts"
-Cohesion: 0.13
-Nodes (14): CanonicalJsonObjectPolicy, ChannelMutationReceipt, DEFAULT_RELEASE_BUILD_LIMITS, ERROR_MESSAGES, ExactReviewedBytesPolicy, JavaPropertiesAllowlistPolicy, ReleaseBuildArtifact, ReleaseBuildErrorCode (+6 more)
+Cohesion: 0.12
+Nodes (15): CanonicalJsonObjectPolicy, ChannelMutationReceipt, DEFAULT_RELEASE_BUILD_LIMITS, ERROR_MESSAGES, ExactReviewedBytesPolicy, JavaPropertiesAllowlistPolicy, ReleaseBuildArtifact, ReleaseBuildErrorCode (+7 more)
 
 ### Community 147 - "modpack-release.test.ts"
 Cohesion: 0.27
@@ -966,9 +974,9 @@ Nodes (15): ApplyBody, ApplyBodySchema, ConfigurationPermission, ConfigurationRo
 Cohesion: 0.15
 Nodes (12): Atomicidade do claim, Cenários de queda comprovados, Defeito encontrado pelo E2E, Fase 9.2: transporte real Control API ↔ Server Agent, Limites mantidos, Resultado, Riscos abertos após a Fase 9.2, Sem polling agressivo (+4 more)
 
-### Community 160 - "appendSemanticIssues"
+### Community 160 - "export-schemas.ts"
 Cohesion: 0.04
-Nodes (58): validateForgeBuildRequest(), changeSetIssues(), ConfigurationApplicationStatusSchema, ConfigurationApplyModeSchema, ConfigurationApplyRequest, ConfigurationApplyRequestSchema, ConfigurationChangeEntry, ConfigurationChangeEntrySchema (+50 more)
+Nodes (57): AuthorizedFileDiffRequestSchema, AuthorizedFileDiffResponseSchema, AuthorizedFileMutationReceiptSchema, CopyAuthorizedFileRequestSchema, CreateAuthorizedFileRequestSchema, DeleteAuthorizedFileRequestSchema, MoveAuthorizedFileRequestSchema, RestoreAuthorizedFileRequestSchema (+49 more)
 
 ### Community 161 - "audit-chain/package.json"
 Cohesion: 0.12
@@ -983,8 +991,8 @@ Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 164 - "chain.ts"
-Cohesion: 0.14
-Nodes (24): canonicalJson(), compareOrdinal(), freezeRecursive(), immutable(), sha256(), visit(), assertPartition(), assertSequence() (+16 more)
+Cohesion: 0.21
+Nodes (16): canonicalJson(), compareOrdinal(), freezeRecursive(), immutable(), sha256(), visit(), assertPartition(), assertSequence() (+8 more)
 
 ### Community 165 - "audit-chain/tsconfig.build.json"
 Cohesion: 0.22
@@ -1079,15 +1087,15 @@ Cohesion: 0.28
 Nodes (15): analyzeContextualCompatibility(), BUILTIN_DEPENDENCIES, builtinAvailable(), builtinVersion(), compareOrdinal(), dependencyApplies(), evidenceForOccurrences(), findingKey() (+7 more)
 
 ### Community 204 - "server-configuration/src/service.ts"
-Cohesion: 0.15
-Nodes (25): parseConfigurationDocument(), revisionPayloadFileName(), acquireLock(), cleanPartial(), cleanTemporary(), CommonMutationPlan, FilesystemConfigurationService, isNodeError() (+17 more)
+Cohesion: 0.14
+Nodes (26): parseConfigurationDocument(), revisionPayloadFileName(), acquireLock(), cleanPartial(), cleanTemporary(), CommonMutationPlan, FilesystemConfigurationService, isNodeError() (+18 more)
 
 ### Community 205 - "dependency-analysis.ts"
 Cohesion: 0.31
 Nodes (14): analyzeCatalogDependencies(), compareIssue(), compareOrdinal(), exactKeys(), isRecord(), issueKey(), normalizedFilename(), sameRuntime() (+6 more)
 
 ### Community 206 - "configuration-schemas/src/registry.ts"
-Cohesion: 0.22
+Cohesion: 0.24
 Nodes (13): canonicalJson(), canonicalTimestamp(), cloneSchema(), compareOrdinal(), ConfigurationSchemaRegistry, exactKeys(), freezeEntry(), hashConfigurationSchema() (+5 more)
 
 ### Community 207 - "Fase 7.0 — compatibilidade contextual"
@@ -1103,8 +1111,8 @@ Cohesion: 0.40
 Nodes (4): Answer, Outcome, Q: Map Phase 7.0 compatibility analyzer architecture before implementation, Source Nodes
 
 ### Community 210 - "configuration-schemas/src/validation.ts"
-Cohesion: 0.20
-Nodes (19): serializeOpenLoaderAdvancedOptions(), ConfigurationValueIssue, ConfigurationValueValidationResult, GenericConfigurationField, GenericConfigurationFormat, baseValid(), compareOrdinal(), exactOrOptionalKeys() (+11 more)
+Cohesion: 0.22
+Nodes (18): ConfigurationValueIssue, ConfigurationValueValidationResult, GenericConfigurationField, GenericConfigurationFormat, baseValid(), compareOrdinal(), exactOrOptionalKeys(), fieldValueIssue() (+10 more)
 
 ### Community 211 - "Q: Does OpenLoader make sense as the first Phase 7.1 configuration schema?"
 Cohesion: 0.40
@@ -1123,8 +1131,8 @@ Cohesion: 0.40
 Nodes (4): Answer, Outcome, Q: Como o Claude deve continuar da Fase 7.3 até a Fase 13 e executar todo o planejamento com segurança?, Source Nodes
 
 ### Community 215 - "artifact-inspection/package.json"
-Cohesion: 0.14
-Nodes (13): description, exports, files, dist, license, name, private, scripts (+5 more)
+Cohesion: 0.15
+Nodes (12): description, exports, files, license, name, private, scripts, build (+4 more)
 
 ### Community 216 - "launch-plan.ts"
 Cohesion: 0.33
@@ -1144,15 +1152,15 @@ Nodes (32): ALLOWED_OPERATION_TRANSITIONS, DEFAULT_ADMINISTRATIVE_PAGE, IN_FLIGH
 
 ### Community 220 - "openloader-advanced-options.ts"
 Cohesion: 0.26
-Nodes (11): hasExactKeys(), hasExpectedKeyOccurrences(), isRecord(), OPENLOADER_ADVANCED_OPTIONS_RESOURCE_ID, OPENLOADER_ADVANCED_OPTIONS_SCHEMA_ID, OPENLOADER_ADVANCED_OPTIONS_SCHEMA_VERSION, OPENLOADER_ADVANCED_OPTIONS_V1, OpenLoaderAdvancedOptionsCodecErrorCode (+3 more)
+Nodes (10): hasExactKeys(), hasExpectedKeyOccurrences(), isRecord(), OPENLOADER_ADVANCED_OPTIONS_RESOURCE_ID, OPENLOADER_ADVANCED_OPTIONS_SCHEMA_ID, OPENLOADER_ADVANCED_OPTIONS_SCHEMA_VERSION, OpenLoaderAdvancedOptionsCodecErrorCode, OpenLoaderAdvancedOptionsValues (+2 more)
 
 ### Community 221 - "dependencies"
 Cohesion: 0.18
 Nodes (11): @voidfall/authorized-files, @voidfall/server-schedule, dependencies, @voidfall/authentication, @voidfall/authorized-files, @voidfall/contracts, @voidfall/server-backup, @voidfall/server-schedule (+3 more)
 
-### Community 222 - "artifact-review.ts"
-Cohesion: 0.05
-Nodes (45): ArtifactCompatibilityReportSchema, ReviewedSideSchema, ArtifactInspectionReportContract, ArtifactInspectionReportSchema, DeclaredDependencyContract, DeclaredDependencySchema, DeclaredLoaderContract, DeclaredLoaderSchema (+37 more)
+### Community 222 - "artifact-compatibility.ts"
+Cohesion: 0.03
+Nodes (74): ArtifactCompatibilityContext, ArtifactCompatibilityContextKind, ArtifactCompatibilityContextKindSchema, ArtifactCompatibilityContextSchema, ArtifactCompatibilityPlan, ArtifactCompatibilityPlanSchema, ArtifactCompatibilityReport, ArtifactCompatibilityReportSchema (+66 more)
 
 ### Community 224 - "toml.ts"
 Cohesion: 0.09
@@ -1192,7 +1200,7 @@ Nodes (13): Correção trazida da Fase 8.1, Critério de conclusão da Fase 8, F
 
 ### Community 233 - "configuration-schemas.test.ts"
 Cohesion: 0.14
-Nodes (6): OPENLOADER_ADVANCED_OPTIONS_FILE_PATH, OPENLOADER_ADVANCED_OPTIONS_POLICY_V1, OpenLoaderAdvancedOptionsCodecError, TrustedConfigurationRegistryError, VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY, ConfigurationSchemaOperationError
+Nodes (6): OPENLOADER_ADVANCED_OPTIONS_FILE_PATH, OPENLOADER_ADVANCED_OPTIONS_POLICY_V1, OpenLoaderAdvancedOptionsCodecError, serializeOpenLoaderAdvancedOptions(), TrustedConfigurationRegistryError, ConfigurationSchemaOperationError
 
 ### Community 234 - "buildControlApi"
 Cohesion: 0.09
@@ -1218,9 +1226,9 @@ Nodes (13): Catálogo de mods persistido, Correlação, Estado observado e PID, 
 Cohesion: 0.14
 Nodes (30): BackupManifest, BackupManifestDirectoryEntry, BackupManifestEntry, BackupManifestFileEntry, exactKeys(), invalidManifest(), isRecord(), parseBackupManifest() (+22 more)
 
-### Community 240 - "validateContract"
-Cohesion: 0.05
-Nodes (53): AuthorizedDirectoryPathSchema, AuthorizedFileContentSchema, AuthorizedFileDiffLineSchema, AuthorizedFileDiffRequestContract, AuthorizedFileDiffResponseContract, AuthorizedFileMutationReceiptContract, AuthorizedFileReasonCodeSchema, authorizedPathIssues() (+45 more)
+### Community 240 - "contracts/src/process-operation.ts"
+Cohesion: 0.07
+Nodes (24): ACTION_JOB_TYPES, CONSOLE_COMMANDS, ConsoleCommand, ConsoleCommandRequest, ConsoleCommandRequestSchema, ConsoleCommandSchema, ConsoleLine, ConsoleLineSchema (+16 more)
 
 ### Community 241 - "mod-catalog/src/types.ts"
 Cohesion: 0.11
@@ -1234,9 +1242,9 @@ Nodes (4): 9.1 — contratos operacionais e persistência, 9.2 — transporte re
 Cohesion: 0.11
 Nodes (18): dependencies, @voidfall/contracts, @voidfall/mod-catalog, description, exports, files, dist, @voidfall/contracts (+10 more)
 
-### Community 244 - "artifact-compatibility.ts"
-Cohesion: 0.06
-Nodes (37): ArtifactCompatibilityContext, ArtifactCompatibilityContextKind, ArtifactCompatibilityContextKindSchema, ArtifactCompatibilityContextSchema, ArtifactCompatibilityPlan, ArtifactCompatibilityPlanSchema, ArtifactCompatibilityReport, CompatibilityArtifactEvaluation (+29 more)
+### Community 244 - "authorized-file-operation.ts"
+Cohesion: 0.10
+Nodes (26): AuthorizedDirectoryPathSchema, AuthorizedFileContentSchema, AuthorizedFileDiffLineSchema, AuthorizedFileDiffRequestContract, AuthorizedFileDiffResponseContract, AuthorizedFileMutationReceiptContract, AuthorizedFileReasonCodeSchema, authorizedPathIssues() (+18 more)
 
 ### Community 245 - "artifact-review-repositories.ts"
 Cohesion: 0.15
@@ -1279,8 +1287,8 @@ Cohesion: 0.22
 Nodes (8): compilerOptions, composite, outDir, rootDir, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 255 - "launcher-api/src/app.ts"
-Cohesion: 0.05
-Nodes (35): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+27 more)
+Cohesion: 0.09
+Nodes (21): ArtifactParams, ArtifactParamsSchema, buildLauncherApi(), BuildLauncherApiOptions, ChannelParams, ChannelParamsSchema, correlationId(), fastify (+13 more)
 
 ### Community 256 - "ManagedMinecraftProcessAdapter"
 Cohesion: 0.17
@@ -1338,9 +1346,9 @@ Nodes (10): Console, Fase 10.1: processo e console, Force kill é outro fluxo, n
 Cohesion: 0.18
 Nodes (7): BackupPersistenceError, BackupPersistenceErrorCode, BackupRepository, BackupRow, isoString(), mapRow(), numberOrNull()
 
-### Community 271 - "signing.ts"
-Cohesion: 0.13
-Nodes (16): canonicalize(), canonicalJson(), CanonicalJsonValue, launcherChannelPayload(), signLauncherChannel(), unsignedChannel(), verifyLauncherChannelSignature(), Ed25519ReleaseSigner (+8 more)
+### Community 271 - "canonicalJsonBytes"
+Cohesion: 0.15
+Nodes (16): canonicalize(), canonicalJson(), canonicalJsonBytes(), CanonicalJsonValue, launcherChannelPayload(), unsignedChannel(), UnsignedLauncherChannel, verifyLauncherChannelSignature() (+8 more)
 
 ### Community 272 - "first-boot.ts"
 Cohesion: 0.20
@@ -1439,8 +1447,8 @@ Cohesion: 0.15
 Nodes (3): createOfflineExclusiveConfigurationGuard(), AGENT_OWNED_ALERT_KINDS, AgentRuntime
 
 ### Community 299 - "trusted-registry.ts"
-Cohesion: 0.16
-Nodes (8): OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES, OPENLOADER_ADVANCED_OPTIONS_CODEC_V1, TrustedConfigurationCodec, TrustedConfigurationCodecId, TrustedConfigurationRegistry, TrustedConfigurationRegistryErrorCode, GenericConfigurationSchema, GenericConfigurationValue
+Cohesion: 0.15
+Nodes (9): OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES, OPENLOADER_ADVANCED_OPTIONS_V1, OPENLOADER_ADVANCED_OPTIONS_CODEC_V1, TrustedConfigurationCodec, TrustedConfigurationCodecId, TrustedConfigurationRegistry, TrustedConfigurationRegistryErrorCode, GenericConfigurationSchema (+1 more)
 
 ### Community 300 - "Consequências"
 Cohesion: 0.13
@@ -1454,9 +1462,9 @@ Nodes (13): ADR-010 — Provider de permissões Minecraft, Consequências, Conte
 Cohesion: 0.17
 Nodes (12): ADR-011 — Dados de jogador, retenção e acesso, Consequências, Contexto, Decisão, Emenda de 2026-08-06 — credencial é categoria separada, Não autorização, O que a Fase 11 quer guardar, Opção A — Núcleo mínimo (+4 more)
 
-### Community 303 - "contracts/src/index.ts"
-Cohesion: 0.09
-Nodes (16): ClaimEvidence, ClaimEvidenceSchema, ClaimInvalidation, ClaimInvalidationSchema, MinecraftName, MinecraftNameSchema, SignedClaimEvidence, SignedClaimEvidenceSchema (+8 more)
+### Community 303 - "claim-evidence.ts"
+Cohesion: 0.18
+Nodes (10): ClaimEvidence, ClaimEvidenceSchema, ClaimInvalidation, ClaimInvalidationSchema, MinecraftName, MinecraftNameSchema, SignedClaimEvidence, SignedClaimEvidenceSchema (+2 more)
 
 ### Community 304 - "sandbox.ts"
 Cohesion: 0.14
@@ -1494,9 +1502,9 @@ Nodes (13): description, exports, files, dist, license, name, private, scripts (
 Cohesion: 0.17
 Nodes (11): description, devDependencies, @electric-sql/pglite, @voidfall/configuration-schemas, @electric-sql/pglite, @voidfall/configuration-schemas, license, name (+3 more)
 
-### Community 316 - "server-schedule.ts"
-Cohesion: 0.14
-Nodes (15): isSupportedTimezone(), ScheduleRun, ScheduleRunSchema, ScheduleRunStatus, ScheduleRunStatusSchema, ScheduleStep, ScheduleStepKindSchema, ScheduleStepSchema (+7 more)
+### Community 316 - "planner.ts"
+Cohesion: 0.12
+Nodes (15): compareOperation(), createPortableUpdatePlan(), normalizedPath(), validatePlannedAt(), LauncherProtocolError, LauncherProtocolErrorCode, PortableReleaseVerifier, PortableUpdateOperation (+7 more)
 
 ### Community 317 - "server_instances"
 Cohesion: 0.36
@@ -1507,8 +1515,8 @@ Cohesion: 0.13
 Nodes (14): bin, voidfall-release-package, description, exports, license, name, private, scripts (+6 more)
 
 ### Community 319 - "mod-adapters/tsconfig.test.json"
-Cohesion: 0.29
-Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
+Cohesion: 0.22
+Nodes (8): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 320 - "staging.ts"
 Cohesion: 0.13
@@ -1607,8 +1615,8 @@ Cohesion: 0.29
 Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
 
 ### Community 347 - "configuration-staging/tsconfig.test.json"
-Cohesion: 0.22
-Nodes (8): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json
+Cohesion: 0.29
+Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
 
 ### Community 348 - "mod-adapters/tsconfig.build.json"
 Cohesion: 0.22
@@ -1678,39 +1686,71 @@ Nodes (3): @voidfall/server-configuration, @voidfall/server-configuration, @void
 Cohesion: 0.67
 Nodes (3): @voidfall/server-telemetry, @voidfall/server-telemetry, @voidfall/server-telemetry
 
+### Community 366 - "artifact-inspection/src/service.ts"
+Cohesion: 0.15
+Nodes (16): DEEP_UNKNOWNS, InspectArtifactPlan, KNOWN_DESCRIPTOR_PATHS, STRUCTURAL_UNKNOWNS, ArtifactInspectionError, ArtifactInspectionErrorCode, ArtifactInspectionStage, DeclaredLoader (+8 more)
+
+### Community 367 - "zip.ts"
+Cohesion: 0.21
+Nodes (15): findEntry(), STRUCTURAL_CAPACITY_LIMITS, ArtifactInspectionReport, ExpansionBudget, hasControlCharacter(), locateEndOfCentralDirectory(), readZipDirectory(), readZipEntry() (+7 more)
+
+### Community 368 - "audit-chain/src/types.ts"
+Cohesion: 0.23
+Nodes (8): InMemoryAuditChain, AuditChainErrorCode, AuditChainOptions, AuditChainVerificationIssue, AuditChainVerificationIssueCode, AuditChainVerificationResult, AuditExportArtifact, AuditExportRequest
+
+### Community 369 - "player-identity.ts"
+Cohesion: 0.18
+Nodes (8): MinecraftClaim, MinecraftClaimSchema, MinecraftClaimStatus, MinecraftClaimStatusSchema, PlayerIdentity, PlayerIdentitySchema, PlayerIdentityStatus, PlayerIdentityStatusSchema
+
+### Community 370 - "Inspeção de artefato em camadas"
+Cohesion: 0.20
+Nodes (9): As três camadas, Contrato, Gate, Inspeção de artefato em camadas, O problema, O que não mudou, e por quê, O que o relatório passou a distinguir, Resultado contra o modpack real (+1 more)
+
+### Community 371 - "artifact-inspection.test.ts"
+Cohesion: 0.22
+Nodes (4): FixtureEntry, FORGE_MODS_TOML, MANIFEST, NOW
+
+### Community 372 - "layered-inspection.test.ts"
+Cohesion: 0.25
+Nodes (3): FixtureEntry, MODS_TOML, NOW
+
+### Community 373 - "ArtifactInspectionLimits"
+Cohesion: 0.33
+Nodes (5): ArtifactInspectionService, ArtifactInspectionServiceOptions, readSelectedEntries(), resolveLimits(), ArtifactInspectionLimits
+
 ## Knowledge Gaps
-- **2321 isolated node(s):** `TomlTable`, `NOW`, `FixtureEntry`, `FORGE_MODS_TOML`, `MANIFEST` (+2316 more)
+- **2337 isolated node(s):** `serverContext`, `clientContext`, `name`, `version`, `private` (+2332 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Work-memory lessons
 
 **Preferred sources** — corroborated by past sessions; start here.
-- `FilesystemConfigurationService` (3× useful, score=2.734640066)
-- `ConfigurationRepository` (2× useful, score=1.866196729)
-- `OperationalLockRepository` (2× useful, score=1.866196729)
-- `PersistentConfigurationService` (2× useful, score=1.866196729)
-- `Handoff da plataforma` (2× useful, score=1.861749758)
-- `ConfigurationRevisionManifest` (2× useful, score=1.823138208)
-- `RollbackConfigurationPlan` (2× useful, score=1.823138208)
-- `CatalogReconciliationReportSchema` (2× useful, score=1.822727685)
-- `mod-catalog.test.ts` (2× useful, score=1.822727685)
-- `ModCatalogEntrySchema` (2× useful, score=1.822528393)
+- `FilesystemConfigurationService` (3× useful, score=2.733103685)
+- `ConfigurationRepository` (2× useful, score=1.865148258)
+- `OperationalLockRepository` (2× useful, score=1.865148258)
+- `PersistentConfigurationService` (2× useful, score=1.865148258)
+- `Handoff da plataforma` (2× useful, score=1.860703785)
+- `ConfigurationRevisionManifest` (2× useful, score=1.822113928)
+- `RollbackConfigurationPlan` (2× useful, score=1.822113928)
+- `CatalogReconciliationReportSchema` (2× useful, score=1.821703636)
+- `mod-catalog.test.ts` (2× useful, score=1.821703636)
+- `ModCatalogEntrySchema` (2× useful, score=1.821504456)
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Sha256` connect `authorized-files/src/service.ts` to `chain.ts`, `server-configuration/src/validation.ts`, `configuration-schemas/src/registry.ts`, `artifact-inspection/src/service.ts`, `authorized-file-routes.ts`, `artifact-routes.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
-  _High betweenness centrality (0.070) - this node is a cross-community bridge._
+- **Why does `Sha256` connect `authorized-files/src/service.ts` to `chain.ts`, `server-configuration/src/validation.ts`, `configuration-schemas/src/registry.ts`, `authorized-file-routes.ts`, `artifact-routes.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Why does `IDENTIFIER` connect `authorized-files/src/service.ts` to `server-configuration/src/validation.ts`, `configuration-schemas/src/registry.ts`, `configuration-schemas/src/validation.ts`, `player-governance/src/types.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Why does `registerArtifactRoutes()` connect `artifact-routes.ts` to `control-api/src/app.ts`, `buildControlApi`, `authorized-files/src/service.ts`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `buildControlApi()` (e.g. with `computeAgentPayloadHash()` and `hashOpaqueToken()`) actually correct?**
   _`buildControlApi()` has 5 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `TomlTable`, `NOW`, `FixtureEntry` to the rest of the system?**
-  _2321 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `serverContext`, `clientContext`, `name` to the rest of the system?**
+  _2337 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Invariantes implementadas` be split into smaller, more focused modules?**
   _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
 - **Should `operational-repositories.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.09243697478991597 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08534850640113797 - nodes in this community are weakly interconnected._

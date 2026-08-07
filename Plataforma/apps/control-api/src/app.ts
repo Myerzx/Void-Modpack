@@ -43,6 +43,11 @@ import {
 import { registerAgentWorkRoutes } from './agent-work-routes.js';
 import { registerProcessRoutes, type ProcessPermission } from './process-routes.js';
 import {
+  registerWorkspaceRoutes,
+  type WorkspacePermission,
+  type WorkspaceScanner,
+} from './workspace-routes.js';
+import {
   registerOperationalRoutes,
   type OperationalPermission,
 } from './operational-routes.js';
@@ -67,6 +72,8 @@ const IDLE_SESSION_MS = 30 * 60_000;
 interface AuthContext {
   readonly sessionId: string;
   readonly csrfTokenHash: string;
+  /** The token as issued. `null` only for sessions created before 0017. */
+  readonly csrfToken: string | null;
   readonly user: {
     readonly id: string;
     readonly email: string;
@@ -127,6 +134,14 @@ export interface BuildControlApiOptions {
    * leaving the panel to draw a number nobody measured.
    */
   readonly gameProviderConnected?: boolean;
+  /**
+   * Reads an imported workspace. Optional and deny-by-default: without it the
+   * workspace routes report themselves unavailable rather than scanning a
+   * directory nobody wired a scanner for.
+   */
+  readonly workspaceScanner?: WorkspaceScanner;
+  /** Which roots may be registered. Operator policy, never a route's guess. */
+  readonly workspaceRootPolicy?: (rootPath: string) => Promise<string | null>;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -214,6 +229,25 @@ const LoginBodySchema = Type.Object(
 );
 type LoginBody = Static<typeof LoginBodySchema>;
 
+const CreateServerBodySchema = Type.Object(
+  {
+    slug: Type.String({ pattern: '^[a-z0-9][a-z0-9-]{0,62}$' }),
+    displayName: Type.String({ minLength: 1, maxLength: 120 }),
+    environment: Type.Union([
+      Type.Literal('local'),
+      Type.Literal('test'),
+      Type.Literal('staging'),
+      Type.Literal('production'),
+    ]),
+    minecraftVersion: Type.String({ minLength: 1, maxLength: 32 }),
+    loader: Type.String({ minLength: 1, maxLength: 32 }),
+    loaderVersion: Type.String({ minLength: 1, maxLength: 32 }),
+    maxPlayers: Type.Integer({ minimum: 1, maximum: 1_000 }),
+  },
+  { additionalProperties: false },
+);
+type CreateServerBody = Static<typeof CreateServerBodySchema>;
+
 const AgentRegistrationBodySchema = Type.Object(
   {
     provisioningToken: Type.String({ minLength: 43, maxLength: 256, pattern: '^[A-Za-z0-9_-]+$' }),
@@ -295,6 +329,7 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     request.authContext = {
       sessionId: session.id,
       csrfTokenHash: session.csrfTokenHash,
+      csrfToken: session.csrfToken,
       user: {
         id: session.user.id,
         email: session.user.emailNormalized,
@@ -387,6 +422,9 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
         userId: user.id,
         tokenHash: hashOpaqueToken(sessionToken),
         csrfTokenHash: hashOpaqueToken(csrfToken),
+        // Stored as issued as well, so a reloaded page can present it again.
+        // The session token stays hashed — that one is the credential.
+        csrfToken,
         now,
         expiresAt,
         idleExpiresAt: new Date(now.getTime() + IDLE_SESSION_MS),
@@ -420,6 +458,12 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     async (request) => ({
       user: request.authContext?.user,
       permissions: request.authContext?.permissions ?? [],
+      // Without this a reloaded screen holds a valid cookie and still cannot
+      // write: the CSRF token existed only in the login response, so every
+      // mutation after a refresh failed. Returning it here is safe — the
+      // endpoint is authenticated and same-origin, and the token means nothing
+      // without the cookie that has to travel with it.
+      csrfToken: request.authContext?.csrfToken ?? null,
     }),
   );
 
@@ -450,6 +494,42 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     '/api/v1/servers',
     { preHandler: [authenticate, requirePermission('server.view')] },
     async () => ({ dataQuality: 'stored', servers: await repositories.servers.list() }),
+  );
+
+  app.post<{ Body: CreateServerBody }>(
+    '/api/v1/servers',
+    {
+      schema: { body: CreateServerBodySchema },
+      preHandler: [authenticate, requirePermission('security.manage'), requireCsrf],
+    },
+    async (request, reply) => {
+      // `ServerRepository.create` has existed since Phase 1 and nothing outside
+      // a test ever called it, so the only way to register an instance was to
+      // write SQL by hand — and every screen that needs a serverId was dead
+      // until somebody did. Gated on `security.manage`, because an instance is
+      // what every later permission ends up scoped to.
+      const server = await repositories.servers.create({
+        id: randomUUID(),
+        slug: request.body.slug,
+        displayName: request.body.displayName,
+        environment: request.body.environment,
+        minecraftVersion: request.body.minecraftVersion,
+        loader: request.body.loader,
+        loaderVersion: request.body.loaderVersion,
+        maxPlayers: request.body.maxPlayers,
+      });
+      await repositories.audit.append(
+        auditEvent({
+          request,
+          now: clock(),
+          actor: { type: 'panel-user', id: request.authContext?.user.id ?? 'unknown' },
+          action: 'server.create',
+          resource: { type: 'server-instance', id: server.id },
+          outcome: 'succeeded',
+        }),
+      );
+      return reply.code(201).send(server);
+    },
   );
 
   app.get(
@@ -725,6 +805,34 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.artifactQuarantineStore === undefined
       ? {}
       : { quarantineStore: options.artifactQuarantineStore }),
+  });
+
+  registerWorkspaceRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: WorkspacePermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'workspace', id: input.workspaceId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
+    ...(options.workspaceScanner === undefined
+      ? {}
+      : { scanner: options.workspaceScanner }),
+    ...(options.workspaceRootPolicy === undefined
+      ? {}
+      : { rootPolicy: options.workspaceRootPolicy }),
   });
 
   return app;

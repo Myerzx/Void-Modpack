@@ -154,6 +154,8 @@ O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) esclareceu o
 9. **Fase 16 — construtor de release:** **encerrada** em 2026-08-07 com ZIP de servidor e de cliente, manifesto com hashes, changelog automático, corte por lado e plano de rollback, todos executados contra o servidor real ([registro](PHASE_16_RELEASE_BUILDER.md)). A exportação CurseForge permanece recusada por licença, não por código, e a execução do rollback depende do `apply`, que ainda não tem dono.
 10. **Fase 17 — runtime e administração de jogadores:** retoma o que a Fase 11 deixou decidido nos ADRs 009, 010, 012 e 013 e não implementado. Adiar não é revogar.
 
+Em paralelo às fases acima, e sem interrompê-las, corre a **frente de integração do painel** ([ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md)): cada capacidade madura é exposta na interface quando houver tela útil para ela, em vez de acumular integração para o final. Ela também serve de validação — uma capacidade tecnicamente correta que fique impraticável pelo painel muda de contrato antes de a decisão endurecer. Como subir o painel está em [PAINEL_LOCAL.md](PAINEL_LOCAL.md).
+
 O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
 
 ## Riscos técnicos

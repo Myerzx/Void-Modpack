@@ -22,6 +22,7 @@ import { ArtifactReviewRepository } from './artifact-review-repositories.js';
 import { BackupRepository } from './backup-repositories.js';
 import { ScheduleRepository } from './schedule-repositories.js';
 import { TelemetryRepository } from './telemetry-repositories.js';
+import { WorkspaceRepository } from './workspace-repositories.js';
 import { ConsoleRepository } from './console-repositories.js';
 import {
   OperationRepository,
@@ -144,6 +145,8 @@ export interface ActiveSession {
   readonly id: string;
   readonly userId: string;
   readonly csrfTokenHash: string;
+  /** The token as issued, so a reloaded page can present it again. */
+  readonly csrfToken: string | null;
   readonly expiresAt: string;
   readonly idleExpiresAt: string;
   readonly user: Pick<PanelUser, 'id' | 'emailNormalized' | 'displayName' | 'status'>;
@@ -153,6 +156,7 @@ interface SessionRow {
   readonly id: string;
   readonly user_id: string;
   readonly csrf_token_hash: string;
+  readonly csrf_token: string | null;
   readonly expires_at: Date | string;
   readonly idle_expires_at: Date | string;
   readonly email_normalized: string;
@@ -168,6 +172,8 @@ export class SessionRepository {
     readonly userId: string;
     readonly tokenHash: string;
     readonly csrfTokenHash: string;
+    /** Stored as issued: see migration 0017 for why this one is not hashed. */
+    readonly csrfToken: string;
     readonly now: Date;
     readonly expiresAt: Date;
     readonly idleExpiresAt: Date;
@@ -177,14 +183,15 @@ export class SessionRepository {
     const id = input.id ?? randomUUID();
     await this.database.query(
       `INSERT INTO sessions (
-         id, user_id, token_hash, csrf_token_hash, created_at, expires_at,
+         id, user_id, token_hash, csrf_token_hash, csrf_token, created_at, expires_at,
          idle_expires_at, last_seen_at, ip_prefix, user_agent_hash
-       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$5,$8,$9)`,
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$6,$9,$10)`,
       [
         id,
         input.userId,
         input.tokenHash,
         input.csrfTokenHash,
+        input.csrfToken,
         input.now.toISOString(),
         input.expiresAt.toISOString(),
         input.idleExpiresAt.toISOString(),
@@ -197,7 +204,7 @@ export class SessionRepository {
 
   async findActive(tokenHash: string, now: Date): Promise<ActiveSession | undefined> {
     const result = await this.database.query<SessionRow>(
-      `SELECT s.id, s.user_id, s.csrf_token_hash, s.expires_at, s.idle_expires_at,
+      `SELECT s.id, s.user_id, s.csrf_token_hash, s.csrf_token, s.expires_at, s.idle_expires_at,
               u.email_normalized, u.display_name, u.status AS user_status
        FROM sessions s JOIN panel_users u ON u.id = s.user_id
        WHERE s.token_hash = $1 AND s.revoked_at IS NULL
@@ -210,6 +217,7 @@ export class SessionRepository {
       id: row.id,
       userId: row.user_id,
       csrfTokenHash: row.csrf_token_hash,
+      csrfToken: row.csrf_token,
       expiresAt: asIso(row.expires_at),
       idleExpiresAt: asIso(row.idle_expires_at),
       user: {
@@ -967,6 +975,7 @@ export interface Repositories {
   readonly schedules: ScheduleRepository;
   readonly playerIdentities: PlayerIdentityRepository;
   readonly playerRecords: PlayerRecordRepository;
+  readonly workspaces: WorkspaceRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -992,5 +1001,6 @@ export function createRepositories(database: Database): Repositories {
     schedules: new ScheduleRepository(database),
     playerIdentities: new PlayerIdentityRepository(database),
     playerRecords: new PlayerRecordRepository(database),
+    workspaces: new WorkspaceRepository(database),
   };
 }

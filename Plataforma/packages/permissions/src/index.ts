@@ -22,6 +22,16 @@ export const PANEL_PERMISSIONS = [
   'mods.manage',
   'mods.classify',
   'mods.licenseReview',
+  /**
+   * Read an imported workspace: its inventory, its mods, its configuration.
+   *
+   * Deliberately not `files.view`. That one names an authorized file inside a
+   * running server; this is a build workspace somebody imported, which is read
+   * only and is never a runtime.
+   */
+  'workspace.view',
+  /** Register or re-scan a workspace. Never writes inside the workspace. */
+  'workspace.manage',
   'files.view',
   'files.edit',
   'files.upload',
@@ -65,6 +75,9 @@ const readOnlyPermissions = [
   'files.view',
   'backups.view',
   'schedules.view',
+  // Reading an imported workspace changes nothing in it — the inventory is
+  // structurally read-only — so it sits with the other view permissions.
+  'workspace.view',
 ] as const satisfies readonly PanelPermission[];
 
 export const ROLE_PERMISSION_GRANTS: Readonly<Record<PanelRole, readonly PanelPermission[]>> = {
