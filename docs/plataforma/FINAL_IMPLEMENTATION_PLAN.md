@@ -584,15 +584,47 @@ Nenhuma sugestão é aplicada sozinha. Uma sugestão aplicada sem confirmação 
 
 Objetivo: produzir, a partir do estado aprovado, tudo o que uma versão precisa.
 
-- [ ] ZIP do servidor;
-- [ ] ZIP/estrutura do modpack CurseForge;
-- [ ] manifesto com hashes e versões;
-- [ ] mods adicionados, removidos e atualizados;
-- [ ] configurações, datapacks e scripts alterados;
-- [ ] changelog automático;
-- [ ] arquivos apenas de cliente e apenas de servidor;
-- [ ] resultado dos testes de boot;
-- [ ] rollback para a versão anterior.
+- [ ] ZIP do servidor — **não iniciado**; permitido para uso local, ver o gate abaixo;
+- [ ] ZIP/estrutura do modpack CurseForge — **bloqueado por licença**, não por código;
+- [x] manifesto com hashes e versões — o inventário já carrega hash por arquivo e digest próprio; o contrato `ReleaseManifest` e o assinador existem desde a Fase 5;
+- [x] mods adicionados, removidos e atualizados — `@voidfall/release-planner`, 2026-08-07;
+- [x] configurações, datapacks e scripts alterados;
+- [x] changelog automático;
+- [ ] arquivos apenas de cliente e apenas de servidor — **não iniciado**;
+- [x] resultado dos testes de boot — carregado no plano, com `null` distinto de "não iniciou";
+- [ ] rollback para a versão anterior — **não iniciado**.
+
+#### O diff decide por digest, nunca por versão
+
+Um mod cuja versão não mudou mas cujo arquivo mudou é `rebuilt`. Trocar um jar no lugar é real e comum num pack; reportar como inalterado porque a versão bateu esconderia a única evidência de que algo aconteceu.
+
+`identical` compara o digest do próprio inventário, que cobre o hash de cada arquivo — então é um fato sobre o conteúdo, não sobre quando as varreduras aconteceram.
+
+#### O gate de distribuição, medido contra o modpack real
+
+Construir um artefato e ter permissão de entregá-lo a alguém são perguntas diferentes, e a segunda nunca é presumida da primeira.
+
+```
+mods inventariados     103
+entradas no catálogo   195
+distributable          false
+bloqueios              182
+  provider-metadata-required        161
+  license-and-authorship-required    21
+  never-reviewed                      0
+```
+
+O export CurseForge é recusado, e a recusa nomeia exatamente o que falta. **Isso não é limitação de código.** Um manifesto CurseForge referencia mods por project id e file id; sem eles, o único jeito de incluir um mod é copiar o jar para `overrides/`, o que é redistribuição. Os dois caminhos precisam da revisão, e o `AGENTS.md` é explícito: nunca inferir que um asset é redistribuível.
+
+O casamento é por **digest**, não por nome de arquivo: um jar renomeado é os mesmos bytes e a mesma questão de licença, e um jar de mesmo nome com bytes diferentes é outro artefato que ninguém revisou. Zero "never-reviewed" contra o catálogo real confirma que o casamento funciona.
+
+`localUseOnly` continua verdadeiro: o operador sempre pode construir para a própria máquina. Um backup que alguém restaura no próprio host não é distribuição, e recusá-lo trataria uma questão de licença como questão de backup.
+
+#### O changelog não diz o que uma mudança faz
+
+5.346 entradas geradas do inventário real. Cada linha vem de uma comparação de digest; nada aqui resume o *efeito* de uma mudança, porque isso exigiria saber o que os mods significam — e nada neste pipeline sabe.
+
+Um release sem nada diz isso, em vez de produzir um documento vazio que parece falha de geração.
 
 ### Fase 17 — runtime e administração de jogadores
 
