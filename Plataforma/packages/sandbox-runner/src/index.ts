@@ -1,3 +1,4 @@
+export * from './verify-change.js';
 export * from './first-boot.js';
 export * from './provision.js';
 export * from './process-runner.js';

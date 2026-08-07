@@ -522,6 +522,27 @@ Nenhum era do modpack. Todos eram do pipeline, e nenhum teria aparecido lendo c�
 
 Efeito das exclusões: de 20 664 arquivos / 2 265 MiB para 5 509 / 1 017 MiB, e a composição de 41 s para 9,4 s.
 
+### Evidência do fio vertical completo — 2026-08-07
+
+O mesmo servidor, agora com uma **mudança real** preparada em staging e iniciada na sandbox.
+
+Campo escolhido do modpack de verdade: `config/armourers_workshop-common.toml`, `general.maxUndos` de `100` para `250` — dentro do `Range: 0 ~ 1000` que o próprio mod declara em comentário — e `general.enableProtocolCheck` de `true` para `false`.
+
+```
+outcome              booted
+durationMs           122 789
+valuesHeld           true
+workspaceUnchanged   true
+baseSha256           6079258141b65c08…
+stagedSha256         00efd0695c580bc8…
+observedSha256       00efd0695c580bc8…   (idêntico ao staged)
+disposed             true
+```
+
+`observedSha256` é lido **do sandbox, antes do descarte**. Acreditar que os bytes preparados foram usados porque foram passados é a suposição que este pipeline existe para evitar; ler de volta é a única versão da pergunta que vale responder.
+
+Isso fecha os dez elos: importar → detectar mod → identificar arquivos → gerar formulário → alterar valor → validar contra o limite declarado → aplicar em staging → iniciar sandbox → confirmar boot → diff e descarte, com o workspace intacto ao fim.
+
 ### Fase 15 — adaptadores específicos
 
 Objetivo: dar semântica aos mods que a merecem, um por vez.

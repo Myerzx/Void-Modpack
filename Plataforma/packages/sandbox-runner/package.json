@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "@voidfall/minecraft-process": "0.1.0",
-    "@voidfall/workspace-inventory": "0.1.0"
+    "@voidfall/workspace-inventory": "0.1.0",
+    "@voidfall/configuration-staging": "0.1.0",
+    "@voidfall/configuration-inference": "0.1.0"
   },
   "bin": {
     "voidfall-sandbox-boot": "./dist/cli.js"
