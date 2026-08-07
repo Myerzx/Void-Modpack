@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1786135835.2450788,
-    "ast_hash": "0558b245ff9b256e37cfae4ab73ac7ae",
+    "mtime": 1786137008.2562702,
+    "ast_hash": "c3333dd74aa282101fa3eec06041ca1d",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786136752.4664783,
-    "ast_hash": "bcc82603a4d64440cd167deeec3d8866",
+    "mtime": 1786137896.9470525,
+    "ast_hash": "ea4394b80be3bacb3a2beb75f1e3d637",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4356,6 +4356,56 @@
   },
   "Plataforma/packages/mod-adapters/tsconfig.test.json": {
     "mtime": 1786135835.1695309,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/package.json": {
+    "mtime": 1786137008.254759,
+    "ast_hash": "07568c4836e208ebb71840d204c4d905",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/changelog.ts": {
+    "mtime": 1786136988.6712494,
+    "ast_hash": "e1ef04881f7ca91c8b6f63f9ec49d6c2",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/diff.ts": {
+    "mtime": 1786136948.8189027,
+    "ast_hash": "2100a5607e2f0f5b5d3e58e51685b2f4",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/distribution.ts": {
+    "mtime": 1786136971.5537949,
+    "ast_hash": "7d5b91b2fcd36879486959ff441e43fd",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/index.ts": {
+    "mtime": 1786137008.0115726,
+    "ast_hash": "55e789e651bf6855ea4d097e02fdb317",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/plan.ts": {
+    "mtime": 1786137008.0100653,
+    "ast_hash": "148c2017178c9982c3ecffb7b1d09c06",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/types.ts": {
+    "mtime": 1786136928.3665352,
+    "ast_hash": "b8aaa0c441d09651e806c901994a819b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/test/release-planner.test.ts": {
+    "mtime": 1786137051.8251636,
+    "ast_hash": "784ebe1c86747d38f1ff8c181513ac52",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/tsconfig.build.json": {
+    "mtime": 1786137008.074447,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/tsconfig.test.json": {
+    "mtime": 1786137008.1601,
     "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
     "semantic_hash": ""
   }
