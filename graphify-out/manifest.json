@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1786118333.99017,
-    "ast_hash": "03d517ade627bd670d99ea6387e125e9",
+    "mtime": 1786135835.2450788,
+    "ast_hash": "0558b245ff9b256e37cfae4ab73ac7ae",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786134969.4532752,
-    "ast_hash": "1cd32f61f207767c98fb7251a464b1b0",
+    "mtime": 1786136752.4664783,
+    "ast_hash": "bcc82603a4d64440cd167deeec3d8866",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4145,8 +4145,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/scan.ts": {
-    "mtime": 1786124485.355329,
-    "ast_hash": "36ce35f4d399c0182f82d5922d71171f",
+    "mtime": 1786135498.7366316,
+    "ast_hash": "609a4e7c7432aed9e22ce172edd1edd5",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/service.ts": {
@@ -4160,8 +4160,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/test/workspace-inventory.test.ts": {
-    "mtime": 1786124057.3042967,
-    "ast_hash": "40ddfbad63cfb0a02ad116e2b5bdd3c6",
+    "mtime": 1786135471.9833217,
+    "ast_hash": "8e3e04120f061d053f8ad66ed0deed12",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/tsconfig.build.json": {
@@ -4270,13 +4270,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/sandbox.ts": {
-    "mtime": 1786124779.8191273,
-    "ast_hash": "3afb678fcfc9dde8097dd75132fb3c8d",
+    "mtime": 1786135717.43144,
+    "ast_hash": "afe4ead5708130885e66077133b85f41",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/types.ts": {
-    "mtime": 1786123293.2265234,
-    "ast_hash": "cf65eac6d53959a87c827441e6a32ee5",
+    "mtime": 1786135534.5539818,
+    "ast_hash": "9ba7e5f3e7a9e7c4349e5db0b6c3da76",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/test/sandbox-runner.test.ts": {
@@ -4300,8 +4300,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/first-boot.ts": {
-    "mtime": 1786134769.7113197,
-    "ast_hash": "f01e22c0cac6d75327cb7dd6cd0915ac",
+    "mtime": 1786135717.43144,
+    "ast_hash": "4a20812f6899c5e4b7f5b0f3c9c9be8b",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/provision.ts": {
@@ -4315,8 +4315,48 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/verify-change.ts": {
-    "mtime": 1786134745.3046696,
-    "ast_hash": "870c3b2937d05f029f723c8d7676c529",
+    "mtime": 1786135717.43144,
+    "ast_hash": "a2501ba24ceceb99837d50d841569ae6",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/package.json": {
+    "mtime": 1786135835.2450788,
+    "ast_hash": "59c36123779acf7364b6fe33e1023bac",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/src/index.ts": {
+    "mtime": 1786135834.9906487,
+    "ast_hash": "b7b0d4e869344f89dd3e95a575469139",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/src/mine-and-slash.ts": {
+    "mtime": 1786135965.2369463,
+    "ast_hash": "c639cf25230136fa7630b3c08775f2a8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/src/registry.ts": {
+    "mtime": 1786135834.9891367,
+    "ast_hash": "3916c13d91dd17d5b61f24ebb8757e30",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/src/types.ts": {
+    "mtime": 1786135793.192529,
+    "ast_hash": "65630e739864b67acd9c15125c8d8f4d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/test/mod-adapters.test.ts": {
+    "mtime": 1786135965.3117306,
+    "ast_hash": "53aabb1dda9b49d91bf148703dda4c31",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/tsconfig.build.json": {
+    "mtime": 1786135835.1065936,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/mod-adapters/tsconfig.test.json": {
+    "mtime": 1786135835.1695309,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
     "semantic_hash": ""
   }
 }
