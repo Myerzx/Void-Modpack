@@ -39,6 +39,16 @@ export interface FirstBootEvidence {
   readonly filesCopied: number;
   readonly bytesCopied: number;
   readonly report: SandboxBootReport;
+  /**
+   * Whether the sandbox was actually deleted.
+   *
+   * Reported rather than thrown. On the first real run a disposal failure
+   * replaced the boot result entirely, so the answer to "did the server start"
+   * was an `EBUSY` about a directory — cleanup destroying the evidence it was
+   * cleaning up after.
+   */
+  readonly disposed: boolean;
+  readonly disposalError: string | null;
 }
 
 export interface RunIsolatedBootOptions {
@@ -96,6 +106,8 @@ export async function runIsolatedBoot(
     }),
   });
 
+  let disposed = false;
+  let disposalError: string | null = null;
   try {
     await sandbox.compose({
       workspaceRoot,
@@ -106,6 +118,19 @@ export async function runIsolatedBoot(
     });
     report('Sandbox composed. Starting the server.');
     const bootReport = await sandbox.boot({ timeoutMs: options.timeoutMs ?? 600_000 });
+
+    // Disposed here, before returning, and its failure is carried rather than
+    // thrown: an answer about the boot is what the caller asked for, and a
+    // cleanup problem must not take its place.
+    try {
+      await sandbox.dispose();
+      disposed = true;
+      report('Sandbox disposed.');
+    } catch (error) {
+      disposalError = error instanceof Error ? error.message : 'disposal failed';
+      report(`Sandbox could NOT be disposed: ${disposalError}`);
+    }
+
     return Object.freeze({
       workspaceRoot,
       java,
@@ -114,10 +139,13 @@ export async function runIsolatedBoot(
       filesCopied: files.length,
       bytesCopied,
       report: bootReport,
+      disposed,
+      disposalError,
     });
-  } finally {
-    // Disposable means disposed, including when the boot threw.
-    await sandbox.dispose();
-    report('Sandbox disposed.');
+  } catch (error) {
+    // The boot never produced a result, so there is nothing to protect: clean
+    // up as best we can and let the original failure surface.
+    await sandbox.dispose().catch(() => undefined);
+    throw error;
   }
 }

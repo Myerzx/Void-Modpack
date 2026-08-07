@@ -725,8 +725,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/node-runtime.ts": {
-    "mtime": 1786117676.4198654,
-    "ast_hash": "9bb6c40a842a984149834dc0c8777926",
+    "mtime": 1786124466.6631725,
+    "ast_hash": "8e23ae59dacd1c315e6f78d524985b55",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/runtime.ts": {
@@ -4145,8 +4145,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/scan.ts": {
-    "mtime": 1786120921.65513,
-    "ast_hash": "e51fcbe5e90302b36018904d4919167f",
+    "mtime": 1786124485.355329,
+    "ast_hash": "36ce35f4d399c0182f82d5922d71171f",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/service.ts": {
@@ -4160,8 +4160,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/test/workspace-inventory.test.ts": {
-    "mtime": 1786121032.8300016,
-    "ast_hash": "296d0b0d6f07332bd6d506dd510d4c9f",
+    "mtime": 1786124057.3042967,
+    "ast_hash": "40ddfbad63cfb0a02ad116e2b5bdd3c6",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/tsconfig.build.json": {
@@ -4260,13 +4260,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/package.json": {
-    "mtime": 1786117760.963945,
-    "ast_hash": "1236cd019eb1643bc8c4a4edecdd1f61",
+    "mtime": 1786123328.1221616,
+    "ast_hash": "be9d665f3aa8048881ffbf62fba6435c",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/index.ts": {
-    "mtime": 1786117760.963945,
-    "ast_hash": "e73a9cd7a3cb68c5930cb035739ba746",
+    "mtime": 1786123328.1236713,
+    "ast_hash": "e407de33a903dc3a57b8f1bfbad9ae76",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/sandbox.ts": {
@@ -4275,8 +4275,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/types.ts": {
-    "mtime": 1786120944.2564828,
-    "ast_hash": "b0cafc13a409488238c8fd2918ee51e0",
+    "mtime": 1786123293.2265234,
+    "ast_hash": "cf65eac6d53959a87c827441e6a32ee5",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/test/sandbox-runner.test.ts": {
@@ -4297,6 +4297,16 @@
   "Plataforma/packages/sandbox-runner/src/process-runner.ts": {
     "mtime": 1786120944.2579916,
     "ast_hash": "6788bcde548c3f6902dec810a99e1f4a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/first-boot.ts": {
+    "mtime": 1786123318.2525358,
+    "ast_hash": "de367467f479d33c835639179818bccc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/provision.ts": {
+    "mtime": 1786123282.4252582,
+    "ast_hash": "920e7a55c7d4181cf3d866a6fd8380fe",
     "semantic_hash": ""
   }
 }

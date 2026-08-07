@@ -20,6 +20,44 @@ import {
 /** Where a boot writes files a mod generates on first run. */
 const CONFIG_ROOT = 'config';
 
+/**
+ * Windows' extended-length path prefix, built from code points.
+ *
+ * Written this way because the literal is four characters of which three are
+ * backslashes, and a run of backslashes is exactly what gets mangled passing
+ * through tooling — quietly, into a string that still compiles.
+ */
+const WINDOWS_EXTENDED_PREFIX = String.fromCharCode(92, 92, 63, 92);
+
+/**
+ * Removal that survives Windows.
+ *
+ * Two things go wrong there and both were observed on the first real boot.
+ * Handles are released asynchronously after a process dies, so a delete issued
+ * immediately after a kill fails with `EBUSY`; and a sandbox composed from a
+ * deeply nested source produces paths past `MAX_PATH`, which the ordinary APIs
+ * cannot even name — the message is "cannot find part of the path" for a file
+ * that is plainly there.
+ *
+ * The extended-length prefix fixes the second. Retrying fixes the first. A
+ * sandbox that cannot be deleted is not disposable, which is most of what it
+ * claimed to be.
+ */
+async function removeTree(root: string): Promise<void> {
+  const target = process.platform === 'win32' ? `${WINDOWS_EXTENDED_PREFIX}${root}` : root;
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    try {
+      await rm(target, { recursive: true, force: true });
+      return;
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
+    }
+  }
+  throw lastError;
+}
+
 function toPosix(value: string): string {
   return value.split(sep).join(posix.sep);
 }
@@ -210,7 +248,7 @@ export class Sandbox {
     const composed = this.#composed;
     this.#composed = undefined;
     if (composed === undefined) return;
-    await rm(composed.root, { recursive: true, force: true });
+    await removeTree(composed.root);
   }
 }
 

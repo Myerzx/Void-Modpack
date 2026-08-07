@@ -77,12 +77,24 @@ function tailOf(stdout: string, stderr: string): readonly string[] {
  * it is ended — this is a JVM we spawned, in a temporary directory, over an
  * empty world, and it is not the operator's server.
  */
-async function ensureStopped(handle: SpawnedProcess): Promise<void> {
-  if (handle.getExit() !== undefined) return;
+export type StopDisposition =
+  | 'already-exited'
+  | 'stopped-gracefully'
+  | 'terminated'
+  /** It survived both. A leaked JVM must be visible, never swallowed. */
+  | 'still-running';
+
+async function ensureStopped(handle: SpawnedProcess): Promise<StopDisposition> {
+  if (handle.getExit() !== undefined) return 'already-exited';
   await handle.requestGracefulStop().catch(() => undefined);
-  if ((await handle.waitForExit(GRACEFUL_STOP_MS)) !== undefined) return;
+  if ((await handle.waitForExit(GRACEFUL_STOP_MS)) !== undefined) return 'stopped-gracefully';
+  // A failure here used to be swallowed, which meant a JVM that survived the
+  // kill left no trace anywhere — and one did, holding a sandbox directory
+  // open long after the run reported it was finished.
   await handle.forceTerminate().catch(() => undefined);
-  await handle.waitForExit(FORCED_STOP_MS);
+  return (await handle.waitForExit(FORCED_STOP_MS)) === undefined
+    ? 'still-running'
+    : 'terminated';
 }
 
 export function createProcessSandboxBootRunner(

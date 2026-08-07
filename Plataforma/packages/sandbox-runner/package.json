@@ -17,10 +17,14 @@
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "test": "tsx --test test/sandbox-runner.test.ts",
-    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "boot": "node dist/cli.js"
   },
   "dependencies": {
     "@voidfall/minecraft-process": "0.1.0",
     "@voidfall/workspace-inventory": "0.1.0"
+  },
+  "bin": {
+    "voidfall-sandbox-boot": "./dist/cli.js"
   }
 }
