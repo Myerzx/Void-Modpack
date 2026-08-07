@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1785958497.9131873,
-    "ast_hash": "fd54e15727e86b55254fd9684277eb7a",
+    "mtime": 1786036828.5839357,
+    "ast_hash": "af038929182d6301b48d07cce9aba69c",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786035379.9081187,
-    "ast_hash": "d2780c3b1bb5a8d8992787a22ba84625",
+    "mtime": 1786037616.538791,
+    "ast_hash": "1b1d262153213bcf8d48dc8850e86abd",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4127,6 +4127,51 @@
   "docs/plataforma/DECISIONS/ADR-014-objetivo-central-e-replanejamento.md": {
     "mtime": 1786035264.1427877,
     "ast_hash": "5d6758013860e2a49ee418fe39141e74",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/package.json": {
+    "mtime": 1786036819.8247974,
+    "ast_hash": "c332a273f2fe1568cff97f3aeca52eb0",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/src/classify.ts": {
+    "mtime": 1786037006.9599986,
+    "ast_hash": "629298a9938379848cf08205d6f8946b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/src/index.ts": {
+    "mtime": 1786036819.7347305,
+    "ast_hash": "1703c66e9749bab2ca4d780e0866f39d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/src/scan.ts": {
+    "mtime": 1786036749.8840683,
+    "ast_hash": "ddf1e78d1a55ce65c784a91c80157f78",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/src/service.ts": {
+    "mtime": 1786036805.308994,
+    "ast_hash": "2311dafe8732f031f574fd46ba830480",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/src/types.ts": {
+    "mtime": 1786036715.4895978,
+    "ast_hash": "0f29e6387c59bf8d89201a63c69ebc68",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/test/workspace-inventory.test.ts": {
+    "mtime": 1786037019.1212246,
+    "ast_hash": "9bd04f400f9fa1a432210338969e4460",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/tsconfig.build.json": {
+    "mtime": 1786036819.7675586,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/workspace-inventory/tsconfig.test.json": {
+    "mtime": 1786036819.7990153,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
     "semantic_hash": ""
   }
 }

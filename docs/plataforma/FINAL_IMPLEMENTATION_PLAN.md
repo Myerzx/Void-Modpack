@@ -448,11 +448,17 @@ Decisões de recorte tomadas na implementação:
 
 Objetivo: alterar configuração sem entender semântica que ninguém revisou.
 
-- [ ] inferir esquema de um arquivo estruturado e gerar formulário;
-- [ ] editar valor com validação de tipo e limite;
+- [x] inferir esquema de um arquivo estruturado e gerar formulário — `@voidfall/configuration-inference`, 2026-08-07. TOML e JSON;
+- [x] editar valor com validação de tipo e limite — `validateProposedValue`, que distingue **verificado contra limite declarado** de **aceito só por tipo**;
 - [ ] aplicar em staging, nunca no workspace ativo;
 - [ ] diff legível e rollback por revisão;
 - [ ] modo avançado para `RAW_EDITABLE`, com aviso explícito.
+
+A distinção que sustenta a fase: **estrutura se infere, significado não.** Um valor `true` é um booleano — isso é fato sobre o arquivo. O que o campo faz e se mudá-lo é seguro não estão no arquivo e não são adivinhados.
+
+Há uma exceção que não é exceção: o `ForgeConfigSpec` escreve os próprios limites no arquivo como comentários — `#Range: 0 ~ 100`, `#Allowed Values: EASY, NORMAL`. Ler isso é ler uma **declaração**. Por isso todo limite carrega de onde veio, e um campo sem limite declarado é validado só por tipo, com a resposta dizendo isso — alegar o contrário esconderia que ninguém sabe o que aquele campo aceita.
+
+Um limite que não foi entendido é descartado em vez de aproximado: um limite mal lido recusa valores que o mod aceita ou aceita valores que ele não aceita, e os dois parecem o editor funcionando. A linha continua visível na documentação do campo, verbatim.
 
 ### Fase 14 — sandbox descartável
 
