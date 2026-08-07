@@ -514,6 +514,7 @@ describe('sourced host and process metrics', () => {
       }),
       requestConsoleCommand: async () => {},
       requestGracefulStop: async () => {},
+      forceTerminate: async () => {},
       waitForExit: async () => {
         exitObserved = true;
         return handle.getExit();
@@ -706,6 +707,8 @@ describe('managed platform adapters', () => {
       }
 
       async requestGracefulStop(): Promise<void> {}
+
+      async forceTerminate(): Promise<void> {}
 
       async waitForExit(): Promise<undefined> {
         return undefined;
@@ -980,6 +983,9 @@ describe('managed platform adapters', () => {
       async requestGracefulStop(): Promise<void> {
         this.gracefulStopRequests += 1;
       }
+
+      /** Present so the double satisfies the interface. The adapter never calls it. */
+      async forceTerminate(): Promise<void> {}
 
       async waitForExit(): Promise<undefined> {
         return undefined;

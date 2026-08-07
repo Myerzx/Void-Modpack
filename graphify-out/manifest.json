@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1786078485.675908,
-    "ast_hash": "9ee906eb0714d820e8559a86b64be871",
+    "mtime": 1786082102.143872,
+    "ast_hash": "55547258fe100ab8fc9106911f9eb177",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786079491.9231305,
-    "ast_hash": "15be6ab045afb8c174c52707aba215f3",
+    "mtime": 1786082957.9727437,
+    "ast_hash": "6aa16db3f8f794fac62322ded7df639a",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4256,6 +4256,41 @@
   },
   "Plataforma/packages/configuration-staging/tsconfig.test.json": {
     "mtime": 1786078485.5762265,
+    "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/package.json": {
+    "mtime": 1786082102.142363,
+    "ast_hash": "3edb335eec08c4eaac3b417426940aa1",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/index.ts": {
+    "mtime": 1786082101.9869182,
+    "ast_hash": "b5c2a88a09f00b4834250be14cf4a381",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/sandbox.ts": {
+    "mtime": 1786082086.8947752,
+    "ast_hash": "08300d1d222455b48c00ec2f47c439b4",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/types.ts": {
+    "mtime": 1786082051.9501576,
+    "ast_hash": "f5841880d413e47e68ee4855d1210b75",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/test/sandbox-runner.test.ts": {
+    "mtime": 1786082149.0042973,
+    "ast_hash": "200e6006aca7c30b28b585f2993a3b40",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/tsconfig.build.json": {
+    "mtime": 1786082102.0237348,
+    "ast_hash": "6cc6d07ca15e1d290d7a0d9d5db5f602",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/tsconfig.test.json": {
+    "mtime": 1786082102.0507581,
     "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
     "semantic_hash": ""
   }

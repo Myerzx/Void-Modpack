@@ -18,5 +18,8 @@
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
     "test": "tsx --test test/sandbox-runner.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/minecraft-process": "0.1.0"
   }
 }

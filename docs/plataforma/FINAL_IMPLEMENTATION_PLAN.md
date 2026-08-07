@@ -484,7 +484,8 @@ Decisões de recorte tomadas na implementação:
 - **a EULA não é aceita em nome do operador.** `eulaAccepted` é obrigatório, sem default, e a composição recusa sem ele. Aceitar um acordo de licença por alguém não é conveniência, e "pediu um boot" não é consentimento;
 - **a sandbox recusa se montar dentro do workspace** de onde copia: seria varrida pelo próximo import, e apagá-la apagaria parte do que ela copiou;
 - **timeout é desfecho próprio**, não falha. O servidor pode ter sido lento; "não terminou dentro da janela" é fato, "falhou" não seria;
-- **o boot entra por interface injetada.** Um teste que subisse uma JVM estaria testando o runner em vez da composição, e não conseguiria arranjar um boot que estoura o tempo nem um que escreve arquivo na primeira execução;
+- **o boot entra por interface injetada**, e o runner real existe: `createProcessSandboxBootRunner` compõe o plano de lançamento validado, o runtime de processo do Node e a mesma linha de boot que o adaptador observa — em vez de criar uma segunda opinião sobre como um servidor Minecraft inicia;
+- **o runner nunca retorna com o processo vivo.** O passo seguinte de quem chama é `dispose`, que apaga o diretório que a JVM tem aberto. Pede `stop` primeiro, e se não for, encerra — é uma JVM que nós mesmos iniciamos, num diretório temporário, sobre um mundo vazio. Isso **não** é a capability `process.force-kill` retida, que mata o servidor vivo de um operador;
 - **arquivos gerados são o retorno de tudo isso.** Um mod classificado `RUNTIME_ONLY` porque nada foi encontrado em disco escreve seu arquivo na primeira execução, e é aqui que ele aparece.
 
 ### Fase 15 — adaptadores específicos

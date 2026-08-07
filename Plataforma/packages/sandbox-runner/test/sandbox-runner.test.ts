@@ -4,7 +4,14 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, it } from 'node:test';
 
-import { Sandbox, SandboxError, type SandboxBootRunner } from '../src/index.js';
+import type { ProcessExit, SpawnedProcess } from '@voidfall/minecraft-process';
+
+import {
+  Sandbox,
+  SandboxError,
+  createProcessSandboxBootRunner,
+  type SandboxBootRunner,
+} from '../src/index.js';
 
 /**
  * Sandbox composition against real temporary directories.
@@ -265,5 +272,154 @@ describe('disposal', () => {
       await readFile(join(workspaceRoot, 'config', 'alpha.toml'), 'utf8'),
       'enabled = true\n',
     );
+  });
+});
+
+describe('the runner that actually starts a JVM', () => {
+  /** A process handle that behaves the way a spawned server does. */
+  class ScriptedProcess implements SpawnedProcess {
+    public readonly pid = 4_242;
+    public gracefulStops = 0;
+    public forcedTerminations = 0;
+    #exit: ProcessExit | undefined;
+    #stdout = '';
+
+    public constructor(
+      private readonly script: {
+        readonly stdoutAfterPolls?: ReadonlyMap<number, string>;
+        readonly exitAfterPolls?: number;
+        readonly ignoresGracefulStop?: boolean;
+      } = {},
+    ) {}
+
+    #polls = 0;
+
+    getExit(): ProcessExit | undefined {
+      return this.#exit;
+    }
+
+    readOutput() {
+      this.#polls += 1;
+      const line = this.script.stdoutAfterPolls?.get(this.#polls);
+      if (line !== undefined) this.#stdout += `${line}\n`;
+      if (this.script.exitAfterPolls === this.#polls) {
+        this.#exit = { code: 1, signal: null, exitedAt: '2026-08-07T12:00:00.000Z' };
+      }
+      return {
+        stdout: this.#stdout,
+        stderr: '',
+        stdoutTruncated: false,
+        stderrTruncated: false,
+      };
+    }
+
+    async requestConsoleCommand(): Promise<void> {}
+
+    async requestGracefulStop(): Promise<void> {
+      this.gracefulStops += 1;
+      if (this.script.ignoresGracefulStop !== true) {
+        this.#exit = { code: 0, signal: null, exitedAt: '2026-08-07T12:00:01.000Z' };
+      }
+    }
+
+    async forceTerminate(): Promise<void> {
+      this.forcedTerminations += 1;
+      this.#exit = { code: 137, signal: 'SIGKILL', exitedAt: '2026-08-07T12:00:02.000Z' };
+    }
+
+    async waitForExit(): Promise<ProcessExit | undefined> {
+      return this.#exit;
+    }
+  }
+
+  function runnerFor(handle: SpawnedProcess, spawnFails = false) {
+    let now = 0;
+    return createProcessSandboxBootRunner({
+      // A leading slash is absolute on both platforms, so the fixture needs no
+      // backslashes — one fewer thing an escape can quietly break.
+      javaExecutable: '/opt/java/bin/java',
+      serverJar: 'forge-server.jar',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 2_048,
+      runtime: {
+        async spawn() {
+          if (spawnFails) throw new Error('no java here');
+          return handle;
+        },
+      },
+      pollIntervalMs: 1,
+      clock: () => now,
+      sleep: async () => {
+        now += 1_000;
+      },
+    });
+  }
+
+  it('waits for the same line the process adapter waits for', async () => {
+    const handle = new ScriptedProcess({
+      stdoutAfterPolls: new Map([
+        [1, '[Server] Loading...'],
+        [3, '[Server thread/INFO]: Done (21.5s)! For help, type "help"'],
+      ]),
+    });
+    const report = await runnerFor(handle).boot({ sandboxRoot: '/tmp/sbx', timeoutMs: 60_000 });
+
+    assert.equal(report.outcome, 'booted');
+    assert.ok(report.tail.some((line) => line.includes('Done (21.5s)')));
+    // Even a successful boot does not leave the process running: the caller's
+    // next move is deleting the directory it has open.
+    assert.equal(handle.gracefulStops, 1);
+    assert.equal(handle.getExit()?.code, 0);
+  });
+
+  it('ends a process that ignores the polite request', async () => {
+    const handle = new ScriptedProcess({ ignoresGracefulStop: true });
+    const report = await runnerFor(handle).boot({ sandboxRoot: '/tmp/sbx', timeoutMs: 3_000 });
+
+    assert.equal(report.outcome, 'timed-out');
+    // Asked politely first, then not. Leaving it alive would hold a lock on a
+    // directory somebody is about to remove and keep a port bound.
+    assert.equal(handle.gracefulStops, 1);
+    assert.equal(handle.forcedTerminations, 1);
+    assert.notEqual(handle.getExit(), undefined);
+  });
+
+  it('tells an early exit apart from a slow start', async () => {
+    const handle = new ScriptedProcess({
+      stdoutAfterPolls: new Map([[1, '[Server] Loading...']]),
+      exitAfterPolls: 2,
+    });
+    const report = await runnerFor(handle).boot({ sandboxRoot: '/tmp/sbx', timeoutMs: 60_000 });
+    // Two different facts. Folding them together would tell an operator to wait
+    // longer for a server that already gave up.
+    assert.equal(report.outcome, 'exited-early');
+    assert.ok(report.tail.length > 0);
+  });
+
+  it('reports a spawn it could not even attempt', async () => {
+    const report = await runnerFor(new ScriptedProcess(), true).boot({
+      sandboxRoot: '/tmp/sbx',
+      timeoutMs: 1_000,
+    });
+    assert.equal(report.outcome, 'failed-to-start');
+    assert.deepEqual(report.tail, ['no java here']);
+  });
+
+  it('refuses a launch plan it cannot build rather than spawning something else', async () => {
+    const runner = createProcessSandboxBootRunner({
+      javaExecutable: 'java',
+      serverJar: '../../etc/payload.jar',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 2_048,
+      runtime: {
+        async spawn() {
+          throw new Error('must not be reached');
+        },
+      },
+    });
+    const report = await runner.boot({ sandboxRoot: '/tmp/sbx', timeoutMs: 1_000 });
+    // A relative java binary and a JAR named with a path are both refused by
+    // the shared launch plan, which is the point of building one at all.
+    assert.equal(report.outcome, 'failed-to-start');
   });
 });

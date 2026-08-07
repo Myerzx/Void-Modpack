@@ -105,6 +105,13 @@ class NodeSpawnedProcess implements SpawnedProcess {
     return this.#writeLiteral('stop\n');
   }
 
+  async forceTerminate(): Promise<void> {
+    if (this.#exit !== undefined) return;
+    // SIGKILL on POSIX; on Windows Node maps this to a terminate that the JVM
+    // cannot decline. Either way the caller has already asked politely.
+    this.child.kill('SIGKILL');
+  }
+
   async #writeLiteral(literal: string): Promise<void> {
     if (!this.child.stdin.writable || this.child.stdin.destroyed) {
       throw new Error('The process stdin is not available for a managed request.');

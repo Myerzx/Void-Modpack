@@ -28,7 +28,13 @@ import {
   type ObservedProcessState,
 } from './state-machine.js';
 
-const BOOT_COMPLETED_PATTERN = /Done \([^)]+\)! For help, type "help"/u;
+/**
+ * What a Minecraft server prints when it has finished loading.
+ *
+ * Exported so a sandbox boot can wait for the same line the adapter waits for,
+ * rather than keeping a second copy that could drift from this one.
+ */
+export const BOOT_COMPLETED_PATTERN = /Done \([^)]+\)! For help, type "help"/u;
 
 export interface ProcessObservation {
   readonly state: ObservedProcessState;
