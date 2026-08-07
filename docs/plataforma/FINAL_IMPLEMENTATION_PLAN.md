@@ -472,11 +472,20 @@ Para JSON não há linha para editar cirurgicamente, então o documento é recon
 
 Objetivo: provar que uma alteração inicia, sem arriscar nada real.
 
-- [ ] montar sandbox a partir dos mods e arquivos mínimos necessários;
-- [ ] **nunca** copiar nem modificar o mundo original;
-- [ ] boot isolado para gerar arquivos que só existem em runtime;
-- [ ] confirmar boot e capturar o resultado como evidência;
-- [ ] descartar a sandbox ao final, por construção.
+- [x] montar sandbox a partir dos mods e arquivos mínimos necessários — `@voidfall/sandbox-runner`, 2026-08-07. Nada é descoberto ou trazido por conveniência: tudo que entra foi nomeado por quem chamou;
+- [x] **nunca** copiar nem modificar o mundo original — a sandbox escreve um `level-name` novo, então o servidor cria um mundo vazio dentro dela e nunca procura o de ninguém;
+- [x] boot isolado para gerar arquivos que só existem em runtime;
+- [x] confirmar boot e capturar o resultado como evidência — `booted`, `timed-out`, `exited-early` e `failed-to-start` são desfechos distintos;
+- [x] descartar a sandbox ao final, por construção — criada sob um diretório pai do chamador, e `dispose` a remove.
+
+Decisões de recorte tomadas na implementação:
+
+- **o `server.properties` é gerado, não copiado.** O real guarda a porta, a seed, o motd e a senha RCON do operador — nada disso um boot descartável precisa, e um deles é segredo. O gerado é loopback, `max-players=0`, whitelist ligada e RCON desligado: uma sandbox que deixasse alguém entrar seria um servidor, não um teste;
+- **a EULA não é aceita em nome do operador.** `eulaAccepted` é obrigatório, sem default, e a composição recusa sem ele. Aceitar um acordo de licença por alguém não é conveniência, e "pediu um boot" não é consentimento;
+- **a sandbox recusa se montar dentro do workspace** de onde copia: seria varrida pelo próximo import, e apagá-la apagaria parte do que ela copiou;
+- **timeout é desfecho próprio**, não falha. O servidor pode ter sido lento; "não terminou dentro da janela" é fato, "falhou" não seria;
+- **o boot entra por interface injetada.** Um teste que subisse uma JVM estaria testando o runner em vez da composição, e não conseguiria arranjar um boot que estoura o tempo nem um que escreve arquivo na primeira execução;
+- **arquivos gerados são o retorno de tudo isso.** Um mod classificado `RUNTIME_ONLY` porque nada foi encontrado em disco escreve seu arquivo na primeira execução, e é aqui que ele aparece.
 
 ### Fase 15 — adaptadores específicos
 
