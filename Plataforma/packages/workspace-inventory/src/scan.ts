@@ -30,6 +30,13 @@ const PRIVATE_STATE_DIRECTORIES: ReadonlySet<string> = new Set([
   'logs',
   'crash-reports',
   'saves',
+  /**
+   * A launcher's own cache, which on the server this was first run against
+   * held 19 GB. Nothing in it is read by the server, and the configuration
+   * files scattered through it look exactly like configuration to a rule that
+   * goes by extension — which is how a sandbox ended up carrying 1.2 GB of it.
+   */
+  'local',
   'world',
   'world_nether',
   'world_the_end',
@@ -135,13 +142,29 @@ function isRuntimeInfrastructure(relativePath: string): boolean {
     .some((segment) => RUNTIME_DIRECTORIES.has(segment.toLocaleLowerCase('en-US')));
 }
 
+/**
+ * Whether a path is private state, checked at every segment.
+ *
+ * Every segment including the last, so the walk refuses the `logs` directory
+ * itself and never descends. Checking only the parent segments meant the
+ * directory was entered and each file rejected individually — same answer,
+ * except that a first attempt at a real server carried 20 800 files into a
+ * sandbox because a `.json` inside `crash-reports` still looked like
+ * configuration.
+ *
+ * Dot-directories go with them. A `.vscode`, a `.git` or an editor's cache at
+ * the root of a server is somebody's tooling, never something the server
+ * reads, and no allowlist of mod directories would have predicted their names.
+ */
 function isPrivateState(relativePath: string): boolean {
   const segments = relativePath.split('/');
   const name = segments[segments.length - 1] ?? '';
   if (PRIVATE_STATE_FILES.has(name.toLocaleLowerCase('en-US'))) return true;
-  return segments
-    .slice(0, -1)
-    .some((segment) => PRIVATE_STATE_DIRECTORIES.has(segment.toLocaleLowerCase('en-US')));
+  return segments.some(
+    (segment) =>
+      PRIVATE_STATE_DIRECTORIES.has(segment.toLocaleLowerCase('en-US')) ||
+      (segment.startsWith('.') && segment !== '.' && segment !== '..'),
+  );
 }
 
 /**

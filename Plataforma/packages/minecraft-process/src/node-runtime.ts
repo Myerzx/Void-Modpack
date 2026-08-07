@@ -38,16 +38,48 @@ class BoundedByteBuffer {
   }
 }
 
+/**
+ * The variables a spawned server is given, and nothing else.
+ *
+ * Minimal on purpose: an inherited environment carries tokens, credentials and
+ * a `PATH` a mod could resolve a binary from, none of which a Minecraft server
+ * needs from us.
+ *
+ * The per-user directory variables are here because leaving them out does not
+ * make a server safer, it makes it crash. Mods resolve a global storage
+ * directory through them, and `Path.of(System.getenv("APPDATA"))` with nothing
+ * set is `Path.of(null)` — which is a NullPointerException inside a static
+ * initialiser, i.e. a mod loading failure with no useful message. That is a
+ * real first-boot observation, not a precaution: ResourcefulLib and ModernFix
+ * both failed exactly there.
+ *
+ * These are paths, not secrets. The distinction is the whole rule: hand over
+ * where the user's directories are, never what is in the environment beyond
+ * that.
+ */
 function minimalEnvironment(platform: ProcessLaunchPlan['platform']): NodeJS.ProcessEnv {
   const environment: NodeJS.ProcessEnv = {};
   if (platform === 'win32') {
-    for (const name of ['SystemRoot', 'TEMP', 'TMP'] as const) {
+    for (const name of [
+      'SystemRoot',
+      'TEMP',
+      'TMP',
+      'APPDATA',
+      'LOCALAPPDATA',
+      'USERPROFILE',
+      'HOMEDRIVE',
+      'HOMEPATH',
+    ] as const) {
       const value = process.env[name];
       if (value !== undefined) environment[name] = value;
     }
   } else {
     environment['LANG'] = 'C.UTF-8';
     environment['TMPDIR'] = process.env['TMPDIR'] ?? tmpdir();
+    for (const name of ['HOME', 'XDG_DATA_HOME', 'XDG_CONFIG_HOME'] as const) {
+      const value = process.env[name];
+      if (value !== undefined) environment[name] = value;
+    }
   }
   return environment;
 }

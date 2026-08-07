@@ -130,7 +130,14 @@ export type SandboxErrorCode =
   | 'sandbox-root-inside-workspace'
   | 'unsafe-path'
   | 'not-composed'
-  | 'source-missing';
+  | 'source-missing'
+  /** No Java on this host meets what the server needs. Names what was tried. */
+  | 'java-not-found'
+  | 'forge-args-file-not-found'
+  | 'sandbox-parent-unusable'
+  | 'insufficient-space'
+  /** The imported server has not accepted the EULA, so neither has the sandbox. */
+  | 'eula-not-accepted-in-workspace';
 
 export class SandboxError extends Error {
   public readonly code: SandboxErrorCode;

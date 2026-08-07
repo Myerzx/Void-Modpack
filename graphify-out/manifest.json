@@ -720,8 +720,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/launch-plan.ts": {
-    "mtime": 1785768470.5790577,
-    "ast_hash": "c8dfd7b30231081ed9e686fae0a7348b",
+    "mtime": 1786120889.0079699,
+    "ast_hash": "911d0d24d024ccfb623f4c56142a96e9",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/node-runtime.ts": {
@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786119054.5625863,
-    "ast_hash": "4ce88f5a1f4ba3f0edbebcce01714808",
+    "mtime": 1786121751.2314477,
+    "ast_hash": "0039b1c5a3d6f5cb5e2bb7fe91a2043f",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4145,8 +4145,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/scan.ts": {
-    "mtime": 1786036749.8840683,
-    "ast_hash": "ddf1e78d1a55ce65c784a91c80157f78",
+    "mtime": 1786120921.65513,
+    "ast_hash": "e51fcbe5e90302b36018904d4919167f",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/service.ts": {
@@ -4155,13 +4155,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/src/types.ts": {
-    "mtime": 1786036715.4895978,
-    "ast_hash": "0f29e6387c59bf8d89201a63c69ebc68",
+    "mtime": 1786120921.65513,
+    "ast_hash": "bcb49b6543a896b24c41f17e55ecada0",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/test/workspace-inventory.test.ts": {
-    "mtime": 1786037019.1212246,
-    "ast_hash": "9bd04f400f9fa1a432210338969e4460",
+    "mtime": 1786121032.8300016,
+    "ast_hash": "296d0b0d6f07332bd6d506dd510d4c9f",
     "semantic_hash": ""
   },
   "Plataforma/packages/workspace-inventory/tsconfig.build.json": {
@@ -4275,13 +4275,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/types.ts": {
-    "mtime": 1786082051.9501576,
-    "ast_hash": "f5841880d413e47e68ee4855d1210b75",
+    "mtime": 1786120944.2564828,
+    "ast_hash": "b0cafc13a409488238c8fd2918ee51e0",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/test/sandbox-runner.test.ts": {
-    "mtime": 1786117895.506382,
-    "ast_hash": "e787933396b4a750c7b3975a9c4e25ea",
+    "mtime": 1786120981.0251687,
+    "ast_hash": "d84aa58e40e0062ce2e9f406c29bc779",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/tsconfig.build.json": {
@@ -4295,8 +4295,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/process-runner.ts": {
-    "mtime": 1786117752.7428493,
-    "ast_hash": "d07d992f6d264d54f16c728de8e9c72c",
+    "mtime": 1786120944.2579916,
+    "ast_hash": "6788bcde548c3f6902dec810a99e1f4a",
     "semantic_hash": ""
   }
 }

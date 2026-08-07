@@ -131,12 +131,14 @@ describe('workspace scanning', () => {
     // None of it was hashed, and all of it is named. An inventory that omitted
     // them silently would be indistinguishable from one that failed to look.
     const excluded = scan.exclusions.map((entry) => entry.path).sort();
+    // Directories are refused at the directory, so the walk never descends into
+    // a world or a log folder to reject each file one at a time.
     assert.deepEqual(excluded, [
-      'logs/latest.log',
+      'logs',
       'ops.json',
       'server.properties',
       'whitelist.json',
-      'world/level.dat',
+      'world',
     ]);
     assert.ok(scan.exclusions.every((entry) => entry.reason === 'private-state'));
     assert.deepEqual(
@@ -358,5 +360,29 @@ describe('the server runtime is infrastructure, not private state', () => {
     );
     // Asking for the runtime does not also hand over private state.
     assert.ok(scan.exclusions.some((entry) => entry.reason === 'private-state'));
+  });
+});
+
+describe('tooling directories are not server content', () => {
+  it('refuses a dot-directory whatever it happens to be called', async () => {
+    const root = await workspace();
+    await write(root, 'mods/alpha.jar', forgeJar('alpha', '1.0.0'));
+    await write(root, 'config/alpha.toml', 'enabled = true\n');
+    await write(root, '.vscode/settings.json', '{"editor.tabSize":2}');
+    await write(root, '.codex/notes.json', '{}');
+
+    const scan = await scanWorkspace({ root });
+    // No allowlist of mod directories could have predicted these names, and a
+    // .json inside one still looks exactly like configuration — which is how a
+    // first attempt at a real server carried 20 800 files into a sandbox.
+    assert.deepEqual(
+      scan.files.map((file) => file.path),
+      ['config/alpha.toml', 'mods/alpha.jar'],
+    );
+    assert.ok(
+      ['.codex', '.vscode'].every((name) =>
+        scan.exclusions.some((entry) => entry.path === name && entry.reason === 'private-state'),
+      ),
+    );
   });
 });
