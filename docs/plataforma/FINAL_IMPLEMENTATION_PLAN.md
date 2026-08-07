@@ -490,6 +490,38 @@ Decisões de recorte tomadas na implementação:
 - **`libraries/` era estado privado por engano meu.** É infraestrutura de runtime: fica fora do inventário por padrão porque ninguém gerencia uma biblioteca do Forge por um painel de configuração e 159 MB de jars afogam a lista do que importa — mas não é privado, e `includeRuntime` a traz. Sem ela não há o que iniciar. A exclusão acontece no diretório, então a varredura nem desce;
 - **arquivos gerados são o retorno de tudo isso.** Um mod classificado `RUNTIME_ONLY` porque nada foi encontrado em disco escreve seu arquivo na primeira execução, e é aqui que ele aparece.
 
+### Evidência do primeiro boot isolado — 2026-08-07
+
+O primeiro servidor Minecraft real iniciado por este pipeline. Nenhum caminho foi informado à mão.
+
+```
+outcome            booted
+durationMs         109 113
+java               17.0.12, descoberto via PATH
+argsFile           libraries/net/minecraftforge/forge/1.20.1-47.4.4/win_args.txt
+filesCopied        5 509  (1 017 MiB)
+generatedFiles     config/lightmanscurrency-common.txt
+                   config/lightmanscurrency-server.txt
+                   config/structure_layout_optimizer.jsonc
+disposed           true
+```
+
+Depois: zero processos Java, zero sandboxes, `world/level.dat` do servidor original intacto.
+
+Os três arquivos gerados são o retorno do desenho inteiro: são configurações que **não existiam em disco** e que só apareceram porque o servidor rodou — exatamente o que a classificação `RUNTIME_ONLY` do inventário prometia que a sandbox resolveria.
+
+#### Cinco defeitos que só apareceram executando
+
+Nenhum era do modpack. Todos eram do pipeline, e nenhum teria aparecido lendo código.
+
+1. **Ambiente de spawn mínimo demais.** Mods resolvem um diretório global por `APPDATA`/`USERPROFILE`; sem eles, `Path.of(System.getenv(...))` é `Path.of(null)` — NullPointerException dentro de um inicializador estático, que chega como falha de mod loading sem mensagem útil. ResourcefulLib e ModernFix morreram exatamente aí. A regra ficou registrada onde as variáveis são listadas: entregar **onde ficam os diretórios do usuário**, nunca o resto do ambiente. Caminhos não são segredos; tokens e `PATH` são.
+2. **Estado privado excluído só quando um segmento-pai casava.** A varredura descia em `logs` e `crash-reports` e recusava arquivo por arquivo — mesma resposta, exceto que um `.json` dentro de um crash report ainda parecia configuração. Agora o diretório é recusado e a varredura não entra. Dot-directories junto: o cache de um editor na raiz de um servidor nunca é lido pelo servidor.
+3. **`local/`**, com 19 GB de cache do launcher naquele servidor. Nada ali é lido, e os arquivos com cara de configuração espalhados nele foram como a sandbox passou a carregar 1,2 GB inúteis.
+4. **A limpeza destruía a evidência.** Uma falha de `dispose` substituía o resultado do boot: a resposta para "o servidor iniciou?" voltou como um `EBUSY` sobre um diretório. Agora a falha de descarte é carregada no resultado, não lançada por cima dele. E o descarte genuinamente falhava — o Windows libera handles de forma assíncrona depois de um kill, e caminhos vindos de origem profunda passam de `MAX_PATH`. Retry resolve o primeiro, prefixo estendido o segundo; uma sandbox que não apaga não é descartável.
+5. **Um encerramento forçado que falhava era engolido**, então uma JVM que sobrevivesse não deixava rastro — e uma sobreviveu, segurando a sandbox aberta muito depois de a execução dizer que tinha terminado.
+
+Efeito das exclusões: de 20 664 arquivos / 2 265 MiB para 5 509 / 1 017 MiB, e a composição de 41 s para 9,4 s.
+
 ### Fase 15 — adaptadores específicos
 
 Objetivo: dar semântica aos mods que a merecem, um por vez.

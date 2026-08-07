@@ -4260,8 +4260,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/package.json": {
-    "mtime": 1786123328.1221616,
-    "ast_hash": "be9d665f3aa8048881ffbf62fba6435c",
+    "mtime": 1786124632.6223547,
+    "ast_hash": "fd97301a258c314396c3ba17c2f2d4a1",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/index.ts": {
@@ -4270,8 +4270,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/sandbox.ts": {
-    "mtime": 1786082086.8947752,
-    "ast_hash": "08300d1d222455b48c00ec2f47c439b4",
+    "mtime": 1786124779.8191273,
+    "ast_hash": "3afb678fcfc9dde8097dd75132fb3c8d",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/types.ts": {
@@ -4295,18 +4295,23 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/process-runner.ts": {
-    "mtime": 1786120944.2579916,
-    "ast_hash": "6788bcde548c3f6902dec810a99e1f4a",
+    "mtime": 1786124762.8834617,
+    "ast_hash": "2fa9513069292e275be33582bee26cd1",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/first-boot.ts": {
-    "mtime": 1786123318.2525358,
-    "ast_hash": "de367467f479d33c835639179818bccc",
+    "mtime": 1786124822.0935452,
+    "ast_hash": "1917b4f1bd14d55ffc6949061f7f8240",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/provision.ts": {
     "mtime": 1786123282.4252582,
     "ast_hash": "920e7a55c7d4181cf3d866a6fd8380fe",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/cli.ts": {
+    "mtime": 1786124960.608067,
+    "ast_hash": "5b635f2cfd068abf79530fd1026db19f",
     "semantic_hash": ""
   }
 }
