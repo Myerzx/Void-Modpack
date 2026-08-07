@@ -73,6 +73,11 @@ describe('artifact review persistence', () => {
     sizeBytes: 4_096,
     inspectedAt: '2026-08-05T12:00:30Z',
     container: 'zip' as const,
+    layers: [
+      { layer: 'metadata' as const, outcome: 'completed' as const, limit: null, unknown: [] },
+      { layer: 'structural' as const, outcome: 'completed' as const, limit: null, unknown: [] },
+      { layer: 'deep' as const, outcome: 'not-attempted' as const, limit: 'no-adapter', unknown: [] },
+    ],
     entryCount: 12,
     expandedBytes: 900,
     loaders: ['forge' as const],

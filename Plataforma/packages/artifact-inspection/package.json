@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/artifact-inspection.test.ts",
+    "test": "tsx --test test/artifact-inspection.test.ts test/layered-inspection.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   }
 }

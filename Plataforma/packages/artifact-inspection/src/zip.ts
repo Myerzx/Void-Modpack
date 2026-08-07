@@ -208,6 +208,131 @@ export function readZipDirectory(content: Buffer, limits: ArtifactInspectionLimi
   return Object.freeze({ entries: Object.freeze(entries) });
 }
 
+export interface SelectiveZipScan {
+  /** Matched entries, keyed by their lowercased name. */
+  readonly found: ReadonlyMap<string, ZipEntry>;
+  /** Entries the container declares. Read from the index, nothing expanded. */
+  readonly declaredEntries: number;
+  readonly directoryBytes: number;
+}
+
+/**
+ * Finds named entries without enumerating the archive.
+ *
+ * This is the selective path, and the difference from `readZipDirectory` is
+ * the point: it walks the index looking for a closed set of descriptor paths
+ * and ignores everything else — it does not collect, validate or even decode
+ * the names of the twenty-five thousand class files it walks past.
+ *
+ * That is what makes it safe to run on an artifact far larger than the deep
+ * limits allow. The cost is bounded by the directory, which is an index of
+ * roughly 46 bytes plus a name per entry, and by the handful of entries the
+ * caller then reads. Neither has anything to do with how big the artifact is.
+ *
+ * A name is validated only when it matches something wanted. Refusing a whole
+ * mod because an unrelated asset has an odd name would be refusing to identify
+ * a file over a file nobody is going to read.
+ */
+export function scanZipDirectoryFor(
+  content: Buffer,
+  wanted: ReadonlySet<string>,
+  limits: ArtifactInspectionLimits,
+): SelectiveZipScan {
+  const eocd = locateEndOfCentralDirectory(content);
+  if (eocd >= 20 && content.readUInt32LE(eocd - 20) === ZIP64_END_LOCATOR) {
+    throw new ArtifactInspectionError('unsupported-zip-feature', 'container');
+  }
+
+  const declaredEntries = u16(content, eocd + 10);
+  const directorySize = u32(content, eocd + 12);
+  const directoryOffset = u32(content, eocd + 16);
+
+  if (u16(content, eocd + 4) !== 0 || u16(content, eocd + 6) !== 0) {
+    throw new ArtifactInspectionError('unsupported-zip-feature', 'container');
+  }
+  if (directoryOffset === ZIP64_SENTINEL || directorySize === ZIP64_SENTINEL) {
+    throw new ArtifactInspectionError('unsupported-zip-feature', 'container');
+  }
+  if (directorySize > limits.maximumDirectoryBytes) {
+    // The index itself is the bound here, and it is the only one that scales
+    // with anything this scan actually reads.
+    throw new ArtifactInspectionError('directory-too-large', 'directory');
+  }
+  if (directoryOffset + directorySize > content.length || directoryOffset > eocd) {
+    throw new ArtifactInspectionError('truncated-archive', 'directory');
+  }
+
+  const directoryEnd = directoryOffset + directorySize;
+  const found = new Map<string, ZipEntry>();
+  let cursor = directoryOffset;
+
+  // `declaredEntries` is a 16-bit field, so an archive with more than 65,535
+  // entries reports a wrapped count. The walk is driven by the directory
+  // bounds instead, which stay correct either way.
+  while (cursor + 46 <= directoryEnd) {
+    if (u32(content, cursor) !== CENTRAL_FILE_HEADER) {
+      throw new ArtifactInspectionError('truncated-archive', 'directory');
+    }
+    const flags = u16(content, cursor + 8);
+    const compressionMethod = u16(content, cursor + 10);
+    const compressedSize = u32(content, cursor + 20);
+    const uncompressedSize = u32(content, cursor + 24);
+    const nameLength = u16(content, cursor + 28);
+    const extraLength = u16(content, cursor + 30);
+    const commentLength = u16(content, cursor + 32);
+    const localHeaderOffset = u32(content, cursor + 42);
+
+    const nameStart = cursor + 46;
+    const nameEnd = nameStart + nameLength;
+    if (nameEnd > directoryEnd) {
+      throw new ArtifactInspectionError('truncated-archive', 'directory');
+    }
+
+    const rawName = content.subarray(nameStart, nameEnd);
+    const name = rawName.toString('utf8');
+    const lower = name.toLowerCase();
+
+    if (wanted.has(lower) && !found.has(lower)) {
+      // Everything that would have been checked for every entry is checked
+      // here, for the few that will actually be read.
+      if ((flags & 0x1) !== 0) throw new ArtifactInspectionError('encrypted-entry', 'entry');
+      if (
+        compressedSize === ZIP64_SENTINEL ||
+        uncompressedSize === ZIP64_SENTINEL ||
+        localHeaderOffset === ZIP64_SENTINEL
+      ) {
+        throw new ArtifactInspectionError('unsupported-zip-feature', 'entry');
+      }
+      if (!Buffer.from(name, 'utf8').equals(rawName)) {
+        throw new ArtifactInspectionError('unsafe-entry-name', 'entry');
+      }
+      validateEntryName(name, limits);
+      if (localHeaderOffset >= directoryOffset) {
+        throw new ArtifactInspectionError('truncated-archive', 'entry');
+      }
+      found.set(
+        lower,
+        Object.freeze({
+          name,
+          compressionMethod,
+          compressedSize,
+          uncompressedSize,
+          localHeaderOffset,
+          isDirectory: name.endsWith('/'),
+        }),
+      );
+    }
+
+    cursor = nameEnd + extraLength + commentLength;
+  }
+
+  if (cursor !== directoryEnd) {
+    throw new ArtifactInspectionError('truncated-archive', 'directory');
+  }
+
+  return Object.freeze({ found, declaredEntries, directoryBytes: directorySize });
+}
+
 /** Remaining bytes an inspection may still expand across all entries. */
 export interface ExpansionBudget {
   remaining: number;

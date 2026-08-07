@@ -144,6 +144,14 @@ export interface InventoriedMod {
 export interface UndeclaredArchive {
   readonly path: string;
   readonly sha256: string;
+  /**
+   * `no-declared-mod` means the metadata was read and declared nothing.
+   * `inspection-refused` means the archive could not be read at all.
+   *
+   * A limit is deliberately **not** in this list. An archive too large to
+   * enumerate is still identified from its descriptors, so "we were not
+   * allowed to walk it" never reaches an inventory as "it declares nothing".
+   */
   readonly reason: 'no-declared-mod' | 'inspection-refused';
 }
 

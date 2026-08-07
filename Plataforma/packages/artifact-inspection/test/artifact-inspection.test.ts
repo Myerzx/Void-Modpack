@@ -161,10 +161,10 @@ describe('declared metadata inspection', () => {
     );
     assert.deepEqual(report.evidence, ['META-INF/MANIFEST.MF', 'META-INF/mods.toml']);
     assert.deepEqual(report.metadataIssues, []);
-    assert.equal(report.features.containsClasses, true);
-    assert.equal(report.features.containsData, true);
-    assert.equal(report.features.containsAssets, true);
-    assert.equal(report.features.containsNestedJars, false);
+    assert.equal(report.features?.containsClasses, true);
+    assert.equal(report.features?.containsData, true);
+    assert.equal(report.features?.containsAssets, true);
+    assert.equal(report.features?.containsNestedJars, false);
   });
 
   it('keeps an unresolved version placeholder verbatim instead of guessing', () => {
@@ -231,7 +231,7 @@ describe('declared metadata inspection', () => {
     assert.deepEqual(report.embeddedLibraries, [
       { identifier: 'com.example:probe-lib', version: '2.0.0', evidence: 'META-INF/jarjar/metadata.json' },
     ]);
-    assert.equal(report.features.containsNestedJars, true);
+    assert.equal(report.features?.containsNestedJars, true);
     // The nested jar itself was never expanded: only the three descriptors were.
     assert.equal(report.expandedBytes < 1024, true);
   });
@@ -311,20 +311,25 @@ describe('inspection bounds and refusals', () => {
     );
   });
 
-  it('refuses more entries than the limit allows', () => {
+  it('stops the enumeration at the entry limit, and says so', () => {
     const entries = Array.from({ length: 6 }, (_, index) => ({ name: `file-${index}.txt`, content: 'x' }));
-    expectCode(
-      () => service({ maximumEntries: 5 }).inspect({ content: buildZip(entries) }),
-      'too-many-entries',
-    );
+    const report = service({ maximumEntries: 5 }).inspect({ content: buildZip(entries) });
+    // The bound still holds — it now refuses one layer rather than the whole
+    // artifact, because how many files a mod ships says nothing about whether
+    // it declares itself. See `layered-inspection.test.ts`.
+    const structural = report.layers.find((entry) => entry.layer === 'structural');
+    assert.equal(structural?.outcome, 'refused');
+    assert.equal(structural?.limit, 'too-many-entries');
+    assert.equal(report.entryCount, null);
   });
 
-  it('refuses an archive larger than its limit before reading it', () => {
+  it('stops the enumeration at the archive size limit, and says so', () => {
     const archive = buildZip([{ name: 'a.txt', content: 'x'.repeat(4096) }]);
-    expectCode(
-      () => service({ maximumArchiveBytes: 512 }).inspect({ content: archive }),
-      'content-too-large',
-    );
+    const report = service({ maximumArchiveBytes: 512 }).inspect({ content: archive });
+    const structural = report.layers.find((entry) => entry.layer === 'structural');
+    assert.equal(structural?.outcome, 'refused');
+    assert.equal(structural?.limit, 'maximumArchiveBytes');
+    assert.equal(report.features, null);
   });
 
   it('refuses a ZIP bomb by its declared ratio before allocating', () => {

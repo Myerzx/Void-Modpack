@@ -80,6 +80,33 @@ export const EmbeddedLibrarySchema = Type.Object(
   { additionalProperties: false },
 );
 
+/**
+ * One depth of inspection, and what a limit left unanswered.
+ *
+ * Identification and enumeration are separate work with separate costs, so a
+ * report says which of them happened. Without this a mod that was simply too
+ * large to enumerate is indistinguishable from one that declares nothing —
+ * and a pack builder cannot act on the difference it cannot see.
+ */
+export const InspectionLayerSchema = Type.Object(
+  {
+    layer: Type.Union([
+      Type.Literal('metadata'),
+      Type.Literal('structural'),
+      Type.Literal('deep'),
+    ]),
+    outcome: Type.Union([
+      Type.Literal('completed'),
+      Type.Literal('refused'),
+      Type.Literal('not-attempted'),
+    ]),
+    /** The limit that stopped it, by name. A refusal always names its cause. */
+    limit: Type.Union([Type.String({ minLength: 1, maxLength: 64 }), Type.Null()]),
+    unknown: Type.Array(Type.String({ minLength: 1, maxLength: 128 }), { maxItems: 16 }),
+  },
+  { additionalProperties: false },
+);
+
 export const ArtifactInspectionReportSchema = Type.Object(
   {
     /** Self-describing discriminator emitted by the inspection service. */
@@ -89,23 +116,35 @@ export const ArtifactInspectionReportSchema = Type.Object(
     sizeBytes: Type.Integer({ minimum: 1, maximum: 1_073_741_824 }),
     inspectedAt: IsoDateTimeSchema,
     container: Type.Literal('zip'),
-    entryCount: Type.Integer({ minimum: 0, maximum: 1_000_000 }),
+    /**
+     * `null` when the structural layer did not run.
+     *
+     * Nullable rather than zero: an archive nobody enumerated and an archive
+     * with no entries have to read differently, or a report about a mod that
+     * was too large to walk becomes indistinguishable from an empty file.
+     */
+    entryCount: Type.Union([Type.Integer({ minimum: 0, maximum: 1_000_000 }), Type.Null()]),
     expandedBytes: Type.Integer({ minimum: 0, maximum: 1_073_741_824 }),
+    layers: Type.Array(InspectionLayerSchema, { minItems: 3, maxItems: 3 }),
     loaders: Type.Array(DeclaredLoaderSchema, { minItems: 1, maxItems: 5, uniqueItems: true }),
     mods: Type.Array(DeclaredModSchema, { maxItems: 64 }),
     embeddedLibraries: Type.Array(EmbeddedLibrarySchema, { maxItems: 64 }),
     evidence: Type.Array(InspectionEvidenceSchema, { maxItems: 6, uniqueItems: true }),
     metadataIssues: Type.Array(Type.String({ minLength: 1, maxLength: 256 }), { maxItems: 32 }),
-    features: Type.Object(
-      {
-        containsClasses: Type.Boolean(),
-        containsData: Type.Boolean(),
-        containsAssets: Type.Boolean(),
-        containsMixins: Type.Boolean(),
-        containsNestedJars: Type.Boolean(),
-      },
-      { additionalProperties: false },
-    ),
+    /** `null` when nobody enumerated the archive — not all-false. */
+    features: Type.Union([
+      Type.Object(
+        {
+          containsClasses: Type.Boolean(),
+          containsData: Type.Boolean(),
+          containsAssets: Type.Boolean(),
+          containsMixins: Type.Boolean(),
+          containsNestedJars: Type.Boolean(),
+        },
+        { additionalProperties: false },
+      ),
+      Type.Null(),
+    ]),
   },
   {
     $id: 'https://schemas.voidfall.invalid/v1/artifact-inspection-report.schema.json',

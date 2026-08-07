@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786035399.8391876,
-    "ast_hash": "69c4be571a8638629c3e7650ec1d5877",
+    "mtime": 1786139978.6428788,
+    "ast_hash": "5ace422c49e6b94917691c5332d6275f",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -3360,8 +3360,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/src/metadata.ts": {
-    "mtime": 1785886612.4476972,
-    "ast_hash": "0d172e41e7261cb4fc2142d4f520dacf",
+    "mtime": 1786139369.1497886,
+    "ast_hash": "3f8d5a7af07b60e38f70a0da9a5491e9",
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/src/service.ts": {
@@ -3380,8 +3380,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/test/artifact-inspection.test.ts": {
-    "mtime": 1785886734.9999466,
-    "ast_hash": "61c0d78bc6456dd5cb59ac3a6714e446",
+    "mtime": 1786139256.2151566,
+    "ast_hash": "563c56c33566c0f18b2e79cefafd0550",
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/tsconfig.build.json": {
@@ -4360,8 +4360,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/release-planner/package.json": {
-    "mtime": 1786137008.254759,
-    "ast_hash": "07568c4836e208ebb71840d204c4d905",
+    "mtime": 1786138765.2894526,
+    "ast_hash": "7bfa0cf8039c55475c9a2160a4a49c9a",
     "semantic_hash": ""
   },
   "Plataforma/packages/release-planner/src/changelog.ts": {
@@ -4380,8 +4380,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/release-planner/src/index.ts": {
-    "mtime": 1786137008.0115726,
-    "ast_hash": "55e789e651bf6855ea4d097e02fdb317",
+    "mtime": 1786138516.7381835,
+    "ast_hash": "40b8c01ba302290c0dd28f784f7158a8",
     "semantic_hash": ""
   },
   "Plataforma/packages/release-planner/src/plan.ts": {
@@ -4407,6 +4407,41 @@
   "Plataforma/packages/release-planner/tsconfig.test.json": {
     "mtime": 1786137008.1601,
     "ast_hash": "3ba2e1894a7c883c1524d79df95708dc",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/archive.ts": {
+    "mtime": 1786138403.2484534,
+    "ast_hash": "213915f733e7de81f68c8d8d93872eae",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/cli.ts": {
+    "mtime": 1786138750.9833148,
+    "ast_hash": "1cb1a3b25d215c965264e6eaee69548d",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/package.ts": {
+    "mtime": 1786138957.9665673,
+    "ast_hash": "e9e029306d959fa2a6df997d0053cb49",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/rollback.ts": {
+    "mtime": 1786138512.9196758,
+    "ast_hash": "dadbec43c5369d2d90e8295e003a7f31",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/src/side.ts": {
+    "mtime": 1786138722.936824,
+    "ast_hash": "ff0b9908a5a45fcdcf23301eca121380",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/release-planner/test/release-archive.test.ts": {
+    "mtime": 1786139000.7064443,
+    "ast_hash": "3b6149cf875eccec45c0fbb84713c7bf",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_16_RELEASE_BUILDER.md": {
+    "mtime": 1786139967.5629964,
+    "ast_hash": "96e62386ac5bac07074bb97a8181499f",
     "semantic_hash": ""
   }
 }

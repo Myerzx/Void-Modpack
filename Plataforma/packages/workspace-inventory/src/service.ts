@@ -70,10 +70,15 @@ export class WorkspaceInventoryService {
       }
 
       if (report.mods.length === 0) {
+        // Only when the selective read actually ran. A metadata layer stopped
+        // by a limit knows nothing about what the archive declares, and
+        // recording that as "no declared mod" is the confusion this whole
+        // layering exists to remove.
+        const metadata = report.layers.find((layer) => layer.layer === 'metadata');
         undeclaredArchives.push({
           path: file.path,
           sha256: file.sha256,
-          reason: 'no-declared-mod',
+          reason: metadata?.outcome === 'completed' ? 'no-declared-mod' : 'inspection-refused',
         });
         continue;
       }
