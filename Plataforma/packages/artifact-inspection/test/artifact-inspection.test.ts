@@ -447,6 +447,47 @@ describe('strict subset readers', () => {
     assert.equal(mods[0]?.['flag'], true);
   });
 
+  it('reads the descriptor Forge’s own template actually produces', () => {
+    // Every line here is copied from the MDK skeleton, trailing comments and
+    // all. Requiring a header to end at `]]` and a value at a closing quote
+    // made this file declare nothing: no mods block, no keys. In a real
+    // 181-archive pack that hid 76 mods, each of which declared plenty.
+    const parsed = parseModsToml(
+      Buffer.from(
+        [
+          'modLoader="javafml" #mandatory',
+          'loaderVersion="[46,)" #mandatory This is typically bumped every version.',
+          '[[mods]] #mandatory',
+          'modId="alexsmobs" #mandatory',
+          'version="1.22.9" #mandatory',
+          `displayName="Alex's Mobs" #mandatory`,
+          'description=\'\'\'New, original mobs.\'\'\'',
+          '[[dependencies.alexsmobs]] #optional',
+          '    # the modid of the dependency',
+          '    modId="citadel" #mandatory',
+          '    mandatory=true #mandatory',
+        ].join('\r\n'),
+        'utf8',
+      ),
+    ) as Record<string, unknown>;
+
+    assert.equal(parsed['modLoader'], 'javafml');
+    const mods = parsed['mods'] as Record<string, unknown>[];
+    assert.equal(mods[0]?.['modId'], 'alexsmobs');
+    assert.equal(mods[0]?.['version'], '1.22.9');
+    assert.equal(mods[0]?.['displayName'], "Alex's Mobs");
+    const dependencies = (parsed['dependencies'] as Record<string, unknown>)['alexsmobs'];
+    assert.equal((dependencies as Record<string, unknown>[])[0]?.['modId'], 'citadel');
+  });
+
+  it('keeps a hash that is inside a quoted value', () => {
+    const parsed = parseModsToml(
+      Buffer.from(['[[mods]]', 'modId="probe"', 'displayName="Sharp # Mod" #note'].join('\n'), 'utf8'),
+    ) as Record<string, unknown>;
+    // A comment stripper that did not track quotes would truncate the name.
+    assert.equal((parsed['mods'] as Record<string, unknown>[])[0]?.['displayName'], 'Sharp # Mod');
+  });
+
   it('exposes the central directory without expanding any entry', () => {
     const archive = buildZip([
       { name: 'a.txt', content: 'aaaa', deflate: true },

@@ -31,6 +31,34 @@ function decodeUtf8(content: Buffer): string {
   }
 }
 
+/**
+ * Cuts a trailing `#` comment, ignoring one inside a quoted string.
+ *
+ * Not a nicety. Forge's own MDK template writes `[[mods]] #mandatory` and
+ * `modId="examplemod" #mandatory`, so a reader that requires a line to *end*
+ * at `]]` or at a closing quote silently sees no mods block and no keys —
+ * which is what happened here: 76 of the 181 archives in a real pack declared
+ * nothing, and every one of them declared plenty.
+ *
+ * The scan tracks quotes so a `#` inside a value survives, and honours a
+ * backslash escape inside a double-quoted string.
+ */
+export function stripTrailingComment(line: string): string {
+  let inDouble = false;
+  let inSingle = false;
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index] as string;
+    if (inDouble && character === String.fromCharCode(92)) {
+      index += 1;
+      continue;
+    }
+    if (character === '"' && !inSingle) inDouble = !inDouble;
+    else if (character === "'" && !inDouble) inSingle = !inSingle;
+    else if (character === '#' && !inDouble && !inSingle) return line.slice(0, index);
+  }
+  return line;
+}
+
 function boundedText(value: unknown, maximumLength: number): string | null {
   if (typeof value !== 'string') return null;
   const trimmed = value.trim();
@@ -85,21 +113,64 @@ interface TomlTable {
  * Multi-line strings, inline tables, arrays of values and anything else are
  * refused rather than approximated.
  */
+/**
+ * Splits a table path into its key segments.
+ *
+ * TOML allows a quoted key, and real descriptors use it:
+ * `[[dependencies."configured"]]` is what MrCrayfish's own mod ships. A path
+ * matched against one flat character class rejects that outright, which took
+ * the whole file down and left the mod declaring nothing.
+ *
+ * Splitting happens outside quotes, and each segment is validated after its
+ * quotes come off — so a quoted key is accepted for being a key, not for being
+ * quoted.
+ */
+function parseTablePath(path: string): readonly string[] | null {
+  const segments: string[] = [];
+  let currentSegment = '';
+  let quote: string | null = null;
+
+  for (const character of path) {
+    if (quote !== null) {
+      if (character === quote) quote = null;
+      else currentSegment += character;
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '.') {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      continue;
+    }
+    currentSegment += character;
+  }
+  if (quote !== null) return null;
+  segments.push(currentSegment.trim());
+
+  if (segments.length === 0) return null;
+  return segments.every((segment) => /^[A-Za-z0-9_-]{1,64}$/u.test(segment)) ? segments : null;
+}
+
 export function parseModsToml(content: Buffer): TomlTable {
   const text = decodeUtf8(content);
   const root: Record<string, unknown> = {};
   let current: Record<string, unknown> = root;
 
   for (const rawLine of text.split(/\r\n|\r|\n/u)) {
-    const line = rawLine.trim();
-    if (line.length === 0 || line.startsWith('#')) continue;
+    // The comment goes before anything else is decided about the line, so a
+    // table header and a value are both read the way Forge actually writes
+    // them rather than the way the strict grammar would prefer.
+    const line = stripTrailingComment(rawLine).trim();
+    if (line.length === 0) continue;
 
     if (line.startsWith('[[') && line.endsWith(']]')) {
-      const path = line.slice(2, -2).trim();
-      if (!/^[A-Za-z0-9_.-]+$/u.test(path)) {
+      const segments = parseTablePath(line.slice(2, -2).trim());
+      if (segments === null) {
         throw new ArtifactInspectionError('invalid-metadata', 'metadata');
       }
-      const segments = path.split('.');
       let holder = root;
       for (const segment of segments.slice(0, -1)) {
         const next = holder[segment];
@@ -129,12 +200,12 @@ export function parseModsToml(content: Buffer): TomlTable {
     }
 
     if (line.startsWith('[') && line.endsWith(']')) {
-      const path = line.slice(1, -1).trim();
-      if (!/^[A-Za-z0-9_.-]+$/u.test(path)) {
+      const path = parseTablePath(line.slice(1, -1).trim());
+      if (path === null) {
         throw new ArtifactInspectionError('invalid-metadata', 'metadata');
       }
       let holder = root;
-      for (const segment of path.split('.')) {
+      for (const segment of path) {
         const next = holder[segment];
         if (next === undefined) {
           const created: Record<string, unknown> = {};

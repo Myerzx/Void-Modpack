@@ -16,10 +16,17 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/release-planner.test.ts",
-    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+    "test": "tsx --test test/release-planner.test.ts test/release-archive.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "package": "node dist/cli.js"
+  },
+  "bin": {
+    "voidfall-release-package": "./dist/cli.js"
   },
   "dependencies": {
     "@voidfall/workspace-inventory": "0.1.0"
+  },
+  "devDependencies": {
+    "@voidfall/artifact-inspection": "0.1.0"
   }
 }

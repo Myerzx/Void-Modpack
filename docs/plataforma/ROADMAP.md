@@ -151,7 +151,7 @@ O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) esclareceu o
 6. **Fase 13 — edição segura por esquema inferido:** formulário gerado, validação, staging, diff e rollback, sem presumir semântica que ninguém revisou.
 7. **Fase 14 — sandbox descartável:** boot isolado a partir dos mods e arquivos mínimos, para gerar arquivos de runtime e confirmar que uma alteração inicia. Nunca contra o mundo original.
 8. **Fase 15 — adaptadores específicos:** Mine and Slash como primeiro adaptador completo. Assistência de IA somente como sugestão, com confiança explícita e confirmação humana.
-9. **Fase 16 — construtor de release:** ZIP do servidor, modpack CurseForge, manifesto com hashes, changelog automático, arquivos por lado e rollback.
+9. **Fase 16 — construtor de release:** **encerrada** em 2026-08-07 com ZIP de servidor e de cliente, manifesto com hashes, changelog automático, corte por lado e plano de rollback, todos executados contra o servidor real ([registro](PHASE_16_RELEASE_BUILDER.md)). A exportação CurseForge permanece recusada por licença, não por código, e a execução do rollback depende do `apply`, que ainda não tem dono.
 10. **Fase 17 — runtime e administração de jogadores:** retoma o que a Fase 11 deixou decidido nos ADRs 009, 010, 012 e 013 e não implementado. Adiar não é revogar.
 
 O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
