@@ -547,9 +547,36 @@ Isso fecha os dez elos: importar → detectar mod → identificar arquivos → g
 
 Objetivo: dar semântica aos mods que a merecem, um por vez.
 
-- [ ] **Mine and Slash** como primeiro adaptador completo;
-- [ ] categorias: balanceamento, status, spells, talentos, mobs, itens e raridades;
-- [ ] assistência de IA somente como sugestão, com confiança explícita e confirmação humana.
+- [x] **Mine and Slash** como primeiro adaptador completo — `@voidfall/mod-adapters`, 2026-08-07;
+- [x] categorias, **lidas do arquivo real** em vez de presumidas;
+- [ ] assistência de IA somente como sugestão, com confiança explícita e confirmação humana — não iniciada.
+
+O arquivo do Mine and Slash tem 83 configurações numa única tabela `[general]`, então não há estrutura de seção para agrupar: as regras vão por nome, e cada padrão foi lido do arquivo real.
+
+As categorias entregues são as que as configurações de fato formam — loot, raridade, experiência, mobs, mapas, party, personagens, mensagens e balanceamento. **Não há categoria de spells nem de talentos**, porque este arquivo não tem configuração de spell nem de talento: elas vivem nos dados do mod, não aqui, e oferecer uma aba vazia prometeria um editor que não existe.
+
+O que o adaptador faz é agrupar. Ele **não** acrescenta significado: não diz para que serve um campo, não recomenda valor e não inventa limite — os limites continuam vindo só do que o mod declarou. Agrupar errado põe uma configuração na tela errada; inventar semântica põe um valor errado no servidor de alguém.
+
+`uncategorised` é resultado de primeira classe. Um mod que acrescente uma configuração que as regras não reconhecem a mostra num balde que diz isso, em vez de escondê-la porque nenhuma regra casou.
+
+Três colisões reais decidiram a ordem das regras, e cada uma está registrada onde a regra mora: `lvl_distance_loot_penalty_per_level` (loot vence lvl), `party_exp_bonus` (party vence exp — quem ajusta jogo em grupo não procura em experiência) e `mob_death_messages` (mensagens vence mobs — quem quer calar o chat não procura em mobs). Primeira correspondência, não melhor correspondência: um categorizador cujo resultado não dá para prever lendo as regras é um que ninguém consegue consertar.
+
+### Evidência da configuração por mundo — 2026-08-07
+
+O terceiro boot, com uma mudança no arquivo do Mine and Slash em `world/serverconfig/`:
+
+```
+outcome              booted
+filesCopied          5 530   (21 a mais: os arquivos de serverconfig que faltavam)
+valuesHeld           true
+observedSha256       fc4c1c4a15440dc5…   (idêntico ao staged)
+workspaceUnchanged   true
+```
+
+Esse boot expôs uma falha de correção séria e uma de desenho:
+
+- **`world/serverconfig/` estava sendo descartado como mundo.** É onde o Forge guarda a configuração de servidor por mundo — 21 arquivos neste modpack. Os dois boots anteriores rodaram com configurações **padrão**, não com as do operador, o que enfraquece aquela evidência e vale dizer. O scanner agora desce no diretório de nível só para isso, e o sandbox mapeia `<nível dele>/serverconfig/x` para `<nível do sandbox>/serverconfig/x` — sem isso o Forge procura numa pasta que não existe.
+- **A leitura de volta procurava no caminho de origem**, não no de destino, e reportou `observedSha256: null`. O desenho funcionou: ela disse "não consegui ler" em vez de alegar sucesso. O mapeamento virou uma função só, usada pela composição e pela leitura — duas cópias da regra é exatamente como uma mudança é escrita num caminho e procurada em outro.
 
 Nenhuma sugestão é aplicada sozinha. Uma sugestão aplicada sem confirmação seria o executor genérico que esta base recusa em toda parte.
 

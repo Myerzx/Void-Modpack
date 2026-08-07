@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { inferForm } from '@voidfall/configuration-inference';
 import { ConfigurationStaging, type FieldChange } from '@voidfall/configuration-staging';
 
+import { sandboxTargetPath } from './sandbox.js';
 import { SandboxError } from './types.js';
 
 /**
@@ -104,8 +105,10 @@ export class ChangeVerification {
     const outcomes: StagedChangeOutcome[] = [];
     for (const set of this.#changeSets) {
       const staged = this.#staged.get(set.path);
+      // The same mapping the composition used. Reading the workspace path
+      // would look in a directory the sandbox never wrote to.
       const content = await readFile(
-        join(sandboxRoot, ...set.path.split('/')),
+        join(sandboxRoot, ...sandboxTargetPath(set.path).split('/')),
         'utf8',
       ).catch(() => undefined);
 

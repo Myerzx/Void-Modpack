@@ -156,8 +156,29 @@ function isRuntimeInfrastructure(relativePath: string): boolean {
  * the root of a server is somebody's tooling, never something the server
  * reads, and no allowlist of mod directories would have predicted their names.
  */
+/**
+ * Forge keeps per-world server configuration inside the level directory.
+ *
+ * `<level>/serverconfig/*.toml` is configuration an operator manages — it is
+ * where Mine and Slash and twenty other mods keep their server settings — and
+ * it only lives under the world for Forge's own reasons. Excluding it with the
+ * world meant an inventory could not see it and a sandbox booted on defaults
+ * instead of on the operator's actual settings, which is a boot that proves
+ * something about a server nobody runs.
+ *
+ * Matched by segment rather than by level name, because the level is whatever
+ * `server.properties` says and that file is not read.
+ */
+function isPerWorldServerConfig(segments: readonly string[]): boolean {
+  // `>= 2` so the `serverconfig` directory itself is allowed through, not only
+  // the files under it — otherwise the walk refuses the directory and never
+  // reaches them.
+  return segments.length >= 2 && segments.includes('serverconfig');
+}
+
 function isPrivateState(relativePath: string): boolean {
   const segments = relativePath.split('/');
+  if (isPerWorldServerConfig(segments)) return false;
   const name = segments[segments.length - 1] ?? '';
   if (PRIVATE_STATE_FILES.has(name.toLocaleLowerCase('en-US'))) return true;
   return segments.some(
@@ -210,6 +231,14 @@ export async function scanWorkspace(options: ScanWorkspaceOptions): Promise<Work
         continue;
       }
       if (isPrivateState(relativePath)) {
+        // A level directory is refused as a whole, except that Forge keeps
+        // per-world server configuration inside it. Descending only for that
+        // is the difference between an inventory that sees an operator's
+        // settings and one that does not.
+        if (entry.isDirectory() && (await containsServerConfig(absolute))) {
+          await walk(absolute);
+          continue;
+        }
         exclusions.push({ path: relativePath, reason: 'private-state' });
         continue;
       }
@@ -255,6 +284,12 @@ export async function scanWorkspace(options: ScanWorkspaceOptions): Promise<Work
   files.sort((left, right) => left.path.localeCompare(right.path, 'en-US'));
   exclusions.sort((left, right) => left.path.localeCompare(right.path, 'en-US'));
   return { files: Object.freeze(files), exclusions: Object.freeze(exclusions) };
+}
+
+/** Whether a refused directory nonetheless holds per-world server config. */
+async function containsServerConfig(directory: string): Promise<boolean> {
+  const info = await lstat(join(directory, 'serverconfig')).catch(() => undefined);
+  return info?.isDirectory() === true;
 }
 
 /** Always `/`-separated, so an inventory taken on Windows matches one on Linux. */

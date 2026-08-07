@@ -3125,8 +3125,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md": {
-    "mtime": 1786125193.5526996,
-    "ast_hash": "32ccb431848084d251a3074699b4b864",
+    "mtime": 1786134969.4532752,
+    "ast_hash": "1cd32f61f207767c98fb7251a464b1b0",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260804_161903_a\u00ed_fa\u00e7a_uma_documenta\u00e7\u00e3o_e_salva_como_um_planejame.md": {
@@ -4260,13 +4260,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/package.json": {
-    "mtime": 1786124632.6223547,
-    "ast_hash": "fd97301a258c314396c3ba17c2f2d4a1",
+    "mtime": 1786134769.7761426,
+    "ast_hash": "569d509405be1ece67ff4411ec7359a9",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/index.ts": {
-    "mtime": 1786123328.1236713,
-    "ast_hash": "e407de33a903dc3a57b8f1bfbad9ae76",
+    "mtime": 1786134769.7856047,
+    "ast_hash": "0ec119ae00772919c9ef28bfb1e2cf88",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/sandbox.ts": {
@@ -4300,8 +4300,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/first-boot.ts": {
-    "mtime": 1786124822.0935452,
-    "ast_hash": "1917b4f1bd14d55ffc6949061f7f8240",
+    "mtime": 1786134769.7113197,
+    "ast_hash": "f01e22c0cac6d75327cb7dd6cd0915ac",
     "semantic_hash": ""
   },
   "Plataforma/packages/sandbox-runner/src/provision.ts": {
@@ -4312,6 +4312,11 @@
   "Plataforma/packages/sandbox-runner/src/cli.ts": {
     "mtime": 1786124960.608067,
     "ast_hash": "5b635f2cfd068abf79530fd1026db19f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/sandbox-runner/src/verify-change.ts": {
+    "mtime": 1786134745.3046696,
+    "ast_hash": "870c3b2937d05f029f723c8d7676c529",
     "semantic_hash": ""
   }
 }

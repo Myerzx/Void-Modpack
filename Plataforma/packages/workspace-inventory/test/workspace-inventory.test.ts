@@ -386,3 +386,37 @@ describe('tooling directories are not server content', () => {
     );
   });
 });
+
+describe('per-world server configuration is configuration, not world', () => {
+  it('sees it without letting the rest of the world through', async () => {
+    const root = await workspace();
+    await write(root, 'mods/alpha.jar', forgeJar('alpha', '1.0.0'));
+    await write(root, 'world/level.dat', 'precious');
+    await write(root, 'world/region/r.0.0.mca', 'chunks');
+    await write(root, 'world/serverconfig/mine_and_slash-server.toml', 'GET_STARTER_ITEMS = true\n');
+    await write(root, 'world/serverconfig/curios-server.toml', 'enabled = true\n');
+
+    const scan = await scanWorkspace({ root });
+    // Forge keeps per-world server settings inside the level directory. Losing
+    // them with the world means a sandbox boots on defaults instead of on what
+    // the operator actually runs.
+    assert.deepEqual(
+      scan.files.filter((file) => file.role === 'configuration').map((file) => file.path),
+      ['world/serverconfig/curios-server.toml', 'world/serverconfig/mine_and_slash-server.toml'],
+    );
+    // And nothing else from the world came with it.
+    assert.ok(!scan.files.some((file) => file.path.startsWith('world/region')));
+    assert.ok(!scan.files.some((file) => file.path === 'world/level.dat'));
+  });
+
+  it('still refuses a world that has no server config in it', async () => {
+    const root = await workspace();
+    await write(root, 'mods/alpha.jar', forgeJar('alpha', '1.0.0'));
+    await write(root, 'world/level.dat', 'precious');
+
+    const scan = await scanWorkspace({ root });
+    assert.ok(
+      scan.exclusions.some((entry) => entry.path === 'world' && entry.reason === 'private-state'),
+    );
+  });
+});

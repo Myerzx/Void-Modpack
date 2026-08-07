@@ -38,6 +38,16 @@ export interface SandboxSourceFile {
   /** Relative to the workspace root, `/`-separated. */
   readonly path: string;
   readonly role: SandboxSourceRole;
+  /**
+   * Where it lands in the sandbox, when that differs from where it came from.
+   *
+   * Forge keeps per-world server configuration under the level directory, and
+   * the sandbox boots a level of its own — so `world/serverconfig/x.toml` has
+   * to arrive as `<sandbox level>/serverconfig/x.toml` or the server will not
+   * look at it, and the boot silently tests defaults instead of the
+   * operator's settings.
+   */
+  readonly targetPath?: string;
 }
 
 /**

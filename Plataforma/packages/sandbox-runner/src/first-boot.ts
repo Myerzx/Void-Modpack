@@ -8,7 +8,7 @@ import {
   readEulaAcceptance,
   type DiscoveredJava,
 } from './provision.js';
-import { Sandbox } from './sandbox.js';
+import { Sandbox, sandboxTargetPath } from './sandbox.js';
 import { SandboxError, type SandboxBootReport, type SandboxSourceFile } from './types.js';
 import { ChangeVerification, type FileChangeSet, type StagedChangeOutcome } from './verify-change.js';
 
@@ -96,7 +96,14 @@ export async function runIsolatedBoot(
   const scan = await scanWorkspace({ root: workspaceRoot, includeRuntime: true });
   const files: SandboxSourceFile[] = scan.files
     .filter((file) => BOOTABLE_ROLES.has(file.role))
-    .map((file) => ({ path: file.path, role: file.role as SandboxSourceFile['role'] }));
+    .map((file) => {
+      const role = file.role as SandboxSourceFile['role'];
+      // `<their level>/serverconfig/x` has to become `<our level>/serverconfig/x`,
+      // or Forge looks in a directory that does not exist and the boot quietly
+      // tests defaults.
+      const targetPath = sandboxTargetPath(file.path);
+      return targetPath === file.path ? { path: file.path, role } : { path: file.path, role, targetPath };
+    });
   const bytesCopied = scan.files
     .filter((file) => BOOTABLE_ROLES.has(file.role))
     .reduce((total, file) => total + file.sizeBytes, 0);

@@ -20,6 +20,24 @@ import {
 /** Where a boot writes files a mod generates on first run. */
 const CONFIG_ROOT = 'config';
 
+/** The level a sandbox creates. Never the operator's, which is never copied. */
+export const SANDBOX_LEVEL_NAME = 'voidfall-sandbox-world';
+
+/**
+ * Where a workspace path lands inside the sandbox.
+ *
+ * One function, used by the composition *and* by whatever reads a file back
+ * afterwards. Two copies of this rule is how a change gets written to one path
+ * and looked for at another — which happened, and the read-back reported `null`
+ * rather than claiming a success it had not observed.
+ */
+export function sandboxTargetPath(workspacePath: string): string {
+  const segments = workspacePath.split('/');
+  return segments.length > 2 && segments[1] === 'serverconfig'
+    ? [SANDBOX_LEVEL_NAME, ...segments.slice(1)].join('/')
+    : workspacePath;
+}
+
 /**
  * Windows' extended-length path prefix, built from code points.
  *
@@ -165,7 +183,7 @@ export class Sandbox {
 
     const staged = input.stagedFiles ?? new Map<string, string>();
     for (const file of input.files) {
-      const target = resolveInside(root, file.path);
+      const target = resolveInside(root, file.targetPath ?? file.path);
       await mkdir(join(target, '..'), { recursive: true });
       const stagedContent = staged.get(file.path);
       if (stagedContent !== undefined) {
@@ -181,7 +199,7 @@ export class Sandbox {
       }
     }
 
-    const levelName = 'voidfall-sandbox-world';
+    const levelName = SANDBOX_LEVEL_NAME;
     await writeFile(
       join(root, 'server.properties'),
       renderServerProperties({
@@ -268,6 +286,11 @@ async function listConfiguration(root: string): Promise<readonly string[]> {
     }
   };
   await walk(join(root, CONFIG_ROOT));
+  // Forge writes per-world server configuration into the level, so a mod that
+  // generates its settings on first run leaves them there rather than under
+  // `config/`. Looking only in one place would report a mod as having
+  // generated nothing when it had.
+  await walk(join(root, SANDBOX_LEVEL_NAME, 'serverconfig'));
   found.sort((left, right) => left.localeCompare(right, 'en-US'));
   return found;
 }
