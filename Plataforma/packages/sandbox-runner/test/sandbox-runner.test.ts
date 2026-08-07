@@ -4,7 +4,12 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, it } from 'node:test';
 
-import type { ProcessExit, SpawnedProcess } from '@voidfall/minecraft-process';
+import {
+  createForgeArgsFileProcessPlan,
+  forgeArgsFileName,
+  type ProcessExit,
+  type SpawnedProcess,
+} from '@voidfall/minecraft-process';
 
 import {
   Sandbox,
@@ -338,7 +343,10 @@ describe('the runner that actually starts a JVM', () => {
       // A leading slash is absolute on both platforms, so the fixture needs no
       // backslashes — one fewer thing an escape can quietly break.
       javaExecutable: '/opt/java/bin/java',
-      serverJar: 'forge-server.jar',
+      launch: {
+        kind: 'forge-args-file' as const,
+        argsFile: 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt',
+      },
       initialMemoryMiB: 1_024,
       maximumMemoryMiB: 2_048,
       runtime: {
@@ -408,7 +416,7 @@ describe('the runner that actually starts a JVM', () => {
   it('refuses a launch plan it cannot build rather than spawning something else', async () => {
     const runner = createProcessSandboxBootRunner({
       javaExecutable: 'java',
-      serverJar: '../../etc/payload.jar',
+      launch: { kind: 'jar', serverJar: '../../etc/payload.jar' },
       initialMemoryMiB: 1_024,
       maximumMemoryMiB: 2_048,
       runtime: {
@@ -421,5 +429,54 @@ describe('the runner that actually starts a JVM', () => {
     // A relative java binary and a JAR named with a path are both refused by
     // the shared launch plan, which is the point of building one at all.
     assert.equal(report.outcome, 'failed-to-start');
+  });
+});
+
+describe('the launcher a modern Forge server actually needs', () => {
+  it('builds the args-file command rather than a -jar one', () => {
+    const plan = createForgeArgsFileProcessPlan({
+      platform: 'linux',
+      javaExecutable: '/opt/java/bin/java',
+      serverDirectory: '/srv/sandbox',
+      argsFile: 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 4_096,
+    });
+    // Forge 1.20.1 ships no fat jar. Its own run.sh is
+    //   java @user_jvm_args.txt @libraries/.../unix_args.txt nogui
+    // so a plan built with -jar cannot start it at all.
+    assert.deepEqual([...plan.args], [
+      '-Xms1024M',
+      '-Xmx4096M',
+      '-Dfile.encoding=UTF-8',
+      '@libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt',
+      'nogui',
+    ]);
+    assert.equal(plan.cwd, '/srv/sandbox');
+  });
+
+  it('names the args file per platform, which is the only difference', () => {
+    assert.equal(forgeArgsFileName('linux'), 'unix_args.txt');
+    assert.equal(forgeArgsFileName('win32'), 'win_args.txt');
+  });
+
+  it('refuses an args file that points outside the tree being launched', () => {
+    const base = {
+      platform: 'linux' as const,
+      javaExecutable: '/opt/java/bin/java',
+      serverDirectory: '/srv/sandbox',
+      initialMemoryMiB: 1_024,
+      maximumMemoryMiB: 4_096,
+    };
+    for (const argsFile of [
+      '../elsewhere/unix_args.txt',
+      '/etc/unix_args.txt',
+      'libraries/../../unix_args.txt',
+      'libraries/forge/run.sh',
+    ]) {
+      // A traversal here would hand the JVM arguments from outside the
+      // directory, which is the one thing a sandbox must not do.
+      assert.throws(() => createForgeArgsFileProcessPlan({ ...base, argsFile }), Error, argsFile);
+    }
   });
 });

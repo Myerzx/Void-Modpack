@@ -1,5 +1,6 @@
 import {
   BOOT_COMPLETED_PATTERN,
+  createForgeArgsFileProcessPlan,
   createMinecraftProcessPlan,
   NodeProcessRuntime,
   type ProcessRuntime,
@@ -33,8 +34,17 @@ const TAIL_LINES = 40;
 export interface ProcessSandboxBootRunnerOptions {
   /** Absolute path to the Java binary. Local configuration, never a lease. */
   readonly javaExecutable: string;
-  /** A bare filename inside the sandbox, never a path. */
-  readonly serverJar: string;
+  /**
+   * How the server is launched, and there are two real shapes.
+   *
+   * Modern Forge does not ship a jar to `-jar`: its installer writes an
+   * argument file and a script that runs `java @.../unix_args.txt nogui`. A
+   * plan built with `-jar` cannot start a 1.20.1 server at all, so the shape is
+   * named rather than guessed.
+   */
+  readonly launch:
+    | { readonly kind: 'jar'; readonly serverJar: string }
+    | { readonly kind: 'forge-args-file'; readonly argsFile: string };
   readonly initialMemoryMiB: number;
   readonly maximumMemoryMiB: number;
   readonly platform?: SupportedHostPlatform;
@@ -92,14 +102,17 @@ export function createProcessSandboxBootRunner(
       // plan validates that everything in it is an absolute trusted path.
       let plan;
       try {
-        plan = createMinecraftProcessPlan({
+        const shared = {
           platform,
           javaExecutable: options.javaExecutable,
           serverDirectory: sandboxRoot,
-          serverJar: options.serverJar,
           initialMemoryMiB: options.initialMemoryMiB,
           maximumMemoryMiB: options.maximumMemoryMiB,
-        });
+        };
+        plan =
+          options.launch.kind === 'forge-args-file'
+            ? createForgeArgsFileProcessPlan({ ...shared, argsFile: options.launch.argsFile })
+            : createMinecraftProcessPlan({ ...shared, serverJar: options.launch.serverJar });
       } catch {
         return { outcome: 'failed-to-start' as SandboxBootOutcome, tail: [] };
       }

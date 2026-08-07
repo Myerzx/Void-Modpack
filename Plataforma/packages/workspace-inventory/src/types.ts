@@ -32,6 +32,14 @@ export type WorkspaceFileRole =
   | 'script'
   /** A resource pack or asset bundle. */
   | 'resource'
+  /**
+   * The server runtime itself — Forge's libraries and argument files.
+   *
+   * Not content anybody manages through this panel, which is why it is left
+   * out of an inventory by default. It is still needed to boot a sandbox, so
+   * it can be asked for explicitly.
+   */
+  | 'runtime'
   /** Found, classified as nothing in particular, and left alone. */
   | 'other';
 
@@ -45,6 +53,11 @@ export type WorkspaceFileRole =
  */
 export type WorkspaceExclusionReason =
   | 'private-state'
+  /**
+   * The server runtime, left out because it is infrastructure rather than
+   * content — not because it is private. Ask for it and it is included.
+   */
+  | 'runtime-infrastructure'
   | 'too-large'
   | 'unreadable'
   | 'symlink';

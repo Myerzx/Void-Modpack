@@ -34,7 +34,6 @@ const PRIVATE_STATE_DIRECTORIES: ReadonlySet<string> = new Set([
   'world_nether',
   'world_the_end',
   'backups',
-  'libraries',
   '.git',
   'node_modules',
 ]);
@@ -49,6 +48,16 @@ const PRIVATE_STATE_FILES: ReadonlySet<string> = new Set([
   'usernamecache.json',
   'eula.txt',
 ]);
+
+/**
+ * The server runtime, which is infrastructure rather than content.
+ *
+ * Kept out of an inventory by default because nobody manages a Forge library
+ * through a configuration panel, and 159 MB of jars drowns the list of things
+ * that matter. It is not private, so asking for it is enough — a sandbox has
+ * to bring it or nothing boots.
+ */
+const RUNTIME_DIRECTORIES: ReadonlySet<string> = new Set(['libraries']);
 
 const CONFIGURATION_EXTENSIONS: ReadonlySet<string> = new Set([
   '.toml',
@@ -76,6 +85,13 @@ export interface ScanWorkspaceOptions {
   readonly maximumFileBytes?: number;
   /** A bound on the walk, so a pathological tree cannot run forever. */
   readonly maximumFiles?: number;
+  /**
+   * Include the server runtime — Forge libraries and argument files.
+   *
+   * Off by default: an inventory is about what an operator manages. A sandbox
+   * asks for it, because without it there is nothing to boot.
+   */
+  readonly includeRuntime?: boolean;
 }
 
 export interface WorkspaceScan {
@@ -102,6 +118,7 @@ export function roleForPath(relativePath: string): WorkspaceFileRole {
   const lower = relativePath.toLocaleLowerCase('en-US');
   const extension = extensionOf(lower);
 
+  if (isRuntimeInfrastructure(lower)) return 'runtime';
   if (extension === '.jar') return 'mod-archive';
   if (DATAPACK_ROOTS.some((root) => lower.startsWith(root))) return 'datapack';
   if (RESOURCE_ROOTS.some((root) => lower.startsWith(root))) return 'resource';
@@ -110,6 +127,12 @@ export function roleForPath(relativePath: string): WorkspaceFileRole {
   }
   if (CONFIGURATION_EXTENSIONS.has(extension)) return 'configuration';
   return 'other';
+}
+
+function isRuntimeInfrastructure(relativePath: string): boolean {
+  return relativePath
+    .split('/')
+    .some((segment) => RUNTIME_DIRECTORIES.has(segment.toLocaleLowerCase('en-US')));
 }
 
 function isPrivateState(relativePath: string): boolean {
@@ -165,6 +188,10 @@ export async function scanWorkspace(options: ScanWorkspaceOptions): Promise<Work
       }
       if (isPrivateState(relativePath)) {
         exclusions.push({ path: relativePath, reason: 'private-state' });
+        continue;
+      }
+      if (options.includeRuntime !== true && isRuntimeInfrastructure(relativePath)) {
+        exclusions.push({ path: relativePath, reason: 'runtime-infrastructure' });
         continue;
       }
       if (entry.isDirectory()) {

@@ -20,7 +20,19 @@
  */
 
 /** What the sandbox is allowed to bring in from the workspace. */
-export type SandboxSourceRole = 'mod-archive' | 'configuration' | 'datapack' | 'script';
+export type SandboxSourceRole =
+  | 'mod-archive'
+  | 'configuration'
+  | 'datapack'
+  | 'script'
+  /**
+   * The Forge runtime — libraries and argument files.
+   *
+   * Without it nothing boots. It is left out of an inventory because nobody
+   * manages a library through a configuration panel, but a sandbox that omitted
+   * it would be a directory of mods with no server to run them.
+   */
+  | 'runtime';
 
 export interface SandboxSourceFile {
   /** Relative to the workspace root, `/`-separated. */

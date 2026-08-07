@@ -324,3 +324,39 @@ describe('reviewed resources belong to their own mod', () => {
     assert.equal(classifyEditLevel(candidates).level, 'RUNTIME_ONLY');
   });
 });
+
+describe('the server runtime is infrastructure, not private state', () => {
+  it('leaves libraries out by default, and says which kind of exclusion it is', async () => {
+    const root = await workspace();
+    await write(root, 'mods/alpha.jar', forgeJar('alpha', '1.0.0'));
+    await write(root, 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt', '-cp x');
+    await write(root, 'server.properties', 'motd=VoidFall\n');
+
+    const scan = await scanWorkspace({ root });
+    const reasons = new Map(scan.exclusions.map((entry) => [entry.path, entry.reason]));
+    // Excluded at the directory, so the walk never descends into 159 MB of
+    // jars to record each one. Not private either — nobody manages a Forge
+    // library through a configuration panel.
+    assert.equal(reasons.get('libraries'), 'runtime-infrastructure');
+    assert.ok(![...reasons.keys()].some((path) => path.startsWith('libraries/')));
+    // Still private, and for a different reason.
+    assert.equal(reasons.get('server.properties'), 'private-state');
+  });
+
+  it('includes the runtime when a sandbox asks for it', async () => {
+    const root = await workspace();
+    await write(root, 'mods/alpha.jar', forgeJar('alpha', '1.0.0'));
+    await write(root, 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt', '-cp x');
+    await write(root, 'server.properties', 'motd=VoidFall\n');
+
+    const scan = await scanWorkspace({ root, includeRuntime: true });
+    const runtime = scan.files.filter((file) => file.role === 'runtime');
+    // Without it there is nothing to boot.
+    assert.deepEqual(
+      runtime.map((file) => file.path),
+      ['libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt'],
+    );
+    // Asking for the runtime does not also hand over private state.
+    assert.ok(scan.exclusions.some((entry) => entry.reason === 'private-state'));
+  });
+});
