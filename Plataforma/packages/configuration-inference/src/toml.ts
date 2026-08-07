@@ -27,6 +27,9 @@ const RANGE = /^range:\s*(.+)$/iu;
 /** `#Allowed Values: EASY, NORMAL, HARD` */
 const ALLOWED = /^allowed values:\s*(.+)$/iu;
 
+/** Built from its code point so the literal cannot be mangled in an edit. */
+const BACKSLASH = String.fromCharCode(92);
+
 const BARE_KEY = /^[A-Za-z0-9_-]+$/u;
 const TABLE_HEADER = /^\[([A-Za-z0-9_.-]+)\]$/u;
 
@@ -71,6 +74,42 @@ function parseAllowed(text: string): FieldConstraint | undefined {
   return values.length === 0
     ? undefined
     : { kind: 'allowed-values', values: Object.freeze(values), source: 'declared' };
+}
+
+/**
+ * Splits a value from the comment that may follow it on the same line.
+ *
+ * TOML allows a trailing `#` comment after a value, and Forge configurations
+ * use them. Handing the whole remainder to the value parser makes a perfectly
+ * ordinary line unreadable, and the field then vanishes from the form — which
+ * is worse than a visible refusal, because the file looks like it has fewer
+ * settings than it has.
+ *
+ * The `#` only counts outside a string; a hash inside `"a # b"` is text.
+ */
+export function splitTrailingComment(rest: string): {
+  readonly value: string;
+  readonly comment: string;
+} {
+  let quote: '"' | "'" | undefined;
+  let escaped = false;
+  for (let index = 0; index < rest.length; index += 1) {
+    const character = rest[index];
+    if (quote !== undefined) {
+      if (escaped) escaped = false;
+      else if (character === BACKSLASH && quote === '"') escaped = true;
+      else if (character === quote) quote = undefined;
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '#') {
+      return { value: rest.slice(0, index), comment: rest.slice(index) };
+    }
+  }
+  return { value: rest, comment: '' };
 }
 
 interface ParsedValue {
@@ -245,7 +284,7 @@ export function readForgeToml(content: string): TomlReadResult {
       pending = { documentation: [], constraints: [] };
       continue;
     }
-    const parsed = parseValue(line.slice(equals + 1));
+    const parsed = parseValue(splitTrailingComment(line.slice(equals + 1)).value);
     if (parsed === undefined) {
       issues.push({ line: lineNumber, code: 'unsupported-value' });
       pending = { documentation: [], constraints: [] };

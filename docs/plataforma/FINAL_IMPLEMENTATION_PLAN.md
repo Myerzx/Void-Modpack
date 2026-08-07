@@ -450,8 +450,8 @@ Objetivo: alterar configuração sem entender semântica que ninguém revisou.
 
 - [x] inferir esquema de um arquivo estruturado e gerar formulário — `@voidfall/configuration-inference`, 2026-08-07. TOML e JSON;
 - [x] editar valor com validação de tipo e limite — `validateProposedValue`, que distingue **verificado contra limite declarado** de **aceito só por tipo**;
-- [ ] aplicar em staging, nunca no workspace ativo;
-- [ ] diff legível e rollback por revisão;
+- [x] aplicar em staging, nunca no workspace ativo — `@voidfall/configuration-staging`, 2026-08-07;
+- [x] diff legível e rollback por revisão — diff por linha, e descarte antes do apply é apagar um arquivo que este serviço escreveu;
 - [ ] modo avançado para `RAW_EDITABLE`, com aviso explícito.
 
 A distinção que sustenta a fase: **estrutura se infere, significado não.** Um valor `true` é um booleano — isso é fato sobre o arquivo. O que o campo faz e se mudá-lo é seguro não estão no arquivo e não são adivinhados.
@@ -459,6 +459,14 @@ A distinção que sustenta a fase: **estrutura se infere, significado não.** Um
 Há uma exceção que não é exceção: o `ForgeConfigSpec` escreve os próprios limites no arquivo como comentários — `#Range: 0 ~ 100`, `#Allowed Values: EASY, NORMAL`. Ler isso é ler uma **declaração**. Por isso todo limite carrega de onde veio, e um campo sem limite declarado é validado só por tipo, com a resposta dizendo isso — alegar o contrário esconderia que ninguém sabe o que aquele campo aceita.
 
 Um limite que não foi entendido é descartado em vez de aproximado: um limite mal lido recusa valores que o mod aceita ou aceita valores que ele não aceita, e os dois parecem o editor funcionando. A linha continua visível na documentação do campo, verbatim.
+
+O staging não re-serializa o documento. Cada campo lembra a linha de onde veio, então alterar um valor **substitui o valor daquela linha** e todo o resto do arquivo sobrevive byte a byte — comentários, indentação, e tudo o que o leitor recusou representar. Re-serializar a partir do formulário só poderia escrever de volta o que o formulário tem, e qualquer construção não representada sumiria de um arquivo em que a pessoa achava que tinha mudado um valor.
+
+Cada mudança guarda o digest do arquivo contra o qual foi calculada. Aplicar depois verifica que ele ainda é esse — sem isso, uma edição feita no meio-tempo (por uma mão, por um mod regenerando sua config, por um restore) seria sobrescrita por uma mudança que nunca a viu.
+
+**Aplicar não está neste pacote.** É o único passo destrutivo, pertence atrás da própria autorização, e colocá-lo no mesmo objeto das operações seguras é como ele acaba sendo chamado por acidente.
+
+Para JSON não há linha para editar cirurgicamente, então o documento é reconstruído — e isso só é seguro quando o formulário continha tudo. Um `null` ou um array misto torna o formulário parcial, e a reconstrução é recusada.
 
 ### Fase 14 — sandbox descartável
 

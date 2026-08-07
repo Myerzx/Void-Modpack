@@ -1,0 +1,25 @@
+{
+  "name": "@voidfall/configuration-staging",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Holds configuration changes outside the workspace until an explicit apply, with a surgical rewrite and a line diff",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/configuration-staging.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/configuration-inference": "0.1.0"
+  }
+}

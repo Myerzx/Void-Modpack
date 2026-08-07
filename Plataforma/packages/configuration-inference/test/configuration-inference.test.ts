@@ -219,3 +219,23 @@ describe('validating a proposed value', () => {
     });
   });
 });
+
+describe('a value with a comment after it on the same line', () => {
+  it('reads the value and keeps the comment out of it', () => {
+    const form = inferForm({
+      format: 'toml',
+      content: 'preset = "NORMAL" # chosen by the pack author\ncount = 3 # why\n',
+    });
+    // Handing the whole remainder to the value parser made these lines
+    // unreadable, and the fields vanished from the form — which is worse than a
+    // visible refusal, because the file looks like it has fewer settings.
+    assert.equal(form.complete, true);
+    assert.equal(fieldAt(form, 'preset').value, 'NORMAL');
+    assert.equal(fieldAt(form, 'count').value, 3);
+  });
+
+  it('does not mistake a hash inside a string for a comment', () => {
+    const form = inferForm({ format: 'toml', content: 'colour = "#ff8800"\n' });
+    assert.equal(fieldAt(form, 'colour').value, '#ff8800');
+  });
+});
