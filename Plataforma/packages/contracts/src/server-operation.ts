@@ -68,6 +68,7 @@ export const ServerOperationFailureCodeSchema = Type.Union([
   Type.Literal('agent-refused'),
   Type.Literal('timed-out'),
   Type.Literal('operation-failed'),
+  Type.Literal('state-conflict'),
   Type.Literal('reconciled-unknown'),
 ]);
 

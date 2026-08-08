@@ -1928,6 +1928,21 @@ describe('ServerOperation', () => {
     );
     assert.equal(
       validateServerOperation(
+        settled({
+          status: 'failed',
+          receipt: receipt({
+            outcome: 'failed',
+            failureCode: 'state-conflict',
+            observedLifecycle: 'offline',
+            observedPid: null,
+            bootId: null,
+          }),
+        }),
+      ).success,
+      true,
+    );
+    assert.equal(
+      validateServerOperation(
         settled({ status: 'failed', receipt: receipt({ outcome: 'failed', failureCode: null }) }),
       ).success,
       false,

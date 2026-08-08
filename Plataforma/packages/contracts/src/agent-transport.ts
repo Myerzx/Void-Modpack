@@ -159,6 +159,11 @@ export const AgentWorkFailureCodeSchema = Type.Union([
   Type.Literal('lease-expired'),
   Type.Literal('operation-failed'),
   Type.Literal('unsupported-parameters'),
+  // The server was not in a state the action is defined for — a restart of
+  // something already offline, say. Distinct from `operation-failed`, which
+  // says the action was attempted and went wrong: nothing was attempted here,
+  // and the operator needs to be told which of those two happened.
+  Type.Literal('state-conflict'),
 ]);
 
 /** What the agent reports back. A result closes a lease; it never opens work. */

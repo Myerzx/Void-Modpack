@@ -63,6 +63,14 @@ function lifecycleFor(
   return result.observation?.state ?? 'unknown';
 }
 
+function failureCodeFor(
+  result: ProcessControlResult,
+): NonNullable<LeaseHandlerResult['failureCode']> {
+  if (result.outcome === 'rejected') return 'state-conflict';
+  if (result.outcome === 'timed-out') return 'precondition-not-met';
+  return 'operation-failed';
+}
+
 /**
  * Builds the lease handler for `process.control`.
  *
@@ -140,7 +148,12 @@ export function createProcessControlHandler(
 
       return {
         outcome: 'failed',
-        failureCode: result.outcome === 'timed-out' ? 'precondition-not-met' : 'operation-failed',
+        // Three different answers, and flattening them loses what the operator
+        // needs. `rejected` means nothing was attempted: the server was not in
+        // a state this action is defined for, and a restart of an already
+        // offline server is the case that surfaced it. Reporting that as
+        // `operation-failed` made it look like a restart that ran and broke.
+        failureCode: failureCodeFor(result),
         observedLifecycle: lifecycleFor(result),
       };
     } catch {

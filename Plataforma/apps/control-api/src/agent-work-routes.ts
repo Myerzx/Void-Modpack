@@ -6,8 +6,10 @@ import {
   validateAgentWorkClaimPayload,
   validateAgentWorkResultPayload,
   type AgentEnvelope,
+  type AgentWorkFailureCode,
   type AgentWorkClaimResponse,
   type AgentWorkLease,
+  type ServerOperationFailureCode,
 } from '@voidfall/contracts';
 import { AgentTransportError, type Repositories } from '@voidfall/database';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
@@ -55,6 +57,13 @@ export interface AgentWorkRouteDependencies {
 
 const DEFAULT_MAXIMUM_LEASE_SECONDS = 300;
 const IDLE_RETRY_SECONDS = 15;
+
+function operationFailureCodeFor(code: AgentWorkFailureCode): ServerOperationFailureCode {
+  if (code === 'capability-refused' || code === 'unsupported-parameters') {
+    return 'agent-refused';
+  }
+  return code;
+}
 
 export function registerAgentWorkRoutes(
   app: FastifyInstance,
@@ -324,7 +333,7 @@ export function registerAgentWorkRoutes(
           outcome: result.outcome === 'succeeded' ? 'succeeded' : 'failed',
           ...(result.outcome === 'succeeded' || result.failureCode === null
             ? {}
-            : { failureCode: result.failureCode as never }),
+            : { failureCode: operationFailureCodeFor(result.failureCode) }),
           observedLifecycle: result.observedLifecycle ?? 'unknown',
           ...(result.observedPid === null ? {} : { observedPid: result.observedPid }),
           ...(result.bootId === null ? {} : { bootId: result.bootId }),

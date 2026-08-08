@@ -155,6 +155,56 @@ describe('process control', () => {
     assert.equal(conflicting.json().error.code, 'PROCESS_OPERATION_IN_FLIGHT');
   });
 
+  it('returns a state conflict without queuing work when restart is already impossible', async () => {
+    const context = await fixture();
+    const agentId = randomUUID();
+    const tokenHash = 'a'.repeat(64);
+    await context.repositories.agents.createProvisioningToken({
+      serverInstanceId: context.server.id,
+      tokenHash,
+      expiresAt: new Date(NOW.getTime() + 60_000),
+      createdAt: NOW,
+    });
+    await context.repositories.agents.register({
+      agentId,
+      serverInstanceId: context.server.id,
+      tokenHash,
+      publicKeyPem: '-----BEGIN PUBLIC KEY-----\ntest\n-----END PUBLIC KEY-----',
+      certificateFingerprint: 'b'.repeat(64),
+      softwareVersion: '0.1.0-test',
+      capabilities: ['process.control'],
+      now: NOW,
+    });
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      eventId: randomUUID(),
+      lifecycle: 'offline',
+      observedBy: agentId,
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+
+    const response = await context.app.inject({
+      method: 'POST',
+      url: `${BASE}/${context.server.id}/process/control`,
+      headers: { cookie: context.cookie, 'x-csrf-token': context.csrfToken },
+      payload: control({ action: 'restart', idempotencyKey: 'process-restart-offline-0001' }),
+    });
+
+    assert.equal(response.statusCode, 409);
+    assert.equal(response.json().error.code, 'PROCESS_STATE_CONFLICT');
+    const counts = await context.database.query<{
+      readonly operations: string | number;
+      readonly jobs: string | number;
+    }>(
+      `SELECT
+         (SELECT COUNT(*) FROM server_operations) AS operations,
+         (SELECT COUNT(*) FROM jobs) AS jobs`,
+    );
+    assert.equal(Number(counts.rows[0]?.operations), 0);
+    assert.equal(Number(counts.rows[0]?.jobs), 0);
+  });
+
   it('binds each action to its own permission', async () => {
     const readOnly = await fixture({ role: 'read-only' });
     const denied = await readOnly.app.inject({

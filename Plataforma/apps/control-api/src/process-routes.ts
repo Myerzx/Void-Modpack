@@ -145,6 +145,44 @@ export function registerProcessRoutes(
   }
 
   /**
+   * Refuses a restart of a server the control plane has just seen stop.
+   *
+   * A restart is a stop followed by a start, and there is nothing to stop when
+   * the server is already offline — the controller would reject it anyway, but
+   * only after an operation, a job and a lease had been created, run and
+   * settled to say so. Refusing here means no work is created for an action
+   * that cannot succeed.
+   *
+   * Only a **fresh** observation is grounds for refusing. A stale one, or none
+   * at all, means the control plane does not know what is running, and in that
+   * case the agent is the arbiter: it holds the process and can see the truth.
+   * Guessing from an old reading would block a legitimate restart.
+   */
+  async function refuseRestartOfStoppedServer(
+    request: FastifyRequest,
+    serverId: string,
+    action: 'start' | 'stop' | 'restart',
+  ): Promise<void> {
+    if (action !== 'restart') return;
+    const observed = await repositories.processStates.find(serverId);
+    if (observed === undefined || observed.stale || observed.lifecycle !== 'offline') return;
+
+    await audit({
+      request,
+      actor: panelActor(request),
+      action: 'process.restart',
+      serverId,
+      outcome: 'denied',
+      reason: 'server is offline',
+    });
+    throw apiError(
+      409,
+      'PROCESS_STATE_CONFLICT',
+      'O servidor está parado; um restart exige um servidor no ar. Use iniciar.',
+    );
+  }
+
+  /**
    * Accepts a durable operation and queues the job that carries it.
    *
    * The operation is accepted first: it owns the idempotency and the
@@ -267,6 +305,7 @@ export function registerProcessRoutes(
       // Each action carries its own permission; holding start never implies
       // the authority to stop.
       await requirePermission(ACTION_PERMISSION[request.body.action])(request);
+      await refuseRestartOfStoppedServer(request, serverId, request.body.action);
 
       const operation = await acceptAndQueue({
         request,

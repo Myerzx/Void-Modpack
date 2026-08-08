@@ -1,6 +1,10 @@
 import { randomUUID } from 'node:crypto';
 
-import type { AgentCapability, AgentWorkLease } from '@voidfall/contracts';
+import type {
+  AgentCapability,
+  AgentWorkFailureCode,
+  AgentWorkLease,
+} from '@voidfall/contracts';
 
 import type { AgentIdentity } from './agent-client.js';
 import {
@@ -26,7 +30,7 @@ import {
 
 export interface LeaseHandlerResult {
   readonly outcome: 'succeeded' | 'failed';
-  readonly failureCode?: 'precondition-not-met' | 'operation-failed' | 'unsupported-parameters';
+  readonly failureCode?: AgentWorkFailureCode;
   readonly observedLifecycle?: 'unknown' | 'offline' | 'starting' | 'online' | 'stopping' | 'error';
   readonly observedPid?: number;
 }
