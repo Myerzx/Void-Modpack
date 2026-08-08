@@ -243,6 +243,40 @@ describe('startup configuration', () => {
     assert.equal(configured.process?.maximumMemoryMiB, 4_096);
   });
 
+  it('does not require the jar, because the runtime is read from the directory', () => {
+    const configured = loadAgentConfiguration(
+      minimal({
+        VOIDFALL_JAVA_EXECUTABLE: '/opt/java/bin/java',
+        VOIDFALL_SERVER_DIRECTORY: '/srv/voidfall',
+        VOIDFALL_SERVER_INITIAL_MEMORY_MIB: '1024',
+        VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB: '4096',
+      }),
+    );
+    // Requiring the operator to name a jar is what made the agent assemble
+    // `java -jar` for a Forge install, which has no fat jar — so the one
+    // server it could not start was the one somebody actually owned.
+    assert.equal(configured.process?.serverJar, undefined);
+    // The group is still complete without it, so process control stays on.
+    assert.notEqual(configured.process, null);
+  });
+
+  it('still refuses a jar that is a path when one is supplied', () => {
+    // Supplying it is allowed and wins over detection, so the check that it is
+    // a bare filename has to stay: a jar named with a path would reach outside
+    // the directory the operator authorized.
+    assert.ok(
+      issuesOf(
+        minimal({
+          VOIDFALL_JAVA_EXECUTABLE: '/opt/java/bin/java',
+          VOIDFALL_SERVER_DIRECTORY: '/srv/voidfall',
+          VOIDFALL_SERVER_JAR: '../../etc/payload.jar',
+          VOIDFALL_SERVER_INITIAL_MEMORY_MIB: '1024',
+          VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB: '4096',
+        }),
+      ).includes('VOIDFALL_SERVER_JAR=not-a-jar-filename'),
+    );
+  });
+
   it('treats blank and whitespace-only values as absent, not as configured', () => {
     // A variable set to empty by a broken template is not a configuration.
     const issues = issuesOf(minimal({ VOIDFALL_DATABASE_URL: '   ' }));

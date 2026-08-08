@@ -66,9 +66,16 @@ Nenhuma das rotas de processo, console, métricas ou backup tem interface.
 
 ## Ordem de execução
 
-**Passo 1 — detecção de runtime.** Um módulo em `minecraft-process` que lê um diretório e devolve família + plano, ou recusa com nome. Generaliza o que `sandbox-runner/src/provision.ts` já faz. Testável sem JVM.
+~~**Passo 1 — detecção de runtime.**~~ **Feito em 2026-08-08.** `minecraft-process/src/runtime-detection.ts` lê um diretório e devolve família, forma de lançamento e entrada — Forge e NeoForge pelo args file, Fabric pelo launcher, Paper/Spigot/vanilla pelo jar. Um instalador nunca é confundido com o servidor, duas candidatas recusam em vez de escolher, e um layout desconhecido recusa com nome. A entrada é relativa ao diretório, porque o descritor termina num banco e depois numa tela.
 
-**Passo 2 — o agente escolhe o plano certo.** `buildProcessRuntime` passa a usar o descritor. Com isso o Forge do proprietário passa a ser iniciável, e Paper/Fabric entram de graça.
+~~**Passo 2 — o agente escolhe o plano certo.**~~ **Feito em 2026-08-08.** `VOIDFALL_SERVER_JAR` virou opcional: sem ele o runtime é detectado; com ele, vence, porque uma instalação estranha o bastante para precisar de nome é justamente onde a detecção não pode ser o único caminho. Contra o servidor real:
+
+```
+família   forge
+forma     args-file
+entrada   libraries/net/minecraftforge/forge/1.20.1-47.4.4/win_args.txt
+comando   java -Xms4096M -Xmx8192M -Dfile.encoding=UTF-8 @libraries/.../win_args.txt nogui
+```
 
 **Passo 3 — instância com diretório e runtime.** Migração acrescentando `run_directory` e `runtime` a `server_instances`, mais a aresta com o workspace. A rota de criação de instância já existe.
 

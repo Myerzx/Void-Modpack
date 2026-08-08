@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/index.ts": {
-    "mtime": 1786153740.162863,
-    "ast_hash": "3b08f53d36e6d9a76b5d9431cc1c5d58",
+    "mtime": 1786171493.7245228,
+    "ast_hash": "f09ac07b4b557dafeb1529483dbbe1e0",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/migrations.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1786153740.162863,
-    "ast_hash": "ef59ff05928d8008f6393a66e73ff71e",
+    "mtime": 1786171493.726032,
+    "ast_hash": "70bb6e3c6fc0ae7714b5dff98ebab56c",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786158020.4011636,
-    "ast_hash": "4f0e174ec22725cdc2d6e93b0f6fa45e",
+    "mtime": 1786171898.0875416,
+    "ast_hash": "2a0f6a11a8472685da52cf0197e80dd4",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786157924.6405754,
-    "ast_hash": "44d1b202b6822d9b7a4d1b8030433da8",
+    "mtime": 1786171814.715275,
+    "ast_hash": "477cfdc0466717f1bf2dfb83b4f1c777",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786153740.3992527,
-    "ast_hash": "bf96119bbcc266741cf1ea2675ad37e2",
+    "mtime": 1786171493.726032,
+    "ast_hash": "10779bcc491c6e61c4c7f1d7e68d3ee4",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -4455,8 +4455,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-routes.ts": {
-    "mtime": 1786153876.7939594,
-    "ast_hash": "49f268c62e8e74b568c25f6cf6fa50d0",
+    "mtime": 1786171808.9200673,
+    "ast_hash": "341efcd5c77fdcbab45c1a52ababbeb3",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-scanner.ts": {
@@ -4485,8 +4485,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/workspace-client.ts": {
-    "mtime": 1786154124.1591673,
-    "ast_hash": "a15bc7e2d2d837729415687c8634d6ab",
+    "mtime": 1786172222.6508336,
+    "ast_hash": "c979b19b6c93850a4bcb61a68f8f9278",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0017_panel_workspaces.sql": {
@@ -4500,18 +4500,18 @@
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-015-frente-de-integracao-do-painel.md": {
-    "mtime": 1786154772.9295127,
-    "ast_hash": "949bd6255f10cff6be8a478788035496",
+    "mtime": 1786172857.8661005,
+    "ast_hash": "de21de28dc1252bae116518ed67b286d",
     "semantic_hash": ""
   },
   "docs/plataforma/PAINEL_LOCAL.md": {
-    "mtime": 1786160162.503335,
-    "ast_hash": "3f58aa03dfc1a02600dc31681666c244",
+    "mtime": 1786172857.9305143,
+    "ast_hash": "7e2ba4c9505452b4cba8730e83a79047",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786157985.4329298,
-    "ast_hash": "46e3d62759aef1d16845793a3e5de780",
+    "mtime": 1786171842.35314,
+    "ast_hash": "37141b447964a140ed68de9af18a7dac",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
@@ -4585,8 +4585,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/components/shell.tsx": {
-    "mtime": 1786158341.0652392,
-    "ast_hash": "9c0f9bb69840f083c8531b496ef9fdb0",
+    "mtime": 1786172275.1221383,
+    "ast_hash": "0e1ac78bd4f3add8137deacea16c0435",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-016-painel-como-gerenciador-completo.md": {
@@ -4597,6 +4597,41 @@
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
     "mtime": 1786163022.2178824,
     "ast_hash": "61068577dda11d0cfaa19eafb70aa76f",
+    "semantic_hash": ""
+  },
+  ".vscode/launch.json": {
+    "mtime": 1786171564.7300215,
+    "ast_hash": "5d66439fc69b2a1c12b50157817f8d4c",
+    "semantic_hash": ""
+  },
+  ".vscode/tasks.json": {
+    "mtime": 1786171564.7300215,
+    "ast_hash": "509ff3866fd42b6de7e4085a19f8ede5",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/workspace-release.ts": {
+    "mtime": 1786171580.0579076,
+    "ast_hash": "0b52b90d46e1ff53872197b1da3b438b",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/workspace-release-api.test.ts": {
+    "mtime": 1786172053.4103732,
+    "ast_hash": "4dc7ccaad70eedbdb799b44a573ecf37",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/workspaces/release/page.tsx": {
+    "mtime": 1786172269.3244014,
+    "ast_hash": "bc975d8f7cbd28c8da40b3f004b95498",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0019_workspace_releases.sql": {
+    "mtime": 1786171438.0179677,
+    "ast_hash": "b44a2fb800856451aeac9ad943da78c8",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/workspace-release-repositories.ts": {
+    "mtime": 1786171475.804909,
+    "ast_hash": "1298629919219e5da5c694943b57ddad",
     "semantic_hash": ""
   }
 }

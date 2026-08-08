@@ -6,7 +6,9 @@ import {
   MinecraftProcessController,
   NodeProcessRuntime,
   WindowsMinecraftProcessAdapter,
+  createForgeArgsFileProcessPlan,
   createMinecraftProcessPlan,
+  detectServerRuntime,
   type SupportedHostPlatform,
 } from '@voidfall/minecraft-process';
 
@@ -62,10 +64,11 @@ import { AgentWorkTransport } from './work-transport.js';
  * shape of every value; anything the plan still rejects is a combination an
  * operator has to see, not one to come up without.
  */
-function buildProcessRuntime(configuration: ProcessConfiguration | null): {
+async function buildProcessRuntime(configuration: ProcessConfiguration | null): Promise<{
   readonly adapter: WindowsMinecraftProcessAdapter | LinuxMinecraftProcessAdapter;
   readonly controller: MinecraftProcessController;
-} | null {
+  readonly runtimeFamily: string;
+} | null> {
   if (configuration === null) return null;
   if (process.platform !== 'win32' && process.platform !== 'linux') {
     // The supported set is closed on purpose. Spawning a JVM through an
@@ -74,7 +77,43 @@ function buildProcessRuntime(configuration: ProcessConfiguration | null): {
     throw new Error(`voidfall-agent: unsupported host platform ${process.platform}`);
   }
   const platform: SupportedHostPlatform = process.platform;
-  const launchPlan = createMinecraftProcessPlan({ platform, ...configuration });
+
+  // How the server starts is read from the server, not from the environment.
+  // Assembling `java -jar` for every installation is why the one server this
+  // agent could not start was a Forge install — which has no fat jar, and
+  // failed in a way that reads like a broken mod rather than a wrong plan.
+  const detected =
+    configuration.serverJar === undefined
+      ? await detectServerRuntime({
+          serverDirectory: configuration.serverDirectory,
+          platform,
+        })
+      : ({
+          family: 'vanilla',
+          shape: 'jar',
+          entry: configuration.serverJar,
+          evidence: 'VOIDFALL_SERVER_JAR',
+        } as const);
+
+  const launchPlan =
+    detected.shape === 'args-file'
+      ? createForgeArgsFileProcessPlan({
+          platform,
+          javaExecutable: configuration.javaExecutable,
+          serverDirectory: configuration.serverDirectory,
+          argsFile: detected.entry,
+          initialMemoryMiB: configuration.initialMemoryMiB,
+          maximumMemoryMiB: configuration.maximumMemoryMiB,
+        })
+      : createMinecraftProcessPlan({
+          platform,
+          javaExecutable: configuration.javaExecutable,
+          serverDirectory: configuration.serverDirectory,
+          serverJar: detected.entry,
+          initialMemoryMiB: configuration.initialMemoryMiB,
+          maximumMemoryMiB: configuration.maximumMemoryMiB,
+        });
+
   const runtime = new NodeProcessRuntime();
   // One adapter serves as process, console and metrics adapter. It is the
   // thing that owns the child handle, and two of them would each believe they
@@ -83,7 +122,11 @@ function buildProcessRuntime(configuration: ProcessConfiguration | null): {
     platform === 'win32'
       ? new WindowsMinecraftProcessAdapter({ runtime })
       : new LinuxMinecraftProcessAdapter({ runtime });
-  return { adapter, controller: new MinecraftProcessController({ adapter, launchPlan }) };
+  return {
+    adapter,
+    controller: new MinecraftProcessController({ adapter, launchPlan }),
+    runtimeFamily: detected.family,
+  };
 }
 
 const agentFetch: AgentFetch = async (url, init) => {
@@ -139,7 +182,7 @@ export async function main(): Promise<number> {
     allowInsecureDevelopment: true,
   });
 
-  const minecraft = buildProcessRuntime(configuration.process);
+  const minecraft = await buildProcessRuntime(configuration.process);
 
   const controller = new AbortController();
   const runtime = new AgentRuntime({

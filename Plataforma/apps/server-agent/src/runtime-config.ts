@@ -104,8 +104,14 @@ export interface BackupConfiguration {
 export interface ProcessConfiguration {
   readonly javaExecutable: string;
   readonly serverDirectory: string;
-  /** A bare filename inside the server directory, never a path. */
-  readonly serverJar: string;
+  /**
+   * A bare filename inside the server directory, never a path.
+   *
+   * Optional, because the runtime is detected from the directory. Supplied, it
+   * wins: an operator who names the jar has a reason, and an installation odd
+   * enough to need one is exactly where detection should not be the only way.
+   */
+  readonly serverJar?: string;
   readonly initialMemoryMiB: number;
   readonly maximumMemoryMiB: number;
 }
@@ -406,20 +412,23 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
     diskRaw === undefined ? null : (requireAbsolute(diskRaw, 'VOIDFALL_METRICS_DISK_PATH', issues) ?? null);
 
   // --- The server process: all or nothing. -----------------------------------
+  // The jar is deliberately not in this group: the runtime is detected from
+  // the directory, and requiring the operator to name it was what made the
+  // agent assemble `java -jar` for a Forge install that has no fat jar.
   const processKeys = [
     'VOIDFALL_JAVA_EXECUTABLE',
     'VOIDFALL_SERVER_DIRECTORY',
-    'VOIDFALL_SERVER_JAR',
     'VOIDFALL_SERVER_INITIAL_MEMORY_MIB',
     'VOIDFALL_SERVER_MAXIMUM_MEMORY_MIB',
   ] as const;
   const processValues = processKeys.map((key) => read(environment, key));
+  const jarRaw = read(environment, 'VOIDFALL_SERVER_JAR');
   let processConfiguration: ProcessConfiguration | null = null;
-  if (processValues.some((value) => value !== undefined)) {
+  if (processValues.some((value) => value !== undefined) || jarRaw !== undefined) {
     for (const [index, key] of processKeys.entries()) {
       if (processValues[index] === undefined) issues.push({ key, code: 'incomplete-group' });
     }
-    const [javaRaw, directoryRaw, jarRaw, initialRaw, maximumRaw] = processValues;
+    const [javaRaw, directoryRaw, initialRaw, maximumRaw] = processValues;
     const javaExecutable =
       javaRaw === undefined
         ? undefined
@@ -457,8 +466,7 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
     if (
       javaExecutable !== undefined &&
       serverDirectory !== undefined &&
-      jarRaw !== undefined &&
-      JAR_FILENAME.test(jarRaw) &&
+      (jarRaw === undefined || JAR_FILENAME.test(jarRaw)) &&
       initialMemoryMiB !== undefined &&
       maximumMemoryMiB !== undefined &&
       initialMemoryMiB <= maximumMemoryMiB
@@ -466,7 +474,7 @@ export function loadAgentConfiguration(environment: Environment): AgentRuntimeCo
       processConfiguration = {
         javaExecutable,
         serverDirectory,
-        serverJar: jarRaw,
+        ...(jarRaw === undefined ? {} : { serverJar: jarRaw }),
         initialMemoryMiB,
         maximumMemoryMiB,
       };

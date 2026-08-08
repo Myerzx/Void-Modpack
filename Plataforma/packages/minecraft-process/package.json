@@ -5,7 +5,9 @@
   "description": "Validated process plans and state transitions for VoidFall Minecraft hosts",
   "license": "UNLICENSED",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -14,7 +16,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/minecraft-process.test.ts",
+    "test": "tsx --test test/minecraft-process.test.ts test/runtime-detection.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   }
 }
