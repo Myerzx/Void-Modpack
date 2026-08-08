@@ -25,7 +25,12 @@ import {
   type AuditEvent,
   type ResourceRef,
 } from '@voidfall/contracts';
-import { createRepositories, type Database, type Repositories } from '@voidfall/database';
+import {
+  createRepositories,
+  ServerRuntimeBindingError,
+  type Database,
+  type Repositories,
+} from '@voidfall/database';
 import {
   hasPermission,
   type PanelPermission,
@@ -312,19 +317,23 @@ const CreateServerBodySchema = Type.Object(
 );
 type CreateServerBody = Static<typeof CreateServerBodySchema>;
 
-const SetServerRuntimeSchema = Type.Object(
-  {
-    /**
-     * Where the server executes, on the host that runs the agent.
-     *
-     * The only path a caller ever sends about an instance, and it is sent
-     * once. Everything after this is addressed by instance id, and the
-     * response carries the descriptor without the directory.
-     */
-    rootPath: Type.String({ minLength: 2, maxLength: 4_096 }),
-  },
-  { additionalProperties: false },
-);
+const SetServerRuntimeSchema = Type.Union([
+  Type.Object(
+    {
+      /** An unregistered directory, accepted once and never returned. */
+      rootPath: Type.String({ minLength: 2, maxLength: 4_096 }),
+    },
+    { additionalProperties: false },
+  ),
+  Type.Object(
+    {
+      /** A registered server workspace whose root already lives on the host. */
+      workspaceId: Type.String({ format: 'uuid' }),
+    },
+    { additionalProperties: false },
+  ),
+]);
+type SetServerRuntimeBody = Static<typeof SetServerRuntimeSchema>;
 
 const AgentRegistrationBodySchema = Type.Object(
   {
@@ -693,7 +702,7 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     },
   );
 
-  app.post<{ Params: { serverId: string }; Body: { rootPath: string } }>(
+  app.post<{ Params: { serverId: string }; Body: SetServerRuntimeBody }>(
     '/api/v1/servers/:serverId/runtime',
     {
       schema: { body: SetServerRuntimeSchema },
@@ -712,20 +721,66 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
         throw new ApiError(404, 'SERVER_NOT_FOUND', 'Instância não encontrada.');
       }
 
+      let rootPath: string;
+      let workspaceId: string | undefined;
+      if ('workspaceId' in request.body) {
+        const workspace = await repositories.workspaces.findById(request.body.workspaceId);
+        if (workspace === undefined) {
+          throw new ApiError(404, 'WORKSPACE_NOT_FOUND', 'Workspace não encontrado.');
+        }
+        if (workspace.kind !== 'server') {
+          throw new ApiError(
+            409,
+            'WORKSPACE_NOT_SERVER',
+            'Somente um workspace de servidor pode ser vinculado a uma instância.',
+          );
+        }
+        rootPath = workspace.rootPath;
+        workspaceId = workspace.workspaceId;
+      } else {
+        rootPath = request.body.rootPath;
+      }
+
       // The runtime is read from the directory, never taken from the request.
       // A caller that could state the loader could state it wrong, and the
       // wrong launch plan runs a JVM where the world lives.
-      const detected = await options.serverRuntimeDetector(request.body.rootPath);
+      const detected = await options.serverRuntimeDetector(rootPath);
       if ('refusal' in detected) {
         throw new ApiError(422, 'RUNTIME_NOT_RECOGNISED', detected.refusal);
       }
 
-      await repositories.servers.setRuntime({
-        id: server.id,
-        runDirectory: detected.rootPath,
-        runtime: detected.runtime,
-        detectedAt: clock(),
-      });
+      try {
+        await repositories.servers.setRuntime({
+          id: server.id,
+          runDirectory: detected.rootPath,
+          runtime: detected.runtime,
+          detectedAt: clock(),
+          ...(workspaceId === undefined ? {} : { workspaceId }),
+        });
+      } catch (error) {
+        if (!(error instanceof ServerRuntimeBindingError)) throw error;
+        if (error.code === 'run-directory-taken') {
+          throw new ApiError(
+            409,
+            'SERVER_RUNTIME_ALREADY_ASSIGNED',
+            'Este diretório já pertence a outra instância.',
+          );
+        }
+        if (error.code === 'server-already-linked') {
+          throw new ApiError(
+            409,
+            'SERVER_INSTANCE_ALREADY_LINKED',
+            'Esta instância já está vinculada a outro workspace.',
+          );
+        }
+        if (error.code === 'workspace-not-found') {
+          throw new ApiError(404, 'WORKSPACE_NOT_FOUND', 'Workspace não encontrado.');
+        }
+        if (error.code === 'workspace-not-server') {
+          throw new ApiError(409, 'WORKSPACE_NOT_SERVER', 'O workspace não representa um servidor.');
+        }
+        throw new ApiError(404, 'SERVER_NOT_FOUND', 'Instância não encontrada.');
+      }
       await repositories.audit.append(
         auditEvent({
           request,

@@ -15,6 +15,8 @@ export interface WorkspaceSummary {
   readonly slug: string;
   readonly displayName: string;
   readonly kind: WorkspaceKind;
+  /** Live instance explicitly linked to this imported server, when any. */
+  readonly serverInstanceId: string | null;
   readonly createdAt: string;
   readonly lastScan: {
     readonly inventoryId: string;

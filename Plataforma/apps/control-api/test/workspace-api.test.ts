@@ -493,4 +493,84 @@ describe('pointing an instance at a directory', () => {
     assert.equal(response.statusCode, 422);
     assert.match(response.json<{ error: { message: string } }>().error.message, /Nenhum runtime/u);
   });
+
+  it('links an imported server workspace without sending its host path again', async () => {
+    const { app, repositories, cookie, csrfToken } = await fixture({ scanner: scanner() });
+    const created = await app.inject({
+      method: 'POST',
+      url: '/api/v1/servers',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: {
+        slug: 'importado',
+        displayName: 'Servidor importado',
+        environment: 'local',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '1.20.1-47.4.4',
+        maxPlayers: 20,
+      },
+    });
+    const serverId = created.json<{ id: string }>().id;
+    const root = await workspaceRoot();
+    await mkdir(join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4'), {
+      recursive: true,
+    });
+    for (const name of ['win_args.txt', 'unix_args.txt']) {
+      await writeFile(
+        join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4', name),
+        'x',
+        'utf8',
+      );
+    }
+    const registered = await app.inject({
+      method: 'POST',
+      url: '/api/v1/workspaces',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { slug: 'importado', displayName: 'Servidor importado', rootPath: root, kind: 'server' },
+    });
+    const workspaceId = registered.json<{ workspaceId: string }>().workspaceId;
+
+    const linked = await app.inject({
+      method: 'POST',
+      url: `/api/v1/servers/${serverId}/runtime`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { workspaceId },
+    });
+    assert.equal(linked.statusCode, 200);
+    assert.equal(linked.body.includes(root), false);
+    assert.equal((await repositories.servers.findById(serverId))?.runDirectory, root);
+
+    const listed = await app.inject({ method: 'GET', url: '/api/v1/workspaces', headers: { cookie } });
+    assert.equal(
+      listed.json<{ workspaces: { serverInstanceId: string | null }[] }>().workspaces[0]
+        ?.serverInstanceId,
+      serverId,
+    );
+    assert.equal(listed.body.includes(root), false);
+
+    const other = await app.inject({
+      method: 'POST',
+      url: '/api/v1/servers',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: {
+        slug: 'duplicado',
+        displayName: 'Duplicado',
+        environment: 'local',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '1.20.1-47.4.4',
+        maxPlayers: 20,
+      },
+    });
+    const otherServerId = other.json<{ id: string }>().id;
+    const refused = await app.inject({
+      method: 'POST',
+      url: `/api/v1/servers/${otherServerId}/runtime`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { workspaceId },
+    });
+    assert.equal(refused.statusCode, 409);
+    assert.equal(refused.json().error.code, 'SERVER_RUNTIME_ALREADY_ASSIGNED');
+    assert.equal((await repositories.servers.findById(otherServerId))?.runDirectory, null);
+  });
 });

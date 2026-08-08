@@ -410,6 +410,7 @@ export function registerWorkspaceRoutes(
         slug: workspace.slug,
         displayName: workspace.displayName,
         kind: workspace.kind,
+        serverInstanceId: workspace.serverInstanceId,
         createdAt: workspace.createdAt,
         lastScan: null,
       });

@@ -107,6 +107,23 @@ describe('agent transport persistence', () => {
     maxAttempts,
   });
 
+  const processJob = (serverInstanceId: string, key: string, priority: number): Job => ({
+    schemaVersion: 1,
+    id: randomUUID(),
+    type: 'server.start',
+    resource: { type: 'server-instance', id: serverInstanceId },
+    status: 'queued',
+    stage: 'queued',
+    priority,
+    payload: { schemaVersion: 1, parameters: { expectedVersion: 1 } },
+    idempotencyKey: key,
+    requestedBy: { type: 'system', id: 'transport-test' },
+    correlationId: randomUUID(),
+    availableAt: '2026-08-05T12:00:00Z',
+    attempt: 0,
+    maxAttempts: 3,
+  });
+
   it('backfills a credential and grants for an agent that already existed', async () => {
     const database = await createPGliteTestDatabase();
     try {
@@ -267,6 +284,74 @@ describe('agent transport persistence', () => {
         newLeaseId: () => randomUUID(),
       });
       assert.deepEqual([...again], []);
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('leases server work only to the agent bound to that instance', async () => {
+    const { database, repositories, serverInstanceId, agentId } = await transportFixture({
+      capabilities: ['process.control'],
+    });
+    try {
+      const otherServerId = randomUUID();
+      await repositories.servers.create({
+        id: otherServerId,
+        slug: 'other-agent-transport-test',
+        displayName: 'Other Agent Transport Test',
+        environment: 'test',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '47.4.4',
+        maxPlayers: 20,
+      });
+      const otherAgentId = randomUUID();
+      await database.query(
+        `INSERT INTO agents (id, server_instance_id, public_key_pem, certificate_fingerprint,
+           software_version, protocol_version, status, capabilities, credential_rotated_at)
+         VALUES ($1,$2,'pem-other',$3,'0.1.0',1,'online',$4::jsonb,$5)`,
+        [
+          otherAgentId,
+          otherServerId,
+          'b'.repeat(64),
+          JSON.stringify(['process.control']),
+          new Date('2026-08-05T10:00:00Z'),
+        ],
+      );
+      await repositories.agentTransport.grantCapability({
+        agentId: otherAgentId,
+        capability: 'process.control',
+        grantedBy: { type: 'system', id: 'fixture' },
+        reasonCode: 'fixture-grant',
+        now: new Date('2026-08-05T10:00:00Z'),
+      });
+
+      const foreign = processJob(otherServerId, 'transport-claim-other-server-0001', 100);
+      const own = processJob(serverInstanceId, 'transport-claim-own-server-0001', 50);
+      await repositories.jobs.enqueue(foreign);
+      await repositories.jobs.enqueue(own);
+
+      const claimedByFirst = await repositories.agentTransport.claimWork({
+        agentId,
+        capabilities: ['process.control'],
+        bootId: randomUUID(),
+        maximumLeases: 8,
+        leaseMs: 60_000,
+        now: new Date('2026-08-05T12:00:00Z'),
+        newLeaseId: () => randomUUID(),
+      });
+      assert.deepEqual(claimedByFirst.map((lease) => lease.jobId), [own.id]);
+
+      const claimedBySecond = await repositories.agentTransport.claimWork({
+        agentId: otherAgentId,
+        capabilities: ['process.control'],
+        bootId: randomUUID(),
+        maximumLeases: 8,
+        leaseMs: 60_000,
+        now: new Date('2026-08-05T12:00:01Z'),
+        newLeaseId: () => randomUUID(),
+      });
+      assert.deepEqual(claimedBySecond.map((lease) => lease.jobId), [foreign.id]);
     } finally {
       await database.close();
     }

@@ -346,6 +346,12 @@ export class AgentTransportRepository {
            SELECT id FROM jobs
            WHERE status = 'queued' AND available_at <= $1
              AND type = ANY($2::text[]) AND attempt < max_attempts
+             AND (
+               resource_type <> 'server-instance' OR
+               resource_id = (
+                 SELECT server_instance_id::text FROM agents WHERE id = $4
+               )
+             )
            ORDER BY priority DESC, available_at ASC, created_at ASC
            FOR UPDATE SKIP LOCKED LIMIT $3
          )

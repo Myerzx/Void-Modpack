@@ -1,5 +1,5 @@
 import { createPrivateKey, createPublicKey, generateKeyPairSync, randomUUID } from 'node:crypto';
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 import { createOpaqueToken, hashOpaqueToken, sha256Hex } from '@voidfall/authentication';
@@ -26,17 +26,18 @@ import {
  * own database on the second process would be a worse failure than not
  * starting the server at all.
  *
- * Sharing the process is not a shortcut around the architecture. `AgentRuntime`
- * takes its repositories as a dependency precisely for this, the transport is
- * still loopback HTTP to the same API, and the authority over the Minecraft
- * process stays where it has always been — in the agent, reached by a durable
- * operation that it claims, never by the API touching a child process.
+ * Sharing the process is not a shortcut around the architecture. There is one
+ * logical `AgentRuntime` and one key pair per ServerInstance; a local fleet
+ * only hosts them together. The transport is still loopback HTTP to the same
+ * API, and the authority over each Minecraft process stays in its owning agent.
  *
  * In production none of this applies: there the agent is a separate process
  * against a real PostgreSQL, which is the case it was written for.
  */
 
-const AGENT_KEY_FILE = 'agent-key.pem';
+const LEGACY_AGENT_KEY_FILE = 'agent-key.pem';
+const LEGACY_AGENT_ID_FILE = 'agent-id.txt';
+const AGENT_KEY_FILE = 'private-key.pem';
 const AGENT_ID_FILE = 'agent-id.txt';
 
 export interface LocalAgentIdentity {
@@ -53,23 +54,59 @@ export interface LocalAgentIdentity {
  */
 export async function provisionLocalAgentIdentity(
   stateDirectory: string,
+  serverInstanceId: string,
+  expectedAgentId?: string,
 ): Promise<LocalAgentIdentity> {
-  const keyPath = join(stateDirectory, AGENT_KEY_FILE);
-  const idPath = join(stateDirectory, AGENT_ID_FILE);
+  const identityDirectory = join(stateDirectory, 'agents', serverInstanceId);
+  const keyPath = join(identityDirectory, AGENT_KEY_FILE);
+  const idPath = join(identityDirectory, AGENT_ID_FILE);
 
   const existingKey = await readFile(keyPath, 'utf8').catch(() => undefined);
   const existingId = await readFile(idPath, 'utf8').catch(() => undefined);
   if (existingKey !== undefined && existingId !== undefined) {
+    const agentId = existingId.trim();
+    if (expectedAgentId !== undefined && agentId !== expectedAgentId) {
+      throw new Error('The stored local identity does not own this server instance.');
+    }
     const { publicKey } = deriveKeys(existingKey);
-    return { agentId: existingId.trim(), privateKeyPem: existingKey, publicKeyPem: publicKey };
+    return { agentId, privateKeyPem: existingKey, publicKeyPem: publicKey };
+  }
+  if (existingKey !== undefined || existingId !== undefined) {
+    throw new Error('The stored local agent identity is incomplete.');
+  }
+
+  // Before identities were scoped per ServerInstance, one key pair lived at
+  // the root of `.voidfall`. It is migrated only when the database proves
+  // which instance that exact agent id owns; guessing would attach a key to the
+  // first row returned again, which is the defect this layout removes.
+  if (expectedAgentId !== undefined) {
+    const legacyKey = await readFile(join(stateDirectory, LEGACY_AGENT_KEY_FILE), 'utf8').catch(
+      () => undefined,
+    );
+    const legacyId = await readFile(join(stateDirectory, LEGACY_AGENT_ID_FILE), 'utf8').catch(
+      () => undefined,
+    );
+    if (legacyKey === undefined || legacyId?.trim() !== expectedAgentId) {
+      throw new Error('The agent assigned to this server has no local private key.');
+    }
+    const { publicKey } = deriveKeys(legacyKey);
+    await mkdir(identityDirectory, { recursive: true });
+    await writeFile(keyPath, legacyKey, { encoding: 'utf8', mode: 0o600 });
+    await writeFile(idPath, `${expectedAgentId}\n`, { encoding: 'utf8', mode: 0o600 });
+    return {
+      agentId: expectedAgentId,
+      privateKeyPem: legacyKey,
+      publicKeyPem: publicKey,
+    };
   }
 
   const generated = generateKeyPairSync('ed25519');
   const privateKeyPem = generated.privateKey.export({ type: 'pkcs8', format: 'pem' }).toString();
   const publicKeyPem = generated.publicKey.export({ type: 'spki', format: 'pem' }).toString();
   const agentId = randomUUID();
-  await writeFile(keyPath, privateKeyPem, 'utf8');
-  await writeFile(idPath, `${agentId}\n`, 'utf8');
+  await mkdir(identityDirectory, { recursive: true });
+  await writeFile(keyPath, privateKeyPem, { encoding: 'utf8', mode: 0o600 });
+  await writeFile(idPath, `${agentId}\n`, { encoding: 'utf8', mode: 0o600 });
   return { agentId, privateKeyPem, publicKeyPem };
 }
 
@@ -82,11 +119,12 @@ function deriveKeys(privateKeyPem: string): { readonly publicKey: string } {
 }
 
 /**
- * The instance the local agent serves.
+ * Ensures a new local database has at least one instance to configure.
  *
  * Created on first run so the operator has something to point at a directory.
  * It deliberately starts with no run directory: where a server executes is
- * read from the disk by the runtime route, never invented here.
+ * read from the disk by the runtime route, never invented here. Existing rows
+ * are not selected for an agent here; the fleet enumerates every one.
  */
 export async function provisionLocalInstance(database: Database): Promise<ServerInstance> {
   const repositories = createRepositories(database);
@@ -122,36 +160,46 @@ export async function registerLocalAgent(input: {
   readonly softwareVersion: string;
 }): Promise<'registered' | 'already-registered'> {
   const repositories = createRepositories(input.database);
-  if ((await repositories.agents.findById(input.identity.agentId)) !== undefined) {
-    return 'already-registered';
+  const existing = await repositories.agents.findById(input.identity.agentId);
+  if (existing !== undefined && existing.serverInstanceId !== input.serverInstanceId) {
+    throw new Error('The local agent identity is already bound to another server instance.');
+  }
+  const assigned = await repositories.agents.findByServerInstanceId(input.serverInstanceId);
+  if (assigned !== undefined && assigned.id !== input.identity.agentId) {
+    throw new Error('This server instance is assigned to an agent whose private key is not local.');
+  }
+  if (existing !== undefined && existing.publicKeyPem !== input.identity.publicKeyPem) {
+    throw new Error('The local private key does not match the registered agent identity.');
   }
 
-  const token = createOpaqueToken();
-  await repositories.agents.createProvisioningToken({
-    serverInstanceId: input.serverInstanceId,
-    tokenHash: hashOpaqueToken(token),
-    expiresAt: new Date(Date.now() + 5 * 60_000),
-  });
-
-  const response = await fetch(new URL('/agent/v1/register/complete', input.baseUrl), {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      provisioningToken: token,
-      agentId: input.identity.agentId,
+  if (existing === undefined) {
+    const token = createOpaqueToken();
+    await repositories.agents.createProvisioningToken({
       serverInstanceId: input.serverInstanceId,
-      publicKeyPem: input.identity.publicKeyPem,
-      // No TLS on loopback, so there is no peer certificate to fingerprint.
-      // The digest of the agent's own public key stands in: it is stable, it
-      // is the agent's, and the local transport verifier accepts loopback
-      // rather than pretending a certificate was presented.
-      certificateFingerprint: sha256Hex(input.identity.publicKeyPem),
-      softwareVersion: input.softwareVersion,
-      capabilities: ['heartbeat', 'configuration.apply'],
-    }),
-  });
-  if (!response.ok) {
-    throw new Error(`local agent registration refused with HTTP ${String(response.status)}`);
+      tokenHash: hashOpaqueToken(token),
+      expiresAt: new Date(Date.now() + 5 * 60_000),
+    });
+
+    const response = await fetch(new URL('/agent/v1/register/complete', input.baseUrl), {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        provisioningToken: token,
+        agentId: input.identity.agentId,
+        serverInstanceId: input.serverInstanceId,
+        publicKeyPem: input.identity.publicKeyPem,
+        // No TLS on loopback, so there is no peer certificate to fingerprint.
+        // The digest of the agent's own public key stands in: it is stable, it
+        // is the agent's, and the local transport verifier accepts loopback
+        // rather than pretending a certificate was presented.
+        certificateFingerprint: sha256Hex(input.identity.publicKeyPem),
+        softwareVersion: input.softwareVersion,
+        capabilities: ['heartbeat', 'configuration.apply'],
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`local agent registration refused with HTTP ${String(response.status)}`);
+    }
   }
 
   // Registration writes the `agents` row; claiming work resolves a credential
@@ -159,14 +207,21 @@ export async function registerLocalAgent(input: {
   // Without this the agent registers, announces its capabilities, and then
   // gets 401 on every claim — which is what happened here, and it looked like
   // a signing fault rather than a missing credential.
-  await repositories.agentTransport.rotateCredential({
-    agentId: input.identity.agentId,
-    credentialId: randomUUID(),
-    publicKeyPem: input.identity.publicKeyPem,
-    certificateFingerprint: sha256Hex(input.identity.publicKeyPem),
-    reasonCode: 'local-environment-provisioned',
-    now: new Date(),
-  });
+  const fingerprint = sha256Hex(input.identity.publicKeyPem);
+  const credentialReady = await repositories.agentTransport
+    .resolveByFingerprint(fingerprint)
+    .then((identity) => identity.agentId === input.identity.agentId)
+    .catch(() => false);
+  if (!credentialReady) {
+    await repositories.agentTransport.rotateCredential({
+      agentId: input.identity.agentId,
+      credentialId: randomUUID(),
+      publicKeyPem: input.identity.publicKeyPem,
+      certificateFingerprint: fingerprint,
+      reasonCode: 'local-environment-provisioned',
+      now: new Date(),
+    });
+  }
 
   // A capability has to be **granted**, not merely announced — an agent that
   // announces one is authorized for nothing until somebody grants it, and a
@@ -187,7 +242,7 @@ export async function registerLocalAgent(input: {
       now: new Date(),
     });
   }
-  return 'registered';
+  return existing === undefined ? 'registered' : 'already-registered';
 }
 
 export interface LocalProcessRuntime {

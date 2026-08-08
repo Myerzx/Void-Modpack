@@ -294,6 +294,27 @@ export interface ServerInstance {
   readonly runtimeDetectedAt: string | null;
 }
 
+export type ServerRuntimeBindingErrorCode =
+  | 'server-not-found'
+  | 'run-directory-taken'
+  | 'workspace-not-found'
+  | 'workspace-not-server'
+  | 'server-already-linked';
+
+export class ServerRuntimeBindingError extends Error {
+  public constructor(readonly code: ServerRuntimeBindingErrorCode) {
+    super(`server-runtime:${code}`);
+  }
+}
+
+function isUniqueViolation(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    (error as { readonly code?: unknown }).code === '23505'
+  );
+}
+
 interface ServerRow {
   readonly id: string;
   readonly slug: string;
@@ -390,18 +411,57 @@ export class ServerRepository {
     readonly runDirectory: string;
     readonly runtime: NonNullable<ServerInstance['runtime']>;
     readonly detectedAt: Date;
+    /** Links an imported server workspace without making a browser repeat its path. */
+    readonly workspaceId?: string;
   }): Promise<void> {
-    await this.database.query(
-      `UPDATE server_instances
-       SET run_directory = $2, runtime = $3, runtime_detected_at = $4, version = version + 1
-       WHERE id = $1`,
-      [
-        input.id,
-        input.runDirectory,
-        JSON.stringify(input.runtime),
-        input.detectedAt.toISOString(),
-      ],
-    );
+    await this.database.transaction(async (client) => {
+      if (input.workspaceId !== undefined) {
+        const workspace = await client.query<{ readonly kind: string }>(
+          'SELECT kind FROM panel_workspaces WHERE workspace_id = $1 FOR UPDATE',
+          [input.workspaceId],
+        );
+        const row = workspace.rows[0];
+        if (row === undefined) throw new ServerRuntimeBindingError('workspace-not-found');
+        if (row.kind !== 'server') throw new ServerRuntimeBindingError('workspace-not-server');
+      }
+
+      try {
+        const updated = await client.query(
+          `UPDATE server_instances
+           SET run_directory = $2, runtime = $3, runtime_detected_at = $4,
+               version = version + 1, updated_at = $4
+           WHERE id = $1`,
+          [
+            input.id,
+            input.runDirectory,
+            JSON.stringify(input.runtime),
+            input.detectedAt.toISOString(),
+          ],
+        );
+        if (updated.rowCount !== 1) throw new ServerRuntimeBindingError('server-not-found');
+      } catch (error) {
+        if (isUniqueViolation(error)) {
+          throw new ServerRuntimeBindingError('run-directory-taken');
+        }
+        throw error;
+      }
+
+      if (input.workspaceId !== undefined) {
+        try {
+          await client.query(
+            `UPDATE panel_workspaces
+             SET server_instance_id = $2, updated_at = $3, version = version + 1
+             WHERE workspace_id = $1`,
+            [input.workspaceId, input.id, input.detectedAt.toISOString()],
+          );
+        } catch (error) {
+          if (isUniqueViolation(error)) {
+            throw new ServerRuntimeBindingError('server-already-linked');
+          }
+          throw error;
+        }
+      }
+    });
   }
 
   async list(): Promise<readonly ServerInstance[]> {
@@ -735,6 +795,17 @@ export class AgentRepository {
               status, software_version, protocol_version, capabilities, last_seen_at
        FROM agents WHERE id = $1 AND status <> 'revoked'`,
       [agentId],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapAgent(row);
+  }
+
+  async findByServerInstanceId(serverInstanceId: string): Promise<RegisteredAgent | undefined> {
+    const result = await this.database.query<AgentRow>(
+      `SELECT id, server_instance_id, public_key_pem, certificate_fingerprint,
+              status, software_version, protocol_version, capabilities, last_seen_at
+       FROM agents WHERE server_instance_id = $1 AND status <> 'revoked'`,
+      [serverInstanceId],
     );
     const row = result.rows[0];
     return row === undefined ? undefined : mapAgent(row);

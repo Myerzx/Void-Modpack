@@ -23,6 +23,7 @@ import {
   provisionLocalInstance,
   registerLocalAgent,
 } from './local-agent.js';
+import { LocalAgentFleet } from './local-agent-fleet.js';
 import { detectServerRuntimeAt } from './server-runtime.js';
 import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
@@ -286,92 +287,110 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   // not a shortcut — the authority over the Minecraft process stays in the
   // agent, reached by a durable operation it claims over loopback HTTP.
   const baseUrl = `http://${HOST}:${String(port)}`;
-  const agentIdentity = await provisionLocalAgentIdentity(stateDirectory);
-  const instance = await provisionLocalInstance(database);
-  await registerLocalAgent({
-    database,
-    identity: agentIdentity,
-    serverInstanceId: instance.id,
+  const localDatabase = database;
+  await provisionLocalInstance(localDatabase);
+  const repositories = createRepositories(localDatabase);
+  const java = await discoverJavaRuntime().catch(() => null);
+  const workTransport = new AgentWorkTransport({
     baseUrl,
-    softwareVersion: '0.1.0',
+    fetch: async (url, init) => {
+      const response = await fetch(url, {
+        method: init.method,
+        headers: { ...init.headers },
+        body: init.body,
+      });
+      return { ok: response.ok, status: response.status, json: () => response.json() };
+    },
+    allowInsecureDevelopment: true,
   });
 
-  const java = await discoverJavaRuntime().catch(() => null);
-  const processRuntime =
-    java === null ? null : buildLocalProcessRuntime(instance, java.executable);
-
-  agentAbort = new AbortController();
-  const agent = new AgentRuntime({
-    configuration: {
-      agentId: agentIdentity.agentId,
-      serverInstanceId: instance.id,
-      controlApiUrl: baseUrl,
-      privateKeyPem: agentIdentity.privateKeyPem,
-      databaseUrl: 'embedded',
-      serverRelease: '0.1.0',
-      // Disk metrics need a path somebody chose to watch. Absent means the
-      // agent reports none rather than guessing a volume.
-      metricsDiskPath: null,
-      authorizedFiles: null,
-      backups: null,
-      process: null,
-      schedulerEnabled: false,
-    },
-    repositories: createRepositories(database),
-    bootId: randomUUID(),
-    identity: createAgentIdentity({
-      agentId: agentIdentity.agentId,
-      serverInstanceId: instance.id,
-      privateKeyPem: agentIdentity.privateKeyPem,
-    }),
-    workTransport: new AgentWorkTransport({
-      baseUrl,
-      fetch: async (url, init) => {
-        const response = await fetch(url, {
-          method: init.method,
-          headers: { ...init.headers },
-          body: init.body,
-        });
-        return { ok: response.ok, status: response.status, json: () => response.json() };
-      },
-      // Loopback without TLS, decided once here rather than waved through.
-      allowInsecureDevelopment: true,
-    }),
-    ...(processRuntime === null
-      ? {}
-      : {
-          processController: processRuntime.controller,
-          consoleAdapter: processRuntime.adapter,
-          processAdapter: processRuntime.adapter,
+  const fleet = new LocalAgentFleet({
+    listInstances: () => repositories.servers.list(),
+    createProcess: async (instance) => {
+      const assigned = await repositories.agents.findByServerInstanceId(instance.id);
+      const agentIdentity = await provisionLocalAgentIdentity(
+        stateDirectory,
+        instance.id,
+        assigned?.id,
+      );
+      await registerLocalAgent({
+        database: localDatabase,
+        identity: agentIdentity,
+        serverInstanceId: instance.id,
+        baseUrl,
+        softwareVersion: '0.1.0',
+      });
+      const processRuntime =
+        java === null ? null : buildLocalProcessRuntime(instance, java.executable);
+      const agent = new AgentRuntime({
+        configuration: {
+          agentId: agentIdentity.agentId,
+          serverInstanceId: instance.id,
+          controlApiUrl: baseUrl,
+          privateKeyPem: agentIdentity.privateKeyPem,
+          databaseUrl: 'embedded',
+          serverRelease: '0.1.0',
+          metricsDiskPath: instance.runDirectory,
+          authorizedFiles: null,
+          backups: null,
+          process: null,
+          schedulerEnabled: false,
+        },
+        repositories,
+        bootId: randomUUID(),
+        identity: createAgentIdentity({
+          agentId: agentIdentity.agentId,
+          serverInstanceId: instance.id,
+          privateKeyPem: agentIdentity.privateKeyPem,
         }),
-    // Surfaced rather than swallowed. An agent that quietly never claims work
-    // looks exactly like one whose control plane went away, and only one of
-    // those is something an operator can fix.
+        workTransport,
+        ...(processRuntime === null
+          ? {}
+          : {
+              processController: processRuntime.controller,
+              consoleAdapter: processRuntime.adapter,
+              processAdapter: processRuntime.adapter,
+            }),
+        onEvent: (event) => {
+          const prefix = `  agente    ${instance.displayName}`;
+          if (event.kind === 'ready') {
+            say(`${prefix} anuncia: ${event.announced.join(', ')}`);
+          } else if (event.kind === 'work-loop-skipped') {
+            say(`${prefix} não vai reivindicar trabalho: ${event.reason}`);
+          } else if (event.kind === 'supervisor') {
+            say(`${prefix} ${JSON.stringify(event.event)}`);
+            if (event.event.kind === 'unauthorized') {
+              say(`${prefix} HTTP ${String(event.event.status)}`);
+            }
+            if (event.event.kind === 'error') say(`${prefix} motivo: ${event.event.reason}`);
+          }
+        },
+      });
+
+      return {
+        description:
+          processRuntime !== null
+            ? `${processRuntime.family} · pode iniciar e parar`
+            : instance.runDirectory === null
+              ? 'sem diretório de execução'
+              : java === null
+                ? 'sem Java encontrável neste host'
+                : 'runtime sem controlador compatível',
+        run: (signal: AbortSignal) => agent.start(signal),
+      };
+    },
     onEvent: (event) => {
-      if (event.kind === 'ready') {
-        say(`  agente    anuncia: ${event.announced.join(', ')}`);
-      } else if (event.kind === 'work-loop-skipped') {
-        say(`  agente    não vai reivindicar trabalho: ${event.reason}`);
-      } else if (event.kind === 'supervisor') {
-        say(`  agente    ${JSON.stringify(event.event)}`);
-        if (event.event.kind === 'unauthorized') say(`  agente    HTTP ${String(event.event.status)}`);
-        if (event.event.kind === 'error') say(`  agente    motivo: ${event.event.reason}`);
+      if (event.kind === 'started') {
+        say(`  agente    ${event.serverInstanceId} · ${event.description}`);
+      } else if (event.kind === 'failed' || event.kind === 'sync-failed') {
+        say(`  agente    falhou: ${event.reason}`);
       }
     },
   });
-  agentTask = agent.start(agentAbort.signal);
 
-  if (processRuntime === null) {
-    // An ordinary state, and the one readiness already models. Announcing a
-    // capability nothing can serve would be the other option.
-    say(
-      instance.runDirectory === null
-        ? '  agente    no ar · nenhuma instância aponta para um diretório ainda'
-        : '  agente    no ar · sem Java encontrável neste host',
-    );
-  } else {
-    say(`  agente    no ar · ${processRuntime.family} · pode iniciar e parar o servidor`);
-  }
+  agentAbort = new AbortController();
+  await fleet.synchronize();
+  agentTask = fleet.start(agentAbort.signal);
 
   say('  sessão    operador local entra sem senha (só em loopback)');
   say('');

@@ -27,6 +27,8 @@ export interface PanelWorkspace {
   /** Absolute host path. Never returned to a browser — see `PublicWorkspace`. */
   readonly rootPath: string;
   readonly kind: WorkspaceKind;
+  /** The live instance this imported server configures, when explicitly linked. */
+  readonly serverInstanceId: string | null;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
@@ -43,6 +45,7 @@ export interface PublicWorkspace {
   readonly slug: string;
   readonly displayName: string;
   readonly kind: WorkspaceKind;
+  readonly serverInstanceId: string | null;
   readonly createdAt: string;
   readonly lastScan: {
     readonly inventoryId: string;
@@ -84,6 +87,7 @@ interface WorkspaceRow {
   readonly display_name: string;
   readonly root_path: string;
   readonly kind: WorkspaceKind;
+  readonly server_instance_id: string | null;
   readonly created_at: string | Date;
   readonly updated_at: string | Date;
 }
@@ -114,6 +118,7 @@ function mapWorkspace(row: WorkspaceRow): PanelWorkspace {
     displayName: row.display_name,
     rootPath: row.root_path,
     kind: row.kind,
+    serverInstanceId: row.server_instance_id,
     createdAt: asIso(row.created_at),
     updatedAt: asIso(row.updated_at),
   });
@@ -151,7 +156,8 @@ export class WorkspaceRepository {
     const result = await this.database.query<WorkspaceRow>(
       `INSERT INTO panel_workspaces (workspace_id, slug, display_name, root_path, kind, created_by)
        VALUES ($1,$2,$3,$4,$5,$6)
-       RETURNING workspace_id, slug, display_name, root_path, kind, created_at, updated_at`,
+       RETURNING workspace_id, slug, display_name, root_path, kind, server_instance_id,
+                 created_at, updated_at`,
       [
         randomUUID(),
         input.slug,
@@ -168,7 +174,8 @@ export class WorkspaceRepository {
 
   public async findById(workspaceId: string): Promise<PanelWorkspace | undefined> {
     const result = await this.database.query<WorkspaceRow>(
-      `SELECT workspace_id, slug, display_name, root_path, kind, created_at, updated_at
+      `SELECT workspace_id, slug, display_name, root_path, kind, server_instance_id,
+              created_at, updated_at
        FROM panel_workspaces WHERE workspace_id = $1`,
       [workspaceId],
     );
@@ -189,6 +196,7 @@ export class WorkspaceRepository {
       }
     >(
       `SELECT w.workspace_id, w.slug, w.display_name, w.root_path, w.kind,
+              w.server_instance_id,
               w.created_at, w.updated_at,
               i.inventory_id, i.inventory_sha256, i.scanned_at,
               i.total_files, i.total_mods, i.total_bytes
@@ -209,6 +217,7 @@ export class WorkspaceRepository {
           slug: row.slug,
           displayName: row.display_name,
           kind: row.kind,
+          serverInstanceId: row.server_instance_id,
           createdAt: asIso(row.created_at),
           lastScan:
             row.inventory_id === null || row.scanned_at === null
