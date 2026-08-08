@@ -44,19 +44,27 @@ paper-*.jar | spigot-*.jar | server.jar na raiz              -> paper/spigot/van
 nada reconhecido                                             -> recusa nomeada
 ```
 
-### 3. Workspace e instância não se falam
+### ~~3. Workspace e instância não se falam~~ — resolvido em 2026-08-08
 
-`panel_workspaces` (leitura pura, id do painel) e `server_instances` (operação, id do agente) nasceram em fases diferentes e não têm aresta. Falta:
-
-- `server_instances.run_directory` — onde o servidor executa;
-- `server_instances.runtime` — família e plano detectados;
-- a ligação opcional workspace → instância.
+`server_instances` ganhou `run_directory`, `runtime` e `runtime_detected_at`, e `panel_workspaces` ganhou a aresta opcional. `POST /api/v1/servers/:id/runtime` é o único lugar onde um caminho é enviado sobre uma instância, e é enviado uma vez; a resposta e a listagem carregam o descritor sem o diretório. `create` deliberadamente não aceita descritor: aceitar um na criação seria aceitar um que ninguém verificou.
 
 ### 4. O ambiente local não sobe o agente
 
 `npm run panel` sobe banco, API e painel. O agente é processo separado, com identidade Ed25519, registro e heartbeat.
 
-Para operar um servidor local, ou o ambiente sobe um agente local junto, ou o Control API ganha um controlador direto. **A primeira preserva a arquitetura** — a autoridade sobre o processo continua no agente, que é onde sempre esteve — e a segunda a fura para ganhar um atalho.
+**Medido em 2026-08-08, e o resultado muda o desenho.** Dois processos separados abriram e escreveram no mesmo diretório PGlite ao mesmo tempo, sem nenhuma recusa:
+
+```
+A: abriu e escreveu; segurando
+B: ABRIU o mesmo diretório enquanto A o segura · linhas: 1
+B: e ESCREVEU
+```
+
+A ausência de recusa é o perigo, não a permissão. PGlite não tem coordenação entre processos: cada um roda seu próprio Postgres em WebAssembly, com seu próprio cache, escrevendo nos mesmos arquivos. Isso corrompe em silêncio.
+
+Então, no ambiente local, o agente roda **no mesmo processo** da Control API, compartilhando o único handle de banco. Isso não é um atalho: `AgentRuntime` recebe `repositories` como dependência justamente para isso, e o transporte continua sendo HTTP de loopback para a mesma API — a autoridade sobre o processo permanece no agente, e o protocolo permanece real.
+
+O que falta implementar: provisionar identidade e token do agente na primeira execução, registrar pela rota real, e construir o `AgentRuntime` com o controlador detectado. Em produção nada disso vale — lá o agente é processo separado contra um PostgreSQL de verdade, que é o caso para o qual ele foi escrito.
 
 ### 5. Nenhuma tela
 

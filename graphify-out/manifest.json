@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1786171493.726032,
-    "ast_hash": "70bb6e3c6fc0ae7714b5dff98ebab56c",
+    "mtime": 1786174157.5965436,
+    "ast_hash": "00dd8baa77bd01c4dd91d583c7e5acac",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786171898.0875416,
-    "ast_hash": "2a0f6a11a8472685da52cf0197e80dd4",
+    "mtime": 1786174136.5769105,
+    "ast_hash": "9d8666ae245867c504ccb2974d9980c5",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786171814.715275,
-    "ast_hash": "477cfdc0466717f1bf2dfb83b4f1c777",
+    "mtime": 1786174106.4094787,
+    "ast_hash": "67a703acd09404158b4b0b564ea8ad07",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786171493.726032,
-    "ast_hash": "10779bcc491c6e61c4c7f1d7e68d3ee4",
+    "mtime": 1786174021.555394,
+    "ast_hash": "355c10cbd77750601a5c838924300fb3",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -4465,8 +4465,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
-    "mtime": 1786148312.1610878,
-    "ast_hash": "e69cdd3a885846fd5320d0a88930e18c",
+    "mtime": 1786174208.233394,
+    "ast_hash": "a2ef0bee5301de718af25ce03574657a",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/entrar/page.tsx": {
@@ -4510,8 +4510,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786171842.35314,
-    "ast_hash": "37141b447964a140ed68de9af18a7dac",
+    "mtime": 1786174136.5769105,
+    "ast_hash": "2794ceb6e1991203ca5cfdd0332349b0",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
@@ -4642,6 +4642,16 @@
   "Plataforma/packages/minecraft-process/test/runtime-detection.test.ts": {
     "mtime": 1786173010.4649675,
     "ast_hash": "503bbaab6490d9e0c5b9c580a4015201",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/server-runtime.ts": {
+    "mtime": 1786174121.4286442,
+    "ast_hash": "36f2335acf5607fb2ab7a0a222691229",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0020_server_instance_runtime.sql": {
+    "mtime": 1786173929.687953,
+    "ast_hash": "b3281c9a5fe5f24dc16ff784b82edb12",
     "semantic_hash": ""
   }
 }
