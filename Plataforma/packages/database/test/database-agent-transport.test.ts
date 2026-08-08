@@ -254,6 +254,8 @@ describe('agent transport persistence', () => {
       );
       assert.equal(Number(leases.rows[0]?.count), 1);
 
+      assert.equal(claimed[0]?.expiresAt, '2026-08-05T12:01:00.000Z');
+
       // A second claim finds nothing: the job is no longer queued.
       const again = await repositories.agentTransport.claimWork({
         agentId,
@@ -265,6 +267,54 @@ describe('agent transport persistence', () => {
         newLeaseId: () => randomUUID(),
       });
       assert.deepEqual([...again], []);
+    } finally {
+      await database.close();
+    }
+  });
+
+  /**
+   * The agent picks its lease length before it knows what work it will get, so
+   * a job that states its own deadline has to win. A 60s lease over a 900s
+   * start expires mid-boot: the result is refused as `lease-expired`, the
+   * reaper requeues the job, and a second server comes up underneath the first.
+   */
+  it('grants a lease that outlives the deadline the job carries', async () => {
+    const { database, repositories, agentId } = await transportFixture();
+    try {
+      const submissionId = randomUUID();
+      const job = inspectJob(submissionId, 3, 'transport-claim-deadline-0001');
+      await repositories.jobs.enqueue({
+        ...job,
+        payload: {
+          schemaVersion: 1,
+          parameters: { submissionId, expectedVersion: 2, timeoutSeconds: 900 },
+        },
+      });
+
+      const [claimed] = await repositories.agentTransport.claimWork({
+        agentId,
+        capabilities: ['artifact.inspect'],
+        bootId: randomUUID(),
+        maximumLeases: 4,
+        leaseMs: 60_000,
+        now: new Date('2026-08-05T12:00:00Z'),
+        newLeaseId: () => randomUUID(),
+      });
+
+      // 900s of work plus the margin to report the result, not the 60s asked for.
+      assert.equal(claimed?.timeoutSeconds, 900);
+      assert.equal(claimed?.expiresAt, '2026-08-05T12:15:30.000Z');
+
+      // The job agrees with the lease it actually got, so the reaper that reads
+      // `lease_expires_at` cannot reclaim work that is still legitimately running.
+      const row = await database.query<{ readonly lease_expires_at: Date | string }>(
+        'SELECT lease_expires_at FROM jobs WHERE id = $1',
+        [job.id],
+      );
+      assert.equal(
+        new Date(row.rows[0]!.lease_expires_at).toISOString(),
+        '2026-08-05T12:15:30.000Z',
+      );
     } finally {
       await database.close();
     }

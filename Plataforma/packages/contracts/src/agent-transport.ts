@@ -115,6 +115,18 @@ export const AgentWorkLeaseSchema = Type.Object(
         resourceId: Type.String({ minLength: 1, maxLength: 128 }),
         /** Version of the record the work was leased against. */
         expectedVersion: Type.Integer({ minimum: 0, maximum: 9_007_199_254_740_991 }),
+        /**
+         * How long the requester is prepared to wait, in seconds.
+         *
+         * Optional because most work has no deadline worth stating. It matters
+         * for a lifecycle action: the process route has always accepted a
+         * `timeoutSeconds` between 5 and 900 and then discarded it, so the
+         * agent fell back to a 60-second default — and a Forge server with a
+         * hundred and eighty mods takes longer than that to finish booting.
+         * Every real start therefore timed out and reported failure while the
+         * server was still coming up.
+         */
+        timeoutSeconds: Type.Optional(Type.Integer({ minimum: 5, maximum: 900 })),
       },
       { additionalProperties: false },
     ),

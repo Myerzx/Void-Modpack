@@ -6,6 +6,18 @@ import {
 import type { ObservedProcessState } from './state-machine.js';
 
 const DEFAULT_OPERATION_TIMEOUT_MS = 60_000;
+
+/**
+ * The longest a caller may ask us to wait, matching the `timeoutSeconds` the
+ * control route already validates (5–900s).
+ *
+ * This is a separate number from the default on purpose. A real Forge boot is
+ * not a 60s event: the reference server reports `Done (555.962s)!` — over nine
+ * minutes with 181 mods and world generation. A default sized for a healthy
+ * vanilla start would otherwise become a ceiling that no real modpack can
+ * clear, and every successful boot would be reported as a timeout.
+ */
+const MAXIMUM_OPERATION_TIMEOUT_MS = 900_000;
 const DEFAULT_POLL_INTERVAL_MS = 100;
 const DEFAULT_MAXIMUM_REMEMBERED_OPERATIONS = 128;
 const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/u;
@@ -37,6 +49,20 @@ export type ProcessControlEventPhase =
 export interface ProcessControlRequest {
   readonly idempotencyKey: string;
   readonly action: ProcessControlAction;
+  /**
+   * How long to wait for the action to take effect, for this request only.
+   *
+   * The requester has always stated this and it never arrived: the process
+   * route validated a `timeoutSeconds` between 5 and 900 and then discarded
+   * it, so every operation fell back to the 60-second default. A Forge server
+   * with a hundred and eighty mods takes longer than that to finish booting,
+   * which meant a real start always timed out and reported failure while the
+   * server was still coming up.
+   *
+   * Bounded by the controller's own ceiling, so a request cannot ask for a
+   * wait longer than this host is willing to hold a lock for.
+   */
+  readonly timeoutMs?: number;
 }
 
 export interface ProcessControlEvent {
@@ -79,6 +105,8 @@ export interface MinecraftProcessControllerOptions {
   readonly adapter: MinecraftProcessAdapter;
   readonly launchPlan: ProcessLaunchPlan;
   readonly operationTimeoutMs?: number;
+  /** The most a request may ask for. Defaults to the contract maximum. */
+  readonly maximumOperationTimeoutMs?: number;
   readonly pollIntervalMs?: number;
   readonly maximumRememberedOperations?: number;
   readonly clock?: () => Date;
@@ -140,7 +168,18 @@ function validateRequest(request: ProcessControlRequest): ProcessControlRequest 
       'Process control idempotency key is invalid.',
     );
   }
-  return Object.freeze({ action: request.action, idempotencyKey: request.idempotencyKey });
+  // Rebuilt field by field so nothing unvetted reaches the controller — which
+  // means a field left out here is a field silently dropped. The deadline is
+  // carried from the route through the job, the lease and the agent; forgetting
+  // it at this last hop is how a 900s start ends up waiting 60s.
+  if (request.timeoutMs !== undefined) {
+    validateBoundedInteger(request.timeoutMs, 100, MAXIMUM_OPERATION_TIMEOUT_MS, 'timeoutMs');
+  }
+  return Object.freeze({
+    action: request.action,
+    idempotencyKey: request.idempotencyKey,
+    ...(request.timeoutMs === undefined ? {} : { timeoutMs: request.timeoutMs }),
+  });
 }
 
 function defaultSleep(milliseconds: number): Promise<void> {
@@ -151,6 +190,7 @@ export class MinecraftProcessController {
   readonly #adapter: MinecraftProcessAdapter;
   readonly #launchPlan: ProcessLaunchPlan;
   readonly #operationTimeoutMs: number;
+  readonly #maximumOperationTimeoutMs: number;
   readonly #pollIntervalMs: number;
   readonly #maximumRememberedOperations: number;
   readonly #clock: () => Date;
@@ -163,7 +203,19 @@ export class MinecraftProcessController {
     const pollIntervalMs = options.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
     const maximumRememberedOperations =
       options.maximumRememberedOperations ?? DEFAULT_MAXIMUM_REMEMBERED_OPERATIONS;
-    validateBoundedInteger(operationTimeoutMs, 100, 300_000, 'operationTimeoutMs');
+    const maximumOperationTimeoutMs =
+      options.maximumOperationTimeoutMs ??
+      Math.max(operationTimeoutMs, MAXIMUM_OPERATION_TIMEOUT_MS);
+    validateBoundedInteger(operationTimeoutMs, 100, MAXIMUM_OPERATION_TIMEOUT_MS, 'operationTimeoutMs');
+    validateBoundedInteger(
+      maximumOperationTimeoutMs,
+      100,
+      MAXIMUM_OPERATION_TIMEOUT_MS,
+      'maximumOperationTimeoutMs',
+    );
+    if (maximumOperationTimeoutMs < operationTimeoutMs) {
+      throw new Error('maximumOperationTimeoutMs cannot be below operationTimeoutMs.');
+    }
     validateBoundedInteger(pollIntervalMs, 10, 5_000, 'pollIntervalMs');
     validateBoundedInteger(
       maximumRememberedOperations,
@@ -177,6 +229,7 @@ export class MinecraftProcessController {
     this.#adapter = options.adapter;
     this.#launchPlan = copyLaunchPlan(options.launchPlan);
     this.#operationTimeoutMs = operationTimeoutMs;
+    this.#maximumOperationTimeoutMs = maximumOperationTimeoutMs;
     this.#pollIntervalMs = pollIntervalMs;
     this.#maximumRememberedOperations = maximumRememberedOperations;
     this.#clock = options.clock ?? (() => new Date());
@@ -265,7 +318,7 @@ export class MinecraftProcessController {
       request,
       startedAt,
       events,
-      await this.#waitForState('online', started, request.action, events),
+      await this.#waitForState('online', started, request.action, events, request.timeoutMs),
     );
   }
 
@@ -292,7 +345,7 @@ export class MinecraftProcessController {
       request,
       startedAt,
       events,
-      await this.#waitForState('offline', stopped, request.action, events),
+      await this.#waitForState('offline', stopped, request.action, events, request.timeoutMs),
     );
   }
 
@@ -315,7 +368,7 @@ export class MinecraftProcessController {
     }
     const stopped = await this.#adapter.requestGracefulStop();
     this.#record(events, request.action, 'stop-requested', stopped.state);
-    const offline = await this.#waitForState('offline', stopped, request.action, events);
+    const offline = await this.#waitForState('offline', stopped, request.action, events, request.timeoutMs);
     if (offline.kind !== 'reached') {
       return this.#completeWait(request, startedAt, events, offline);
     }
@@ -326,7 +379,7 @@ export class MinecraftProcessController {
       request,
       startedAt,
       events,
-      await this.#waitForState('online', started, request.action, events),
+      await this.#waitForState('online', started, request.action, events, request.timeoutMs),
     );
   }
 
@@ -335,6 +388,7 @@ export class MinecraftProcessController {
     initial: ProcessObservation,
     action: ProcessControlAction,
     events: ProcessControlEvent[],
+    timeoutMs?: number,
   ): Promise<WaitResult> {
     let observation = initial;
     const classify = (): WaitResult['kind'] | undefined => {
@@ -346,7 +400,15 @@ export class MinecraftProcessController {
     const initialKind = classify();
     if (initialKind !== undefined) return { kind: initialKind, observation };
 
-    const maximumPolls = Math.ceil(this.#operationTimeoutMs / this.#pollIntervalMs);
+    // The configured timeout is the default for a request that names none; the
+    // ceiling is what this host allows. Clamping against the default instead
+    // would silently discard the caller's deadline — a 900s start would still
+    // give up at 60s and report a timeout for a server that booted fine.
+    const budgetMs = Math.min(
+      timeoutMs ?? this.#operationTimeoutMs,
+      this.#maximumOperationTimeoutMs,
+    );
+    const maximumPolls = Math.ceil(budgetMs / this.#pollIntervalMs);
     for (let poll = 0; poll < maximumPolls; poll += 1) {
       await this.#sleep(this.#pollIntervalMs);
       const next = await this.#adapter.inspect();

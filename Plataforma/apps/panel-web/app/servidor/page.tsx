@@ -130,7 +130,11 @@ export default function ServerPage() {
             // deliberate second attempt is a second operation.
             idempotencyKey: `painel-${mapped.action}-${String(Date.now())}`,
             reasonCode: 'panel-control',
-            timeoutSeconds: 600,
+            // The contract maximum, because this pack really does take that
+            // long: the reference server reports `Done (555.962s)!`. Asking for
+            // less would report a timeout while the server was still booting
+            // fine, and the operator would be told a healthy start had failed.
+            timeoutSeconds: 900,
           }),
         });
         if (!response.ok) {

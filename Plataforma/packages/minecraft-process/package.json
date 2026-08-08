@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/minecraft-process.test.ts test/runtime-detection.test.ts",
+    "test": "tsx --test test/minecraft-process.test.ts test/runtime-detection.test.ts test/boot-readiness.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   }
 }

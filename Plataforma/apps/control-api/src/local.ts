@@ -315,6 +315,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
       } else if (event.kind === 'supervisor') {
         say(`  agente    ${JSON.stringify(event.event)}`);
         if (event.event.kind === 'unauthorized') say(`  agente    HTTP ${String(event.event.status)}`);
+        if (event.event.kind === 'error') say(`  agente    motivo: ${event.event.reason}`);
       }
     },
   });

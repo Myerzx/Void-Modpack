@@ -160,6 +160,8 @@ export function registerProcessRoutes(
     readonly reasonCode: string;
     readonly actionName: string;
     readonly consoleCommand?: 'list-players' | 'save-all';
+    /** The deadline the caller stated, carried through to the agent. */
+    readonly timeoutSeconds?: number;
   }): Promise<ServerOperation> {
     const now = clock();
     const actor = panelActor(input.request);
@@ -212,7 +214,15 @@ export function registerProcessRoutes(
       priority: 70,
       payload: {
         schemaVersion: 1,
-        parameters: { serverInstanceId: input.serverId, expectedVersion: accepted.operation.version },
+        parameters: {
+          serverInstanceId: input.serverId,
+          expectedVersion: accepted.operation.version,
+          // The caller has always been able to state this and it went nowhere:
+          // validated by the schema, then dropped. The agent fell back to a
+          // 60-second default, so every real modded boot timed out and
+          // reported failure while the server was still coming up.
+          ...(input.timeoutSeconds === undefined ? {} : { timeoutSeconds: input.timeoutSeconds }),
+        },
       },
       idempotencyKey: `${input.idempotencyKey}:job`,
       requestedBy: actor,
@@ -266,6 +276,7 @@ export function registerProcessRoutes(
         idempotencyKey: request.body.idempotencyKey,
         reasonCode: request.body.reasonCode,
         actionName: `process.${request.body.action}`,
+        timeoutSeconds: request.body.timeoutSeconds,
       });
       return reply.code(202).send(operation);
     },

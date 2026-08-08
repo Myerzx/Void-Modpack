@@ -57,7 +57,10 @@ export type SupervisorEvent =
   | { readonly kind: 'idle'; readonly retryAfterSeconds: number }
   | { readonly kind: 'handled'; readonly leaseId: string; readonly outcome: 'succeeded' | 'failed' }
   | { readonly kind: 'unauthorized'; readonly status: number }
-  | { readonly kind: 'error'; readonly backoffMs: number }
+  // The reason travels with the event because an agent that cannot report its
+  // work is otherwise indistinguishable from an idle one: the loop backs off,
+  // the operator sees nothing, and the operation stays running forever.
+  | { readonly kind: 'error'; readonly backoffMs: number; readonly reason: string }
   | { readonly kind: 'stopped' };
 
 const DEFAULT_LEASE_SECONDS = 60;
@@ -133,6 +136,7 @@ export class AgentSupervisor {
     }
     this.#options.onEvent?.({ kind: 'claimed', count: claim.leases.length });
 
+    let reportFailure: unknown;
     for (const lease of claim.leases) {
       const handler = this.#options.handlers[lease.capability];
       // A capability with no handler is refused explicitly. Improvising would
@@ -144,23 +148,34 @@ export class AgentSupervisor {
               (): LeaseHandlerResult => ({ outcome: 'failed', failureCode: 'operation-failed' }),
             );
 
-      await transport.report(
-        createWorkResultEnvelope(this.#options.identity, {
-          leaseId: lease.leaseId,
-          jobId: lease.jobId,
-          correlationId: lease.correlationId,
-          outcome: result.outcome,
-          ...(result.failureCode === undefined ? {} : { failureCode: result.failureCode }),
-          ...(result.observedLifecycle === undefined
-            ? {}
-            : { observedLifecycle: result.observedLifecycle }),
-          ...(result.observedPid === undefined ? {} : { observedPid: result.observedPid }),
-          ...(result.observedPid === undefined ? {} : { bootId: this.#bootId }),
-          issuedAt: clock(),
-        }),
-      );
+      try {
+        await transport.report(
+          createWorkResultEnvelope(this.#options.identity, {
+            leaseId: lease.leaseId,
+            jobId: lease.jobId,
+            correlationId: lease.correlationId,
+            outcome: result.outcome,
+            ...(result.failureCode === undefined ? {} : { failureCode: result.failureCode }),
+            ...(result.observedLifecycle === undefined
+              ? {}
+              : { observedLifecycle: result.observedLifecycle }),
+            ...(result.observedPid === undefined ? {} : { observedPid: result.observedPid }),
+            ...(result.observedPid === undefined ? {} : { bootId: this.#bootId }),
+            issuedAt: clock(),
+          }),
+        );
+      } catch (error) {
+        // One refused result must not bury the ones behind it. Every lease in
+        // this claim was already worked; abandoning the rest would leave their
+        // operations running until the reaper expires them, for no reason
+        // beyond the order they happened to come back in.
+        reportFailure ??= error;
+        continue;
+      }
       this.#options.onEvent?.({ kind: 'handled', leaseId: lease.leaseId, outcome: result.outcome });
     }
+    // Surfaced once every result has had its turn, so the loop still backs off.
+    if (reportFailure !== undefined) throw reportFailure;
 
     // There was work, so look again promptly rather than waiting out the idle
     // interval — without spinning, because the next claim still round-trips.
@@ -191,7 +206,11 @@ export class AgentSupervisor {
           // backing off rather than retrying in a tight loop.
           this.#options.onEvent?.({ kind: 'unauthorized', status: error.status });
         }
-        this.#options.onEvent?.({ kind: 'error', backoffMs: this.#backoffMs });
+        this.#options.onEvent?.({
+          kind: 'error',
+          backoffMs: this.#backoffMs,
+          reason: error instanceof Error ? error.message : String(error),
+        });
         await sleep(this.#backoffMs, signal);
         this.#backoffMs = Math.min(this.#backoffMs * 2, maximum);
       }

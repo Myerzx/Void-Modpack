@@ -61,6 +61,33 @@ function isoString(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
 }
 
+/** Room for the agent to report a result after the work itself has finished. */
+const LEASE_REPORTING_MARGIN_MS = 30_000;
+/** The contract maximum for `timeoutSeconds` (900s), plus that margin. */
+const MAXIMUM_LEASE_MS = 900_000 + LEASE_REPORTING_MARGIN_MS;
+
+/**
+ * How long the lease for one claimed job should last.
+ *
+ * The agent's requested length is a floor, not the answer: it is chosen before
+ * the agent knows which job it will receive. A job that states its own deadline
+ * knows better, and the lease must outlive it — otherwise the work is still
+ * running when the lease expires and the result is refused as `lease-expired`.
+ */
+function leaseExpiryFor(
+  now: Date,
+  requestedLeaseMs: number,
+  parameters: Record<string, unknown>,
+): Date {
+  const timeoutSeconds = parameters['timeoutSeconds'];
+  const deadlineMs =
+    typeof timeoutSeconds === 'number' && Number.isFinite(timeoutSeconds) && timeoutSeconds > 0
+      ? timeoutSeconds * 1_000 + LEASE_REPORTING_MARGIN_MS
+      : 0;
+  const leaseMs = Math.min(Math.max(requestedLeaseMs, deadlineMs), MAXIMUM_LEASE_MS);
+  return new Date(now.getTime() + leaseMs);
+}
+
 function mapCredential(row: CredentialRow): AgentCredential {
   const credential: AgentCredential = {
     schemaVersion: 1,
@@ -90,6 +117,8 @@ export interface ClaimedWork {
   readonly resourceType: string;
   readonly resourceId: string;
   readonly expectedVersion: number;
+  /** The requester's stated deadline, when the work carries one. */
+  readonly timeoutSeconds?: number;
   readonly attempt: number;
   readonly leasedAt: string;
   readonly expiresAt: string;
@@ -339,6 +368,16 @@ export class AgentTransportRepository {
         const capability = jobTypeToCapability.get(row.type);
         if (capability === undefined) throw new AgentTransportError('capability-not-granted');
         const leaseId = input.newLeaseId();
+        const payload = typeof row.payload === 'string' ? JSON.parse(row.payload) : row.payload;
+        const parameters = (payload as { readonly parameters?: Record<string, unknown> }).parameters ?? {};
+
+        // The agent asks for a lease length before it knows what work it will
+        // get. When the job carries its own deadline, that guess is the wrong
+        // number: a 60s lease over a 900s start expires mid-boot, the reaper
+        // requeues the job as `lease-expired`, and a second JVM comes up for a
+        // server that was booting fine. The lease has to outlive the work it
+        // authorises, so the deadline wins whenever it is the larger of the two.
+        const leaseExpiresAt = leaseExpiryFor(input.now, input.leaseMs, parameters);
         await client.query(
           `INSERT INTO agent_work_leases (
              lease_id, job_id, agent_id, capability, boot_id, attempt, leased_at, expires_at
@@ -351,11 +390,17 @@ export class AgentTransportRepository {
             input.bootId,
             row.attempt,
             input.now,
-            expiresAt,
+            leaseExpiresAt,
           ],
         );
-        const payload = typeof row.payload === 'string' ? JSON.parse(row.payload) : row.payload;
-        const parameters = (payload as { readonly parameters?: Record<string, unknown> }).parameters ?? {};
+        if (leaseExpiresAt.getTime() !== expiresAt.getTime()) {
+          // The bulk UPDATE above could only use one expiry for every row it
+          // touched; the job has to agree with the lease it actually got.
+          await client.query(`UPDATE jobs SET lease_expires_at = $2 WHERE id = $1`, [
+            row.id,
+            leaseExpiresAt,
+          ]);
+        }
         claimed.push({
           leaseId,
           jobId: row.id,
@@ -366,9 +411,15 @@ export class AgentTransportRepository {
           resourceId: row.resource_id,
           expectedVersion:
             typeof parameters['expectedVersion'] === 'number' ? parameters['expectedVersion'] : 0,
+          // Carried through when the requester stated one. Absent is ordinary:
+          // most work has no deadline worth naming, and the agent falls back
+          // to its own bound rather than inventing the caller's.
+          ...(typeof parameters['timeoutSeconds'] === 'number'
+            ? { timeoutSeconds: parameters['timeoutSeconds'] }
+            : {}),
           attempt: row.attempt,
           leasedAt: input.now.toISOString(),
-          expiresAt: expiresAt.toISOString(),
+          expiresAt: leaseExpiresAt.toISOString(),
         });
       }
       return claimed;

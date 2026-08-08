@@ -188,6 +188,20 @@ export interface ObserveProcessInput {
   readonly now: Date;
 }
 
+/**
+ * Whether a driver error is a unique-constraint violation.
+ *
+ * PostgreSQL says `23505` and both drivers used here carry it: `pg` puts it
+ * on `code`, PGlite on the same field of the error it throws. Matched on the
+ * code rather than on a message, because a message is a locale away from
+ * changing.
+ */
+function isUniqueViolation(error: unknown): boolean {
+  if (typeof error !== 'object' || error === null) return false;
+  const code = (error as { readonly code?: unknown }).code;
+  return code === '23505';
+}
+
 export class OperationRepository {
   constructor(private readonly database: Database) {}
 
@@ -282,10 +296,20 @@ export class OperationRepository {
             input.now,
           ],
         );
-      } catch {
-        // The partial unique index refused a concurrent second in-flight
-        // operation. The database is the arbiter, not a read we took earlier.
-        throw new OperationalPersistenceError('operation-in-flight');
+      } catch (error) {
+        // The partial unique index refusing a concurrent second in-flight
+        // operation is what this catch is for, and the database is the arbiter
+        // rather than the read taken a moment ago.
+        //
+        // It used to catch everything. A foreign key violation — a job id that
+        // does not exist yet — arrived as `operation-in-flight`, which sent
+        // whoever read it looking for a concurrent operation that was never
+        // there. Only a unique violation is a conflict; anything else keeps
+        // its own nature and reaches the error handler as itself.
+        if (isUniqueViolation(error)) {
+          throw new OperationalPersistenceError('operation-in-flight');
+        }
+        throw error;
       }
       const row = inserted.rows[0];
       if (row === undefined) throw new OperationalPersistenceError('operation-not-found');

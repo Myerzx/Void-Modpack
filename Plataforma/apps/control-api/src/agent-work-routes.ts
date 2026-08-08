@@ -206,6 +206,7 @@ export function registerAgentWorkRoutes(
           resourceType: work.resourceType,
           resourceId: work.resourceId,
           expectedVersion: work.expectedVersion,
+          ...(work.timeoutSeconds === undefined ? {} : { timeoutSeconds: work.timeoutSeconds }),
         },
         leasedAt: work.leasedAt,
         expiresAt: work.expiresAt,

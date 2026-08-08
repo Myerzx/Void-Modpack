@@ -217,6 +217,61 @@ describe('agent supervisor', () => {
     assert.equal(data.failureCode, 'operation-failed');
   });
 
+  /**
+   * Every lease in a claim was already worked before any result is sent. If the
+   * first result is refused — an expired lease, say — abandoning the rest leaves
+   * their operations running until the reaper expires them, losing work that
+   * had already succeeded for no reason but the order it came back in.
+   */
+  it('reports every claimed lease even when one result is refused', async () => {
+    const first = lease();
+    const second = lease();
+    const seen = { paths: [] as string[], bodies: [] as unknown[] };
+    let call = 0;
+    const transport = new AgentWorkTransport({
+      baseUrl: 'http://control.invalid',
+      allowInsecureDevelopment: true,
+      fetch: async (url, init) => {
+        seen.paths.push(url.pathname);
+        seen.bodies.push(JSON.parse(init.body) as unknown);
+        call += 1;
+        if (call === 1) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ schemaVersion: 1, leases: [first, second], retryAfterSeconds: 15 }),
+          };
+        }
+        // The first result is refused the way an expired lease would be.
+        if (call === 2) return { ok: false, status: 409, json: async () => ({}) };
+        return { ok: true, status: 200, json: async () => ({ jobId: randomUUID() }) };
+      },
+    });
+
+    const events: SupervisorEvent[] = [];
+    const supervisor = new AgentSupervisor({
+      identity: identity(),
+      transport,
+      handlers: { 'artifact.inspect': async () => ({ outcome: 'succeeded' }) },
+      onEvent: (event) => events.push(event),
+      clock: () => new Date('2026-08-05T12:00:00Z'),
+    });
+
+    // The refusal still surfaces, so the loop backs off rather than pretending.
+    await assert.rejects(supervisor.runOnce());
+
+    // Both results were attempted: claim, refused result, delivered result.
+    assert.deepEqual(seen.paths, [
+      '/agent/v1/work/claim',
+      '/agent/v1/work/result',
+      '/agent/v1/work/result',
+    ]);
+    // Only the lease that actually landed is reported as handled.
+    const handled = events.filter((event) => event.kind === 'handled');
+    assert.equal(handled.length, 1);
+    assert.equal((handled[0] as { readonly leaseId: string }).leaseId, second.leaseId);
+  });
+
   it('backs off geometrically to a ceiling while the control plane is down', async () => {
     const { transport } = scriptedTransport([{ status: 503 }]);
     const waits: number[] = [];

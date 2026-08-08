@@ -114,6 +114,13 @@ export function createProcessControlHandler(
       const result = await options.controller.execute({
         idempotencyKey: `${lease.jobId}:${action}`,
         action,
+        // The deadline the requester stated, carried on the lease. Without it
+        // the controller falls back to its own default, which is shorter than
+        // a modded boot — and a start that timed out while the server was
+        // still loading reported failure for a server that came up fine.
+        ...(lease.parameters.timeoutSeconds === undefined
+          ? {}
+          : { timeoutMs: lease.parameters.timeoutSeconds * 1_000 }),
       });
 
       await captureConsole(options, now);

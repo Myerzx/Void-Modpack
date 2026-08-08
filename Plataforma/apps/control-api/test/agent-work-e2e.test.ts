@@ -289,6 +289,58 @@ describe('Phase 9.2 end-to-end agent work', () => {
     assert.equal(state?.lifecycle, 'online');
   });
 
+  it('carries the requester deadline to the agent instead of dropping it', async () => {
+    const context = await fixture();
+    await context.repositories.agentTransport.grantCapability({
+      agentId: context.identity.agentId,
+      capability: 'process.control',
+      grantedBy: { type: 'system', id: 'fixture' },
+      reasonCode: 'fixture-grant',
+      now: NOW,
+    });
+
+    const jobId = randomUUID();
+    await context.repositories.jobs.enqueue({
+      schemaVersion: 1,
+      id: jobId,
+      type: 'server.start',
+      resource: { type: 'server-instance', id: context.server.id },
+      status: 'queued',
+      stage: 'queued',
+      priority: 50,
+      payload: {
+        schemaVersion: 1,
+        // Exactly what the process route now writes.
+        parameters: { serverInstanceId: context.server.id, expectedVersion: 1, timeoutSeconds: 600 },
+      },
+      idempotencyKey: 'agent-e2e-timeout-0001',
+      requestedBy: { type: 'system', id: 'agent-e2e' },
+      correlationId: randomUUID(),
+      availableAt: NOW.toISOString(),
+      attempt: 0,
+      maxAttempts: 3,
+    });
+
+    let seen: number | undefined;
+    const supervisor = new AgentSupervisor({
+      identity: context.identity,
+      transport: context.transport,
+      handlers: {
+        'process.control': async (lease) => {
+          seen = lease.parameters.timeoutSeconds;
+          return { outcome: 'succeeded', observedLifecycle: 'online' };
+        },
+      },
+      clock: () => NOW,
+    });
+    await supervisor.runOnce();
+
+    // The route validated this between 5 and 900 and then discarded it, so the
+    // controller fell back to sixty seconds — shorter than a modded boot, which
+    // made every real start report failure for a server that came up fine.
+    assert.equal(seen, 600);
+  });
+
   it('refuses a claim for a capability that was never granted', async () => {
     const context = await fixture();
     await context.repositories.jobs.enqueue(inspectJob(randomUUID(), 'agent-e2e-denied-0001'));
