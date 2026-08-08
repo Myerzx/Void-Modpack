@@ -25,32 +25,42 @@ export function createWorkspaceScanner(): WorkspaceScanner {
 }
 
 /**
- * Decides whether a directory may be registered as a workspace.
+ * Decides whether a directory may be registered, and in what form it is stored.
  *
- * A refusal names what was wrong and never echoes the path back — the panel
+ * It returns the canonical path rather than approving the one it was given.
+ * The first version demanded that the operator type a canonical path and
+ * refused anything else — which rejected `H:/pasta/servidor`, a perfectly
+ * valid Windows path, and a trailing separator, and said only "use canonical
+ * form" without saying what that meant. Making the caller satisfy a
+ * normalisation the callee can do itself is the kind of contract that is
+ * technically correct and miserable to use, so it normalises.
+ *
+ * A refusal names what was wrong and never echoes the path back. The panel
  * sent it, but an error message is read by more people than the one who typed
  * it, and a host path in a browser is a host path in a screenshot.
  *
- * This checks shape and existence only. It is not an allow-list: on a personal
- * panel the operator is the host owner, and pretending otherwise would be
- * security theatre over a directory they already own. An allow-list belongs
- * here the day this runs somewhere the operator is not the owner.
+ * Shape and existence only — this is not an allow-list. On a personal panel
+ * the operator is the host owner, and a list of directories they already own
+ * would be theatre. An allow-list belongs here the day this runs somewhere the
+ * operator is not the owner.
  */
-export async function defaultWorkspaceRootPolicy(rootPath: string): Promise<string | null> {
+export async function defaultWorkspaceRootPolicy(
+  rootPath: string,
+): Promise<{ readonly rootPath: string } | { readonly refusal: string }> {
   if (!isAbsolute(rootPath)) {
-    return 'O caminho precisa ser absoluto.';
+    return { refusal: 'O caminho precisa ser absoluto.' };
   }
-  if (resolve(rootPath) !== rootPath.replace(/[\\/]+$/u, '') && resolve(rootPath) !== rootPath) {
-    // A path with `..` in it resolves somewhere other than what was typed, and
-    // storing the unresolved form would make the registry disagree with what
-    // is actually read later.
-    return 'O caminho precisa estar em forma canônica, sem "." ou "..".';
+  if (rootPath.split(/[\\/]/u).some((segment) => segment === '..')) {
+    // `..` is refused rather than resolved: a root that means something other
+    // than what was typed is a root nobody reviewed.
+    return { refusal: 'O caminho não pode conter "..".' };
   }
+  const canonical = resolve(rootPath);
   try {
-    const info = await stat(rootPath);
-    if (!info.isDirectory()) return 'O caminho existe mas não é um diretório.';
+    const info = await stat(canonical);
+    if (!info.isDirectory()) return { refusal: 'O caminho existe mas não é um diretório.' };
   } catch {
-    return 'O caminho não existe ou não pode ser lido por este processo.';
+    return { refusal: 'O caminho não existe ou não pode ser lido por este processo.' };
   }
-  return null;
+  return { rootPath: canonical };
 }

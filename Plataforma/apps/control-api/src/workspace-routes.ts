@@ -63,14 +63,16 @@ export interface WorkspaceRouteDependencies {
    */
   readonly scanner?: WorkspaceScanner;
   /**
-   * Decides whether a root may be registered.
+   * Decides whether a root may be registered, and returns the form to store.
    *
-   * Injected because "which directories may this panel read?" is an operator
-   * policy, not something a route should invent. Returning a reason rather
-   * than a boolean means a refusal can say what was wrong without echoing the
-   * path back.
+   * Injected because "which directories may this panel read?" is operator
+   * policy, not something a route should invent. It returns the canonical path
+   * rather than approving the one it was given: demanding that the operator
+   * type an already-normalised path refused valid input and explained nothing.
    */
-  readonly rootPolicy?: (rootPath: string) => Promise<string | null>;
+  readonly rootPolicy?: (
+    rootPath: string,
+  ) => Promise<{ readonly rootPath: string } | { readonly refusal: string }>;
 }
 
 const RegisterWorkspaceSchema = Type.Object(
@@ -154,20 +156,24 @@ export function registerWorkspaceRoutes(
           'Nenhum scanner de workspace está configurado nesta instância.',
         );
       }
+      // Stored canonical when a policy is wired, so the registry cannot
+      // disagree with what is actually read later.
+      let rootPath = request.body.rootPath;
       if (dependencies.rootPolicy !== undefined) {
-        const refusal = await dependencies.rootPolicy(request.body.rootPath);
-        if (refusal !== null) {
+        const decision = await dependencies.rootPolicy(rootPath);
+        if ('refusal' in decision) {
           await dependencies.audit({
             request,
             actor: actorOf(request),
             action: 'workspace.register',
             workspaceId: request.body.slug,
             outcome: 'denied',
-            reason: refusal,
+            reason: decision.refusal,
           });
           // The reason names what was wrong; it never echoes the path back.
-          throw apiError(400, 'WORKSPACE_ROOT_REFUSED', refusal);
+          throw apiError(400, 'WORKSPACE_ROOT_REFUSED', decision.refusal);
         }
+        rootPath = decision.rootPath;
       }
 
       let workspace;
@@ -175,7 +181,7 @@ export function registerWorkspaceRoutes(
         workspace = await repositories.workspaces.register({
           slug: request.body.slug,
           displayName: request.body.displayName,
-          rootPath: request.body.rootPath,
+          rootPath,
           kind: request.body.kind,
           createdBy: actorOf(request),
         });

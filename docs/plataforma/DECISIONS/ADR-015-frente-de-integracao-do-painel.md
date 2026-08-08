@@ -49,6 +49,29 @@ Existe um registro de workspaces. **O caminho é digitado uma vez, no registro, 
 
 Cada varredura é uma linha nova, nunca uma substituição. Um inventário é evidência com hora; sobrescrever tornaria "como isso estava antes de eu mexer?" impossível de responder, que é a pergunta em torno da qual o caminho de release inteiro foi construído.
 
+### Primeiro achado da frente como validação
+
+A regra "se uma capacidade ficar impraticável pelo painel, ajuste o contrato" cobrou na primeira execução.
+
+A política de raiz exigia que o operador digitasse um caminho já canônico e recusava qualquer outra coisa — inclusive `H:/pasta/servidor`, que é um caminho válido no Windows, e qualquer barra final. E dizia apenas "use forma canônica", sem explicar o que isso queria dizer.
+
+Fazer o chamador satisfazer uma normalização que o chamado consegue fazer sozinho é o tipo de contrato tecnicamente correto e miserável de usar. A política passou a **devolver** o caminho canônico em vez de aprovar o que recebeu, e o registro guarda o que ela devolveu. `..` continua recusado, e não resolvido: uma raiz que significa outra coisa do que foi digitada é uma raiz que ninguém revisou.
+
+### Execução real
+
+O caminho inteiro rodado contra `Servidor/workspace/server-original` pela própria API:
+
+```
+login 200 · sessão devolve o csrf · registrar 201 · varrer 201 (5,4 s)
+7.928 arquivos · 176 mods declarados de 181 arquivos · 6 sem declaração
+exclusões: 40 private-state, 1 runtime-infrastructure
+níveis: 74 STRUCTURED, 94 RUNTIME_ONLY, 8 RAW_EDITABLE
+cataclysm 3.16 (122 MiB) · STRUCTURED · 9 configurações detectadas
+caminho do host em alguma resposta: não
+```
+
+O mod de 122 MiB aparecer aqui identificado é a inspeção em camadas chegando à tela: antes desta semana ele seria "sem declaração".
+
 ### O que fica em aberto
 
 Subir o ambiente continua sendo trabalho de operação: PostgreSQL, `bootstrap-owner` e um proxy servindo o painel na mesma origem da API. Não há manifesto de serviço, e esta decisão não cria um.

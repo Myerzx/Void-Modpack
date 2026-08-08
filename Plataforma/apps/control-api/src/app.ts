@@ -141,7 +141,9 @@ export interface BuildControlApiOptions {
    */
   readonly workspaceScanner?: WorkspaceScanner;
   /** Which roots may be registered. Operator policy, never a route's guess. */
-  readonly workspaceRootPolicy?: (rootPath: string) => Promise<string | null>;
+  readonly workspaceRootPolicy?: (
+    rootPath: string,
+  ) => Promise<{ readonly rootPath: string } | { readonly refusal: string }>;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
