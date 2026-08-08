@@ -45,7 +45,11 @@ export function stepsFor(workspaceId: string | null, active: string): readonly S
       href: suffix === null ? null : `/workspaces/sandbox${suffix}`,
       active: active === 'sandbox',
     },
-    { label: 'Release', href: null, pending: true },
+    {
+      label: 'Release',
+      href: suffix === null ? null : `/workspaces/release${suffix}`,
+      active: active === 'release',
+    },
   ];
 }
 

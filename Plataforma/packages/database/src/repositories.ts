@@ -22,6 +22,7 @@ import { ArtifactReviewRepository } from './artifact-review-repositories.js';
 import { BackupRepository } from './backup-repositories.js';
 import { ScheduleRepository } from './schedule-repositories.js';
 import { TelemetryRepository } from './telemetry-repositories.js';
+import { WorkspaceReleaseRepository } from './workspace-release-repositories.js';
 import { WorkspaceRepository } from './workspace-repositories.js';
 import {
   SandboxRunRepository,
@@ -982,6 +983,7 @@ export interface Repositories {
   readonly workspaces: WorkspaceRepository;
   readonly workspaceStaging: WorkspaceStagingRepository;
   readonly sandboxRuns: SandboxRunRepository;
+  readonly releases: WorkspaceReleaseRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -1010,5 +1012,6 @@ export function createRepositories(database: Database): Repositories {
     workspaces: new WorkspaceRepository(database),
     workspaceStaging: new WorkspaceStagingRepository(database),
     sandboxRuns: new SandboxRunRepository(database),
+    releases: new WorkspaceReleaseRepository(database),
   };
 }

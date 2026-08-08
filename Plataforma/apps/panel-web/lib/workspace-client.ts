@@ -361,3 +361,71 @@ export async function readSandboxRun(
     `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/sandbox-runs/${encodeURIComponent(runId)}`,
   );
 }
+
+/* --- Releases ------------------------------------------------------------ */
+
+export interface ReleasePreview {
+  readonly previousInventoryId: string | null;
+  readonly diff: {
+    readonly mods: readonly { readonly modId: string; readonly kind: string; readonly fromVersion: string | null; readonly toVersion: string | null }[];
+    readonly totals: { readonly modsAdded: number; readonly modsRemoved: number; readonly modsUpdated: number; readonly filesChanged: number };
+    readonly identical: boolean;
+    readonly filesTruncated: boolean;
+    readonly filesTotal: number;
+  };
+  readonly changelogMarkdown: string;
+  readonly distribution: {
+    readonly distributable: boolean;
+    readonly localUseOnly: boolean;
+    readonly blocks: number;
+    readonly blocksByReason: readonly (readonly [string, number])[];
+    readonly curseForge: { readonly allowed: boolean; readonly refusal: string | null };
+  };
+}
+
+export interface ReleaseView {
+  readonly releaseId: string;
+  readonly version: string;
+  readonly status: 'building' | 'ready' | 'refused';
+  readonly intent: 'local-use' | 'distribution';
+  readonly refusal: string | null;
+  readonly startedAt: string;
+  readonly finishedAt: string | null;
+  readonly plan: {
+    readonly totals?: { readonly modsAdded: number; readonly modsRemoved: number; readonly modsUpdated: number; readonly filesChanged: number };
+    readonly changelogMarkdown?: string;
+    readonly sides?: Readonly<Record<string, number>>;
+  } | null;
+  readonly packages: Readonly<
+    Record<string, { readonly fileName: string; readonly bytes: number; readonly entries: number; readonly excluded: number; readonly sha256: string }>
+  > | null;
+}
+
+export async function readReleasePreview(workspaceId: string): Promise<ReleasePreview> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/release/preview`);
+}
+
+export async function listReleases(
+  workspaceId: string,
+): Promise<{ readonly available: boolean; readonly releases: readonly ReleaseView[] }> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/releases`);
+}
+
+export async function buildRelease(input: {
+  readonly workspaceId: string;
+  readonly version: string;
+  readonly intent: 'local-use' | 'distribution';
+  readonly clientWorkspaceId?: string;
+  readonly csrfToken: string;
+}): Promise<{ readonly releaseId: string }> {
+  const { workspaceId, csrfToken, ...body } = input;
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/releases`, {
+    method: 'POST',
+    body,
+    csrfToken,
+  });
+}
+
+export function archiveUrl(workspaceId: string, releaseId: string, side: 'server' | 'client'): string {
+  return `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/releases/${encodeURIComponent(releaseId)}/archive?side=${side}`;
+}

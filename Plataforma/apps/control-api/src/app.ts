@@ -44,6 +44,7 @@ import { registerAgentWorkRoutes } from './agent-work-routes.js';
 import { registerProcessRoutes, type ProcessPermission } from './process-routes.js';
 import {
   registerWorkspaceRoutes,
+  type ReleaseBuilder,
   type SandboxLauncher,
   type WorkspaceConfigurationService,
   type WorkspacePermission,
@@ -180,6 +181,12 @@ export interface BuildControlApiOptions {
   readonly localOperatorEmail?: string;
   /** Where a signed-out visitor lands. Defaults to the sign-in screen. */
   readonly panelEntryPath?: string;
+  /**
+   * Plans and produces a release. Optional and deny-by-default: without it
+   * those routes report themselves unavailable rather than promising an
+   * artefact that nothing will produce.
+   */
+  readonly releaseBuilder?: ReleaseBuilder;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -903,6 +910,7 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
       ? {}
       : { configuration: options.workspaceConfiguration }),
     ...(options.sandboxLauncher === undefined ? {} : { sandbox: options.sandboxLauncher }),
+    ...(options.releaseBuilder === undefined ? {} : { release: options.releaseBuilder }),
   });
 
   if (options.localOperatorEmail !== undefined) {

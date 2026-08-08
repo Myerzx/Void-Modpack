@@ -43,6 +43,7 @@ Se a porta 3100 estiver ocupada, o comando avisa e usa a próxima livre.
 | `/workspaces/detalhe?id=…` | Inventário, exclusões, lista de mods e um mod aberto |
 | `/workspaces/configuracao?id=…&path=…` | Formulário inferido, validação, preparo da mudança e diferença |
 | `/workspaces/sandbox?id=…` | Executar um boot descartável com as mudanças preparadas, e ler resultado, arquivos gerados e log |
+| `/workspaces/release?id=…` | Prévia com diff e changelog, gerar pacotes de servidor e cliente, e baixar |
 
 Na tela de configuração, **nada é aplicado**. Validar confere contra o limite que o mod declarou — e diz quando não havia limite para conferir, em vez de fingir que houve. Preparar escreve em `.voidfall/staging/`, e o arquivo do servidor continua byte a byte o que era. Um arquivo cujo formulário não representa todas as linhas mostra os campos e recusa o preparo: gravar uma visão parcial descartaria justamente o que ninguém conseguiu ler.
 
@@ -58,6 +59,6 @@ Barra normal ou invertida, tanto faz — a política normaliza. A partir daí ne
 
 ## Ainda por ligar
 
-Na ordem do [ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md), resta o **release**: pacotes de servidor e cliente, manifesto, changelog e diff entre versões. O motor existe e é usável por CLI; falta a tela.
+A frente do [ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md) está encerrada. O que vem agora está no [ADR-016](DECISIONS/ADR-016-painel-como-gerenciador-completo.md): operação do servidor (processo, console, backups), servidor e mundo, grafo de conhecimento e análise automática. O plano de ligar o servidor está em [PLANO_INICIAR_SERVIDOR.md](PLANO_INICIAR_SERVIDOR.md).
 
 A página inicial da Fase 2 (`/`) redireciona para `/entrar`. A dashboard de fixture continua existindo e diz na própria tela que é fixture.

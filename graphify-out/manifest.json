@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786035342.3113887,
-    "ast_hash": "32c4b214b12d4a9bf5392db70ee2be48",
+    "mtime": 1786163050.999621,
+    "ast_hash": "e2af4278a595f5211017f9525d1aa30d",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786146906.1372108,
-    "ast_hash": "a7536d8c0e32d9827cad79213739b70e",
+    "mtime": 1786163038.1838064,
+    "ast_hash": "3f1c40e4c57b9082ef10407644b8f0ef",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -4587,6 +4587,16 @@
   "Plataforma/apps/panel-web/app/components/shell.tsx": {
     "mtime": 1786158341.0652392,
     "ast_hash": "9c0f9bb69840f083c8531b496ef9fdb0",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-016-painel-como-gerenciador-completo.md": {
+    "mtime": 1786162988.416232,
+    "ast_hash": "e0026e8e9405776a3ef07fcf5abe420b",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
+    "mtime": 1786163022.2178824,
+    "ast_hash": "61068577dda11d0cfaa19eafb70aa76f",
     "semantic_hash": ""
   }
 }

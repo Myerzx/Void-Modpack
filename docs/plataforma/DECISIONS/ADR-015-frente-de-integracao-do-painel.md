@@ -122,6 +122,29 @@ mudança   valuesHeld: true · observedSha256 == stagedSha256
 
 O servidor subiu com a mudança, o valor sobreviveu ao boot, a cópia foi apagada e o workspace original não foi tocado.
 
+### Release: construir e distribuir são perguntas diferentes
+
+A tela mantém a separação que o motor já fazia. Construir para a própria máquina é sempre permitido — restaurar o seu servidor no seu host é backup. Entregar a alguém exige licença revisada de cada arquivo, e `intent` é entrada, nunca inferência: ninguém produz um artefato redistribuível por esquecer de perguntar.
+
+Uma build de distribuição é recusada **antes de escrever qualquer coisa**, com as contagens do próprio gate. Uma recusa de licença não é um export menor; é uma violação com barra de progresso.
+
+Uma versão não pode ser reusada. Reconstruir a mesma versão sobre outra evidência é como um número de versão deixa de significar alguma coisa.
+
+O download é endereçado por id de release e lado. O caminho fica no host; o navegador recebe nome de arquivo e bytes.
+
+Executado contra o pacote real pela API:
+
+```
+prévia        182 arquivos sem revisão · distribuível: não
+distribuição  recusada em 3 s, nada escrito
+uso próprio   202 imediato · pronto em 15 s
+              voidfall-server-1.0.0.zip  1.070 MiB · 7.928 entradas
+              voidfall-client-1.0.0.zip    182 MiB · 7.708 entradas · 220 excluídos
+download      1.121.968.005 bytes · assinatura PK · .NET lê as 7.928 entradas e os 181 jars
+```
+
+Sem perfil de cliente registrado, os 181 mods saem como `server-only` — **por observação**, porque o servidor é o único lugar onde qualquer um deles foi visto. A tela diz isso na própria opção, em vez de fingir que o corte foi feito.
+
 ### O que fica em aberto
 
 A política de raiz aceita qualquer diretório canônico e existente. Num painel pessoal o operador é o dono do host, e uma allow-list ali seria teatro sobre um diretório que ele já possui. Ela passa a ser necessária no dia em que isto rodar onde o operador não é o dono.
@@ -131,7 +154,7 @@ A política de raiz aceita qualquer diretório canônico e existente. Num painel
 1. ~~configurações detectadas de um mod, com formulário inferido e validação~~ — **ligada em 2026-08-08**;
 2. ~~staging e diff~~ — **ligada em 2026-08-08**, junto com a anterior, porque editar sem ver o que sairia não é uma tela útil;
 3. ~~execução de sandbox com resultado e logs~~ — **ligada em 2026-08-08**;
-4. release, diff entre versões e pacotes — `release-planner` já recusa distribuição por licença e já empacota.
+4. ~~release, diff entre versões e pacotes~~ — **ligada em 2026-08-08**. A frente do ADR-015 está encerrada; o painel continua no [ADR-016](ADR-016-painel-como-gerenciador-completo.md).
 
 Cada uma entra quando houver tela útil, e cada uma tem de sobreviver ao teste de uso antes de a próxima começar.
 

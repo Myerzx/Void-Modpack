@@ -10,6 +10,7 @@ import { createEmbeddedDatabase, createRepositories, runMigrations } from '@void
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
 import { createWorkspaceConfigurationService } from './workspace-configuration.js';
+import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
 import { createWorkspaceScanner, defaultWorkspaceRootPolicy } from './workspace-scanner.js';
 
@@ -187,6 +188,9 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     // afterwards. The original world is never copied and never touched, which
     // is the only reason pointing this at a real server is acceptable.
     sandboxLauncher: createSandboxLauncher(),
+    // Archives land beside the database and the staging area, one directory
+    // per workspace. The panel downloads by id; the path never leaves here.
+    releaseBuilder: createReleaseBuilder(join(stateDirectory, 'releases')),
     panelExportRoot: panelRoot,
     // Authentication is deferred, not removed: the session, the cookie, the
     // CSRF token and every permission check are the ones the real login

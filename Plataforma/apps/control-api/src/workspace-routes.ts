@@ -1,6 +1,8 @@
+import { createReadStream } from 'node:fs';
+
 import { Type, type Static } from '@sinclair/typebox';
 import type { ActorRef } from '@voidfall/contracts';
-import { WorkspaceError, type Repositories } from '@voidfall/database';
+import { ReleaseError, WorkspaceError, type Repositories } from '@voidfall/database';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 
 /**
@@ -141,6 +143,44 @@ export interface SandboxLauncher {
   }): void;
 }
 
+/**
+ * Plans and produces a release.
+ *
+ * `preview` is a read and answers inside a request. `build` writes a gigabyte
+ * of archives and reports back, like the sandbox launcher, because that is not
+ * a request either. Injected so this module never imports a packager.
+ */
+export interface ReleaseBuilder {
+  preview(input: {
+    readonly inventory: unknown;
+    readonly previousInventory: unknown | null;
+    readonly version?: string;
+  }): {
+    readonly diff: unknown;
+    readonly changelog: readonly unknown[];
+    readonly changelogMarkdown: string;
+    readonly distribution: unknown;
+  };
+  build(input: {
+    readonly workspaceId: string;
+    readonly workspaceRoot: string;
+    readonly version: string;
+    readonly intent: 'local-use' | 'distribution';
+    readonly inventory: unknown;
+    readonly previousInventory: unknown | null;
+    /** Mod archive names observed in a registered client profile. */
+    readonly clientModNames: readonly string[];
+    onFinished(result: { readonly plan: unknown; readonly packages: unknown }): Promise<void>;
+    onRefused(refusal: string): Promise<void>;
+  }): void;
+  /** Locates a produced archive for download. `null` when it is not there. */
+  resolveArchive(input: {
+    readonly workspaceId: string;
+    readonly version: string;
+    readonly side: 'server' | 'client';
+  }): Promise<{ readonly path: string; readonly fileName: string; readonly bytes: number } | null>;
+}
+
 export interface WorkspaceRouteDependencies {
   readonly repositories: Repositories;
   readonly clock: () => Date;
@@ -185,6 +225,11 @@ export interface WorkspaceRouteDependencies {
    * unavailable rather than pretending a boot was queued that nothing will run.
    */
   readonly sandbox?: SandboxLauncher;
+  /**
+   * Optional, deny-by-default. Without it the release routes report themselves
+   * unavailable rather than promising an artefact nothing will produce.
+   */
+  readonly release?: ReleaseBuilder;
 }
 
 const RegisterWorkspaceSchema = Type.Object(
@@ -198,6 +243,28 @@ const RegisterWorkspaceSchema = Type.Object(
 );
 
 type RegisterWorkspaceBody = Static<typeof RegisterWorkspaceSchema>;
+
+const BuildReleaseSchema = Type.Object(
+  {
+    /** Becomes a file name, so the shape is fixed here and not at write time. */
+    version: Type.String({ pattern: '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$' }),
+    /**
+     * Who the artefact is for. An input, never inferred: nobody produces a
+     * redistributable package by forgetting to ask.
+     */
+    intent: Type.Optional(Type.Union([Type.Literal('local-use'), Type.Literal('distribution')])),
+    /**
+     * A registered client profile to take the side split from.
+     *
+     * Without it every mod archive is server-side by observation, because the
+     * server is the only place any of them was seen. That is the honest result
+     * of having no client to compare against, not a default.
+     */
+    clientWorkspaceId: Type.Optional(Type.String({ format: 'uuid' })),
+  },
+  { additionalProperties: false },
+);
+type BuildReleaseBody = Static<typeof BuildReleaseSchema>;
 
 const ConfigurationChangeSchema = Type.Object(
   {
@@ -817,6 +884,189 @@ export function registerWorkspaceRoutes(
         throw apiError(404, 'SANDBOX_RUN_NOT_FOUND', 'Execução não encontrada.');
       }
       return { dataQuality: 'stored', run };
+    },
+  );
+
+  const releaseOrRefuse = (): ReleaseBuilder => {
+    if (dependencies.release === undefined) {
+      throw apiError(
+        503,
+        'RELEASE_UNAVAILABLE',
+        'A construção de release não está configurada nesta instância.',
+      );
+    }
+    return dependencies.release;
+  };
+
+  /**
+   * The two inventories a release compares.
+   *
+   * The previous one is `null` on a first release, which is a state and not a
+   * gap: everything is added, and a changelog that said otherwise would be
+   * describing a history that does not exist.
+   */
+  const inventoriesFor = async (workspaceId: string) => {
+    const history = await repositories.workspaces.scanHistory(workspaceId, 2);
+    const latest = history[0];
+    const current =
+      latest === undefined
+        ? undefined
+        : await repositories.workspaces.findInventory(latest.inventoryId);
+    if (current === undefined) {
+      throw apiError(409, 'INVENTORY_REQUIRED', 'Inventarie o workspace antes de gerar release.');
+    }
+    const earlier =
+      history[1] === undefined
+        ? undefined
+        : await repositories.workspaces.findInventory(history[1].inventoryId);
+    return { current, earlier };
+  };
+
+  /** Mod archive names from a registered client profile, or none. */
+  const clientModNamesFor = async (
+    clientWorkspaceId: string | undefined,
+  ): Promise<readonly string[]> => {
+    if (clientWorkspaceId === undefined) return [];
+    const stored = await repositories.workspaces.latestInventory(clientWorkspaceId);
+    if (stored === undefined) return [];
+    return asDocument(stored.document)
+      .files.filter((file) => file.role === 'mod-archive')
+      .map((file) => file.path);
+  };
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/release/preview',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const builder = releaseOrRefuse();
+      await workspaceOf(request.params.workspaceId);
+      const { current, earlier } = await inventoriesFor(request.params.workspaceId);
+      return {
+        dataQuality: 'stored',
+        inventoryId: current.inventoryId,
+        previousInventoryId: earlier?.inventoryId ?? null,
+        ...builder.preview({
+          inventory: current.document,
+          previousInventory: earlier?.document ?? null,
+        }),
+      };
+    },
+  );
+
+  app.post<{ Params: { workspaceId: string }; Body: BuildReleaseBody }>(
+    '/api/v1/workspaces/:workspaceId/releases',
+    {
+      schema: { body: BuildReleaseSchema },
+      preHandler: [authenticate, requirePermission('workspace.manage'), requireCsrf],
+    },
+    async (request, reply) => {
+      const builder = releaseOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      if (await repositories.releases.hasBuilding(workspace.workspaceId)) {
+        // Two builds would write the same file names into the same directory.
+        throw apiError(409, 'RELEASE_ALREADY_BUILDING', 'Já existe uma release em construção.');
+      }
+      const { current, earlier } = await inventoriesFor(workspace.workspaceId);
+
+      let release;
+      try {
+        release = await repositories.releases.start({
+          workspaceId: workspace.workspaceId,
+          version: request.body.version,
+          intent: request.body.intent ?? 'local-use',
+          inventoryId: current.inventoryId,
+          previousInventoryId: earlier?.inventoryId ?? null,
+          createdBy: actorOf(request),
+        });
+      } catch (error) {
+        if (error instanceof ReleaseError && error.code === 'version-taken') {
+          throw apiError(409, 'RELEASE_VERSION_TAKEN', 'Já existe uma release com essa versão.');
+        }
+        throw error;
+      }
+
+      builder.build({
+        workspaceId: workspace.workspaceId,
+        workspaceRoot: workspace.rootPath,
+        version: release.version,
+        intent: release.intent,
+        inventory: current.document,
+        previousInventory: earlier?.document ?? null,
+        clientModNames: await clientModNamesFor(request.body.clientWorkspaceId),
+        onFinished: async (result) => {
+          await repositories.releases.complete({ releaseId: release.releaseId, ...result });
+        },
+        onRefused: async (refusal) => {
+          await repositories.releases.refuse(release.releaseId, refusal);
+        },
+      });
+
+      await dependencies.audit({
+        request,
+        actor: actorOf(request),
+        action: 'workspace.release.build',
+        workspaceId: workspace.workspaceId,
+        outcome: 'succeeded',
+      });
+
+      // Answered immediately: a gigabyte of archives is not a request.
+      return reply
+        .code(202)
+        .send({ releaseId: release.releaseId, version: release.version, status: release.status });
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/releases',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      await workspaceOf(request.params.workspaceId);
+      return {
+        dataQuality: 'stored',
+        available: dependencies.release !== undefined,
+        releases: await repositories.releases.list(request.params.workspaceId),
+      };
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string; releaseId: string } }>(
+    '/api/v1/workspaces/:workspaceId/releases/:releaseId',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      await workspaceOf(request.params.workspaceId);
+      const release = await repositories.releases.findById(request.params.releaseId);
+      if (release === undefined || release.workspaceId !== request.params.workspaceId) {
+        throw apiError(404, 'RELEASE_NOT_FOUND', 'Release não encontrada.');
+      }
+      return { dataQuality: 'stored', release };
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string; releaseId: string }; Querystring: { side?: string } }>(
+    '/api/v1/workspaces/:workspaceId/releases/:releaseId/archive',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request, reply) => {
+      const builder = releaseOrRefuse();
+      await workspaceOf(request.params.workspaceId);
+      const release = await repositories.releases.findById(request.params.releaseId);
+      if (release === undefined || release.workspaceId !== request.params.workspaceId) {
+        throw apiError(404, 'RELEASE_NOT_FOUND', 'Release não encontrada.');
+      }
+      const side = request.query.side === 'client' ? 'client' : 'server';
+      const archive = await builder.resolveArchive({
+        workspaceId: release.workspaceId,
+        version: release.version,
+        side,
+      });
+      if (archive === null) {
+        throw apiError(404, 'ARCHIVE_NOT_FOUND', 'Esse pacote não está disponível.');
+      }
+      // Streamed. The path stays on the host; the browser gets a file name.
+      return reply
+        .type('application/zip')
+        .header('content-length', String(archive.bytes))
+        .header('content-disposition', `attachment; filename="${archive.fileName}"`)
+        .send(createReadStream(archive.path));
     },
   );
 
