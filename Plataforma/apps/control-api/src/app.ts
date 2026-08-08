@@ -44,6 +44,7 @@ import { registerAgentWorkRoutes } from './agent-work-routes.js';
 import { registerProcessRoutes, type ProcessPermission } from './process-routes.js';
 import {
   registerWorkspaceRoutes,
+  type SandboxLauncher,
   type WorkspaceConfigurationService,
   type WorkspacePermission,
   type WorkspaceScanner,
@@ -161,6 +162,12 @@ export interface BuildControlApiOptions {
    * rather than staging into a directory nobody chose.
    */
   readonly workspaceConfiguration?: WorkspaceConfigurationService;
+  /**
+   * Starts a disposable sandbox boot. Optional and deny-by-default: without it
+   * the sandbox routes report themselves unavailable rather than accepting a
+   * run that nothing will ever execute.
+   */
+  readonly sandboxLauncher?: SandboxLauncher;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -883,6 +890,7 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.workspaceConfiguration === undefined
       ? {}
       : { configuration: options.workspaceConfiguration }),
+    ...(options.sandboxLauncher === undefined ? {} : { sandbox: options.sandboxLauncher }),
   });
 
   // Last, so it can only ever answer what no route claimed.

@@ -102,6 +102,45 @@ export interface WorkspaceConfigurationService {
   }): Promise<void>;
 }
 
+/**
+ * Starts a disposable sandbox boot and reports back as it goes.
+ *
+ * Fire-and-report rather than a promise the route awaits: a boot spawns a JVM
+ * and takes minutes, which is not a request. Injected like everything else, so
+ * this module never imports a process runner and a test can arrange an outcome
+ * without a JVM.
+ */
+/**
+ * What a configuration field can hold.
+ *
+ * Named once here rather than spelled `unknown` at each boundary: the value
+ * crossed the request schema on the way in, so the type it has is a fact
+ * worth keeping rather than something to re-narrow at every hop.
+ */
+export type ConfigurationValue =
+  | string
+  | number
+  | boolean
+  | readonly (string | number | boolean)[];
+
+export interface SandboxLauncher {
+  launch(input: {
+    readonly workspaceRoot: string;
+    /** Empty when the run tests what is installed rather than a change. */
+    readonly changeSets: readonly {
+      readonly path: string;
+      readonly changes: readonly { readonly path: string; readonly value: ConfigurationValue }[];
+    }[];
+    onProgress(message: string): Promise<void>;
+    onFinished(result: {
+      readonly outcome: string;
+      readonly durationMs: number;
+      readonly evidence: unknown;
+    }): Promise<void>;
+    onRefused(refusal: string): Promise<void>;
+  }): void;
+}
+
 export interface WorkspaceRouteDependencies {
   readonly repositories: Repositories;
   readonly clock: () => Date;
@@ -141,6 +180,11 @@ export interface WorkspaceRouteDependencies {
    * themselves unavailable rather than staging into a place nobody configured.
    */
   readonly configuration?: WorkspaceConfigurationService;
+  /**
+   * Optional, deny-by-default. Without it the sandbox routes report themselves
+   * unavailable rather than pretending a boot was queued that nothing will run.
+   */
+  readonly sandbox?: SandboxLauncher;
 }
 
 const RegisterWorkspaceSchema = Type.Object(
@@ -604,6 +648,18 @@ export function registerWorkspaceRoutes(
         throw apiError(422, `STAGING_${code.toUpperCase().replaceAll('-', '_')}`, code);
       }
 
+      // Recorded durably, so a reload does not lose which fields produced the
+      // diff — and so a sandbox boot can be handed the change itself rather
+      // than a rewritten file it would have to read back and guess at.
+      await repositories.workspaceStaging.put({
+        workspaceId: workspace.workspaceId,
+        path: request.body.path,
+        changes: request.body.changes,
+        baseSha256: staged.baseSha256,
+        stagedSha256: staged.stagedSha256,
+        stagedBy: actorOf(request),
+      });
+
       await dependencies.audit({
         request,
         actor: actorOf(request),
@@ -657,7 +713,110 @@ export function registerWorkspaceRoutes(
         workspaceRoot: workspace.rootPath,
         path,
       });
+      await repositories.workspaceStaging.remove(workspace.workspaceId, path);
       return reply.code(204).send();
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/staged',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      await workspaceOf(request.params.workspaceId);
+      return {
+        dataQuality: 'stored',
+        staged: await repositories.workspaceStaging.list(request.params.workspaceId),
+      };
+    },
+  );
+
+  app.post<{ Params: { workspaceId: string }; Body?: { testStagedChanges?: boolean } }>(
+    '/api/v1/workspaces/:workspaceId/sandbox-runs',
+    { preHandler: [authenticate, requirePermission('workspace.manage'), requireCsrf] },
+    async (request, reply) => {
+      if (dependencies.sandbox === undefined) {
+        throw apiError(
+          503,
+          'SANDBOX_UNAVAILABLE',
+          'A execução em sandbox não está configurada nesta instância.',
+        );
+      }
+      const workspace = await workspaceOf(request.params.workspaceId);
+
+      if (await repositories.sandboxRuns.hasRunning(workspace.workspaceId)) {
+        // One JVM at a time per workspace. Two sandboxes composed from the same
+        // server contend for the same files and the same port, and the second
+        // fails in a way that reads like the change under test.
+        throw apiError(409, 'SANDBOX_ALREADY_RUNNING', 'Já existe uma execução em andamento.');
+      }
+
+      const testStaged = request.body?.testStagedChanges !== false;
+      const staged = testStaged
+        ? await repositories.workspaceStaging.list(workspace.workspaceId)
+        : [];
+      // The stored changes went through the request schema before they were
+      // written, so the JSONB round-trip is the only thing that lost the type.
+      const changeSets = staged.map((entry) => ({
+        path: entry.path,
+        changes: entry.changes as readonly { readonly path: string; readonly value: ConfigurationValue }[],
+      }));
+
+      const run = await repositories.sandboxRuns.start({
+        workspaceId: workspace.workspaceId,
+        testedChanges: changeSets.length > 0,
+        startedBy: actorOf(request),
+      });
+
+      dependencies.sandbox.launch({
+        workspaceRoot: workspace.rootPath,
+        changeSets,
+        onProgress: async (message) => {
+          await repositories.sandboxRuns.appendProgress(run.runId, message);
+        },
+        onFinished: async (result) => {
+          await repositories.sandboxRuns.finish({ runId: run.runId, ...result });
+        },
+        onRefused: async (refusal) => {
+          await repositories.sandboxRuns.refuse(run.runId, refusal);
+        },
+      });
+
+      await dependencies.audit({
+        request,
+        actor: actorOf(request),
+        action: 'workspace.sandbox.start',
+        workspaceId: workspace.workspaceId,
+        outcome: 'succeeded',
+      });
+
+      // Answered immediately. A boot takes minutes and is read back by id.
+      return reply.code(202).send({ runId: run.runId, status: run.status, testedChanges: run.testedChanges });
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/sandbox-runs',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      await workspaceOf(request.params.workspaceId);
+      return {
+        dataQuality: 'stored',
+        available: dependencies.sandbox !== undefined,
+        runs: await repositories.sandboxRuns.list(request.params.workspaceId),
+      };
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string; runId: string } }>(
+    '/api/v1/workspaces/:workspaceId/sandbox-runs/:runId',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      await workspaceOf(request.params.workspaceId);
+      const run = await repositories.sandboxRuns.findById(request.params.runId);
+      if (run === undefined || run.workspaceId !== request.params.workspaceId) {
+        throw apiError(404, 'SANDBOX_RUN_NOT_FOUND', 'Execução não encontrada.');
+      }
+      return { dataQuality: 'stored', run };
     },
   );
 

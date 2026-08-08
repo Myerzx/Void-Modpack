@@ -14,3 +14,4 @@ export * from './repositories.js';
 export * from './schedule-repositories.js';
 export * from './telemetry-repositories.js';
 export * from './workspace-repositories.js';
+export * from './workspace-staging-repositories.js';

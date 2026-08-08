@@ -38,6 +38,7 @@ PGlite é single-connection e single-process: certo para um operador numa máqui
 | `/workspaces` | Registrar um servidor importado e inventariá-lo |
 | `/workspaces/detalhe?id=…` | Inventário, exclusões, lista de mods e um mod aberto |
 | `/workspaces/configuracao?id=…&path=…` | Formulário inferido, validação, preparo da mudança e diferença |
+| `/workspaces/sandbox?id=…` | Executar um boot descartável com as mudanças preparadas, e ler resultado, arquivos gerados e log |
 
 Na tela de configuração, **nada é aplicado**. Validar confere contra o limite que o mod declarou — e diz quando não havia limite para conferir, em vez de fingir que houve. Preparar escreve em `.voidfall/staging/`, e o arquivo do servidor continua byte a byte o que era. Um arquivo cujo formulário não representa todas as linhas mostra os campos e recusa o preparo: gravar uma visão parcial descartaria justamente o que ninguém conseguiu ler.
 
@@ -53,6 +54,6 @@ Barra normal ou invertida, tanto faz — a política normaliza. A partir daí ne
 
 ## Ainda por ligar
 
-Na ordem do [ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md): editar e validar → staging → diff → sandbox com resultado e logs → release. O motor de cada um existe e é usável por CLI; falta a tela.
+Na ordem do [ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md), resta o **release**: pacotes de servidor e cliente, manifesto, changelog e diff entre versões. O motor existe e é usável por CLI; falta a tela.
 
 A página inicial da Fase 2 (`/`) redireciona para `/entrar`. A dashboard de fixture continua existindo e diz na própria tela que é fixture.

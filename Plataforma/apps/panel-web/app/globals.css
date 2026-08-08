@@ -330,3 +330,7 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .diff-added { color: var(--positive); display: block; }
 .diff-removed { color: var(--danger); display: block; }
 .diff-context { color: var(--subtle); display: block; }
+.level-positive { color: var(--positive); border-color: var(--positive); }
+.level-warning { color: var(--warning); border-color: var(--warning); }
+.level-danger { color: var(--danger); border-color: var(--danger); }
+.level-neutral { color: var(--muted); }

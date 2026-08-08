@@ -92,6 +92,36 @@ Três razões independentes impedem isso de virar implantação: escuta só loop
 
 Só apareceu ao exercitar por HTTP; em processo, `app.inject` sem payload não manda content-type. O parser passou a tratar corpo vazio como ausência de corpo. Rotas que exigem corpo não mudaram — o schema delas continua recusando, agora com uma mensagem que nomeia o campo.
 
+### Sandbox: um boot que leva minutos não cabe numa requisição
+
+O `POST` cria a execução, entrega ao lançador e responde **202** com o id. Tudo depois disso chega por callback e é lido de volta. Bloquear uma requisição num JVM seria o outro desenho, e o operador ficaria com um navegador pendurado por dois minutos sem saber onde a coisa está.
+
+Isso obrigou o staging a virar durável. Antes ele era um arquivo em disco e nada mais, então o painel mostrava um diff e depois esquecia **quais campos** o produziram — suficiente para revisar, insuficiente para fazer qualquer coisa: bootar contra uma mudança precisa da mudança, não de um arquivo reescrito que alguém teria de reler e adivinhar.
+
+As duas metades têm naturezas diferentes de propósito. Uma mudança preparada é uma intenção que ainda está sendo editada, então é substituída no lugar e apagada ao descartar. Uma execução é evidência com hora, então é criada uma vez e concluída uma vez.
+
+Quatro distinções que a tela carrega do motor em vez de achatar: **executando não é falha** (não há `outcome` enquanto roda); **`timed-out` não é `exited-early`** (a janela fechou com o servidor ainda carregando — isso é um desconhecido, não um fracasso); **recusado não é "não subiu"** (uma EULA ausente ou nenhum Java encontrável nomeiam o que faltou); e **uma falha de descarte fica ao lado do resultado, nunca por cima** — na primeira execução real a limpeza destruiu a evidência que estava limpando.
+
+Um boot por workspace de cada vez. Dois sandboxes montados do mesmo servidor disputam os mesmos arquivos e a mesma porta, e o segundo falha de um jeito que se parece com a mudança sob teste.
+
+### Execução real, do painel ao JVM
+
+```
+preparar  config/alexsmobs.toml · general.lavaVisionOpacity 0.65 -> 0.5
+iniciar   202 · testedChanges: true
+          EULA acceptance found in the imported server.
+          Java 17.0.12 via PATH.
+          5530 files to copy (1017 MiB).
+          1 file(s) staged; the sandbox will boot the change.
+          Sandbox composed. Starting the server.
+          Sandbox disposed.
+resultado booted em 102.274 ms · 3 arquivos gerados · descartado: sim
+mudança   valuesHeld: true · observedSha256 == stagedSha256
+          workspaceUnchanged: true
+```
+
+O servidor subiu com a mudança, o valor sobreviveu ao boot, a cópia foi apagada e o workspace original não foi tocado.
+
 ### O que fica em aberto
 
 A política de raiz aceita qualquer diretório canônico e existente. Num painel pessoal o operador é o dono do host, e uma allow-list ali seria teatro sobre um diretório que ele já possui. Ela passa a ser necessária no dia em que isto rodar onde o operador não é o dono.
@@ -100,7 +130,7 @@ A política de raiz aceita qualquer diretório canônico e existente. Num painel
 
 1. ~~configurações detectadas de um mod, com formulário inferido e validação~~ — **ligada em 2026-08-08**;
 2. ~~staging e diff~~ — **ligada em 2026-08-08**, junto com a anterior, porque editar sem ver o que sairia não é uma tela útil;
-3. execução de sandbox com resultado e logs — `sandbox-runner` já tem a evidência de boot;
+3. ~~execução de sandbox com resultado e logs~~ — **ligada em 2026-08-08**;
 4. release, diff entre versões e pacotes — `release-planner` já recusa distribuição por licença e já empacota.
 
 Cada uma entra quando houver tela útil, e cada uma tem de sobreviver ao teste de uso antes de a próxima começar.

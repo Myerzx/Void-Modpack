@@ -121,7 +121,8 @@ function DetailView() {
         <div>
           <h1>Inventário</h1>
           <p className="muted">
-            <a href="/workspaces">← Workspaces</a>
+            <a href="/workspaces">← Workspaces</a> ·{' '}
+            <a href={`/workspaces/sandbox?id=${workspaceId}`}>Sandbox →</a>
           </p>
         </div>
       </header>

@@ -85,7 +85,11 @@ interface ApiErrorBody {
 
 async function request<T>(
   path: string,
-  init: { readonly method?: 'GET' | 'POST'; readonly body?: unknown; readonly csrfToken?: string } = {},
+  init: {
+    readonly method?: 'GET' | 'POST' | 'DELETE';
+    readonly body?: unknown;
+    readonly csrfToken?: string;
+  } = {},
 ): Promise<T> {
   const method = init.method ?? 'GET';
   const headers: Record<string, string> = {};
@@ -306,3 +310,54 @@ export const REJECTION_LABELS: Readonly<Record<string, string>> = {
   'mixed-list': 'A lista misturou tipos diferentes.',
   'unknown-field': 'Campo não existe neste arquivo.',
 };
+
+/* --- Staged changes and sandbox runs ------------------------------------ */
+
+import type { SandboxRunView, StagedChangeSummary } from './sandbox-client';
+
+export async function readStagedChanges(
+  workspaceId: string,
+): Promise<{ readonly staged: readonly StagedChangeSummary[] }> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/staged`);
+}
+
+export async function discardStaged(
+  workspaceId: string,
+  path: string,
+  csrfToken: string,
+): Promise<void> {
+  await request(
+    `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/configuration/staging?path=${encodeURIComponent(path)}`,
+    { method: 'DELETE', csrfToken },
+  ).catch((error: unknown) => {
+    // 204 has no body, so the JSON parse fails on success. A discard that
+    // actually failed still arrives as a PanelApiError from the status check.
+    if (error instanceof PanelApiError) throw error;
+  });
+}
+
+export async function startSandboxRun(
+  workspaceId: string,
+  csrfToken: string,
+): Promise<{ readonly runId: string; readonly testedChanges: boolean }> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/sandbox-runs`, {
+    method: 'POST',
+    csrfToken,
+  });
+}
+
+export async function listSandboxRuns(workspaceId: string): Promise<{
+  readonly available: boolean;
+  readonly runs: readonly SandboxRunView[];
+}> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/sandbox-runs`);
+}
+
+export async function readSandboxRun(
+  workspaceId: string,
+  runId: string,
+): Promise<{ readonly run: SandboxRunView }> {
+  return request(
+    `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/sandbox-runs/${encodeURIComponent(runId)}`,
+  );
+}

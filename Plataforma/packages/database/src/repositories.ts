@@ -23,6 +23,10 @@ import { BackupRepository } from './backup-repositories.js';
 import { ScheduleRepository } from './schedule-repositories.js';
 import { TelemetryRepository } from './telemetry-repositories.js';
 import { WorkspaceRepository } from './workspace-repositories.js';
+import {
+  SandboxRunRepository,
+  WorkspaceStagingRepository,
+} from './workspace-staging-repositories.js';
 import { ConsoleRepository } from './console-repositories.js';
 import {
   OperationRepository,
@@ -976,6 +980,8 @@ export interface Repositories {
   readonly playerIdentities: PlayerIdentityRepository;
   readonly playerRecords: PlayerRecordRepository;
   readonly workspaces: WorkspaceRepository;
+  readonly workspaceStaging: WorkspaceStagingRepository;
+  readonly sandboxRuns: SandboxRunRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -1002,5 +1008,7 @@ export function createRepositories(database: Database): Repositories {
     playerIdentities: new PlayerIdentityRepository(database),
     playerRecords: new PlayerRecordRepository(database),
     workspaces: new WorkspaceRepository(database),
+    workspaceStaging: new WorkspaceStagingRepository(database),
+    sandboxRuns: new SandboxRunRepository(database),
   };
 }

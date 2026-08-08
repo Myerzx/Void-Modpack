@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786148043.832044,
-    "ast_hash": "7ed3b933b12413623debe6ef18e183b1",
+    "mtime": 1786149410.4114144,
+    "ast_hash": "10dbc822266270a606a1a20590729f3f",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786148300.998443,
-    "ast_hash": "7717a92648344f83d55b4f55bda5d0bf",
+    "mtime": 1786149299.9525537,
+    "ast_hash": "65a6c580cddad5b2dee24872e99dd50b",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -4455,8 +4455,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-routes.ts": {
-    "mtime": 1786147021.808858,
-    "ast_hash": "672739f9ba8c706fa36ebcd5d6fecf8d",
+    "mtime": 1786149267.5369203,
+    "ast_hash": "c8ec7e71cd732b99ee432565d31162e0",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-scanner.ts": {
@@ -4475,8 +4475,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/detalhe/page.tsx": {
-    "mtime": 1786145687.426147,
-    "ast_hash": "4cd4ec1bd41308de82147ad0fda14bf3",
+    "mtime": 1786149613.9860578,
+    "ast_hash": "8faa89784dd98c1034d8a19bebd11c14",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/page.tsx": {
@@ -4485,8 +4485,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/workspace-client.ts": {
-    "mtime": 1786145604.903535,
-    "ast_hash": "02773484b6a5727a133a6211c62ca93a",
+    "mtime": 1786149557.7831824,
+    "ast_hash": "3fc3b17414d3d61567314fba03ef14c1",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0017_panel_workspaces.sql": {
@@ -4500,18 +4500,18 @@
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-015-frente-de-integracao-do-painel.md": {
-    "mtime": 1786149126.5480053,
-    "ast_hash": "1d5cd72fe195e3d9a1f8724536fae5f8",
+    "mtime": 1786150156.5646822,
+    "ast_hash": "0a12afe7d701b2542bf9ec69aa37b452",
     "semantic_hash": ""
   },
   "docs/plataforma/PAINEL_LOCAL.md": {
-    "mtime": 1786149102.156384,
-    "ast_hash": "def9577329cff0f8232dd35f46020759",
+    "mtime": 1786153573.6060455,
+    "ast_hash": "b988d34d8aa0f83dcd8bc5114662116c",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786147976.8528676,
-    "ast_hash": "d4e4fdd928c2bf8a12e277a488ba9496",
+    "mtime": 1786149312.6581633,
+    "ast_hash": "e4c62349713e08800f710be9e8966c5e",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
@@ -4527,6 +4527,21 @@
   "Plataforma/packages/database/src/embedded.ts": {
     "mtime": 1786147857.219637,
     "ast_hash": "2227bb3dff1e3cfaabb1f13e10e5d7a0",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/workspace-configuration.ts": {
+    "mtime": 1786149207.6601758,
+    "ast_hash": "f63b7e4080b1e0264749aa60bb827230",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/workspace-configuration-api.test.ts": {
+    "mtime": 1786149399.715889,
+    "ast_hash": "63bf34bc641bf9a38df5c4b46ba8f7b7",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/workspaces/configuracao/page.tsx": {
+    "mtime": 1786149605.6307013,
+    "ast_hash": "84ae1bdfce265ae959b557d9cf08e3a8",
     "semantic_hash": ""
   }
 }
