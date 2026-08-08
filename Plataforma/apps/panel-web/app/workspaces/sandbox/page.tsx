@@ -17,6 +17,7 @@ import {
   startSandboxRun,
   type PanelSession,
 } from '../../../lib/workspace-client';
+import { PanelShell, stepsFor } from '../../components/shell';
 
 /**
  * Testing a change on a disposable copy, and reading what happened.
@@ -152,24 +153,20 @@ function SandboxView() {
 
   if (workspaceId === null) {
     return (
-      <main className="page">
+      <PanelShell title="Sandbox" steps={stepsFor(null, 'sandbox')}>
         <p className="muted">Nenhum workspace informado.</p>
-      </main>
+      </PanelShell>
     );
   }
 
   const running = runs.find((run) => run.status === 'running');
 
   return (
-    <main className="page">
-      <header className="page-head">
-        <div>
-          <h1>Sandbox</h1>
-          <p className="muted">
-            <a href={`/workspaces/detalhe?id=${workspaceId}`}>← Inventário</a>
-          </p>
-        </div>
-      </header>
+    <PanelShell
+      title="Sandbox"
+      steps={stepsFor(workspaceId, 'sandbox')}
+      subtitle="Um boot numa cópia descartável, montada a partir dos arquivos mínimos. O mundo original nunca é copiado nem tocado."
+    >
 
       {failure === null ? null : <p className="banner banner-danger">{failure}</p>}
 
@@ -335,7 +332,7 @@ function SandboxView() {
           ) : null}
         </section>
       ))}
-    </main>
+    </PanelShell>
   );
 }
 

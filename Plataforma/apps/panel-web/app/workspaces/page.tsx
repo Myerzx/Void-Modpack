@@ -12,6 +12,7 @@ import {
   type WorkspaceListing,
   type WorkspaceSummary,
 } from '../../lib/workspace-client';
+import { PanelShell, stepsFor } from '../components/shell';
 
 /**
  * Importing a server, and seeing what came back.
@@ -106,9 +107,9 @@ export default function WorkspacesPage() {
 
   if (session === 'loading') {
     return (
-      <main className="page">
+      <PanelShell title="Workspaces" steps={stepsFor(null, 'workspaces')}>
         <p className="muted">Carregando…</p>
-      </main>
+      </PanelShell>
     );
   }
 
@@ -116,16 +117,11 @@ export default function WorkspacesPage() {
   const scannerReady = listing?.capabilities.canScan === true;
 
   return (
-    <main className="page">
-      <header className="page-head">
-        <div>
-          <h1>Workspaces</h1>
-          <p className="muted">
-            Um servidor ou perfil de cliente importado. A leitura é somente leitura: nada é
-            escrito dentro do diretório registrado.
-          </p>
-        </div>
-      </header>
+    <PanelShell
+      title="Workspaces"
+      steps={stepsFor(null, 'workspaces')}
+      subtitle="Um servidor ou perfil de cliente importado. A leitura é somente leitura: nada é escrito dentro do diretório registrado."
+    >
 
       {failure === null ? null : <p className="banner banner-danger">{failure}</p>}
 
@@ -236,7 +232,7 @@ export default function WorkspacesPage() {
               <span>Caminho absoluto no host da API</span>
               <input
                 required
-                placeholder="H:\\void pasta\\Servidor\\workspace\\server-original"
+                placeholder="H:/void pasta/Servidor/workspace/server-original"
                 value={form.rootPath}
                 onChange={(event) => setForm({ ...form, rootPath: event.target.value })}
               />
@@ -259,6 +255,6 @@ export default function WorkspacesPage() {
           </form>
         </section>
       ) : null}
-    </main>
+    </PanelShell>
   );
 }

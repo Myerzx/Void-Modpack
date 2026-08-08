@@ -334,3 +334,51 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .level-warning { color: var(--warning); border-color: var(--warning); }
 .level-danger { color: var(--danger); border-color: var(--danger); }
 .level-neutral { color: var(--muted); }
+
+/* --- Shell ------------------------------------------------------------- */
+.shell { min-height: 100vh; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
+.shell-side {
+  background: var(--surface); border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 20px; padding: 20px 16px;
+  position: sticky; top: 0; height: 100vh;
+}
+.shell-brand { display: flex; align-items: center; gap: 9px; font-size: 15px; letter-spacing: -0.01em; padding: 4px 8px 0; }
+.shell-mark { color: var(--accent); font-size: 17px; }
+.shell-nav { display: grid; gap: 2px; }
+.shell-link {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px; color: var(--muted); font-size: 13px;
+}
+.shell-link:hover { background: var(--surface-raised); color: var(--text); }
+.shell-link.is-active { background: var(--accent-soft); color: var(--text); }
+.shell-link.is-disabled { color: var(--subtle); cursor: default; }
+.shell-link.is-disabled:hover { background: transparent; color: var(--subtle); }
+.shell-link em { font-style: normal; font-size: 10px; color: var(--subtle); border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; }
+.shell-foot { margin-top: auto; padding: 0 8px; display: grid; gap: 4px; }
+.shell-foot p { margin: 0; font-size: 12px; color: var(--muted); }
+.shell-foot .subtle { font-size: 11px; line-height: 1.5; }
+
+.shell-main { min-width: 0; display: flex; flex-direction: column; }
+.shell-head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;
+  padding: 22px 32px 18px; border-bottom: 1px solid var(--line);
+}
+.shell-head h1 { margin: 0 0 3px; font-size: 20px; letter-spacing: -0.02em; }
+.shell-subtitle { color: var(--muted); font-size: 13px; line-height: 1.55; }
+.shell-subtitle a { color: var(--accent); }
+.shell-actions { display: flex; gap: 10px; align-items: center; }
+.shell-body { padding: 22px 32px 64px; display: grid; gap: 18px; max-width: 1180px; }
+
+.plain-list li.candidate { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+.plain-list li.candidate > div { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.plain-list li.candidate code { word-break: break-all; }
+.drawer .plain-list { gap: 10px; }
+
+.action-bar {
+  position: fixed; left: 232px; right: 0; bottom: 0; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 12px 32px; background: var(--surface-raised);
+  border-top: 1px solid var(--line-strong);
+}
+.action-bar > span { color: var(--muted); font-size: 13px; }
+.action-bar > div { display: flex; gap: 10px; }

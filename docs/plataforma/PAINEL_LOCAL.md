@@ -14,7 +14,9 @@ npm run panel
 
 **Provisiona o banco.** PostgreSQL embutido — PGlite, que é PostgreSQL compilado para WebAssembly e já rodava a suíte de testes deste repositório — persistido em `Plataforma/.voidfall/database`. Sem daemon, sem porta, sem credencial para guardar. Apagar `Plataforma/.voidfall/` recomeça do zero.
 
-**Cria o primeiro dono, uma vez.** Na primeira execução gera uma senha, imprime e grava em `Plataforma/.voidfall/first-owner.txt`. Não é mostrada de novo. Só acontece quando a tabela de usuários está vazia.
+**Entra sozinho.** Autenticação está adiada até o produto ser algo que outras pessoas rodem: abrir o endereço já entra como operador local. A máquina toda continua igual — sessão real, cookie `HttpOnly`, token CSRF real, todas as permissões conferidas. O que falta é só o passo de provar que você é quem está sentado na sua própria máquina. A rota recusa qualquer requisição que não venha de loopback, e a tela de login continua existindo para o dia do lançamento.
+
+**Cria o primeiro dono, uma vez.** Gera uma senha e grava em `Plataforma/.voidfall/first-owner.txt`, para quando o login voltar a ser o caminho.
 
 **Serve painel e API na mesma origem.** A própria API entrega o painel exportado. Não há proxy reverso, não há segunda origem, não há CORS — e o `SameSite=strict` do cookie de sessão continua valendo porque não existe requisição cross-site para fazer.
 
@@ -32,9 +34,11 @@ PGlite é single-connection e single-process: certo para um operador numa máqui
 
 ## O que dá para usar hoje
 
+Se a porta 3100 estiver ocupada, o comando avisa e usa a próxima livre.
+
 | Rota | O que faz |
 | --- | --- |
-| `/entrar` | Entrar |
+| `/` | Entra e vai para os workspaces |
 | `/workspaces` | Registrar um servidor importado e inventariá-lo |
 | `/workspaces/detalhe?id=…` | Inventário, exclusões, lista de mods e um mod aberto |
 | `/workspaces/configuracao?id=…&path=…` | Formulário inferido, validação, preparo da mudança e diferença |

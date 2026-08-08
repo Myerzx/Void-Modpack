@@ -14,6 +14,7 @@ import {
   type ModSummary,
   type UndeclaredArchive,
 } from '../../../lib/workspace-client';
+import { PanelShell, stepsFor } from '../../components/shell';
 
 /**
  * What the scan found: the inventory, the mods, and one mod up close.
@@ -92,17 +93,17 @@ function DetailView() {
 
   if (workspaceId === null) {
     return (
-      <main className="page">
+      <PanelShell title="Inventário" steps={stepsFor(null, 'inventario')}>
         <p className="muted">Nenhum workspace informado.</p>
-      </main>
+      </PanelShell>
     );
   }
 
   if (inventory === 'loading') {
     return (
-      <main className="page">
+      <PanelShell title="Inventário" steps={stepsFor(workspaceId, 'inventario')}>
         <p className="muted">Lendo inventário…</p>
-      </main>
+      </PanelShell>
     );
   }
 
@@ -116,16 +117,11 @@ function DetailView() {
         );
 
   return (
-    <main className="page">
-      <header className="page-head">
-        <div>
-          <h1>Inventário</h1>
-          <p className="muted">
-            <a href="/workspaces">← Workspaces</a> ·{' '}
-            <a href={`/workspaces/sandbox?id=${workspaceId}`}>Sandbox →</a>
-          </p>
-        </div>
-      </header>
+    <PanelShell
+      title="Inventário"
+      steps={stepsFor(workspaceId, 'inventario')}
+      subtitle="O que a varredura leu, o que ela recusou de propósito, e cada mod com as configurações que ele provavelmente possui."
+    >
 
       {failure === null ? null : <p className="banner banner-danger">{failure}</p>}
 
@@ -282,24 +278,27 @@ function DetailView() {
           ) : (
             <ul className="plain-list">
               {selected.configurationCandidates.map((candidate) => (
-                <li key={candidate.path}>
+                <li key={candidate.path} className="candidate">
+                  <div>
+                    <code>{candidate.path}</code>
+                    {/* The rule is shown because these are conventions, not
+                        declarations: nothing in a jar says where its config
+                        lives, so a reader judges it rather than trusting it. */}
+                    <span className="tag">{candidate.rule}</span>
+                  </div>
                   <a
                     className="secondary"
                     href={`/workspaces/configuracao?id=${workspaceId}&path=${encodeURIComponent(candidate.path)}`}
                   >
                     Abrir
                   </a>
-                  <code>{candidate.path}</code>
-                  {/* The rule is shown because these are conventions, not
-                      declarations: nothing in a jar says where its config lives. */}
-                  <span className="tag">{candidate.rule}</span>
                 </li>
               ))}
             </ul>
           )}
         </aside>
       )}
-    </main>
+    </PanelShell>
   );
 }
 

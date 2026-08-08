@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
-import { writeFile } from 'node:fs/promises';
+import { rm, writeFile } from 'node:fs/promises';
+import { createServer } from 'node:net';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -38,6 +39,7 @@ import { createWorkspaceScanner, defaultWorkspaceRootPolicy } from './workspace-
  */
 
 const DEFAULT_PORT = 3100;
+const LOCAL_OWNER_EMAIL = 'owner@voidfall.local';
 const HOST = '127.0.0.1';
 
 /** Where the local environment keeps everything it provisions. */
@@ -70,7 +72,7 @@ async function provisionOwner(
   );
   if (Number(existing.rows[0]?.count ?? '0') > 0) return null;
 
-  const email = 'owner@voidfall.local';
+  const email = LOCAL_OWNER_EMAIL;
   const password = randomBytes(18).toString('base64url');
   await repositories.users.create({
     email,
@@ -96,7 +98,34 @@ async function provisionOwner(
   return { email, password };
 }
 
-export async function main(): Promise<number> {
+/**
+ * Finds a port that is actually free, starting from the preferred one.
+ *
+ * A busy port used to end the command in an npm error dump about `EADDRINUSE`,
+ * which is a stack trace answering a question nobody asked. The common cause
+ * is the previous run still holding it, and the useful behaviour is to say so
+ * and move over rather than to make the operator hunt a process id.
+ */
+async function freePortFrom(preferred: number): Promise<{ port: number; moved: boolean }> {
+  for (let candidate = preferred; candidate < preferred + 10; candidate += 1) {
+    const free = await new Promise<boolean>((resolve) => {
+      const probe = createServer();
+      probe.once('error', () => {
+        resolve(false);
+      });
+      probe.once('listening', () => {
+        probe.close(() => {
+          resolve(true);
+        });
+      });
+      probe.listen(candidate, HOST);
+    });
+    if (free) return { port: candidate, moved: candidate !== preferred };
+  }
+  return { port: preferred, moved: false };
+}
+
+export async function main(argv: readonly string[] = []): Promise<number> {
   if (process.env['NODE_ENV'] === 'production') {
     process.stderr.write(
       'O ambiente local não roda com NODE_ENV=production. Use `npm run start` com DATABASE_URL.\n',
@@ -106,7 +135,6 @@ export async function main(): Promise<number> {
 
   const stateDirectory = localStateDirectory();
   const panelRoot = panelExportDirectory();
-  const port = Number(process.env['VOIDFALL_CONTROL_API_PORT'] ?? String(DEFAULT_PORT));
 
   const say = (message: string): void => {
     process.stdout.write(`${message}\n`);
@@ -115,9 +143,18 @@ export async function main(): Promise<number> {
   say('VoidFall — ambiente local');
   say('');
 
+  if (argv.includes('--reset')) {
+    // The directory is the whole database plus everything staged. Deleting it
+    // is the reset, and saying so is better than a command that half-clears
+    // some of it.
+    await rm(stateDirectory, { recursive: true, force: true });
+    say('  reset     estado local apagado');
+  }
+
   const database = await createEmbeddedDatabase(join(stateDirectory, 'database'));
-  await runMigrations(database);
-  say(`  banco     PostgreSQL embutido em ${join(stateDirectory, 'database')}`);
+  const applied = await runMigrations(database);
+  say(`  banco     PostgreSQL embutido · ${String(applied.length)} migração(ões) aplicada(s)`);
+  say(`            ${join(stateDirectory, 'database')}`);
 
   const owner = await provisionOwner(database, stateDirectory);
 
@@ -151,6 +188,12 @@ export async function main(): Promise<number> {
     // is the only reason pointing this at a real server is acceptable.
     sandboxLauncher: createSandboxLauncher(),
     panelExportRoot: panelRoot,
+    // Authentication is deferred, not removed: the session, the cookie, the
+    // CSRF token and every permission check are the ones the real login
+    // produces. What is missing is the step where somebody proves they are the
+    // person sitting at their own machine, on loopback, alone.
+    localOperatorEmail: LOCAL_OWNER_EMAIL,
+    panelEntryPath: '/workspaces',
   });
 
   const shutdown = async (): Promise<void> => {
@@ -160,20 +203,25 @@ export async function main(): Promise<number> {
   process.once('SIGINT', () => void shutdown());
   process.once('SIGTERM', () => void shutdown());
 
-  await app.listen({ host: HOST, port });
-  say('');
-
-  if (owner !== null) {
-    say('  Primeiro acesso — esta credencial não será mostrada de novo:');
-    say('');
-    say(`      e-mail  ${owner.email}`);
-    say(`      senha   ${owner.password}`);
-    say('');
-    say(`  (também gravada em ${join(stateDirectory, 'first-owner.txt')})`);
-    say('');
+  const preferred = Number(process.env['VOIDFALL_CONTROL_API_PORT'] ?? String(DEFAULT_PORT));
+  const { port, moved } = await freePortFrom(preferred);
+  if (moved) {
+    say(`  porta     ${String(preferred)} ocupada — usando ${String(port)}`);
   }
 
-  say(`  Abra  http://${HOST}:${String(port)}/entrar`);
+  await app.listen({ host: HOST, port });
+
+  say('  sessão    operador local entra sem senha (só em loopback)');
+  say('');
+  if (owner !== null) {
+    // Still written, because the login screen exists and will be the way in
+    // the day this is something other people run.
+    say(`  Credencial guardada em ${join(stateDirectory, 'first-owner.txt')}`);
+    say('');
+  }
+  say(`  Abra  http://${HOST}:${String(port)}/`);
+  say('');
+  say('  Ctrl+C encerra. `npm run panel -- --reset` recomeça do zero.');
   say('');
   return 0;
 }
@@ -190,7 +238,7 @@ function runDirectly(): boolean {
 }
 
 if (runDirectly()) {
-  main()
+  main(process.argv.slice(2))
     .then((code) => {
       if (code !== 0) process.exitCode = code;
     })

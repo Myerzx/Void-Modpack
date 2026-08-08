@@ -15,6 +15,7 @@ import {
   type InferredFormView,
   type PanelSession,
 } from '../../../lib/workspace-client';
+import { PanelShell, stepsFor } from '../../components/shell';
 
 /**
  * Editing a mod's configuration, and seeing exactly what would change.
@@ -72,6 +73,7 @@ function ConfigurationView() {
   const [staged, setStaged] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -166,33 +168,41 @@ function ConfigurationView() {
 
   if (target === null) {
     return (
-      <main className="page">
+      <PanelShell title="Configuração" steps={stepsFor(null, 'configuracao')}>
         <p className="muted">Nenhum arquivo informado.</p>
-      </main>
+      </PanelShell>
     );
   }
 
   if (form === 'loading') {
     return (
-      <main className="page">
+      <PanelShell title="Configuração" steps={stepsFor(target.id, 'configuracao')}>
         <p className="muted">Lendo o arquivo…</p>
-      </main>
+      </PanelShell>
     );
   }
+
+  const needle = filter.trim().toLowerCase();
+  const visible =
+    form === null || needle === ''
+      ? (form?.fields ?? [])
+      : form.fields.filter((field) =>
+          `${field.path} ${field.documentation.join(' ')}`.toLowerCase().includes(needle),
+        );
 
   const rejected = decisions.filter((decision) => !decision.accepted);
   const canStage = form !== null && form.complete && changes.length > 0 && rejected.length === 0;
 
   return (
-    <main className="page">
-      <header className="page-head">
-        <div>
-          <h1>Configuração</h1>
-          <p className="muted">
-            <a href={`/workspaces/detalhe?id=${target.id}`}>← Inventário</a> · <code>{target.path}</code>
-          </p>
-        </div>
-      </header>
+    <PanelShell
+      title="Configuração"
+      steps={stepsFor(target.id, 'configuracao')}
+      subtitle={
+        <>
+          <code>{target.path}</code> · nada é aplicado ao servidor por esta tela
+        </>
+      }
+    >
 
       {failure === null ? null : <p className="banner banner-danger">{failure}</p>}
 
@@ -203,6 +213,26 @@ function ConfigurationView() {
         </p>
       ) : null}
 
+      {diff.length === 0 ? null : (
+        <section className="card">
+          <header className="card-head">
+            <h2>Diferença preparada</h2>
+            {staged ? <span className="tag">não aplicada ao servidor</span> : null}
+          </header>
+          <p className="muted">
+            A mudança foi escrita em outro lugar. O arquivo do servidor continua byte a byte o que
+            era — aplicar ainda não existe no painel.
+          </p>
+          <pre className="diff">
+            {diff.map((line, index) => (
+              <span key={`${String(line.line)}:${String(index)}`} className={`diff-${line.kind}`}>
+                {line.kind === 'added' ? '+' : line.kind === 'removed' ? '-' : ' '} {line.text}
+                {'\n'}
+              </span>
+            ))}
+          </pre>
+        </section>
+      )}
       {form === null ? null : (
         <>
           {form.complete ? null : (
@@ -215,12 +245,21 @@ function ConfigurationView() {
 
           <section className="card">
             <header className="card-head">
-              <h2>{form.fields.length} campos</h2>
-              <span className="tag">{form.format}</span>
+              <h2>
+                {visible.length === form.fields.length
+                  ? `${String(form.fields.length)} campos`
+                  : `${String(visible.length)} de ${String(form.fields.length)} campos`}
+              </h2>
+              <input
+                className="filter"
+                placeholder="Filtrar campo"
+                value={filter}
+                onChange={(event) => setFilter(event.target.value)}
+              />
             </header>
 
             <div className="field-list">
-              {form.fields.map((field) => {
+              {visible.map((field) => {
                 const decision = decisionFor(field.path);
                 const bounds = describeConstraints(field);
                 const current = draft[field.path];
@@ -284,49 +323,38 @@ function ConfigurationView() {
               })}
             </div>
 
-            <footer className="card-foot">
-              <button
-                className="secondary"
-                type="button"
-                disabled={busy || changes.length === 0}
-                onClick={() => void runValidation()}
-              >
-                Validar {changes.length === 0 ? '' : `(${String(changes.length)})`}
-              </button>
-              <button
-                className="primary"
-                type="button"
-                disabled={busy || !canStage}
-                onClick={() => void runStaging()}
-              >
-                Preparar mudança
-              </button>
-            </footer>
           </section>
         </>
       )}
 
-      {diff.length === 0 ? null : (
-        <section className="card">
-          <header className="card-head">
-            <h2>Diferença preparada</h2>
-            {staged ? <span className="tag">não aplicada ao servidor</span> : null}
-          </header>
-          <p className="muted">
-            A mudança foi escrita em outro lugar. O arquivo do servidor continua byte a byte o que
-            era — aplicar ainda não existe no painel.
-          </p>
-          <pre className="diff">
-            {diff.map((line, index) => (
-              <span key={`${String(line.line)}:${String(index)}`} className={`diff-${line.kind}`}>
-                {line.kind === 'added' ? '+' : line.kind === 'removed' ? '-' : ' '} {line.text}
-                {'\n'}
-              </span>
-            ))}
-          </pre>
-        </section>
+      {changes.length === 0 ? null : (
+        // A page of 249 fields put the actions somewhere nobody scrolls to.
+        <div className="action-bar">
+          <span>
+            {changes.length} campo(s) alterado(s)
+            {rejected.length === 0 ? '' : ` · ${String(rejected.length)} recusado(s)`}
+          </span>
+          <div>
+            <button
+              className="secondary"
+              type="button"
+              disabled={busy}
+              onClick={() => void runValidation()}
+            >
+              Validar
+            </button>
+            <button
+              className="primary"
+              type="button"
+              disabled={busy || !canStage}
+              onClick={() => void runStaging()}
+            >
+              Preparar mudança
+            </button>
+          </div>
+        </div>
       )}
-    </main>
+    </PanelShell>
   );
 }
 

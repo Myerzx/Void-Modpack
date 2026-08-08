@@ -56,16 +56,10 @@ function contentTypeOf(path: string): string {
  * the resolved path rather than on the requested one, so an encoded traversal
  * and a plain one are refused by the same rule.
  */
-function resolveWithinRoot(root: string, requestPath: string): string | null {
-  let decoded: string;
-  try {
-    decoded = decodeURIComponent(requestPath.split('?')[0] ?? '/');
-  } catch {
-    return null;
-  }
-  if (decoded.includes('\0')) return null;
+function resolveWithinRoot(root: string, decodedPath: string): string | null {
+  if (decodedPath.includes('\0')) return null;
 
-  const candidate = resolve(join(root, normalize(decoded)));
+  const candidate = resolve(join(root, normalize(decodedPath)));
   const inside = relative(root, candidate);
   if (inside.startsWith('..') || (inside !== '' && resolve(root, inside) !== candidate)) {
     return null;
@@ -73,34 +67,46 @@ function resolveWithinRoot(root: string, requestPath: string): string | null {
   return candidate;
 }
 
-/** The file that answers a path: the file itself, or its `index.html`. */
-async function fileFor(root: string, requestPath: string): Promise<string | null> {
-  const candidate = resolveWithinRoot(root, requestPath);
-  if (candidate === null) return null;
-
+async function isFile(path: string | null): Promise<string | null> {
+  if (path === null) return null;
   try {
-    const info = await stat(candidate);
-    if (info.isFile()) return candidate;
-    if (info.isDirectory()) {
-      const index = join(candidate, 'index.html');
-      const indexInfo = await stat(index);
-      return indexInfo.isFile() ? index : null;
-    }
-    return null;
+    return (await stat(path)).isFile() ? path : null;
   } catch {
-    // Next's export writes `workspaces.html` beside `workspaces/index.html`
-    // depending on the route shape, so a miss is tried once with `.html`.
-    if (!requestPath.endsWith('/') && !requestPath.includes('.')) {
-      const withExtension = resolveWithinRoot(root, `${requestPath}.html`);
-      if (withExtension === null) return null;
-      try {
-        return (await stat(withExtension)).isFile() ? withExtension : null;
-      } catch {
-        return null;
-      }
-    }
     return null;
   }
+}
+
+/**
+ * The file that answers a path.
+ *
+ * Three shapes, tried in order, because Next's export produces all of them.
+ * `/workspaces` is written as `workspaces.html` *and* as a `workspaces/`
+ * directory holding the RSC payload — with no `index.html` in it. Stopping at
+ * the directory answered 404 for every nested route, which is exactly what
+ * happened the first time this was opened in a browser: the list worked and
+ * every page below it did not.
+ *
+ * The query string is stripped once, here. Appending `.html` to a path that
+ * still carried `?id=…` was the second half of the same bug.
+ */
+async function fileFor(root: string, requestUrl: string): Promise<string | null> {
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(requestUrl.split('?')[0] ?? '/');
+  } catch {
+    return null;
+  }
+
+  const exact = resolveWithinRoot(root, decoded);
+  if (exact === null) return null;
+
+  const asFile = await isFile(exact);
+  if (asFile !== null) return asFile;
+
+  const asHtml = await isFile(resolveWithinRoot(root, `${decoded.replace(/\/$/u, '')}.html`));
+  if (asHtml !== null) return asHtml;
+
+  return isFile(resolveWithinRoot(root, join(decoded, 'index.html')));
 }
 
 export interface StaticPanelOptions {

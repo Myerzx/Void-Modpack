@@ -42,11 +42,18 @@ async function fixture() {
   directories.push(parent);
   const root = join(parent, 'out');
   await mkdir(join(root, 'entrar'), { recursive: true });
+  // Next writes a route as a sibling .html *and* a directory holding the RSC
+  // payload, with no index.html in it. The fixture mirrors that exactly,
+  // because assuming index.html is what broke every nested page.
+  await mkdir(join(root, 'workspaces', 'detalhe'), { recursive: true });
   await mkdir(join(root, '_next', 'static'), { recursive: true });
   await writeFile(join(root, 'index.html'), '<!doctype html><title>painel</title>', 'utf8');
   await writeFile(join(root, 'entrar', 'index.html'), '<!doctype html><title>entrar</title>', 'utf8');
   await writeFile(join(root, '404.html'), '<!doctype html><title>404</title>', 'utf8');
   await writeFile(join(root, '_next', 'static', 'app.js'), 'console.log(1);', 'utf8');
+  await writeFile(join(root, 'workspaces.html'), '<!doctype html><title>lista</title>', 'utf8');
+  await writeFile(join(root, 'workspaces', 'detalhe.html'), '<!doctype html><title>detalhe</title>', 'utf8');
+  await writeFile(join(root, 'workspaces', 'detalhe', 'payload.txt'), 'rsc', 'utf8');
   // A file that exists beside the export and must stay unreachable.
   await writeFile(join(parent, 'segredo.txt'), 'nada disso deveria sair', 'utf8');
 
@@ -113,6 +120,27 @@ describe('serving the panel from the API', () => {
         `traversal leaked through ${url}`,
       );
     }
+  });
+
+  it('serves a nested route that Next exported beside a payload directory', async () => {
+    const { app } = await fixture();
+
+    // `/workspaces` exists as workspaces.html *and* as a workspaces/ directory
+    // with no index.html. Stopping at the directory answered 404 for every
+    // page below it — the list worked and nothing under it did.
+    const list = await app.inject({ method: 'GET', url: '/workspaces' });
+    assert.equal(list.statusCode, 200);
+    assert.match(list.body, /lista/u);
+
+    const nested = await app.inject({ method: 'GET', url: '/workspaces/detalhe' });
+    assert.equal(nested.statusCode, 200);
+    assert.match(nested.body, /detalhe/u);
+
+    // With a query string, which is how the panel actually links to it. The
+    // other half of the same bug appended `.html` to a path still carrying it.
+    const withQuery = await app.inject({ method: 'GET', url: '/workspaces/detalhe?id=abc-123' });
+    assert.equal(withQuery.statusCode, 200);
+    assert.match(withQuery.body, /detalhe/u);
   });
 
   it('answers an unknown page with the exported 404, not with the API', async () => {

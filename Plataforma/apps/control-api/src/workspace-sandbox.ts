@@ -18,6 +18,25 @@ import type { SandboxLauncher } from './workspace-routes.js';
  * cleanup destroyed the evidence it was cleaning up after.
  */
 
+/**
+ * Removes host paths from a line before it reaches a browser.
+ *
+ * Caught by watching the panel rather than by a test: the runner's progress is
+ * written for a terminal, and it names the sandbox parent and the argument
+ * file by absolute path. Those went straight onto the screen — and a host path
+ * in a browser is a host path in a screenshot, which is the rule the workspace
+ * routes have held from the first slice.
+ *
+ * The line keeps its meaning. "Sandbox parent: C:\\Users\\…\\Temp\\x" becomes
+ * "Sandbox parent: <caminho local>", which says the same thing to the person
+ * reading it and nothing at all to anybody it is shown to.
+ */
+export function withoutHostPaths(line: string): string {
+  return line
+    .replace(/[A-Za-z]:[\\/][^\s,;)]*/gu, '<caminho local>')
+    .replace(/(?<![\w<])\/(?:home|Users|tmp|var)\/[^\s,;)]*/gu, '<caminho local>');
+}
+
 export function createSandboxLauncher(): SandboxLauncher {
   return {
     launch(input) {
@@ -30,7 +49,7 @@ export function createSandboxLauncher(): SandboxLauncher {
             workspaceRoot: input.workspaceRoot,
             ...(input.changeSets.length === 0 ? {} : { changeSets: input.changeSets }),
             onProgress: (message) => {
-              void input.onProgress(message);
+              void input.onProgress(withoutHostPaths(message));
             },
           });
 
@@ -39,15 +58,16 @@ export function createSandboxLauncher(): SandboxLauncher {
             durationMs: evidence.report.durationMs,
             evidence: {
               java: { version: evidence.java.version, source: evidence.java.source },
-              argsFile: evidence.argsFile,
+              argsFile: withoutHostPaths(evidence.argsFile),
               filesCopied: evidence.filesCopied,
               mebibytesCopied: Math.round(evidence.bytesCopied / 1_048_576),
               // The payoff of booting at all: a mod classified RUNTIME_ONLY
               // because nothing was on disk writes its file the first time it
               // runs, and this is where that file turns up.
               generatedFiles: evidence.report.generatedFiles,
-              // Bounded, because a crashing mod produces megabytes in seconds.
-              tail: evidence.report.tail,
+              // Bounded, because a crashing mod produces megabytes in seconds,
+              // and scrubbed, because a server logs its own working directory.
+              tail: evidence.report.tail.map(withoutHostPaths),
               disposed: evidence.disposed,
               disposalError: evidence.disposalError,
               changes: evidence.changes,

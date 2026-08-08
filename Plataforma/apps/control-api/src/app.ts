@@ -66,6 +66,7 @@ import type { AuthorizedFileService } from '@voidfall/authorized-files';
 import { registerBackupRoutes, type BackupPermission } from './backup-routes.js';
 import { registerTelemetryRoutes, type TelemetryPermission } from './telemetry-routes.js';
 import { registerScheduleRoutes, type SchedulePermission } from './schedule-routes.js';
+import { registerLocalSession } from './local-session.js';
 import { registerStaticPanel } from './static-panel.js';
 
 const SESSION_COOKIE = 'voidfall_session';
@@ -168,6 +169,17 @@ export interface BuildControlApiOptions {
    * run that nothing will ever execute.
    */
   readonly sandboxLauncher?: SandboxLauncher;
+  /**
+   * Sign in the local operator without a password.
+   *
+   * Only the local environment sets this, and the route it registers refuses
+   * anything that did not arrive on loopback. Authentication is deferred, not
+   * removed: the session, the cookie, the CSRF token and every permission
+   * check are exactly the ones the real login produces.
+   */
+  readonly localOperatorEmail?: string;
+  /** Where a signed-out visitor lands. Defaults to the sign-in screen. */
+  readonly panelEntryPath?: string;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -893,9 +905,24 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.sandboxLauncher === undefined ? {} : { sandbox: options.sandboxLauncher }),
   });
 
+  if (options.localOperatorEmail !== undefined) {
+    registerLocalSession(app, {
+      database: options.database,
+      ownerEmail: options.localOperatorEmail,
+      ...(options.panelEntryPath === undefined ? {} : { landing: options.panelEntryPath }),
+      clock,
+    });
+  }
+
   // Last, so it can only ever answer what no route claimed.
   if (options.panelExportRoot !== undefined) {
-    registerStaticPanel(app, { root: options.panelExportRoot });
+    registerStaticPanel(app, {
+      root: options.panelExportRoot,
+      ...(options.localOperatorEmail === undefined
+        ? {}
+        : // With a local operator, the root is a sign-in that needs no typing.
+          { entryPath: '/local/session' }),
+    });
   }
 
   return app;

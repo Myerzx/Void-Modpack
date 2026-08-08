@@ -13,6 +13,7 @@ import { buildControlApi } from '../src/app.js';
 import { createWorkspaceConfigurationService } from '../src/workspace-configuration.js';
 import { createWorkspaceScanner } from '../src/workspace-scanner.js';
 import type { SandboxLauncher } from '../src/workspace-routes.js';
+import { withoutHostPaths } from '../src/workspace-sandbox.js';
 
 /**
  * Running a disposable sandbox from the panel.
@@ -113,6 +114,34 @@ async function fixture(options: { readonly launcher?: SandboxLauncher } = {}) {
 
   return { app, cookie, csrfToken, workspaceId };
 }
+
+describe('progress lines that reach a browser', () => {
+  it('keeps the meaning and drops the host path', () => {
+    // Caught by watching the panel, not by a test: the runner writes for a
+    // terminal and names the sandbox parent by absolute path, which went
+    // straight onto the screen. A host path in a browser is a host path in a
+    // screenshot.
+    // Built from a character code: a backslash written through a tool call has
+    // turned into a control byte in this repository more than once.
+    const back = String.fromCharCode(92);
+    assert.equal(
+      withoutHostPaths(
+        `Sandbox parent: C:${back}Users${back}alguem${back}AppData${back}Local${back}Temp`,
+      ),
+      'Sandbox parent: <caminho local>',
+    );
+    assert.equal(
+      withoutHostPaths('Sandbox parent: /home/alguem/.cache/voidfall'),
+      'Sandbox parent: <caminho local>',
+    );
+    // A relative path inside the server is not a host path and stays readable.
+    assert.equal(
+      withoutHostPaths('Forge argument file: libraries/net/minecraftforge/win_args.txt'),
+      'Forge argument file: libraries/net/minecraftforge/win_args.txt',
+    );
+    assert.equal(withoutHostPaths('5530 files to copy (1017 MiB).'), '5530 files to copy (1017 MiB).');
+  });
+});
 
 describe('starting a sandbox run', () => {
   it('answers immediately and is read back by id', async () => {
