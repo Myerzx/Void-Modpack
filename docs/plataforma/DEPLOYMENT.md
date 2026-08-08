@@ -24,7 +24,9 @@ Minecraft pode permanecer nativo no host. Containerizar o jogo não é requisito
 
 ### Estado implementado
 
-- o Panel Web da Fase 2 é exportado estaticamente para `apps/panel-web/out` e pode ser servido pelo reverse proxy sem um processo Next.js em produção;
+- o Panel Web é exportado estaticamente para `apps/panel-web/out` e pode ser servido pelo reverse proxy sem um processo Next.js em produção;
+- **local**, `npm run panel` sobe o ambiente inteiro sem proxy: a própria Control API serve o export na mesma origem, o banco é PGlite persistido em `Plataforma/.voidfall/`, e o primeiro dono é gerado e impresso uma vez. Escuta só loopback e recusa `NODE_ENV=production` — ver [PAINEL_LOCAL.md](PAINEL_LOCAL.md);
+- em produção nada disso vale: `PostgresDatabase` sobre servidor real, painel servido pelo proxy, e a API sem `panelExportRoot`;
 - a Control API e o worker possuem entrypoints, mas ainda não há manifesto de serviço/produção;
 - o agente implementa apenas o cliente de registro/heartbeat; o transporte mTLS real e o supervisor ainda precisam ser integrados;
 - nenhum componente deve ser apontado para o runtime privado nesta etapa.

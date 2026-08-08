@@ -71,3 +71,7 @@ __pycache__/
 .venv/
 .idea/
 .vscode/*.local.json
+
+# Local VoidFall environment: embedded database and the generated first-owner
+# credential. Provisioned by `npm run panel`, never committed.
+/Plataforma/.voidfall/

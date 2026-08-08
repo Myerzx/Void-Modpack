@@ -64,6 +64,7 @@ import type { AuthorizedFileService } from '@voidfall/authorized-files';
 import { registerBackupRoutes, type BackupPermission } from './backup-routes.js';
 import { registerTelemetryRoutes, type TelemetryPermission } from './telemetry-routes.js';
 import { registerScheduleRoutes, type SchedulePermission } from './schedule-routes.js';
+import { registerStaticPanel } from './static-panel.js';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -144,6 +145,15 @@ export interface BuildControlApiOptions {
   readonly workspaceRootPolicy?: (
     rootPath: string,
   ) => Promise<{ readonly rootPath: string } | { readonly refusal: string }>;
+  /**
+   * Absolute path of the exported panel, served from this same origin.
+   *
+   * Optional: without it the API answers only its own routes, which is the
+   * shape a deployment behind a proxy wants. With it, panel and API share an
+   * origin by construction and the session cookie's `SameSite=strict` keeps
+   * working with nothing to configure.
+   */
+  readonly panelExportRoot?: string;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -289,6 +299,34 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     crossOriginResourcePolicy: { policy: 'same-site' },
   });
   await app.register(rateLimit, { global: false, max: 100, timeWindow: '1 minute' });
+
+  /**
+   * An empty JSON body means "no body", not "invalid request".
+   *
+   * Triggering an action with `POST` and nothing to say is ordinary — running
+   * a scan, revoking a session — and a client that sets a JSON content type
+   * anyway is doing something normal too. The default parser answered those
+   * with a validation error whose `details` were empty, which is the worst
+   * kind of refusal: correct, and impossible to act on.
+   *
+   * Routes that need a body are unaffected. Their schema still rejects a
+   * missing one, and now with a message that names the field.
+   */
+  app.addContentTypeParser(
+    'application/json',
+    { parseAs: 'string' },
+    (_request, body: string, done) => {
+      if (body === '') {
+        done(null, undefined);
+        return;
+      }
+      try {
+        done(null, JSON.parse(body));
+      } catch (error) {
+        done(error instanceof Error ? error : new Error('invalid json'), undefined);
+      }
+    },
+  );
 
   app.addHook('onRequest', async (request, reply) => {
     request.correlationId = requestCorrelationId(request);
@@ -836,6 +874,11 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
       ? {}
       : { rootPolicy: options.workspaceRootPolicy }),
   });
+
+  // Last, so it can only ever answer what no route claimed.
+  if (options.panelExportRoot !== undefined) {
+    registerStaticPanel(app, { root: options.panelExportRoot });
+  }
 
   return app;
 }

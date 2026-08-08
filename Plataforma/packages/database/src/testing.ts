@@ -1,36 +1,15 @@
-import { PGlite, type Transaction } from '@electric-sql/pglite';
-import type { Database, SqlClient, SqlResult } from './database.js';
+import { PGlite } from '@electric-sql/pglite';
 
-interface PGliteQueryResult<Row extends object> {
-  readonly rows: readonly Row[];
-  readonly affectedRows?: number;
-}
+import { databaseFromPGlite } from './embedded.js';
+import type { Database } from './database.js';
 
-function pgliteClient(client: PGlite | Transaction): SqlClient {
-  return {
-    query: async <Row extends object>(
-      sql: string,
-      parameters: readonly unknown[] = [],
-    ): Promise<SqlResult<Row>> => {
-      const result = (await client.query<Row>(sql, [...parameters])) as PGliteQueryResult<Row>;
-      return {
-        rows: result.rows,
-        rowCount: Math.max(result.affectedRows ?? 0, result.rows.length),
-      };
-    },
-    executeScript: async (sql: string) => {
-      await client.exec(sql);
-    },
-  };
-}
-
+/**
+ * An in-memory PostgreSQL for tests.
+ *
+ * Same engine the local environment persists to disk, wired through the same
+ * mapping — so a test and a running panel disagree about SQL behaviour only if
+ * the SQL is genuinely different.
+ */
 export async function createPGliteTestDatabase(): Promise<Database> {
-  const pglite = await PGlite.create();
-  const client = pgliteClient(pglite);
-  return {
-    ...client,
-    transaction: async <T>(callback: (transactionClient: SqlClient) => Promise<T>) =>
-      pglite.transaction(async (transaction) => callback(pgliteClient(transaction))),
-    close: async () => pglite.close(),
-  };
+  return databaseFromPGlite((await PGlite.create()) as never);
 }

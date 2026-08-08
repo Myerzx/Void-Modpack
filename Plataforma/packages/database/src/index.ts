@@ -1,4 +1,5 @@
 export * from './database.js';
+export * from './embedded.js';
 export * from './agent-transport-repositories.js';
 export * from './artifact-review-repositories.js';
 export * from './backup-repositories.js';

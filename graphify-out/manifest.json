@@ -545,8 +545,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786145481.1951866,
-    "ast_hash": "85357f95d70f2bd820bd0d7268d0fa37",
+    "mtime": 1786147031.5681398,
+    "ast_hash": "a9efc14572f9414ccdca018b6cac3f0c",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -4455,13 +4455,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-routes.ts": {
-    "mtime": 1786145307.7285657,
-    "ast_hash": "34ba953ea0785de6e5f9cb1f69a98930",
+    "mtime": 1786147021.808858,
+    "ast_hash": "672739f9ba8c706fa36ebcd5d6fecf8d",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-scanner.ts": {
-    "mtime": 1786145521.318532,
-    "ast_hash": "2d94e058534cae622f978d8558135ad6",
+    "mtime": 1786147004.357679,
+    "ast_hash": "011415f1046ef5c301c57070f015f4f2",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
@@ -4500,8 +4500,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-015-frente-de-integracao-do-painel.md": {
-    "mtime": 1786146498.263595,
-    "ast_hash": "c1182797b18a01c3f086d777cd1f5f4a",
+    "mtime": 1786147455.4598143,
+    "ast_hash": "df3dfc7a8436702bbefd72406c300aab",
     "semantic_hash": ""
   },
   "docs/plataforma/PAINEL_LOCAL.md": {

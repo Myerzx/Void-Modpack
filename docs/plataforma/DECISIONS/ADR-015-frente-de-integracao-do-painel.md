@@ -72,9 +72,27 @@ caminho do host em alguma resposta: não
 
 O mod de 122 MiB aparecer aqui identificado é a inspeção em camadas chegando à tela: antes desta semana ele seria "sem declaração".
 
-### O que fica em aberto
+### O ambiente local é do projeto, não do operador
 
-Subir o ambiente continua sendo trabalho de operação: PostgreSQL, `bootstrap-owner` e um proxy servindo o painel na mesma origem da API. Não há manifesto de serviço, e esta decisão não cria um.
+Decidido em 2026-08-08, fechando o único ponto que sobrava: `npm run panel`, e nada mais.
+
+**A API serve o painel.** As alternativas eram um proxy reverso que o operador configura, ou CORS com duas origens. A primeira é uma ferramenta para instalar e um arquivo para manter; a segunda enfraquece exatamente as regras de cookie das quais a sessão depende. Servir o export do processo que já responde `/api` faz da mesma-origem uma propriedade da arquitetura em vez de uma instrução de implantação — e o `SameSite=strict` continua valendo porque não há requisição cross-site para fazer.
+
+Sem dependência nova para isso. Um servidor de arquivos estáticos é resolução de caminho, content type e stream, e a resolução de caminho é a parte que vale possuir: cada requisição é resolvida contra a raiz do export e recusada se cair fora, com teste para `..`, `%2e%2e`, `%2e%2e%2f` e `..%5c`. O painel também nunca responde por `/api`, `/agent` ou `/health` — uma tela que recebesse o 404 do painel dentro de um `fetch` renderizaria um formulário de login como se fosse dado.
+
+**O banco é provisionado.** PGlite já estava no repositório rodando a suíte de testes, é PostgreSQL de verdade e persiste em diretório. Então a resposta local é a que o projeto consegue provisionar sozinho: `.voidfall/database`, sem daemon, sem porta, sem credencial. Produção continua em `PostgresDatabase` sobre servidor real — PGlite é single-connection, o que é certo para um operador numa máquina e errado para qualquer outra coisa, e as duas fábricas são separadas para ninguém pegar a errada sem querer.
+
+**O primeiro dono é gerado.** Senha aleatória, impressa uma vez e gravada em `.voidfall/first-owner.txt`. Uma senha que ninguém escolheu ainda é uma senha que ninguém precisa inventar, e inventar é o passo que as pessoas fazem mal.
+
+Três razões independentes impedem isso de virar implantação: escuta só loopback, recusa `NODE_ENV=production`, e o dono só nasce com a tabela de usuários vazia.
+
+### Segundo achado da frente como validação
+
+`POST` sem corpo era recusado quando o cliente mandava `content-type: application/json` — que é o que `curl` e praticamente qualquer cliente fazem. Disparar uma ação sem nada a dizer é ordinário, e a resposta era um erro de validação com `details` vazio: correto, e impossível de agir sobre.
+
+Só apareceu ao exercitar por HTTP; em processo, `app.inject` sem payload não manda content-type. O parser passou a tratar corpo vazio como ausência de corpo. Rotas que exigem corpo não mudaram — o schema delas continua recusando, agora com uma mensagem que nomeia o campo.
+
+### O que fica em aberto
 
 A política de raiz aceita qualquer diretório canônico e existente. Num painel pessoal o operador é o dono do host, e uma allow-list ali seria teatro sobre um diretório que ele já possui. Ela passa a ser necessária no dia em que isto rodar onde o operador não é o dono.
 

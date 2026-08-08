@@ -25,6 +25,7 @@
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
+    "@electric-sql/pglite": "0.5.4",
     "@voidfall/audit-chain": "0.1.0",
     "@voidfall/authentication": "0.1.0",
     "@voidfall/configuration-schemas": "0.1.0",
@@ -33,7 +34,6 @@
     "pg": "8.22.0"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "0.5.4",
     "@types/pg": "8.20.3"
   }
 }

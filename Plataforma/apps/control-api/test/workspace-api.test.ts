@@ -137,6 +137,42 @@ describe('a session a reloaded page can actually use', () => {
   });
 });
 
+describe('a POST with nothing to say', () => {
+  it('is accepted even when the client sets a JSON content type', async () => {
+    const { app, cookie, csrfToken } = await fixture({ scanner: scanner() });
+    const root = await workspaceRoot();
+    const registered = await app.inject({
+      method: 'POST',
+      url: '/api/v1/workspaces',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { slug: 'principal', displayName: 'Principal', rootPath: root, kind: 'server' },
+    });
+
+    // Found by running it over HTTP rather than in process: curl and every
+    // ordinary client send `content-type: application/json` with an empty
+    // body, and the default parser answered with a validation error whose
+    // details were empty — correct, and impossible to act on.
+    const scanned = await app.inject({
+      method: 'POST',
+      url: `/api/v1/workspaces/${registered.json<{ workspaceId: string }>().workspaceId}/scans`,
+      headers: { cookie, 'x-csrf-token': csrfToken, 'content-type': 'application/json' },
+      payload: '',
+    });
+    assert.equal(scanned.statusCode, 201);
+  });
+
+  it('still refuses a route that needs a body', async () => {
+    const { app, cookie, csrfToken } = await fixture({ scanner: scanner() });
+    const refused = await app.inject({
+      method: 'POST',
+      url: '/api/v1/workspaces',
+      headers: { cookie, 'x-csrf-token': csrfToken, 'content-type': 'application/json' },
+      payload: '',
+    });
+    assert.equal(refused.statusCode, 400);
+  });
+});
+
 describe('registering a server instance', () => {
   it('can be done through the API instead of by hand in SQL', async () => {
     const { app, cookie, csrfToken } = await fixture();
