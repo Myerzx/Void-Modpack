@@ -11,6 +11,11 @@ import { AgentRuntime, AgentWorkTransport, createAgentIdentity } from '@voidfall
 
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
+import {
+  acquireLocalProcessLock,
+  LocalProcessLockError,
+  type LocalProcessLock,
+} from './local-process-lock.js';
 import { createWorkspaceConfigurationService } from './workspace-configuration.js';
 import {
   buildLocalProcessRuntime,
@@ -153,6 +158,47 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   say('VoidFall — ambiente local');
   say('');
 
+  let processLock: LocalProcessLock;
+  try {
+    // This happens before reset and before PGlite opens. A second local process
+    // must not delete or share state merely because it can move to another
+    // HTTP port.
+    processLock = await acquireLocalProcessLock(stateDirectory);
+  } catch (error) {
+    if (error instanceof LocalProcessLockError) {
+      process.stderr.write(`${error.message}\n`);
+      return 73;
+    }
+    throw error;
+  }
+
+  let database: Awaited<ReturnType<typeof createEmbeddedDatabase>> | undefined;
+  let app: Awaited<ReturnType<typeof buildControlApi>> | undefined;
+  let agentAbort: AbortController | undefined;
+  let agentTask: Promise<void> | undefined;
+  let shutdownTask: Promise<void> | undefined;
+  const shutdown = (): Promise<void> => {
+    shutdownTask ??= (async () => {
+      agentAbort?.abort();
+      if (agentTask !== undefined) await agentTask.catch(() => undefined);
+      if (app !== undefined) await app.close().catch(() => undefined);
+      if (database !== undefined) await database.close().catch(() => undefined);
+      await processLock.release();
+    })();
+    return shutdownTask;
+  };
+  const onSignal = (): void => {
+    void shutdown().catch((error: unknown) => {
+      process.stderr.write(
+        `falhou ao encerrar: ${error instanceof Error ? error.message : 'erro'}\n`,
+      );
+    });
+  };
+  process.once('SIGINT', onSignal);
+  process.once('SIGTERM', onSignal);
+
+  try {
+
   if (argv.includes('--reset')) {
     // The directory is the whole database plus everything staged. Deleting it
     // is the reset, and saying so is better than a command that half-clears
@@ -161,7 +207,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     say('  reset     estado local apagado');
   }
 
-  const database = await createEmbeddedDatabase(join(stateDirectory, 'database'));
+  database = await createEmbeddedDatabase(join(stateDirectory, 'database'));
   const applied = await runMigrations(database);
   say(`  banco     PostgreSQL embutido · ${String(applied.length)} migração(ões) aplicada(s)`);
   say(`            ${join(stateDirectory, 'database')}`);
@@ -176,12 +222,14 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     process.stderr.write(
       'O painel ainda não foi exportado. Rode `npm run build` na pasta Plataforma e tente de novo.\n',
     );
-    await database.close();
+    await shutdown();
+    process.off('SIGINT', onSignal);
+    process.off('SIGTERM', onSignal);
     return 2;
   }
   say(`  painel    servido pela própria API (mesma origem, sem proxy)`);
 
-  const app = await buildControlApi({
+  app = await buildControlApi({
     database,
     // Loopback without TLS: the secure flag would make the browser drop the
     // cookie and nothing would work. Refused outright under production above.
@@ -222,14 +270,6 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     panelEntryPath: '/workspaces',
   });
 
-  const shutdown = async (): Promise<void> => {
-    agentAbort.abort();
-    await app.close();
-    await database.close();
-  };
-  process.once('SIGINT', () => void shutdown());
-  process.once('SIGTERM', () => void shutdown());
-
   const preferred = Number(process.env['VOIDFALL_CONTROL_API_PORT'] ?? String(DEFAULT_PORT));
   const { port, moved } = await freePortFrom(preferred);
   if (moved) {
@@ -260,7 +300,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   const processRuntime =
     java === null ? null : buildLocalProcessRuntime(instance, java.executable);
 
-  const agentAbort = new AbortController();
+  agentAbort = new AbortController();
   const agent = new AgentRuntime({
     configuration: {
       agentId: agentIdentity.agentId,
@@ -319,7 +359,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
       }
     },
   });
-  void agent.start(agentAbort.signal);
+  agentTask = agent.start(agentAbort.signal);
 
   if (processRuntime === null) {
     // An ordinary state, and the one readiness already models. Announcing a
@@ -346,6 +386,12 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   say('  Ctrl+C encerra. `npm run panel -- --reset` recomeça do zero.');
   say('');
   return 0;
+  } catch (error) {
+    await shutdown();
+    process.off('SIGINT', onSignal);
+    process.off('SIGTERM', onSignal);
+    throw error;
+  }
 }
 
 /** Compared as paths, not as strings — a directory with a space arrives encoded. */
