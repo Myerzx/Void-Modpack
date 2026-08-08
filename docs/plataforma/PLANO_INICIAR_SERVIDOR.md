@@ -24,17 +24,15 @@ O boot real de 102 segundos que a sandbox executou usou **exatamente** este cont
 
 ---
 
-## Os cinco buracos
+## Os cinco buracos que orientaram a implementação
 
-### 1. O agente monta o plano errado
+### ~~1. O agente monta o plano errado~~ — resolvido em 2026-08-08
 
-`server-agent/src/main.ts` chama só `createMinecraftProcessPlan`, que constrói `java -jar <serverJar> nogui`. Forge 1.20.1 **não tem jar gordo** — inicia por `@user_jvm_args.txt @libraries/.../win_args.txt`. O plano certo existe no mesmo pacote e não é usado.
+O agente seleciona `createForgeArgsFileProcessPlan` para Forge/NeoForge e mantém o plano `-jar` para Fabric/Paper/Spigot/vanilla. O plano vem do runtime detectado, não de um nome inventado pelo painel.
 
-Consequência: hoje o agente sabe iniciar Paper e vanilla, e não sabe iniciar o servidor do proprietário.
+### ~~2. Não existe detecção de runtime~~ — resolvido em 2026-08-08
 
-### 2. Não existe detecção de runtime
-
-`ProcessConfiguration` exige `serverJar` digitado. Deve ser **descoberto**, como o `sandbox-runner` já descobre o args file do Forge e o Java do host:
+O runtime passou a ser **descoberto** com a mesma evidência usada pelo `sandbox-runner`:
 
 ```
 libraries/net/minecraftforge/forge/<v>/{unix,win}_args.txt  -> forge, args file
@@ -48,9 +46,9 @@ nada reconhecido                                             -> recusa nomeada
 
 `server_instances` ganhou `run_directory`, `runtime` e `runtime_detected_at`, e `panel_workspaces` ganhou a aresta opcional. `POST /api/v1/servers/:id/runtime` é o único lugar onde um caminho é enviado sobre uma instância, e é enviado uma vez; a resposta e a listagem carregam o descritor sem o diretório. `create` deliberadamente não aceita descritor: aceitar um na criação seria aceitar um que ninguém verificou.
 
-### 4. O ambiente local não sobe o agente
+### ~~4. O ambiente local não sobe o agente~~ — resolvido e endurecido em 2026-08-08
 
-`npm run panel` sobe banco, API e painel. O agente é processo separado, com identidade Ed25519, registro e heartbeat.
+`npm run panel` sobe banco, API, painel e os agentes lógicos no mesmo processo local, cada um com identidade Ed25519, registro e heartbeat próprios.
 
 **Medido em 2026-08-08, e o resultado muda o desenho.** Dois processos separados abriram e escreveram no mesmo diretório PGlite ao mesmo tempo, sem nenhuma recusa:
 
@@ -64,11 +62,11 @@ A ausência de recusa é o perigo, não a permissão. PGlite não tem coordenaç
 
 Então, no ambiente local, o agente roda **no mesmo processo** da Control API, compartilhando o único handle de banco. Isso não é um atalho: `AgentRuntime` recebe `repositories` como dependência justamente para isso, e o transporte continua sendo HTTP de loopback para a mesma API — a autoridade sobre o processo permanece no agente, e o protocolo permanece real.
 
-O que falta implementar: provisionar identidade e token do agente na primeira execução, registrar pela rota real, e construir o `AgentRuntime` com o controlador detectado. Em produção nada disso vale — lá o agente é processo separado contra um PostgreSQL de verdade, que é o caso para o qual ele foi escrito.
+`npm run panel` provisiona e registra pela rota real uma identidade por `ServerInstance`, constrói um `AgentRuntime` por instância e sincroniza a frota quando um runtime é vinculado ou alterado. Um lock atômico adquirido antes do PGlite impede duas cópias de `dist/local.js` sobre o mesmo estado; lock de PID morto é recuperado. Em produção o agente continua sendo processo separado contra PostgreSQL real.
 
-### 5. Nenhuma tela
+### 5. Telas adicionais permanecem fora do recorte
 
-Nenhuma das rotas de processo, console, métricas ou backup tem interface.
+O lifecycle do servidor já está ligado ao painel. Console ao vivo, backup e `artifact.install` continuam deliberadamente ausentes.
 
 ---
 
@@ -85,11 +83,11 @@ entrada   libraries/net/minecraftforge/forge/1.20.1-47.4.4/win_args.txt
 comando   java -Xms4096M -Xmx8192M -Dfile.encoding=UTF-8 @libraries/.../win_args.txt nogui
 ```
 
-**Passo 3 — instância com diretório e runtime.** Migração acrescentando `run_directory` e `runtime` a `server_instances`, mais a aresta com o workspace. A rota de criação de instância já existe.
+~~**Passo 3 — instância com diretório e runtime.**~~ **Feito em 2026-08-08.** O workspace importado pode ser ligado por ID, sem repetir o path; o banco garante um diretório por instância e uma instância por workspace.
 
-**Passo 4 — agente no ambiente local.** `npm run panel` provisiona a identidade do agente, registra e sobe o processo junto. Continua loopback, continua recusando `NODE_ENV=production`.
+~~**Passo 4 — agente no ambiente local.**~~ **Feito e endurecido em 2026-08-08.** A frota local mantém identidade, claim de job e controlador isolados por `ServerInstance`, continua em loopback e recusa `NODE_ENV=production`.
 
-**Passo 5 — telas.** Servidor (estado, uptime, memória, CPU, PID, iniciar/parar/reiniciar), console (log ao vivo, envio, histórico), backups. As rotas já existem; é integração, não motor.
+**Passo 5 — telas adicionais.** Deliberadamente adiado neste recorte. Console ao vivo, backup e `artifact.install` não devem ser iniciados antes do fechamento e do smoke das guardas operacionais.
 
 ---
 
@@ -105,21 +103,21 @@ O caminho até lá encontrou três defasagens, todas do mesmo tipo — contratos
 
 **Registro de lease.** `agent_work_leases` tinha a mesma lista curta. Concedida a capability, a reivindicação seguinte quebrava com **500** — e o 500 não aparecia em lugar nenhum, porque o tratador de erro não registrava a causa. Registrar passou a ser a primeira correção, e ela pagou na primeira execução.
 
-### Os dois buracos, e o que sobrou deles
+### Os buracos de lifecycle foram fechados
 
 **~~A operação nunca liquida.~~ Corrigido.** O resultado do agente concluía o *job* e nunca a *operação*. São dois fatos diferentes e só o primeiro era escrito. Agora `/agent/v1/work/result` liquida a operação pelo `jobId`, de `accepted` ou `running`, e uma já liquidada é final. Preso por teste ponta a ponta.
 
 **~~`observedState` não acompanha.~~ Corrigido.** `server_instances.observed_state` é uma coluna da Fase 1 que **nada jamais escreveu**. A observação real vive em `server_process_states`, com quem observou, quando, e se envelheceu — a listagem passou a ler de lá, com procedência, em vez de copiar para uma segunda coluna que depois teria de ser mantida verdadeira.
 
-**O que resta: o handler de start nunca retorna.**
+**~~O handler de start nunca retorna.~~ Corrigido.** O adaptador usa a readiness Minecraft já existente como fonte única. O timeout solicitado percorre todo o fluxo, e a lease recebe esse prazo mais margem. Boot real de aproximadamente 723 segundos concluiu; crash durante boot retorna `error`; JVM viva sem readiness retorna `operation-timeout`.
 
-`MinecraftProcessController.#runStart` lança o processo e então espera `#waitForState('online')`, que depende do adaptador reportar `online`. Contra o servidor real o adaptador nunca reporta — o JVM sobe (2,9 GiB de heap, 205 linhas de console capturadas), a lease é reivindicada, e o evento `handled` nunca aparece.
+**~~Restart offline virava falha genérica.~~ Corrigido.** Estado offline fresco é recusado como `state-conflict` antes de criar operação/job. O agente repete a mesma classificação caso o estado mude depois da aceitação.
 
-Consequência: **dá para iniciar pelo painel e ainda não dá para parar**, porque a operação de start segue legitimamente em andamento. A liquidação está correta e testada; ela não tem o que liquidar.
+**~~Uma identidade local podia operar só a instância provisionada.~~ Corrigido.** Há um runtime lógico por `ServerInstance`, identidade persistente própria, claim filtrado pelo vínculo no banco, link atômico de workspace importado por ID e ownership exclusivo de `runDirectory`. A frota detecta novas instâncias e troca somente o runtime cuja versão mudou.
 
-A próxima fatia é a detecção de prontidão no adaptador de processo. A sandbox já resolve isso lendo a saída do servidor — `sandbox-runner` reconhece o fim do carregamento e devolve `booted` — e essa é a evidência que o adaptador ainda não usa.
+**~~Duas cópias locais podiam compartilhar PGlite.~~ Corrigido.** `dist/local.js` adquire lock atômico antes de reset ou abertura do banco, recusa o segundo PID vivo e recupera lock órfão.
 
-Os passos 1 e 2 sozinhos já tornam o servidor iniciável por API. O 5 é o que torna isso um painel.
+Depois dos testes reais de lifecycle ficaram zero leases abertas, zero jobs pendentes e zero operações em voo. O próximo passo seguro é repetir esse smoke com um servidor existente/importado; não é abrir console, backup ou instalação de artefato.
 
 ---
 

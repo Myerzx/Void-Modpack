@@ -2,11 +2,11 @@
 
 ## Estado atual
 
-- Data: 2026-08-05
-- Responsável: Claude
-- Fase: 10.1 — a Fase 8 inteira está fechada e aprovada em CI, a Fase 9 inteira está fechada e aprovada em CI, e a Fase 10.1 está concluída tecnicamente em isolamento; as Fases 8.1 e 8.2 já estão aprovadas em CI e o critério de conclusão da Fase 8 foi provado de ponta a ponta. A configuração OpenLoader atravessa painel → API → job/agente → `PersistentConfigurationService` → filesystem temporário → auditoria, com validação, idempotência, concorrência obsoleta, falha sanitizada e rollback provados
+- Data: 2026-08-08
+- Responsáveis: Claude e Codex
+- Fase: hardening do lifecycle operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. O ambiente local agora possui exclusão entre processos e um runtime lógico por `ServerInstance`
 - Fase 2: concluída e validada
-- Runtime Minecraft privado: não modificado e não conectado; a Fase 7.2 usou somente schema/fixtures sanitizados, PGlite e diretórios temporários, sem nova leitura de `Launcher/workspace/**` ou `Servidor/workspace/**`
+- Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
@@ -231,11 +231,24 @@
   - comando de console chegando ao agente: a rota o aceitava e descartava, então o payload do job não o levava e a capability não poderia existir; ele passou a viver na operação durável, restrito ao catálogo pelo banco, com a capability `console.command` resolvendo-o pelo job e despachando sob o mesmo lock;
 - workflow de CI com Node 24, Java 17 e testes Python em Ubuntu/Windows.
 
+### Hardening operacional de 2026-08-08
+
+- lifecycle real validado para `start`, `restart` e `stop`; readiness do Minecraft permanece a única transição que confirma boot, e o timeout informado percorre API, job, lease, agente e controlador;
+- boot de aproximadamente 723 segundos concluído dentro do prazo; crash durante boot termina em `error`, enquanto processo vivo sem readiness termina em `operation-timeout`;
+- `restart` de servidor comprovadamente offline é recusado antes de criar job/operação com `state-conflict`; o agente mantém a mesma classificação como fallback contra estado que mude depois da aceitação;
+- o ambiente `dist/local.js` adquire lock atômico ao lado de `.voidfall` antes de reset ou abertura do PGlite, recusa segundo processo vivo e recupera lock órfão por PID;
+- existe um `AgentRuntime`, uma identidade Ed25519 persistente e um controlador por `ServerInstance`; a identidade singleton antiga só é migrada quando o banco comprova sua instância;
+- jobs cujo recurso é `server-instance` só podem ser reivindicados pelo agente vinculado àquela instância;
+- workspace de servidor existente/importado pode ser ligado por `workspaceId`, sem reenviar nem expor seu path; vínculo, runtime detectado e ownership são gravados atomicamente;
+- `run_directory` e a aresta workspace → instância são um-para-um no banco, impedindo dois controladores sobre o mesmo diretório;
+- a frota local acompanha novas instâncias e alterações de runtime sem reiniciar agentes não afetados, e o shutdown aguarda sincronizações em voo;
+- depois dos testes reais de lifecycle: zero leases abertas, zero jobs pendentes e zero operações em voo.
+
 ## Limites obrigatórios
 
-1. Não modificar `Launcher/`, `Servidor/workspace/`, mundos, configs privadas ou o processo Minecraft real.
+1. Não modificar `Launcher/`, `Servidor/workspace/`, mundos ou configs privadas por descoberta implícita; operar processo real somente após vínculo explícito de workspace/runtime à instância.
 2. Não expor `ProcessLaunchPlan`, shell, argumento, cwd ou texto de comando como payload público.
-3. Não ligar os adaptadores ao agente/API antes de contratos operacionais estreitos, autorização, auditoria e idempotência por ação.
+3. Não ampliar os adaptadores já ligados ao agente/API além dos contratos estreitos, autorização, auditoria e idempotência existentes.
 4. Não adicionar método genérico de stdin, force kill ou restore operacional; o restore isolado não autoriza troca de mundo.
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
@@ -253,6 +266,9 @@
 
 ## Validação
 
+- gate completo após o hardening operacional aprovado com código 0 em 2026-08-08: 920 casos descobertos, 918 executados no Windows e dois sockets Unix ignorados; build de pacotes/apps, typecheck, testes, Forge Bridge e export estático do painel concluídos;
+- 10 regressões acrescentadas sobre a baseline de 910 casos: conflito de restart offline na API/agente, lock PGlite e recuperação de órfão, identidade por instância e migração legada, sincronização/shutdown da frota, vínculo atômico de workspace e isolamento de claim;
+- smoke interprocesso real: segundo processo recusado enquanto o primeiro possui `.voidfall`, seguido de aquisição bem-sucedida depois da liberação;
 - Fase 10.1 por componente: `database` 36 casos e `control-api` 74, incluindo 13 das rotas de processo e console;
 - gate completo local da Fase 10.1 aprovado com código de saída 0: 505 casos descobertos, 503 executados no Windows e dois sockets Unix ignorados, já incluindo a capability de console;
 - matriz CI da Fase 10.1 aprovada em `ubuntu-latest` e `windows-latest`: [execução 31026584693](https://github.com/Myerzx/Void-Modpack/actions/runs/31026584693);
@@ -407,10 +423,15 @@
 
 ## Próximo recorte recomendado
 
-Executar a **Fase 10.2** do [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md): arquivos e configurações — descoberta somente em raízes autorizadas, criar/renomear/mover/copiar/excluir com revisão e política, upload e download limitados e sem execução, proteção contra junction, symlink e alias cross-platform, e diff e restauração de texto sem revelar segredos. O pacote `@voidfall/authorized-files` já implementa boa parte dessas garantias em isolamento e ainda não tem rota nem operação. Não conectar o runtime privado. Para continuidade por Claude até a Fase 13, seguir também o [`CLAUDE_FINAL_EXECUTION_HANDOFF.md`](../agentes/CLAUDE_FINAL_EXECUTION_HANDOFF.md).
+Antes de abrir uma feature, executar um smoke operacional isolado com um servidor **existente/importado**: registrar workspace, ligá-lo por `workspaceId`, confirmar que o agente correto reivindica somente os jobs daquela instância, executar `start`/`restart`/`stop` e conferir novamente zero leases abertas, jobs pendentes e operações em voo. Isso valida a terceira correção contra um runtime real sem ampliar a superfície do produto.
+
+Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois desse smoke, sem reabrir readiness, timeout ou ownership já consolidados.
 
 ## Commits relevantes
 
+- `5f30c41` — restart offline recusado como `state-conflict` na API e no agente;
+- `ca8857a` — exclusão interprocesso para o PGlite do ambiente local;
+- `8db250a` — runtime, identidade e reivindicação de trabalho vinculados por `ServerInstance`, com workspace importado ligado atomicamente;
 - `ed450a4` — planos e contrato inicial da Fase 3;
 - `d4cf50c` — runtime e adaptadores gerenciados;
 - `f6f3058` — geração limpa dos tipos de rota do painel;
