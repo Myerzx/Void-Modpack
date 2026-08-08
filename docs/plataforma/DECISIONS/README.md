@@ -17,3 +17,5 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-012 — Credenciais, tickets de login e rotação de chaves](ADR-012-credenciais-e-tickets-de-login.md)
 - [ADR-013 — Capacidade tipada de permissões no Forge Bridge](ADR-013-permissoes-tipadas-no-forge-bridge.md)
 - [ADR-014 — Objetivo central do produto e replanejamento das fases](ADR-014-objetivo-central-e-replanejamento.md)
+- [ADR-015 — Frente de integração do painel, em paralelo ao roadmap](ADR-015-frente-de-integracao-do-painel.md)
+- [ADR-016 — O painel é o gerenciador completo do servidor](ADR-016-painel-como-gerenciador-completo.md)

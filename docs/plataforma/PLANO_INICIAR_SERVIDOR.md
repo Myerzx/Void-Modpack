@@ -1,0 +1,87 @@
+# Plano — iniciar o servidor pelo painel
+
+O que existe, o que falta, e em que ordem. Levantado do código em 2026-08-08, não de memória.
+
+---
+
+## O que já está pronto
+
+Mais do que parece. A Fase 9/10 construiu a operação inteira e ninguém nunca a ligou:
+
+| Peça | Onde | Estado |
+| --- | --- | --- |
+| Controlador de processo | `minecraft-process/src/controller.ts` | ✅ com máquina de estado |
+| Adaptadores de processo | `node-runtime.ts`, Windows e Linux | ✅ inclusive `forceTerminate` |
+| Plano de lançamento `-jar` | `createMinecraftProcessPlan` | ✅ serve vanilla, Paper, Spigot |
+| Plano de lançamento Forge | `createForgeArgsFileProcessPlan` | ✅ e **provado** — é o que a sandbox usa |
+| Capability `process.control` | `server-agent/src/process-operation.ts` | ✅ com lease e operação durável |
+| Readiness que a desliga | `readiness.ts` → `no-process-controller-configured` | ✅ |
+| Rota da API | `POST /api/v1/servers/:id/process/control` | ✅ |
+| Console: leitura, envio, histórico | migrações `0009`/`0010`, `process-routes.ts` | ✅ |
+| Métricas de processo | `metrics.ts`, `server_process_states` | ✅ |
+
+O boot real de 102 segundos que a sandbox executou usou **exatamente** este controlador e este adaptador. A máquina funciona.
+
+---
+
+## Os cinco buracos
+
+### 1. O agente monta o plano errado
+
+`server-agent/src/main.ts` chama só `createMinecraftProcessPlan`, que constrói `java -jar <serverJar> nogui`. Forge 1.20.1 **não tem jar gordo** — inicia por `@user_jvm_args.txt @libraries/.../win_args.txt`. O plano certo existe no mesmo pacote e não é usado.
+
+Consequência: hoje o agente sabe iniciar Paper e vanilla, e não sabe iniciar o servidor do proprietário.
+
+### 2. Não existe detecção de runtime
+
+`ProcessConfiguration` exige `serverJar` digitado. Deve ser **descoberto**, como o `sandbox-runner` já descobre o args file do Forge e o Java do host:
+
+```
+libraries/net/minecraftforge/forge/<v>/{unix,win}_args.txt  -> forge, args file
+libraries/net/neoforged/neoforge/<v>/…                      -> neoforge, args file
+fabric-server-launch.jar | .fabric/                          -> fabric, -jar
+paper-*.jar | spigot-*.jar | server.jar na raiz              -> paper/spigot/vanilla, -jar
+nada reconhecido                                             -> recusa nomeada
+```
+
+### 3. Workspace e instância não se falam
+
+`panel_workspaces` (leitura pura, id do painel) e `server_instances` (operação, id do agente) nasceram em fases diferentes e não têm aresta. Falta:
+
+- `server_instances.run_directory` — onde o servidor executa;
+- `server_instances.runtime` — família e plano detectados;
+- a ligação opcional workspace → instância.
+
+### 4. O ambiente local não sobe o agente
+
+`npm run panel` sobe banco, API e painel. O agente é processo separado, com identidade Ed25519, registro e heartbeat.
+
+Para operar um servidor local, ou o ambiente sobe um agente local junto, ou o Control API ganha um controlador direto. **A primeira preserva a arquitetura** — a autoridade sobre o processo continua no agente, que é onde sempre esteve — e a segunda a fura para ganhar um atalho.
+
+### 5. Nenhuma tela
+
+Nenhuma das rotas de processo, console, métricas ou backup tem interface.
+
+---
+
+## Ordem de execução
+
+**Passo 1 — detecção de runtime.** Um módulo em `minecraft-process` que lê um diretório e devolve família + plano, ou recusa com nome. Generaliza o que `sandbox-runner/src/provision.ts` já faz. Testável sem JVM.
+
+**Passo 2 — o agente escolhe o plano certo.** `buildProcessRuntime` passa a usar o descritor. Com isso o Forge do proprietário passa a ser iniciável, e Paper/Fabric entram de graça.
+
+**Passo 3 — instância com diretório e runtime.** Migração acrescentando `run_directory` e `runtime` a `server_instances`, mais a aresta com o workspace. A rota de criação de instância já existe.
+
+**Passo 4 — agente no ambiente local.** `npm run panel` provisiona a identidade do agente, registra e sobe o processo junto. Continua loopback, continua recusando `NODE_ENV=production`.
+
+**Passo 5 — telas.** Servidor (estado, uptime, memória, CPU, PID, iniciar/parar/reiniciar), console (log ao vivo, envio, histórico), backups. As rotas já existem; é integração, não motor.
+
+Os passos 1 e 2 sozinhos já tornam o servidor iniciável por API. O 5 é o que torna isso um painel.
+
+---
+
+## O que continua desligado de propósito
+
+- **`process.force-kill`** — a capability existe no contrato e **nunca teve handler**. Matar um servidor pode perder tudo desde o último save. Continua deliberadamente desligada, e a readiness a distingue: `deliberately-disabled`, não `no-handler-implemented`.
+- **`apply`** — escrever staging de volta no workspace segue sem dono.
+- **Boot do servidor original a partir do caminho de build** — geração de configuração continua exclusivamente em sandbox descartável. Operar o servidor é outro caminho, com outro dono e outra guarda.

@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786153950.4014707,
-    "ast_hash": "8cc1b0b748b42bfec15a4090c894868a",
+    "mtime": 1786158020.4011636,
+    "ast_hash": "4f0e174ec22725cdc2d6e93b0f6fa45e",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786153838.506745,
-    "ast_hash": "b16cb81b12a1c92be303992ee6f235be",
+    "mtime": 1786157924.6405754,
+    "ast_hash": "44d1b202b6822d9b7a4d1b8030433da8",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -4475,13 +4475,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/detalhe/page.tsx": {
-    "mtime": 1786154182.9475572,
-    "ast_hash": "d29931a04bc6bff387b34b26042db128",
+    "mtime": 1786158815.7806425,
+    "ast_hash": "1c9c9eb37a750d4f2750ce175ee4e5b7",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/page.tsx": {
-    "mtime": 1786145650.2017727,
-    "ast_hash": "fd0c49c67164270c35e2e0800bc7f9cf",
+    "mtime": 1786158378.1814444,
+    "ast_hash": "2d98e2e5fdc9d6f30ca1388824b19053",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/workspace-client.ts": {
@@ -4505,23 +4505,23 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PAINEL_LOCAL.md": {
-    "mtime": 1786154747.656589,
-    "ast_hash": "5342c39d49e304cb95f642346312fd39",
+    "mtime": 1786160162.503335,
+    "ast_hash": "3f58aa03dfc1a02600dc31681666c244",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786153854.8934886,
-    "ast_hash": "6bb69087a20b152fbf42225a61e3daf0",
+    "mtime": 1786157985.4329298,
+    "ast_hash": "46e3d62759aef1d16845793a3e5de780",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
-    "mtime": 1786147908.3689253,
-    "ast_hash": "aa7cebeb2d9a9a4f7e612535e30ba29c",
+    "mtime": 1786158531.986149,
+    "ast_hash": "928d7facdf6ba6fab7e9325665a60f28",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/static-panel.test.ts": {
-    "mtime": 1786148034.7650416,
-    "ast_hash": "0d869758d0ec71717447e1d54ec363ad",
+    "mtime": 1786158555.5977979,
+    "ast_hash": "c65f26cbd30c42ebeabdffc53075d35a",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/embedded.ts": {
@@ -4540,23 +4540,23 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/configuracao/page.tsx": {
-    "mtime": 1786149605.6307013,
-    "ast_hash": "84ae1bdfce265ae959b557d9cf08e3a8",
+    "mtime": 1786159051.161979,
+    "ast_hash": "79b6a172155b8010a8bdb217ac7d6dce",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-sandbox.ts": {
-    "mtime": 1786153889.9210584,
-    "ast_hash": "8e3928601925ec2c8474eeaab05b8fd5",
+    "mtime": 1786159214.575879,
+    "ast_hash": "944a0a0634693b644830aecd15a9c143",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-sandbox-api.test.ts": {
-    "mtime": 1786153936.422117,
-    "ast_hash": "cf06d1c39ed83aaee6bc819adb3cd70b",
+    "mtime": 1786159433.2069018,
+    "ast_hash": "8c3318606ae3e745fa5e15523271709c",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/sandbox/page.tsx": {
-    "mtime": 1786154171.8807485,
-    "ast_hash": "d93857289f35f083ef7185875f7851bf",
+    "mtime": 1786158413.851177,
+    "ast_hash": "056fe56f2b2d92a65f987f52d6e19f25",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/sandbox-client.ts": {
@@ -4572,6 +4572,21 @@
   "Plataforma/packages/database/src/workspace-staging-repositories.ts": {
     "mtime": 1786153724.5912461,
     "ast_hash": "1ed32ad0be369c1645abc262ec58032b",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/local-session.ts": {
+    "mtime": 1786157901.5369859,
+    "ast_hash": "5ff52e6ad658111df9b43948a747c4f7",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/local-session.test.ts": {
+    "mtime": 1786158009.0267498,
+    "ast_hash": "f3abe4554ed5dabd49533a4554d94a3b",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/components/shell.tsx": {
+    "mtime": 1786158341.0652392,
+    "ast_hash": "9c0f9bb69840f083c8531b496ef9fdb0",
     "semantic_hash": ""
   }
 }
