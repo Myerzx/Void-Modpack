@@ -224,6 +224,71 @@ describe('Phase 9.2 end-to-end agent work', () => {
     );
   });
 
+  it('settles the operation the job was created for, not only the job', async () => {
+    const context = await fixture();
+    await context.repositories.agentTransport.grantCapability({
+      agentId: context.identity.agentId,
+      capability: 'process.control',
+      grantedBy: { type: 'system', id: 'fixture' },
+      reasonCode: 'fixture-grant',
+      now: NOW,
+    });
+
+    // A start, accepted the way the process route accepts one.
+    const startJobId = randomUUID();
+    const correlationId = randomUUID();
+    await context.repositories.jobs.enqueue({
+      schemaVersion: 1,
+      id: startJobId,
+      type: 'server.start',
+      resource: { type: 'server-instance', id: context.server.id },
+      status: 'queued',
+      stage: 'queued',
+      priority: 50,
+      payload: { schemaVersion: 1, parameters: { serverInstanceId: context.server.id } },
+      idempotencyKey: 'agent-e2e-start-0001',
+      requestedBy: { type: 'system', id: 'agent-e2e' },
+      correlationId,
+      availableAt: NOW.toISOString(),
+      attempt: 0,
+      maxAttempts: 3,
+    });
+    const { operation: accepted } = await context.repositories.operations.accept({
+      operationId: randomUUID(),
+      serverInstanceId: context.server.id,
+      kind: 'server.start',
+      idempotencyKey: 'agent-e2e-operation-0001',
+      correlationId,
+      requestedBy: { type: 'panel-user', id: randomUUID() },
+      reasonCode: 'e2e',
+      jobId: startJobId,
+      now: NOW,
+    });
+
+    const supervisor = new AgentSupervisor({
+      identity: context.identity,
+      transport: context.transport,
+      handlers: {
+        'process.control': async () => ({ outcome: 'succeeded', observedLifecycle: 'online' }),
+      },
+      clock: () => NOW,
+    });
+    await supervisor.runOnce();
+
+    // The job completing and the operation completing were two different
+    // facts, and only the first was ever written. The agent started the
+    // server, released the lease and went idle — and the operation stayed
+    // `running`, so every later control call answered in-flight. In practice
+    // the panel could start a server and then never stop it.
+    const settled = await context.repositories.operations.findById(accepted.operationId);
+    assert.equal(settled?.status, 'succeeded');
+    assert.equal(await context.repositories.operations.findInFlight(context.server.id), undefined);
+
+    // And the observation is where the listing reads it from.
+    const state = await context.repositories.processStates.find(context.server.id);
+    assert.equal(state?.lifecycle, 'online');
+  });
+
   it('refuses a claim for a capability that was never granted', async () => {
     const context = await fixture();
     await context.repositories.jobs.enqueue(inspectJob(randomUUID(), 'agent-e2e-denied-0001'));

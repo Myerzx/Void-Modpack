@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1786147985.1283793,
-    "ast_hash": "507ad7c1f68e8905c282b9a515ebcdd5",
+    "mtime": 1786206024.0888927,
+    "ast_hash": "74ae0962af88912354d030756cc78ee7",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786174136.5769105,
-    "ast_hash": "9d8666ae245867c504ccb2974d9980c5",
+    "mtime": 1786206024.105053,
+    "ast_hash": "42d8862a6e7a536ab6018577de04a0be",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786174106.4094787,
-    "ast_hash": "67a703acd09404158b4b0b564ea8ad07",
+    "mtime": 1786208327.335301,
+    "ast_hash": "5a7f27def87b2de76657629ca722281e",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786174021.555394,
-    "ast_hash": "355c10cbd77750601a5c838924300fb3",
+    "mtime": 1786207716.9618318,
+    "ast_hash": "550b5065b01b7f0ac3e31f9a3cc1650a",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -4465,8 +4465,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
-    "mtime": 1786174208.233394,
-    "ast_hash": "a2ef0bee5301de718af25ce03574657a",
+    "mtime": 1786206560.8765485,
+    "ast_hash": "caa5b5027695f9e9155761fe5b9a0a9a",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/entrar/page.tsx": {
@@ -4510,8 +4510,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786174136.5769105,
-    "ast_hash": "2794ceb6e1991203ca5cfdd0332349b0",
+    "mtime": 1786207204.4229217,
+    "ast_hash": "30d778f11c45b5dd40b619044c320a0c",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786174844.939597,
-    "ast_hash": "4a89d974fd1c0b247918480abc9b69a7",
+    "mtime": 1786210427.062768,
+    "ast_hash": "46aa4bc4c8539894fadf934c8680f5a5",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4652,6 +4652,16 @@
   "Plataforma/packages/database/migrations/0020_server_instance_runtime.sql": {
     "mtime": 1786173929.687953,
     "ast_hash": "b3281c9a5fe5f24dc16ff784b82edb12",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/local-agent.ts": {
+    "mtime": 1786207609.4642007,
+    "ast_hash": "c8840b76692cc1fd953bcd0a361fc965",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0021_capability_grants_catch_up.sql": {
+    "mtime": 1786208428.6869547,
+    "ast_hash": "fa89d0873e36f12b5f6d221c4737ee31",
     "semantic_hash": ""
   }
 }

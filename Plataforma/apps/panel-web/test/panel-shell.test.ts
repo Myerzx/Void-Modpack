@@ -84,13 +84,29 @@ describe('action policy', () => {
   });
 
   it('keeps a dangerous mutation visible but disabled until its phase lands', () => {
-    for (const dangerous of ['server.start', 'server.stop', 'console.command', 'backup.create']) {
+    for (const dangerous of ['backup.create']) {
       const view = actionView(owner, dangerous);
       assert.equal(view.visible, true, `${dangerous} should be visible to an owner`);
       // Permission alone is not enough: the capability does not exist yet.
       assert.equal(view.enabled, false, `${dangerous} must stay disabled`);
       assert.ok(view.reason.length > 0);
     }
+  });
+
+  it('enables process control and the console now that the agent serves them', () => {
+    for (const landed of ['server.start', 'server.stop', 'console.command']) {
+      const view = actionView(owner, landed);
+      assert.equal(view.enabled, true, `${landed} should be enabled`);
+      assert.equal(view.reason, '');
+    }
+    // Restart is enabled by policy and this session simply does not hold the
+    // permission, so it stays invisible — which is the rule, not an exception:
+    // a greyed control tells somebody a capability exists and that they were
+    // refused, and they have no use for either fact.
+    assert.equal(actionView(owner, 'server.restart').visible, false);
+    // The agent claims a durable operation, starts a real Forge server and
+    // settles the operation afterwards. Turning these on before the settlement
+    // worked would have given the panel a start button and no stop button.
   });
 
   it('never offers installing an artifact in this phase', () => {

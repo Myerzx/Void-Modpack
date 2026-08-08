@@ -294,6 +294,43 @@ export function registerAgentWorkRoutes(
         );
       }
 
+      /**
+       * Settles the durable operation the job was created for.
+       *
+       * The job completing and the operation completing were two different
+       * facts, and only the first one was ever written. So the agent claimed
+       * the work, started the server, released the lease and went back to
+       * idle — and the operation stayed `running` forever, which made every
+       * later control call answer `PROCESS_OPERATION_IN_FLIGHT`. In practice:
+       * the panel could start a server and then never stop it.
+       *
+       * Not every job has an operation — an artifact inspection does not — so
+       * an absent one is an ordinary outcome and not a failure.
+       */
+      const operation = await repositories.operations.findByJobId(settled.jobId);
+      // `accepted` as well as `running`: whether anything got round to marking
+      // it running does not change what the agent just reported, and the
+      // transition table allows both. A settled one is final and is left
+      // alone — a replayed result returns it rather than reopening it.
+      if (
+        operation !== undefined &&
+        (operation.status === 'running' || operation.status === 'accepted')
+      ) {
+        await repositories.operations.settle({
+          operationId: operation.operationId,
+          eventId: newId(),
+          expectedVersion: operation.version,
+          outcome: result.outcome === 'succeeded' ? 'succeeded' : 'failed',
+          ...(result.outcome === 'succeeded' || result.failureCode === null
+            ? {}
+            : { failureCode: result.failureCode as never }),
+          observedLifecycle: result.observedLifecycle ?? 'unknown',
+          ...(result.observedPid === null ? {} : { observedPid: result.observedPid }),
+          ...(result.bootId === null ? {} : { bootId: result.bootId }),
+          now,
+        });
+      }
+
       // An observation the agent made along the way is recorded through the
       // Phase 9.1 state, so the outbox event is written in the same
       // transaction as the state change rather than published separately.

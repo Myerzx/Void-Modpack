@@ -113,27 +113,29 @@ const ACTIONS: Readonly<Record<string, ActionPolicy>> = Object.freeze({
     available: true,
     unavailableReason: '',
   },
-  // Dangerous operations wait for the phase that actually carries them out.
-  // Phase 9.2 gave the agent a transport; Phase 10 gives it these operations.
+  // Waited for the phase that actually carries them out, and it arrived: the
+  // agent runs, claims a durable operation, starts a real Forge server and
+  // settles the operation afterwards. Turning these on before the settlement
+  // worked would have given the panel a start button and no stop button.
   'server.start': {
     permission: 'server.control.start',
-    available: false,
-    unavailableReason: 'O controle de processo pertence à Fase 10.',
+    available: true,
+    unavailableReason: '',
   },
   'server.stop': {
     permission: 'server.control.stop',
-    available: false,
-    unavailableReason: 'O controle de processo pertence à Fase 10.',
+    available: true,
+    unavailableReason: '',
   },
   'server.restart': {
     permission: 'server.control.restart',
-    available: false,
-    unavailableReason: 'O controle de processo pertence à Fase 10.',
+    available: true,
+    unavailableReason: '',
   },
   'console.command': {
     permission: 'console.command',
-    available: false,
-    unavailableReason: 'O console pertence à Fase 10.',
+    available: true,
+    unavailableReason: '',
   },
   'backup.create': {
     permission: 'backups.create',

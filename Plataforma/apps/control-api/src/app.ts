@@ -613,23 +613,47 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
       // put a host path straight into this listing, which is exactly the leak
       // the workspace routes have been guarded against since the first slice —
       // and it arrived through a column, not through a new endpoint.
-      servers: (await repositories.servers.list()).map((server) => ({
-        id: server.id,
-        slug: server.slug,
-        displayName: server.displayName,
-        environment: server.environment,
-        desiredState: server.desiredState,
-        observedState: server.observedState,
-        minecraftVersion: server.minecraftVersion,
-        loader: server.loader,
-        loaderVersion: server.loaderVersion,
-        maxPlayers: server.maxPlayers,
-        version: server.version,
-        /** Whether it has been pointed at one, never at which one. */
-        hasRunDirectory: server.runDirectory !== null,
-        runtime: server.runtime,
-        runtimeDetectedAt: server.runtimeDetectedAt,
-      })),
+      servers: await Promise.all(
+        (await repositories.servers.list()).map(async (server) => {
+          /**
+           * The observation, read from where it is actually written.
+           *
+           * `server_instances.observed_state` is a Phase 1 column that nothing
+           * has ever written, so a running server reported `unavailable`
+           * forever. The agent records into `server_process_states`, which
+           * also carries who observed it, when, and whether that reading has
+           * gone stale — so it is read from there rather than copied into a
+           * second column that would then have to be kept true.
+           */
+          const observed = await repositories.processStates.find(server.id);
+          return {
+            id: server.id,
+            slug: server.slug,
+            displayName: server.displayName,
+            environment: server.environment,
+            desiredState: server.desiredState,
+            observed:
+              observed === undefined
+                ? // Nobody has observed it, which is not the same as offline.
+                  { lifecycle: 'unknown', observedAt: null, stale: null, pid: null }
+                : {
+                    lifecycle: observed.lifecycle,
+                    observedAt: observed.observedAt,
+                    stale: observed.stale,
+                    pid: observed.observedPid ?? null,
+                  },
+            minecraftVersion: server.minecraftVersion,
+            loader: server.loader,
+            loaderVersion: server.loaderVersion,
+            maxPlayers: server.maxPlayers,
+            version: server.version,
+            /** Whether it has been pointed at one, never at which one. */
+            hasRunDirectory: server.runDirectory !== null,
+            runtime: server.runtime,
+            runtimeDetectedAt: server.runtimeDetectedAt,
+          };
+        }),
+      ),
     }),
   );
 
