@@ -1,7 +1,7 @@
 # Graph Report - void pasta  (2026-08-08)
 
 ## Corpus Check
-- 630 files · ~844,513 words
+- 630 files · ~844,675 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `af80d14c`
+- Built from commit: `3460653a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1595,8 +1595,8 @@ Cohesion: 0.13
 Nodes (14): bin, voidfall-sandbox-boot, description, exports, license, name, private, scripts (+6 more)
 
 ### Community 342 - "sandbox-runner/tsconfig.test.json"
-Cohesion: 0.22
-Nodes (8): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json
+Cohesion: 0.29
+Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
 
 ### Community 343 - "workspace-inventory/tsconfig.test.json"
 Cohesion: 0.22
@@ -1611,8 +1611,8 @@ Cohesion: 0.29
 Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
 
 ### Community 347 - "configuration-staging/tsconfig.test.json"
-Cohesion: 0.29
-Nodes (6): compilerOptions, declaration, declarationMap, sourceMap, extends, ../../tsconfig.base.json
+Cohesion: 0.22
+Nodes (8): compilerOptions, declaration, declarationMap, sourceMap, extends, include, src/**/*.ts, ../../tsconfig.base.json
 
 ### Community 348 - "mod-adapters/tsconfig.build.json"
 Cohesion: 0.22
@@ -1715,34 +1715,34 @@ Cohesion: 0.33
 Nodes (5): panel_workspaces, workspace_sandbox_runs, workspace_staged_changes, workspace_releases, workspace_inventories
 
 ## Knowledge Gaps
-- **2432 isolated node(s):** `name`, `version`, `private`, `description`, `license` (+2427 more)
+- **2432 isolated node(s):** `O que já está pronto`, `1. O agente monta o plano errado`, `2. Não existe detecção de runtime`, `~~3. Workspace e instância não se falam~~ — resolvido em 2026-08-08`, `4. O ambiente local não sobe o agente` (+2427 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Work-memory lessons
 
 **Preferred sources** — corroborated by past sessions; start here.
-- `FilesystemConfigurationService` (3× useful, score=2.708558347)
-- `ConfigurationRepository` (2× useful, score=1.848397816)
-- `OperationalLockRepository` (2× useful, score=1.848397816)
-- `PersistentConfigurationService` (2× useful, score=1.848397816)
-- `Handoff da plataforma` (2× useful, score=1.843993259)
-- `ConfigurationRevisionManifest` (2× useful, score=1.805749968)
-- `RollbackConfigurationPlan` (2× useful, score=1.805749968)
-- `CatalogReconciliationReportSchema` (2× useful, score=1.80534336)
-- `mod-catalog.test.ts` (2× useful, score=1.80534336)
-- `ModCatalogEntrySchema` (2× useful, score=1.805145969)
+- `FilesystemConfigurationService` (3× useful, score=2.707823615)
+- `ConfigurationRepository` (2× useful, score=1.847896414)
+- `OperationalLockRepository` (2× useful, score=1.847896414)
+- `PersistentConfigurationService` (2× useful, score=1.847896414)
+- `Handoff da plataforma` (2× useful, score=1.843493051)
+- `ConfigurationRevisionManifest` (2× useful, score=1.805260134)
+- `RollbackConfigurationPlan` (2× useful, score=1.805260134)
+- `CatalogReconciliationReportSchema` (2× useful, score=1.804853637)
+- `mod-catalog.test.ts` (2× useful, score=1.804853637)
+- `ModCatalogEntrySchema` (2× useful, score=1.804656299)
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Sha256` connect `authorized-files/src/service.ts` to `chain.ts`, `server-configuration/src/validation.ts`, `configuration-schemas/src/registry.ts`, `authorized-file-routes.ts`, `artifact-routes.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
 - **Why does `IDENTIFIER` connect `authorized-files/src/service.ts` to `server-configuration/src/validation.ts`, `configuration-schemas/src/registry.ts`, `configuration-schemas/src/validation.ts`, `player-governance/src/types.ts`, `configuration-repositories.ts`, `artifact-quarantine/src/service.ts`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._
 - **Why does `submission()` connect `artifact-view.test.ts` to `validateContract`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **What connects `name`, `version`, `private` to the rest of the system?**
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **What connects `O que já está pronto`, `1. O agente monta o plano errado`, `2. Não existe detecção de runtime` to the rest of the system?**
   _2432 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Invariantes implementadas` be split into smaller, more focused modules?**
   _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._

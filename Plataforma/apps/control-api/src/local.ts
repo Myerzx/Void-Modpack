@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import { dirname, join, resolve } from 'node:path';
@@ -6,10 +6,18 @@ import { fileURLToPath } from 'node:url';
 
 import { hashPassword } from '@voidfall/authentication';
 import { createEmbeddedDatabase, createRepositories, runMigrations } from '@voidfall/database';
+import { discoverJavaRuntime } from '@voidfall/sandbox-runner';
+import { AgentRuntime, AgentWorkTransport, createAgentIdentity } from '@voidfall/server-agent';
 
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
 import { createWorkspaceConfigurationService } from './workspace-configuration.js';
+import {
+  buildLocalProcessRuntime,
+  provisionLocalAgentIdentity,
+  provisionLocalInstance,
+  registerLocalAgent,
+} from './local-agent.js';
 import { detectServerRuntimeAt } from './server-runtime.js';
 import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
@@ -178,7 +186,18 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     // Loopback without TLS: the secure flag would make the browser drop the
     // cookie and nothing would work. Refused outright under production above.
     cookieSecure: false,
-    logger: false,
+    logger: process.env['VOIDFALL_LOCAL_VERBOSE'] === 'true',
+    /**
+     * The agent runs in this process and dials loopback without TLS, so there
+     * is no peer certificate to fingerprint. Accepting loopback is the local
+     * concession, made once and in the open — the default verifier requires an
+     * authorized TLS socket and is what production keeps.
+     *
+     * This is the only reason it is safe: the listener is bound to 127.0.0.1
+     * and the environment refuses to run under `NODE_ENV=production`.
+     */
+    agentTransportVerifier: (request) =>
+      request.ip === '127.0.0.1' || request.ip === '::1' || request.ip === '::ffff:127.0.0.1',
     workspaceScanner: createWorkspaceScanner(),
     workspaceRootPolicy: defaultWorkspaceRootPolicy,
     // Staging lives beside the database, one directory per workspace, and is
@@ -204,6 +223,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   });
 
   const shutdown = async (): Promise<void> => {
+    agentAbort.abort();
     await app.close();
     await database.close();
   };
@@ -217,6 +237,100 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   }
 
   await app.listen({ host: HOST, port });
+
+  // --- The agent, in this same process ---------------------------------
+  //
+  // Measured before it was decided: two separate processes opened and wrote
+  // the same PGlite directory with no refusal of any kind, and the absence of
+  // a refusal is the danger rather than the permission. Sharing the process is
+  // not a shortcut — the authority over the Minecraft process stays in the
+  // agent, reached by a durable operation it claims over loopback HTTP.
+  const baseUrl = `http://${HOST}:${String(port)}`;
+  const agentIdentity = await provisionLocalAgentIdentity(stateDirectory);
+  const instance = await provisionLocalInstance(database);
+  await registerLocalAgent({
+    database,
+    identity: agentIdentity,
+    serverInstanceId: instance.id,
+    baseUrl,
+    softwareVersion: '0.1.0',
+  });
+
+  const java = await discoverJavaRuntime().catch(() => null);
+  const processRuntime =
+    java === null ? null : buildLocalProcessRuntime(instance, java.executable);
+
+  const agentAbort = new AbortController();
+  const agent = new AgentRuntime({
+    configuration: {
+      agentId: agentIdentity.agentId,
+      serverInstanceId: instance.id,
+      controlApiUrl: baseUrl,
+      privateKeyPem: agentIdentity.privateKeyPem,
+      databaseUrl: 'embedded',
+      serverRelease: '0.1.0',
+      // Disk metrics need a path somebody chose to watch. Absent means the
+      // agent reports none rather than guessing a volume.
+      metricsDiskPath: null,
+      authorizedFiles: null,
+      backups: null,
+      process: null,
+      schedulerEnabled: false,
+    },
+    repositories: createRepositories(database),
+    bootId: randomUUID(),
+    identity: createAgentIdentity({
+      agentId: agentIdentity.agentId,
+      serverInstanceId: instance.id,
+      privateKeyPem: agentIdentity.privateKeyPem,
+    }),
+    workTransport: new AgentWorkTransport({
+      baseUrl,
+      fetch: async (url, init) => {
+        const response = await fetch(url, {
+          method: init.method,
+          headers: { ...init.headers },
+          body: init.body,
+        });
+        return { ok: response.ok, status: response.status, json: () => response.json() };
+      },
+      // Loopback without TLS, decided once here rather than waved through.
+      allowInsecureDevelopment: true,
+    }),
+    ...(processRuntime === null
+      ? {}
+      : {
+          processController: processRuntime.controller,
+          consoleAdapter: processRuntime.adapter,
+          processAdapter: processRuntime.adapter,
+        }),
+    // Surfaced rather than swallowed. An agent that quietly never claims work
+    // looks exactly like one whose control plane went away, and only one of
+    // those is something an operator can fix.
+    onEvent: (event) => {
+      if (event.kind === 'ready') {
+        say(`  agente    anuncia: ${event.announced.join(', ')}`);
+      } else if (event.kind === 'work-loop-skipped') {
+        say(`  agente    não vai reivindicar trabalho: ${event.reason}`);
+      } else if (event.kind === 'supervisor') {
+        say(`  agente    ${JSON.stringify(event.event)}`);
+        if (event.event.kind === 'unauthorized') say(`  agente    HTTP ${String(event.event.status)}`);
+      }
+    },
+  });
+  void agent.start(agentAbort.signal);
+
+  if (processRuntime === null) {
+    // An ordinary state, and the one readiness already models. Announcing a
+    // capability nothing can serve would be the other option.
+    say(
+      instance.runDirectory === null
+        ? '  agente    no ar · nenhuma instância aponta para um diretório ainda'
+        : '  agente    no ar · sem Java encontrável neste host',
+    );
+  } else {
+    say(`  agente    no ar · ${processRuntime.family} · pode iniciar e parar o servidor`);
+  }
 
   say('  sessão    operador local entra sem senha (só em loopback)');
   say('');

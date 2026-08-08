@@ -28,6 +28,7 @@
     "@voidfall/permissions": "0.1.0",
     "@voidfall/release-planner": "0.1.0",
     "@voidfall/sandbox-runner": "0.1.0",
+    "@voidfall/server-agent": "0.1.0",
     "@voidfall/server-configuration": "0.1.0",
     "@voidfall/server-schedule": "0.1.0",
     "@voidfall/server-telemetry": "0.1.0",

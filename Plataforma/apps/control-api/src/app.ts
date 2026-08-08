@@ -420,6 +420,14 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
         : error instanceof ApiError
           ? error.message
           : 'A solicitação é inválida.';
+    if (statusCode >= 500) {
+      // Logged, because a 500 whose cause never appears anywhere is
+      // undiagnosable — and that is not hypothetical: an agent claim failed
+      // with 500 on every attempt here, and the only way to see why was to
+      // read the code path by hand. The body a caller receives is unchanged;
+      // the detail goes to the server's own log, where a host detail belongs.
+      request.log.error({ err: error, correlationId: request.correlationId }, 'request failed');
+    }
     void reply.code(statusCode).send({
       error: { code, message, correlationId: request.correlationId, details: [] },
     });
@@ -599,7 +607,30 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
   app.get(
     '/api/v1/servers',
     { preHandler: [authenticate, requirePermission('server.view')] },
-    async () => ({ dataQuality: 'stored', servers: await repositories.servers.list() }),
+    async () => ({
+      dataQuality: 'stored',
+      // Mapped rather than returned whole. Adding `run_directory` to the row
+      // put a host path straight into this listing, which is exactly the leak
+      // the workspace routes have been guarded against since the first slice —
+      // and it arrived through a column, not through a new endpoint.
+      servers: (await repositories.servers.list()).map((server) => ({
+        id: server.id,
+        slug: server.slug,
+        displayName: server.displayName,
+        environment: server.environment,
+        desiredState: server.desiredState,
+        observedState: server.observedState,
+        minecraftVersion: server.minecraftVersion,
+        loader: server.loader,
+        loaderVersion: server.loaderVersion,
+        maxPlayers: server.maxPlayers,
+        version: server.version,
+        /** Whether it has been pointed at one, never at which one. */
+        hasRunDirectory: server.runDirectory !== null,
+        runtime: server.runtime,
+        runtimeDetectedAt: server.runtimeDetectedAt,
+      })),
+    }),
   );
 
   app.post<{ Body: CreateServerBody }>(

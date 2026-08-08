@@ -457,7 +457,14 @@ describe('pointing an instance at a directory', () => {
     assert.equal(response.body.includes(root), false);
 
     const listed = await app.inject({ method: 'GET', url: '/api/v1/servers', headers: { cookie } });
-    assert.equal(listed.json<{ servers: { runtime: { family: string } }[] }>().servers[0]?.runtime.family, 'forge');
+    const server = listed.json<{
+      servers: { runtime: { family: string }; hasRunDirectory: boolean }[];
+    }>().servers[0];
+    assert.equal(server?.runtime.family, 'forge');
+    // Whether it has been pointed at one, never at which one. Adding the
+    // column put the host path straight into this listing on the first run.
+    assert.equal(server?.hasRunDirectory, true);
+    assert.equal(listed.body.includes(root), false);
   });
 
   it('refuses a layout it does not recognise, in words an operator can act on', async () => {

@@ -91,6 +91,28 @@ comando   java -Xms4096M -Xmx8192M -Dfile.encoding=UTF-8 @libraries/.../win_args
 
 **Passo 5 — telas.** Servidor (estado, uptime, memória, CPU, PID, iniciar/parar/reiniciar), console (log ao vivo, envio, histórico), backups. As rotas já existem; é integração, não motor.
 
+---
+
+## O passo 4 em 2026-08-08: o servidor subiu, e três coisas apareceram
+
+O agente roda no mesmo processo, registra pelo fluxo real, e **iniciou o servidor de verdade pelo painel**: JVM Forge lançado com `@…/win_args.txt`, heap chegando a 4,5 GiB, 205 linhas de console gravadas pela API, incluindo o carregamento do Mine and Slash.
+
+O caminho até lá encontrou três defasagens, todas do mesmo tipo — contratos que pararam na fase em que foram escritos:
+
+**Credencial de transporte.** O registro escreve `agents`; a reivindicação resolve `agent_credentials`, que é outro store, da Fase 9.1. Sem enrolar a credencial o agente registrava, anunciava, e tomava **401 em toda reivindicação**.
+
+**Concessão de capability.** `agent_capability_grants` aceitava só o conjunto da Fase 9.1. Com a credencial resolvida, virou **403**: a capability existia no contrato, no handler e no anúncio, e não no único lugar que decide se pode ser servida.
+
+**Registro de lease.** `agent_work_leases` tinha a mesma lista curta. Concedida a capability, a reivindicação seguinte quebrava com **500** — e o 500 não aparecia em lugar nenhum, porque o tratador de erro não registrava a causa. Registrar passou a ser a primeira correção, e ela pagou na primeira execução.
+
+### O que continua aberto
+
+**A operação de start nunca liquida.** O agente reivindica, o processo sobe, a lease é liberada e o agente volta a `idle` — mas a operação fica `running`, e qualquer controle seguinte recebe `PROCESS_OPERATION_IN_FLIGHT`. Ou seja: dá para iniciar pelo painel, e ainda não dá para parar.
+
+**`observedState` não acompanha.** A instância segue em `unavailable` com o servidor de pé. Os coletores publicam em `server_process_states`; `/api/v1/servers` lê `server_instances.observed_state`, e ninguém liga os dois.
+
+Os dois são a próxima fatia, antes das telas — uma tela de servidor que não consegue parar o servidor não é uma tela de servidor.
+
 Os passos 1 e 2 sozinhos já tornam o servidor iniciável por API. O 5 é o que torna isso um painel.
 
 ---
