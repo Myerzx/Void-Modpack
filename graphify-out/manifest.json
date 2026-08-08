@@ -680,13 +680,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/package.json": {
-    "mtime": 1785767540.283435,
-    "ast_hash": "83db39e50c8d2388c02cd120e1d861f2",
+    "mtime": 1786173022.1614408,
+    "ast_hash": "1d2cd88008c73e45910d218a5c5f413b",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/index.ts": {
-    "mtime": 1785781743.786239,
-    "ast_hash": "965edbb81bd038d67f9ba7be5ecaea99",
+    "mtime": 1786172983.993028,
+    "ast_hash": "902abb8dd781ea637bbc37d4b33d9509",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/test/minecraft-process.test.ts": {
@@ -3930,8 +3930,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/main.ts": {
-    "mtime": 1785995196.3345273,
-    "ast_hash": "2130b199824446099ff6bb1beaf51b04",
+    "mtime": 1786173109.629134,
+    "ast_hash": "9af2f18e543f1181311183d880b5b349",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/readiness.ts": {
@@ -3940,8 +3940,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime-config.ts": {
-    "mtime": 1785994926.063408,
-    "ast_hash": "dfab70ef4d3b7ef8c7c05ba55d5f6620",
+    "mtime": 1786173075.6001687,
+    "ast_hash": "1318edccfac812537d3676c8d528bc65",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
@@ -3955,8 +3955,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime-config.test.ts": {
-    "mtime": 1785995462.4515033,
-    "ast_hash": "ef9c9f903cd44fc5be61055b85ce160d",
+    "mtime": 1786173267.5455909,
+    "ast_hash": "c1458f88cbb9624f2f0bc3414c70fc2d",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786163022.2178824,
-    "ast_hash": "61068577dda11d0cfaa19eafb70aa76f",
+    "mtime": 1786173735.7194574,
+    "ast_hash": "f1e66a1687ff939c181eb867264a63cc",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4632,6 +4632,16 @@
   "Plataforma/packages/database/src/workspace-release-repositories.ts": {
     "mtime": 1786171475.804909,
     "ast_hash": "1298629919219e5da5c694943b57ddad",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/minecraft-process/src/runtime-detection.ts": {
+    "mtime": 1786172968.2938378,
+    "ast_hash": "7e5266c8e2422fa579d138cf0696c045",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/minecraft-process/test/runtime-detection.test.ts": {
+    "mtime": 1786173010.4649675,
+    "ast_hash": "503bbaab6490d9e0c5b9c580a4015201",
     "semantic_hash": ""
   }
 }

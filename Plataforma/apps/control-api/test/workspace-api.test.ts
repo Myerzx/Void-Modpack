@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, it } from 'node:test';
@@ -10,6 +10,7 @@ import { createPGliteTestDatabase } from '@voidfall/database/testing';
 import type { FastifyInstance } from 'fastify';
 
 import { buildControlApi } from '../src/app.js';
+import { detectServerRuntimeAt } from '../src/server-runtime.js';
 import type { WorkspaceScanner } from '../src/workspace-routes.js';
 
 /**
@@ -95,6 +96,7 @@ async function fixture(
     cookieSecure: false,
     clock: () => NOW,
     ...(options.scanner === undefined ? {} : { workspaceScanner: options.scanner }),
+    serverRuntimeDetector: detectServerRuntimeAt,
   });
   resources.push({ app, database });
 
@@ -406,5 +408,82 @@ describe('importing a workspace', () => {
       ).statusCode,
       403,
     );
+  });
+});
+
+describe('pointing an instance at a directory', () => {
+  it('reads how the server starts, and never echoes the directory', async () => {
+    const { app, cookie, csrfToken } = await fixture();
+    const created = await app.inject({
+      method: 'POST',
+      url: '/api/v1/servers',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: {
+        slug: 'principal',
+        displayName: 'Principal',
+        environment: 'local',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '1.20.1-47.4.4',
+        maxPlayers: 20,
+      },
+    });
+    const serverId = created.json<{ id: string }>().id;
+
+    const root = await workspaceRoot();
+    await mkdir(join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4'), {
+      recursive: true,
+    });
+    for (const name of ['win_args.txt', 'unix_args.txt']) {
+      await writeFile(
+        join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4', name),
+        'x',
+        'utf8',
+      );
+    }
+
+    const response = await app.inject({
+      method: 'POST',
+      url: `/api/v1/servers/${serverId}/runtime`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { rootPath: root },
+    });
+    assert.equal(response.statusCode, 200);
+    const runtime = response.json<{ runtime: { family: string; shape: string; entry: string } }>()
+      .runtime;
+    assert.equal(runtime.family, 'forge');
+    assert.equal(runtime.shape, 'args-file');
+    // The descriptor only. The directory was sent once and stays on the host.
+    assert.equal(response.body.includes(root), false);
+
+    const listed = await app.inject({ method: 'GET', url: '/api/v1/servers', headers: { cookie } });
+    assert.equal(listed.json<{ servers: { runtime: { family: string } }[] }>().servers[0]?.runtime.family, 'forge');
+  });
+
+  it('refuses a layout it does not recognise, in words an operator can act on', async () => {
+    const { app, cookie, csrfToken } = await fixture();
+    const created = await app.inject({
+      method: 'POST',
+      url: '/api/v1/servers',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: {
+        slug: 'vazio',
+        displayName: 'Vazio',
+        environment: 'local',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '1.20.1-47.4.4',
+        maxPlayers: 20,
+      },
+    });
+    const response = await app.inject({
+      method: 'POST',
+      url: `/api/v1/servers/${created.json<{ id: string }>().id}/runtime`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { rootPath: await workspaceRoot() },
+    });
+    // Guessing `-jar` here would run a JVM in the directory that holds a world.
+    assert.equal(response.statusCode, 422);
+    assert.match(response.json<{ error: { message: string } }>().error.message, /Nenhum runtime/u);
   });
 });

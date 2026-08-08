@@ -10,6 +10,7 @@ import { createEmbeddedDatabase, createRepositories, runMigrations } from '@void
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
 import { createWorkspaceConfigurationService } from './workspace-configuration.js';
+import { detectServerRuntimeAt } from './server-runtime.js';
 import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
 import { createWorkspaceScanner, defaultWorkspaceRootPolicy } from './workspace-scanner.js';
@@ -191,6 +192,8 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     // Archives land beside the database and the staging area, one directory
     // per workspace. The panel downloads by id; the path never leaves here.
     releaseBuilder: createReleaseBuilder(join(stateDirectory, 'releases')),
+    // How a server starts is read from the server, never typed.
+    serverRuntimeDetector: detectServerRuntimeAt,
     panelExportRoot: panelRoot,
     // Authentication is deferred, not removed: the session, the cookie, the
     // CSRF token and every permission check are the ones the real login

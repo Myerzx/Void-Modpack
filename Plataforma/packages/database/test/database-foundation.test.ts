@@ -59,6 +59,7 @@ describe('PostgreSQL foundation', () => {
         '0017_panel_workspaces.sql',
         '0018_workspace_staging_and_sandbox.sql',
         '0019_workspace_releases.sql',
+        '0020_server_instance_runtime.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);

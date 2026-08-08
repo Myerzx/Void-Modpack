@@ -187,6 +187,25 @@ export interface BuildControlApiOptions {
    * artefact that nothing will produce.
    */
   readonly releaseBuilder?: ReleaseBuilder;
+  /**
+   * Reads a directory and works out how the server there starts.
+   *
+   * Optional and deny-by-default. Returns the canonical directory alongside
+   * the descriptor rather than approving what it was given — the same contract
+   * the workspace root policy settled on, for the same reason.
+   */
+  readonly serverRuntimeDetector?: (rootPath: string) => Promise<
+    | {
+        readonly rootPath: string;
+        readonly runtime: {
+          readonly family: string;
+          readonly shape: string;
+          readonly entry: string;
+          readonly evidence: string;
+        };
+      }
+    | { readonly refusal: string }
+  >;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -292,6 +311,20 @@ const CreateServerBodySchema = Type.Object(
   { additionalProperties: false },
 );
 type CreateServerBody = Static<typeof CreateServerBodySchema>;
+
+const SetServerRuntimeSchema = Type.Object(
+  {
+    /**
+     * Where the server executes, on the host that runs the agent.
+     *
+     * The only path a caller ever sends about an instance, and it is sent
+     * once. Everything after this is addressed by instance id, and the
+     * response carries the descriptor without the directory.
+     */
+    rootPath: Type.String({ minLength: 2, maxLength: 4_096 }),
+  },
+  { additionalProperties: false },
+);
 
 const AgentRegistrationBodySchema = Type.Object(
   {
@@ -602,6 +635,54 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
         }),
       );
       return reply.code(201).send(server);
+    },
+  );
+
+  app.post<{ Params: { serverId: string }; Body: { rootPath: string } }>(
+    '/api/v1/servers/:serverId/runtime',
+    {
+      schema: { body: SetServerRuntimeSchema },
+      preHandler: [authenticate, requirePermission('security.manage'), requireCsrf],
+    },
+    async (request) => {
+      if (options.serverRuntimeDetector === undefined) {
+        throw new ApiError(
+          503,
+          'RUNTIME_DETECTION_UNAVAILABLE',
+          'A detecção de runtime não está configurada nesta instância.',
+        );
+      }
+      const server = await repositories.servers.findById(request.params.serverId);
+      if (server === undefined) {
+        throw new ApiError(404, 'SERVER_NOT_FOUND', 'Instância não encontrada.');
+      }
+
+      // The runtime is read from the directory, never taken from the request.
+      // A caller that could state the loader could state it wrong, and the
+      // wrong launch plan runs a JVM where the world lives.
+      const detected = await options.serverRuntimeDetector(request.body.rootPath);
+      if ('refusal' in detected) {
+        throw new ApiError(422, 'RUNTIME_NOT_RECOGNISED', detected.refusal);
+      }
+
+      await repositories.servers.setRuntime({
+        id: server.id,
+        runDirectory: detected.rootPath,
+        runtime: detected.runtime,
+        detectedAt: clock(),
+      });
+      await repositories.audit.append(
+        auditEvent({
+          request,
+          now: clock(),
+          actor: { type: 'panel-user', id: request.authContext?.user.id ?? 'unknown' },
+          action: 'server.runtime.detected',
+          resource: { type: 'server-instance', id: server.id },
+          outcome: 'succeeded',
+        }),
+      );
+      // The descriptor only, never the directory it was read from.
+      return { runtime: detected.runtime };
     },
   );
 

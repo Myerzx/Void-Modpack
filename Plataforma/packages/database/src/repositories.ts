@@ -276,6 +276,22 @@ export interface ServerInstance {
   readonly loaderVersion: string;
   readonly maxPlayers: number;
   readonly version: number;
+  /** Where the server executes. `null` until an operator points it at one. */
+  readonly runDirectory: string | null;
+  /**
+   * How it starts, as the detector read it.
+   *
+   * Detected, never typed: an operator who states their loader and their jar
+   * name states them wrong once, and the wrong launch plan runs a JVM in the
+   * directory that holds the world.
+   */
+  readonly runtime: {
+    readonly family: string;
+    readonly shape: string;
+    readonly entry: string;
+    readonly evidence: string;
+  } | null;
+  readonly runtimeDetectedAt: string | null;
 }
 
 interface ServerRow {
@@ -290,6 +306,9 @@ interface ServerRow {
   readonly loader_version: string;
   readonly max_players: number;
   readonly version: number;
+  readonly run_directory?: string | null;
+  readonly runtime?: unknown;
+  readonly runtime_detected_at?: string | Date | null;
 }
 
 function mapServer(row: ServerRow): ServerInstance {
@@ -305,19 +324,43 @@ function mapServer(row: ServerRow): ServerInstance {
     loaderVersion: row.loader_version,
     maxPlayers: row.max_players,
     version: row.version,
+    runDirectory: row.run_directory ?? null,
+    runtime:
+      row.runtime === null || row.runtime === undefined
+        ? null
+        : ((typeof row.runtime === 'string'
+            ? JSON.parse(row.runtime)
+            : row.runtime) as ServerInstance['runtime']),
+    runtimeDetectedAt:
+      row.runtime_detected_at === null || row.runtime_detected_at === undefined
+        ? null
+        : asIso(row.runtime_detected_at),
   };
 }
 
 export class ServerRepository {
   constructor(private readonly database: Database) {}
 
-  async create(input: Omit<ServerInstance, 'desiredState' | 'observedState' | 'version'>): Promise<ServerInstance> {
+  /**
+   * Registers an instance. The runtime is not part of it.
+   *
+   * An instance exists before anybody says where it runs — and where it runs
+   * is read from the disk by `setRuntime`, not stated at creation. Accepting a
+   * descriptor here would be accepting one nobody verified.
+   */
+  async create(
+    input: Omit<
+      ServerInstance,
+      'desiredState' | 'observedState' | 'version' | 'runDirectory' | 'runtime' | 'runtimeDetectedAt'
+    >,
+  ): Promise<ServerInstance> {
     const result = await this.database.query<ServerRow>(
       `INSERT INTO server_instances (
          id, slug, display_name, environment, minecraft_version, loader, loader_version, max_players
        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
        RETURNING id, slug, display_name, environment, desired_state, observed_state,
-                 minecraft_version, loader, loader_version, max_players, version`,
+                 minecraft_version, loader, loader_version, max_players, version,
+                 run_directory, runtime, runtime_detected_at`,
       [
         input.id,
         input.slug,
@@ -334,10 +377,38 @@ export class ServerRepository {
     return mapServer(row);
   }
 
+  /**
+   * Records where the instance executes and how it starts.
+   *
+   * The runtime is written as the detector produced it, evidence included. A
+   * descriptor somebody typed would be a second answer to a question the disk
+   * already answers, and the wrong one starts a JVM in the directory that
+   * holds the world.
+   */
+  async setRuntime(input: {
+    readonly id: string;
+    readonly runDirectory: string;
+    readonly runtime: NonNullable<ServerInstance['runtime']>;
+    readonly detectedAt: Date;
+  }): Promise<void> {
+    await this.database.query(
+      `UPDATE server_instances
+       SET run_directory = $2, runtime = $3, runtime_detected_at = $4, version = version + 1
+       WHERE id = $1`,
+      [
+        input.id,
+        input.runDirectory,
+        JSON.stringify(input.runtime),
+        input.detectedAt.toISOString(),
+      ],
+    );
+  }
+
   async list(): Promise<readonly ServerInstance[]> {
     const result = await this.database.query<ServerRow>(
       `SELECT id, slug, display_name, environment, desired_state, observed_state,
-              minecraft_version, loader, loader_version, max_players, version
+              minecraft_version, loader, loader_version, max_players, version,
+                 run_directory, runtime, runtime_detected_at
        FROM server_instances ORDER BY display_name, id`,
     );
     return result.rows.map(mapServer);
@@ -346,7 +417,8 @@ export class ServerRepository {
   async findById(id: string): Promise<ServerInstance | undefined> {
     const result = await this.database.query<ServerRow>(
       `SELECT id, slug, display_name, environment, desired_state, observed_state,
-              minecraft_version, loader, loader_version, max_players, version
+              minecraft_version, loader, loader_version, max_players, version,
+                 run_directory, runtime, runtime_detected_at
        FROM server_instances WHERE id = $1`,
       [id],
     );
