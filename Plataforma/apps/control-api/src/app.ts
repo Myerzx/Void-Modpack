@@ -44,6 +44,7 @@ import { registerAgentWorkRoutes } from './agent-work-routes.js';
 import { registerProcessRoutes, type ProcessPermission } from './process-routes.js';
 import {
   registerWorkspaceRoutes,
+  type WorkspaceConfigurationService,
   type WorkspacePermission,
   type WorkspaceScanner,
 } from './workspace-routes.js';
@@ -154,6 +155,12 @@ export interface BuildControlApiOptions {
    * working with nothing to configure.
    */
   readonly panelExportRoot?: string;
+  /**
+   * Reads, validates and stages a workspace's configuration. Optional and
+   * deny-by-default: without it those routes report themselves unavailable
+   * rather than staging into a directory nobody chose.
+   */
+  readonly workspaceConfiguration?: WorkspaceConfigurationService;
 }
 
 function requestCorrelationId(request: FastifyRequest): string {
@@ -873,6 +880,9 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.workspaceRootPolicy === undefined
       ? {}
       : { rootPolicy: options.workspaceRootPolicy }),
+    ...(options.workspaceConfiguration === undefined
+      ? {}
+      : { configuration: options.workspaceConfiguration }),
   });
 
   // Last, so it can only ever answer what no route claimed.

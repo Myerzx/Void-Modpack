@@ -39,6 +39,69 @@ export interface WorkspaceScanner {
   }>;
 }
 
+/**
+ * Reads, validates and stages a configuration file.
+ *
+ * Injected for the same reason the scanner is: this module must not import an
+ * inference engine or a rewriter. Every decision here — which fields exist,
+ * what a mod declared, whether a value is acceptable, how a line is rewritten
+ * — already has an owner, and a second one would let the panel disagree with
+ * whatever actually writes the file.
+ */
+export interface WorkspaceConfigurationService {
+  /** `null` for a file whose format nothing here can represent. */
+  formatOf(path: string): 'toml' | 'json' | null;
+  readForm(input: {
+    readonly workspaceRoot: string;
+    readonly path: string;
+  }): Promise<{
+    readonly format: string;
+    readonly complete: boolean;
+    readonly issues: readonly { readonly line: number; readonly code: string }[];
+    readonly fields: readonly {
+      readonly path: string;
+      readonly type: string;
+      readonly value: unknown;
+      readonly constraints: readonly unknown[];
+      readonly documentation: readonly string[];
+      readonly line: number;
+    }[];
+  } | null>;
+  validate(input: {
+    readonly workspaceRoot: string;
+    readonly path: string;
+    readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+  }): Promise<
+    | readonly (
+        | { readonly path: string; readonly accepted: true; readonly checkedAgainstDeclaredBounds: boolean }
+        | { readonly path: string; readonly accepted: false; readonly code: string }
+      )[]
+    | null
+  >;
+  stage(input: {
+    readonly workspaceId: string;
+    readonly workspaceRoot: string;
+    readonly path: string;
+    readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+  }): Promise<{
+    readonly path: string;
+    readonly baseSha256: string;
+    readonly stagedSha256: string;
+    readonly changes: readonly unknown[];
+    readonly diff: readonly { readonly kind: string; readonly line: number; readonly text: string }[];
+  }>;
+  readStaged(input: {
+    readonly workspaceId: string;
+    readonly workspaceRoot: string;
+    readonly path: string;
+  }): Promise<{ readonly diff: readonly unknown[] } | null>;
+  discard(input: {
+    readonly workspaceId: string;
+    readonly workspaceRoot: string;
+    readonly path: string;
+  }): Promise<void>;
+}
+
 export interface WorkspaceRouteDependencies {
   readonly repositories: Repositories;
   readonly clock: () => Date;
@@ -73,6 +136,11 @@ export interface WorkspaceRouteDependencies {
   readonly rootPolicy?: (
     rootPath: string,
   ) => Promise<{ readonly rootPath: string } | { readonly refusal: string }>;
+  /**
+   * Optional, deny-by-default. Without it the configuration routes report
+   * themselves unavailable rather than staging into a place nobody configured.
+   */
+  readonly configuration?: WorkspaceConfigurationService;
 }
 
 const RegisterWorkspaceSchema = Type.Object(
@@ -86,6 +154,32 @@ const RegisterWorkspaceSchema = Type.Object(
 );
 
 type RegisterWorkspaceBody = Static<typeof RegisterWorkspaceSchema>;
+
+const ConfigurationChangeSchema = Type.Object(
+  {
+    path: Type.String({ minLength: 1, maxLength: 1_024 }),
+    changes: Type.Array(
+      Type.Object(
+        {
+          /** Dotted field path, exactly as the inferred form reports it. */
+          path: Type.String({ minLength: 1, maxLength: 512 }),
+          value: Type.Union([
+            Type.String({ maxLength: 4_096 }),
+            Type.Number(),
+            Type.Boolean(),
+            Type.Array(
+              Type.Union([Type.String({ maxLength: 1_024 }), Type.Number(), Type.Boolean()]),
+              { maxItems: 512 },
+            ),
+          ]),
+        },
+        { additionalProperties: false },
+      ),
+      { minItems: 1, maxItems: 256 },
+    ),
+  },
+  { additionalProperties: false },
+);
 
 interface InventoryDocument {
   readonly files: readonly { readonly path: string; readonly role: string; readonly sizeBytes: number }[];
@@ -375,6 +469,195 @@ export function registerWorkspaceRoutes(
           configurationCandidates: mod.configurationCandidates,
         },
       };
+    },
+  );
+
+  /**
+   * Resolves a configuration path the panel named.
+   *
+   * The panel may only name a path the **scan already found**. That keeps the
+   * project's rule intact in a place where a relative path does travel: the
+   * screen is choosing from what the engine reported, not describing a file.
+   * A path that is not in the inventory is refused before anything opens it,
+   * so traversal never becomes a question about string handling.
+   */
+  const configurationPathOf = async (workspaceId: string, path: string): Promise<string> => {
+    const stored = await repositories.workspaces.latestInventory(workspaceId);
+    if (stored === undefined) {
+      throw apiError(404, 'INVENTORY_NOT_FOUND', 'Este workspace ainda não foi inventariado.');
+    }
+    const document = asDocument(stored.document);
+    const known =
+      document.files.some((file) => file.path === path) ||
+      document.mods.some((mod) =>
+        mod.configurationCandidates.some((candidate) => candidate.path === path),
+      );
+    if (!known) {
+      throw apiError(404, 'CONFIGURATION_NOT_IN_INVENTORY', 'Arquivo não está no inventário.');
+    }
+    return path;
+  };
+
+  const configurationOrRefuse = (): WorkspaceConfigurationService => {
+    if (dependencies.configuration === undefined) {
+      throw apiError(
+        503,
+        'CONFIGURATION_UNAVAILABLE',
+        'A edição de configuração não está configurada nesta instância.',
+      );
+    }
+    return dependencies.configuration;
+  };
+
+  app.get<{ Params: { workspaceId: string }; Querystring: { path?: string } }>(
+    '/api/v1/workspaces/:workspaceId/configuration',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const configuration = configurationOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      const path = request.query.path;
+      if (path === undefined || path.length === 0) {
+        throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
+      }
+      await configurationPathOf(workspace.workspaceId, path);
+
+      const form = await configuration.readForm({ workspaceRoot: workspace.rootPath, path });
+      if (form === null) {
+        // Located and not representable is an ordinary outcome, not a failure.
+        // The file stays editable as raw text elsewhere; this route says only
+        // that no form can be built for it.
+        return { dataQuality: 'unsupported-format', path, form: null };
+      }
+      return { dataQuality: 'stored', path, form };
+    },
+  );
+
+  app.post<{
+    Params: { workspaceId: string };
+    Body: { path: string; changes: readonly { path: string; value: unknown }[] };
+  }>(
+    '/api/v1/workspaces/:workspaceId/configuration/validate',
+    {
+      schema: { body: ConfigurationChangeSchema },
+      preHandler: [authenticate, requirePermission('workspace.view'), requireCsrf],
+    },
+    async (request) => {
+      const configuration = configurationOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      await configurationPathOf(workspace.workspaceId, request.body.path);
+
+      const decisions = await configuration.validate({
+        workspaceRoot: workspace.rootPath,
+        path: request.body.path,
+        changes: request.body.changes,
+      });
+      if (decisions === null) {
+        throw apiError(422, 'UNSUPPORTED_FORMAT', 'Esse formato não tem formulário inferido.');
+      }
+      return {
+        path: request.body.path,
+        decisions,
+        acceptable: decisions.every((decision) => decision.accepted),
+      };
+    },
+  );
+
+  app.post<{
+    Params: { workspaceId: string };
+    Body: { path: string; changes: readonly { path: string; value: unknown }[] };
+  }>(
+    '/api/v1/workspaces/:workspaceId/configuration/staging',
+    {
+      schema: { body: ConfigurationChangeSchema },
+      preHandler: [authenticate, requirePermission('workspace.manage'), requireCsrf],
+    },
+    async (request, reply) => {
+      const configuration = configurationOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      await configurationPathOf(workspace.workspaceId, request.body.path);
+
+      let staged;
+      try {
+        staged = await configuration.stage({
+          workspaceId: workspace.workspaceId,
+          workspaceRoot: workspace.rootPath,
+          path: request.body.path,
+          changes: request.body.changes,
+        });
+      } catch (error) {
+        // The staging engine refuses with a named code — an unknown field, a
+        // rejected value, a form that could not represent the whole file. It
+        // is passed through rather than flattened, because each one tells the
+        // operator something different about what to do next.
+        const code =
+          typeof (error as { code?: unknown }).code === 'string'
+            ? ((error as { code: string }).code)
+            : 'staging-refused';
+        await dependencies.audit({
+          request,
+          actor: actorOf(request),
+          action: 'workspace.configuration.stage',
+          workspaceId: workspace.workspaceId,
+          outcome: 'failed',
+          reason: code,
+        });
+        throw apiError(422, `STAGING_${code.toUpperCase().replaceAll('-', '_')}`, code);
+      }
+
+      await dependencies.audit({
+        request,
+        actor: actorOf(request),
+        action: 'workspace.configuration.stage',
+        workspaceId: workspace.workspaceId,
+        outcome: 'succeeded',
+      });
+      // Nothing in the workspace was written. Staging is the whole point: the
+      // one destructive step still has no owner anywhere in this repository.
+      return reply.code(201).send({ ...staged, appliedToWorkspace: false });
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string }; Querystring: { path?: string } }>(
+    '/api/v1/workspaces/:workspaceId/configuration/staging',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const configuration = configurationOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      const path = request.query.path;
+      if (path === undefined || path.length === 0) {
+        throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
+      }
+      await configurationPathOf(workspace.workspaceId, path);
+      const staged = await configuration.readStaged({
+        workspaceId: workspace.workspaceId,
+        workspaceRoot: workspace.rootPath,
+        path,
+      });
+      return staged === null
+        ? { dataQuality: 'not-staged', path, diff: [] }
+        : { dataQuality: 'stored', path, diff: staged.diff };
+    },
+  );
+
+  app.delete<{ Params: { workspaceId: string }; Querystring: { path?: string } }>(
+    '/api/v1/workspaces/:workspaceId/configuration/staging',
+    { preHandler: [authenticate, requirePermission('workspace.manage'), requireCsrf] },
+    async (request, reply) => {
+      const configuration = configurationOrRefuse();
+      const workspace = await workspaceOf(request.params.workspaceId);
+      const path = request.query.path;
+      if (path === undefined || path.length === 0) {
+        throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
+      }
+      await configurationPathOf(workspace.workspaceId, path);
+      // Discarding before apply deletes a file this service wrote. Nothing in
+      // the workspace is touched, because nothing in it ever was.
+      await configuration.discard({
+        workspaceId: workspace.workspaceId,
+        workspaceRoot: workspace.rootPath,
+        path,
+      });
+      return reply.code(204).send();
     },
   );
 

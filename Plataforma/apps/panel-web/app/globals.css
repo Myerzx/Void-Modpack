@@ -308,3 +308,25 @@ a.secondary, button.secondary { background: var(--surface-soft); border-color: v
 .drawer h3 { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 
 code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; font-size: 12px; }
+
+/* Configuration editing. */
+.field-list { display: grid; gap: 14px; }
+.config-field { display: grid; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.config-head { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.config-doc { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.config-field input, .config-field select {
+  background: var(--surface-soft); border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 10px; color: var(--text); outline: none; max-width: 420px;
+}
+.config-field input:focus, .config-field select:focus { border-color: var(--accent); }
+.config-verdict { margin: 0; font-size: 12px; }
+.config-verdict.ok { color: var(--positive); }
+.config-verdict.bad { color: var(--danger); }
+
+.diff {
+  margin: 0; padding: 14px; background: var(--surface-soft); border: 1px solid var(--line);
+  border-radius: 8px; overflow-x: auto; font-size: 12px; line-height: 1.6;
+}
+.diff-added { color: var(--positive); display: block; }
+.diff-removed { color: var(--danger); display: block; }
+.diff-context { color: var(--subtle); display: block; }

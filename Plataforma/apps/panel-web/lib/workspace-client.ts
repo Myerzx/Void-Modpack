@@ -216,3 +216,93 @@ export function formatBytes(bytes: number): string {
   }
   return `${value.toFixed(value >= 100 ? 0 : 1)} ${units[unit] as string}`;
 }
+
+/* --- Configuration: read, validate, stage, diff ------------------------- */
+
+export interface FormField {
+  readonly path: string;
+  readonly type: string;
+  readonly value: boolean | number | string | readonly (boolean | number | string)[];
+  readonly constraints: readonly (
+    | { readonly kind: 'range'; readonly minimum: number | null; readonly maximum: number | null; readonly source: string }
+    | { readonly kind: 'allowed-values'; readonly values: readonly string[]; readonly source: string }
+  )[];
+  readonly documentation: readonly string[];
+  readonly line: number;
+}
+
+export interface InferredFormView {
+  readonly format: string;
+  readonly complete: boolean;
+  readonly issues: readonly { readonly line: number; readonly code: string }[];
+  readonly fields: readonly FormField[];
+}
+
+export type FieldDecision =
+  | { readonly path: string; readonly accepted: true; readonly checkedAgainstDeclaredBounds: boolean }
+  | { readonly path: string; readonly accepted: false; readonly code: string };
+
+export interface DiffLineView {
+  readonly kind: 'context' | 'removed' | 'added';
+  readonly line: number;
+  readonly text: string;
+}
+
+export async function readConfigurationForm(
+  workspaceId: string,
+  path: string,
+): Promise<{ readonly dataQuality: string; readonly form: InferredFormView | null }> {
+  return request(
+    `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/configuration?path=${encodeURIComponent(path)}`,
+  );
+}
+
+export async function validateConfiguration(input: {
+  readonly workspaceId: string;
+  readonly path: string;
+  readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+  readonly csrfToken: string;
+}): Promise<{ readonly acceptable: boolean; readonly decisions: readonly FieldDecision[] }> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(input.workspaceId)}/configuration/validate`, {
+    method: 'POST',
+    body: { path: input.path, changes: input.changes },
+    csrfToken: input.csrfToken,
+  });
+}
+
+export async function stageConfiguration(input: {
+  readonly workspaceId: string;
+  readonly path: string;
+  readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+  readonly csrfToken: string;
+}): Promise<{
+  readonly baseSha256: string;
+  readonly stagedSha256: string;
+  readonly appliedToWorkspace: boolean;
+  readonly diff: readonly DiffLineView[];
+}> {
+  return request(`/api/v1/workspaces/${encodeURIComponent(input.workspaceId)}/configuration/staging`, {
+    method: 'POST',
+    body: { path: input.path, changes: input.changes },
+    csrfToken: input.csrfToken,
+  });
+}
+
+export async function readStagedDiff(
+  workspaceId: string,
+  path: string,
+): Promise<{ readonly dataQuality: string; readonly diff: readonly DiffLineView[] }> {
+  return request(
+    `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/configuration/staging?path=${encodeURIComponent(path)}`,
+  );
+}
+
+/** Describes a rejection in the operator's language, never in the engine's. */
+export const REJECTION_LABELS: Readonly<Record<string, string>> = {
+  'wrong-type': 'Tipo incompatível com o campo.',
+  'out-of-declared-range': 'Fora do intervalo que o mod declarou.',
+  'not-an-allowed-value': 'Não está entre os valores que o mod aceita.',
+  'not-an-integer': 'Este campo aceita apenas números inteiros.',
+  'mixed-list': 'A lista misturou tipos diferentes.',
+  'unknown-field': 'Campo não existe neste arquivo.',
+};

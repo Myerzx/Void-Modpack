@@ -282,6 +282,12 @@ function DetailView() {
             <ul className="plain-list">
               {selected.configurationCandidates.map((candidate) => (
                 <li key={candidate.path}>
+                  <a
+                    className="secondary"
+                    href={`/workspaces/configuracao?id=${workspaceId}&path=${encodeURIComponent(candidate.path)}`}
+                  >
+                    Abrir
+                  </a>
                   <code>{candidate.path}</code>
                   {/* The rule is shown because these are conventions, not
                       declarations: nothing in a jar says where its config lives. */}
@@ -290,11 +296,6 @@ function DetailView() {
               ))}
             </ul>
           )}
-
-          <p className="subtle">
-            Editar ainda não está ligado nesta tela. O motor já valida e faz staging; a próxima
-            fatia da frente de integração conecta os dois.
-          </p>
         </aside>
       )}
     </main>

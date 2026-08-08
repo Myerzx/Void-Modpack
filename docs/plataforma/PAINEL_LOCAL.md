@@ -37,6 +37,9 @@ PGlite é single-connection e single-process: certo para um operador numa máqui
 | `/entrar` | Entrar |
 | `/workspaces` | Registrar um servidor importado e inventariá-lo |
 | `/workspaces/detalhe?id=…` | Inventário, exclusões, lista de mods e um mod aberto |
+| `/workspaces/configuracao?id=…&path=…` | Formulário inferido, validação, preparo da mudança e diferença |
+
+Na tela de configuração, **nada é aplicado**. Validar confere contra o limite que o mod declarou — e diz quando não havia limite para conferir, em vez de fingir que houve. Preparar escreve em `.voidfall/staging/`, e o arquivo do servidor continua byte a byte o que era. Um arquivo cujo formulário não representa todas as linhas mostra os campos e recusa o preparo: gravar uma visão parcial descartaria justamente o que ninguém conseguiu ler.
 
 No registro, o caminho é digitado **uma vez**:
 

@@ -8,6 +8,7 @@ import { createEmbeddedDatabase, createRepositories, runMigrations } from '@void
 
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
+import { createWorkspaceConfigurationService } from './workspace-configuration.js';
 import { createWorkspaceScanner, defaultWorkspaceRootPolicy } from './workspace-scanner.js';
 
 /**
@@ -140,6 +141,10 @@ export async function main(): Promise<number> {
     logger: false,
     workspaceScanner: createWorkspaceScanner(),
     workspaceRootPolicy: defaultWorkspaceRootPolicy,
+    // Staging lives beside the database, one directory per workspace, and is
+    // provisioned rather than configured. Nothing is ever written into the
+    // workspace itself.
+    workspaceConfiguration: createWorkspaceConfigurationService(join(stateDirectory, 'staging')),
     panelExportRoot: panelRoot,
   });
 

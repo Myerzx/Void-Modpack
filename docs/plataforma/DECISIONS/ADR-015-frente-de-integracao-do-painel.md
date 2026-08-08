@@ -98,9 +98,32 @@ A política de raiz aceita qualquer diretório canônico e existente. Num painel
 
 ### Ordem seguinte da frente
 
-1. configurações detectadas de um mod, com formulário inferido e validação — `configuration-inference` já produz o formulário e os limites declarados;
-2. staging e diff — `configuration-staging` já reescreve uma linha preservando tudo o que não entende;
+1. ~~configurações detectadas de um mod, com formulário inferido e validação~~ — **ligada em 2026-08-08**;
+2. ~~staging e diff~~ — **ligada em 2026-08-08**, junto com a anterior, porque editar sem ver o que sairia não é uma tela útil;
 3. execução de sandbox com resultado e logs — `sandbox-runner` já tem a evidência de boot;
 4. release, diff entre versões e pacotes — `release-planner` já recusa distribuição por licença e já empacota.
 
 Cada uma entra quando houver tela útil, e cada uma tem de sobreviver ao teste de uso antes de a próxima começar.
+
+### Editar, validar, preparar e ver a diferença
+
+Três coisas que a tela se recusa a suavizar, todas herdadas do motor em vez de decididas nela:
+
+**Limite declarado e ausência de limite leem diferente.** O validador informa se chegou a conferir contra algo que o mod declarou; onde não havia nada para conferir a tela diz "tipo correto, o mod não declarou limite", e não um tique verde tranquilizador.
+
+**Um formulário que não representa o arquivo inteiro não pode ser salvo.** Gravar uma visão parcial descartaria justamente o que o leitor não entendeu. `cataclysm.toml`, no pacote real, tem 127 campos e 97 linhas não representadas — a tela mostra os campos e bloqueia o preparo, dizendo por quê.
+
+**Nada é aplicado.** O caminho que a panel pode nomear é restrito ao que a varredura encontrou, então travessia nunca vira questão de tratamento de string. Um `POST` de staging escreve em `.voidfall/staging/<workspaceId>/` e o arquivo do servidor continua byte a byte o que era. `apply` continua sem dono em lugar nenhum deste repositório, e a tela afirma isso em vez de deixar um botão sugerir o contrário.
+
+Exercitado contra o pacote real pela API:
+
+```
+config/alexsmobs.toml · 250 campos · completo
+general.lavaVisionOpacity = 0.65 · range 0.01..1 (declared)
+
+validar 0.5   -> aceito, checkedAgainstDeclaredBounds: true
+validar 7     -> recusado, out-of-declared-range
+preparar 0.5  -> - lavaVisionOpacity = 0.65
+                 + lavaVisionOpacity = 0.5
+arquivo do servidor: intacto (mesmo digest antes e depois)
+```
