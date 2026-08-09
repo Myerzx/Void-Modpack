@@ -61,8 +61,29 @@ export interface MinecraftMetricsAdapter {
   readMetrics(): Promise<MinecraftMetricsSnapshot>;
 }
 
+export interface ProcessOwnershipLease {
+  /** Binds the spawned PID to this exact pre-spawn ownership generation. */
+  attachPid(pid: number): Promise<void>;
+  /** Releases only this generation; an old lease must not delete a newer one. */
+  release(): Promise<void>;
+}
+
+export interface ProcessOwnershipCoordinator {
+  /** Reserves ownership before any process side effect happens. */
+  acquire(): Promise<ProcessOwnershipLease>;
+}
+
+export class ProcessOwnershipConflictError extends Error {
+  override readonly name = 'ProcessOwnershipConflictError';
+
+  public constructor() {
+    super('Minecraft process ownership is held by a live or uncertain generation.');
+  }
+}
+
 export interface MinecraftProcessAdapterOptions {
   readonly runtime: ProcessRuntime;
+  readonly ownership?: ProcessOwnershipCoordinator;
   readonly stopTimeoutMs?: number;
   readonly maximumConsoleLinesPerStream?: number;
   readonly maximumConsoleCharactersPerLine?: number;
@@ -78,6 +99,7 @@ abstract class ManagedMinecraftProcessAdapter
   readonly #clock: () => Date;
   readonly #consoleSnapshotOptions: MinecraftConsoleSnapshotOptions;
   readonly #hostMetricsSampler: HostMetricsSampler;
+  readonly #ownership: ProcessOwnershipCoordinator | undefined;
   #state: ObservedProcessState = 'offline';
   #handle: SpawnedProcess | undefined;
   #lastExit: ProcessExit | undefined;
@@ -89,6 +111,9 @@ abstract class ManagedMinecraftProcessAdapter
   };
   #activeEffect: 'start' | 'stop' | 'console-command' | undefined;
   #processStartedAt: string | undefined;
+  #ownershipLease: ProcessOwnershipLease | undefined;
+  #launchInFlight = false;
+  #pidPublished = false;
 
   protected constructor(
     private readonly platform: SupportedHostPlatform,
@@ -99,6 +124,7 @@ abstract class ManagedMinecraftProcessAdapter
       throw new Error('stopTimeoutMs is outside the safe range.');
     }
     this.#runtime = options.runtime;
+    this.#ownership = options.ownership;
     this.#stopTimeoutMs = stopTimeoutMs;
     this.#clock = options.clock ?? (() => new Date());
     this.#hostMetricsSampler = options.hostMetricsSampler ?? new NodeHostMetricsSampler();
@@ -118,6 +144,14 @@ abstract class ManagedMinecraftProcessAdapter
   }
 
   async inspect(): Promise<ProcessObservation> {
+    // Spawning plus attaching the durable PID is one logical publication. An
+    // unrelated metrics/readiness observation may read the intermediate state
+    // but must not release the pre-spawn reservation or advance readiness while
+    // the ownership row is still being bound.
+    if (this.#launchInFlight) return this.#observation();
+    if (this.#handle === undefined && this.#ownershipLease !== undefined) {
+      await this.#releaseOwnership();
+    }
     const exit = this.#handle?.getExit();
     if (exit !== undefined) {
       this.#lastOutput = this.#handle?.readOutput() ?? this.#lastOutput;
@@ -125,6 +159,8 @@ abstract class ManagedMinecraftProcessAdapter
       this.#state = transitionObservedProcessState(this.#state, 'process-exited');
       this.#handle = undefined;
       this.#processStartedAt = undefined;
+      this.#pidPublished = false;
+      await this.#releaseOwnership();
     } else if (
       this.#state === 'starting' &&
       BOOT_COMPLETED_PATTERN.test(this.#handle?.readOutput().stdout ?? '')
@@ -144,23 +180,38 @@ abstract class ManagedMinecraftProcessAdapter
         throw new Error(`The ${this.platform} adapter rejected a ${plan.platform} launch plan.`);
       }
       validateProcessLaunchPlan(plan);
-      this.#state = transitionObservedProcessState(this.#state, 'launch-requested');
-      this.#lastExit = undefined;
-      this.#processStartedAt = undefined;
-      this.#lastOutput = {
-        stdout: '',
-        stderr: '',
-        stdoutTruncated: false,
-        stderrTruncated: false,
-      };
+      this.#launchInFlight = true;
       try {
-        this.#handle = await this.#runtime.spawn(plan);
-        this.#processStartedAt = this.#timestamp();
-        this.#state = transitionObservedProcessState(this.#state, 'process-spawned');
-        return this.#observation();
-      } catch (error) {
-        this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
-        throw error;
+        const ownershipLease = await this.#ownership?.acquire();
+        this.#ownershipLease = ownershipLease;
+        this.#lastExit = undefined;
+        this.#processStartedAt = undefined;
+        this.#pidPublished = false;
+        this.#lastOutput = {
+          stdout: '',
+          stderr: '',
+          stdoutTruncated: false,
+          stderrTruncated: false,
+        };
+        try {
+          this.#handle = await this.#runtime.spawn(plan);
+          const processStartedAt = this.#timestamp();
+          await ownershipLease?.attachPid(this.#handle.pid);
+          this.#processStartedAt = processStartedAt;
+          this.#pidPublished = true;
+          this.#state = transitionObservedProcessState(this.#state, 'launch-requested');
+          this.#state = transitionObservedProcessState(this.#state, 'process-spawned');
+          return this.#observation();
+        } catch (error) {
+          // A failed spawn has no JVM to fence. If the child exists but attaching
+          // its PID failed, the reservation deliberately remains: releasing it
+          // could let another agent launch a second JVM while this one lives.
+          if (this.#handle === undefined) await this.#releaseOwnership();
+          this.#state = transitionObservedProcessState(this.#state, 'fault-detected');
+          throw error;
+        }
+      } finally {
+        this.#launchInFlight = false;
       }
     });
   }
@@ -182,6 +233,8 @@ abstract class ManagedMinecraftProcessAdapter
           this.#state = transitionObservedProcessState(this.#state, 'process-exited');
           this.#handle = undefined;
           this.#processStartedAt = undefined;
+          this.#pidPublished = false;
+          await this.#releaseOwnership();
         }
         return this.#observation();
       } catch (error) {
@@ -261,9 +314,21 @@ abstract class ManagedMinecraftProcessAdapter
       state: this.#state,
       observedAt: this.#timestamp(),
       source: 'process-adapter',
-      ...(this.#handle === undefined ? {} : { pid: this.#handle.pid }),
+      ...(this.#handle === undefined || !this.#pidPublished ? {} : { pid: this.#handle.pid }),
       ...(this.#lastExit === undefined ? {} : { lastExit: this.#lastExit }),
     };
+  }
+
+  async #releaseOwnership(): Promise<void> {
+    const lease = this.#ownershipLease;
+    if (lease === undefined) return;
+    try {
+      await lease.release();
+      if (this.#ownershipLease === lease) this.#ownershipLease = undefined;
+    } catch {
+      // Retained for the next observation. A failed cleanup may over-refuse a
+      // later start; discarding the generation here could under-refuse one.
+    }
   }
 
   #timestamp(): string {

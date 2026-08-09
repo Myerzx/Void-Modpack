@@ -64,6 +64,7 @@ describe('PostgreSQL foundation', () => {
         '0022_state_conflict_failure_code.sql',
         '0023_instance_runtime_ownership.sql',
         '0024_process_state_invalidation.sql',
+        '0025_minecraft_process_ownership.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);

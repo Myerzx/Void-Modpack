@@ -1,4 +1,8 @@
-import type { MinecraftProcessAdapter, ProcessObservation } from './adapter.js';
+import {
+  ProcessOwnershipConflictError,
+  type MinecraftProcessAdapter,
+  type ProcessObservation,
+} from './adapter.js';
 import {
   validateProcessLaunchPlan,
   type ProcessLaunchPlan,
@@ -34,6 +38,7 @@ export type ProcessControlFailureCode =
   | 'state-conflict'
   | 'operation-timeout'
   | 'unexpected-state'
+  | 'ownership-conflict'
   | 'adapter-error';
 
 export type ProcessControlEventPhase =
@@ -289,9 +294,16 @@ export class MinecraftProcessController {
         return await this.#runStop(request, startedAt, events, observation);
       }
       return await this.#runRestart(request, startedAt, events, observation);
-    } catch {
+    } catch (error) {
       this.#record(events, request.action, 'failed', observation?.state);
-      return this.#result(request, startedAt, events, 'failed', observation, 'adapter-error');
+      return this.#result(
+        request,
+        startedAt,
+        events,
+        'failed',
+        observation,
+        error instanceof ProcessOwnershipConflictError ? 'ownership-conflict' : 'adapter-error',
+      );
     }
   }
 

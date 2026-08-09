@@ -7,7 +7,12 @@ import { fileURLToPath } from 'node:url';
 import { hashPassword } from '@voidfall/authentication';
 import { createEmbeddedDatabase, createRepositories, runMigrations } from '@voidfall/database';
 import { discoverJavaRuntime } from '@voidfall/sandbox-runner';
-import { AgentRuntime, AgentWorkTransport, createAgentIdentity } from '@voidfall/server-agent';
+import {
+  AgentRuntime,
+  AgentWorkTransport,
+  DurableProcessOwnershipCoordinator,
+  createAgentIdentity,
+} from '@voidfall/server-agent';
 
 import { buildControlApi } from './app.js';
 import { panelExportExists } from './static-panel.js';
@@ -320,8 +325,17 @@ export async function main(argv: readonly string[] = []): Promise<number> {
         baseUrl,
         softwareVersion: '0.1.0',
       });
+      const bootId = randomUUID();
+      const processOwnership = new DurableProcessOwnershipCoordinator({
+        repository: repositories.processOwnership,
+        serverInstanceId: instance.id,
+        agentId: agentIdentity.agentId,
+        agentBootId: bootId,
+      });
       const processRuntime =
-        java === null ? null : buildLocalProcessRuntime(instance, java.executable);
+        java === null
+          ? null
+          : buildLocalProcessRuntime(instance, java.executable, processOwnership);
       const agent = new AgentRuntime({
         configuration: {
           agentId: agentIdentity.agentId,
@@ -337,7 +351,8 @@ export async function main(argv: readonly string[] = []): Promise<number> {
           schedulerEnabled: false,
         },
         repositories,
-        bootId: randomUUID(),
+        bootId,
+        processOwnership,
         identity: createAgentIdentity({
           agentId: agentIdentity.agentId,
           serverInstanceId: instance.id,

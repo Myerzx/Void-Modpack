@@ -9,11 +9,13 @@ import {
   createForgeArgsFileProcessPlan,
   createMinecraftProcessPlan,
   detectServerRuntime,
+  type ProcessOwnershipCoordinator,
   type SupportedHostPlatform,
 } from '@voidfall/minecraft-process';
 
 import { createAgentIdentity, type AgentFetch } from './agent-client.js';
 import { AgentRuntime } from './runtime.js';
+import { DurableProcessOwnershipCoordinator } from './process-ownership.js';
 import {
   AgentConfigurationError,
   loadAgentConfiguration,
@@ -64,7 +66,10 @@ import { AgentWorkTransport } from './work-transport.js';
  * shape of every value; anything the plan still rejects is a combination an
  * operator has to see, not one to come up without.
  */
-async function buildProcessRuntime(configuration: ProcessConfiguration | null): Promise<{
+async function buildProcessRuntime(
+  configuration: ProcessConfiguration | null,
+  ownership: ProcessOwnershipCoordinator,
+): Promise<{
   readonly adapter: WindowsMinecraftProcessAdapter | LinuxMinecraftProcessAdapter;
   readonly controller: MinecraftProcessController;
   readonly runtimeFamily: string;
@@ -120,8 +125,8 @@ async function buildProcessRuntime(configuration: ProcessConfiguration | null): 
   // did.
   const adapter =
     platform === 'win32'
-      ? new WindowsMinecraftProcessAdapter({ runtime })
-      : new LinuxMinecraftProcessAdapter({ runtime });
+      ? new WindowsMinecraftProcessAdapter({ runtime, ownership })
+      : new LinuxMinecraftProcessAdapter({ runtime, ownership });
   return {
     adapter,
     controller: new MinecraftProcessController({ adapter, launchPlan }),
@@ -182,13 +187,22 @@ export async function main(): Promise<number> {
     allowInsecureDevelopment: true,
   });
 
-  const minecraft = await buildProcessRuntime(configuration.process);
+  const repositories = createRepositories(database);
+  const bootId = randomUUID();
+  const processOwnership = new DurableProcessOwnershipCoordinator({
+    repository: repositories.processOwnership,
+    serverInstanceId: configuration.serverInstanceId,
+    agentId: configuration.agentId,
+    agentBootId: bootId,
+  });
+  const minecraft = await buildProcessRuntime(configuration.process, processOwnership);
 
   const controller = new AbortController();
   const runtime = new AgentRuntime({
     configuration,
-    repositories: createRepositories(database),
-    bootId: randomUUID(),
+    repositories,
+    bootId,
+    processOwnership,
     identity,
     workTransport,
     ...(minecraft === null

@@ -198,6 +198,13 @@ export interface ObserveProcessInput {
   readonly now: Date;
 }
 
+export interface InvalidateProcessStateInput {
+  readonly serverInstanceId: string;
+  readonly eventId: string;
+  readonly correlationId: string;
+  readonly now: Date;
+}
+
 /**
  * Whether a driver error is a unique-constraint violation.
  *
@@ -587,6 +594,46 @@ function mapProcessState(row: ProcessStateRow): ServerProcessState {
 
 export class ProcessStateRepository {
   constructor(private readonly database: Database) {}
+
+  /**
+   * Marks one instance unknown when its durable process owner cannot be
+   * trusted by the current agent boot.
+   *
+   * Unlike age-based reconciliation this is immediate: a freshly published
+   * `online` snapshot from a process whose handle was just lost is already
+   * stale. The state change and its outbox event remain one transaction.
+   */
+  async invalidate(
+    input: InvalidateProcessStateInput,
+  ): Promise<ServerProcessState | undefined> {
+    return this.database.transaction(async (client) => {
+      const result = await client.query<ProcessStateRow>(
+        `UPDATE server_process_states
+         SET lifecycle = 'unknown', observed_pid = NULL, boot_id = NULL,
+             observed_by = NULL, observed_at = $2, stale = TRUE,
+             version = version + 1
+         WHERE server_instance_id = $1
+           AND NOT (
+             lifecycle = 'unknown' AND observed_pid IS NULL AND boot_id IS NULL
+             AND observed_by IS NULL AND stale = TRUE
+           )
+         RETURNING server_instance_id, lifecycle, observed_pid, boot_id, observed_by,
+                   observed_at, stale, version`,
+        [input.serverInstanceId, input.now],
+      );
+      const row = result.rows[0];
+      if (row === undefined) return undefined;
+
+      await client.query(
+        `INSERT INTO outbox_events (
+           event_id, topic, correlation_id, resource_type, resource_id, occurred_at,
+           payload_status
+         ) VALUES ($1,'process.invalidated',$2,'server-instance',$3,$4,'unknown')`,
+        [input.eventId, input.correlationId, input.serverInstanceId, input.now],
+      );
+      return mapProcessState(row);
+    });
+  }
 
   /**
    * Records what an agent observed, and announces it in the same transaction.

@@ -27,6 +27,7 @@ import {
   createOfflineExclusiveConfigurationGuard,
 } from './offline-guards.js';
 import { createProcessControlHandler } from './process-operation.js';
+import type { ProcessOwnershipReconciler } from './process-ownership.js';
 import { evaluateReadiness, type AgentReadiness, type RuntimeDependencies } from './readiness.js';
 import type { AgentRuntimeConfiguration } from './runtime-config.js';
 import { createDurableScheduleExecutor } from './schedule-executor.js';
@@ -91,6 +92,11 @@ export interface AgentRuntimeDependencies {
    */
   readonly processAdapter?: MinecraftProcessAdapter;
   /**
+   * Reconciles the durable JVM ownership generation before this boot claims
+   * work. A different live or uncertain owner is never adopted by PID.
+   */
+  readonly processOwnership?: ProcessOwnershipReconciler;
+  /**
    * Guards the exclusive offline window a backup needs. Built from the adapter
    * when absent; injectable so a test can hold a window open deliberately.
    */
@@ -116,6 +122,10 @@ export interface AgentRuntimeDependencies {
 export type AgentRuntimeEvent =
   | { readonly kind: 'ready'; readonly announced: readonly AgentCapability[] }
   | { readonly kind: 'reconciled'; readonly count: number }
+  | {
+      readonly kind: 'process-ownership-reconciled';
+      readonly outcome: 'vacant' | 'current' | 'dead-owner-cleared' | 'orphaned';
+    }
   | { readonly kind: 'metrics-recorded'; readonly count: number }
   | { readonly kind: 'metrics-failed' }
   | { readonly kind: 'alerts-reconciled'; readonly opened: number; readonly resolved: number }
@@ -409,13 +419,33 @@ export class AgentRuntime {
    */
   public async reconcileOrphanProcessStates(): Promise<number> {
     const now = (this.#dependencies.clock ?? (() => new Date()))();
+    let ownershipInvalidated = 0;
+    const ownership = await this.#dependencies.processOwnership?.reconcile();
+    if (ownership !== undefined) {
+      this.#dependencies.onEvent?.({
+        kind: 'process-ownership-reconciled',
+        outcome: ownership.kind,
+      });
+      if (ownership.kind === 'dead-owner-cleared' || ownership.kind === 'orphaned') {
+        const invalidated = await this.#dependencies.repositories.processStates.invalidate({
+          serverInstanceId: this.#dependencies.configuration.serverInstanceId,
+          eventId: randomUUID(),
+          // The ownership generation is a UUID and is the causal identity for
+          // this invalidation; no operation exists during startup recovery.
+          correlationId: ownership.correlationId,
+          now,
+        });
+        if (invalidated !== undefined) ownershipInvalidated = 1;
+      }
+    }
     const observedBefore = new Date(now.getTime() - DEFAULT_STALE_PROCESS_SECONDS * 1_000);
     const reconciled = await this.#dependencies.repositories.processStates.reconcileStale({
       observedBefore,
       now,
     });
-    this.#dependencies.onEvent?.({ kind: 'reconciled', count: reconciled.length });
-    return reconciled.length;
+    const count = ownershipInvalidated + reconciled.length;
+    this.#dependencies.onEvent?.({ kind: 'reconciled', count });
+    return count;
   }
 
   /**

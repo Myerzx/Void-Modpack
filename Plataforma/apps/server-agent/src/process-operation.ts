@@ -60,6 +60,7 @@ const DEFAULT_CONSOLE_RETAIN = 5_000;
 function lifecycleFor(
   result: ProcessControlResult,
 ): NonNullable<LeaseHandlerResult['observedLifecycle']> {
+  if (result.failureCode === 'ownership-conflict') return 'unknown';
   return result.observation?.state ?? 'unknown';
 }
 
@@ -68,6 +69,7 @@ function failureCodeFor(
 ): NonNullable<LeaseHandlerResult['failureCode']> {
   if (result.outcome === 'rejected') return 'state-conflict';
   if (result.outcome === 'timed-out') return 'precondition-not-met';
+  if (result.failureCode === 'ownership-conflict') return 'precondition-not-met';
   return 'operation-failed';
 }
 

@@ -5,6 +5,7 @@ export * from './configuration-operation.js';
 export * from './console-operation.js';
 export * from './offline-guards.js';
 export * from './process-operation.js';
+export * from './process-ownership.js';
 export * from './readiness.js';
 export * from './runtime.js';
 export * from './runtime-config.js';

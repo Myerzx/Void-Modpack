@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -572,5 +573,71 @@ describe('pointing an instance at a directory', () => {
     assert.equal(refused.statusCode, 409);
     assert.equal(refused.json().error.code, 'SERVER_RUNTIME_ALREADY_ASSIGNED');
     assert.equal((await repositories.servers.findById(otherServerId))?.runDirectory, null);
+  });
+
+  it('refuses to replace a runtime while a process ownership generation exists', async () => {
+    const { app, repositories, cookie, csrfToken } = await fixture();
+    const created = await app.inject({
+      method: 'POST',
+      url: '/api/v1/servers',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: {
+        slug: 'owned-runtime',
+        displayName: 'Owned runtime',
+        environment: 'local',
+        minecraftVersion: '1.20.1',
+        loader: 'forge',
+        loaderVersion: '1.20.1-47.4.4',
+        maxPlayers: 20,
+      },
+    });
+    const serverId = created.json<{ id: string }>().id;
+    const agentId = randomUUID();
+    const tokenHash = 'f'.repeat(64);
+    await repositories.agents.createProvisioningToken({
+      serverInstanceId: serverId,
+      tokenHash,
+      expiresAt: new Date(NOW.getTime() + 60_000),
+      createdAt: NOW,
+    });
+    await repositories.agents.register({
+      agentId,
+      serverInstanceId: serverId,
+      tokenHash,
+      publicKeyPem: '-----BEGIN PUBLIC KEY-----\nfixture\n-----END PUBLIC KEY-----',
+      certificateFingerprint: 'f'.repeat(64),
+      softwareVersion: '0.1.0',
+      capabilities: ['process.control'],
+      now: NOW,
+    });
+    await repositories.processOwnership.reserve({
+      serverInstanceId: serverId,
+      ownershipId: randomUUID(),
+      agentId,
+      agentBootId: randomUUID(),
+      now: NOW,
+    });
+
+    const root = await workspaceRoot();
+    await mkdir(join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4'), {
+      recursive: true,
+    });
+    for (const name of ['win_args.txt', 'unix_args.txt']) {
+      await writeFile(
+        join(root, 'libraries', 'net', 'minecraftforge', 'forge', '1.20.1-47.4.4', name),
+        'x',
+        'utf8',
+      );
+    }
+
+    const refused = await app.inject({
+      method: 'POST',
+      url: `/api/v1/servers/${serverId}/runtime`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { rootPath: root },
+    });
+    assert.equal(refused.statusCode, 409);
+    assert.equal(refused.json().error.code, 'SERVER_PROCESS_OWNERSHIP_ACTIVE');
+    assert.equal((await repositories.servers.findById(serverId))?.runDirectory, null);
   });
 });

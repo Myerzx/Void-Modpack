@@ -23,6 +23,7 @@ import type {
 
 import { createAgentIdentity } from '../src/agent-client.js';
 import { AgentRuntime, type AgentRuntimeEvent } from '../src/runtime.js';
+import { DurableProcessOwnershipCoordinator } from '../src/process-ownership.js';
 import { loadAgentConfiguration, type Environment } from '../src/runtime-config.js';
 import { SchedulerLoop, type ScheduleStepExecutor } from '../src/scheduler-loop.js';
 import { AgentWorkTransport } from '../src/work-transport.js';
@@ -320,6 +321,58 @@ describe('startup, reconciliation and shutdown', () => {
     assert.equal(state?.lifecycle, 'unknown');
     assert.equal(state?.observedPid, null);
     assert.equal(state?.stale, true);
+  });
+
+  it('invalidates a fresh online snapshot immediately when another boot owns the JVM', async () => {
+    const context = await fixture();
+    const previousBootId = randomUUID();
+    const originalOwnership = new DurableProcessOwnershipCoordinator({
+      repository: context.repositories.processOwnership,
+      serverInstanceId: context.server.id,
+      agentId: AGENT_ID,
+      agentBootId: previousBootId,
+      liveness: { isAlive: async () => true },
+      clock: () => NOW,
+    });
+    const lease = await originalOwnership.acquire();
+    await lease.attachPid(4_242);
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      lifecycle: 'online',
+      observedPid: 4_242,
+      bootId: previousBootId,
+      observedBy: AGENT_ID,
+      eventId: randomUUID(),
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+
+    const currentBootId = randomUUID();
+    const processOwnership = new DurableProcessOwnershipCoordinator({
+      repository: context.repositories.processOwnership,
+      serverInstanceId: context.server.id,
+      agentId: AGENT_ID,
+      agentBootId: currentBootId,
+      liveness: { isAlive: async () => true },
+      clock: () => NOW,
+    });
+    const { runtime, events } = runtimeFor(context, {
+      bootId: currentBootId,
+      processOwnership,
+    });
+    assert.equal(await runtime.reconcileOrphanProcessStates(), 1);
+
+    const state = await context.repositories.processStates.find(context.server.id);
+    assert.equal(state?.lifecycle, 'unknown');
+    assert.equal(state?.observedPid, null);
+    assert.equal(state?.bootId, null);
+    assert.equal(state?.stale, true);
+    assert.ok(
+      events.some(
+        (event) =>
+          event.kind === 'process-ownership-reconciled' && event.outcome === 'orphaned',
+      ),
+    );
   });
 
   it('starts, records metrics and shuts down cleanly on the signal', async () => {

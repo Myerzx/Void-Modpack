@@ -773,6 +773,13 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
             'Esta instância já está vinculada a outro workspace.',
           );
         }
+        if (error.code === 'process-owned') {
+          throw new ApiError(
+            409,
+            'SERVER_PROCESS_OWNERSHIP_ACTIVE',
+            'O runtime não pode ser alterado enquanto houver ownership de processo ativo ou incerto.',
+          );
+        }
         if (error.code === 'workspace-not-found') {
           throw new ApiError(404, 'WORKSPACE_NOT_FOUND', 'Workspace não encontrado.');
         }

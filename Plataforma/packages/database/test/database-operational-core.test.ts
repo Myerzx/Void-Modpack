@@ -340,6 +340,115 @@ describe('operational core persistence', () => {
     }
   });
 
+  it('fences one process ownership generation and rejects stale mutations', async () => {
+    const { database, repositories, serverInstanceId } = await operationalFixture();
+    try {
+      const agentId = randomUUID();
+      await database.query(
+        `INSERT INTO agents (id, server_instance_id, public_key_pem, certificate_fingerprint,
+           software_version, protocol_version, status)
+         VALUES ($1,$2,$3,$4,$5,$6,'online')`,
+        [agentId, serverInstanceId, 'pem', 'c'.repeat(64), '0.1.0', '1'],
+      );
+      const firstId = randomUUID();
+      const bootId = randomUUID();
+      const acquiredAt = new Date('2026-08-05T12:00:00Z');
+      const reserved = await repositories.processOwnership.reserve({
+        serverInstanceId,
+        ownershipId: firstId,
+        agentId,
+        agentBootId: bootId,
+        now: acquiredAt,
+      });
+      assert.equal(reserved?.status, 'reserved');
+      assert.equal(reserved?.pid, null);
+
+      assert.equal(
+        await repositories.processOwnership.reserve({
+          serverInstanceId,
+          ownershipId: randomUUID(),
+          agentId,
+          agentBootId: randomUUID(),
+          now: acquiredAt,
+        }),
+        undefined,
+      );
+
+      const running = await repositories.processOwnership.attachPid({
+        ownershipId: firstId,
+        pid: 4242,
+        now: new Date('2026-08-05T12:00:01Z'),
+      });
+      assert.equal(running.status, 'running');
+      assert.equal(running.pid, 4242);
+      assert.equal(running.version, 2);
+
+      const orphaned = await repositories.processOwnership.markOrphaned({
+        ownershipId: firstId,
+        now: new Date('2026-08-05T12:00:02Z'),
+      });
+      assert.equal(orphaned.status, 'orphaned');
+      assert.equal(orphaned.pid, 4242);
+      assert.equal(await repositories.processOwnership.release(randomUUID()), false);
+      assert.equal(await repositories.processOwnership.release(firstId), true);
+      assert.equal(await repositories.processOwnership.find(serverInstanceId), undefined);
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('invalidates a fresh process snapshot immediately when ownership is uncertain', async () => {
+    const { database, repositories, serverInstanceId } = await operationalFixture();
+    try {
+      const agentId = randomUUID();
+      await database.query(
+        `INSERT INTO agents (id, server_instance_id, public_key_pem, certificate_fingerprint,
+           software_version, protocol_version, status)
+         VALUES ($1,$2,$3,$4,$5,$6,'online')`,
+        [agentId, serverInstanceId, 'pem', 'd'.repeat(64), '0.1.0', '1'],
+      );
+      await repositories.processStates.observe({
+        serverInstanceId,
+        eventId: randomUUID(),
+        lifecycle: 'online',
+        observedBy: agentId,
+        bootId: randomUUID(),
+        observedPid: 4242,
+        correlationId: randomUUID(),
+        now: new Date('2026-08-05T12:00:00Z'),
+      });
+
+      const correlationId = randomUUID();
+      const invalidated = await repositories.processStates.invalidate({
+        serverInstanceId,
+        eventId: randomUUID(),
+        correlationId,
+        now: new Date('2026-08-05T12:00:01Z'),
+      });
+      assert.equal(invalidated?.lifecycle, 'unknown');
+      assert.equal(invalidated?.observedPid, null);
+      assert.equal(invalidated?.stale, true);
+      assert.equal(
+        (await repositories.outbox.findByCorrelationId(correlationId))[0]?.topic,
+        'process.invalidated',
+      );
+
+      // Already-unknown state is idempotent and creates no second event.
+      assert.equal(
+        await repositories.processStates.invalidate({
+          serverInstanceId,
+          eventId: randomUUID(),
+          correlationId,
+          now: new Date('2026-08-05T12:00:02Z'),
+        }),
+        undefined,
+      );
+      assert.equal((await repositories.outbox.findByCorrelationId(correlationId)).length, 1);
+    } finally {
+      await database.close();
+    }
+  });
+
   it('invalidates the previous pid atomically when lifecycle work is accepted', async () => {
     const { database, repositories, serverInstanceId, actor } = await operationalFixture();
     try {

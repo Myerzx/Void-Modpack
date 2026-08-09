@@ -19,6 +19,7 @@ import {
   NodeHostMetricsSampler,
   NodeProcessRuntime,
   ProcessControlRequestError,
+  ProcessOwnershipConflictError,
   transitionObservedProcessState,
   WindowsMinecraftProcessAdapter,
   type MinecraftProcessAdapter,
@@ -28,6 +29,7 @@ import {
   type ProcessObservation,
   type ProcessOutputSnapshot,
   type ProcessRuntime,
+  type ProcessOwnershipCoordinator,
   type SpawnedProcess,
   type SupportedHostPlatform,
 } from '../src/index.js';
@@ -112,6 +114,23 @@ const fakeControllerPlan = createMinecraftProcessPlan({
   initialMemoryMiB: 512,
   maximumMemoryMiB: 1_024,
 });
+
+function livingTestHandle(pid: number, ready: boolean): SpawnedProcess {
+  return {
+    pid,
+    getExit: () => undefined,
+    readOutput: () => ({
+      stdout: ready ? 'Done (0.100s)! For help, type "help"' : 'Loading mods...',
+      stderr: '',
+      stdoutTruncated: false,
+      stderrTruncated: false,
+    }),
+    requestConsoleCommand: async () => {},
+    requestGracefulStop: async () => {},
+    forceTerminate: async () => {},
+    waitForExit: async () => undefined,
+  };
+}
 
 class FakeMinecraftProcessAdapter implements MinecraftProcessAdapter {
   state: ProcessObservation['state'];
@@ -679,6 +698,149 @@ describe('serialized process controller', () => {
 });
 
 describe('managed platform adapters', () => {
+  it('reserves before spawn, binds the pid and releases only after exit', async () => {
+    const events: string[] = [];
+    let exited = false;
+    let generation = 0;
+    const ownership: ProcessOwnershipCoordinator = {
+      acquire: async () => {
+        generation += 1;
+        const current = generation;
+        events.push(`reserve:${String(current)}`);
+        return {
+          attachPid: async (pid) => {
+            events.push(`attach:${String(current)}:${String(pid)}`);
+          },
+          release: async () => {
+            events.push(`release:${String(current)}`);
+          },
+        };
+      },
+    };
+    const handle: SpawnedProcess = {
+      pid: 4_242,
+      getExit: () =>
+        exited
+          ? { code: 0, signal: null, exitedAt: '2026-08-03T12:00:01.000Z' }
+          : undefined,
+      readOutput: () => ({
+        stdout: '[Server thread/INFO]: Done (0.100s)! For help, type "help"',
+        stderr: '',
+        stdoutTruncated: false,
+        stderrTruncated: false,
+      }),
+      requestConsoleCommand: async () => {},
+      requestGracefulStop: async () => {},
+      forceTerminate: async () => {},
+      waitForExit: async () => {
+        exited = true;
+        return handle.getExit();
+      },
+    };
+    const runtime: ProcessRuntime = {
+      spawn: async () => {
+        events.push('spawn');
+        return handle;
+      },
+    };
+    const adapter = new WindowsMinecraftProcessAdapter({
+      runtime,
+      ownership,
+      stopTimeoutMs: 10,
+    });
+
+    await adapter.start(fakeControllerPlan);
+    assert.deepEqual(events, ['reserve:1', 'spawn', 'attach:1:4242']);
+    assert.equal((await adapter.inspect()).state, 'online');
+    await adapter.requestGracefulStop();
+    assert.deepEqual(events, ['reserve:1', 'spawn', 'attach:1:4242', 'release:1']);
+  });
+
+  it('does not publish or release a pid while its durable binding is in flight', async () => {
+    let enterAttach: () => void = () => {};
+    const attachEntered = new Promise<void>((resolve) => {
+      enterAttach = resolve;
+    });
+    let finishAttach: () => void = () => {};
+    const attachGate = new Promise<void>((resolve) => {
+      finishAttach = resolve;
+    });
+    let releases = 0;
+    const ownership: ProcessOwnershipCoordinator = {
+      acquire: async () => ({
+        attachPid: async () => {
+          enterAttach();
+          await attachGate;
+        },
+        release: async () => {
+          releases += 1;
+        },
+      }),
+    };
+    const handle = livingTestHandle(4_242, true);
+    const adapter = new WindowsMinecraftProcessAdapter({
+      runtime: { spawn: async () => handle },
+      ownership,
+      hostMetricsSampler: {
+        sample: () => ({
+          totalMemoryBytes: 16 * 1_024 ** 3,
+          freeMemoryBytes: 6 * 1_024 ** 3,
+          uptimeSeconds: 3_600,
+          availableCpuCount: 8,
+        }),
+      },
+    });
+
+    const starting = adapter.start(fakeControllerPlan);
+    await attachEntered;
+    const intermediate = await adapter.inspect();
+    assert.equal(intermediate.state, 'offline');
+    assert.equal(intermediate.pid, undefined);
+    assert.equal((await adapter.readMetrics()).process.pid.status, 'unavailable');
+    assert.equal(releases, 0);
+
+    finishAttach();
+    const published = await starting;
+    assert.equal(published.pid, 4_242);
+    assert.equal(releases, 0);
+  });
+
+  it('blocks spawn on ownership conflict and reports it as a closed controller failure', async () => {
+    let spawnCount = 0;
+    const ownership: ProcessOwnershipCoordinator = {
+      acquire: async () => {
+        throw new ProcessOwnershipConflictError();
+      },
+    };
+    const adapter = new WindowsMinecraftProcessAdapter({
+      runtime: {
+        spawn: async () => {
+          spawnCount += 1;
+          throw new Error('must not spawn');
+        },
+      },
+      ownership,
+    });
+    const controller = new MinecraftProcessController({
+      adapter,
+      launchPlan: fakeControllerPlan,
+      operationTimeoutMs: 100,
+      pollIntervalMs: 10,
+      sleep: async () => {},
+    });
+
+    const result = await controller.execute({
+      action: 'start',
+      idempotencyKey: 'ownership-conflict-0001',
+    });
+    assert.equal(result.outcome, 'failed');
+    assert.equal(result.failureCode, 'ownership-conflict');
+    assert.equal(result.observation?.state, 'offline');
+    assert.equal(spawnCount, 0);
+    assert.equal(JSON.stringify(result).includes('ownership'), true);
+    assert.equal(JSON.stringify(result).includes('PID'), false);
+  });
+
   it('requires online state and rejects concurrent console effects without a queue', async () => {
     let releaseCommand: () => void = () => {};
     const commandGate = new Promise<void>((resolve) => {

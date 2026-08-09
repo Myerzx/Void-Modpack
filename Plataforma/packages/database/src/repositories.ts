@@ -37,6 +37,7 @@ import {
 import { ModCatalogRepository } from './mod-catalog-repositories.js';
 import { PlayerIdentityRepository } from './player-identity-repositories.js';
 import { PlayerRecordRepository } from './player-record-repositories.js';
+import { ProcessOwnershipRepository } from './process-ownership-repositories.js';
 import type { Database, SqlClient } from './database.js';
 import { appendAuditRecord } from './audit-persistence.js';
 import {
@@ -299,7 +300,8 @@ export type ServerRuntimeBindingErrorCode =
   | 'run-directory-taken'
   | 'workspace-not-found'
   | 'workspace-not-server'
-  | 'server-already-linked';
+  | 'server-already-linked'
+  | 'process-owned';
 
 export class ServerRuntimeBindingError extends Error {
   public constructor(readonly code: ServerRuntimeBindingErrorCode) {
@@ -415,6 +417,25 @@ export class ServerRepository {
     readonly workspaceId?: string;
   }): Promise<void> {
     await this.database.transaction(async (client) => {
+      const server = await client.query<{ readonly id: string }>(
+        'SELECT id FROM server_instances WHERE id = $1 FOR UPDATE',
+        [input.id],
+      );
+      if (server.rows[0] === undefined) {
+        throw new ServerRuntimeBindingError('server-not-found');
+      }
+      const processOwner = await client.query<{ readonly ownership_id: string }>(
+        'SELECT ownership_id FROM minecraft_process_ownership WHERE server_instance_id = $1',
+        [input.id],
+      );
+      if (processOwner.rowCount > 0) {
+        // Replacing the runtime would make the local fleet discard the only
+        // adapter holding this JVM's pipes. Any ownership state, including an
+        // uncertain reservation, therefore freezes the binding until it is
+        // safely released or reconciled as dead.
+        throw new ServerRuntimeBindingError('process-owned');
+      }
+
       if (input.workspaceId !== undefined) {
         const workspace = await client.query<{ readonly kind: string }>(
           'SELECT kind FROM panel_workspaces WHERE workspace_id = $1 FOR UPDATE',
@@ -1114,6 +1135,7 @@ export interface Repositories {
   readonly artifactReview: ArtifactReviewRepository;
   readonly operations: OperationRepository;
   readonly processStates: ProcessStateRepository;
+  readonly processOwnership: ProcessOwnershipRepository;
   readonly outbox: OutboxRepository;
   readonly modCatalog: ModCatalogRepository;
   readonly agentTransport: AgentTransportRepository;
@@ -1143,6 +1165,7 @@ export function createRepositories(database: Database): Repositories {
     artifactReview: new ArtifactReviewRepository(database),
     operations: new OperationRepository(database),
     processStates: new ProcessStateRepository(database),
+    processOwnership: new ProcessOwnershipRepository(database),
     outbox: new OutboxRepository(database),
     modCatalog: new ModCatalogRepository(database),
     agentTransport: new AgentTransportRepository(database),

@@ -11,6 +11,7 @@ import {
   WindowsMinecraftProcessAdapter,
   createForgeArgsFileProcessPlan,
   createMinecraftProcessPlan,
+  type ProcessOwnershipCoordinator,
   type SupportedHostPlatform,
 } from '@voidfall/minecraft-process';
 
@@ -262,6 +263,7 @@ export interface LocalProcessRuntime {
 export function buildLocalProcessRuntime(
   instance: ServerInstance,
   javaExecutable: string,
+  ownership?: ProcessOwnershipCoordinator,
 ): LocalProcessRuntime | null {
   if (instance.runDirectory === null || instance.runtime === null) return null;
   if (process.platform !== 'win32' && process.platform !== 'linux') return null;
@@ -291,8 +293,14 @@ export function buildLocalProcessRuntime(
   // child handle, and two of them would each believe they did.
   const adapter =
     platform === 'win32'
-      ? new WindowsMinecraftProcessAdapter({ runtime })
-      : new LinuxMinecraftProcessAdapter({ runtime });
+      ? new WindowsMinecraftProcessAdapter({
+          runtime,
+          ...(ownership === undefined ? {} : { ownership }),
+        })
+      : new LinuxMinecraftProcessAdapter({
+          runtime,
+          ...(ownership === undefined ? {} : { ownership }),
+        });
 
   return {
     controller: new MinecraftProcessController({ adapter, launchPlan }),
