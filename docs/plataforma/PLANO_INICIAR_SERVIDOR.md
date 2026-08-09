@@ -127,7 +127,11 @@ O ciclo real terminou com `start` em aproximadamente 338,5 s, `restart` em 88,5 
 
 **~~O restart mantinha o PID encerrado como `online` atual.~~ Corrigido.** A aceitação durável de qualquer operação que altera o lifecycle invalida a observação anterior na mesma transação: publica `process.invalidated`, remove PID/boot/observador e expõe `unknown`/`stale` até o agente observar o resultado. A readiness continua sendo a única fonte capaz de devolver `online`, e um replay idempotente não invalida a observação nova.
 
-O próximo recorte é ownership e recuperação de JVM órfã após crash do agente: identidade persistente além do PID, reconciliação no startup e smokes de queda durante boot, online e restart. Não é abrir console ao vivo, backup ou instalação de artefato.
+**~~Não havia ownership durável do JVM após crash do agente.~~ Corrigido.** A migration `0025` reserva uma geração aleatória por `ServerInstance` antes do spawn e anexa o PID somente à mesma geração. No startup, outro boot limpa apenas PID comprovadamente morto; PID vivo, reutilizado, inacessível ou reserva sem PID vira ownership órfão e bloqueia novo spawn. Não existe adoção por PID. Troca de runtime também é recusada enquanto a geração existir.
+
+Smokes determinísticos cobrem queda durante boot, online e no intervalo do restart, PID reutilizado e owner morto. A leitura concorrente enquanto o PID é anexado não publica PID nem libera a reserva. Ownership incerto liquida a tentativa como `precondition-not-met`/`unknown`, sem afirmar que o servidor está offline.
+
+O JVM real que já estava online não foi reiniciado neste recorte e nasceu antes da migration. O rollout precisa ser controlado: parar pelo agente antigo, reiniciar `dist/local.js` para aplicar `0025` e só então iniciar novamente sob a cerca. Console ao vivo, backup e instalação de artefato continuam fora.
 
 ---
 

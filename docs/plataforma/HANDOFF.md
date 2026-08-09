@@ -4,7 +4,7 @@
 
 - Data: 2026-08-08
 - Responsáveis: Claude e Codex
-- Fase: hardening do lifecycle operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. A aceitação durável de uma operação de lifecycle invalida atomicamente a observação anterior, então um PID encerrado nunca continua publicado como `online` atual durante restart. O ambiente local possui exclusão entre processos e um runtime lógico por `ServerInstance`
+- Fase: hardening do lifecycle e do ownership operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. A aceitação durável de uma operação de lifecycle invalida atomicamente a observação anterior. Cada spawn agora é cercado por uma geração persistente ligada à `ServerInstance`, ao agente e ao boot; outro boot nunca adota somente por PID, limpa apenas owner comprovadamente morto e recusa owner vivo ou incerto
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -247,6 +247,13 @@
 - depois dos testes reais de lifecycle: zero leases abertas, zero jobs pendentes e zero operações em voo.
 - smoke do servidor existente/importado concluído: workspace registrado e ligado por `workspaceId`, agente substituído somente para a instância alterada, `start` em aproximadamente 338,5 s, `restart` em 88,5 s e `stop` em 11,6 s, todos com receipt `succeeded`;
 - auditoria posterior ao smoke: três jobs `completed`, três leases liquidadas com sucesso, zero leases abertas, zero jobs pendentes ou com owner, zero operações em voo, zero locks operacionais e nenhuma JVM Minecraft restante.
+- migration `0025_minecraft_process_ownership.sql` cria uma cerca persistente por `ServerInstance`, com `ownership_id` aleatório reservado antes do spawn, `agent_id`, `agent_boot_id`, PID anexado depois do spawn e estados `reserved`, `running` e `orphaned`;
+- o adaptador só publica PID depois que a mesma geração foi persistida; leitura concorrente durante o attach permanece `offline` sem PID e não consegue liberar a reserva;
+- o startup do agente reconcilia ownership antes de publicar readiness ou reivindicar trabalho: PID comprovadamente ausente remove o owner morto; PID vivo, inacessível, reutilizado ou reserva sem PID viram `orphaned` e bloqueiam um segundo spawn;
+- ownership incerto retorna `precondition-not-met` com lifecycle `unknown`; nunca publica `offline` para uma JVM que pode continuar viva;
+- troca de runtime/`runDirectory` é recusada enquanto qualquer geração de processo existir, preservando o único adaptador que possui os pipes do JVM;
+- smokes determinísticos cobrem queda durante boot, online e no intervalo de restart, PID reutilizado e limpeza de owner morto, sempre sem adoção por PID e com no máximo um spawn;
+- o servidor real já online permaneceu intocado durante este recorte; a primeira implantação da migration exige rollout controlado: parar o JVM pelo agente antigo, reiniciar o ambiente local para migrar e então iniciar novamente sob a nova cerca.
 
 ## Limites obrigatórios
 
@@ -270,6 +277,8 @@
 
 ## Validação
 
+- gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
+- 13 regressões sobre a baseline de 922 casos: persistência e invalidação do ownership, reserva antes do spawn, publicação atômica do PID, conflito fechado no controlador/agente, cinco cenários de crash/reuso/owner morto, reconciliação imediata de snapshot fresco e recusa de troca de runtime com owner;
 - gate completo após a invalidação transitória aprovado com código 0 em 2026-08-08: 922 casos descobertos, 920 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 434,6 segundos;
 - regressão ponta a ponta prova que aceitar restart troca o snapshot `online`/PID antigo por `unknown`/`stale` sem PID, que uma nova readiness publica somente o PID novo e que replay idempotente não invalida essa observação; regressão de banco prende invalidação e `process.invalidated` na mesma transação da operação;
 - gate focado aprovado: 145 casos em contratos, migrações/banco, rotas de processo e agendador, sem falha;
@@ -364,9 +373,9 @@
 
 ## Riscos não resolvidos
 
-- o handle do processo pertence à memória do adaptador; no reinício do agente a observação persistida é marcada obsoleta, mas ainda não existe reanexação segura a uma JVM órfã;
+- o handle e os pipes do processo continuam pertencendo à memória do adaptador; após reinício do agente uma JVM órfã viva é reconhecida e bloqueia duplicação, mas ainda não existe reanexação segura para voltar a controlá-la;
 - operação, job e idempotência pública são duráveis, mas o replay interno do controlador continua local ao seu runtime;
-- PID observado e lock do ambiente PGlite são persistidos, porém ainda não existe um lock de ownership do processo Minecraft que permita reconhecer ou adotar uma JVM órfã após crash do agente;
+- a cerca persistente distingue geração/agente/boot de PID, mas o observador portátil só prova ausência por `ESRCH`; PID vivo ou reutilizado permanece intencionalmente incerto e exige aguardar a saída ou intervenção operacional verificada, ainda sem endpoint de resolução manual;
 - o console persistido possui cursor e redação na entrada, mas ainda não existe transporte ao vivo;
 - operações de comando são duráveis e auditadas, mas a escrita no stdin não confirma que o Minecraft processou o comando;
 - métricas possuem persistência e agregação; TPS, MSPT e jogadores continuam indisponíveis sem provider aprovado;
@@ -431,12 +440,13 @@
 
 ## Próximo recorte recomendado
 
-Fechar ownership e recuperação de JVM órfã após crash do agente. Persistir uma identidade de processo que não dependa apenas de PID, reconciliar essa identidade no startup e escolher com segurança entre reanexar uma JVM comprovadamente pertencente à instância, recusar controle por ownership incerto ou limpar um owner morto. Prender por smokes de queda durante boot, online e restart que provem uma única JVM, nenhuma adoção por PID reutilizado e zero leases/jobs/locks vazados após recuperação.
+Fazer o rollout controlado do ownership no servidor local: usar o agente antigo ainda dono dos pipes para parar o JVM atual, reiniciar `dist/local.js` para aplicar a migration `0025` e iniciar novamente sob uma geração persistente. Não reiniciar o processo local enquanto o JVM legado estiver vivo, porque ele foi iniciado antes da existência da cerca e não possui linha de ownership para reconciliar.
 
-Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois da recuperação de ownership, sem reabrir readiness, timeout ou a invalidação transitória já consolidada.
+Depois do rollout, escolher explicitamente a próxima feature. Console ao vivo, backup e `artifact.install` continuam não implementados; readiness, timeout, invalidação transitória e ownership não devem ser reabertos sem uma regressão concreta.
 
 ## Commits relevantes
 
+- `5dc61dd` — cerca persistente de ownership do JVM, reconciliação fail-closed, proteção contra PID reutilizado e regressões de crash;
 - `eb02a7f` — invalidação transacional do snapshot de processo durante operações de lifecycle, com regressão que impede PID antigo durante restart;
 - `5f30c41` — restart offline recusado como `state-conflict` na API e no agente;
 - `ca8857a` — exclusão interprocesso para o PGlite do ambiente local;
