@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1785871155.8518758,
-    "ast_hash": "c4655d16f9ff41e0212fd87698181736",
+    "mtime": 1786300543.8899162,
+    "ast_hash": "df8422e8b6a69652481c0b7d013fb3d9",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786163050.999621,
-    "ast_hash": "e2af4278a595f5211017f9525d1aa30d",
+    "mtime": 1786300448.9690568,
+    "ast_hash": "b0b1b16c8e4b51922a01f5b84717f840",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786289871.6973064,
-    "ast_hash": "01311a28a5e1c975fce518245b01ee00",
+    "mtime": 1786300720.9780266,
+    "ast_hash": "eb3a3423bb19737f91e00241c49c0bff",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -4235,8 +4235,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/configuration-staging/src/staging.ts": {
-    "mtime": 1786078470.2815213,
-    "ast_hash": "0440b611d340b24c7d0eb430b6e76089",
+    "mtime": 1786296867.0028343,
+    "ast_hash": "e7892e519f68c490a45a5536a8efc9c1",
     "semantic_hash": ""
   },
   "Plataforma/packages/configuration-staging/src/types.ts": {
@@ -4245,8 +4245,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/configuration-staging/test/configuration-staging.test.ts": {
-    "mtime": 1786078539.5257711,
-    "ast_hash": "f506bc5c45d3a130b4828585ccc4c86e",
+    "mtime": 1786296878.804698,
+    "ast_hash": "c8034672e185cc1bb432cc4c2d57e0f3",
     "semantic_hash": ""
   },
   "Plataforma/packages/configuration-staging/tsconfig.build.json": {
@@ -4455,8 +4455,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-routes.ts": {
-    "mtime": 1786263463.5017655,
-    "ast_hash": "420a2a4817df0359d3601a84c09b3d39",
+    "mtime": 1786298665.5693562,
+    "ast_hash": "13aef9a990cbdf3637852d09e75f1844",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-scanner.ts": {
@@ -4465,8 +4465,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
-    "mtime": 1786288477.590179,
-    "ast_hash": "708fdb7e81aa9ba40ffa618a8f3b16ab",
+    "mtime": 1786298709.888206,
+    "ast_hash": "3f94361819b0f4730c004945879a4912",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/entrar/page.tsx": {
@@ -4530,13 +4530,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-configuration.ts": {
-    "mtime": 1786149207.6601758,
-    "ast_hash": "f63b7e4080b1e0264749aa60bb827230",
+    "mtime": 1786296912.607143,
+    "ast_hash": "715b7c32d11d61853d371b7a294efb7f",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-configuration-api.test.ts": {
-    "mtime": 1786149399.715889,
-    "ast_hash": "63bf34bc641bf9a38df5c4b46ba8f7b7",
+    "mtime": 1786297154.501724,
+    "ast_hash": "13cd2a88e6078f39e76db81f85cf01c6",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/workspaces/configuracao/page.tsx": {
@@ -4795,8 +4795,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/datapacks/page.tsx": {
-    "mtime": 1786262949.573789,
-    "ast_hash": "8ef911e0fd78584010b6cc821c4d74b8",
+    "mtime": 1786298665.5729117,
+    "ast_hash": "fe37c3feee96c4a07b2b1b437dc479b0",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/mods/compatibilidade/page.tsx": {
@@ -4805,13 +4805,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/mods/detalhe/page.tsx": {
-    "mtime": 1786288617.7865672,
-    "ast_hash": "edbe83d38f0a95d5acc7d6c13072b383",
+    "mtime": 1786299205.6986845,
+    "ast_hash": "2f6c9a23db73d2320a207e3cd1123c71",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/ecosystem-client.ts": {
-    "mtime": 1786262913.7421198,
-    "ast_hash": "0447aec141f33027f0425612b073aead",
+    "mtime": 1786298665.5708756,
+    "ast_hash": "191fde7870fc5d99469ccf0cb953a37e",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0026_ecosystem_analysis.sql": {
@@ -4825,8 +4825,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-ecosystem-analysis.test.ts": {
-    "mtime": 1786261851.0511785,
-    "ast_hash": "4160bad7fd54bb52a25bb64b1fcda6ac",
+    "mtime": 1786299550.931874,
+    "ast_hash": "fc874c8e1d7af9fbc6ecde616611cbf9",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/package.json": {
@@ -4835,13 +4835,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786287792.8804214,
-    "ast_hash": "7a68937f7d4df94992037f1b6c9f2304",
+    "mtime": 1786296499.8666346,
+    "ast_hash": "c38e00390164d74de4c035fc0d466b78",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
-    "mtime": 1786288000.2543187,
-    "ast_hash": "a8e4e72a75cf73865c6b7d09d50e887e",
+    "mtime": 1786297655.272051,
+    "ast_hash": "f9cfd5ebb62f104be5c5b943c5762f00",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/systems.ts": {
@@ -4850,13 +4850,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/types.ts": {
-    "mtime": 1786287846.5956604,
-    "ast_hash": "c354e294db966b7ba335547d1aa6e932",
+    "mtime": 1786297655.270526,
+    "ast_hash": "aeb86bec580943795c40119b577c335a",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/test/ecosystem-analysis.test.ts": {
-    "mtime": 1786288456.0938375,
-    "ast_hash": "a5f86e011bc933091a22b57f7e7c7b43",
+    "mtime": 1786298566.3773124,
+    "ast_hash": "7f439ac19fcdbc6709f6a8fafc6b38e4",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/tsconfig.build.json": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786289871.6973064,
-    "ast_hash": "e7e054d0f455facefc59505547128d89",
+    "mtime": 1786300720.976521,
+    "ast_hash": "3d4eeaa9707464568f101307b439ddfd",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -4897,6 +4897,16 @@
   "Plataforma/packages/ecosystem-analysis/src/bytecode.ts": {
     "mtime": 1786287856.1411457,
     "ast_hash": "4410653fd41cc106b294e6fdbca79ef7",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/reviewed-datapack.ts": {
+    "mtime": 1786298566.3752913,
+    "ast_hash": "9626a3f93751b61b6b174197c0e9f479",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-017-schemas-revisados-de-recursos-datapack.md": {
+    "mtime": 1786300448.967545,
+    "ast_hash": "51c0184ca351b3ea972cf4fb36d2ae1f",
     "semantic_hash": ""
   }
 }
