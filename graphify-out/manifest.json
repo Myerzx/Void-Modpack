@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786232824.6257493,
-    "ast_hash": "75f2592b65fbefd260f1cb580af4062b",
+    "mtime": 1786235695.1544526,
+    "ast_hash": "f2d99f00063aa59bbde1a3e2a0e7cfd0",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786232824.6272554,
-    "ast_hash": "3c7451437e38bdb545527d044869581d",
+    "mtime": 1786235572.6433809,
+    "ast_hash": "fa1aeb166075fd9ca93f4c644d1e151c",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4712,6 +4712,11 @@
   "Plataforma/packages/database/migrations/0023_instance_runtime_ownership.sql": {
     "mtime": 1786231175.8069394,
     "ast_hash": "2090ebca2c5959b0b12b7ec37c9f5862",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260809_003305_como_executar_com_seguran\u00e7a_o_smoke_real_de_servid.md": {
+    "mtime": 1786235585.7124956,
+    "ast_hash": "b02e5a7f8ee27447702d284b1b19968a",
     "semantic_hash": ""
   }
 }
