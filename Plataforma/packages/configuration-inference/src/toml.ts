@@ -31,7 +31,6 @@ const ALLOWED = /^allowed values:\s*(.+)$/iu;
 const BACKSLASH = String.fromCharCode(92);
 
 const BARE_KEY = /^[A-Za-z0-9_-]+$/u;
-const TABLE_HEADER = /^\[([A-Za-z0-9_.-]+)\]$/u;
 
 interface PendingComments {
   readonly documentation: string[];
@@ -179,6 +178,54 @@ function parseValue(raw: string): ParsedValue | undefined {
   return undefined;
 }
 
+/**
+ * Reads TOML dotted keys with bare, basic-quoted or literal-quoted segments.
+ * Forge uses quoted table segments for human labels such as
+ * `[general."Default Feature Configs"]`; treating that as malformed made an
+ * otherwise ordinary generated file impossible to edit safely.
+ */
+function parseDottedKey(raw: string): readonly string[] | undefined {
+  const segments: string[] = [];
+  let index = 0;
+  const skipWhitespace = (): void => {
+    while (/\s/u.test(raw[index] ?? '')) index += 1;
+  };
+
+  skipWhitespace();
+  while (index < raw.length) {
+    const start = index;
+    const quote = raw[index];
+    let segment: string | undefined;
+    if (quote === '"' || quote === "'") {
+      index += 1;
+      let escaped = false;
+      while (index < raw.length) {
+        const character = raw[index];
+        index += 1;
+        if (escaped) escaped = false;
+        else if (character === BACKSLASH && quote === '"') escaped = true;
+        else if (character === quote) break;
+      }
+      const token = raw.slice(start, index);
+      const parsed = parseValue(token);
+      if (parsed?.type !== 'string') return undefined;
+      segment = parsed.value as string;
+    } else {
+      while (index < raw.length && /[A-Za-z0-9_-]/u.test(raw[index] ?? '')) index += 1;
+      const token = raw.slice(start, index);
+      if (!BARE_KEY.test(token)) return undefined;
+      segment = token;
+    }
+    segments.push(segment);
+    skipWhitespace();
+    if (index === raw.length) return segments;
+    if (raw[index] !== '.') return undefined;
+    index += 1;
+    skipWhitespace();
+  }
+  return undefined;
+}
+
 /** Splits an array body on commas that are not inside a string. */
 function splitTopLevel(inner: string): string[] | undefined {
   const parts: string[] = [];
@@ -259,15 +306,19 @@ export function readForgeToml(content: string): TomlReadResult {
       continue;
     }
 
-    const header = TABLE_HEADER.exec(line);
-    if (header !== null) {
-      table = (header[1] ?? '').split('.');
-      pending = { documentation: [], constraints: [] };
-      continue;
-    }
     if (line.startsWith('[[')) {
       // Arrays of tables have no stable field path for a form.
       issues.push({ line: lineNumber, code: 'unsupported-construct' });
+      pending = { documentation: [], constraints: [] };
+      continue;
+    }
+    if (line.startsWith('[')) {
+      const parsedTable = line.endsWith(']') ? parseDottedKey(line.slice(1, -1)) : undefined;
+      if (parsedTable === undefined) {
+        issues.push({ line: lineNumber, code: 'malformed-line' });
+      } else {
+        table = [...parsedTable];
+      }
       pending = { documentation: [], constraints: [] };
       continue;
     }
@@ -278,8 +329,8 @@ export function readForgeToml(content: string): TomlReadResult {
       pending = { documentation: [], constraints: [] };
       continue;
     }
-    const key = line.slice(0, equals).trim();
-    if (!BARE_KEY.test(key)) {
+    const key = parseDottedKey(line.slice(0, equals));
+    if (key === undefined) {
       issues.push({ line: lineNumber, code: 'unsupported-construct' });
       pending = { documentation: [], constraints: [] };
       continue;
@@ -291,7 +342,7 @@ export function readForgeToml(content: string): TomlReadResult {
       continue;
     }
 
-    const segments = [...table, key];
+    const segments = [...table, ...key];
     const path = segments.join('.');
     if (seen.has(path)) {
       issues.push({ line: lineNumber, code: 'duplicate-key' });

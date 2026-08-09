@@ -63,6 +63,17 @@ describe('reading a Forge configuration', () => {
     ]);
   });
 
+  it('reads Forge table labels expressed as quoted TOML key segments', () => {
+    const form = inferForm({
+      format: 'toml',
+      content: '[general."Default Feature Configs"]\n"Starter Items" = true\n',
+    });
+    assert.equal(form.complete, true);
+    const field = fieldAt(form, 'general.Default Feature Configs.Starter Items');
+    assert.deepEqual(field.segments, ['general', 'Default Feature Configs', 'Starter Items']);
+    assert.equal(field.value, true);
+  });
+
   it('reads the bounds the mod declared, and attributes them', () => {
     const form = inferForm({ format: 'toml', content: FORGE_TOML });
 
