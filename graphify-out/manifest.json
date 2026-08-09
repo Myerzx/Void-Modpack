@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786240533.543321,
-    "ast_hash": "207dbd52bc023c42111d2efdbf5965ac",
+    "mtime": 1786256198.7926445,
+    "ast_hash": "82429ac00da7a402c9cdb19102645e18",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786163038.1838064,
-    "ast_hash": "3f1c40e4c57b9082ef10407644b8f0ef",
+    "mtime": 1786253810.8696563,
+    "ast_hash": "38b271c86f6c8758470b601a1a5e6764",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -645,8 +645,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/page.tsx": {
-    "mtime": 1785766993.2161374,
-    "ast_hash": "e75de6a6c11beabae404e2e15165cd2d",
+    "mtime": 1786253354.2785912,
+    "ast_hash": "c62e26e45e0c9ba6d3443d8cd3ec7b19",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/dashboard-fixture.ts": {
@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/package.json": {
-    "mtime": 1785944044.774547,
-    "ast_hash": "a9e3e09d3f9313d8d4069235ac7aa64d",
+    "mtime": 1786253184.0900915,
+    "ast_hash": "ef46d93d1b3a5b428f8f6681ab0c43f6",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/test/dashboard-fixture.test.ts": {
@@ -690,8 +690,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/test/minecraft-process.test.ts": {
-    "mtime": 1786239794.1110797,
-    "ast_hash": "8186ece7205713aa6c074689c42a9d6a",
+    "mtime": 1786252937.324817,
+    "ast_hash": "cc374a554de23edc6cc5760119e8682a",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/tsconfig.build.json": {
@@ -715,8 +715,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/adapter.ts": {
-    "mtime": 1786239794.1110797,
-    "ast_hash": "4e40b760203418a6192777194f67abe0",
+    "mtime": 1786253707.425122,
+    "ast_hash": "2071bff1677c268ba8add7fac08464f1",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/launch-plan.ts": {
@@ -725,13 +725,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/node-runtime.ts": {
-    "mtime": 1786124466.6631725,
-    "ast_hash": "8e23ae59dacd1c315e6f78d524985b55",
+    "mtime": 1786252729.9027295,
+    "ast_hash": "df89800c5a7b63d3e05a452b3831d7f6",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/runtime.ts": {
-    "mtime": 1786117676.4198654,
-    "ast_hash": "f8d788eef58e4fe4a33b16de43315446",
+    "mtime": 1786252544.8573754,
+    "ast_hash": "f6c39bbacc93901044d006000b94fd7b",
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/state-machine.ts": {
@@ -770,8 +770,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/minecraft-process/src/console.ts": {
-    "mtime": 1785780873.0620043,
-    "ast_hash": "765a1b2ecd94899b918d2ec81fa6b2b8",
+    "mtime": 1786252554.565215,
+    "ast_hash": "7dceb68250d58d29392e84cda0697235",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_3_METRICS.md": {
@@ -3600,8 +3600,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/servidor/page.tsx": {
-    "mtime": 1786226762.5885828,
-    "ast_hash": "1d08f193c4410aeb513ab832b8de5e58",
+    "mtime": 1786253976.2866266,
+    "ast_hash": "b05e90ac64967b94acf0d8100126ee51",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/panel-session.ts": {
@@ -3615,13 +3615,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/panel-views.ts": {
-    "mtime": 1785944352.210376,
-    "ast_hash": "7f17e4a4b29d0380d6c121e5412d7b64",
+    "mtime": 1786253976.2851195,
+    "ast_hash": "e78d69488b6ca47eeefcd4ad3e8d794a",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/test/panel-shell.test.ts": {
-    "mtime": 1786212206.104535,
-    "ast_hash": "912cd2154edb0e8aad05823b74dd81b9",
+    "mtime": 1786253976.2866266,
+    "ast_hash": "48127aeb09cb52afd53227c6473280af",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_9_DYNAMIC_PANEL.md": {
@@ -3640,23 +3640,23 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/console-repositories.ts": {
-    "mtime": 1785946981.9802532,
-    "ast_hash": "572fd17061ae2652d2f5f940276c9768",
+    "mtime": 1786252887.0668566,
+    "ast_hash": "13b0f9f3cfb20e4c7cccbf87b6f20977",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/process-routes.ts": {
-    "mtime": 1786237244.2860591,
-    "ast_hash": "949297f6de9bc70fcb4ef8088bac4ddb",
+    "mtime": 1786252887.0683672,
+    "ast_hash": "1a833815f203b428741fae113b517baa",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/process-api.test.ts": {
-    "mtime": 1786237439.7083495,
-    "ast_hash": "41d417b6a008ed1ac2d16b0030cb5d3c",
+    "mtime": 1786252937.326325,
+    "ast_hash": "41d4020c2a58130114b72a3fe5119257",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/process-operation.ts": {
-    "mtime": 1786238843.9079146,
-    "ast_hash": "f12d49b979f7ca5f6d5b366f52adb758",
+    "mtime": 1786252835.5866337,
+    "ast_hash": "a3ff1da6a47576b0aa4806d6b069100c",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_10_PROCESS_CONSOLE.md": {
@@ -3665,8 +3665,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/console-operation.ts": {
-    "mtime": 1785950645.7071006,
-    "ast_hash": "eba43e1f9683c625b3c8edf5473afd9d",
+    "mtime": 1786252835.5866337,
+    "ast_hash": "5d51f2f0c833233bfc3cbe2bea1b7f85",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/console-operation.test.ts": {
@@ -3905,8 +3905,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-console.test.ts": {
-    "mtime": 1785962565.3523383,
-    "ast_hash": "70034edabe39bbd6c04bb83f1855c6df",
+    "mtime": 1786252941.7229433,
+    "ast_hash": "5d8dc8a17007576f9460f5a551b376b0",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
@@ -3945,8 +3945,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
-    "mtime": 1786238930.3699617,
-    "ast_hash": "c45de7610721b09e91e301c6437f6a7b",
+    "mtime": 1786254910.0546064,
+    "ast_hash": "d14fb2211a90c315a456049062328a12",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/scheduler-loop.ts": {
@@ -3960,8 +3960,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
-    "mtime": 1786239136.137044,
-    "ast_hash": "2ba1a66f28028bf4b8e889dadd0ecaa1",
+    "mtime": 1786254910.0546064,
+    "ast_hash": "62257e3fd3d2ef673cb50a6e2d96d391",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md": {
@@ -4505,8 +4505,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PAINEL_LOCAL.md": {
-    "mtime": 1786172857.9305143,
-    "ast_hash": "7e2ba4c9505452b4cba8730e83a79047",
+    "mtime": 1786253810.8727684,
+    "ast_hash": "39506eed4d167fb6c97acec055bff132",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
@@ -4585,8 +4585,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/components/shell.tsx": {
-    "mtime": 1786172275.1221383,
-    "ast_hash": "0e1ac78bd4f3add8137deacea16c0435",
+    "mtime": 1786253207.382311,
+    "ast_hash": "d1cf4de3875bff35ba089c8092fd28c1",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-016-painel-como-gerenciador-completo.md": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786240366.2982757,
-    "ast_hash": "6643c52240e6b98c0df3b1f3b8afc98e",
+    "mtime": 1786256198.794153,
+    "ast_hash": "5ded7e020caf344098096e088e9d6489",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4757,6 +4757,31 @@
   "graphify-out/memory/query_20260809_021054_monte_um_grafico_para_eu_saber_quanto___est\u00e1_pront.md": {
     "mtime": 1786241454.861669,
     "ast_hash": "02599f64d1f93915a4c0f9d496edac9e",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/servidor/console/page.tsx": {
+    "mtime": 1786253405.9128137,
+    "ast_hash": "26dd5b32308e0d6236d83fb8e08fd8fa",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/lib/console-view.ts": {
+    "mtime": 1786253184.0885308,
+    "ast_hash": "eff263fd00ddb556b830a2afded11c6e",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/test/console-view.test.ts": {
+    "mtime": 1786253184.0885308,
+    "ast_hash": "004130ec9da06a39e9882a3176a992fd",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_17_LIVE_CONSOLE.md": {
+    "mtime": 1786256198.7911375,
+    "ast_hash": "dd8016070a78be6d836090855b1c9467",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260809_061828_como_continuar_a_fase_atual_e_fechar_o_console_ao.md": {
+    "mtime": 1786256308.8206973,
+    "ast_hash": "f0a2110b9b637348e24c77db14cf5d8f",
     "semantic_hash": ""
   }
 }
