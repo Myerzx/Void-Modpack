@@ -81,8 +81,18 @@ const CONFIGURATION_EXTENSIONS: ReadonlySet<string> = new Set([
 const SCRIPT_EXTENSIONS: ReadonlySet<string> = new Set(['.js', '.ts', '.zs', '.lua', '.py']);
 
 /** Directories whose contents are datapacks or resources regardless of extension. */
-const DATAPACK_ROOTS: readonly string[] = ['datapacks/', 'world/datapacks/', 'kubejs/data/'];
-const RESOURCE_ROOTS: readonly string[] = ['resourcepacks/', 'kubejs/assets/'];
+const DATAPACK_ROOTS: readonly string[] = [
+  'datapacks/',
+  'world/datapacks/',
+  'kubejs/data/',
+  // The settings file is configuration; what OpenLoader loads is content.
+  'config/openloader/data/',
+];
+const RESOURCE_ROOTS: readonly string[] = [
+  'resourcepacks/',
+  'kubejs/assets/',
+  'config/openloader/resources/',
+];
 const SCRIPT_ROOTS: readonly string[] = ['kubejs/', 'scripts/'];
 
 export interface ScanWorkspaceOptions {

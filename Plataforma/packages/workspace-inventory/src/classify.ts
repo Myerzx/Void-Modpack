@@ -60,15 +60,35 @@ function extensionOf(path: string): string {
 export function configurationCandidatesFor(input: {
   readonly modId: string;
   readonly files: readonly WorkspaceFile[];
+  /** Exact aliases derived from declared metadata, never free-form guesses. */
+  readonly aliases?: readonly string[];
   readonly reviewedResourcePaths?: readonly string[];
 }): readonly ConfigurationCandidate[] {
   const modId = input.modId.toLocaleLowerCase('en-US');
+  const aliases = new Set(
+    [modId, ...(input.aliases ?? [])]
+      .map((alias) => alias.toLocaleLowerCase('en-US'))
+      .filter((alias) => /^[a-z0-9][a-z0-9_-]{1,127}$/u.test(alias)),
+  );
   const reviewed = new Set((input.reviewedResourcePaths ?? []).map((path) => path.toLowerCase()));
   const candidates: ConfigurationCandidate[] = [];
 
   for (const file of input.files) {
     if (file.role !== 'configuration') continue;
     const lower = file.path.toLocaleLowerCase('en-US');
+    const serverConfigMarker = '/serverconfig/';
+    const serverConfigIndex = lower.indexOf(serverConfigMarker);
+    if (serverConfigIndex >= 0) {
+      const name = lower.slice(serverConfigIndex + serverConfigMarker.length);
+      if (name.includes('/')) continue;
+      const extension = extensionOf(name);
+      const stem = extension.length === 0 ? name : name.slice(0, -extension.length);
+      const ownerAlias = stem.endsWith('-server') ? stem.slice(0, -'-server'.length) : stem;
+      if (!aliases.has(ownerAlias)) continue;
+      candidates.push({ path: file.path, rule: 'serverconfig-file-by-mod-alias' });
+      continue;
+    }
+
     if (!lower.startsWith('config/')) continue;
 
     const withoutRoot = lower.slice('config/'.length);
@@ -160,4 +180,5 @@ export const CONFIGURATION_MATCH_RULES: readonly ConfigurationMatchRule[] = Obje
   'reviewed-resource',
   'config-file-by-mod-id',
   'config-directory-by-mod-id',
+  'serverconfig-file-by-mod-alias',
 ]);

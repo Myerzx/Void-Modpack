@@ -101,6 +101,8 @@ export type ConfigurationMatchRule =
   | 'config-file-by-mod-id'
   /** `config/<modId>/**` — a directory named for the mod. */
   | 'config-directory-by-mod-id'
+  /** Forge `<level>/serverconfig/<alias>-server.toml`, using a metadata-derived alias. */
+  | 'serverconfig-file-by-mod-alias'
   /** A reviewed resource in the closed product registry names this path. */
   | 'reviewed-resource';
 

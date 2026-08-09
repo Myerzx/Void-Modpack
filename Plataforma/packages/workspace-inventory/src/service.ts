@@ -36,6 +36,32 @@ export interface WorkspaceInventoryServiceOptions {
 
 export type BuildInventoryOptions = ScanWorkspaceOptions;
 
+/**
+ * Produces a conservative file alias from names the artifact declared.
+ *
+ * Forge does not declare its generated configuration filename. A normalized
+ * display name is the one additional signal available without executing or
+ * decompiling a mod, so matches using it remain visibly attributed to the
+ * `serverconfig-file-by-mod-alias` rule.
+ */
+export function configurationAliasesFor(input: {
+  readonly modId: string;
+  readonly displayName: string | null;
+}): readonly string[] {
+  const aliases = new Set([input.modId.toLocaleLowerCase('en-US')]);
+  if (input.displayName !== null) {
+    const displayAlias = input.displayName
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/gu, '')
+      .toLocaleLowerCase('en-US')
+      .replace(/[^a-z0-9]+/gu, '_')
+      .replace(/^_+|_+$/gu, '')
+      .replace(/_+/gu, '_');
+    if (/^[a-z0-9][a-z0-9_-]{1,127}$/u.test(displayAlias)) aliases.add(displayAlias);
+  }
+  return Object.freeze([...aliases].sort((left, right) => left.localeCompare(right, 'en-US')));
+}
+
 export class WorkspaceInventoryService {
   readonly #reviewedResourcePaths: readonly string[];
   readonly #inspection: ArtifactInspectionService;
@@ -86,6 +112,7 @@ export class WorkspaceInventoryService {
       for (const declared of report.mods) {
         const configurationCandidates = configurationCandidatesFor({
           modId: declared.modId,
+          aliases: configurationAliasesFor(declared),
           files: scan.files,
           reviewedResourcePaths: this.#reviewedResourcePaths,
         });

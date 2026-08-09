@@ -9,6 +9,7 @@ import {
   WorkspaceInventoryError,
   WorkspaceInventoryService,
   classifyEditLevel,
+  configurationAliasesFor,
   configurationCandidatesFor,
   roleForPath,
   scanWorkspace,
@@ -99,12 +100,12 @@ function crc32(buffer: Buffer): number {
   return (crc ^ 0xffff_ffff) >>> 0;
 }
 
-function forgeJar(modId: string, version: string): Buffer {
+function forgeJar(modId: string, version: string, displayName = modId): Buffer {
   return zip(
     new Map([
       [
         'META-INF/mods.toml',
-        `modLoader="javafml"\nloaderVersion="[47,)"\nlicense="ARR"\n[[mods]]\nmodId="${modId}"\nversion="${version}"\ndisplayName="${modId}"\n`,
+        `modLoader="javafml"\nloaderVersion="[47,)"\nlicense="ARR"\n[[mods]]\nmodId="${modId}"\nversion="${version}"\ndisplayName="${displayName}"\n`,
       ],
     ]),
   );
@@ -224,6 +225,9 @@ describe('file roles', () => {
     assert.equal(roleForPath('config/jei.toml'), 'configuration');
     assert.equal(roleForPath('kubejs/server_scripts/recipes.js'), 'script');
     assert.equal(roleForPath('datapacks/pack/data/x.json'), 'datapack');
+    assert.equal(roleForPath('config/openloader/data/pack/data/x/recipes/a.json'), 'datapack');
+    assert.equal(roleForPath('config/openloader/resources/pack/assets/x/model.json'), 'resource');
+    assert.equal(roleForPath('config/openloader/advanced_options.json'), 'configuration');
     assert.equal(roleForPath('resourcepacks/pack.zip'), 'resource');
     // A .js outside a script root is not a script; guessing from extension
     // alone would classify a mod's bundled asset as something to interpret.
@@ -249,6 +253,32 @@ describe('edit-level classification', () => {
       ['config/alpha-common.toml', 'config/alpha.toml'],
     );
     assert.ok(candidates.every((candidate) => candidate.rule === 'config-file-by-mod-id'));
+  });
+
+  it('associates per-world server config through an exact metadata alias', () => {
+    const serverFiles = [
+      ...files,
+      {
+        path: 'world/serverconfig/mine_and_slash-server.toml',
+        role: 'configuration' as const,
+        sizeBytes: 1,
+        sha256: 'f',
+      },
+      {
+        path: 'world/serverconfig/mine_and_slash_extra-server.toml',
+        role: 'configuration' as const,
+        sizeBytes: 1,
+        sha256: 'g',
+      },
+    ];
+    const aliases = configurationAliasesFor({ modId: 'mmorpg', displayName: 'Mine and Slash' });
+    const candidates = configurationCandidatesFor({ modId: 'mmorpg', aliases, files: serverFiles });
+    assert.deepEqual(candidates, [
+      {
+        path: 'world/serverconfig/mine_and_slash-server.toml',
+        rule: 'serverconfig-file-by-mod-alias',
+      },
+    ]);
   });
 
   it('reports nothing found as runtime-only, not as unsupported', () => {
@@ -306,6 +336,21 @@ describe('edit-level classification', () => {
     assert.equal(byId.get('delta')?.editLevel, 'RUNTIME_ONLY');
     assert.ok((byId.get('delta')?.editLevelReason.length ?? 0) > 0);
     assert.equal(inventory.totals.mods, 2);
+  });
+
+  it('links a generated server config when the mod id differs from its display name', async () => {
+    const root = await workspace();
+    await write(root, 'mods/mmorpg.jar', forgeJar('mmorpg', '6.3.14', 'Mine and Slash'));
+    await write(root, 'world/serverconfig/mine_and_slash-server.toml', 'enabled = true\n');
+
+    const inventory = await new WorkspaceInventoryService().build({ root });
+    assert.deepEqual(inventory.mods[0]?.configurationCandidates, [
+      {
+        path: 'world/serverconfig/mine_and_slash-server.toml',
+        rule: 'serverconfig-file-by-mod-alias',
+      },
+    ]);
+    assert.equal(inventory.mods[0]?.editLevel, 'STRUCTURED');
   });
 });
 
