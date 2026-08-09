@@ -39,11 +39,13 @@ export interface EcosystemConfiguration {
   }[];
   readonly allowedValues: readonly string[];
   readonly source: {
+    readonly kind: 'config-file' | 'datapack-resource';
     readonly file: string;
     readonly path: string;
     readonly line: number;
     readonly format: string;
     readonly parser: string;
+    readonly datapackResourceId: string | null;
   };
   readonly side: string;
   readonly restartRequired: boolean | null;
@@ -78,6 +80,53 @@ export interface EcosystemDatapack {
   readonly ownerModId: string | null;
   readonly relatedModIds: readonly string[];
   readonly issueIds: readonly string[];
+  readonly conflictIds: readonly string[];
+  readonly evidenceIds: readonly string[];
+}
+
+export interface EcosystemDatapackConflict {
+  readonly conflictId: string;
+  readonly coordinate: string;
+  readonly kind: 'duplicate-identical' | 'divergent-content';
+  readonly resourceIds: readonly string[];
+  readonly datapackIds: readonly string[];
+  readonly resolution: 'unknown-load-order';
+  readonly status: KnowledgeStatus;
+  readonly confidence: Confidence;
+  readonly evidenceIds: readonly string[];
+}
+
+export interface EcosystemDatapackResource {
+  readonly resourceId: string;
+  readonly datapackId: string;
+  readonly namespace: string;
+  readonly resourceType: string;
+  readonly resourcePath: string;
+  readonly sourceFile: string;
+  readonly sha256: string;
+  readonly ownerModId: string | null;
+  readonly systemId: string | null;
+  readonly effect: 'overrides' | 'extends' | 'unknown';
+  readonly reviewedSchema: {
+    readonly schemaId: string;
+    readonly schemaVersion: string;
+    readonly schemaSha256: string;
+    readonly parserId: string;
+    readonly title: string;
+  } | null;
+  readonly semanticFields: readonly {
+    readonly configurationId: string;
+    readonly path: string;
+    readonly label: string;
+    readonly type: 'boolean' | 'number' | 'string';
+    readonly currentValue: boolean | number | string;
+    readonly defaultValue: boolean | number | string | null;
+    readonly editable: boolean;
+  }[];
+  readonly conflictIds: readonly string[];
+  readonly parseIssue: string | null;
+  readonly status: KnowledgeStatus;
+  readonly confidence: Confidence;
   readonly evidenceIds: readonly string[];
 }
 
@@ -131,7 +180,11 @@ export interface EcosystemModDetail {
     readonly resourceType: string;
     readonly effect: string;
     readonly count: number;
+    readonly reviewedCount: number;
+    readonly semanticFieldCount: number;
+    readonly conflictCount: number;
   }[];
+  readonly datapackConflicts: readonly EcosystemDatapackConflict[];
   readonly relationships: readonly EcosystemRelationship[];
   readonly evidence: readonly EcosystemEvidence[];
   readonly issues: readonly {
@@ -158,6 +211,9 @@ export interface EcosystemDatapackSummary extends EcosystemDatapack {
   readonly overrideCount: number;
   readonly extensionCount: number;
   readonly unknownCount: number;
+  readonly reviewedResourceCount: number;
+  readonly semanticFieldCount: number;
+  readonly conflictCount: number;
   readonly resourceTypes: readonly (readonly [string, number])[];
 }
 
@@ -173,6 +229,38 @@ export async function listEcosystemDatapacks(workspaceId: string): Promise<{
 export async function readEcosystemMod(workspaceId: string, modId: string): Promise<EcosystemModDetail> {
   return panelRequest(
     `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/ecosystem/mods/${encodeURIComponent(modId)}`,
+  );
+}
+
+export async function listEcosystemDatapackResources(input: {
+  readonly workspaceId: string;
+  readonly modId: string;
+  readonly offset?: number;
+  readonly limit?: number;
+  readonly query?: string;
+  readonly resourceType?: string;
+  readonly effect?: string;
+  readonly reviewed?: boolean;
+  readonly conflicts?: boolean;
+}): Promise<{
+  readonly dataQuality: 'stored';
+  readonly total: number;
+  readonly offset: number;
+  readonly limit: number;
+  readonly resources: readonly EcosystemDatapackResource[];
+  readonly conflicts: readonly EcosystemDatapackConflict[];
+}> {
+  const parameters = new URLSearchParams();
+  if (input.offset !== undefined) parameters.set('offset', String(input.offset));
+  if (input.limit !== undefined) parameters.set('limit', String(input.limit));
+  if (input.query !== undefined && input.query.trim().length > 0) parameters.set('q', input.query.trim());
+  if (input.resourceType !== undefined && input.resourceType.length > 0) parameters.set('resourceType', input.resourceType);
+  if (input.effect !== undefined && input.effect.length > 0) parameters.set('effect', input.effect);
+  if (input.reviewed !== undefined) parameters.set('reviewed', String(input.reviewed));
+  if (input.conflicts !== undefined) parameters.set('conflicts', String(input.conflicts));
+  const query = parameters.size === 0 ? '' : `?${parameters.toString()}`;
+  return panelRequest(
+    `/api/v1/workspaces/${encodeURIComponent(input.workspaceId)}/ecosystem/mods/${encodeURIComponent(input.modId)}/datapack-resources${query}`,
   );
 }
 

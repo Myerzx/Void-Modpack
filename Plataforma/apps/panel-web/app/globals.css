@@ -425,6 +425,13 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .detail-grid div { min-width: 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
 .detail-grid dt { color: var(--subtle); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
 .detail-grid dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.configuration-toolbar {
+  display: grid; grid-template-columns: minmax(280px, 1fr) minmax(220px, .7fr) auto;
+  gap: 14px; align-items: end; padding: 14px 16px;
+}
+.configuration-scope { min-width: 0; display: grid; gap: 3px; }
+.configuration-scope strong { font-size: 13px; }
+.configuration-scope small { min-width: 0; color: var(--subtle); overflow-wrap: anywhere; }
 .config-workbench { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 16px; align-items: start; }
 .system-index { position: sticky; top: 18px; gap: 9px; padding: 15px; }
 .system-index > strong { font-size: 13px; }
@@ -484,12 +491,44 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .datapack-effects span { display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 7px; padding: 8px; color: var(--subtle); font-size: 10px; }
 .datapack-effects strong { color: var(--text); font-size: 16px; }
 .chip-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.conflict-panel { border-color: rgba(243, 184, 90, .42); background: rgba(243, 184, 90, .045); }
+.conflict-panel > p { margin: 9px 0 14px; }
+.datapack-resource-browser { min-width: 0; gap: 14px; }
+.resource-toolbar {
+  display: grid; grid-template-columns: minmax(250px, 1fr) 220px 140px 150px auto auto;
+  gap: 10px; align-items: end; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  margin: 2px -4px 0; padding: 13px 4px;
+}
+.resource-toolbar button { min-height: 37px; }
+.datapack-resource-table { min-width: 1080px; }
+.datapack-resource-table tbody tr { cursor: default; }
+.datapack-resource-table td { vertical-align: middle; }
+.datapack-resource-table td > small, .datapack-resource-table td > strong { display: block; }
+.datapack-resource-table td > small { margin-top: 3px; color: var(--subtle); }
+.resource-link { max-width: 390px; display: grid; gap: 3px; border: 0; background: transparent; padding: 0; text-align: left; cursor: pointer; }
+.resource-link strong { overflow-wrap: anywhere; }
+.resource-link span { color: var(--subtle); font-size: 10px; }
+.resource-link:hover strong, .resource-link:focus-visible strong { color: #c8b5ff; }
+.schema-cell { display: grid; gap: 2px; }
+.schema-cell strong { font-size: 11px; }
+.schema-cell span, .schema-cell small { color: var(--subtle); font-size: 10px; }
+.resource-actions { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.resource-actions a { color: #c6b2fa; font-size: 10px; font-weight: 700; }
+.pagination-note { margin: 0; color: var(--subtle); font-size: 11px; }
+.datapack-summary-grid small { display: block; margin-top: 3px; color: var(--subtle); font-size: 10px; }
+.resource-drawer { width: min(680px, 100%); }
+.drawer-section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.semantic-field-table { min-width: 560px; }
+.semantic-field-table tbody tr { cursor: default; }
+.drawer-primary-action { width: fit-content; margin-top: 2px; }
 
 @media (max-width: 980px) {
   .config-workbench { grid-template-columns: 1fr; }
   .system-index { position: static; }
   .system-index nav { display: flex; overflow-x: auto; }
   .system-index a { flex: 0 0 auto; }
+  .resource-toolbar { grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(130px, .5fr)); }
+  .resource-toolbar button { width: fit-content; }
 }
 
 /* --- Operational console ---------------------------------------------- */
@@ -563,6 +602,8 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
   .console-badge { grid-column: 3; width: max-content; }
   .console-command { grid-template-columns: 1fr; }
   .analysis-callout, .mods-toolbar { grid-template-columns: 1fr; }
+  .configuration-toolbar, .resource-toolbar { grid-template-columns: 1fr; }
+  .configuration-toolbar button, .resource-toolbar button { width: 100%; }
   .semantic-config { grid-template-columns: 1fr; }
   .config-control { justify-content: flex-start; }
   .config-meta, .semantic-config > p { grid-column: 1; }
