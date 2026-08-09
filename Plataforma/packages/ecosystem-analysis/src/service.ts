@@ -5,6 +5,7 @@ import { isAbsolute, join } from 'node:path';
 
 import {
   DEFAULT_ARTIFACT_INSPECTION_LIMITS,
+  readZipEntry,
   readZipDirectory,
   type ClassConfigurationDefinition,
   type ClassInvocation,
@@ -19,6 +20,10 @@ import type {
 
 import { classifySystem, type SystemClassification } from './systems.js';
 import {
+  VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY,
+  type ReviewedDatapackInspection,
+} from './reviewed-datapack.js';
+import {
   DEFAULT_ARCHIVE_BYTECODE_LIMITS,
   inspectArchiveBytecode,
 } from './bytecode.js';
@@ -31,6 +36,7 @@ import {
   type AnalysisSide,
   type AnalyzedConfiguration,
   type AnalyzedDatapack,
+  type AnalyzedDatapackConflict,
   type AnalyzedDatapackResource,
   type AnalyzedMod,
   type AnalyzedSystem,
@@ -48,6 +54,7 @@ import {
 const MAXIMUM_CONFIGURATION_BYTES = 4 * 1024 * 1024;
 const MAXIMUM_PACK_METADATA_BYTES = 256 * 1024;
 const MAXIMUM_TOTAL_BYTECODE_BYTES = 64 * 1024 * 1024;
+const MAXIMUM_REVIEWED_DATAPACK_DEFAULT_BYTES = 4 * 1024 * 1024;
 const BUILTIN_DEPENDENCIES = new Set([
   'fabricloader',
   'fml',
@@ -107,12 +114,22 @@ interface BytecodeRelationGroup {
   count: number;
 }
 
+interface EmbeddedReviewedDatapackResource {
+  readonly inspection: Extract<ReviewedDatapackInspection, { readonly success: true }>;
+  readonly sha256: string;
+  readonly evidenceId: string;
+}
+
 function sha256(value: string | Uint8Array): string {
   return createHash('sha256').update(value).digest('hex');
 }
 
 function stableId(prefix: string, ...parts: readonly string[]): string {
   return `${prefix}:${sha256(parts.join('\u0000')).slice(0, 24)}`;
+}
+
+function embeddedResourceKey(archivePath: string, entryPath: string): string {
+  return `${archivePath}\u0000${entryPath.toLocaleLowerCase('en-US')}`;
 }
 
 function compare(left: string, right: string): number {
@@ -288,10 +305,12 @@ export class EcosystemAnalysisService {
     const configurations: AnalyzedConfiguration[] = [];
     const datapacks: AnalyzedDatapack[] = [];
     const datapackResources: AnalyzedDatapackResource[] = [];
+    const datapackConflicts: AnalyzedDatapackConflict[] = [];
     const systems = new Map<string, SystemDraft>();
     const relationships = new Map<string, RelationshipDraft>();
     const archiveEntries = new Map<string, ReadonlySet<string>>();
     const archiveDirectories = new Map<string, readonly ZipEntry[]>();
+    const embeddedReviewedResources = new Map<string, EmbeddedReviewedDatapackResource>();
     const bytecodeDefinitions = new Map<string, Map<string, BytecodeDefinitionFact[]>>();
     const filesByPath = new Map(plan.inventory.files.map((file) => [file.path, file]));
     const mods = new Map<string, ModDraft>();
@@ -471,6 +490,52 @@ export class EcosystemAnalysisService {
           confidence: 'high',
         });
         mod.evidenceIds.add(evidenceId);
+
+        // Only resources covered by the closed reviewed-schema registry are
+        // expanded. This gives semantic fields a proven default without
+        // turning the analyzer into an unbounded JAR extractor.
+        const expansionBudget = { remaining: MAXIMUM_REVIEWED_DATAPACK_DEFAULT_BYTES };
+        for (const entry of directory.entries) {
+          if (entry.isDirectory) continue;
+          const coordinates = resourceCoordinates(entry.name);
+          if (coordinates === null) continue;
+          const schema = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.match(
+            coordinates.namespace,
+            coordinates.resourceType,
+          );
+          if (schema === null || entry.uncompressedSize > schema.maximumBytes) continue;
+          try {
+            const expanded = readZipEntry(
+              Buffer.from(content),
+              entry,
+              DEFAULT_ARTIFACT_INSPECTION_LIMITS,
+              expansionBudget,
+            );
+            const inspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+              schemaId: schema.schemaId,
+              resourcePath: coordinates.resourcePath,
+              content: expanded.toString('utf8'),
+            });
+            if (!inspection.success) continue;
+            const entrySha256 = sha256(expanded);
+            const defaultEvidenceId = addEvidence({
+              source: 'archive-entry',
+              sourcePath: `${mod.source.archivePath}!/${entry.name}`,
+              sha256: entrySha256,
+              detail: `Default resource matched reviewed schema ${schema.schemaId}@${schema.schemaVersion}.`,
+              status: 'detected',
+              confidence: 'high',
+            });
+            embeddedReviewedResources.set(
+              embeddedResourceKey(mod.source.archivePath, entry.name),
+              { inspection, sha256: entrySha256, evidenceId: defaultEvidenceId },
+            );
+          } catch {
+            // A reviewed default that cannot be expanded simply cannot prove
+            // defaults. The workspace resource may still be interpreted from
+            // its own exact shape, and no fallback value is invented.
+          }
+        }
       } catch {
         const issueId = stableId('issue', 'artifact-index-unavailable', mod.source.modId);
         issues.push({
@@ -969,11 +1034,13 @@ export class EcosystemAnalysisService {
             constraints,
             allowedValues,
             source: {
+              kind: 'config-file',
               file: candidate.path,
               path: field.path,
               line: field.line,
               format: form.format,
               parser: `configuration-inference/${form.format}`,
+              datapackResourceId: null,
             },
             side: sideOf(candidate.path),
             // Forge can reload some specs, but whether a mod consumes the
@@ -1168,6 +1235,152 @@ export class EcosystemAnalysisService {
           }
         }
 
+        let reviewedSchema: AnalyzedDatapackResource['reviewedSchema'] = null;
+        let parseIssue: string | null = null;
+        const semanticFields: AnalyzedDatapackResource['semanticFields'][number][] = [];
+        const schema = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.match(
+          coordinates.namespace,
+          coordinates.resourceType,
+        );
+        if (schema !== null && owner !== undefined && systemId !== null) {
+          let content: string | null = null;
+          let inspection: ReviewedDatapackInspection | null = null;
+          try {
+            content = await readFile(safeAbsolute(plan.root, file.path), 'utf8');
+            inspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+              schemaId: schema.schemaId,
+              resourcePath: coordinates.resourcePath,
+              content,
+            });
+          } catch {
+            parseIssue = 'resource-unreadable';
+          }
+          if (inspection !== null && !inspection.success) parseIssue = inspection.code;
+          if (inspection?.success === true) {
+            reviewedSchema = {
+              schemaId: schema.schemaId,
+              schemaVersion: schema.schemaVersion,
+              schemaSha256: schema.schemaSha256,
+              parserId: schema.parserId,
+              title: schema.title,
+            };
+            const schemaEvidenceId = addEvidence({
+              source: 'reviewed-schema',
+              sourcePath: file.path,
+              sha256: file.sha256,
+              detail: `Exact shape matched ${schema.schemaId}@${schema.schemaVersion} with ${String(schema.fields.length)} reviewed scalar field(s).`,
+              status: 'interpreted',
+              confidence: 'high',
+            });
+            const embedded = embeddedReviewedResources.get(
+              embeddedResourceKey(owner.source.archivePath, location.insidePath),
+            );
+            const system = systems.get(systemId);
+            if (system === undefined) throw new Error('ecosystem-analysis:missing-datapack-system');
+            for (const field of schema.fields) {
+              const currentValue = inspection.values[field.path];
+              if (currentValue === undefined) continue;
+              const embeddedValue = embedded?.inspection.values[field.path];
+              const defaultValue =
+                embeddedValue !== undefined && typeof embeddedValue === typeof currentValue
+                  ? embeddedValue
+                  : null;
+              const configurationId = stableId(
+                'configuration',
+                owner.source.modId,
+                file.path,
+                field.path,
+              );
+              const fieldEvidenceIds = [
+                resourceEvidenceId,
+                systemEvidenceId,
+                schemaEvidenceId,
+                ...(embedded === undefined ? [] : [embedded.evidenceId]),
+              ].sort(compare);
+              configurations.push({
+                configurationId,
+                modId: owner.source.modId,
+                systemId,
+                name: `${coordinates.resourcePath.replace(/\.json$/iu, '')} · ${field.label}`,
+                description: field.description,
+                category: system.title,
+                type: field.type,
+                currentValue,
+                defaultValue,
+                constraints: [],
+                allowedValues: [],
+                source: {
+                  kind: 'datapack-resource',
+                  file: file.path,
+                  path: field.path,
+                  line: 0,
+                  format: 'json',
+                  parser: `${schema.parserId}/${schema.schemaId}@${schema.schemaVersion}`,
+                  datapackResourceId: resourceId,
+                },
+                side: 'server',
+                // The exact activation behaviour of this OpenLoader/mod pair
+                // is not declared by the resource. Staging is allowed; runtime
+                // application and restart claims remain outside this slice.
+                restartRequired: null,
+                editable: field.editable,
+                status: 'interpreted',
+                confidence: 'high',
+                evidenceIds: Object.freeze(fieldEvidenceIds),
+              });
+              semanticFields.push({
+                configurationId,
+                path: field.path,
+                label: field.label,
+                type: field.type,
+                currentValue,
+                defaultValue,
+                editable: field.editable,
+              });
+              owner.configurationIds.add(configurationId);
+              system.configurationIds.add(configurationId);
+              system.evidenceIds.add(schemaEvidenceId);
+              const ownsConfigurationId = addRelationship({
+                from: { type: 'System', id: systemId },
+                to: { type: 'Configuration', id: configurationId },
+                type: 'OWNS',
+                systemId,
+                reason: 'The reviewed datapack field belongs to the classified functional system.',
+                status: 'interpreted',
+                confidence: 'high',
+                evidenceIds: [systemEvidenceId, schemaEvidenceId],
+              });
+              const definedInResourceId = addRelationship({
+                from: { type: 'Configuration', id: configurationId },
+                to: { type: 'DatapackResource', id: resourceId },
+                type: 'DEFINED_IN',
+                systemId,
+                reason: 'The reviewed parser read this scalar from the cited datapack resource path.',
+                status: 'detected',
+                confidence: 'high',
+                evidenceIds: [resourceEvidenceId, schemaEvidenceId],
+              });
+              system.relationshipIds.add(ownsConfigurationId);
+              system.relationshipIds.add(definedInResourceId);
+              owner.relationshipIds.add(ownsConfigurationId);
+              owner.relationshipIds.add(definedInResourceId);
+            }
+          }
+          if (parseIssue !== null) {
+            const issueId = stableId('issue', 'reviewed-datapack-schema-mismatch', file.path);
+            issues.push({
+              issueId,
+              severity: 'warning',
+              code: 'reviewed-datapack-schema-mismatch',
+              detail: `The resource matched reviewed family ${schema.schemaId}, but strict parsing refused it (${parseIssue}).`,
+              subjectId: resourceId,
+              evidenceIds: [resourceEvidenceId],
+            });
+            packIssueIds.add(issueId);
+            owner.issueIds.add(issueId);
+          }
+        }
+
         datapackResources.push({
           resourceId,
           datapackId,
@@ -1179,9 +1392,31 @@ export class EcosystemAnalysisService {
           ownerModId,
           systemId,
           effect,
-          status: ownerModId === null ? 'unknown' : effect === 'unknown' ? 'inferred' : 'detected',
-          confidence: ownerModId === null ? 'unknown' : effect === 'unknown' ? 'low' : 'high',
-          evidenceIds: Object.freeze([resourceEvidenceId, systemEvidenceId].sort(compare)),
+          reviewedSchema,
+          semanticFields: Object.freeze(semanticFields.sort((left, right) => compare(left.path, right.path))),
+          conflictIds: Object.freeze([]),
+          parseIssue,
+          status: reviewedSchema !== null
+            ? 'interpreted'
+            : ownerModId === null
+              ? 'unknown'
+              : effect === 'unknown'
+                ? 'inferred'
+                : 'detected',
+          confidence: reviewedSchema !== null
+            ? 'high'
+            : ownerModId === null
+              ? 'unknown'
+              : effect === 'unknown'
+                ? 'low'
+                : 'high',
+          evidenceIds: Object.freeze([
+            resourceEvidenceId,
+            systemEvidenceId,
+            ...configurations
+              .filter((configuration) => configuration.source.datapackResourceId === resourceId)
+              .flatMap((configuration) => configuration.evidenceIds),
+          ].filter((value, index, values) => values.indexOf(value) === index).sort(compare)),
         });
       }
 
@@ -1216,9 +1451,110 @@ export class EcosystemAnalysisService {
         ownerModId: onlyOwner,
         relatedModIds: sorted(relatedModIds),
         issueIds: sorted(packIssueIds),
+        conflictIds: Object.freeze([]),
         evidenceIds: Object.freeze([packEvidenceId]),
       });
     }
+
+    const resourcesByCoordinate = new Map<string, AnalyzedDatapackResource[]>();
+    for (const resource of datapackResources) {
+      const coordinate = `${resource.namespace}:${resource.resourceType}/${resource.resourcePath}`;
+      const entries = resourcesByCoordinate.get(coordinate) ?? [];
+      entries.push(resource);
+      resourcesByCoordinate.set(coordinate, entries);
+    }
+    const conflictIdsByResource = new Map<string, Set<string>>();
+    const conflictIdsByDatapack = new Map<string, Set<string>>();
+    const conflictIssueIdsByDatapack = new Map<string, Set<string>>();
+    for (const [coordinate, resources] of resourcesByCoordinate) {
+      if (resources.length < 2) continue;
+      resources.sort((left, right) => compare(left.resourceId, right.resourceId));
+      const hashes = new Set(resources.map((resource) => resource.sha256));
+      const kind: AnalyzedDatapackConflict['kind'] =
+        hashes.size === 1 ? 'duplicate-identical' : 'divergent-content';
+      const conflictId = stableId(
+        'datapack-conflict',
+        coordinate,
+        ...resources.map((resource) => resource.resourceId),
+      );
+      const conflictEvidenceIds = [...new Set(resources.flatMap((resource) => resource.evidenceIds))]
+        .sort(compare);
+      datapackConflicts.push({
+        conflictId,
+        coordinate,
+        kind,
+        resourceIds: Object.freeze(resources.map((resource) => resource.resourceId)),
+        datapackIds: Object.freeze([...new Set(resources.map((resource) => resource.datapackId))].sort(compare)),
+        resolution: 'unknown-load-order',
+        status: 'detected',
+        confidence: 'high',
+        evidenceIds: Object.freeze(conflictEvidenceIds),
+      });
+      const issueId = stableId('issue', 'datapack-resource-overlap', conflictId);
+      issues.push({
+        issueId,
+        severity: kind === 'divergent-content' ? 'warning' : 'information',
+        code: kind === 'divergent-content'
+          ? 'datapack-resource-conflict'
+          : 'datapack-resource-duplicate',
+        detail: kind === 'divergent-content'
+          ? `${String(resources.length)} datapacks provide different content for the same resource coordinate; load order is not proven.`
+          : `${String(resources.length)} datapacks provide byte-identical content for the same resource coordinate.`,
+        subjectId: conflictId,
+        evidenceIds: Object.freeze(conflictEvidenceIds),
+      });
+      for (const resource of resources) {
+        const resourceConflictIds = conflictIdsByResource.get(resource.resourceId) ?? new Set<string>();
+        resourceConflictIds.add(conflictId);
+        conflictIdsByResource.set(resource.resourceId, resourceConflictIds);
+        const datapackConflictIds = conflictIdsByDatapack.get(resource.datapackId) ?? new Set<string>();
+        datapackConflictIds.add(conflictId);
+        conflictIdsByDatapack.set(resource.datapackId, datapackConflictIds);
+        const datapackIssueIds = conflictIssueIdsByDatapack.get(resource.datapackId) ?? new Set<string>();
+        datapackIssueIds.add(issueId);
+        conflictIssueIdsByDatapack.set(resource.datapackId, datapackIssueIds);
+        if (resource.ownerModId !== null) mods.get(resource.ownerModId)?.issueIds.add(issueId);
+        const participatesId = addRelationship({
+          from: { type: 'DatapackResource', id: resource.resourceId },
+          to: { type: 'Conflict', id: conflictId },
+          type: 'PARTICIPATES_IN',
+          systemId: resource.systemId,
+          reason: 'More than one inventoried datapack provides this exact logical resource coordinate.',
+          status: 'detected',
+          confidence: 'high',
+          evidenceIds: conflictEvidenceIds,
+        });
+        if (resource.ownerModId !== null) mods.get(resource.ownerModId)?.relationshipIds.add(participatesId);
+        if (resource.systemId !== null) systems.get(resource.systemId)?.relationshipIds.add(participatesId);
+      }
+    }
+
+    const conflictedResourceIds = new Set(conflictIdsByResource.keys());
+    const analyzedConfigurations = configurations.map((configuration): AnalyzedConfiguration => ({
+      ...configuration,
+      editable: configuration.source.datapackResourceId !== null &&
+        conflictedResourceIds.has(configuration.source.datapackResourceId)
+        ? false
+        : configuration.editable,
+    }));
+    const analyzedDatapackResources = datapackResources.map((resource): AnalyzedDatapackResource => ({
+      ...resource,
+      semanticFields: Object.freeze(resource.semanticFields.map((field) => ({
+        ...field,
+        editable: conflictedResourceIds.has(resource.resourceId) ? false : field.editable,
+      }))),
+      conflictIds: sorted(conflictIdsByResource.get(resource.resourceId) ?? new Set<string>()),
+    }));
+    const analyzedDatapacks = datapacks.map((datapack): AnalyzedDatapack => ({
+      ...datapack,
+      issueIds: Object.freeze([
+        ...new Set([
+          ...datapack.issueIds,
+          ...(conflictIssueIdsByDatapack.get(datapack.datapackId) ?? []),
+        ]),
+      ].sort(compare)),
+      conflictIds: sorted(conflictIdsByDatapack.get(datapack.datapackId) ?? new Set<string>()),
+    }));
 
     const relationshipList: EcosystemRelationship[] = [...relationships.values()]
       .map((relationship) => ({
@@ -1267,9 +1603,10 @@ export class EcosystemAnalysisService {
       }))
       .sort((left, right) => compare(left.modId, right.modId));
 
-    configurations.sort((left, right) => compare(left.configurationId, right.configurationId));
-    datapacks.sort((left, right) => compare(left.datapackId, right.datapackId));
-    datapackResources.sort((left, right) => compare(left.resourceId, right.resourceId));
+    analyzedConfigurations.sort((left, right) => compare(left.configurationId, right.configurationId));
+    analyzedDatapacks.sort((left, right) => compare(left.datapackId, right.datapackId));
+    analyzedDatapackResources.sort((left, right) => compare(left.resourceId, right.resourceId));
+    datapackConflicts.sort((left, right) => compare(left.conflictId, right.conflictId));
     issues.sort((left, right) => compare(left.issueId, right.issueId));
     const evidenceList = [...evidence.values()].sort((left, right) =>
       compare(left.evidenceId, right.evidenceId),
@@ -1312,7 +1649,7 @@ export class EcosystemAnalysisService {
       });
     }
     const configFiles = new Map<string, { readonly modId: string; readonly evidenceIds: Set<string> }>();
-    for (const configuration of configurations) {
+    for (const configuration of analyzedConfigurations) {
       addEntity({
         id: configuration.configurationId,
         type: 'Configuration',
@@ -1329,7 +1666,7 @@ export class EcosystemAnalysisService {
       configFiles.set(fileId, file);
     }
     for (const [fileId, file] of configFiles) {
-      const path = configurations.find(
+      const path = analyzedConfigurations.find(
         (configuration) => `file:${sha256(configuration.source.file).slice(0, 24)}` === fileId,
       )?.source.file;
       addEntity({
@@ -1340,7 +1677,7 @@ export class EcosystemAnalysisService {
         evidenceIds: sorted(file.evidenceIds),
       });
     }
-    for (const datapack of datapacks) {
+    for (const datapack of analyzedDatapacks) {
       addEntity({
         id: datapack.datapackId,
         type: 'Datapack',
@@ -1349,7 +1686,7 @@ export class EcosystemAnalysisService {
         evidenceIds: datapack.evidenceIds,
       });
     }
-    for (const resource of datapackResources) {
+    for (const resource of analyzedDatapackResources) {
       addEntity({
         id: resource.resourceId,
         type: 'DatapackResource',
@@ -1364,6 +1701,15 @@ export class EcosystemAnalysisService {
         label: `${resource.namespace}:${resource.resourceType}`,
         modId: resource.ownerModId,
         evidenceIds: resource.evidenceIds,
+      });
+    }
+    for (const conflict of datapackConflicts) {
+      addEntity({
+        id: conflict.conflictId,
+        type: 'Conflict',
+        label: `${conflict.kind}: ${conflict.coordinate}`,
+        modId: null,
+        evidenceIds: conflict.evidenceIds,
       });
     }
     for (const item of evidenceList) {
@@ -1388,9 +1734,10 @@ export class EcosystemAnalysisService {
       generatedAt,
       mods: analyzedMods,
       systems: analyzedSystems,
-      configurations,
-      datapacks,
-      datapackResources,
+      configurations: analyzedConfigurations,
+      datapacks: analyzedDatapacks,
+      datapackResources: analyzedDatapackResources,
+      datapackConflicts,
       relationships: relationshipList,
       evidence: evidenceList,
       issues,
@@ -1403,9 +1750,10 @@ export class EcosystemAnalysisService {
       summary: {
         mods: analyzedMods.length,
         systems: analyzedSystems.length,
-        configurations: configurations.length,
-        datapacks: datapacks.length,
-        datapackResources: datapackResources.length,
+        configurations: analyzedConfigurations.length,
+        datapacks: analyzedDatapacks.length,
+        datapackResources: analyzedDatapackResources.length,
+        datapackConflicts: datapackConflicts.length,
         relationships: relationshipList.length,
         issues: issues.length,
       },

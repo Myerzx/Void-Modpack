@@ -8,7 +8,10 @@ import { afterEach, describe, it } from 'node:test';
 import { WorkspaceInventoryService } from '@voidfall/workspace-inventory';
 
 import { forgeConfigFixtureClass } from '../../artifact-inspection/test/class-fixture.js';
-import { EcosystemAnalysisService } from '../src/index.js';
+import {
+  EcosystemAnalysisService,
+  VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY,
+} from '../src/index.js';
 
 const roots: string[] = [];
 
@@ -107,8 +110,54 @@ side="BOTH"
       ['example/config/Config.class', forgeConfigFixtureClass()],
       ['data/mmorpg/mmorpg_spells/fireball.json', '{"damage":10}'],
       ['data/mmorpg/mmorpg_stat/health.json', '{"base":100}'],
+      ['data/mmorpg/mmorpg_gear_rarity/common.json', gearRarity('common', 5000)],
+      ['data/mmorpg/mmorpg_gear_rarity/uncommon.json', gearRarity('uncommon', 2000)],
     ]),
   );
+}
+
+function gearRarity(guid: string, weight: number): string {
+  return JSON.stringify({
+    type: 'NORMAL',
+    affix_rarity_weight: 1000,
+    announce_in_chat: false,
+    base_stat_percents: { max: 100, min: 0 },
+    can_have_runewords: false,
+    drops_uber_frags: false,
+    favor_loot_multi: 1,
+    favor_needed: 0,
+    favor_per_hour: 250,
+    guid,
+    higher_rar: guid === 'common' ? 'uncommon' : 'rare',
+    is_unique_item: false,
+    item_model_data_num: guid === 'common' ? 1 : 2,
+    item_tier: guid === 'common' ? 0 : 1,
+    item_tier_power: 1,
+    item_value_multi: 1,
+    lootable_gear_tier: 'LOW',
+    map_lives: 3,
+    map_resist_req: -50,
+    map_tiers: { max: 10, min: 0 },
+    map_xp_multi: 1,
+    max_gems: 10,
+    max_runes: 2,
+    min_affixes: 1,
+    min_lvl: 0,
+    min_map_rarity_to_drop: 'common',
+    omens: {
+      affixes: { max: 1, min: 1 },
+      normal: { max: 1, min: 1 },
+      runed: { max: 1, min: 1 },
+      specific_slots: { max: 0, min: 0 },
+      stat_multi: 0.5,
+      unique: { max: 1, min: 1 },
+    },
+    pot: { total: 75 },
+    sockets: { max: 2, min: 0 },
+    stat_percents: { max: 17, min: 0 },
+    text_format: 'GRAY',
+    weight,
+  }, null, 2);
 }
 
 function compatibilityJar(): Buffer {
@@ -287,5 +336,85 @@ enabled = true
     });
     assert.equal(first.analysisId, second.analysisId);
     assert.notEqual(first.generatedAt, second.generatedAt);
+  });
+
+  it('normalizes reviewed datapack fields, embedded defaults and cross-pack conflicts', async () => {
+    const root = await workspace();
+    await write(root, 'mods/mine-and-slash.jar', mineAndSlashJar());
+    await write(root, 'config/openloader/data/cte_mns/pack.mcmeta', '{"pack":{"pack_format":15}}');
+    await write(
+      root,
+      'config/openloader/data/cte_mns/data/mmorpg/mmorpg_gear_rarity/common.json',
+      gearRarity('common', 729),
+    );
+    await write(
+      root,
+      'config/openloader/data/cte_mns/data/mmorpg/mmorpg_gear_rarity/uncommon.json',
+      gearRarity('uncommon', 900),
+    );
+    await write(root, 'config/openloader/data/cte_overlay/pack.mcmeta', '{"pack":{"pack_format":15}}');
+    await write(
+      root,
+      'config/openloader/data/cte_overlay/data/mmorpg/mmorpg_gear_rarity/common.json',
+      gearRarity('common', 800),
+    );
+
+    const inventory = await new WorkspaceInventoryService().build({ root });
+    const analysis = await new EcosystemAnalysisService().analyze({ root, inventory });
+
+    assert.equal(analysis.summary.datapackConflicts, 1);
+    assert.equal(analysis.datapackConflicts[0]?.kind, 'divergent-content');
+    assert.equal(analysis.datapackConflicts[0]?.resolution, 'unknown-load-order');
+    assert.equal(analysis.datapackConflicts[0]?.resourceIds.length, 2);
+    assert.ok(analysis.relationships.some((edge) => edge.type === 'PARTICIPATES_IN'));
+
+    const uncommon = analysis.datapackResources.find((resource) =>
+      resource.sourceFile.endsWith('/uncommon.json'));
+    assert.equal(uncommon?.reviewedSchema?.schemaId, 'mmorpg-gear-rarity');
+    assert.equal(uncommon?.semanticFields.length, 46);
+    assert.deepEqual(uncommon?.conflictIds, []);
+    const weight = analysis.configurations.find((configuration) =>
+      configuration.source.file.endsWith('/uncommon.json') && configuration.source.path === 'weight');
+    assert.equal(weight?.currentValue, 900);
+    assert.equal(weight?.defaultValue, 2000);
+    assert.equal(weight?.editable, true);
+    assert.equal(weight?.source.kind, 'datapack-resource');
+
+    const conflictedWeight = analysis.configurations.find((configuration) =>
+      configuration.source.file.includes('/cte_mns/') &&
+      configuration.source.file.endsWith('/common.json') &&
+      configuration.source.path === 'weight');
+    assert.equal(conflictedWeight?.editable, false);
+    assert.ok(analysis.issues.some((issue) => issue.code === 'datapack-resource-conflict'));
+  });
+
+  it('validates only mutable fields and preserves reviewed range ordering', () => {
+    const content = gearRarity('common', 5000);
+    const inspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+      schemaId: 'mmorpg-gear-rarity',
+      resourcePath: 'common.json',
+      content,
+    });
+    assert.equal(inspection.success, true);
+    if (!inspection.success) return;
+    assert.equal(Object.keys(inspection.values).length, 46);
+
+    assert.deepEqual(
+      VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.validateChanges({
+        schemaId: 'mmorpg-gear-rarity',
+        resourcePath: 'common.json',
+        content,
+        changes: [
+          { path: 'weight', value: 729 },
+          { path: 'guid', value: 'renamed' },
+          { path: 'sockets.min', value: 3 },
+        ],
+      }),
+      [
+        { path: 'weight', accepted: true },
+        { path: 'guid', accepted: false, code: 'field-readonly' },
+        { path: 'sockets.min', accepted: false, code: 'range-order' },
+      ],
+    );
   });
 });

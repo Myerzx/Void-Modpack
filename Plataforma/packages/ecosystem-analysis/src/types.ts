@@ -1,7 +1,7 @@
 import type { InferredFieldType } from '@voidfall/configuration-inference';
 
-export const ECOSYSTEM_ANALYSIS_SCHEMA_VERSION = 1 as const;
-export const ECOSYSTEM_ANALYZER_VERSION = '1.2.0' as const;
+export const ECOSYSTEM_ANALYSIS_SCHEMA_VERSION = 2 as const;
+export const ECOSYSTEM_ANALYZER_VERSION = '1.3.0' as const;
 
 export type KnowledgeStatus = 'detected' | 'interpreted' | 'inferred' | 'unknown';
 export type AnalysisConfidence = 'high' | 'medium' | 'low' | 'unknown';
@@ -15,6 +15,7 @@ export type EvidenceSource =
   | 'forge-comment'
   | 'path-convention'
   | 'datapack-resource'
+  | 'reviewed-schema'
   | 'analysis-rule';
 
 export interface AnalysisEvidence {
@@ -83,11 +84,13 @@ export interface AnalyzedConfiguration {
   readonly constraints: readonly AnalyzedConfigurationConstraint[];
   readonly allowedValues: readonly string[];
   readonly source: {
+    readonly kind: 'config-file' | 'datapack-resource';
     readonly file: string;
     readonly path: string;
     readonly line: number;
     readonly format: string;
     readonly parser: string;
+    readonly datapackResourceId: string | null;
   };
   readonly side: AnalysisSide;
   readonly restartRequired: boolean | null;
@@ -111,7 +114,18 @@ export interface AnalyzedDatapack {
   readonly ownerModId: string | null;
   readonly relatedModIds: readonly string[];
   readonly issueIds: readonly string[];
+  readonly conflictIds: readonly string[];
   readonly evidenceIds: readonly string[];
+}
+
+export interface AnalyzedDatapackSemanticField {
+  readonly configurationId: string;
+  readonly path: string;
+  readonly label: string;
+  readonly type: 'boolean' | 'number' | 'string';
+  readonly currentValue: boolean | number | string;
+  readonly defaultValue: boolean | number | string | null;
+  readonly editable: boolean;
 }
 
 export interface AnalyzedDatapackResource {
@@ -125,6 +139,28 @@ export interface AnalyzedDatapackResource {
   readonly ownerModId: string | null;
   readonly systemId: string | null;
   readonly effect: 'overrides' | 'extends' | 'unknown';
+  readonly reviewedSchema: {
+    readonly schemaId: string;
+    readonly schemaVersion: string;
+    readonly schemaSha256: string;
+    readonly parserId: string;
+    readonly title: string;
+  } | null;
+  readonly semanticFields: readonly AnalyzedDatapackSemanticField[];
+  readonly conflictIds: readonly string[];
+  readonly parseIssue: string | null;
+  readonly status: KnowledgeStatus;
+  readonly confidence: AnalysisConfidence;
+  readonly evidenceIds: readonly string[];
+}
+
+export interface AnalyzedDatapackConflict {
+  readonly conflictId: string;
+  readonly coordinate: string;
+  readonly kind: 'duplicate-identical' | 'divergent-content';
+  readonly resourceIds: readonly string[];
+  readonly datapackIds: readonly string[];
+  readonly resolution: 'unknown-load-order';
   readonly status: KnowledgeStatus;
   readonly confidence: AnalysisConfidence;
   readonly evidenceIds: readonly string[];
@@ -145,7 +181,9 @@ export type EcosystemRelationshipType =
   | 'EXTENDS'
   | 'OVERRIDES'
   | 'DATAPACK_EXTENDS'
-  | 'MODIFIES_GAMEPLAY_OF';
+  | 'MODIFIES_GAMEPLAY_OF'
+  | 'CONFLICTS_WITH'
+  | 'PARTICIPATES_IN';
 
 export type EcosystemEntityType =
   | 'Server'
@@ -158,6 +196,7 @@ export type EcosystemEntityType =
   | 'DatapackResource'
   | 'Registry'
   | 'Resource'
+  | 'Conflict'
   | 'Evidence';
 
 export interface EcosystemRelationship {
@@ -200,6 +239,7 @@ export interface EcosystemAnalysis {
   readonly configurations: readonly AnalyzedConfiguration[];
   readonly datapacks: readonly AnalyzedDatapack[];
   readonly datapackResources: readonly AnalyzedDatapackResource[];
+  readonly datapackConflicts: readonly AnalyzedDatapackConflict[];
   readonly relationships: readonly EcosystemRelationship[];
   readonly evidence: readonly AnalysisEvidence[];
   readonly issues: readonly EcosystemAnalysisIssue[];
@@ -213,6 +253,7 @@ export interface EcosystemAnalysis {
     readonly configurations: number;
     readonly datapacks: number;
     readonly datapackResources: number;
+    readonly datapackConflicts: number;
     readonly relationships: number;
     readonly issues: number;
   };
