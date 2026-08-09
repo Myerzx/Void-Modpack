@@ -87,6 +87,8 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 11 — jogadores e permissões reais | 0% | planejada; providers e política ainda pendentes |
 | 12 — release, launcher e Bridge | 0% operacional | base técnica isolada existe; ativação bloqueada pelos P0 |
 | 13 — produção e certificação | 0% | planejada; deploy e aceite ainda não iniciados |
+| 19 — grafo de conhecimento | 45% | modelo, proveniência, persistência, configs e OpenLoader ligados; travessia completa e fontes Java ainda pendentes |
+| 20 — análise automática | 35% | pipeline genérico validado no Mine and Slash real; bytecode, novos formatos e revisão universal ainda pendentes |
 
 ## Fase 4 — mods, arquivos e schemas
 
@@ -156,6 +158,8 @@ O [ADR-014](DECISIONS/ADR-014-objetivo-central-e-replanejamento.md) esclareceu o
 11. **Fase 18 — servidor e mundo:** `server.properties` como schema revisado, gamerules tipadas e validadas, e gerenciamento de mundo (ativo, importar, trocar, criar, remover, backup) sob guarda offline.
 12. **Fase 19 — grafo de conhecimento do modpack:** entidade, aresta e **proveniência obrigatória**, cobrindo registries, recipes, tags, worldgen, dimensões, biomas, estruturas, comandos e integrações. Inclui os packs carregados pelo OpenLoader, que o ADR-008 deixou explicitamente fora do seu recorte. GraphQL fica adiado e separado: é camada de leitura sobre este modelo, não o modelo.
 13. **Fase 20 — análise automática de mods:** o pipeline que aprende como um mod deve ser administrado ao ser adicionado. Entra pela porta que a inspeção em camadas já deixou aberta — `readSelectedEntries`, com orçamento declarado — e grava no grafo com proveniência.
+
+Primeira fatia vertical das Fases 19–20 entregue em 2026-08-09: inventário → análise genérica → snapshot imutável → grafo/evidência → REST → painel, validado no Mine and Slash 6.3.14 e nos packs OpenLoader reais. O resultado, as contagens e os limites estão em [Fases 19–20 — primeira fatia vertical do ecossistema](PHASE_19_ECOSYSTEM_ANALYSIS.md). Isso não encerra nenhuma das duas fases.
 14. **Fase 21 — runtime e administração de jogadores:** retoma o que a Fase 11 deixou decidido nos ADRs 009, 010, 012 e 013 e não implementado. Adiar não é revogar.
 
 O [ADR-016](DECISIONS/ADR-016-painel-como-gerenciador-completo.md) registra que o painel é o **gerenciador completo do servidor**, e que o ADR-014 descrevia ordem de construção e não fronteira do produto. O release encerra a frente do ADR-015, não o painel.

@@ -4,14 +4,23 @@
 
 - Data: 2026-08-09
 - Responsáveis: Claude e Codex
-- Fase: lifecycle, ownership e console operacional ao vivo da Fase 17 concluídos. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot. Cada spawn é cercado por uma geração persistente. stdout/stderr agora são capturados continuamente, confirmados somente depois da persistência, lidos por cursor e exibidos no painel com retenção, redação e catálogo fechado de comandos
+- Fase: primeira fatia vertical das Fases 19–20 entregue sobre a base operacional da Fase 17. Inventário → análise semântica → snapshot por hash → grafo/evidência → API → painel funciona com dados reais; o Mine and Slash expõe 83 configurações rastreáveis, 80 controles semânticos, 15 sistemas, dois datapacks e 25 relações funcionais. As fases amplas continuam parciais
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
+- Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.1.0 para o inventário atual, sem copiar conteúdo privado para o repositório
 
 ## Implementado
+
+- `@voidfall/ecosystem-analysis` com modelo genérico de mods, versões, sistemas, configurações, datapacks, recursos, registries, relações e evidências;
+- migration `0026_ecosystem_analysis.sql` e repositório de snapshots imutáveis por workspace, hash do inventário e versão do analisador;
+- análise funcional por metadata, caminhos internos de JAR e recursos OpenLoader, mantendo direção, confiança e evidência;
+- TOML Forge com segmentos de tabela/chave entre aspas e edição cirúrgica segura pelo staging existente;
+- endpoints de análise, lista/detalhe de mods, recursos paginados e datapacks;
+- sidebar consolidada nas nove categorias, header secundário por área e páginas reais de Mods, Mine and Slash e Datapacks;
+- prova somente leitura no servidor real: 7.928 arquivos, 175 mods normalizados, 3.999 configurações, 5.445 recursos de datapack e 19.347 relações;
 
 - monorepo TypeScript, contratos, PostgreSQL, migrações, RBAC e fila `SKIP LOCKED`;
 - Argon2id, sessões opacas, CSRF, rate limit, revogação e auditoria;
@@ -278,6 +287,9 @@
 
 ## Validação
 
+- primeira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 438 segundos, cobrindo builds, typecheck global, testes, Forge Bridge, integrações e export estático do painel; Chrome validado em desktop e 390 × 844 sem overflow horizontal;
+- análise somente leitura do workspace real persistida: 175 mods normalizados, 3.999 configurações, 6 datapacks, 5.445 recursos e 19.347 relações; Mine and Slash com 83 configurações, 15 sistemas, 2 datapacks, 25 relações e zero issue direta;
+- Graphify atualizado para 6.499 nós e 11.352 arestas, com a visão agregada de comunidades regenerada e sem copiar dados privados do runtime;
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
 - smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
@@ -444,12 +456,16 @@
 
 ## Próximo recorte recomendado
 
-Fechar backup operacional no painel, reutilizando `@voidfall/server-backup` sem relaxar a guarda offline, a integridade do manifesto ou o lock `minecraft-exclusive`. Definir primeiro a reconciliação de operação/lock após crash e o fluxo de retenção antes de habilitar o botão.
+Expandir a análise genérica da Fase 20 para classes, mixins, registries e chamadas Java com leitura limitada e sem executar JARs. A próxima prova vertical deve aprofundar os sistemas, integrações e recursos do Mine and Slash, promover apenas relações com evidência concreta e introduzir schemas revisados para edição semântica de datapacks.
 
-`artifact.install`, restore sobre mundo ativo, console livre e `process.force-kill` continuam não implementados. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
+Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam fora deste recorte. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
 
 ## Commits relevantes
 
+- `ad76f49` — parser Forge TOML com segmentos de tabela e chaves entre aspas;
+- `1982656` — análise genérica do ecossistema, snapshot persistido e endpoints REST;
+- `7167ed0` — sidebar consolidada e páginas operacionais de Mods, Mine and Slash e Datapacks;
+- `c3db4d6` — classificação correta de OpenLoader e ownership de serverconfig por alias;
 - `5dc61dd` — cerca persistente de ownership do JVM, reconciliação fail-closed, proteção contra PID reutilizado e regressões de crash;
 - `eb02a7f` — invalidação transacional do snapshot de processo durante operações de lifecycle, com regressão que impede PID antigo durante restart;
 - `5f30c41` — restart offline recusado como `state-conflict` na API e no agente;
