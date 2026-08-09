@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786235695.1544526,
-    "ast_hash": "f2d99f00063aa59bbde1a3e2a0e7cfd0",
+    "mtime": 1786237998.164102,
+    "ast_hash": "f492e02cca4a89831b30434529282744",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1786230449.9739037,
-    "ast_hash": "e9403fad6539d3063df15402975cfb78",
+    "mtime": 1786237272.5981545,
+    "ast_hash": "f7f9776d25f50126628d8181fd617ac6",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -3525,8 +3525,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/server-operation.ts": {
-    "mtime": 1786230449.9708917,
-    "ast_hash": "6d76ad7cde93730f279a3d6945c91092",
+    "mtime": 1786237244.2845523,
+    "ast_hash": "605be8ab7b7494b48e2c849f139b9351",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0007_operational_core.sql": {
@@ -3535,8 +3535,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/operational-repositories.ts": {
-    "mtime": 1786222501.9147837,
-    "ast_hash": "861a367c311f0905ab250e1c0d0b247b",
+    "mtime": 1786237244.2860591,
+    "ast_hash": "4ba0d9f5c6e441aa0af986d7e33cf05f",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_9_OPERATIONAL_CORE.md": {
@@ -3645,13 +3645,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/process-routes.ts": {
-    "mtime": 1786230609.5767403,
-    "ast_hash": "51929d8c8fce841aa18e2d587ed9ac33",
+    "mtime": 1786237244.2860591,
+    "ast_hash": "949297f6de9bc70fcb4ef8088bac4ddb",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/process-api.test.ts": {
-    "mtime": 1786230522.2809222,
-    "ast_hash": "5c52c923ca2c3cdae7b98e54395c2337",
+    "mtime": 1786237439.7083495,
+    "ast_hash": "41d417b6a008ed1ac2d16b0030cb5d3c",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/process-operation.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786231175.8069394,
-    "ast_hash": "c7d530cc5383e4a0e67aecadac5ef907",
+    "mtime": 1786237272.5981545,
+    "ast_hash": "d7209269ec9fdc568ff49a103f9680fa",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -3920,8 +3920,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-operational-core.test.ts": {
-    "mtime": 1785962565.35083,
-    "ast_hash": "63026489c2022150666c5fcedef4387f",
+    "mtime": 1786237272.5996597,
+    "ast_hash": "d3aed9dacde3f6beacbffae5315bd4bd",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/collectors.ts": {
@@ -3970,8 +3970,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/schedule-executor.ts": {
-    "mtime": 1785985128.7133977,
-    "ast_hash": "623132d64a28d3ae3c1d124e223f02bb",
+    "mtime": 1786237244.2875671,
+    "ast_hash": "a672e75cfbefe1fad2a364913f1ee8de",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/schedule-executor.test.ts": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786235572.6433809,
-    "ast_hash": "fa1aeb166075fd9ca93f4c644d1e151c",
+    "mtime": 1786237951.9847507,
+    "ast_hash": "25a528776d51f9740dc901bb9cc4de56",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4717,6 +4717,21 @@
   "graphify-out/memory/query_20260809_003305_como_executar_com_seguran\u00e7a_o_smoke_real_de_servid.md": {
     "mtime": 1786235585.7124956,
     "ast_hash": "b02e5a7f8ee27447702d284b1b19968a",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0024_process_state_invalidation.sql": {
+    "mtime": 1786237244.2875671,
+    "ast_hash": "4f07ff1b5857d2bc058205356f320d8f",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260809_005138_ok_e_oq_mais_precisa_ser_feito_tbm.md": {
+    "mtime": 1786236698.1583903,
+    "ast_hash": "7a052e9048717f9de07f43cfd4348957",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260809_011345_ok_entendi_entao_continua_a_proxma_fase__pega_em_p.md": {
+    "mtime": 1786238025.4452157,
+    "ast_hash": "f385f1a2000620298b8d95c87a8753d3",
     "semantic_hash": ""
   }
 }
