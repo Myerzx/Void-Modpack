@@ -164,6 +164,16 @@ export interface AcceptOperationInput {
   readonly now: Date;
 }
 
+export interface AcceptProcessControlOperationInput extends AcceptOperationInput {
+  readonly kind:
+    | 'server.start'
+    | 'server.stop'
+    | 'server.restart'
+    | 'server.force-kill';
+  /** Distinct outbox identity for invalidating the previous process snapshot. */
+  readonly stateInvalidationEventId: string;
+}
+
 export interface SettleOperationInput {
   readonly operationId: string;
   /** Identifies the completion event. Supplied so no id is derived by surgery. */
@@ -250,6 +260,34 @@ export class OperationRepository {
     readonly operation: ServerOperation;
     readonly replayed: boolean;
   }> {
+    return this.#accept(input);
+  }
+
+  /**
+   * Accepts a lifecycle-changing operation and invalidates the previous
+   * process observation in the same transaction.
+   *
+   * A restart used to leave the last `online` snapshot current until the
+   * agent reported its final receipt. During a real restart that meant the API
+   * exposed the PID that had already exited while the replacement JVM was
+   * booting. The control plane does not invent `starting` or `stopping` here â€”
+   * those remain agent observations â€” but it can prove that the old snapshot
+   * stopped being current as soon as the lifecycle operation was accepted.
+   */
+  async acceptProcessControl(input: AcceptProcessControlOperationInput): Promise<{
+    readonly operation: ServerOperation;
+    readonly replayed: boolean;
+  }> {
+    return this.#accept(input, input.stateInvalidationEventId);
+  }
+
+  async #accept(
+    input: AcceptOperationInput,
+    stateInvalidationEventId?: string,
+  ): Promise<{
+    readonly operation: ServerOperation;
+    readonly replayed: boolean;
+  }> {
     const fingerprint = operationRequestFingerprint(input);
     return this.database.transaction(async (client) => {
       const existing = await client.query<OperationRow>(
@@ -313,6 +351,28 @@ export class OperationRepository {
       }
       const row = inserted.rows[0];
       if (row === undefined) throw new OperationalPersistenceError('operation-not-found');
+
+      if (stateInvalidationEventId !== undefined) {
+        const invalidated = await client.query(
+          `UPDATE server_process_states
+           SET lifecycle = 'unknown', observed_pid = NULL, boot_id = NULL,
+               observed_by = NULL, observed_at = $2, stale = TRUE,
+               version = version + 1
+           WHERE server_instance_id = $1`,
+          [input.serverInstanceId, input.now],
+        );
+        if (invalidated.rowCount > 0) {
+          await this.#appendEvent(client, {
+            eventId: stateInvalidationEventId,
+            topic: 'process.invalidated',
+            correlationId: input.correlationId,
+            resourceType: 'server-instance',
+            resourceId: input.serverInstanceId,
+            occurredAt: input.now,
+            status: 'unknown',
+          });
+        }
+      }
 
       await this.#appendEvent(client, {
         eventId: input.operationId,

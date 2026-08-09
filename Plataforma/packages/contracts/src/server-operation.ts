@@ -194,6 +194,7 @@ export const ServerProcessStateSchema = Type.Object(
 export const OutboxTopicSchema = Type.Union([
   Type.Literal('operation.accepted'),
   Type.Literal('operation.completed'),
+  Type.Literal('process.invalidated'),
   Type.Literal('process.observed'),
   Type.Literal('artifact.state-changed'),
   Type.Literal('configuration.state-changed'),

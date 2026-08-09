@@ -2125,6 +2125,15 @@ describe('OutboxEvent', () => {
   it('accepts an unpublished and a published event', () => {
     assert.equal(validateOutboxEvent(validEvent()).success, true);
     assert.equal(
+      validateOutboxEvent(
+        validEvent({
+          topic: 'process.invalidated',
+          payload: { status: 'unknown', outcome: null, failureCode: null },
+        }),
+      ).success,
+      true,
+    );
+    assert.equal(
       validateOutboxEvent(validEvent({ publishedAt: '2026-08-05T12:00:01Z', attempts: 1 })).success,
       true,
     );

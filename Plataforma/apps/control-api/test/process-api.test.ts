@@ -113,6 +113,106 @@ describe('process control', () => {
     }
   });
 
+  it('never exposes the previous online pid as current while a restart is in flight', async () => {
+    const context = await fixture();
+    const agentId = randomUUID();
+    await context.repositories.agents.createProvisioningToken({
+      serverInstanceId: context.server.id,
+      tokenHash: 'a'.repeat(64),
+      expiresAt: new Date(NOW.getTime() + 60_000),
+      createdAt: NOW,
+    });
+    await context.repositories.agents.register({
+      agentId,
+      serverInstanceId: context.server.id,
+      tokenHash: 'a'.repeat(64),
+      publicKeyPem: '-----BEGIN PUBLIC KEY-----\ntest\n-----END PUBLIC KEY-----',
+      certificateFingerprint: 'b'.repeat(64),
+      softwareVersion: '0.1.0-test',
+      capabilities: ['process.control'],
+      now: NOW,
+    });
+    const oldBootId = randomUUID();
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      eventId: randomUUID(),
+      lifecycle: 'online',
+      observedBy: agentId,
+      observedPid: 4242,
+      bootId: oldBootId,
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+
+    const restartPayload = control({
+      action: 'restart',
+      idempotencyKey: 'process-restart-transition-0001',
+    });
+    const accepted = await context.app.inject({
+      method: 'POST',
+      url: `${BASE}/${context.server.id}/process/control`,
+      headers: { cookie: context.cookie, 'x-csrf-token': context.csrfToken },
+      payload: restartPayload,
+    });
+    assert.equal(accepted.statusCode, 202);
+
+    const duringRestart = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/process-state`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(duringRestart.statusCode, 200);
+    assert.deepEqual(
+      {
+        lifecycle: duringRestart.json().lifecycle,
+        observedPid: duringRestart.json().observedPid,
+        bootId: duringRestart.json().bootId,
+        observedBy: duringRestart.json().observedBy,
+        stale: duringRestart.json().stale,
+      },
+      {
+        lifecycle: 'unknown',
+        observedPid: null,
+        bootId: null,
+        observedBy: null,
+        stale: true,
+      },
+    );
+
+    const replacementBootId = randomUUID();
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      eventId: randomUUID(),
+      lifecycle: 'online',
+      observedBy: agentId,
+      observedPid: 8484,
+      bootId: replacementBootId,
+      correlationId: accepted.json().correlationId as string,
+      now: new Date(NOW.getTime() + 60_000),
+    });
+
+    // An honest retry returns the existing operation and cannot stale the new
+    // readiness observation or resurrect the previous PID.
+    const replay = await context.app.inject({
+      method: 'POST',
+      url: `${BASE}/${context.server.id}/process/control`,
+      headers: { cookie: context.cookie, 'x-csrf-token': context.csrfToken },
+      payload: restartPayload,
+    });
+    assert.equal(replay.statusCode, 202);
+    assert.equal(replay.json().operationId, accepted.json().operationId);
+
+    const afterReadiness = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/process-state`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(afterReadiness.json().lifecycle, 'online');
+    assert.equal(afterReadiness.json().observedPid, 8484);
+    assert.equal(afterReadiness.json().bootId, replacementBootId);
+    assert.equal(afterReadiness.json().stale, false);
+  });
+
   it('replays an idempotent request without a second operation or job', async () => {
     const context = await fixture();
     const first = await context.app.inject({
@@ -203,6 +303,9 @@ describe('process control', () => {
     );
     assert.equal(Number(counts.rows[0]?.operations), 0);
     assert.equal(Number(counts.rows[0]?.jobs), 0);
+    const stillOffline = await context.repositories.processStates.find(context.server.id);
+    assert.equal(stillOffline?.lifecycle, 'offline');
+    assert.equal(stillOffline?.stale, false);
   });
 
   it('binds each action to its own permission', async () => {

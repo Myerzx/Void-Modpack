@@ -340,6 +340,89 @@ describe('operational core persistence', () => {
     }
   });
 
+  it('invalidates the previous pid atomically when lifecycle work is accepted', async () => {
+    const { database, repositories, serverInstanceId, actor } = await operationalFixture();
+    try {
+      const agentId = randomUUID();
+      await database.query(
+        `INSERT INTO agents (id, server_instance_id, public_key_pem, certificate_fingerprint,
+           software_version, protocol_version, status)
+         VALUES ($1,$2,$3,$4,$5,$6,'online')`,
+        [agentId, serverInstanceId, 'pem', 'a'.repeat(64), '0.1.0', '1'],
+      );
+      const previousBootId = randomUUID();
+      await repositories.processStates.observe({
+        serverInstanceId,
+        eventId: randomUUID(),
+        lifecycle: 'online',
+        observedBy: agentId,
+        bootId: previousBootId,
+        observedPid: 4242,
+        correlationId: randomUUID(),
+        now: new Date('2026-08-05T12:00:00Z'),
+      });
+
+      const correlationId = randomUUID();
+      const accepted = await repositories.operations.acceptProcessControl({
+        ...accept(serverInstanceId, actor, {
+          kind: 'server.restart',
+          correlationId,
+          idempotencyKey: 'operation-restart-0001',
+          now: new Date('2026-08-05T12:01:00Z'),
+        }),
+        kind: 'server.restart',
+        stateInvalidationEventId: randomUUID(),
+      });
+      assert.equal(accepted.replayed, false);
+
+      const invalidated = await repositories.processStates.find(serverInstanceId);
+      assert.equal(invalidated?.lifecycle, 'unknown');
+      assert.equal(invalidated?.observedPid, null);
+      assert.equal(invalidated?.bootId, null);
+      assert.equal(invalidated?.observedBy, null);
+      assert.equal(invalidated?.stale, true);
+      assert.equal(invalidated?.version, 2);
+
+      const topics = (await repositories.outbox.findByCorrelationId(correlationId))
+        .map((event) => event.topic)
+        .sort();
+      assert.deepEqual(topics, ['operation.accepted', 'process.invalidated']);
+
+      // Replaying the request after a fresh observation must not invalidate
+      // the replacement process a second time.
+      const replacementBootId = randomUUID();
+      await repositories.processStates.observe({
+        serverInstanceId,
+        eventId: randomUUID(),
+        lifecycle: 'online',
+        observedBy: agentId,
+        bootId: replacementBootId,
+        observedPid: 8484,
+        correlationId,
+        now: new Date('2026-08-05T12:02:00Z'),
+      });
+      const replayed = await repositories.operations.acceptProcessControl({
+        ...accept(serverInstanceId, actor, {
+          operationId: randomUUID(),
+          kind: 'server.restart',
+          correlationId,
+          idempotencyKey: 'operation-restart-0001',
+          now: new Date('2026-08-05T12:03:00Z'),
+        }),
+        kind: 'server.restart',
+        stateInvalidationEventId: randomUUID(),
+      });
+      assert.equal(replayed.replayed, true);
+      const current = await repositories.processStates.find(serverInstanceId);
+      assert.equal(current?.lifecycle, 'online');
+      assert.equal(current?.observedPid, 8484);
+      assert.equal(current?.bootId, replacementBootId);
+      assert.equal(current?.stale, false);
+    } finally {
+      await database.close();
+    }
+  });
+
   it('pages and filters operations and follows one correlation id', async () => {
     const { database, repositories, serverInstanceId, actor } = await operationalFixture();
     try {

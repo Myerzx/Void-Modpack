@@ -207,7 +207,7 @@ export function registerProcessRoutes(
 
     let accepted;
     try {
-      accepted = await repositories.operations.accept({
+      const operationInput = {
         operationId,
         serverInstanceId: input.serverId,
         kind: input.kind,
@@ -217,7 +217,18 @@ export function registerProcessRoutes(
         reasonCode: input.reasonCode,
         ...(input.consoleCommand === undefined ? {} : { consoleCommand: input.consoleCommand }),
         now,
-      });
+      };
+      accepted =
+        input.kind === 'server.start' ||
+        input.kind === 'server.stop' ||
+        input.kind === 'server.restart' ||
+        input.kind === 'server.force-kill'
+          ? await repositories.operations.acceptProcessControl({
+              ...operationInput,
+              kind: input.kind,
+              stateInvalidationEventId: newId(),
+            })
+          : await repositories.operations.accept(operationInput);
     } catch (error) {
       if (!(error instanceof OperationalPersistenceError)) throw error;
       await audit({

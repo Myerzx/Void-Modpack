@@ -131,7 +131,7 @@ export function createDurableScheduleExecutor(
     const now = clock();
     let accepted;
     try {
-      accepted = await options.repositories.operations.accept({
+      const operationInput = {
         operationId: randomUUID(),
         serverInstanceId: options.serverInstanceId,
         kind: input.kind,
@@ -141,7 +141,15 @@ export function createDurableScheduleExecutor(
         reasonCode: input.reasonCode,
         ...(input.backupId === undefined ? {} : { backupId: input.backupId }),
         now,
-      });
+      };
+      accepted =
+        input.kind === 'server.restart'
+          ? await options.repositories.operations.acceptProcessControl({
+              ...operationInput,
+              kind: input.kind,
+              stateInvalidationEventId: randomUUID(),
+            })
+          : await options.repositories.operations.accept(operationInput);
     } catch (error) {
       if (!(error instanceof OperationalPersistenceError)) throw error;
       // Something else holds the server. The window is not the place to force
