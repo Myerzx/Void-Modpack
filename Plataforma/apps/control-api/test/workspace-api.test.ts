@@ -8,7 +8,10 @@ import { afterEach, describe, it } from 'node:test';
 import { hashPassword } from '@voidfall/authentication';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
-import type { EcosystemAnalysis } from '@voidfall/ecosystem-analysis';
+import {
+  ECOSYSTEM_ANALYZER_VERSION,
+  type EcosystemAnalysis,
+} from '@voidfall/ecosystem-analysis';
 import type { FastifyInstance } from 'fastify';
 
 import { buildControlApi } from '../src/app.js';
@@ -126,13 +129,13 @@ async function fixture(
 function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { analyses: number } } {
   const seen = { analyses: 0 };
   return {
-    analyzerVersion: '1.1.0',
+    analyzerVersion: ECOSYSTEM_ANALYZER_VERSION,
     seen,
     async analyze(input) {
       seen.analyses += 1;
       return {
         schemaVersion: 1,
-        analyzerVersion: '1.1.0',
+        analyzerVersion: ECOSYSTEM_ANALYZER_VERSION,
         analysisId: 'analysis-alpha',
         inventorySha256: input.inventory.inventorySha256,
         generatedAt: input.generatedAt.toISOString(),

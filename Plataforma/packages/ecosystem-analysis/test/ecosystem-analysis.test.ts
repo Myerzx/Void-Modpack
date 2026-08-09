@@ -7,6 +7,7 @@ import { afterEach, describe, it } from 'node:test';
 
 import { WorkspaceInventoryService } from '@voidfall/workspace-inventory';
 
+import { forgeConfigFixtureClass } from '../../artifact-inspection/test/class-fixture.js';
 import { EcosystemAnalysisService } from '../src/index.js';
 
 const roots: string[] = [];
@@ -35,13 +36,13 @@ function crc32(buffer: Buffer): number {
   return (crc ^ 0xffff_ffff) >>> 0;
 }
 
-function zip(entries: ReadonlyMap<string, string>): Buffer {
+function zip(entries: ReadonlyMap<string, string | Buffer>): Buffer {
   const locals: Buffer[] = [];
   const central: Buffer[] = [];
   let offset = 0;
-  for (const [name, text] of entries) {
+  for (const [name, value] of entries) {
     const nameBytes = Buffer.from(name, 'utf8');
-    const raw = Buffer.from(text, 'utf8');
+    const raw = typeof value === 'string' ? Buffer.from(value, 'utf8') : value;
     const compressed = deflateRawSync(raw);
     const crc = crc32(raw);
     const local = Buffer.alloc(30);
@@ -85,7 +86,7 @@ async function write(root: string, path: string, value: string | Buffer): Promis
 
 function mineAndSlashJar(): Buffer {
   return zip(
-    new Map([
+    new Map<string, string | Buffer>([
       [
         'META-INF/mods.toml',
         `modLoader="javafml"
@@ -103,6 +104,7 @@ ordering="NONE"
 side="BOTH"
 `,
       ],
+      ['example/config/Config.class', forgeConfigFixtureClass()],
       ['data/mmorpg/mmorpg_spells/fireball.json', '{"damage":10}'],
       ['data/mmorpg/mmorpg_stat/health.json', '{"base":100}'],
     ]),
@@ -110,7 +112,7 @@ side="BOTH"
 }
 
 function compatibilityJar(): Buffer {
-  return zip(new Map([
+  return zip(new Map<string, string | Buffer>([
     [
       'META-INF/mods.toml',
       `modLoader="javafml"
@@ -122,6 +124,7 @@ version="1.0.0"
 displayName="MNS Compatibility"
 `,
     ],
+    ['external/Target.class', Buffer.from('class ownership marker')],
     ['data/mmorpg/mmorpg_spells/compat_spell.json', '{"damage":4}'],
     ['data/mmorpg/mmorpg_spells/fireball.json', '{"damage":11}'],
   ]));
@@ -143,6 +146,7 @@ MAP_DROPRATE = 1.5
 COMPATIBILITY_PRESET = "ORIGINAL_MODE"
 mana_regen = 2.0
 mob_death_messages = false
+enabled = true
 `,
     );
     await write(
@@ -169,7 +173,7 @@ mob_death_messages = false
     });
 
     assert.equal(analysis.mods[0]?.modId, 'mmorpg');
-    assert.equal(analysis.summary.configurations, 4);
+    assert.equal(analysis.summary.configurations, 5);
     assert.equal(analysis.summary.datapacks, 1);
     assert.equal(analysis.summary.datapackResources, 2);
 
@@ -189,10 +193,42 @@ mob_death_messages = false
     assert.equal(preset?.type, 'enum');
     assert.deepEqual(preset?.allowedValues, ['ORIGINAL_MODE', 'COMPATIBLE_MODE']);
 
+    const enabled = analysis.configurations.find((field) => field.name === 'enabled');
+    assert.equal(enabled?.defaultValue, true);
+    assert.equal(enabled?.description, 'Enables the tested system.');
+    assert.ok(enabled?.evidenceIds.some((id) =>
+      analysis.evidence.find((item) => item.evidenceId === id)?.source === 'class-bytecode',
+    ));
+
     assert.ok(
       analysis.relationships.some(
         (edge) =>
           edge.from.id === 'mmorpg' && edge.to.id === 'library_of_exile' && edge.type === 'REQUIRES',
+      ),
+    );
+    assert.ok(
+      analysis.relationships.some(
+        (edge) =>
+          edge.from.id === 'mmorpg' &&
+          edge.to.id === 'mns_compat' &&
+          edge.type === 'INTEGRATES_WITH' &&
+          edge.confidence === 'high',
+      ),
+    );
+    assert.ok(
+      analysis.relationships.some(
+        (edge) =>
+          edge.from.id === 'mmorpg' &&
+          edge.to.id === 'mns_compat' &&
+          edge.type === 'READS_REGISTRY_FROM',
+      ),
+    );
+    assert.ok(
+      analysis.relationships.some(
+        (edge) =>
+          edge.from.id === 'mmorpg' &&
+          edge.to.id === 'mns_compat' &&
+          edge.type === 'MODIFIES_GAMEPLAY_OF',
       ),
     );
     assert.ok(

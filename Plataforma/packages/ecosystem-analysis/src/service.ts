@@ -6,6 +6,9 @@ import { isAbsolute, join } from 'node:path';
 import {
   DEFAULT_ARTIFACT_INSPECTION_LIMITS,
   readZipDirectory,
+  type ClassConfigurationDefinition,
+  type ClassInvocation,
+  type ZipEntry,
 } from '@voidfall/artifact-inspection';
 import { inferForm, type InferredForm } from '@voidfall/configuration-inference';
 import type {
@@ -15,6 +18,10 @@ import type {
 } from '@voidfall/workspace-inventory';
 
 import { classifySystem, type SystemClassification } from './systems.js';
+import {
+  DEFAULT_ARCHIVE_BYTECODE_LIMITS,
+  inspectArchiveBytecode,
+} from './bytecode.js';
 import {
   ECOSYSTEM_ANALYSIS_SCHEMA_VERSION,
   ECOSYSTEM_ANALYZER_VERSION,
@@ -40,6 +47,7 @@ import {
 
 const MAXIMUM_CONFIGURATION_BYTES = 4 * 1024 * 1024;
 const MAXIMUM_PACK_METADATA_BYTES = 256 * 1024;
+const MAXIMUM_TOTAL_BYTECODE_BYTES = 64 * 1024 * 1024;
 const BUILTIN_DEPENDENCIES = new Set([
   'fabricloader',
   'fml',
@@ -83,6 +91,20 @@ interface DatapackLocation {
   readonly loader: DatapackLoader;
   readonly rootPath: string;
   readonly insidePath: string;
+}
+
+interface BytecodeDefinitionFact {
+  readonly definition: ClassConfigurationDefinition;
+  readonly entry: string;
+  readonly evidenceId: string;
+}
+
+interface BytecodeRelationGroup {
+  readonly targetModId: string;
+  readonly type: 'INTEGRATES_WITH' | 'COMPATIBILITY' | 'READS_REGISTRY_FROM' | 'MODIFIES_GAMEPLAY_OF';
+  readonly classification: SystemClassification;
+  readonly evidenceIds: string[];
+  count: number;
 }
 
 function sha256(value: string | Uint8Array): string {
@@ -197,6 +219,43 @@ function statusRank(value: KnowledgeStatus): number {
   return value === 'detected' ? 3 : value === 'interpreted' ? 2 : value === 'inferred' ? 1 : 0;
 }
 
+function sameConfigurationValue(
+  left: ClassConfigurationDefinition['defaultValue'],
+  right: ClassConfigurationDefinition['defaultValue'],
+): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function valueMatchesField(
+  value: ClassConfigurationDefinition['defaultValue'],
+  fieldType: InferredForm['fields'][number]['type'],
+): value is NonNullable<ClassConfigurationDefinition['defaultValue']> {
+  if (value === null) return false;
+  if (fieldType === 'boolean') return typeof value === 'boolean';
+  if (fieldType === 'integer') return typeof value === 'number' && Number.isInteger(value);
+  if (fieldType === 'number') return typeof value === 'number' && Number.isFinite(value);
+  if (fieldType === 'string') return typeof value === 'string';
+  if (!Array.isArray(value)) return false;
+  if (fieldType === 'boolean-list') return value.every((entry) => typeof entry === 'boolean');
+  if (fieldType === 'number-list') return value.every((entry) => typeof entry === 'number' && Number.isFinite(entry));
+  return value.every((entry) => typeof entry === 'string');
+}
+
+function isRegistryInvocation(invocation: ClassInvocation): boolean {
+  const text = `${invocation.owner}/${invocation.name}`.toLocaleLowerCase('en-US');
+  return (
+    text.includes('/registry') ||
+    text.includes('/registries') ||
+    text.includes('deferredregister') ||
+    text.includes('registryobject') ||
+    /\/(?:getregistry|getvalue|register|registerall)$/u.test(text)
+  );
+}
+
+function isCompatibilityClass(entry: string): boolean {
+  return /(?:^|\/)(?:compat|compatibility|integration|integrations|plugin|plugins)(?:\/|[^/]*)/iu.test(entry);
+}
+
 function freezeDeep<T>(value: T): T {
   if (value === null || typeof value !== 'object' || Object.isFrozen(value)) return value;
   for (const child of Object.values(value)) freezeDeep(child);
@@ -232,6 +291,8 @@ export class EcosystemAnalysisService {
     const systems = new Map<string, SystemDraft>();
     const relationships = new Map<string, RelationshipDraft>();
     const archiveEntries = new Map<string, ReadonlySet<string>>();
+    const archiveDirectories = new Map<string, readonly ZipEntry[]>();
+    const bytecodeDefinitions = new Map<string, Map<string, BytecodeDefinitionFact[]>>();
     const filesByPath = new Map(plan.inventory.files.map((file) => [file.path, file]));
     const mods = new Map<string, ModDraft>();
 
@@ -394,10 +455,12 @@ export class EcosystemAnalysisService {
       }
       try {
         const content = await readFile(safeAbsolute(plan.root, mod.source.archivePath));
-        const entries = readZipDirectory(Buffer.from(content), DEFAULT_ARTIFACT_INSPECTION_LIMITS)
-          .entries.filter((entry) => !entry.isDirectory)
+        const directory = readZipDirectory(Buffer.from(content), DEFAULT_ARTIFACT_INSPECTION_LIMITS);
+        const entries = directory.entries
+          .filter((entry) => !entry.isDirectory)
           .map((entry) => entry.name);
         archiveEntries.set(mod.source.archivePath, new Set(entries));
+        archiveDirectories.set(mod.source.archivePath, directory.entries);
         mod.archiveIndexed = true;
         const evidenceId = addEvidence({
           source: 'archive-entry',
@@ -415,6 +478,223 @@ export class EcosystemAnalysisService {
           severity: 'warning',
           code: 'artifact-index-unavailable',
           detail: 'The artifact index was unreadable; embedded resources remain unknown.',
+          subjectId: mod.source.modId,
+          evidenceIds: [],
+        });
+        mod.issueIds.add(issueId);
+      }
+    }
+
+    // Deep inspection stays selective: only class entries whose path declares
+    // a high-signal concern are expanded, under per-archive and global budgets.
+    // Class files are parsed as data; they are never linked, loaded or run.
+    const modsByArchive = new Map<string, ModDraft[]>();
+    for (const mod of mods.values()) {
+      const entries = modsByArchive.get(mod.source.archivePath) ?? [];
+      entries.push(mod);
+      modsByArchive.set(mod.source.archivePath, entries);
+    }
+    const classOwners = new Map<string, string | null>();
+    for (const [archivePath, entries] of archiveEntries) {
+      const archiveMods = modsByArchive.get(archivePath) ?? [];
+      const owner = archiveMods.length === 1 ? archiveMods[0]?.source.modId ?? null : null;
+      for (const entry of entries) {
+        if (!entry.endsWith('.class')) continue;
+        const name = entry.slice(0, -'.class'.length);
+        if (!classOwners.has(name)) classOwners.set(name, owner);
+        else if (classOwners.get(name) !== owner) classOwners.set(name, null);
+      }
+    }
+
+    const deepSources = [...modsByArchive.values()]
+      .filter((archiveMods) => archiveMods.length === 1)
+      .map((archiveMods) => archiveMods[0])
+      .filter((mod): mod is ModDraft => mod !== undefined)
+      .sort((left, right) => {
+        const priority = Number(right.source.configurationCandidates.length > 0) - Number(left.source.configurationCandidates.length > 0);
+        return priority !== 0 ? priority : compare(left.source.modId, right.source.modId);
+      });
+    let remainingBytecodeBytes = MAXIMUM_TOTAL_BYTECODE_BYTES;
+    for (const mod of deepSources) {
+      const directory = archiveDirectories.get(mod.source.archivePath);
+      if (directory === undefined) continue;
+      if (remainingBytecodeBytes < 1) {
+        const issueId = stableId('issue', 'bytecode-analysis-budget-exhausted', mod.source.modId);
+        issues.push({
+          issueId,
+          severity: 'information',
+          code: 'bytecode-analysis-budget-exhausted',
+          detail: 'The snapshot-wide class inspection budget was exhausted before this artifact.',
+          subjectId: mod.source.modId,
+          evidenceIds: [],
+        });
+        mod.issueIds.add(issueId);
+        continue;
+      }
+      try {
+        const content = await readFile(safeAbsolute(plan.root, mod.source.archivePath));
+        const deep = inspectArchiveBytecode({
+          content,
+          entries: directory,
+          limits: {
+            maximumExpandedBytes: Math.min(
+              DEFAULT_ARCHIVE_BYTECODE_LIMITS.maximumExpandedBytes,
+              remainingBytecodeBytes,
+            ),
+          },
+        });
+        remainingBytecodeBytes -= deep.expandedBytes;
+        if (deep.eligibleClasses === 0) continue;
+        const summaryEvidenceId = addEvidence({
+          source: 'class-bytecode',
+          sourcePath: mod.source.archivePath,
+          sha256: mod.source.archiveSha256,
+          detail: `Statically parsed ${String(deep.inspectedClasses.length)} of ${String(deep.eligibleClasses)} high-signal class file(s) within ${String(deep.expandedBytes)} expanded byte(s).`,
+          status: 'detected',
+          confidence: 'high',
+        });
+        mod.evidenceIds.add(summaryEvidenceId);
+        if (deep.limited) {
+          const issueId = stableId('issue', 'bytecode-analysis-limited', mod.source.modId);
+          issues.push({
+            issueId,
+            severity: 'information',
+            code: 'bytecode-analysis-limited',
+            detail: `${String(deep.refusedClasses)} high-signal class file(s) exceeded a parser or expansion limit.`,
+            subjectId: mod.source.modId,
+            evidenceIds: [summaryEvidenceId],
+          });
+          mod.issueIds.add(issueId);
+        }
+
+        const definitionsByPath = bytecodeDefinitions.get(mod.source.modId) ?? new Map<string, BytecodeDefinitionFact[]>();
+        const relationGroups = new Map<string, BytecodeRelationGroup>();
+        const addRelationFact = (input: {
+          readonly targetModId: string;
+          readonly type: BytecodeRelationGroup['type'];
+          readonly classification: SystemClassification;
+          readonly evidenceId: string;
+        }): void => {
+          const key = `${input.targetModId}\u0000${input.type}\u0000${input.classification.slug}`;
+          const group = relationGroups.get(key) ?? {
+            targetModId: input.targetModId,
+            type: input.type,
+            classification: input.classification,
+            evidenceIds: [],
+            count: 0,
+          };
+          group.count += 1;
+          if (group.evidenceIds.length < 32) group.evidenceIds.push(input.evidenceId);
+          relationGroups.set(key, group);
+        };
+
+        for (const inspectedClass of deep.inspectedClasses) {
+          for (const definition of inspectedClass.report.configurationDefinitions) {
+            const evidenceId = addEvidence({
+              source: 'class-bytecode',
+              sourcePath: `${mod.source.archivePath}!/${inspectedClass.entry}#${definition.methodName}@${String(definition.offset)}`,
+              sha256: mod.source.archiveSha256,
+              detail: `ForgeConfigSpec.${definition.type} definition declares ${definition.path}${definition.defaultValue === null ? '' : ' with a literal default'}${definition.minimum === null || definition.maximum === null ? '' : ' and literal bounds'}.`,
+              status: 'detected',
+              confidence: 'high',
+            });
+            const facts = definitionsByPath.get(definition.path) ?? [];
+            facts.push({ definition, entry: inspectedClass.entry, evidenceId });
+            definitionsByPath.set(definition.path, facts);
+            mod.evidenceIds.add(evidenceId);
+            const classification = classifySystem({
+              path: `${definition.path} ${definition.fieldName ?? ''} ${inspectedClass.entry}`,
+              documentation: definition.comment === null ? [] : [definition.comment],
+            });
+            ensureSystem(mod.source.modId, classification, evidenceId);
+          }
+
+          for (const invocation of inspectedClass.report.invocations) {
+            const classification = classifySystem({
+              path: `${inspectedClass.entry} ${invocation.owner} ${invocation.name}`,
+            });
+            const targetModId = classOwners.get(invocation.owner);
+            const registry = isRegistryInvocation(invocation);
+            if (registry) {
+              const evidenceId = addEvidence({
+                source: 'class-bytecode',
+                sourcePath: `${mod.source.archivePath}!/${inspectedClass.entry}#${invocation.methodName}@${String(invocation.offset)}`,
+                sha256: mod.source.archiveSha256,
+                detail: `Bytecode invokes registry-related member ${invocation.owner}.${invocation.name}${invocation.descriptor}.`,
+                status: 'detected',
+                confidence: 'high',
+              });
+              ensureSystem(mod.source.modId, classification, evidenceId);
+              mod.evidenceIds.add(evidenceId);
+              if (targetModId !== undefined && targetModId !== null && targetModId !== mod.source.modId) {
+                addRelationFact({ targetModId, type: 'READS_REGISTRY_FROM', classification, evidenceId });
+              }
+              continue;
+            }
+            if (targetModId === undefined || targetModId === null || targetModId === mod.source.modId) continue;
+            const evidenceId = addEvidence({
+              source: 'class-bytecode',
+              sourcePath: `${mod.source.archivePath}!/${inspectedClass.entry}#${invocation.methodName}@${String(invocation.offset)}`,
+              sha256: mod.source.archiveSha256,
+              detail: `Bytecode invokes ${invocation.owner}.${invocation.name}${invocation.descriptor}, whose class is provided by ${targetModId}.`,
+              status: 'detected',
+              confidence: 'high',
+            });
+            addRelationFact({
+              targetModId,
+              type: isCompatibilityClass(inspectedClass.entry) ? 'COMPATIBILITY' : 'INTEGRATES_WITH',
+              classification,
+              evidenceId,
+            });
+          }
+
+          for (const annotation of inspectedClass.report.annotations) {
+            if (annotation.descriptor !== 'Lorg/spongepowered/asm/mixin/Mixin;') continue;
+            for (const targetClass of [...annotation.classValues, ...annotation.stringValues.map((value) => value.replaceAll('.', '/'))]) {
+              const classification = classifySystem({ path: `${inspectedClass.entry} ${targetClass}` });
+              const evidenceId = addEvidence({
+                source: 'class-bytecode',
+                sourcePath: `${mod.source.archivePath}!/${inspectedClass.entry}`,
+                sha256: mod.source.archiveSha256,
+                detail: `Mixin annotation targets ${targetClass}.`,
+                status: 'detected',
+                confidence: 'high',
+              });
+              ensureSystem(mod.source.modId, classification, evidenceId);
+              mod.evidenceIds.add(evidenceId);
+              const targetModId = classOwners.get(targetClass);
+              if (targetModId !== undefined && targetModId !== null && targetModId !== mod.source.modId) {
+                addRelationFact({ targetModId, type: 'MODIFIES_GAMEPLAY_OF', classification, evidenceId });
+              }
+            }
+          }
+        }
+        bytecodeDefinitions.set(mod.source.modId, definitionsByPath);
+        for (const group of relationGroups.values()) {
+          const firstEvidenceId = group.evidenceIds[0];
+          if (firstEvidenceId === undefined) continue;
+          const system = ensureSystem(mod.source.modId, group.classification, firstEvidenceId);
+          const relationshipId = addRelationship({
+            from: { type: 'Mod', id: mod.source.modId },
+            to: { type: 'Mod', id: group.targetModId },
+            type: group.type,
+            systemId: system.systemId,
+            reason: `${String(group.count)} static bytecode fact(s) prove this directed relationship in ${group.classification.title}.`,
+            status: 'detected',
+            confidence: 'high',
+            evidenceIds: group.evidenceIds,
+          });
+          mod.relationshipIds.add(relationshipId);
+          mods.get(group.targetModId)?.relationshipIds.add(relationshipId);
+          system.relationshipIds.add(relationshipId);
+        }
+      } catch {
+        const issueId = stableId('issue', 'bytecode-analysis-unavailable', mod.source.modId);
+        issues.push({
+          issueId,
+          severity: 'warning',
+          code: 'bytecode-analysis-unavailable',
+          detail: 'High-signal class files could not be read within the reviewed static-analysis limits.',
           subjectId: mod.source.modId,
           evidenceIds: [],
         });
@@ -602,7 +882,7 @@ export class EcosystemAnalysisService {
           const allowedValues = field.constraints.flatMap((constraint) =>
             constraint.kind === 'allowed-values' ? [...constraint.values] : [],
           );
-          const constraints = field.constraints.map((constraint) =>
+          const constraints: Array<AnalyzedConfiguration['constraints'][number]> = field.constraints.map((constraint) =>
             constraint.kind === 'range'
               ? {
                   kind: 'range' as const,
@@ -616,6 +896,52 @@ export class EcosystemAnalysisService {
                   source: constraint.source,
                 },
           );
+          const definitionFacts = bytecodeDefinitions.get(mod.source.modId)?.get(field.path) ?? [];
+          const literalDefinitions = definitionFacts.filter((fact) =>
+            valueMatchesField(fact.definition.defaultValue, field.type),
+          );
+          const firstLiteralDefault = literalDefinitions[0]?.definition.defaultValue ?? null;
+          const defaultValue = firstLiteralDefault !== null && literalDefinitions.every((fact) =>
+            sameConfigurationValue(fact.definition.defaultValue, firstLiteralDefault),
+          ) ? firstLiteralDefault : null;
+          if (
+            firstLiteralDefault !== null &&
+            literalDefinitions.some((fact) => !sameConfigurationValue(fact.definition.defaultValue, firstLiteralDefault))
+          ) {
+            const issueId = stableId('issue', 'configuration-default-conflict', mod.source.modId, candidate.path, field.path);
+            issues.push({
+              issueId,
+              severity: 'warning',
+              code: 'configuration-default-conflict',
+              detail: 'More than one static definition declares a different default; no default was selected.',
+              subjectId: configurationId,
+              evidenceIds: literalDefinitions.map((fact) => fact.evidenceId),
+            });
+            mod.issueIds.add(issueId);
+          }
+          if (!constraints.some((constraint) => constraint.kind === 'range')) {
+            const ranges = definitionFacts.filter((fact) =>
+              fact.definition.minimum !== null && fact.definition.maximum !== null,
+            );
+            const firstRange = ranges[0]?.definition;
+            if (
+              firstRange?.minimum !== null && firstRange?.minimum !== undefined &&
+              firstRange.maximum !== null &&
+              ranges.every((fact) =>
+                fact.definition.minimum === firstRange.minimum && fact.definition.maximum === firstRange.maximum,
+              )
+            ) {
+              constraints.push({
+                kind: 'range',
+                minimum: firstRange.minimum,
+                maximum: firstRange.maximum,
+                source: 'declared',
+              });
+            }
+          }
+          const definitionComments = [...new Set(definitionFacts.flatMap((fact) =>
+            fact.definition.comment === null ? [] : [fact.definition.comment],
+          ))].sort(compare);
           const fieldEvidenceId = addEvidence({
             source: field.documentation.length > 0 || field.constraints.length > 0
               ? 'forge-comment'
@@ -631,11 +957,15 @@ export class EcosystemAnalysisService {
             modId: mod.source.modId,
             systemId: system.systemId,
             name: field.path.split('.').at(-1) ?? field.path,
-            description: field.documentation.length === 0 ? null : field.documentation.join(' '),
+            description: field.documentation.length > 0
+              ? field.documentation.join(' ')
+              : definitionComments.length === 1
+                ? definitionComments[0] ?? null
+                : null,
             category: system.title,
             type: field.type === 'string' && allowedValues.length > 0 ? 'enum' : field.type,
             currentValue: field.value,
-            defaultValue: null,
+            defaultValue,
             constraints,
             allowedValues,
             source: {
@@ -652,11 +982,17 @@ export class EcosystemAnalysisService {
             editable: form.complete,
             status: 'detected',
             confidence: ownershipConfidence,
-            evidenceIds: Object.freeze([fileEvidenceId, fieldEvidenceId, systemEvidenceId].sort(compare)),
+            evidenceIds: Object.freeze([
+              fileEvidenceId,
+              fieldEvidenceId,
+              systemEvidenceId,
+              ...definitionFacts.map((fact) => fact.evidenceId),
+            ].sort(compare)),
           };
           configurations.push(configuration);
           mod.configurationIds.add(configurationId);
           system.configurationIds.add(configurationId);
+          for (const fact of definitionFacts) system.evidenceIds.add(fact.evidenceId);
 
           const ownsId = addRelationship({
             from: { type: 'System', id: system.systemId },

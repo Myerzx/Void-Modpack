@@ -1,7 +1,7 @@
 import type { InferredFieldType } from '@voidfall/configuration-inference';
 
 export const ECOSYSTEM_ANALYSIS_SCHEMA_VERSION = 1 as const;
-export const ECOSYSTEM_ANALYZER_VERSION = '1.1.0' as const;
+export const ECOSYSTEM_ANALYZER_VERSION = '1.2.0' as const;
 
 export type KnowledgeStatus = 'detected' | 'interpreted' | 'inferred' | 'unknown';
 export type AnalysisConfidence = 'high' | 'medium' | 'low' | 'unknown';
@@ -10,6 +10,7 @@ export type AnalysisSide = 'client' | 'server' | 'both' | 'unknown';
 export type EvidenceSource =
   | 'artifact-metadata'
   | 'archive-entry'
+  | 'class-bytecode'
   | 'workspace-file'
   | 'forge-comment'
   | 'path-convention'
