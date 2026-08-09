@@ -2,9 +2,9 @@
 
 ## Estado atual
 
-- Data: 2026-08-08
+- Data: 2026-08-09
 - Responsáveis: Claude e Codex
-- Fase: hardening do lifecycle e do ownership operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. A aceitação durável de uma operação de lifecycle invalida atomicamente a observação anterior. Cada spawn agora é cercado por uma geração persistente ligada à `ServerInstance`, ao agente e ao boot; outro boot nunca adota somente por PID, limpa apenas owner comprovadamente morto e recusa owner vivo ou incerto
+- Fase: lifecycle, ownership e console operacional ao vivo da Fase 17 concluídos. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot. Cada spawn é cercado por uma geração persistente. stdout/stderr agora são capturados continuamente, confirmados somente depois da persistência, lidos por cursor e exibidos no painel com retenção, redação e catálogo fechado de comandos
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -27,6 +27,7 @@
   - chave idempotente, replay limitado em memória, rejeição de concorrência e eventos determinísticos;
   - restart que exige `offline` antes de iniciar uma segunda JVM;
   - snapshot de console por linhas, com remoção de ANSI/controles e limites adicionais;
+  - captura incremental por sequência local, timestamps de origem, buffer limitado e lote confirmado somente depois do commit;
   - catálogo fechado `list-players`/`save-all`, revalidado no runtime e sem argumentos;
   - exclusão imediata entre start, stop e comando no mesmo adaptador, sem fila;
   - snapshot imutável de métricas com fonte, unidade, qualidade e horário explícitos;
@@ -278,6 +279,8 @@
 ## Validação
 
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
+- gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
+- smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
 - 13 regressões sobre a baseline de 922 casos: persistência e invalidação do ownership, reserva antes do spawn, publicação atômica do PID, conflito fechado no controlador/agente, cinco cenários de crash/reuso/owner morto, reconciliação imediata de snapshot fresco e recusa de troca de runtime com owner;
 - Graphify atualizado após o ownership: 6.248 nós, 10.897 arestas e 397 comunidades; diagnóstico sem endpoints ausentes, arestas pendentes, duplicatas ou colapsos, mantendo apenas as duas autociclagens SQL já conhecidas;
 - gate completo após a invalidação transitória aprovado com código 0 em 2026-08-08: 922 casos descobertos, 920 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 434,6 segundos;
@@ -377,7 +380,7 @@
 - o handle e os pipes do processo continuam pertencendo à memória do adaptador; após reinício do agente uma JVM órfã viva é reconhecida e bloqueia duplicação, mas ainda não existe reanexação segura para voltar a controlá-la;
 - operação, job e idempotência pública são duráveis, mas o replay interno do controlador continua local ao seu runtime;
 - a cerca persistente distingue geração/agente/boot de PID, mas o observador portátil só prova ausência por `ESRCH`; PID vivo ou reutilizado permanece intencionalmente incerto e exige aguardar a saída ou intervenção operacional verificada, ainda sem endpoint de resolução manual;
-- o console persistido possui cursor e redação na entrada, mas ainda não existe transporte ao vivo;
+- o console ao vivo é entrega limitada e não uma garantia lossless: picos maiores que a retenção do processo produzem marcador explícito de lacuna; após crash do agente não existe reanexação aos pipes de um JVM órfão;
 - operações de comando são duráveis e auditadas, mas a escrita no stdin não confirma que o Minecraft processou o comando;
 - métricas possuem persistência e agregação; TPS, MSPT e jogadores continuam indisponíveis sem provider aprovado;
 - `node:os` descreve a visão do host fornecida ao Node e ainda não prova limites de container/cgroup;
@@ -441,9 +444,9 @@
 
 ## Próximo recorte recomendado
 
-Fazer o rollout controlado do ownership no servidor local: usar o agente antigo ainda dono dos pipes para parar o JVM atual, reiniciar `dist/local.js` para aplicar a migration `0025` e iniciar novamente sob uma geração persistente. Não reiniciar o processo local enquanto o JVM legado estiver vivo, porque ele foi iniciado antes da existência da cerca e não possui linha de ownership para reconciliar.
+Fechar backup operacional no painel, reutilizando `@voidfall/server-backup` sem relaxar a guarda offline, a integridade do manifesto ou o lock `minecraft-exclusive`. Definir primeiro a reconciliação de operação/lock após crash e o fluxo de retenção antes de habilitar o botão.
 
-Depois do rollout, escolher explicitamente a próxima feature. Console ao vivo, backup e `artifact.install` continuam não implementados; readiness, timeout, invalidação transitória e ownership não devem ser reabertos sem uma regressão concreta.
+`artifact.install`, restore sobre mundo ativo, console livre e `process.force-kill` continuam não implementados. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
 
 ## Commits relevantes
 

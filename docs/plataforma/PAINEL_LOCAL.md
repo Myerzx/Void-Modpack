@@ -39,6 +39,8 @@ Se a porta 3100 estiver ocupada, o comando avisa e usa a próxima livre.
 | Rota | O que faz |
 | --- | --- |
 | `/` | Entra e vai para os workspaces |
+| `/servidor` | Estado observado, operações e start/stop/restart auditados |
+| `/servidor/console` | stdout/stderr incremental, pausa e comandos fechados |
 | `/workspaces` | Registrar um servidor importado e inventariá-lo |
 | `/workspaces/detalhe?id=…` | Inventário, exclusões, lista de mods e um mod aberto |
 | `/workspaces/configuracao?id=…&path=…` | Formulário inferido, validação, preparo da mudança e diferença |

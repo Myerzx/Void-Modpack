@@ -64,9 +64,9 @@ Então, no ambiente local, o agente roda **no mesmo processo** da Control API, c
 
 `npm run panel` provisiona e registra pela rota real uma identidade por `ServerInstance`, constrói um `AgentRuntime` por instância e sincroniza a frota quando um runtime é vinculado ou alterado. Um lock atômico adquirido antes do PGlite impede duas cópias de `dist/local.js` sobre o mesmo estado; lock de PID morto é recuperado. Em produção o agente continua sendo processo separado contra PostgreSQL real.
 
-### 5. Telas adicionais permanecem fora do recorte
+### 5. Console ao vivo — concluído em 2026-08-09
 
-O lifecycle do servidor já está ligado ao painel. Console ao vivo, backup e `artifact.install` continuam deliberadamente ausentes.
+stdout/stderr agora são capturados continuamente pelo runtime, persistidos pelo agente somente antes da confirmação do lote e lidos pelo painel com tail inicial, cursor, pausa e retenção. O único envio possível continua sendo o catálogo `list-players`/`save-all`. Backup e `artifact.install` continuam deliberadamente ausentes.
 
 ---
 
@@ -87,7 +87,7 @@ comando   java -Xms4096M -Xmx8192M -Dfile.encoding=UTF-8 @libraries/.../win_args
 
 ~~**Passo 4 — agente no ambiente local.**~~ **Feito e endurecido em 2026-08-08.** A frota local mantém identidade, claim de job e controlador isolados por `ServerInstance`, continua em loopback e recusa `NODE_ENV=production`.
 
-**Passo 5 — telas adicionais.** Deliberadamente adiado neste recorte. Console ao vivo, backup e `artifact.install` não devem ser iniciados antes do fechamento e do smoke das guardas operacionais.
+~~**Passo 5 — console ao vivo.**~~ **Feito em 2026-08-09.** O fluxo completo e o smoke real estão em [PHASE_17_LIVE_CONSOLE.md](PHASE_17_LIVE_CONSOLE.md). Backup e `artifact.install` permanecem em recortes separados.
 
 ---
 
@@ -131,7 +131,9 @@ O ciclo real terminou com `start` em aproximadamente 338,5 s, `restart` em 88,5 
 
 Smokes determinísticos cobrem queda durante boot, online e no intervalo do restart, PID reutilizado e owner morto. A leitura concorrente enquanto o PID é anexado não publica PID nem libera a reserva. Ownership incerto liquida a tentativa como `precondition-not-met`/`unknown`, sem afirmar que o servidor está offline.
 
-O JVM real que já estava online não foi reiniciado neste recorte e nasceu antes da migration. O rollout precisa ser controlado: parar pelo agente antigo, reiniciar `dist/local.js` para aplicar `0025` e só então iniciar novamente sob a cerca. Console ao vivo, backup e instalação de artefato continuam fora.
+**~~A observação do processo expirava mesmo com o JVM saudável.~~ Corrigido.** O resultado de uma operação não é usado como heartbeat eterno. O agente reinspeciona o adaptador no ciclo periódico, grava lifecycle/PID/boot com timestamp novo e só deixa a reconciliação marcar `unknown` quando a inspeção realmente deixa de acontecer. O smoke final manteve `online`/atual e o mesmo PID após ultrapassar a janela anterior de 120 segundos.
+
+O rollout controlado foi executado em 2026-08-09: stop pelo agente antigo, saída do JVM confirmada, reinício único de `dist/local.js` e novo start sob a geração persistente. O console ao vivo foi validado durante o boot real. Backup e instalação de artefato continuam fora.
 
 ---
 
