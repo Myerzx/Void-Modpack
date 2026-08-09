@@ -243,6 +243,8 @@
 - `run_directory` e a aresta workspace → instância são um-para-um no banco, impedindo dois controladores sobre o mesmo diretório;
 - a frota local acompanha novas instâncias e alterações de runtime sem reiniciar agentes não afetados, e o shutdown aguarda sincronizações em voo;
 - depois dos testes reais de lifecycle: zero leases abertas, zero jobs pendentes e zero operações em voo.
+- smoke do servidor existente/importado concluído: workspace registrado e ligado por `workspaceId`, agente substituído somente para a instância alterada, `start` em aproximadamente 338,5 s, `restart` em 88,5 s e `stop` em 11,6 s, todos com receipt `succeeded`;
+- auditoria posterior ao smoke: três jobs `completed`, três leases liquidadas com sucesso, zero leases abertas, zero jobs pendentes ou com owner, zero operações em voo, zero locks operacionais e nenhuma JVM Minecraft restante.
 
 ## Limites obrigatórios
 
@@ -266,6 +268,7 @@
 
 ## Validação
 
+- smoke operacional do servidor importado aprovado em 2026-08-08: vínculo workspace → instância sem path na resposta, nova identidade escopada reutilizada, troca real de PID no restart, readiness `online` depois de start/restart e `offline` sem PID depois do stop;
 - gate completo após o hardening operacional aprovado com código 0 em 2026-08-08: 920 casos descobertos, 918 executados no Windows e dois sockets Unix ignorados; build de pacotes/apps, typecheck, testes, Forge Bridge e export estático do painel concluídos;
 - 10 regressões acrescentadas sobre a baseline de 910 casos: conflito de restart offline na API/agente, lock PGlite e recuperação de órfão, identidade por instância e migração legada, sincronização/shutdown da frota, vínculo atômico de workspace e isolamento de claim;
 - smoke interprocesso real: segundo processo recusado enquanto o primeiro possui `.voidfall`, seguido de aquisição bem-sucedida depois da liberação;
@@ -356,12 +359,13 @@
 
 ## Riscos não resolvidos
 
-- o estado do adaptador é local à memória; não existe reconciliação após reinício do agente;
-- o histórico idempotente e a exclusão mútua são locais à instância; não sobrevivem a crash ou reinício;
-- persistência de PID, lock entre processos e reconciliação com processo órfão ainda não existem;
-- snapshots de console não possuem cursor e ainda não aplicam a política futura de redação para exposição remota;
-- recibos de comando não são auditoria nem idempotência durável e não confirmam processamento pelo Minecraft;
-- snapshot de métricas não possui persistência, agregação, alerta nem transporte remoto;
+- durante o restart real, depois que o PID anterior terminou e a nova JVM já iniciou, `/process-state` continuou temporariamente expondo o último `online` e o PID antigo até a nova readiness liquidar a operação; o receipt final corrigiu o estado, mas a observação transitória precisa publicar `stopping`/`starting` ou ser marcada obsoleta para não apresentar um processo inexistente como atual;
+- o handle do processo pertence à memória do adaptador; no reinício do agente a observação persistida é marcada obsoleta, mas ainda não existe reanexação segura a uma JVM órfã;
+- operação, job e idempotência pública são duráveis, mas o replay interno do controlador continua local ao seu runtime;
+- PID observado e lock do ambiente PGlite são persistidos, porém ainda não existe um lock de ownership do processo Minecraft que permita reconhecer ou adotar uma JVM órfã após crash do agente;
+- o console persistido possui cursor e redação na entrada, mas ainda não existe transporte ao vivo;
+- operações de comando são duráveis e auditadas, mas a escrita no stdin não confirma que o Minecraft processou o comando;
+- métricas possuem persistência e agregação; TPS, MSPT e jogadores continuam indisponíveis sem provider aprovado;
 - `node:os` descreve a visão do host fornecida ao Node e ainda não prova limites de container/cgroup;
 - CPU e RSS da JVM exigem um observador portátil futuro e permanecem indisponíveis;
 - a guarda offline usada pelo backup ainda é somente um trust boundary injetado; não existe lock durável compartilhado com start/stop nem reconciliação após crash;
@@ -369,7 +373,7 @@
 - o filesystem local ainda não é o backend P1 de storage; retenção destrutiva, assinatura, criptografia e imutabilidade externa não estão implementadas;
 - SHA-256 detecta corrupção, mas não autentica a origem do snapshot;
 - restore isolado não troca o mundo ativo, não inicia Minecraft e não certifica boot, dimensões, inventários ou dados de mods;
-- a guarda offline de configuração continua um trust boundary injetado; o lock PostgreSQL `minecraft-exclusive` já é compartilhável, mas processo, backup e file manager ainda não o consomem;
+- a guarda offline de configuração continua um trust boundary injetado; processo já consome o lock PostgreSQL `minecraft-exclusive`, enquanto backup e file manager ainda não estão ligados ao runtime real;
 - o lock PostgreSQL possui lease limitado, porém não há heartbeat nem reconciliação automática de lock expirado ou operação `prepared` após crash;
 - os codecs implementam somente o subconjunto estrito de Java Properties e o JSON OpenLoader aprovado; JSON genérico, TOML, YAML e outros mods continuam negados;
 - revisões podem conter segredos presentes no arquivo anterior; storage cifrado, permissões operacionais, retenção e backend remoto ainda não existem;
@@ -423,9 +427,9 @@
 
 ## Próximo recorte recomendado
 
-Antes de abrir uma feature, executar um smoke operacional isolado com um servidor **existente/importado**: registrar workspace, ligá-lo por `workspaceId`, confirmar que o agente correto reivindica somente os jobs daquela instância, executar `start`/`restart`/`stop` e conferir novamente zero leases abertas, jobs pendentes e operações em voo. Isso valida a terceira correção contra um runtime real sem ampliar a superfície do produto.
+Fechar o achado de observabilidade transitória do smoke: publicar ou persistir `stopping` e `starting` durante restart, ou marcar imediatamente a observação anterior como obsoleta, sem criar uma segunda fonte de readiness. Prender por regressão que troca o PID e prova que a API nunca apresenta o PID encerrado como `online` atual enquanto a nova JVM inicializa.
 
-Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois desse smoke, sem reabrir readiness, timeout ou ownership já consolidados.
+Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois dessa correção, sem reabrir readiness, timeout ou ownership já consolidados.
 
 ## Commits relevantes
 

@@ -117,7 +117,15 @@ O caminho até lá encontrou três defasagens, todas do mesmo tipo — contratos
 
 **~~Duas cópias locais podiam compartilhar PGlite.~~ Corrigido.** `dist/local.js` adquire lock atômico antes de reset ou abertura do banco, recusa o segundo PID vivo e recupera lock órfão.
 
-Depois dos testes reais de lifecycle ficaram zero leases abertas, zero jobs pendentes e zero operações em voo. O próximo passo seguro é repetir esse smoke com um servidor existente/importado; não é abrir console, backup ou instalação de artefato.
+Depois dos testes reais de lifecycle ficaram zero leases abertas, zero jobs pendentes e zero operações em voo.
+
+### Smoke do servidor existente/importado — concluído em 2026-08-08
+
+O workspace `server-original` foi registrado e ligado por `workspaceId` à instância que já possuía o runtime Forge detectado. A resposta não expôs o path. A frota parou somente o agente dessa instância, reutilizou a identidade escopada e voltou anunciando `process.control`.
+
+O ciclo real terminou com `start` em aproximadamente 338,5 s, `restart` em 88,5 s e `stop` em 11,6 s. Os três jobs ficaram `succeeded/completed`, as três leases foram liquidadas com sucesso e a auditoria final encontrou zero leases abertas, jobs pendentes ou com owner, operações em voo e locks operacionais. Nenhuma JVM Minecraft permaneceu.
+
+O smoke encontrou um defeito de observabilidade transitória: durante o restart, o PID anterior já tinha terminado e a nova JVM já existia, mas `/process-state` ainda devolvia o último `online` com o PID antigo até a nova readiness. O estado final ficou correto. O próximo recorte é impedir que esse snapshot antigo pareça atual durante `stopping`/`starting`, mantendo readiness como fonte única de `online`; não é abrir console, backup ou instalação de artefato.
 
 ---
 
