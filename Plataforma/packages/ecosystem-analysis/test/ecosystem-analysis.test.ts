@@ -416,5 +416,42 @@ enabled = true
         { path: 'sockets.min', accepted: false, code: 'range-order' },
       ],
     );
+
+    assert.deepEqual(
+      VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.validateChanges({
+        schemaId: 'mmorpg-gear-rarity',
+        resourcePath: 'common.json',
+        content,
+        changes: [
+          { path: 'weight', value: 729 },
+          { path: 'weight', value: 800 },
+        ],
+      }),
+      [
+        { path: 'weight', accepted: true },
+        { path: 'weight', accepted: false, code: 'duplicate-field' },
+      ],
+    );
+
+    const withUnknownEmptyObject = JSON.parse(content) as Record<string, unknown>;
+    withUnknownEmptyObject['unreviewed_extension'] = {};
+    const extendedInspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+      schemaId: 'mmorpg-gear-rarity',
+      resourcePath: 'common.json',
+      content: JSON.stringify(withUnknownEmptyObject),
+    });
+    assert.equal(extendedInspection.success, false);
+    if (!extendedInspection.success) assert.equal(extendedInspection.code, 'schema-mismatch');
+
+    const withInvalidRange = JSON.parse(content) as { sockets: { min: number; max: number } };
+    withInvalidRange.sockets.min = 4;
+    withInvalidRange.sockets.max = 2;
+    const invalidRangeInspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+      schemaId: 'mmorpg-gear-rarity',
+      resourcePath: 'common.json',
+      content: JSON.stringify(withInvalidRange),
+    });
+    assert.equal(invalidRangeInspection.success, false);
+    if (!invalidRangeInspection.success) assert.equal(invalidRangeInspection.code, 'schema-mismatch');
   });
 });

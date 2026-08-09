@@ -52,6 +52,7 @@ export interface ReviewedDatapackChangeDecision {
   readonly code?:
     | ReviewedDatapackInspectionErrorCode
     | 'unknown-field'
+    | 'duplicate-field'
     | 'field-readonly'
     | 'value-rejected'
     | 'range-order';
@@ -213,7 +214,12 @@ function flatten(
   output: Map<string, ReviewedDatapackScalar>,
 ): boolean {
   if (!isRecord(value)) return false;
-  for (const [key, child] of Object.entries(value)) {
+  const entries = Object.entries(value);
+  // The reviewed schema has no empty object nodes. Recording only scalar
+  // leaves would otherwise let an unknown `{}` disappear from the shape and
+  // make an extended document look exactly like the reviewed one.
+  if (entries.length === 0) return false;
+  for (const [key, child] of entries) {
     const path = prefix.length === 0 ? key : `${prefix}.${key}`;
     if (isRecord(child)) {
       if (!flatten(child, path, output)) return false;
@@ -306,6 +312,13 @@ function inspectWithSchema(
   if (stem === null || flattened.get('guid') !== stem) {
     return Object.freeze({ success: false, schema, code: 'identity-mismatch' });
   }
+  for (const range of schema.orderedRanges) {
+    const minimum = flattened.get(range.minimumPath);
+    const maximum = flattened.get(range.maximumPath);
+    if (typeof minimum !== 'number' || typeof maximum !== 'number' || minimum > maximum) {
+      return Object.freeze({ success: false, schema, code: 'schema-mismatch' });
+    }
+  }
   return Object.freeze({
     success: true,
     schema,
@@ -365,9 +378,12 @@ export class TrustedDatapackSchemaRegistry {
     const definitions = new Map(inspected.schema.fields.map((field) => [field.path, field]));
     const proposed = new Map(Object.entries(inspected.values));
     const decisions: ReviewedDatapackChangeDecision[] = [];
+    const seen = new Set<string>();
     for (const change of input.changes) {
       const field = definitions.get(change.path);
-      if (field === undefined) {
+      if (seen.has(change.path)) {
+        decisions.push({ path: change.path, accepted: false, code: 'duplicate-field' });
+      } else if (field === undefined) {
         decisions.push({ path: change.path, accepted: false, code: 'unknown-field' });
       } else if (!field.editable) {
         decisions.push({ path: change.path, accepted: false, code: 'field-readonly' });
@@ -377,6 +393,7 @@ export class TrustedDatapackSchemaRegistry {
         proposed.set(change.path, change.value);
         decisions.push({ path: change.path, accepted: true });
       }
+      seen.add(change.path);
     }
     for (const range of inspected.schema.orderedRanges) {
       const minimum = proposed.get(range.minimumPath);
