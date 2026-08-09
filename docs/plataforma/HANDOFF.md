@@ -279,6 +279,7 @@
 
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - 13 regressões sobre a baseline de 922 casos: persistência e invalidação do ownership, reserva antes do spawn, publicação atômica do PID, conflito fechado no controlador/agente, cinco cenários de crash/reuso/owner morto, reconciliação imediata de snapshot fresco e recusa de troca de runtime com owner;
+- Graphify atualizado após o ownership: 6.248 nós, 10.897 arestas e 397 comunidades; diagnóstico sem endpoints ausentes, arestas pendentes, duplicatas ou colapsos, mantendo apenas as duas autociclagens SQL já conhecidas;
 - gate completo após a invalidação transitória aprovado com código 0 em 2026-08-08: 922 casos descobertos, 920 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 434,6 segundos;
 - regressão ponta a ponta prova que aceitar restart troca o snapshot `online`/PID antigo por `unknown`/`stale` sem PID, que uma nova readiness publica somente o PID novo e que replay idempotente não invalida essa observação; regressão de banco prende invalidação e `process.invalidated` na mesma transação da operação;
 - gate focado aprovado: 145 casos em contratos, migrações/banco, rotas de processo e agendador, sem falha;
