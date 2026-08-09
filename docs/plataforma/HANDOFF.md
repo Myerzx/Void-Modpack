@@ -4,7 +4,7 @@
 
 - Data: 2026-08-08
 - Responsáveis: Claude e Codex
-- Fase: hardening do lifecycle operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. O ambiente local agora possui exclusão entre processos e um runtime lógico por `ServerInstance`
+- Fase: hardening do lifecycle operacional concluído. `start`, `restart` e `stop` atravessam painel/API → operação/job → agente → processo real; readiness do Minecraft continua sendo a fonte única do boot; timeout e lease acompanham a operação; crash durante boot e ausência de readiness têm resultados distintos. A aceitação durável de uma operação de lifecycle invalida atomicamente a observação anterior, então um PID encerrado nunca continua publicado como `online` atual durante restart. O ambiente local possui exclusão entre processos e um runtime lógico por `ServerInstance`
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -236,7 +236,9 @@
 - lifecycle real validado para `start`, `restart` e `stop`; readiness do Minecraft permanece a única transição que confirma boot, e o timeout informado percorre API, job, lease, agente e controlador;
 - boot de aproximadamente 723 segundos concluído dentro do prazo; crash durante boot termina em `error`, enquanto processo vivo sem readiness termina em `operation-timeout`;
 - `restart` de servidor comprovadamente offline é recusado antes de criar job/operação com `state-conflict`; o agente mantém a mesma classificação como fallback contra estado que mude depois da aceitação;
+- `start`, `stop`, `restart` e `force-kill` invalidam a observação anterior na mesma transação que aceita a operação: lifecycle vira `unknown`, PID/boot/observador são removidos, `stale` fica verdadeiro e o outbox publica `process.invalidated`; somente uma observação posterior do agente pode voltar a publicar `online`;
 - o ambiente `dist/local.js` adquire lock atômico ao lado de `.voidfall` antes de reset ou abertura do PGlite, recusa segundo processo vivo e recupera lock órfão por PID;
+- o diretório vivo `.voidfall.lock/` é ignorado pelo Git e continua existindo somente enquanto o processo local possui o PGlite;
 - existe um `AgentRuntime`, uma identidade Ed25519 persistente e um controlador por `ServerInstance`; a identidade singleton antiga só é migrada quando o banco comprova sua instância;
 - jobs cujo recurso é `server-instance` só podem ser reivindicados pelo agente vinculado àquela instância;
 - workspace de servidor existente/importado pode ser ligado por `workspaceId`, sem reenviar nem expor seu path; vínculo, runtime detectado e ownership são gravados atomicamente;
@@ -268,6 +270,9 @@
 
 ## Validação
 
+- gate completo após a invalidação transitória aprovado com código 0 em 2026-08-08: 922 casos descobertos, 920 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 434,6 segundos;
+- regressão ponta a ponta prova que aceitar restart troca o snapshot `online`/PID antigo por `unknown`/`stale` sem PID, que uma nova readiness publica somente o PID novo e que replay idempotente não invalida essa observação; regressão de banco prende invalidação e `process.invalidated` na mesma transação da operação;
+- gate focado aprovado: 145 casos em contratos, migrações/banco, rotas de processo e agendador, sem falha;
 - smoke operacional do servidor importado aprovado em 2026-08-08: vínculo workspace → instância sem path na resposta, nova identidade escopada reutilizada, troca real de PID no restart, readiness `online` depois de start/restart e `offline` sem PID depois do stop;
 - gate completo após o hardening operacional aprovado com código 0 em 2026-08-08: 920 casos descobertos, 918 executados no Windows e dois sockets Unix ignorados; build de pacotes/apps, typecheck, testes, Forge Bridge e export estático do painel concluídos;
 - 10 regressões acrescentadas sobre a baseline de 910 casos: conflito de restart offline na API/agente, lock PGlite e recuperação de órfão, identidade por instância e migração legada, sincronização/shutdown da frota, vínculo atômico de workspace e isolamento de claim;
@@ -359,7 +364,6 @@
 
 ## Riscos não resolvidos
 
-- durante o restart real, depois que o PID anterior terminou e a nova JVM já iniciou, `/process-state` continuou temporariamente expondo o último `online` e o PID antigo até a nova readiness liquidar a operação; o receipt final corrigiu o estado, mas a observação transitória precisa publicar `stopping`/`starting` ou ser marcada obsoleta para não apresentar um processo inexistente como atual;
 - o handle do processo pertence à memória do adaptador; no reinício do agente a observação persistida é marcada obsoleta, mas ainda não existe reanexação segura a uma JVM órfã;
 - operação, job e idempotência pública são duráveis, mas o replay interno do controlador continua local ao seu runtime;
 - PID observado e lock do ambiente PGlite são persistidos, porém ainda não existe um lock de ownership do processo Minecraft que permita reconhecer ou adotar uma JVM órfã após crash do agente;
@@ -427,12 +431,13 @@
 
 ## Próximo recorte recomendado
 
-Fechar o achado de observabilidade transitória do smoke: publicar ou persistir `stopping` e `starting` durante restart, ou marcar imediatamente a observação anterior como obsoleta, sem criar uma segunda fonte de readiness. Prender por regressão que troca o PID e prova que a API nunca apresenta o PID encerrado como `online` atual enquanto a nova JVM inicializa.
+Fechar ownership e recuperação de JVM órfã após crash do agente. Persistir uma identidade de processo que não dependa apenas de PID, reconciliar essa identidade no startup e escolher com segurança entre reanexar uma JVM comprovadamente pertencente à instância, recusar controle por ownership incerto ou limpar um owner morto. Prender por smokes de queda durante boot, online e restart que provem uma única JVM, nenhuma adoção por PID reutilizado e zero leases/jobs/locks vazados após recuperação.
 
-Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois dessa correção, sem reabrir readiness, timeout ou ownership já consolidados.
+Continuam fora deste recorte: console ao vivo, backup e `artifact.install`. A próxima feature deve ser escolhida explicitamente depois da recuperação de ownership, sem reabrir readiness, timeout ou a invalidação transitória já consolidada.
 
 ## Commits relevantes
 
+- `eb02a7f` — invalidação transacional do snapshot de processo durante operações de lifecycle, com regressão que impede PID antigo durante restart;
 - `5f30c41` — restart offline recusado como `state-conflict` na API e no agente;
 - `ca8857a` — exclusão interprocesso para o PGlite do ambiente local;
 - `8db250a` — runtime, identidade e reivindicação de trabalho vinculados por `ServerInstance`, com workspace importado ligado atomicamente;

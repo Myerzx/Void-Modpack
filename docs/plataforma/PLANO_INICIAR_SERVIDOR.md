@@ -125,7 +125,9 @@ O workspace `server-original` foi registrado e ligado por `workspaceId` à inst�
 
 O ciclo real terminou com `start` em aproximadamente 338,5 s, `restart` em 88,5 s e `stop` em 11,6 s. Os três jobs ficaram `succeeded/completed`, as três leases foram liquidadas com sucesso e a auditoria final encontrou zero leases abertas, jobs pendentes ou com owner, operações em voo e locks operacionais. Nenhuma JVM Minecraft permaneceu.
 
-O smoke encontrou um defeito de observabilidade transitória: durante o restart, o PID anterior já tinha terminado e a nova JVM já existia, mas `/process-state` ainda devolvia o último `online` com o PID antigo até a nova readiness. O estado final ficou correto. O próximo recorte é impedir que esse snapshot antigo pareça atual durante `stopping`/`starting`, mantendo readiness como fonte única de `online`; não é abrir console, backup ou instalação de artefato.
+**~~O restart mantinha o PID encerrado como `online` atual.~~ Corrigido.** A aceitação durável de qualquer operação que altera o lifecycle invalida a observação anterior na mesma transação: publica `process.invalidated`, remove PID/boot/observador e expõe `unknown`/`stale` até o agente observar o resultado. A readiness continua sendo a única fonte capaz de devolver `online`, e um replay idempotente não invalida a observação nova.
+
+O próximo recorte é ownership e recuperação de JVM órfã após crash do agente: identidade persistente além do PID, reconciliação no startup e smokes de queda durante boot, online e restart. Não é abrir console ao vivo, backup ou instalação de artefato.
 
 ---
 
