@@ -122,6 +122,7 @@ export class WorkspaceInventoryService {
           displayName: declared.displayName,
           version: declared.version,
           loader: declared.loader,
+          dependencies: declared.dependencies,
           archivePath: file.path,
           archiveSha256: file.sha256,
           editLevel: decision.level,

@@ -33,6 +33,7 @@ function mod(
     archiveSha256: sha.padEnd(64, '0'),
     editLevel: 'STRUCTURED',
     editLevelReason: 'fixture',
+    dependencies: [],
     configurationCandidates: [],
   };
 }

@@ -1,0 +1,27 @@
+{
+  "name": "@voidfall/ecosystem-analysis",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-backed semantic analysis of Minecraft mods, configuration and datapacks",
+  "license": "UNLICENSED",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
+    "test": "tsx --test test/ecosystem-analysis.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "dependencies": {
+    "@voidfall/artifact-inspection": "0.1.0",
+    "@voidfall/configuration-inference": "0.1.0",
+    "@voidfall/workspace-inventory": "0.1.0"
+  }
+}

@@ -8,11 +8,12 @@ import { afterEach, describe, it } from 'node:test';
 import { hashPassword } from '@voidfall/authentication';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
+import type { EcosystemAnalysis } from '@voidfall/ecosystem-analysis';
 import type { FastifyInstance } from 'fastify';
 
 import { buildControlApi } from '../src/app.js';
 import { detectServerRuntimeAt } from '../src/server-runtime.js';
-import type { WorkspaceScanner } from '../src/workspace-routes.js';
+import type { WorkspaceEcosystemService, WorkspaceScanner } from '../src/workspace-routes.js';
 
 /**
  * The first slice of the panel integration track, end to end.
@@ -78,7 +79,11 @@ function scanner(options: { readonly fail?: boolean } = {}): WorkspaceScanner & 
 }
 
 async function fixture(
-  options: { readonly role?: 'owner' | 'read-only'; readonly scanner?: WorkspaceScanner } = {},
+  options: {
+    readonly role?: 'owner' | 'read-only';
+    readonly scanner?: WorkspaceScanner;
+    readonly ecosystem?: WorkspaceEcosystemService;
+  } = {},
 ) {
   const role = options.role ?? 'owner';
   const database = await createPGliteTestDatabase();
@@ -97,6 +102,7 @@ async function fixture(
     cookieSecure: false,
     clock: () => NOW,
     ...(options.scanner === undefined ? {} : { workspaceScanner: options.scanner }),
+    ...(options.ecosystem === undefined ? {} : { workspaceEcosystem: options.ecosystem }),
     serverRuntimeDetector: detectServerRuntimeAt,
   });
   resources.push({ app, database });
@@ -114,6 +120,87 @@ async function fixture(
     repositories,
     cookie: setCookie.split(';')[0] ?? '',
     csrfToken: login.json<{ csrfToken: string }>().csrfToken,
+  };
+}
+
+function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { analyses: number } } {
+  const seen = { analyses: 0 };
+  return {
+    analyzerVersion: '1.1.0',
+    seen,
+    async analyze(input) {
+      seen.analyses += 1;
+      return {
+        schemaVersion: 1,
+        analyzerVersion: '1.1.0',
+        analysisId: 'analysis-alpha',
+        inventorySha256: input.inventory.inventorySha256,
+        generatedAt: input.generatedAt.toISOString(),
+        mods: [{
+          modId: 'alpha', displayName: 'Alpha', version: '1.0.0', loader: 'forge',
+          archivePath: 'mods/alpha.jar', archiveSha256: '10'.padEnd(64, '0'), side: 'server',
+          editLevel: 'STRUCTURED', configurationIds: ['configuration-alpha'],
+          systemIds: ['system-alpha-combat'], datapackIds: ['datapack-alpha'],
+          relationshipIds: ['relationship-alpha-requires', 'relationship-alpha-overrides'],
+          issueIds: [], evidenceIds: ['evidence-config'], analysisStatus: 'complete',
+        }],
+        systems: [{
+          systemId: 'system-alpha-combat', modId: 'alpha', slug: 'combat', title: 'Combat',
+          status: 'interpreted', confidence: 'high', configurationIds: ['configuration-alpha'],
+          datapackResourceIds: ['resource-alpha'], relationshipIds: [], evidenceIds: ['evidence-config'],
+        }],
+        configurations: [{
+          configurationId: 'configuration-alpha', modId: 'alpha', systemId: 'system-alpha-combat',
+          name: 'Damage multiplier', description: 'Scales damage.', category: 'combat', type: 'number',
+          currentValue: 1.5, defaultValue: null,
+          constraints: [{ kind: 'range', minimum: 0, maximum: 10, source: 'declared' }],
+          allowedValues: [],
+          source: { file: 'config/alpha.toml', path: 'combat.damage', line: 4, format: 'toml', parser: 'forge-toml' },
+          side: 'server', restartRequired: null, editable: true, status: 'interpreted', confidence: 'high',
+          evidenceIds: ['evidence-config'],
+        }],
+        datapacks: [{
+          datapackId: 'datapack-alpha', name: 'alpha-pack', loader: 'openloader',
+          rootPath: 'config/openloader/data/alpha-pack', sha256: '20'.padEnd(64, '0'), description: null,
+          resourceIds: ['resource-alpha'], namespaces: ['alpha'], ownerModId: 'alpha',
+          relatedModIds: ['alpha'], issueIds: [], evidenceIds: ['evidence-resource'],
+        }],
+        datapackResources: [{
+          resourceId: 'resource-alpha', datapackId: 'datapack-alpha', namespace: 'alpha',
+          resourceType: 'recipes', resourcePath: 'steel_sword.json',
+          sourceFile: 'config/openloader/data/alpha-pack/data/alpha/recipes/steel_sword.json',
+          sha256: '30'.padEnd(64, '0'), ownerModId: 'alpha', systemId: 'system-alpha-combat',
+          effect: 'overrides', status: 'detected', confidence: 'high', evidenceIds: ['evidence-resource'],
+        }],
+        relationships: [
+          {
+            relationshipId: 'relationship-alpha-requires', from: { type: 'Mod', id: 'alpha' },
+            to: { type: 'Mod', id: 'library' }, type: 'REQUIRES', systemId: null,
+            reason: 'Declared dependency.', status: 'detected', confidence: 'high', evidenceIds: ['evidence-config'],
+          },
+          {
+            relationshipId: 'relationship-alpha-overrides', from: { type: 'Datapack', id: 'datapack-alpha' },
+            to: { type: 'Mod', id: 'alpha' }, type: 'OVERRIDES', systemId: 'system-alpha-combat',
+            reason: 'Exact resource path match.', status: 'detected', confidence: 'high', evidenceIds: ['evidence-resource'],
+          },
+        ],
+        evidence: [
+          {
+            evidenceId: 'evidence-config', source: 'forge-comment', sourcePath: 'config/alpha.toml',
+            sha256: '40'.padEnd(64, '0'), detail: 'Declared range 0..10.', status: 'detected', confidence: 'high',
+          },
+          {
+            evidenceId: 'evidence-resource', source: 'datapack-resource',
+            sourcePath: 'config/openloader/data/alpha-pack/data/alpha/recipes/steel_sword.json',
+            sha256: '30'.padEnd(64, '0'), detail: 'Exact archive resource match.',
+            status: 'detected', confidence: 'high',
+          },
+        ],
+        issues: [],
+        graph: { entities: [], relationshipIds: ['relationship-alpha-requires', 'relationship-alpha-overrides'] },
+        summary: { mods: 1, systems: 1, configurations: 1, datapacks: 1, datapackResources: 1, relationships: 2, issues: 0 },
+      } satisfies EcosystemAnalysis;
+    },
   };
 }
 
@@ -345,6 +432,92 @@ describe('importing a workspace', () => {
         .configurationCandidates[0]?.rule,
       'config-file-by-mod-id',
     );
+  });
+
+  it('persists one semantic analysis per inventory and serves traceable mod data', async () => {
+    const analyzer = ecosystemAnalyzer();
+    const { app, cookie, csrfToken } = await fixture({ scanner: scanner(), ecosystem: analyzer });
+    const root = await workspaceRoot();
+    const registered = await app.inject({
+      method: 'POST',
+      url: '/api/v1/workspaces',
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { slug: 'semantic', displayName: 'Semantic', rootPath: root, kind: 'server' },
+    });
+    const workspaceId = registered.json<{ workspaceId: string }>().workspaceId;
+
+    const scan = await app.inject({
+      method: 'POST',
+      url: `/api/v1/workspaces/${workspaceId}/scans`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+    });
+    assert.equal(scan.statusCode, 201);
+    assert.equal(scan.json<{ analysis: { status: string } }>().analysis.status, 'generated');
+    assert.equal(analyzer.seen.analyses, 1);
+
+    const summary = await app.inject({
+      method: 'GET', url: `/api/v1/workspaces/${workspaceId}/analysis`, headers: { cookie },
+    });
+    assert.equal(summary.statusCode, 200);
+    assert.equal(summary.json<{ analysis: { summary: { configurations: number } } }>().analysis.summary.configurations, 1);
+
+    const mods = await app.inject({
+      method: 'GET', url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods`, headers: { cookie },
+    });
+    const mod = mods.json<{ mods: { modId: string; configurationCount: number; integrationCount: number }[] }>().mods[0];
+    assert.equal(mod?.modId, 'alpha');
+    assert.equal(mod?.configurationCount, 1);
+    assert.equal(mod?.integrationCount, 1);
+
+    const detail = await app.inject({
+      method: 'GET', url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha`, headers: { cookie },
+    });
+    const detailBody = detail.json<{
+      configurations: { defaultValue: unknown; source: { file: string; path: string } }[];
+      datapackResourceSummary: { resourceType: string; count: number }[];
+      evidence: { sourcePath: string }[];
+    }>();
+    assert.equal(detailBody.configurations[0]?.defaultValue, null);
+    assert.deepEqual(detailBody.configurations[0]?.source, {
+      file: 'config/alpha.toml', path: 'combat.damage', line: 4, format: 'toml', parser: 'forge-toml',
+    });
+    assert.deepEqual(detailBody.datapackResourceSummary[0], {
+      namespace: 'alpha', resourceType: 'recipes', effect: 'overrides', count: 1,
+    });
+    assert.equal(detail.body.includes(root), false);
+
+    const resourcesResponse = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/datapack-resources?limit=1`,
+      headers: { cookie },
+    });
+    assert.equal(resourcesResponse.json<{ total: number }>().total, 1);
+
+    const datapacks = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/datapacks`,
+      headers: { cookie },
+    });
+    assert.deepEqual(
+      datapacks.json<{ datapacks: { resourceCount: number; overrideCount: number }[] }>().datapacks[0],
+      {
+        datapackId: 'datapack-alpha', name: 'alpha-pack', loader: 'openloader',
+        rootPath: 'config/openloader/data/alpha-pack', sha256: '20'.padEnd(64, '0'), description: null,
+        resourceIds: ['resource-alpha'], namespaces: ['alpha'], ownerModId: 'alpha',
+        relatedModIds: ['alpha'], issueIds: [], evidenceIds: ['evidence-resource'],
+        resourceCount: 1, overrideCount: 1, extensionCount: 0, unknownCount: 0,
+        resourceTypes: [['recipes', 1]],
+      },
+    );
+
+    const replay = await app.inject({
+      method: 'POST',
+      url: `/api/v1/workspaces/${workspaceId}/analysis`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+    });
+    assert.equal(replay.statusCode, 200);
+    assert.equal(replay.json<{ cacheStatus: string }>().cacheStatus, 'cached');
+    assert.equal(analyzer.seen.analyses, 1);
   });
 
   it('reports a root that became unreadable without echoing it', async () => {

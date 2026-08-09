@@ -332,6 +332,7 @@ describe('edit-level classification', () => {
     const byId = new Map(inventory.mods.map((mod) => [mod.modId, mod]));
     assert.equal(byId.get('alpha')?.editLevel, 'FULLY_MANAGED');
     assert.equal(byId.get('alpha')?.version, '1.0.0');
+    assert.deepEqual(byId.get('alpha')?.dependencies, []);
     // Every unavailable level carries its cause, the same way readiness does.
     assert.equal(byId.get('delta')?.editLevel, 'RUNTIME_ONLY');
     assert.ok((byId.get('delta')?.editLevelReason.length ?? 0) > 0);

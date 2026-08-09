@@ -22,6 +22,7 @@ import {
   type LocalProcessLock,
 } from './local-process-lock.js';
 import { createWorkspaceConfigurationService } from './workspace-configuration.js';
+import { createWorkspaceEcosystemService } from './workspace-ecosystem.js';
 import {
   buildLocalProcessRuntime,
   provisionLocalAgentIdentity,
@@ -253,6 +254,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     agentTransportVerifier: (request) =>
       request.ip === '127.0.0.1' || request.ip === '::1' || request.ip === '::ffff:127.0.0.1',
     workspaceScanner: createWorkspaceScanner(),
+    workspaceEcosystem: createWorkspaceEcosystemService(),
     workspaceRootPolicy: defaultWorkspaceRootPolicy,
     // Staging lives beside the database, one directory per workspace, and is
     // provisioned rather than configured. Nothing is ever written into the

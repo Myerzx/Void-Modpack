@@ -2,6 +2,7 @@ import { PostgresDatabase, runMigrations } from '@voidfall/database';
 import { buildControlApi } from './app.js';
 import { readControlApiConfig } from './config.js';
 import { createWorkspaceScanner, defaultWorkspaceRootPolicy } from './workspace-scanner.js';
+import { createWorkspaceEcosystemService } from './workspace-ecosystem.js';
 
 const config = readControlApiConfig();
 const database = new PostgresDatabase(config.databaseUrl);
@@ -16,6 +17,7 @@ try {
     // never opens a file for writing — so wiring it in the running API is safe
     // in a way that nothing touching a runtime would be.
     workspaceScanner: createWorkspaceScanner(),
+    workspaceEcosystem: createWorkspaceEcosystemService(),
     workspaceRootPolicy: defaultWorkspaceRootPolicy,
   });
 

@@ -117,6 +117,14 @@ export interface InventoriedMod {
   /** Exactly as declared. Unresolved substitutions stay unresolved. */
   readonly version: string | null;
   readonly loader: string;
+  /** Dependencies exactly as the artifact descriptor declared them. */
+  readonly dependencies: readonly {
+    readonly target: string;
+    readonly mandatory: boolean;
+    readonly versionRange: string | null;
+    readonly side: 'CLIENT' | 'SERVER' | 'BOTH';
+    readonly evidence: string;
+  }[];
   /** Where the archive is, relative to the root. */
   readonly archivePath: string;
   readonly archiveSha256: string;

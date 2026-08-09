@@ -3,6 +3,8 @@ import { createReadStream } from 'node:fs';
 import { Type, type Static } from '@sinclair/typebox';
 import type { ActorRef } from '@voidfall/contracts';
 import { ReleaseError, WorkspaceError, type Repositories } from '@voidfall/database';
+import type { EcosystemAnalysis } from '@voidfall/ecosystem-analysis';
+import type { WorkspaceInventory } from '@voidfall/workspace-inventory';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 
 /**
@@ -39,6 +41,16 @@ export interface WorkspaceScanner {
       readonly mods: number;
     };
   }>;
+}
+
+/** Adds semantic entities and evidence to an inventory without rescanning it. */
+export interface WorkspaceEcosystemService {
+  readonly analyzerVersion: string;
+  analyze(input: {
+    readonly root: string;
+    readonly inventory: WorkspaceInventory;
+    readonly generatedAt: Date;
+  }): Promise<EcosystemAnalysis>;
 }
 
 /**
@@ -204,6 +216,8 @@ export interface WorkspaceRouteDependencies {
    * artifact upload route already uses.
    */
   readonly scanner?: WorkspaceScanner;
+  /** Optional and deny-by-default semantic analyzer for persisted inventories. */
+  readonly ecosystem?: WorkspaceEcosystemService;
   /**
    * Decides whether a root may be registered, and returns the form to store.
    *
@@ -312,6 +326,19 @@ function asDocument(value: unknown): InventoryDocument {
   return value as InventoryDocument;
 }
 
+const DEPENDENCY_RELATIONSHIPS = new Set(['REQUIRES', 'OPTIONAL_DEPENDENCY']);
+const STRUCTURAL_RELATIONSHIPS = new Set(['OWNS', 'DEFINED_IN', 'USES', 'PROVEN_BY']);
+
+function boundedOffset(value: string | undefined): number {
+  if (value === undefined || !/^\d+$/u.test(value)) return 0;
+  return Math.min(Number(value), 1_000_000);
+}
+
+function boundedLimit(value: string | undefined): number {
+  if (value === undefined || !/^\d+$/u.test(value)) return 100;
+  return Math.min(Math.max(Number(value), 1), 500);
+}
+
 export function registerWorkspaceRoutes(
   app: FastifyInstance,
   dependencies: WorkspaceRouteDependencies,
@@ -330,6 +357,56 @@ export function registerWorkspaceRoutes(
       throw apiError(404, 'WORKSPACE_NOT_FOUND', 'Workspace não encontrado.');
     }
     return workspace;
+  };
+
+  /**
+   * Finds the immutable analysis for the current inventory and only runs the
+   * analyzer when the caller explicitly asked for generation. Page reads use
+   * `generate: false`, so opening a screen never starts a deep filesystem job.
+   */
+  const currentAnalysis = async (workspaceId: string, generate: boolean) => {
+    const workspace = await workspaceOf(workspaceId);
+    const inventory = await repositories.workspaces.latestInventory(workspaceId);
+    if (inventory === undefined) return { status: 'never-scanned' as const };
+
+    const analyzerVersion = dependencies.ecosystem?.analyzerVersion;
+    if (analyzerVersion !== undefined) {
+      const cached = await repositories.ecosystemAnalysis.findForInventory({
+        workspaceId,
+        inventorySha256: inventory.inventorySha256,
+        analyzerVersion,
+      });
+      if (cached !== undefined) {
+        return { status: 'cached' as const, workspace, inventory, stored: cached };
+      }
+    }
+
+    if (!generate) {
+      const previous = await repositories.ecosystemAnalysis.latest(workspaceId);
+      return { status: previous === undefined ? ('not-analyzed' as const) : ('stale' as const), previous };
+    }
+    if (dependencies.ecosystem === undefined) {
+      throw apiError(
+        503,
+        'ECOSYSTEM_ANALYZER_UNAVAILABLE',
+        'A analise do ecossistema nao esta configurada nesta instancia.',
+      );
+    }
+
+    const document = await dependencies.ecosystem.analyze({
+      root: workspace.rootPath,
+      inventory: inventory.document as WorkspaceInventory,
+      generatedAt: dependencies.clock(),
+    });
+    if (document.inventorySha256 !== inventory.inventorySha256) {
+      throw apiError(409, 'ANALYSIS_INVENTORY_MISMATCH', 'O inventario mudou durante a analise.');
+    }
+    const stored = await repositories.ecosystemAnalysis.save({
+      workspaceId,
+      inventoryId: inventory.inventoryId,
+      document,
+    });
+    return { status: 'generated' as const, workspace, inventory, stored };
   };
 
   app.get(
@@ -465,6 +542,27 @@ export function registerWorkspaceRoutes(
         scannedAt: dependencies.clock(),
       });
 
+      let analysis: { readonly status: string; readonly analysisId?: string } = {
+        status: dependencies.ecosystem === undefined ? 'unavailable' : 'failed',
+      };
+      if (dependencies.ecosystem !== undefined) {
+        try {
+          const result = await currentAnalysis(workspace.workspaceId, true);
+          if (result.status === 'cached' || result.status === 'generated') {
+            analysis = { status: result.status, analysisId: result.stored.analysisId };
+          }
+        } catch (error) {
+          await dependencies.audit({
+            request,
+            actor: actorOf(request),
+            action: 'workspace.ecosystem.analyze',
+            workspaceId: workspace.workspaceId,
+            outcome: 'failed',
+            reason: error instanceof Error ? error.name : 'unknown',
+          });
+        }
+      }
+
       await dependencies.audit({
         request,
         actor: actorOf(request),
@@ -480,7 +578,248 @@ export function registerWorkspaceRoutes(
         totalFiles: stored.totalFiles,
         totalMods: stored.totalMods,
         totalBytes: stored.totalBytes,
+        analysis,
       });
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/analysis',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status === 'never-scanned') {
+        return { dataQuality: 'never-scanned', analysis: null };
+      }
+      if (result.status === 'not-analyzed' || result.status === 'stale') {
+        return {
+          dataQuality: result.status,
+          analysis: result.previous === undefined
+            ? null
+            : {
+                analysisId: result.previous.analysisId,
+                generatedAt: result.previous.generatedAt,
+                summary: result.previous.document.summary,
+              },
+        };
+      }
+      if (result.status === 'cached' || result.status === 'generated') {
+        return {
+          dataQuality: 'stored',
+          cacheStatus: result.status,
+          analysis: {
+            analysisId: result.stored.analysisId,
+            analyzerVersion: result.stored.analyzerVersion,
+            inventorySha256: result.stored.inventorySha256,
+            generatedAt: result.stored.generatedAt,
+            summary: result.stored.document.summary,
+          },
+        };
+      }
+      throw apiError(500, 'ANALYSIS_STATE_INVALID', 'Estado de analise invalido.');
+    },
+  );
+
+  app.post<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/analysis',
+    { preHandler: [authenticate, requirePermission('workspace.manage'), requireCsrf] },
+    async (request, reply) => {
+      const result = await currentAnalysis(request.params.workspaceId, true);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        throw apiError(409, 'INVENTORY_REQUIRED', 'Inventarie o workspace antes de analisar.');
+      }
+      await dependencies.audit({
+        request,
+        actor: actorOf(request),
+        action: 'workspace.ecosystem.analyze',
+        workspaceId: request.params.workspaceId,
+        outcome: 'succeeded',
+      });
+      return reply.code(result.status === 'generated' ? 201 : 200).send({
+        dataQuality: 'stored',
+        cacheStatus: result.status,
+        analysisId: result.stored.analysisId,
+        analyzerVersion: result.stored.analyzerVersion,
+        inventorySha256: result.stored.inventorySha256,
+        generatedAt: result.stored.generatedAt,
+        summary: result.stored.document.summary,
+      });
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/ecosystem/mods',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        return { dataQuality: result.status, mods: [] };
+      }
+      const analysis = result.stored.document;
+      const relationships = new Map(
+        analysis.relationships.map((relationship) => [relationship.relationshipId, relationship]),
+      );
+      return {
+        dataQuality: 'stored',
+        analysisId: analysis.analysisId,
+        generatedAt: analysis.generatedAt,
+        mods: analysis.mods.map((mod) => {
+          const related = mod.relationshipIds
+            .map((id) => relationships.get(id))
+            .filter((entry) => entry !== undefined);
+          const issueIds = new Set(mod.issueIds);
+          return {
+            modId: mod.modId,
+            displayName: mod.displayName,
+            version: mod.version,
+            loader: mod.loader,
+            side: mod.side,
+            editLevel: mod.editLevel,
+            analysisStatus: mod.analysisStatus,
+            configurationCount: mod.configurationIds.length,
+            systemCount: mod.systemIds.length,
+            datapackCount: mod.datapackIds.length,
+            dependencyCount: related.filter((entry) => DEPENDENCY_RELATIONSHIPS.has(entry.type)).length,
+            integrationCount: related.filter(
+              (entry) => !DEPENDENCY_RELATIONSHIPS.has(entry.type) && !STRUCTURAL_RELATIONSHIPS.has(entry.type),
+            ).length,
+            problemCount: analysis.issues.filter(
+              (issue) => issueIds.has(issue.issueId) && issue.severity !== 'information',
+            ).length,
+          };
+        }),
+      };
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string } }>(
+    '/api/v1/workspaces/:workspaceId/ecosystem/datapacks',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        return { dataQuality: result.status, datapacks: [] };
+      }
+      const analysis = result.stored.document;
+      return {
+        dataQuality: 'stored',
+        analysisId: analysis.analysisId,
+        generatedAt: analysis.generatedAt,
+        datapacks: analysis.datapacks.map((datapack) => {
+          const resources = analysis.datapackResources.filter(
+            (resource) => resource.datapackId === datapack.datapackId,
+          );
+          const types = new Map<string, number>();
+          for (const resource of resources) {
+            types.set(resource.resourceType, (types.get(resource.resourceType) ?? 0) + 1);
+          }
+          return {
+            ...datapack,
+            resourceCount: resources.length,
+            overrideCount: resources.filter((resource) => resource.effect === 'overrides').length,
+            extensionCount: resources.filter((resource) => resource.effect === 'extends').length,
+            unknownCount: resources.filter((resource) => resource.effect === 'unknown').length,
+            resourceTypes: [...types]
+              .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0], 'en-US')),
+          };
+        }),
+      };
+    },
+  );
+
+  app.get<{ Params: { workspaceId: string; modId: string } }>(
+    '/api/v1/workspaces/:workspaceId/ecosystem/mods/:modId',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        throw apiError(409, 'ANALYSIS_REQUIRED', 'Analise o workspace antes de abrir o mod.');
+      }
+      const analysis = result.stored.document;
+      const mod = analysis.mods.find((entry) => entry.modId === request.params.modId);
+      if (mod === undefined) throw apiError(404, 'MOD_NOT_FOUND', 'Mod nao encontrado na analise.');
+
+      const systems = analysis.systems.filter((system) => system.modId === mod.modId);
+      const systemIds = new Set(systems.map((system) => system.systemId));
+      const datapacks = analysis.datapacks.filter(
+        (datapack) => datapack.ownerModId === mod.modId || datapack.relatedModIds.includes(mod.modId),
+      );
+      const datapackIds = new Set(datapacks.map((datapack) => datapack.datapackId));
+      const resourceGroups = new Map<string, { namespace: string; resourceType: string; effect: string; count: number }>();
+      for (const resource of analysis.datapackResources) {
+        if (!datapackIds.has(resource.datapackId) || (resource.ownerModId !== mod.modId && !systemIds.has(resource.systemId ?? ''))) continue;
+        const key = `${resource.namespace}\u0000${resource.resourceType}\u0000${resource.effect}`;
+        const group = resourceGroups.get(key);
+        if (group === undefined) {
+          resourceGroups.set(key, {
+            namespace: resource.namespace,
+            resourceType: resource.resourceType,
+            effect: resource.effect,
+            count: 1,
+          });
+        } else group.count += 1;
+      }
+      const relationIds = new Set([...mod.relationshipIds, ...systems.flatMap((system) => system.relationshipIds)]);
+      // Direct arrays already carry systems, fields and datapack resources.
+      // Returning every OWNS/USES edge would turn one mod page into thousands
+      // of duplicate rows; the full normalized graph remains persisted.
+      const relationships = analysis.relationships.filter(
+        (relationship) =>
+          relationIds.has(relationship.relationshipId) &&
+          !STRUCTURAL_RELATIONSHIPS.has(relationship.type),
+      );
+      const evidenceIds = new Set([
+        ...mod.evidenceIds,
+        ...analysis.configurations.filter((configuration) => configuration.modId === mod.modId).flatMap((configuration) => configuration.evidenceIds),
+        ...relationships.flatMap((relationship) => relationship.evidenceIds),
+        ...datapacks.flatMap((datapack) => datapack.evidenceIds),
+      ]);
+      return {
+        dataQuality: 'stored',
+        analysisId: analysis.analysisId,
+        mod,
+        configurations: analysis.configurations.filter((configuration) => configuration.modId === mod.modId),
+        systems,
+        datapacks,
+        datapackResourceSummary: [...resourceGroups.values()].sort(
+          (left, right) => right.count - left.count || left.resourceType.localeCompare(right.resourceType, 'en-US'),
+        ),
+        relationships,
+        evidence: analysis.evidence.filter((entry) => evidenceIds.has(entry.evidenceId)),
+        issues: analysis.issues.filter((issue) => mod.issueIds.includes(issue.issueId)),
+      };
+    },
+  );
+
+  app.get<{
+    Params: { workspaceId: string; modId: string };
+    Querystring: { offset?: string; limit?: string };
+  }>(
+    '/api/v1/workspaces/:workspaceId/ecosystem/mods/:modId/datapack-resources',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        throw apiError(409, 'ANALYSIS_REQUIRED', 'Analise o workspace antes de abrir os recursos.');
+      }
+      const analysis = result.stored.document;
+      const mod = analysis.mods.find((entry) => entry.modId === request.params.modId);
+      if (mod === undefined) throw apiError(404, 'MOD_NOT_FOUND', 'Mod nao encontrado na analise.');
+      const systemIds = new Set(
+        analysis.systems.filter((system) => system.modId === mod.modId).map((system) => system.systemId),
+      );
+      const resources = analysis.datapackResources.filter(
+        (resource) => resource.ownerModId === mod.modId || systemIds.has(resource.systemId ?? ''),
+      );
+      const offset = boundedOffset(request.query.offset);
+      const limit = boundedLimit(request.query.limit);
+      return {
+        dataQuality: 'stored',
+        total: resources.length,
+        offset,
+        limit,
+        resources: resources.slice(offset, offset + limit),
+      };
     },
   );
 

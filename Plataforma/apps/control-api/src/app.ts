@@ -52,6 +52,7 @@ import {
   type ReleaseBuilder,
   type SandboxLauncher,
   type WorkspaceConfigurationService,
+  type WorkspaceEcosystemService,
   type WorkspacePermission,
   type WorkspaceScanner,
 } from './workspace-routes.js';
@@ -150,6 +151,8 @@ export interface BuildControlApiOptions {
    * directory nobody wired a scanner for.
    */
   readonly workspaceScanner?: WorkspaceScanner;
+  /** Normalizes and persists semantic ecosystem analysis for an inventory. */
+  readonly workspaceEcosystem?: WorkspaceEcosystemService;
   /** Which roots may be registered. Operator policy, never a route's guess. */
   readonly workspaceRootPolicy?: (
     rootPath: string,
@@ -1101,6 +1104,9 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.workspaceScanner === undefined
       ? {}
       : { scanner: options.workspaceScanner }),
+    ...(options.workspaceEcosystem === undefined
+      ? {}
+      : { ecosystem: options.workspaceEcosystem }),
     ...(options.workspaceRootPolicy === undefined
       ? {}
       : { rootPolicy: options.workspaceRootPolicy }),

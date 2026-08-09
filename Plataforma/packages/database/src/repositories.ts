@@ -24,6 +24,7 @@ import { ScheduleRepository } from './schedule-repositories.js';
 import { TelemetryRepository } from './telemetry-repositories.js';
 import { WorkspaceReleaseRepository } from './workspace-release-repositories.js';
 import { WorkspaceRepository } from './workspace-repositories.js';
+import { EcosystemAnalysisRepository } from './ecosystem-analysis-repositories.js';
 import {
   SandboxRunRepository,
   WorkspaceStagingRepository,
@@ -1149,6 +1150,7 @@ export interface Repositories {
   readonly workspaceStaging: WorkspaceStagingRepository;
   readonly sandboxRuns: SandboxRunRepository;
   readonly releases: WorkspaceReleaseRepository;
+  readonly ecosystemAnalysis: EcosystemAnalysisRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -1179,5 +1181,6 @@ export function createRepositories(database: Database): Repositories {
     workspaceStaging: new WorkspaceStagingRepository(database),
     sandboxRuns: new SandboxRunRepository(database),
     releases: new WorkspaceReleaseRepository(database),
+    ecosystemAnalysis: new EcosystemAnalysisRepository(database),
   };
 }

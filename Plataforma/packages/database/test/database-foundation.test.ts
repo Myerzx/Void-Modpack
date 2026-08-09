@@ -65,6 +65,7 @@ describe('PostgreSQL foundation', () => {
         '0023_instance_runtime_ownership.sql',
         '0024_process_state_invalidation.sql',
         '0025_minecraft_process_ownership.sql',
+        '0026_ecosystem_analysis.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
