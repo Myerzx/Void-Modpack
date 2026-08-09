@@ -428,6 +428,7 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .config-workbench { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 16px; align-items: start; }
 .system-index { position: sticky; top: 18px; gap: 9px; padding: 15px; }
 .system-index > strong { font-size: 13px; }
+.system-index > small { color: var(--subtle); font-size: 10px; }
 .system-index nav { display: grid; margin-inline: -6px; }
 .system-index a { display: flex; justify-content: space-between; gap: 8px; border-radius: 7px; padding: 7px 8px; color: var(--muted); font-size: 12px; }
 .system-index a:hover { color: var(--text); background: var(--surface-soft); }
@@ -451,6 +452,9 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .config-meta { grid-column: 1 / -1; display: flex; gap: 7px; align-items: center; flex-wrap: wrap; color: var(--subtle); font-size: 10px; }
 .config-meta span { border-right: 1px solid var(--line); padding-right: 7px; }
 .config-meta button, .text-button { border: 0; background: transparent; color: #bba6ef; padding: 0; cursor: pointer; font-size: 10px; }
+.relationship-evidence { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 9px; }
+.relationship-evidence summary { width: fit-content; color: #bba6ef; cursor: pointer; font-size: 11px; }
+.relationship-evidence[open] summary { margin-bottom: 8px; }
 .toggle-control { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
 .toggle-control input { position: absolute; opacity: 0; pointer-events: none; }
 .toggle-control span { width: 34px; height: 19px; position: relative; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface-soft); }
