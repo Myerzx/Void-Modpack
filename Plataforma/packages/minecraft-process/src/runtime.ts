@@ -14,10 +14,43 @@ export interface ProcessOutputSnapshot {
   readonly stderrTruncated: boolean;
 }
 
+export type ProcessOutputStream = 'stdout' | 'stderr';
+
+/**
+ * One complete line observed directly from the child pipes.
+ *
+ * The sequence belongs to one spawned process and is never reused during that
+ * process lifetime. It is deliberately separate from the durable console
+ * sequence assigned by PostgreSQL: the former prevents duplicate capture on
+ * the host, while the latter is the public cursor across agent restarts.
+ */
+export interface ProcessOutputLine {
+  readonly sequence: number;
+  readonly stream: ProcessOutputStream;
+  readonly text: string;
+  readonly occurredAt: string;
+  readonly truncated: boolean;
+}
+
+export interface ProcessOutputLinePage {
+  readonly lines: readonly ProcessOutputLine[];
+  /** Inclusive cursor for the next read. */
+  readonly nextCursor: number;
+  /** Null until this process has emitted a complete line. */
+  readonly oldestRetainedSequence: number | null;
+}
+
 export interface SpawnedProcess {
   readonly pid: number;
   getExit(): ProcessExit | undefined;
   readOutput(): ProcessOutputSnapshot;
+  /**
+   * Reads complete output lines forward from a per-process sequence.
+   *
+   * Optional for scripted adapters. The Node runtime implements it and is the
+   * only runtime allowed to advertise continuous console capture.
+   */
+  readOutputLines?(fromSequence?: number): ProcessOutputLinePage;
   requestConsoleCommand(command: MinecraftConsoleCommand): Promise<void>;
   requestGracefulStop(): Promise<void>;
   /**

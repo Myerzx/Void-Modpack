@@ -187,6 +187,14 @@ async function captureConsole(
 ): Promise<void> {
   try {
     if (options.consoleAdapter === undefined) return;
+    if (
+      options.consoleAdapter.readConsoleDelta !== undefined &&
+      options.consoleAdapter.acknowledgeConsoleDelta !== undefined
+    ) {
+      // The runtime pump owns incremental adapters. Re-reading their bounded
+      // snapshot after every operation would append the same boot lines again.
+      return;
+    }
     const snapshot = options.consoleAdapter.readConsole();
     const lines = [
       ...snapshot.stdout.lines.map((line) => ({

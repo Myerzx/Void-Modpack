@@ -56,6 +56,8 @@ const DEFAULT_STALE_PROCESS_SECONDS = 120;
 const DEFAULT_RECONCILE_INTERVAL_MS = 60_000;
 const DEFAULT_METRICS_INTERVAL_MS = 60_000;
 const DEFAULT_METRICS_BUCKET_SECONDS = 60;
+const DEFAULT_CONSOLE_CAPTURE_INTERVAL_MS = 500;
+const DEFAULT_CONSOLE_RETAIN_LINES = 5_000;
 /** Retention runs far less often than it changes anything. */
 const DEFAULT_RETENTION_INTERVAL_MS = 3_600_000;
 const METRICS_RETENTION_DAYS = 30;
@@ -128,6 +130,17 @@ export type AgentRuntimeEvent =
     }
   | { readonly kind: 'metrics-recorded'; readonly count: number }
   | { readonly kind: 'metrics-failed' }
+  | {
+      readonly kind: 'process-observed';
+      readonly lifecycle: 'unknown' | 'offline' | 'starting' | 'online' | 'stopping' | 'error';
+    }
+  | { readonly kind: 'process-observation-failed' }
+  | {
+      readonly kind: 'console-captured';
+      readonly count: number;
+      readonly sourceTruncated: boolean;
+    }
+  | { readonly kind: 'console-capture-failed' }
   | { readonly kind: 'alerts-reconciled'; readonly opened: number; readonly resolved: number }
   | { readonly kind: 'retention-pruned'; readonly buckets: number; readonly backups: number }
   | { readonly kind: 'supervisor'; readonly event: SupervisorEvent }
@@ -149,6 +162,7 @@ export class AgentRuntime {
   readonly #scheduler: SchedulerLoop | null;
   readonly #supervisor: AgentSupervisor | null;
   #timers: NodeJS.Timeout[] = [];
+  #consoleCaptureInFlight: Promise<number> | undefined;
 
   public constructor(dependencies: AgentRuntimeDependencies) {
     this.#dependencies = dependencies;
@@ -449,6 +463,43 @@ export class AgentRuntime {
   }
 
   /**
+   * Refreshes the durable process snapshot from the adapter that owns it.
+   *
+   * Operation completion records an immediate result, but that result is not
+   * a heartbeat. Without this periodic observation an otherwise healthy JVM
+   * becomes `unknown` as soon as the stale-state window elapses. A failed
+   * inspection is deliberately not written: reconciliation can then expire
+   * the previous observation instead of replacing uncertainty with a guess.
+   */
+  public async observeProcessState(): Promise<boolean> {
+    const adapter = this.#dependencies.processAdapter;
+    if (adapter === undefined) return false;
+    try {
+      const observation = await adapter.inspect();
+      const now = new Date(observation.observedAt);
+      if (Number.isNaN(now.getTime())) throw new Error('invalid process observation timestamp');
+      await this.#dependencies.repositories.processStates.observe({
+        serverInstanceId: this.#dependencies.configuration.serverInstanceId,
+        eventId: randomUUID(),
+        lifecycle: observation.state,
+        observedBy: this.#dependencies.configuration.agentId,
+        correlationId: this.#dependencies.bootId,
+        now,
+        ...(observation.pid === undefined ? {} : { observedPid: observation.pid }),
+        ...(observation.pid === undefined ? {} : { bootId: this.#dependencies.bootId }),
+      });
+      this.#dependencies.onEvent?.({
+        kind: 'process-observed',
+        lifecycle: observation.state,
+      });
+      return true;
+    } catch {
+      this.#dependencies.onEvent?.({ kind: 'process-observation-failed' });
+      return false;
+    }
+  }
+
+  /**
    * Takes one sample, stores it, and decides what it means.
    *
    * One sample for both, deliberately. Evaluating alerts against a second,
@@ -480,6 +531,73 @@ export class AgentRuntime {
       return stored;
     } catch {
       this.#dependencies.onEvent?.({ kind: 'metrics-failed' });
+      return 0;
+    }
+  }
+
+  /**
+   * Persists a retryable prefix of complete process output lines.
+   *
+   * The adapter keeps the prefix until this method acknowledges it after the
+   * database commit. Calls are serialized because a timer tick may overlap a
+   * slow PGlite/PostgreSQL write; overlapping reads would persist one prefix
+   * twice before either caller could acknowledge it.
+   */
+  public captureConsoleOutput(): Promise<number> {
+    if (this.#consoleCaptureInFlight !== undefined) return this.#consoleCaptureInFlight;
+    const capture = this.#captureConsoleOutputOnce().finally(() => {
+      if (this.#consoleCaptureInFlight === capture) this.#consoleCaptureInFlight = undefined;
+    });
+    this.#consoleCaptureInFlight = capture;
+    return capture;
+  }
+
+  async #captureConsoleOutputOnce(): Promise<number> {
+    const adapter = this.#dependencies.consoleAdapter;
+    if (
+      adapter?.readConsoleDelta === undefined ||
+      adapter.acknowledgeConsoleDelta === undefined
+    ) {
+      return 0;
+    }
+    try {
+      const delta = adapter.readConsoleDelta();
+      if (delta.lines.length > 0 || delta.sourceTruncated) {
+        const now = (this.#dependencies.clock ?? (() => new Date()))();
+        await this.#dependencies.repositories.console.append({
+          serverInstanceId: this.#dependencies.configuration.serverInstanceId,
+          lines: [
+            ...(delta.sourceTruncated
+              ? [{
+                  stream: 'stderr' as const,
+                  text: '[VoidFall] Output gap: process-side retention discarded earlier lines.',
+                  occurredAt: now,
+                  truncated: true,
+                }]
+              : []),
+            ...delta.lines.map((line) => ({
+              stream: line.stream,
+              text: line.text,
+              occurredAt: new Date(line.occurredAt),
+              truncated: line.truncated,
+            })),
+          ],
+          bootId: this.#dependencies.bootId,
+          retainLines: DEFAULT_CONSOLE_RETAIN_LINES,
+          now,
+        });
+        adapter.acknowledgeConsoleDelta(delta.acknowledgementCount);
+      }
+      if (delta.lines.length > 0 || delta.sourceTruncated) {
+        this.#dependencies.onEvent?.({
+          kind: 'console-captured',
+          count: delta.lines.length,
+          sourceTruncated: delta.sourceTruncated,
+        });
+      }
+      return delta.lines.length;
+    } catch {
+      this.#dependencies.onEvent?.({ kind: 'console-capture-failed' });
       return 0;
     }
   }
@@ -630,8 +748,10 @@ export class AgentRuntime {
    */
   public async start(signal: AbortSignal): Promise<void> {
     await this.reconcileOrphanProcessStates();
+    await this.observeProcessState();
     await this.publishReadiness();
     await this.collectAndStoreMetrics();
+    await this.captureConsoleOutput();
     this.#dependencies.onEvent?.({ kind: 'ready', announced: this.#readiness.announced });
 
     if (this.#supervisor === null) {
@@ -649,7 +769,9 @@ export class AgentRuntime {
     }
 
     const reconcileTimer = setInterval(() => {
-      void this.reconcileOrphanProcessStates().catch(() => undefined);
+      void this.observeProcessState()
+        .then(() => this.reconcileOrphanProcessStates())
+        .catch(() => undefined);
     }, DEFAULT_RECONCILE_INTERVAL_MS);
     const metricsTimer = setInterval(() => {
       // Republished on the same tick: it also moves `last_seen_at`, and an
@@ -661,12 +783,16 @@ export class AgentRuntime {
     const retentionTimer = setInterval(() => {
       void this.pruneRetention().catch(() => undefined);
     }, DEFAULT_RETENTION_INTERVAL_MS);
+    const consoleTimer = setInterval(() => {
+      void this.captureConsoleOutput();
+    }, DEFAULT_CONSOLE_CAPTURE_INTERVAL_MS);
     // Timers must not hold the process open on their own; shutdown is decided
     // by the signal, not by whether a periodic task happens to be pending.
     reconcileTimer.unref();
     metricsTimer.unref();
     retentionTimer.unref();
-    this.#timers = [reconcileTimer, metricsTimer, retentionTimer];
+    consoleTimer.unref();
+    this.#timers = [reconcileTimer, metricsTimer, retentionTimer, consoleTimer];
 
     // Both loops take the same signal, so one shutdown stops the whole agent
     // rather than leaving a work loop claiming jobs a stopped scheduler can no
@@ -694,6 +820,7 @@ export class AgentRuntime {
   public async shutdown(): Promise<void> {
     for (const timer of this.#timers) clearInterval(timer);
     this.#timers = [];
+    await this.captureConsoleOutput();
     await this.#scheduler?.releaseHeldRuns();
     this.#dependencies.onEvent?.({ kind: 'shutdown' });
   }

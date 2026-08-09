@@ -1,6 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { Buffer } from 'node:buffer';
 import { tmpdir } from 'node:os';
+import { StringDecoder } from 'node:string_decoder';
 import {
   minecraftConsoleCommandLiteral,
   type MinecraftConsoleCommand,
@@ -8,12 +9,17 @@ import {
 import { validateProcessLaunchPlan, type ProcessLaunchPlan } from './launch-plan.js';
 import type {
   ProcessExit,
+  ProcessOutputLine,
+  ProcessOutputLinePage,
+  ProcessOutputStream,
   ProcessOutputSnapshot,
   ProcessRuntime,
   SpawnedProcess,
 } from './runtime.js';
 
 const DEFAULT_OUTPUT_BYTES_PER_STREAM = 64 * 1_024;
+const DEFAULT_OUTPUT_LINES = 1_000;
+const MAXIMUM_OUTPUT_CHARACTERS_PER_LINE = 2_048;
 
 class BoundedByteBuffer {
   #buffer = Buffer.alloc(0);
@@ -88,19 +94,38 @@ class NodeSpawnedProcess implements SpawnedProcess {
   readonly #stdout: BoundedByteBuffer;
   readonly #stderr: BoundedByteBuffer;
   readonly #exitPromise: Promise<ProcessExit>;
+  readonly #stdoutDecoder = new StringDecoder('utf8');
+  readonly #stderrDecoder = new StringDecoder('utf8');
+  readonly #outputLines: ProcessOutputLine[] = [];
+  readonly #remainders: Record<ProcessOutputStream, { text: string; truncated: boolean }> = {
+    stdout: { text: '', truncated: false },
+    stderr: { text: '', truncated: false },
+  };
+  #nextOutputSequence = 1;
   #exit: ProcessExit | undefined;
 
   constructor(
     private readonly child: ChildProcessWithoutNullStreams,
     maximumOutputBytesPerStream: number,
+    private readonly maximumOutputLines: number,
     clock: () => Date,
   ) {
     this.#stdout = new BoundedByteBuffer(maximumOutputBytesPerStream);
     this.#stderr = new BoundedByteBuffer(maximumOutputBytesPerStream);
-    child.stdout.on('data', (chunk: Buffer) => this.#stdout.append(chunk));
-    child.stderr.on('data', (chunk: Buffer) => this.#stderr.append(chunk));
+    child.stdout.on('data', (chunk: Buffer) => {
+      this.#stdout.append(chunk);
+      this.#appendConsoleText('stdout', this.#stdoutDecoder.write(chunk), clock);
+    });
+    child.stderr.on('data', (chunk: Buffer) => {
+      this.#stderr.append(chunk);
+      this.#appendConsoleText('stderr', this.#stderrDecoder.write(chunk), clock);
+    });
     this.#exitPromise = new Promise<ProcessExit>((resolve) => {
       child.once('close', (code, signal) => {
+        this.#appendConsoleText('stdout', this.#stdoutDecoder.end(), clock);
+        this.#appendConsoleText('stderr', this.#stderrDecoder.end(), clock);
+        this.#flushRemainder('stdout', clock);
+        this.#flushRemainder('stderr', clock);
         const exit = { code, signal, exitedAt: clock().toISOString() };
         this.#exit = exit;
         resolve(exit);
@@ -127,6 +152,22 @@ class NodeSpawnedProcess implements SpawnedProcess {
       stdoutTruncated: stdout.truncated,
       stderrTruncated: stderr.truncated,
     };
+  }
+
+  readOutputLines(fromSequence = 1): ProcessOutputLinePage {
+    if (!Number.isInteger(fromSequence) || fromSequence < 1) {
+      throw new Error('Process output cursor is invalid.');
+    }
+    const oldestRetainedSequence = this.#outputLines[0]?.sequence ?? null;
+    const effectiveCursor = Math.max(fromSequence, oldestRetainedSequence ?? fromSequence);
+    const lines = Object.freeze(
+      this.#outputLines.filter((line) => line.sequence >= effectiveCursor),
+    );
+    return Object.freeze({
+      lines,
+      nextCursor: Math.max(fromSequence, this.#nextOutputSequence),
+      oldestRetainedSequence,
+    });
   }
 
   requestConsoleCommand(command: MinecraftConsoleCommand): Promise<void> {
@@ -156,6 +197,72 @@ class NodeSpawnedProcess implements SpawnedProcess {
     });
   }
 
+  #appendConsoleText(
+    stream: ProcessOutputStream,
+    decoded: string,
+    clock: () => Date,
+  ): void {
+    if (decoded.length === 0) return;
+    const remainder = this.#remainders[stream];
+    const fragments = decoded.split('\n');
+    const completeCount = fragments.length - 1;
+
+    for (let index = 0; index < completeCount; index += 1) {
+      const fragment = fragments[index] ?? '';
+      const text = index === 0 ? remainder.text + fragment : fragment;
+      const withoutCarriageReturn = text.endsWith('\r') ? text.slice(0, -1) : text;
+      this.#pushConsoleLine(
+        stream,
+        withoutCarriageReturn,
+        index === 0 ? remainder.truncated : false,
+        clock,
+      );
+    }
+
+    const trailing = fragments.at(-1) ?? '';
+    const pending = completeCount === 0 ? remainder.text + trailing : trailing;
+    const characters = [...pending];
+    remainder.text = characters.slice(0, MAXIMUM_OUTPUT_CHARACTERS_PER_LINE).join('');
+    remainder.truncated =
+      (completeCount === 0 && remainder.truncated) ||
+      characters.length > MAXIMUM_OUTPUT_CHARACTERS_PER_LINE;
+  }
+
+  #flushRemainder(stream: ProcessOutputStream, clock: () => Date): void {
+    const remainder = this.#remainders[stream];
+    if (remainder.text.length === 0 && !remainder.truncated) return;
+    this.#pushConsoleLine(stream, remainder.text, remainder.truncated, clock);
+    remainder.text = '';
+    remainder.truncated = false;
+  }
+
+  #pushConsoleLine(
+    stream: ProcessOutputStream,
+    rawText: string,
+    alreadyTruncated: boolean,
+    clock: () => Date,
+  ): void {
+    const characters = [...rawText];
+    const occurredAt = clock();
+    if (!(occurredAt instanceof Date) || Number.isNaN(occurredAt.getTime())) {
+      throw new Error('Process output clock returned an invalid date.');
+    }
+    this.#outputLines.push(
+      Object.freeze({
+        sequence: this.#nextOutputSequence,
+        stream,
+        text: characters.slice(0, MAXIMUM_OUTPUT_CHARACTERS_PER_LINE).join(''),
+        occurredAt: occurredAt.toISOString(),
+        truncated:
+          alreadyTruncated || characters.length > MAXIMUM_OUTPUT_CHARACTERS_PER_LINE,
+      }),
+    );
+    this.#nextOutputSequence += 1;
+    if (this.#outputLines.length > this.maximumOutputLines) {
+      this.#outputLines.splice(0, this.#outputLines.length - this.maximumOutputLines);
+    }
+  }
+
   async waitForExit(timeoutMs: number): Promise<ProcessExit | undefined> {
     if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 300_000) {
       throw new Error('Process exit timeout is invalid.');
@@ -173,11 +280,13 @@ class NodeSpawnedProcess implements SpawnedProcess {
 
 export interface NodeProcessRuntimeOptions {
   readonly maximumOutputBytesPerStream?: number;
+  readonly maximumOutputLines?: number;
   readonly clock?: () => Date;
 }
 
 export class NodeProcessRuntime implements ProcessRuntime {
   readonly #maximumOutputBytesPerStream: number;
+  readonly #maximumOutputLines: number;
   readonly #clock: () => Date;
 
   constructor(options: NodeProcessRuntimeOptions = {}) {
@@ -186,6 +295,11 @@ export class NodeProcessRuntime implements ProcessRuntime {
       throw new Error('maximumOutputBytesPerStream is outside the safe range.');
     }
     this.#maximumOutputBytesPerStream = maximum;
+    const maximumLines = options.maximumOutputLines ?? DEFAULT_OUTPUT_LINES;
+    if (!Number.isInteger(maximumLines) || maximumLines < 100 || maximumLines > 10_000) {
+      throw new Error('maximumOutputLines is outside the safe range.');
+    }
+    this.#maximumOutputLines = maximumLines;
     this.#clock = options.clock ?? (() => new Date());
   }
 
@@ -205,6 +319,7 @@ export class NodeProcessRuntime implements ProcessRuntime {
     const handle = new NodeSpawnedProcess(
       child,
       this.#maximumOutputBytesPerStream,
+      this.#maximumOutputLines,
       this.#clock,
     );
     await new Promise<void>((resolve, reject) => {

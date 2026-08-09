@@ -35,6 +35,28 @@ export interface MinecraftConsoleSnapshot {
   readonly stderr: MinecraftConsoleStreamSnapshot;
 }
 
+export interface MinecraftConsoleDeltaLine {
+  readonly stream: 'stdout' | 'stderr';
+  readonly text: string;
+  readonly occurredAt: string;
+  readonly truncated: boolean;
+}
+
+/**
+ * A retryable batch of lines not yet acknowledged by the persistence loop.
+ *
+ * Reading does not discard the batch. The agent acknowledges exactly
+ * `acknowledgementCount` only after PostgreSQL commits it, so a transient
+ * database failure cannot silently eat live console output.
+ */
+export interface MinecraftConsoleDelta {
+  readonly readAt: string;
+  readonly source: 'process-adapter';
+  readonly lines: readonly MinecraftConsoleDeltaLine[];
+  readonly acknowledgementCount: number;
+  readonly sourceTruncated: boolean;
+}
+
 export interface MinecraftConsoleSnapshotOptions {
   readonly maximumLinesPerStream?: number;
   readonly maximumCharactersPerLine?: number;
@@ -68,7 +90,11 @@ function validateBoundedInteger(
   }
 }
 
-function sanitizeLine(value: string, maximumCharacters: number): MinecraftConsoleLine {
+export function sanitizeMinecraftConsoleLine(
+  value: string,
+  maximumCharacters = DEFAULT_MAXIMUM_CHARACTERS_PER_LINE,
+): MinecraftConsoleLine {
+  validateBoundedInteger(maximumCharacters, 32, 4_096, 'maximumCharactersPerLine');
   const printable = value
     .replace(ANSI_ESCAPE_PATTERN, '')
     .replace(NON_PRINTING_CONTROL_PATTERN, '');
@@ -92,7 +118,7 @@ function streamSnapshot(
   const viewDroppedLines = split.length > maximumLines;
   const selected = viewDroppedLines ? split.slice(-maximumLines) : split;
   const lines = Object.freeze(
-    selected.map((line) => sanitizeLine(line, maximumCharacters)),
+    selected.map((line) => sanitizeMinecraftConsoleLine(line, maximumCharacters)),
   );
   return Object.freeze({
     lines,

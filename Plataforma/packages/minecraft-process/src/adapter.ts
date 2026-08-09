@@ -5,9 +5,12 @@ import {
 } from './launch-plan.js';
 import {
   createMinecraftConsoleSnapshot,
+  sanitizeMinecraftConsoleLine,
   validateMinecraftConsoleCommand,
   type MinecraftConsoleCommand,
   type MinecraftConsoleCommandReceipt,
+  type MinecraftConsoleDelta,
+  type MinecraftConsoleDeltaLine,
   type MinecraftConsoleSnapshot,
   type MinecraftConsoleSnapshotOptions,
 } from './console.js';
@@ -54,6 +57,10 @@ export interface MinecraftProcessAdapter {
 export interface MinecraftConsoleAdapter {
   inspect(): Promise<ProcessObservation>;
   readConsole(): MinecraftConsoleSnapshot;
+  /** Available only when the runtime can expose complete lines incrementally. */
+  readConsoleDelta?(): MinecraftConsoleDelta;
+  /** Removes a successfully persisted prefix returned by `readConsoleDelta`. */
+  acknowledgeConsoleDelta?(count: number): void;
   requestConsoleCommand(command: MinecraftConsoleCommand): Promise<MinecraftConsoleCommandReceipt>;
 }
 
@@ -98,6 +105,7 @@ abstract class ManagedMinecraftProcessAdapter
   readonly #stopTimeoutMs: number;
   readonly #clock: () => Date;
   readonly #consoleSnapshotOptions: MinecraftConsoleSnapshotOptions;
+  readonly #maximumConsoleCharactersPerLine: number;
   readonly #hostMetricsSampler: HostMetricsSampler;
   readonly #ownership: ProcessOwnershipCoordinator | undefined;
   #state: ObservedProcessState = 'offline';
@@ -114,6 +122,9 @@ abstract class ManagedMinecraftProcessAdapter
   #ownershipLease: ProcessOwnershipLease | undefined;
   #launchInFlight = false;
   #pidPublished = false;
+  #consoleCursor = 1;
+  #pendingConsoleLines: MinecraftConsoleDeltaLine[] = [];
+  #consoleSourceTruncated = false;
 
   protected constructor(
     private readonly platform: SupportedHostPlatform,
@@ -128,6 +139,8 @@ abstract class ManagedMinecraftProcessAdapter
     this.#stopTimeoutMs = stopTimeoutMs;
     this.#clock = options.clock ?? (() => new Date());
     this.#hostMetricsSampler = options.hostMetricsSampler ?? new NodeHostMetricsSampler();
+    this.#maximumConsoleCharactersPerLine =
+      options.maximumConsoleCharactersPerLine ?? 1_024;
     this.#consoleSnapshotOptions = Object.freeze({
       ...(options.maximumConsoleLinesPerStream === undefined
         ? {}
@@ -154,6 +167,7 @@ abstract class ManagedMinecraftProcessAdapter
     }
     const exit = this.#handle?.getExit();
     if (exit !== undefined) {
+      if (this.#handle !== undefined) this.#captureConsoleLines(this.#handle);
       this.#lastOutput = this.#handle?.readOutput() ?? this.#lastOutput;
       this.#lastExit = exit;
       this.#state = transitionObservedProcessState(this.#state, 'process-exited');
@@ -193,6 +207,7 @@ abstract class ManagedMinecraftProcessAdapter
           stdoutTruncated: false,
           stderrTruncated: false,
         };
+        this.#consoleCursor = 1;
         try {
           this.#handle = await this.#runtime.spawn(plan);
           const processStartedAt = this.#timestamp();
@@ -228,6 +243,7 @@ abstract class ManagedMinecraftProcessAdapter
         await handle.requestGracefulStop();
         const exit = await handle.waitForExit(this.#stopTimeoutMs);
         if (exit !== undefined && this.#handle === handle) {
+          this.#captureConsoleLines(handle);
           this.#lastOutput = handle.readOutput();
           this.#lastExit = exit;
           this.#state = transitionObservedProcessState(this.#state, 'process-exited');
@@ -250,6 +266,27 @@ abstract class ManagedMinecraftProcessAdapter
 
   readConsole(): MinecraftConsoleSnapshot {
     return createMinecraftConsoleSnapshot(this.readOutput(), this.#consoleSnapshotOptions);
+  }
+
+  readConsoleDelta(): MinecraftConsoleDelta {
+    if (this.#handle !== undefined) this.#captureConsoleLines(this.#handle);
+    const lines = Object.freeze(this.#pendingConsoleLines.slice(0, 500));
+    return Object.freeze({
+      readAt: this.#timestamp(),
+      source: 'process-adapter',
+      lines,
+      acknowledgementCount: lines.length,
+      sourceTruncated: this.#consoleSourceTruncated,
+    });
+  }
+
+  acknowledgeConsoleDelta(count: number): void {
+    if (!Number.isInteger(count) || count < 0 || count > this.#pendingConsoleLines.length) {
+      throw new Error('Minecraft console acknowledgement is invalid.');
+    }
+    if (count > 0) this.#pendingConsoleLines.splice(0, count);
+    // A zero-length acknowledgement can still settle a reported source gap.
+    this.#consoleSourceTruncated = false;
   }
 
   async readMetrics(): Promise<MinecraftMetricsSnapshot> {
@@ -317,6 +354,36 @@ abstract class ManagedMinecraftProcessAdapter
       ...(this.#handle === undefined || !this.#pidPublished ? {} : { pid: this.#handle.pid }),
       ...(this.#lastExit === undefined ? {} : { lastExit: this.#lastExit }),
     };
+  }
+
+  #captureConsoleLines(handle: SpawnedProcess): void {
+    if (handle.readOutputLines === undefined) return;
+    const page = handle.readOutputLines(this.#consoleCursor);
+    if (
+      page.oldestRetainedSequence !== null &&
+      this.#consoleCursor < page.oldestRetainedSequence
+    ) {
+      this.#consoleSourceTruncated = true;
+    }
+    this.#consoleCursor = page.nextCursor;
+    for (const line of page.lines) {
+      const sanitized = sanitizeMinecraftConsoleLine(
+        line.text,
+        this.#maximumConsoleCharactersPerLine,
+      );
+      this.#pendingConsoleLines.push(
+        Object.freeze({
+          stream: line.stream,
+          text: sanitized.text,
+          occurredAt: line.occurredAt,
+          truncated: line.truncated || sanitized.truncated,
+        }),
+      );
+    }
+    if (this.#pendingConsoleLines.length > 5_000) {
+      this.#pendingConsoleLines.splice(0, this.#pendingConsoleLines.length - 5_000);
+      this.#consoleSourceTruncated = true;
+    }
   }
 
   async #releaseOwnership(): Promise<void> {

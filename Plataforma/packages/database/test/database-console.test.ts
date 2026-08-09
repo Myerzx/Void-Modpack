@@ -106,6 +106,52 @@ describe('console persistence', () => {
     }
   });
 
+  it('opens at the newest retained window and continues forward', async () => {
+    const { database, repositories, serverInstanceId } = await consoleFixture();
+    try {
+      await repositories.console.append({
+        serverInstanceId,
+        lines: [line('one'), line('two', 1_000), line('three', 2_000), line('four', 3_000)],
+        retainLines: 100,
+        now: new Date('2026-08-05T12:00:04Z'),
+      });
+
+      const tail = await repositories.console.read({
+        serverInstanceId,
+        tail: true,
+        limit: 2,
+        now: new Date('2026-08-05T12:00:05Z'),
+      });
+      assert.deepEqual(tail.lines.map((entry) => entry.text), ['three', 'four']);
+      assert.equal(tail.nextCursor, 5);
+      assert.equal(tail.hasMore, false);
+
+      await repositories.console.append({
+        serverInstanceId,
+        lines: [line('five', 4_000)],
+        retainLines: 100,
+        now: new Date('2026-08-05T12:00:06Z'),
+      });
+      const next = await repositories.console.read({
+        serverInstanceId,
+        fromSequence: tail.nextCursor ?? 1,
+        now: new Date('2026-08-05T12:00:07Z'),
+      });
+      assert.deepEqual(next.lines.map((entry) => entry.text), ['five']);
+      await assert.rejects(
+        repositories.console.read({
+          serverInstanceId,
+          tail: true,
+          fromSequence: 1,
+          now: new Date('2026-08-05T12:00:08Z'),
+        }),
+        /invalid-cursor/u,
+      );
+    } finally {
+      await database.close();
+    }
+  });
+
   it('redacts a secret, an address and a path on the way in', async () => {
     const { database, repositories, serverInstanceId } = await consoleFixture();
     try {
@@ -206,6 +252,25 @@ describe('console persistence', () => {
       });
       assert.equal(page.lines[0]?.truncated, true);
       assert.ok((page.lines[0]?.text.length ?? 0) <= 2_048);
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('preserves a process-side truncation marker on a bounded line', async () => {
+    const { database, repositories, serverInstanceId } = await consoleFixture();
+    try {
+      await repositories.console.append({
+        serverInstanceId,
+        lines: [{ ...line('already bounded'), truncated: true }],
+        retainLines: 10,
+        now: new Date('2026-08-05T12:00:01Z'),
+      });
+      const page = await repositories.console.read({
+        serverInstanceId,
+        now: new Date('2026-08-05T12:00:02Z'),
+      });
+      assert.equal(page.lines[0]?.truncated, true);
     } finally {
       await database.close();
     }

@@ -102,6 +102,7 @@ const ConsoleQuerySchema = Type.Object(
     // Query values arrive as strings and this API validates without coercion.
     from: Type.Optional(Type.String({ pattern: '^[0-9]{1,15}$' })),
     limit: Type.Optional(Type.String({ pattern: '^[0-9]{1,3}$' })),
+    tail: Type.Optional(Type.Literal('true')),
   },
   { additionalProperties: false },
 );
@@ -446,7 +447,9 @@ export function registerProcessRoutes(
 
       const from = request.query.from === undefined ? undefined : Number(request.query.from);
       const limit = request.query.limit === undefined ? undefined : Number(request.query.limit);
+      const tail = request.query.tail === 'true';
       if (
+        (tail && from !== undefined) ||
         (from !== undefined && (!Number.isSafeInteger(from) || from < 1)) ||
         (limit !== undefined && (!Number.isSafeInteger(limit) || limit < 1 || limit > 500))
       ) {
@@ -456,6 +459,7 @@ export function registerProcessRoutes(
       const page: ConsolePage = await repositories.console.read({
         serverInstanceId: serverId,
         ...(from === undefined ? {} : { fromSequence: from }),
+        ...(tail ? { tail: true } : {}),
         ...(limit === undefined ? {} : { limit }),
         now: clock(),
       });

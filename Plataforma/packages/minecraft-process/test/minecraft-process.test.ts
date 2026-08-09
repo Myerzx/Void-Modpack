@@ -987,6 +987,17 @@ describe('managed platform adapters', () => {
         assert.equal(listed.command, 'list-players');
         assert.equal(saved.command, 'save-all');
         assert.equal(adapter.readConsole().stderr.lines.length, 0);
+        const firstDelta = adapter.readConsoleDelta();
+        assert.ok(
+          firstDelta.lines.some((line) =>
+            /There are 0 of a max of 20 players online/u.test(line.text),
+          ),
+        );
+        assert.ok(firstDelta.lines.some((line) => /Saved the game/u.test(line.text)));
+        // A read is retryable until durable persistence acknowledges it.
+        assert.deepEqual(adapter.readConsoleDelta().lines, firstDelta.lines);
+        adapter.acknowledgeConsoleDelta(firstDelta.acknowledgementCount);
+        assert.deepEqual(adapter.readConsoleDelta().lines, []);
         assert.ok(runtime.handle);
         assert.throws(
           () => runtime.handle?.requestConsoleCommand('stop' as MinecraftConsoleCommand),

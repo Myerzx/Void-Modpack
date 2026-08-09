@@ -72,6 +72,8 @@ export interface AppendConsoleInput {
     readonly stream: ConsoleStream;
     readonly text: string;
     readonly occurredAt: Date;
+    /** True when the process-side line bound already removed content. */
+    readonly truncated?: boolean;
   }[];
   readonly bootId?: string;
   /** Maximum lines kept for this server; older ones are trimmed. */
@@ -122,7 +124,7 @@ export class ConsoleRepository {
             line.stream,
             text,
             line.occurredAt,
-            line.text.length > MAXIMUM_LINE_LENGTH,
+            line.truncated === true || line.text.length > MAXIMUM_LINE_LENGTH,
             redacted,
             input.bootId ?? null,
             input.now,
@@ -166,23 +168,42 @@ export class ConsoleRepository {
     readonly serverInstanceId: string;
     /** Inclusive: the first sequence to return, which is what nextCursor is. */
     readonly fromSequence?: number;
+    /** Starts with the newest retained page, returned in chronological order. */
+    readonly tail?: boolean;
     readonly limit?: number;
     readonly now: Date;
   }): Promise<ConsolePage> {
+    if (input.tail === true && input.fromSequence !== undefined) {
+      throw new ConsolePersistenceError('invalid-cursor');
+    }
     const limit = Math.max(1, Math.min(input.limit ?? DEFAULT_PAGE, MAXIMUM_PAGE));
     const from = Math.max(1, Math.trunc(input.fromSequence ?? 1));
 
-    const rows = await this.database.query<ConsoleRow>(
-      `SELECT sequence, stream, text, occurred_at, truncated, redacted
-       FROM server_console_lines
-       WHERE server_instance_id = $1 AND sequence >= $2
-       ORDER BY sequence
-       LIMIT $3`,
-      [input.serverInstanceId, from, limit + 1],
-    );
+    const rows = input.tail === true
+      ? await this.database.query<ConsoleRow>(
+          `SELECT sequence, stream, text, occurred_at, truncated, redacted
+           FROM server_console_lines
+           WHERE server_instance_id = $1
+           ORDER BY sequence DESC
+           LIMIT $2`,
+          [input.serverInstanceId, limit],
+        )
+      : await this.database.query<ConsoleRow>(
+          `SELECT sequence, stream, text, occurred_at, truncated, redacted
+           FROM server_console_lines
+           WHERE server_instance_id = $1 AND sequence >= $2
+           ORDER BY sequence
+           LIMIT $3`,
+          [input.serverInstanceId, from, limit + 1],
+        );
 
-    const hasMore = rows.rows.length > limit;
-    const lines = rows.rows.slice(0, limit).map(mapLine);
+    // Tail is an initial positioning operation. It returns the newest window
+    // chronologically, then its cursor continues forward like every other read.
+    const hasMore = input.tail === true ? false : rows.rows.length > limit;
+    const selectedRows = input.tail === true
+      ? rows.rows.slice().reverse()
+      : rows.rows.slice(0, limit);
+    const lines = selectedRows.map(mapLine);
 
     const bounds = await this.database.query<{
       readonly oldest: string | number | null;

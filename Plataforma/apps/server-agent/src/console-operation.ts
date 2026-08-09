@@ -119,6 +119,14 @@ async function captureConsole(
   now: Date,
 ): Promise<void> {
   try {
+    if (
+      options.consoleAdapter.readConsoleDelta !== undefined &&
+      options.consoleAdapter.acknowledgeConsoleDelta !== undefined
+    ) {
+      // Continuous capture persists this adapter independently of commands.
+      // Snapshot capture remains only for older/scripted adapters.
+      return;
+    }
     const snapshot = options.consoleAdapter.readConsole();
     const lines = [
       ...snapshot.stdout.lines.map((line) => ({

@@ -521,6 +521,39 @@ describe('console', () => {
     assert.equal(next.json().lines[0].text, 'segunda');
   });
 
+  it('opens the console at its newest window', async () => {
+    const context = await fixture();
+    await context.repositories.console.append({
+      serverInstanceId: context.server.id,
+      lines: ['one', 'two', 'three'].map((text) => ({
+        stream: 'stdout' as const,
+        text,
+        occurredAt: NOW,
+      })),
+      retainLines: 100,
+      now: NOW,
+    });
+
+    const response = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/console?tail=true&limit=2`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(response.json().lines.map((line: { text: string }) => line.text), [
+      'two',
+      'three',
+    ]);
+    assert.equal(response.json().nextCursor, 4);
+
+    const conflicting = await context.app.inject({
+      method: 'GET',
+      url: `${BASE}/${context.server.id}/console?tail=true&from=1`,
+      headers: { cookie: context.cookie },
+    });
+    assert.equal(conflicting.statusCode, 400);
+  });
+
   it('refuses a malformed cursor or an oversized page', async () => {
     const context = await fixture();
     for (const query of ['from=abc', 'limit=9999', 'from=0']) {

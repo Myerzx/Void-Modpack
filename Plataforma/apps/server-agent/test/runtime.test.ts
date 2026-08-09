@@ -12,6 +12,7 @@ import {
   MinecraftProcessController,
   createMinecraftProcessPlan,
   type MinecraftConsoleAdapter,
+  type MinecraftConsoleDelta,
   type MinecraftProcessAdapter,
   type ProcessObservation,
 } from '@voidfall/minecraft-process';
@@ -297,6 +298,42 @@ describe('readiness never announces a capability it cannot serve', () => {
 });
 
 describe('startup, reconciliation and shutdown', () => {
+  it('refreshes a live process snapshot instead of letting operation state expire', async () => {
+    const context = await fixture();
+    const bootId = randomUUID();
+    const adapter: MinecraftProcessAdapter = {
+      async inspect() {
+        return {
+          state: 'online',
+          observedAt: NOW.toISOString(),
+          source: 'process-adapter',
+          pid: 4_242,
+        };
+      },
+      async start() {
+        throw new Error('unused');
+      },
+      async requestGracefulStop() {
+        throw new Error('unused');
+      },
+      readOutput() {
+        throw new Error('unused');
+      },
+    };
+    const { runtime, events } = runtimeFor(context, { bootId, processAdapter: adapter });
+
+    assert.equal(await runtime.observeProcessState(), true);
+
+    const state = await context.repositories.processStates.find(context.server.id);
+    assert.equal(state?.lifecycle, 'online');
+    assert.equal(state?.observedPid, 4_242);
+    assert.equal(state?.bootId, bootId);
+    assert.equal(state?.stale, false);
+    assert.ok(
+      events.some((event) => event.kind === 'process-observed' && event.lifecycle === 'online'),
+    );
+  });
+
   it('reconciles an orphaned process state before serving anything', async () => {
     const context = await fixture();
     // A previous run died claiming the server was online.
@@ -928,6 +965,122 @@ describe('a host that actually launches a server', () => {
 
     const configured = await fixture({ withFiles: true });
     assert.ok(withProcess(configured).runtime.readiness.announced.includes('configuration.apply'));
+  });
+});
+
+describe('continuous console capture', () => {
+  class IncrementalConsoleAdapter implements MinecraftConsoleAdapter {
+    readCalls = 0;
+    acknowledgements: number[] = [];
+    readonly pending = [
+      {
+        stream: 'stdout' as const,
+        text: 'rcon.password=hunter2',
+        occurredAt: NOW.toISOString(),
+        truncated: true,
+      },
+    ];
+
+    async inspect(): Promise<ProcessObservation> {
+      return { state: 'online', observedAt: NOW.toISOString(), source: 'process-adapter' };
+    }
+
+    readConsole(): never {
+      throw new Error('incremental capture must not read a legacy snapshot');
+    }
+
+    readConsoleDelta(): MinecraftConsoleDelta {
+      this.readCalls += 1;
+      return {
+        readAt: NOW.toISOString(),
+        source: 'process-adapter',
+        lines: [...this.pending],
+        acknowledgementCount: this.pending.length,
+        sourceTruncated: false,
+      };
+    }
+
+    acknowledgeConsoleDelta(count: number): void {
+      this.acknowledgements.push(count);
+      this.pending.splice(0, count);
+    }
+
+    async requestConsoleCommand(): Promise<never> {
+      throw new Error('not used');
+    }
+  }
+
+  it('serializes overlapping ticks and acknowledges only the persisted prefix', async () => {
+    const context = await fixture();
+    const adapter = new IncrementalConsoleAdapter();
+    const { runtime, events } = runtimeFor(context, { consoleAdapter: adapter });
+
+    const [first, overlapping] = await Promise.all([
+      runtime.captureConsoleOutput(),
+      runtime.captureConsoleOutput(),
+    ]);
+    assert.equal(first, 1);
+    assert.equal(overlapping, 1);
+    assert.equal(adapter.readCalls, 1);
+    assert.deepEqual(adapter.acknowledgements, [1]);
+
+    const page = await context.repositories.console.read({
+      serverInstanceId: context.server.id,
+      now: NOW,
+    });
+    assert.equal(page.lines.length, 1);
+    assert.equal(page.lines[0]?.redacted, true);
+    assert.equal(page.lines[0]?.truncated, true);
+    assert.equal(page.lines[0]?.text.includes('hunter2'), false);
+    assert.ok(
+      events.some((event) => event.kind === 'console-captured' && event.count === 1),
+    );
+
+    assert.equal(await runtime.captureConsoleOutput(), 0);
+    assert.equal(adapter.readCalls, 2);
+    assert.deepEqual(adapter.acknowledgements, [1]);
+  });
+
+  it('persists a visible marker when process-side retention dropped output', async () => {
+    const context = await fixture();
+    let acknowledged = false;
+    const adapter: MinecraftConsoleAdapter = {
+      async inspect() {
+        return { state: 'online', observedAt: NOW.toISOString(), source: 'process-adapter' };
+      },
+      readConsole(): never {
+        throw new Error('not used');
+      },
+      readConsoleDelta(): MinecraftConsoleDelta {
+        return {
+          readAt: NOW.toISOString(),
+          source: 'process-adapter',
+          lines: [],
+          acknowledgementCount: 0,
+          sourceTruncated: !acknowledged,
+        };
+      },
+      acknowledgeConsoleDelta(count): void {
+        assert.equal(count, 0);
+        acknowledged = true;
+      },
+      async requestConsoleCommand(): Promise<never> {
+        throw new Error('not used');
+      },
+    };
+    const { runtime } = runtimeFor(context, { consoleAdapter: adapter });
+
+    assert.equal(await runtime.captureConsoleOutput(), 0);
+    assert.equal(acknowledged, true);
+    const page = await context.repositories.console.read({
+      serverInstanceId: context.server.id,
+      now: NOW,
+    });
+    assert.equal(page.lines.length, 1);
+    assert.match(page.lines[0]?.text ?? '', /Output gap/u);
+    assert.equal(page.lines[0]?.truncated, true);
+    assert.equal(await runtime.captureConsoleOutput(), 0);
+    assert.equal((await context.repositories.console.retainedCount(context.server.id)), 1);
   });
 });
 
