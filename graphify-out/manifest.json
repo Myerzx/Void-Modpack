@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786265541.5903785,
-    "ast_hash": "148d65b02459e1185ae46f194c15ca46",
+    "mtime": 1786289871.6973064,
+    "ast_hash": "01311a28a5e1c975fce518245b01ee00",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786263622.4295,
-    "ast_hash": "5f984a33b2cc427d4fa641ab9cba7674",
+    "mtime": 1786288990.9988103,
+    "ast_hash": "7e05917e6e261ad16dfa8d9b7adf39e8",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -3350,13 +3350,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/package.json": {
-    "mtime": 1786143557.6792903,
-    "ast_hash": "96024a4939a64832f939d4fda19f3d35",
+    "mtime": 1786287628.863923,
+    "ast_hash": "6b3ebfc48c50f0f86183dee9e0e9dd33",
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/src/index.ts": {
-    "mtime": 1785886652.3906586,
-    "ast_hash": "524741aff992b342cb2f4d6756bda33e",
+    "mtime": 1786287628.8624158,
+    "ast_hash": "8310277789134033c3a2fe633f78d52b",
     "semantic_hash": ""
   },
   "Plataforma/packages/artifact-inspection/src/metadata.ts": {
@@ -4465,8 +4465,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
-    "mtime": 1786263291.8861277,
-    "ast_hash": "63826f9af50d6b3f393d5d6a9ff58661",
+    "mtime": 1786288477.590179,
+    "ast_hash": "708fdb7e81aa9ba40ffa618a8f3b16ab",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/entrar/page.tsx": {
@@ -4805,8 +4805,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/mods/detalhe/page.tsx": {
-    "mtime": 1786262768.3023925,
-    "ast_hash": "99bf85fdd0df67704aa3472e94e32a9c",
+    "mtime": 1786288617.7865672,
+    "ast_hash": "edbe83d38f0a95d5acc7d6c13072b383",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/ecosystem-client.ts": {
@@ -4835,13 +4835,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786261361.0470548,
-    "ast_hash": "d2430fe7aed253a2d5ed7bf43fca5b77",
+    "mtime": 1786287792.8804214,
+    "ast_hash": "7a68937f7d4df94992037f1b6c9f2304",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
-    "mtime": 1786263058.8630242,
-    "ast_hash": "816d9a08edd21981aa511661dff268d0",
+    "mtime": 1786288000.2543187,
+    "ast_hash": "a8e4e72a75cf73865c6b7d09d50e887e",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/systems.ts": {
@@ -4850,13 +4850,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/types.ts": {
-    "mtime": 1786263291.8846233,
-    "ast_hash": "fcd123c6f2aa4f57d1f5eed5329c8574",
+    "mtime": 1786287846.5956604,
+    "ast_hash": "c354e294db966b7ba335547d1aa6e932",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/test/ecosystem-analysis.test.ts": {
-    "mtime": 1786263058.8630242,
-    "ast_hash": "53b7726441600359a3e44343ca7bdad9",
+    "mtime": 1786288456.0938375,
+    "ast_hash": "a5f86e011bc933091a22b57f7e7c7b43",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/tsconfig.build.json": {
@@ -4870,13 +4870,33 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786265541.5888693,
-    "ast_hash": "4673458d696a1eb95bf52d18b563cb2f",
+    "mtime": 1786289871.6973064,
+    "ast_hash": "e7e054d0f455facefc59505547128d89",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
     "mtime": 1786263719.185015,
     "ast_hash": "bacbd9a822f8d6a1a9a03d9c7531d80c",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/src/class-file.ts": {
+    "mtime": 1786289069.0780306,
+    "ast_hash": "fa8f988e211c38a9d4eb45de45417cf1",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/test/class-file.test.ts": {
+    "mtime": 1786289069.079542,
+    "ast_hash": "3fb9ac99914de1b1442f21faacf4bb95",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/artifact-inspection/test/class-fixture.ts": {
+    "mtime": 1786288418.191922,
+    "ast_hash": "b90bc21f145a981ed6eb1b42689cfb14",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/bytecode.ts": {
+    "mtime": 1786287856.1411457,
+    "ast_hash": "4410653fd41cc106b294e6fdbca79ef7",
     "semantic_hash": ""
   }
 }

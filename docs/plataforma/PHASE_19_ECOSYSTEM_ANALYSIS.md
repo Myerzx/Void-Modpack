@@ -1,6 +1,6 @@
-# Fases 19–20 — primeira fatia vertical do ecossistema de mods
+# Fases 19–20 — ecossistema de mods e análise estática
 
-Status: primeira fatia vertical funcional e validada no servidor real em 2026-08-09. As Fases 19 e 20 **não estão concluídas**.
+Status: duas fatias verticais funcionais e validadas no servidor real em 2026-08-09. As Fases 19 e 20 **não estão concluídas**.
 
 ## Objetivo entregue
 
@@ -55,13 +55,27 @@ Uma relação só é criada quando uma fonte concreta a sustenta. Nesta fatia:
 
 Nome de arquivo, semelhança textual e opinião de IA não criam relações.
 
+### Segunda fatia: classes Java como evidência limitada
+
+O analyzer `1.2.0` estende o leitor existente, sem criar um segundo pipeline. Ele seleciona somente classes cujo caminho aponta para configuração, registry, mixin, compatibilidade, integração ou plugin e interpreta o class file como dado. O JAR nunca é carregado, ligado ou executado.
+
+Os limites são explícitos e fail-closed:
+
+- no máximo 1 MiB por classe, 256 classes e 8 MiB expandidos por artefato;
+- no máximo 64 MiB expandidos no snapshot completo;
+- tetos independentes para constant pool, membros, atributos, instruções e fatos;
+- nomes exatos passam pelo leitor ZIP limitado já revisado;
+- classe inválida ou acima do limite vira issue informativa; não habilita inferência alternativa.
+
+A inspeção extrai referências e chamadas de membros, anotações runtime, alvos de `@Mixin` e chamadas literais do builder `ForgeConfigSpec`. Classes são atribuídas ao mod apenas quando existe um único proprietário exato no inventário. Com isso, o snapshot pode provar `INTEGRATES_WITH`, `COMPATIBILITY`, `READS_REGISTRY_FROM` e `MODIFIES_GAMEPLAY_OF`, sempre com classe, método e offset rastreáveis.
+
 ## Configurações
 
 Cada configuração normalizada guarda proprietário, nome, descrição disponível, categoria, sistema, tipo, valor atual, default comprovado ou `null`, limites, valores permitidos, arquivo, path, linha, parser, lado, necessidade de restart comprovada ou `null`, status, confiança e evidências.
 
 O painel oferece toggle, select, número com limites e texto conforme o tipo. Listas e formas não comprovadas permanecem técnicas. Alterar um controle não escreve no servidor: o botão **Validar e preparar** passa pelo validador e cria somente um staging revisável.
 
-Defaults e restart não são deduzidos do valor atual. No arquivo real do Mine and Slash não existe declaração de default; por isso esses campos permanecem desconhecidos.
+Defaults e restart não são deduzidos do valor atual. O arquivo TOML real não declara defaults, mas o bytecode do `ForgeConfigSpec` agora comprova 69 valores padrão e 58 ranges do Mine and Slash. Os 14 defaults restantes continuam `null`: onze são montados dinamicamente em uma iteração e três pertencem a listas que o parser não reconstrói com segurança. A política de restart permanece desconhecida.
 
 ## Persistência e invalidação
 
@@ -96,12 +110,12 @@ A validação foi somente leitura sobre o workspace privado; nenhum arquivo de r
 | arquivos inventariados | 7.928 |
 | mods declarados no inventário | 176 |
 | mods normalizados | 175 |
-| sistemas | 304 |
+| sistemas | 705 |
 | configurações | 3.999 |
 | datapacks | 6 |
 | recursos de datapack | 5.445 |
-| relações | 19.347 |
-| issues explícitas | 110 |
+| relações | 20.076 |
+| issues explícitas | 117 |
 
 ### Mine and Slash 6.3.14
 
@@ -112,23 +126,26 @@ A validação foi somente leitura sobre o workspace privado; nenhum arquivo de r
 | listas mantidas em visualização técnica | 3 |
 | booleanos / inteiros / números / listas | 22 / 20 / 38 / 3 |
 | campos com range declarado | 58 |
+| campos com default comprovado | 69 |
 | campos com descrição | 63 |
 | sistemas funcionais | 15 |
 | datapacks relacionados | 2 |
 | recursos nesses datapacks | 4.896 |
-| relações funcionais | 25 |
+| relações funcionais | 35 |
+| evidências de bytecode expostas no detalhe | 417 |
 | issues diretas | 0 |
 
 Os 15 sistemas encontrados são combate/sobrevivência, compatibilidade, gear/raridade, geral, itens, loot/drops, mapas/dungeons, mensagens/diagnóstico, mobs/entidades, party/times, progressão/níveis, skills/profissões, spells/mana, stats/atributos e worldgen.
 
-As relações incluem oito dependências declaradas, extensões direcionais vindas de `mine_and_meals`, `mns_compat` e `void_mns_prof_compat`, integrações de recursos do próprio Mine and Slash com `library_of_exile`/Curios e os efeitos dos packs `cte_mns` e `cte_epicfight_mns_staff_compat`. O add-on `mns_compat` mantém suas 52 configurações sob o proprietário correto; elas não são falsamente atribuídas ao mod base.
+As relações incluem oito dependências declaradas, extensões direcionais vindas de `mine_and_meals`, `mns_compat` e `void_mns_prof_compat`, integrações de recursos do próprio Mine and Slash com `library_of_exile`/Curios e os efeitos dos packs `cte_mns` e `cte_epicfight_mns_staff_compat`. A nova fonte comprova ainda quatro grupos `INTEGRATES_WITH`, três `READS_REGISTRY_FROM` e três `MODIFIES_GAMEPLAY_OF` ligados ao Mine and Slash. Exemplos reais incluem chamadas de `mmorpg` aos registries de `library_of_exile`, mixins de `void_mns_prof_compat` sobre classes do mod base e um mixin do Mine and Slash sobre `ancient_obelisks`. O add-on `mns_compat` mantém suas 52 configurações sob o proprietário correto; elas não são falsamente atribuídas ao mod base.
 
 ## Validação técnica
 
-- `npm run check` concluiu com código 0 em 438 segundos: build dos pacotes, typecheck de todos os workspaces, todos os testes, Forge Bridge, integrações e builds dos apps/painel;
-- os recortes diretamente alterados passaram com 19 casos de inventário, 16 de inferência, 2 de análise do ecossistema, 59 de banco, 17 de Workspace API e 60 do painel;
+- `npm run check` concluiu com código 0 em 397,1 segundos: 947 casos descobertos, 945 executados no Windows, dois sockets Unix ignorados e zero falhas, além dos builds de pacotes, Forge Bridge, integrações, apps e painel;
+- a segunda fatia passou com 43 casos de inspeção de artefatos, 2 de análise do ecossistema, 17 de Workspace API e 60 do painel;
 - o fluxo real foi inspecionado em Chrome nas páginas Mods, Mine and Slash → Configurações/Integrações/Datapacks e Datapacks global;
-- o drawer mostrou arquivo, chave, linha, parser, restrições e evidências; a página real exibiu as 83 configurações, 83 ações de origem e 80 controles semânticos, mantendo três listas em leitura técnica;
+- o drawer mostrou arquivo, chave, linha, parser, default, restrições e evidências; a página real exibiu as 83 configurações, 69 defaults comprovados, 83 ações de origem e 80 controles semânticos, mantendo três listas em leitura técnica;
+- a aba Integrações abriu evidências reais de bytecode com JAR relativo, classe, método, offset, membro invocado e direção da relação;
 - a viewport móvel de 390 × 844 foi validada sem overflow horizontal depois do ajuste responsivo;
 - `git diff --check` não encontrou erro.
 
@@ -136,7 +153,7 @@ As relações incluem oito dependências declaradas, extensões direcionais vind
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental, o grafo portátil contém 6.499 nós e 11.352 arestas; a visão agregada de comunidades também foi regenerada.
+Depois da atualização incremental, o grafo portátil contém 6.558 nós, 11.479 arestas e 412 comunidades; a visão agregada também foi regenerada.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -146,8 +163,9 @@ Essa separação preserva as duas responsabilidades:
 ## Trabalho restante
 
 - interpretar formatos além de TOML/JSON e estruturas complexas com segurança;
-- extrair defaults e política de restart somente quando bytecode, schema ou comentário os comprovarem;
-- analisar classes, mixins, registries e chamadas Java sem executar o JAR;
+- ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
+- extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
+- cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
 - modelar conflitos semânticos e compatibilidade que não aparecem por metadata ou namespace;
 - expor travessia e filtros completos do grafo sem enviar milhares de arestas estruturais a uma página;
 - tornar recursos de datapack semanticamente editáveis apenas após schemas/revisões próprios;

@@ -87,8 +87,8 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 11 — jogadores e permissões reais | 0% | planejada; providers e política ainda pendentes |
 | 12 — release, launcher e Bridge | 0% operacional | base técnica isolada existe; ativação bloqueada pelos P0 |
 | 13 — produção e certificação | 0% | planejada; deploy e aceite ainda não iniciados |
-| 19 — grafo de conhecimento | 45% | modelo, proveniência, persistência, configs e OpenLoader ligados; travessia completa e fontes Java ainda pendentes |
-| 20 — análise automática | 35% | pipeline genérico validado no Mine and Slash real; bytecode, novos formatos e revisão universal ainda pendentes |
+| 19 — grafo de conhecimento | 55% | modelo, proveniência, persistência, configs, OpenLoader e evidências Java ligados; travessia completa ainda pendente |
+| 20 — análise automática | 50% | pipeline genérico e bytecode estático limitado validados no Mine and Slash real; novos formatos, defaults dinâmicos e revisão universal ainda pendentes |
 
 ## Fase 4 — mods, arquivos e schemas
 
