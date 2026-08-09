@@ -2,6 +2,26 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-09 — Fases 19–20: recursos de datapack revisados
+
+### Adicionado
+
+- registry fechado de schemas de recurso no analyzer 1.3.0, com `mmorpg-gear-rarity@1.0.0` como primeiro adapter real;
+- 368 configurações semânticas ligadas a oito resources, seus systems, arquivos, defaults embutidos e evidências;
+- seis conflitos persistidos por coordenada e SHA-256, com ordem desconhecida explícita e edição bloqueada;
+- filtros e paginação de resources, drawer técnico, escopo por resource e staging pelo painel;
+- ADR-017 fixando forma exata, defaults comprovados, campos read-only, gates de hash/conflito e ausência de apply.
+
+### Validado
+
+- snapshot real com 175 mods, 4.367 configurações, 5.445 resources e 20.824 relações;
+- ciclo `validar → staging → diff → descartar` sem alterar o SHA-256 do arquivo original;
+- `npm run check` integral, navegador sobre dados reais e Graphify incremental.
+
+### Não habilitado
+
+Apply no workspace, inferência de load order, edição de conflito, JSON genérico, console ao vivo, backup e `artifact.install`.
+
 ## 2026-08-04 — Fase 7.1: primeiro schema específico
 
 ### Adicionado

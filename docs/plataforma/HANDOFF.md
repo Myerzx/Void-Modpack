@@ -4,13 +4,13 @@
 
 - Data: 2026-08-09
 - Responsáveis: Claude e Codex
-- Fase: duas fatias verticais das Fases 19–20 entregues sobre a base operacional da Fase 17. Inventário → análise semântica → bytecode estático limitado → snapshot por hash → grafo/evidência → API → painel funciona com dados reais; o Mine and Slash expõe 83 configurações rastreáveis, 69 defaults comprovados, 80 controles semânticos, 15 sistemas, dois datapacks e 35 relações funcionais. As fases amplas continuam parciais
+- Fase: três fatias verticais das Fases 19–20 entregues sobre a base operacional da Fase 17. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → API → painel funciona com dados reais; o Mine and Slash expõe 451 configurações rastreáveis, 437 defaults comprovados, 392 controles semânticos, 15 sistemas, dois datapacks e 35 relações funcionais. As fases amplas continuam parciais
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
-- Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.2.0 para o inventário atual, sem copiar conteúdo privado para o repositório
+- Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.3.0 para o inventário atual, sem copiar conteúdo privado para o repositório
 
 ## Implementado
 
@@ -18,10 +18,12 @@
 - migration `0026_ecosystem_analysis.sql` e repositório de snapshots imutáveis por workspace, hash do inventário e versão do analisador;
 - análise funcional por metadata, caminhos internos de JAR e recursos OpenLoader, mantendo direção, confiança e evidência;
 - parser limitado de class files Java e análise seletiva de `ForgeConfigSpec`, registries, chamadas entre mods e alvos de mixin, sem executar JARs;
+- registry fechado de schemas de datapack, com `mmorpg-gear-rarity@1.0.0` como primeiro adapter revisado, forma exata, defaults do JAR, campos read-only e nove pares ordenados;
+- conflitos persistidos por coordenada/hash, evidências rastreáveis e bloqueio do editor quando a ordem efetiva de carregamento permanece desconhecida;
 - TOML Forge com segmentos de tabela/chave entre aspas e edição cirúrgica segura pelo staging existente;
 - endpoints de análise, lista/detalhe de mods, recursos paginados e datapacks;
 - sidebar consolidada nas nove categorias, header secundário por área e páginas reais de Mods, Mine and Slash e Datapacks;
-- prova somente leitura no servidor real: 7.928 arquivos, 175 mods normalizados, 3.999 configurações, 5.445 recursos de datapack, 20.076 relações e 117 lacunas explícitas;
+- prova no servidor real sem escrita no runtime: 7.928 arquivos, 175 mods normalizados, 4.367 configurações, 5.445 recursos de datapack, 8 resources revisados, 368 campos semânticos, 6 conflitos, 20.824 relações e 123 lacunas explícitas;
 
 - monorepo TypeScript, contratos, PostgreSQL, migrações, RBAC e fila `SKIP LOCKED`;
 - Argon2id, sessões opacas, CSRF, rate limit, revogação e auditoria;
@@ -275,7 +277,7 @@
 5. Não habilitar RCON; o segredo histórico precisa ser rotacionado e a decisão de remoção continua P0.
 6. Não iniciar produção Minecraft antes de definir a topologia de autenticação oficial/proxy.
 7. Não promover modpack stable antes de cliente canônico, proveniência e licenças.
-8. Não tratar schemas genéricos como adapters operacionais: somente o codec específico OpenLoader v1 possui registro, persistência e aplicação isolada; JSON/TOML/YAML/CFG genéricos continuam sem parser, serializer, path público ou operação.
+8. Não tratar formatos genéricos como adapters operacionais: somente registros fechados e versionados podem autorizar uma superfície. O codec OpenLoader v1 mantém seu fluxo isolado; `mmorpg-gear-rarity@1.0.0` permite somente staging sem apply; JSON/TOML/YAML/CFG genéricos continuam sem parser, serializer, path público ou operação.
 9. Não tratar presença, filename, project/file ID ou `distributionAllowed` como identidade lógica, lado aprovado ou licença.
 10. Não importar os inventários atuais como catálogo real antes que o cliente possua SHA-256/tamanho e a revisão manual seja registrada.
 11. Não fornecer raiz, path, catálogo, chave ou comando no payload de `modpack.build`; somente `planId` opaco pode atravessar a fila.
@@ -288,10 +290,12 @@
 
 ## Validação
 
+- terceira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 820,1 segundos, incluindo packages, typecheck global, testes Node, Forge Bridge, integrações, cinco apps e 17 páginas exportadas; fluxo real e navegador também validados sem alterar o runtime;
 - segunda fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 397,1 segundos, 947 casos descobertos, 945 executados no Windows, dois sockets Unix ignorados e zero falhas; builds de pacotes, Forge Bridge, integrações, apps e export estático do painel concluídos;
 - primeira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 438 segundos, cobrindo builds, typecheck global, testes, Forge Bridge, integrações e export estático do painel; Chrome validado em desktop e 390 × 844 sem overflow horizontal;
-- análise somente leitura do workspace real persistida pelo analyzer 1.2.0: 175 mods normalizados, 705 sistemas, 3.999 configurações, 6 datapacks, 5.445 recursos e 20.076 relações; Mine and Slash com 83 configurações, 69 defaults comprovados, 15 sistemas, 2 datapacks, 35 relações e zero issue direta;
-- Graphify atualizado para 6.558 nós, 11.479 arestas e 412 comunidades, com a visão agregada regenerada e sem copiar dados privados do runtime;
+- análise do workspace real persistida pelo analyzer 1.3.0: 175 mods normalizados, 705 sistemas, 4.367 configurações, 6 datapacks, 5.445 recursos, 6 conflitos e 20.824 relações; Mine and Slash com 451 configurações, 437 defaults comprovados, 15 sistemas, 2 datapacks, 35 relações e zero issue direta;
+- ciclo real do recurso `uncommon.json`: `weight` 225 → 226 validado pelo schema, duas linhas de diff em staging, `appliedToWorkspace: false`, descarte concluído, zero estágios remanescentes e SHA-256 original preservado;
+- Graphify atualizado para 6.617 nós, 11.567 arestas e 415 comunidades, com a visão agregada regenerada e sem copiar dados privados do runtime;
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
 - smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
@@ -423,7 +427,7 @@
 - o registro de raízes do file manager continua sendo uma entrada confiável de construção; não há descoberta, criação, delete, move, copy ou download público;
 - revisões de arquivo podem preservar segredos do conteúdo anterior e precisam de storage cifrado, retenção e autorização antes de uso operacional;
 - o manifesto de revisão de arquivo registra estado `prepared-before-replacement`; uma falha posterior exige correlação futura com auditoria e recibo antes de ser exibida como aplicada;
-- schemas genéricos continuam somente na memória; apenas o schema OpenLoader revisado é persistido e aplicado, exclusivamente em fixtures/diretórios temporários neste recorte;
+- formatos genéricos continuam sem autorização operacional; o schema OpenLoader revisado conserva seu fluxo próprio e o primeiro schema de recurso de datapack autoriza somente validação/staging, nunca apply no workspace;
 - transporte mTLS real, rotação de certificado e supervisor do agente ainda não foram implantados;
 - autenticação Minecraft, whitelist e RCON continuam P0;
 - cliente, origem/licença e classificação de lado continuam incompletos;
@@ -458,12 +462,19 @@
 
 ## Próximo recorte recomendado
 
-Expandir a análise genérica para schemas seguros de recursos de datapack, conflitos semânticos e formatos adicionais. A próxima prova vertical deve tornar recursos revisados semanticamente editáveis, ampliar defaults dinâmicos apenas quando houver interpretação segura e adicionar travessia/filtros do grafo sem enviar milhares de arestas estruturais a uma página.
+Expandir o registry revisado para as famílias de maior impacto (`mmorpg_value_calc`, spells e stats), cada uma com corpus, limites e defaults próprios; provar a ordem efetiva de carregamento antes de oferecer resolução de colisões; e adicionar travessia/filtros do grafo sem enviar milhares de arestas estruturais a uma página.
 
 Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam fora deste recorte. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
 
 ## Commits relevantes
 
+- `90992c0` — schemas revisados, campos semânticos, defaults e conflitos de datapack no snapshot;
+- `1eb5622` — validação/staging de datapack resolvidos pelo inventário e snapshot, com hash e conflito como gates;
+- `a79cb58` — navegação, filtros, drawer técnico e configuração de resources revisados no painel;
+- `86b5bca` — validação exata endurecida contra objetos ocultos, ranges inválidos e mudanças duplicadas;
+- `aae765b` — staging descartável mesmo após revogação de schema e contagem global única de conflitos;
+- `bc1e5a1` / `cec4250` — métricas corretas, garantias explícitas e ordenação estável dos campos no painel;
+- `3f0eed9` — persistência PGlite alinhada ao schema de conflitos;
 - `ad76f49` — parser Forge TOML com segmentos de tabela e chaves entre aspas;
 - `1982656` — análise genérica do ecossistema, snapshot persistido e endpoints REST;
 - `7167ed0` — sidebar consolidada e páginas operacionais de Mods, Mine and Slash e Datapacks;

@@ -19,3 +19,4 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-014 — Objetivo central do produto e replanejamento das fases](ADR-014-objetivo-central-e-replanejamento.md)
 - [ADR-015 — Frente de integração do painel, em paralelo ao roadmap](ADR-015-frente-de-integracao-do-painel.md)
 - [ADR-016 — O painel é o gerenciador completo do servidor](ADR-016-painel-como-gerenciador-completo.md)
+- [ADR-017 — Schemas revisados para recursos de datapack](ADR-017-schemas-revisados-de-recursos-datapack.md)
