@@ -68,6 +68,10 @@ export interface WorkspaceConfigurationService {
   readForm(input: {
     readonly workspaceRoot: string;
     readonly path: string;
+    readonly reviewedDatapack: {
+      readonly schemaId: string;
+      readonly resourcePath: string;
+    } | null;
   }): Promise<{
     readonly format: string;
     readonly complete: boolean;
@@ -85,9 +89,18 @@ export interface WorkspaceConfigurationService {
     readonly workspaceRoot: string;
     readonly path: string;
     readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+    readonly reviewedDatapack: {
+      readonly schemaId: string;
+      readonly resourcePath: string;
+    } | null;
   }): Promise<
     | readonly (
-        | { readonly path: string; readonly accepted: true; readonly checkedAgainstDeclaredBounds: boolean }
+        | {
+            readonly path: string;
+            readonly accepted: true;
+            readonly checkedAgainstDeclaredBounds: boolean;
+            readonly checkedAgainstReviewedSchema: boolean;
+          }
         | { readonly path: string; readonly accepted: false; readonly code: string }
       )[]
     | null
@@ -97,6 +110,11 @@ export interface WorkspaceConfigurationService {
     readonly workspaceRoot: string;
     readonly path: string;
     readonly changes: readonly { readonly path: string; readonly value: unknown }[];
+    readonly expectedSha256: string;
+    readonly reviewedDatapack: {
+      readonly schemaId: string;
+      readonly resourcePath: string;
+    } | null;
   }): Promise<{
     readonly path: string;
     readonly baseSha256: string;
@@ -307,7 +325,12 @@ const ConfigurationChangeSchema = Type.Object(
 );
 
 interface InventoryDocument {
-  readonly files: readonly { readonly path: string; readonly role: string; readonly sizeBytes: number }[];
+  readonly files: readonly {
+    readonly path: string;
+    readonly role: string;
+    readonly sizeBytes: number;
+    readonly sha256: string;
+  }[];
   readonly mods: readonly {
     readonly modId: string;
     readonly displayName: string | null;
@@ -327,7 +350,13 @@ function asDocument(value: unknown): InventoryDocument {
 }
 
 const DEPENDENCY_RELATIONSHIPS = new Set(['REQUIRES', 'OPTIONAL_DEPENDENCY']);
-const STRUCTURAL_RELATIONSHIPS = new Set(['OWNS', 'DEFINED_IN', 'USES', 'PROVEN_BY']);
+const STRUCTURAL_RELATIONSHIPS = new Set([
+  'OWNS',
+  'DEFINED_IN',
+  'USES',
+  'PROVEN_BY',
+  'PARTICIPATES_IN',
+]);
 
 function boundedOffset(value: string | undefined): number {
   if (value === undefined || !/^\d+$/u.test(value)) return 0;
@@ -719,6 +748,12 @@ export function registerWorkspaceRoutes(
             overrideCount: resources.filter((resource) => resource.effect === 'overrides').length,
             extensionCount: resources.filter((resource) => resource.effect === 'extends').length,
             unknownCount: resources.filter((resource) => resource.effect === 'unknown').length,
+            reviewedResourceCount: resources.filter((resource) => resource.reviewedSchema !== null).length,
+            semanticFieldCount: resources.reduce(
+              (total, resource) => total + resource.semanticFields.length,
+              0,
+            ),
+            conflictCount: datapack.conflictIds.length,
             resourceTypes: [...types]
               .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0], 'en-US')),
           };
@@ -745,9 +780,19 @@ export function registerWorkspaceRoutes(
         (datapack) => datapack.ownerModId === mod.modId || datapack.relatedModIds.includes(mod.modId),
       );
       const datapackIds = new Set(datapacks.map((datapack) => datapack.datapackId));
-      const resourceGroups = new Map<string, { namespace: string; resourceType: string; effect: string; count: number }>();
+      const relevantResourceIds = new Set<string>();
+      const resourceGroups = new Map<string, {
+        namespace: string;
+        resourceType: string;
+        effect: string;
+        count: number;
+        reviewedCount: number;
+        semanticFieldCount: number;
+        conflictCount: number;
+      }>();
       for (const resource of analysis.datapackResources) {
         if (!datapackIds.has(resource.datapackId) || (resource.ownerModId !== mod.modId && !systemIds.has(resource.systemId ?? ''))) continue;
+        relevantResourceIds.add(resource.resourceId);
         const key = `${resource.namespace}\u0000${resource.resourceType}\u0000${resource.effect}`;
         const group = resourceGroups.get(key);
         if (group === undefined) {
@@ -756,8 +801,16 @@ export function registerWorkspaceRoutes(
             resourceType: resource.resourceType,
             effect: resource.effect,
             count: 1,
+            reviewedCount: resource.reviewedSchema === null ? 0 : 1,
+            semanticFieldCount: resource.semanticFields.length,
+            conflictCount: resource.conflictIds.length > 0 ? 1 : 0,
           });
-        } else group.count += 1;
+        } else {
+          group.count += 1;
+          if (resource.reviewedSchema !== null) group.reviewedCount += 1;
+          group.semanticFieldCount += resource.semanticFields.length;
+          if (resource.conflictIds.length > 0) group.conflictCount += 1;
+        }
       }
       const relationIds = new Set([...mod.relationshipIds, ...systems.flatMap((system) => system.relationshipIds)]);
       // Direct arrays already carry systems, fields and datapack resources.
@@ -773,6 +826,12 @@ export function registerWorkspaceRoutes(
         ...analysis.configurations.filter((configuration) => configuration.modId === mod.modId).flatMap((configuration) => configuration.evidenceIds),
         ...relationships.flatMap((relationship) => relationship.evidenceIds),
         ...datapacks.flatMap((datapack) => datapack.evidenceIds),
+        ...analysis.datapackResources
+          .filter((resource) => relevantResourceIds.has(resource.resourceId))
+          .flatMap((resource) => resource.evidenceIds),
+        ...analysis.datapackConflicts
+          .filter((conflict) => conflict.resourceIds.some((resourceId) => relevantResourceIds.has(resourceId)))
+          .flatMap((conflict) => conflict.evidenceIds),
       ]);
       return {
         dataQuality: 'stored',
@@ -784,6 +843,9 @@ export function registerWorkspaceRoutes(
         datapackResourceSummary: [...resourceGroups.values()].sort(
           (left, right) => right.count - left.count || left.resourceType.localeCompare(right.resourceType, 'en-US'),
         ),
+        datapackConflicts: analysis.datapackConflicts.filter((conflict) =>
+          conflict.resourceIds.some((resourceId) => relevantResourceIds.has(resourceId)),
+        ),
         relationships,
         evidence: analysis.evidence.filter((entry) => evidenceIds.has(entry.evidenceId)),
         issues: analysis.issues.filter((issue) => mod.issueIds.includes(issue.issueId)),
@@ -793,7 +855,15 @@ export function registerWorkspaceRoutes(
 
   app.get<{
     Params: { workspaceId: string; modId: string };
-    Querystring: { offset?: string; limit?: string };
+    Querystring: {
+      offset?: string;
+      limit?: string;
+      q?: string;
+      resourceType?: string;
+      effect?: string;
+      reviewed?: string;
+      conflicts?: string;
+    };
   }>(
     '/api/v1/workspaces/:workspaceId/ecosystem/mods/:modId/datapack-resources',
     { preHandler: [authenticate, requirePermission('workspace.view')] },
@@ -808,17 +878,44 @@ export function registerWorkspaceRoutes(
       const systemIds = new Set(
         analysis.systems.filter((system) => system.modId === mod.modId).map((system) => system.systemId),
       );
-      const resources = analysis.datapackResources.filter(
+      let resources = analysis.datapackResources.filter(
         (resource) => resource.ownerModId === mod.modId || systemIds.has(resource.systemId ?? ''),
       );
+      const query = request.query.q?.trim().toLocaleLowerCase('en-US') ?? '';
+      if (query.length > 0) {
+        resources = resources.filter((resource) =>
+          `${resource.namespace}:${resource.resourceType}/${resource.resourcePath} ${resource.sourceFile}`
+            .toLocaleLowerCase('en-US')
+            .includes(query),
+        );
+      }
+      if (request.query.resourceType !== undefined && request.query.resourceType.length > 0) {
+        resources = resources.filter((resource) => resource.resourceType === request.query.resourceType);
+      }
+      if (request.query.effect !== undefined && request.query.effect.length > 0) {
+        resources = resources.filter((resource) => resource.effect === request.query.effect);
+      }
+      if (request.query.reviewed === 'true') {
+        resources = resources.filter((resource) => resource.reviewedSchema !== null);
+      } else if (request.query.reviewed === 'false') {
+        resources = resources.filter((resource) => resource.reviewedSchema === null);
+      }
+      if (request.query.conflicts === 'true') {
+        resources = resources.filter((resource) => resource.conflictIds.length > 0);
+      } else if (request.query.conflicts === 'false') {
+        resources = resources.filter((resource) => resource.conflictIds.length === 0);
+      }
       const offset = boundedOffset(request.query.offset);
       const limit = boundedLimit(request.query.limit);
+      const page = resources.slice(offset, offset + limit);
+      const conflictIds = new Set(page.flatMap((resource) => resource.conflictIds));
       return {
         dataQuality: 'stored',
         total: resources.length,
         offset,
         limit,
-        resources: resources.slice(offset, offset + limit),
+        resources: page,
+        conflicts: analysis.datapackConflicts.filter((conflict) => conflictIds.has(conflict.conflictId)),
       };
     },
   );
@@ -932,21 +1029,58 @@ export function registerWorkspaceRoutes(
    * A path that is not in the inventory is refused before anything opens it,
    * so traversal never becomes a question about string handling.
    */
-  const configurationPathOf = async (workspaceId: string, path: string): Promise<string> => {
+  const configurationPathOf = async (workspaceId: string, path: string): Promise<{
+    readonly path: string;
+    readonly expectedSha256: string;
+    readonly reviewedDatapack: {
+      readonly schemaId: string;
+      readonly resourcePath: string;
+    } | null;
+  }> => {
     const stored = await repositories.workspaces.latestInventory(workspaceId);
     if (stored === undefined) {
       throw apiError(404, 'INVENTORY_NOT_FOUND', 'Este workspace ainda não foi inventariado.');
     }
     const document = asDocument(stored.document);
+    const knownFile = document.files.find((file) => file.path === path);
     const known =
-      document.files.some((file) => file.path === path) ||
+      knownFile !== undefined ||
       document.mods.some((mod) =>
         mod.configurationCandidates.some((candidate) => candidate.path === path),
       );
-    if (!known) {
+    if (!known || knownFile === undefined) {
       throw apiError(404, 'CONFIGURATION_NOT_IN_INVENTORY', 'Arquivo não está no inventário.');
     }
-    return path;
+    if (knownFile.role !== 'datapack') {
+      return { path, expectedSha256: knownFile.sha256, reviewedDatapack: null };
+    }
+    const result = await currentAnalysis(workspaceId, false);
+    if (result.status !== 'cached' && result.status !== 'generated') {
+      throw apiError(409, 'ANALYSIS_REQUIRED', 'Analise o workspace antes de editar um datapack.');
+    }
+    const resource = result.stored.document.datapackResources.find((entry) => entry.sourceFile === path);
+    if (resource === undefined || resource.reviewedSchema === null) {
+      throw apiError(
+        422,
+        'DATAPACK_RESOURCE_NOT_REVIEWED',
+        'Este recurso de datapack ainda não possui schema revisado.',
+      );
+    }
+    if (resource.conflictIds.length > 0) {
+      throw apiError(
+        409,
+        'DATAPACK_RESOURCE_CONFLICT',
+        'Resolva a colisão entre datapacks antes de preparar uma alteração semântica.',
+      );
+    }
+    return {
+      path,
+      expectedSha256: resource.sha256,
+      reviewedDatapack: {
+        schemaId: resource.reviewedSchema.schemaId,
+        resourcePath: resource.resourcePath,
+      },
+    };
   };
 
   const configurationOrRefuse = (): WorkspaceConfigurationService => {
@@ -970,9 +1104,13 @@ export function registerWorkspaceRoutes(
       if (path === undefined || path.length === 0) {
         throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
       }
-      await configurationPathOf(workspace.workspaceId, path);
+      const resolved = await configurationPathOf(workspace.workspaceId, path);
 
-      const form = await configuration.readForm({ workspaceRoot: workspace.rootPath, path });
+      const form = await configuration.readForm({
+        workspaceRoot: workspace.rootPath,
+        path,
+        reviewedDatapack: resolved.reviewedDatapack,
+      });
       if (form === null) {
         // Located and not representable is an ordinary outcome, not a failure.
         // The file stays editable as raw text elsewhere; this route says only
@@ -995,12 +1133,13 @@ export function registerWorkspaceRoutes(
     async (request) => {
       const configuration = configurationOrRefuse();
       const workspace = await workspaceOf(request.params.workspaceId);
-      await configurationPathOf(workspace.workspaceId, request.body.path);
+      const resolved = await configurationPathOf(workspace.workspaceId, request.body.path);
 
       const decisions = await configuration.validate({
         workspaceRoot: workspace.rootPath,
         path: request.body.path,
         changes: request.body.changes,
+        reviewedDatapack: resolved.reviewedDatapack,
       });
       if (decisions === null) {
         throw apiError(422, 'UNSUPPORTED_FORMAT', 'Esse formato não tem formulário inferido.');
@@ -1025,7 +1164,7 @@ export function registerWorkspaceRoutes(
     async (request, reply) => {
       const configuration = configurationOrRefuse();
       const workspace = await workspaceOf(request.params.workspaceId);
-      await configurationPathOf(workspace.workspaceId, request.body.path);
+      const resolved = await configurationPathOf(workspace.workspaceId, request.body.path);
 
       let staged;
       try {
@@ -1034,6 +1173,8 @@ export function registerWorkspaceRoutes(
           workspaceRoot: workspace.rootPath,
           path: request.body.path,
           changes: request.body.changes,
+          expectedSha256: resolved.expectedSha256,
+          reviewedDatapack: resolved.reviewedDatapack,
         });
       } catch (error) {
         // The staging engine refuses with a named code — an unknown field, a

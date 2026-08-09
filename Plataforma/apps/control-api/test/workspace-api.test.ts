@@ -9,6 +9,7 @@ import { hashPassword } from '@voidfall/authentication';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
 import {
+  ECOSYSTEM_ANALYSIS_SCHEMA_VERSION,
   ECOSYSTEM_ANALYZER_VERSION,
   type EcosystemAnalysis,
 } from '@voidfall/ecosystem-analysis';
@@ -134,7 +135,7 @@ function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { ana
     async analyze(input) {
       seen.analyses += 1;
       return {
-        schemaVersion: 1,
+        schemaVersion: ECOSYSTEM_ANALYSIS_SCHEMA_VERSION,
         analyzerVersion: ECOSYSTEM_ANALYZER_VERSION,
         analysisId: 'analysis-alpha',
         inventorySha256: input.inventory.inventorySha256,
@@ -158,7 +159,10 @@ function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { ana
           currentValue: 1.5, defaultValue: null,
           constraints: [{ kind: 'range', minimum: 0, maximum: 10, source: 'declared' }],
           allowedValues: [],
-          source: { file: 'config/alpha.toml', path: 'combat.damage', line: 4, format: 'toml', parser: 'forge-toml' },
+          source: {
+            kind: 'config-file', file: 'config/alpha.toml', path: 'combat.damage', line: 4,
+            format: 'toml', parser: 'forge-toml', datapackResourceId: null,
+          },
           side: 'server', restartRequired: null, editable: true, status: 'interpreted', confidence: 'high',
           evidenceIds: ['evidence-config'],
         }],
@@ -166,15 +170,17 @@ function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { ana
           datapackId: 'datapack-alpha', name: 'alpha-pack', loader: 'openloader',
           rootPath: 'config/openloader/data/alpha-pack', sha256: '20'.padEnd(64, '0'), description: null,
           resourceIds: ['resource-alpha'], namespaces: ['alpha'], ownerModId: 'alpha',
-          relatedModIds: ['alpha'], issueIds: [], evidenceIds: ['evidence-resource'],
+          relatedModIds: ['alpha'], issueIds: [], conflictIds: [], evidenceIds: ['evidence-resource'],
         }],
         datapackResources: [{
           resourceId: 'resource-alpha', datapackId: 'datapack-alpha', namespace: 'alpha',
           resourceType: 'recipes', resourcePath: 'steel_sword.json',
           sourceFile: 'config/openloader/data/alpha-pack/data/alpha/recipes/steel_sword.json',
           sha256: '30'.padEnd(64, '0'), ownerModId: 'alpha', systemId: 'system-alpha-combat',
-          effect: 'overrides', status: 'detected', confidence: 'high', evidenceIds: ['evidence-resource'],
+          effect: 'overrides', reviewedSchema: null, semanticFields: [], conflictIds: [], parseIssue: null,
+          status: 'detected', confidence: 'high', evidenceIds: ['evidence-resource'],
         }],
+        datapackConflicts: [],
         relationships: [
           {
             relationshipId: 'relationship-alpha-requires', from: { type: 'Mod', id: 'alpha' },
@@ -201,7 +207,10 @@ function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { ana
         ],
         issues: [],
         graph: { entities: [], relationshipIds: ['relationship-alpha-requires', 'relationship-alpha-overrides'] },
-        summary: { mods: 1, systems: 1, configurations: 1, datapacks: 1, datapackResources: 1, relationships: 2, issues: 0 },
+        summary: {
+          mods: 1, systems: 1, configurations: 1, datapacks: 1, datapackResources: 1,
+          datapackConflicts: 0, relationships: 2, issues: 0,
+        },
       } satisfies EcosystemAnalysis;
     },
   };
@@ -482,19 +491,28 @@ describe('importing a workspace', () => {
     }>();
     assert.equal(detailBody.configurations[0]?.defaultValue, null);
     assert.deepEqual(detailBody.configurations[0]?.source, {
-      file: 'config/alpha.toml', path: 'combat.damage', line: 4, format: 'toml', parser: 'forge-toml',
+      kind: 'config-file', file: 'config/alpha.toml', path: 'combat.damage', line: 4,
+      format: 'toml', parser: 'forge-toml', datapackResourceId: null,
     });
     assert.deepEqual(detailBody.datapackResourceSummary[0], {
       namespace: 'alpha', resourceType: 'recipes', effect: 'overrides', count: 1,
+      reviewedCount: 0, semanticFieldCount: 0, conflictCount: 0,
     });
     assert.equal(detail.body.includes(root), false);
 
     const resourcesResponse = await app.inject({
       method: 'GET',
-      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/datapack-resources?limit=1`,
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/datapack-resources?limit=1&q=steel&effect=overrides&reviewed=false`,
       headers: { cookie },
     });
     assert.equal(resourcesResponse.json<{ total: number }>().total, 1);
+    assert.deepEqual(resourcesResponse.json<{ conflicts: unknown[] }>().conflicts, []);
+    const reviewedResources = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/datapack-resources?reviewed=true`,
+      headers: { cookie },
+    });
+    assert.equal(reviewedResources.json<{ total: number }>().total, 0);
 
     const datapacks = await app.inject({
       method: 'GET',
@@ -507,8 +525,9 @@ describe('importing a workspace', () => {
         datapackId: 'datapack-alpha', name: 'alpha-pack', loader: 'openloader',
         rootPath: 'config/openloader/data/alpha-pack', sha256: '20'.padEnd(64, '0'), description: null,
         resourceIds: ['resource-alpha'], namespaces: ['alpha'], ownerModId: 'alpha',
-        relatedModIds: ['alpha'], issueIds: [], evidenceIds: ['evidence-resource'],
+        relatedModIds: ['alpha'], issueIds: [], conflictIds: [], evidenceIds: ['evidence-resource'],
         resourceCount: 1, overrideCount: 1, extensionCount: 0, unknownCount: 0,
+        reviewedResourceCount: 0, semanticFieldCount: 0, conflictCount: 0,
         resourceTypes: [['recipes', 1]],
       },
     );

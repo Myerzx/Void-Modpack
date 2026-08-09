@@ -8,6 +8,7 @@ import {
   diffLines,
   type FieldChange,
 } from '@voidfall/configuration-staging';
+import { VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY } from '@voidfall/ecosystem-analysis';
 
 import type { WorkspaceConfigurationService } from './workspace-routes.js';
 
@@ -34,6 +35,16 @@ function formatOf(path: string): 'toml' | 'json' | null {
   return null;
 }
 
+class WorkspaceConfigurationValidationError extends Error {
+  public readonly code: string;
+
+  public constructor(code: string) {
+    super(`workspace-configuration:${code}`);
+    this.name = 'WorkspaceConfigurationValidationError';
+    this.code = code;
+  }
+}
+
 export function createWorkspaceConfigurationService(
   stagingParent: string,
 ): WorkspaceConfigurationService {
@@ -45,6 +56,29 @@ export function createWorkspaceConfigurationService(
       if (format === null) return null;
       const absolute = join(input.workspaceRoot, ...input.path.split('/'));
       const content = await readFile(absolute, 'utf8');
+      if (input.reviewedDatapack !== null) {
+        const inspection = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.inspect({
+          schemaId: input.reviewedDatapack.schemaId,
+          resourcePath: input.reviewedDatapack.resourcePath,
+          content,
+        });
+        if (!inspection.success) {
+          throw new WorkspaceConfigurationValidationError(`reviewed-schema-${inspection.code}`);
+        }
+        return {
+          format: 'json',
+          complete: true,
+          issues: [],
+          fields: inspection.schema.fields.map((field) => ({
+            path: field.path,
+            type: field.type,
+            value: inspection.values[field.path],
+            constraints: [],
+            documentation: field.description === null ? [] : [field.description],
+            line: 0,
+          })),
+        };
+      }
       const form = inferForm({ format, content });
       return {
         format: form.format,
@@ -65,7 +99,23 @@ export function createWorkspaceConfigurationService(
       const format = formatOf(input.path);
       if (format === null) return null;
       const absolute = join(input.workspaceRoot, ...input.path.split('/'));
-      const form = inferForm({ format, content: await readFile(absolute, 'utf8') });
+      const content = await readFile(absolute, 'utf8');
+      if (input.reviewedDatapack !== null) {
+        return VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.validateChanges({
+          schemaId: input.reviewedDatapack.schemaId,
+          resourcePath: input.reviewedDatapack.resourcePath,
+          content,
+          changes: input.changes,
+        }).map((decision) => decision.accepted
+          ? {
+              path: decision.path,
+              accepted: true as const,
+              checkedAgainstDeclaredBounds: false,
+              checkedAgainstReviewedSchema: true,
+            }
+          : { path: decision.path, accepted: false as const, code: decision.code ?? 'value-rejected' });
+      }
+      const form = inferForm({ format, content });
 
       return input.changes.map((change) => {
         const field = form.fields.find((entry) => entry.path === change.path);
@@ -84,12 +134,31 @@ export function createWorkspaceConfigurationService(
               // and a form that showed them the same way would be lying by
               // omission.
               checkedAgainstDeclaredBounds: decision.checkedAgainstDeclaredBounds,
+              checkedAgainstReviewedSchema: false,
             }
           : { path: change.path, accepted: false as const, code: decision.code };
       });
     },
 
     async stage(input) {
+      if (input.reviewedDatapack !== null) {
+        const content = await readFile(
+          join(input.workspaceRoot, ...input.path.split('/')),
+          'utf8',
+        );
+        const decisions = VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY.validateChanges({
+          schemaId: input.reviewedDatapack.schemaId,
+          resourcePath: input.reviewedDatapack.resourcePath,
+          content,
+          changes: input.changes,
+        });
+        const refused = decisions.find((decision) => !decision.accepted);
+        if (refused !== undefined) {
+          throw new WorkspaceConfigurationValidationError(
+            `reviewed-schema-${refused.code ?? 'value-rejected'}`,
+          );
+        }
+      }
       const staging = new ConfigurationStaging({
         workspaceRoot: input.workspaceRoot,
         stagingRoot: join(stagingParent, input.workspaceId),
@@ -97,6 +166,7 @@ export function createWorkspaceConfigurationService(
       const staged = await staging.stage({
         path: input.path,
         changes: input.changes as readonly FieldChange[],
+        expectedBaseSha256: input.expectedSha256,
       });
 
       const before = await readFile(

@@ -260,6 +260,22 @@ describe('staging a change', () => {
     assert.equal(await readFile(join(root, 'config', 'alpha.toml'), 'utf8'), TOML);
   });
 
+  it('refuses staging when the file changed after the inventory snapshot', async () => {
+    const { app, cookie, csrfToken, workspaceId, root } = await fixture();
+    const changed = TOML.replace('enabled = true', 'enabled = false');
+    await writeFile(join(root, 'config', 'alpha.toml'), changed, 'utf8');
+
+    const response = await app.inject({
+      method: 'POST',
+      url: `/api/v1/workspaces/${workspaceId}/configuration/staging`,
+      headers: { cookie, 'x-csrf-token': csrfToken },
+      payload: { path: CONFIG_PATH, changes: [{ path: 'bossDamage', value: 55 }] },
+    });
+    assert.equal(response.statusCode, 422);
+    assert.match(response.body, /BASE_DIGEST_MISMATCH/u);
+    assert.equal(await readFile(join(root, 'config', 'alpha.toml'), 'utf8'), changed);
+  });
+
   it('reports the staged diff and lets it be discarded', async () => {
     const { app, cookie, csrfToken, workspaceId } = await fixture();
     await app.inject({

@@ -82,10 +82,15 @@ export class ConfigurationStaging {
   public async stage(input: {
     readonly path: string;
     readonly changes: readonly FieldChange[];
+    readonly expectedBaseSha256?: string;
   }): Promise<StagedFile> {
     const format = formatFor(input.path);
     const source = resolveInside(this.#workspaceRoot, input.path);
     const content = await readFile(source, 'utf8');
+    const baseSha256 = digest(content);
+    if (input.expectedBaseSha256 !== undefined && input.expectedBaseSha256 !== baseSha256) {
+      throw new ConfigurationStagingError('base-digest-mismatch', input.path);
+    }
     const form = inferForm({ format, content });
 
     const staged = rewriteConfiguration({ form, content, changes: input.changes });
@@ -95,7 +100,7 @@ export class ConfigurationStaging {
 
     return Object.freeze({
       path: input.path,
-      baseSha256: digest(content),
+      baseSha256,
       stagedSha256: digest(staged),
       changes: Object.freeze([...input.changes]),
     });

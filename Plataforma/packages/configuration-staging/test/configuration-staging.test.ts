@@ -77,6 +77,20 @@ describe('staging a change', () => {
     assert.match((await staging.readStaged('config/example.toml')) ?? '', /damageScale = 2\.5/u);
   });
 
+  it('refuses to stage against a stale inventory digest', async () => {
+    const { staging } = await fixture();
+    await assert.rejects(
+      staging.stage({
+        path: 'config/example.toml',
+        expectedBaseSha256: '0'.repeat(64),
+        changes: [{ path: 'general.enabled', value: false }],
+      }),
+      (error: unknown) =>
+        error instanceof ConfigurationStagingError && error.code === 'base-digest-mismatch',
+    );
+    assert.equal(await staging.readStaged('config/example.toml'), undefined);
+  });
+
   it('keeps everything it never claimed to understand', async () => {
     const { staging } = await fixture();
     await staging.stage({
