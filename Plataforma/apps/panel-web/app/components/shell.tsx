@@ -53,6 +53,16 @@ export function stepsFor(workspaceId: string | null, active: string): readonly S
   ];
 }
 
+/** Operational navigation only exposes screens backed by the control plane. */
+export function serverSteps(active: 'server' | 'console' | 'backups'): readonly ShellStep[] {
+  return [
+    { label: 'Servidor', href: '/servidor', active: active === 'server' },
+    { label: 'Console', href: '/servidor/console', active: active === 'console' },
+    { label: 'Backups', href: null, active: active === 'backups', pending: true },
+    { label: 'Workspaces', href: '/workspaces' },
+  ];
+}
+
 export function PanelShell(props: {
   readonly title: string;
   readonly subtitle?: ReactNode;
@@ -89,7 +99,7 @@ export function PanelShell(props: {
         <footer className="shell-foot">
           <p>Ambiente local</p>
           <p className="subtle">
-            Leitura somente leitura. Nada é aplicado ao servidor por este painel.
+            Operações autorizadas passam pela Control API e ficam auditadas.
           </p>
         </footer>
       </aside>

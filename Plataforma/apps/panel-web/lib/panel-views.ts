@@ -253,6 +253,13 @@ export interface OperationPageInput {
   readonly total: number;
 }
 
+/** `total` is historical; only these two durable states are actually in flight. */
+export function countInFlightOperations(page: OperationPageInput): number {
+  return page.operations.filter(
+    (operation) => operation.status === 'accepted' || operation.status === 'running',
+  ).length;
+}
+
 export function buildOperationsView(input: {
   readonly session: PanelSession;
   readonly page?: OperationPageInput;

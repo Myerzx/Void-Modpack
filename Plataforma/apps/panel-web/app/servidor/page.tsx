@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { PanelShell, serverSteps } from '../components/shell';
 import { PanelSessionClient, type PanelFetch } from '../../lib/panel-session';
 import { actionView, type PanelSession } from '../../lib/panel-shell';
 import {
   buildDashboardView,
   buildInstanceSelectorView,
   buildOperationsView,
+  countInFlightOperations,
   type OperationPageInput,
   type ProcessStateReading,
   type ServerInstance,
@@ -157,7 +159,9 @@ export default function ServerPage() {
       session,
       ...(instance === undefined ? {} : { instance }),
       ...(processState === undefined ? {} : { processState }),
-      ...(operations === undefined ? {} : { openOperations: operations.total }),
+      ...(operations === undefined
+        ? {}
+        : { openOperations: countInFlightOperations(operations) }),
     });
   }, [session, instances, activeId, processState, operations]);
 
@@ -177,18 +181,25 @@ export default function ServerPage() {
 
   if (signedOut) {
     return (
-      <main className="panel">
-        <p>Sua sessão terminou. Entre novamente para continuar.</p>
-      </main>
+      <PanelShell title="Servidor" steps={serverSteps('server')}>
+        <p className="banner banner-warning">Sua sessão terminou. Entre novamente para continuar.</p>
+      </PanelShell>
     );
   }
   if (session === undefined || selector === undefined) {
-    return <main className="panel"><p>Carregando…</p></main>;
+    return (
+      <PanelShell title="Servidor" steps={serverSteps('server')}>
+        <p>Carregando…</p>
+      </PanelShell>
+    );
   }
 
   return (
-    <main className="panel">
-      <h1>Servidor</h1>
+    <PanelShell
+      title="Servidor"
+      subtitle="Estado observado, operações duráveis e controles auditados."
+      steps={serverSteps('server')}
+    >
 
       <section aria-label="Instância">
         {selector.screen.showsContent ? (
@@ -282,6 +293,6 @@ export default function ServerPage() {
             </button>
           ))}
       </section>
-    </main>
+    </PanelShell>
   );
 }

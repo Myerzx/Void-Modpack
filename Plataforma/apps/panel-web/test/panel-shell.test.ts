@@ -15,6 +15,7 @@ import {
   buildDashboardView,
   buildInstanceSelectorView,
   buildOperationsView,
+  countInFlightOperations,
   type ServerInstance,
 } from '../lib/panel-views';
 
@@ -236,6 +237,25 @@ describe('dashboard', () => {
 });
 
 describe('operations page', () => {
+  it('does not label historical operations as in flight', () => {
+    assert.equal(
+      countInFlightOperations({
+        total: 12,
+        operations: [
+          {
+            operationId: 'operation-1',
+            kind: 'server.start',
+            status: 'succeeded',
+            acceptedAt: '2026-08-09T12:00:00.000Z',
+            correlationId: 'correlation-1',
+            receipt: { outcome: 'succeeded', failureCode: null },
+          },
+        ],
+      }),
+      0,
+    );
+  });
+
   const operation = {
     operationId: '018f6b8c-76a3-7d10-9f2e-1d9e52a63703',
     kind: 'server.start',

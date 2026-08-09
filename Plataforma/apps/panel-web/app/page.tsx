@@ -23,18 +23,18 @@ import {
 } from 'lucide-react';
 import { dashboardFixture } from '../lib/dashboard-fixture';
 
-const navigation: readonly { readonly label: string; readonly icon: LucideIcon; readonly active?: boolean }[] = [
+const navigation: readonly { readonly label: string; readonly icon: LucideIcon; readonly href?: string; readonly active?: boolean }[] = [
   { label: 'Visão geral', icon: LayoutDashboard, active: true },
-  { label: 'Servidor', icon: Server },
-  { label: 'Console', icon: TerminalSquare },
+  { label: 'Servidor', icon: Server, href: '/servidor' },
+  { label: 'Console', icon: TerminalSquare, href: '/servidor/console' },
   { label: 'Jogadores', icon: Users },
-  { label: 'Mods', icon: Blocks },
+  { label: 'Mods', icon: Blocks, href: '/mods' },
   { label: 'Modpack', icon: Box },
   { label: 'Backups', icon: DatabaseBackup },
   { label: 'Desempenho', icon: Activity },
   { label: 'Logs', icon: ScrollText },
   { label: 'Segurança', icon: ShieldCheck },
-  { label: 'Auditoria', icon: FileText },
+  { label: 'Auditoria', icon: FileText, href: '/auditoria' },
   { label: 'Documentação', icon: BookOpen },
 ];
 
@@ -60,10 +60,10 @@ export default function DashboardPage() {
           </div>
         </div>
         <nav className="nav-list">
-          {navigation.map(({ label, icon: Icon, active }) => (
+          {navigation.map(({ label, icon: Icon, href, active }) => (
             <a
               className={active ? 'nav-item active' : 'nav-item'}
-              href={active ? '#conteudo' : '#indisponivel'}
+              href={href ?? (active ? '#conteudo' : '#indisponivel')}
               key={label}
               aria-current={active ? 'page' : undefined}
             >
@@ -172,7 +172,7 @@ export default function DashboardPage() {
               </dl>
               <div className="panel-note">
                 <ShieldCheck aria-hidden="true" size={17} />
-                <p>Start, stop, restart e console permanecem indisponíveis até os gates da Fase 3.</p>
+                <p>Lifecycle e console já usam operações duráveis; backup e instalação continuam bloqueados.</p>
               </div>
             </section>
 
