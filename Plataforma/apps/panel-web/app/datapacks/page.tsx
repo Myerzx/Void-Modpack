@@ -10,6 +10,7 @@ export default function DatapacksPage() {
   const [workspaces, setWorkspaces] = useState<readonly WorkspaceSummary[]>([]);
   const [workspaceId, setWorkspaceId] = useState('');
   const [packs, setPacks] = useState<readonly EcosystemDatapackSummary[]>([]);
+  const [conflictCount, setConflictCount] = useState(0);
   const [quality, setQuality] = useState('loading');
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
@@ -19,6 +20,7 @@ export default function DatapacksPage() {
     try {
       const result = await listEcosystemDatapacks(target);
       setPacks(result.datapacks);
+      setConflictCount(result.conflictCount ?? 0);
       setQuality(result.dataQuality);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Não foi possível carregar os datapacks.');
@@ -60,8 +62,6 @@ export default function DatapacksPage() {
   const overrideCount = packs.reduce((sum, pack) => sum + pack.overrideCount, 0);
   const reviewedCount = packs.reduce((sum, pack) => sum + pack.reviewedResourceCount, 0);
   const semanticFieldCount = packs.reduce((sum, pack) => sum + pack.semanticFieldCount, 0);
-  const conflictCount = packs.reduce((sum, pack) => sum + pack.conflictCount, 0);
-
   return (
     <PanelShell
       title="Datapacks"

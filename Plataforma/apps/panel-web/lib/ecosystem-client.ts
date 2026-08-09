@@ -221,6 +221,7 @@ export async function listEcosystemDatapacks(workspaceId: string): Promise<{
   readonly dataQuality: string;
   readonly analysisId?: string;
   readonly generatedAt?: string;
+  readonly conflictCount?: number;
   readonly datapacks: readonly EcosystemDatapackSummary[];
 }> {
   return panelRequest(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/ecosystem/datapacks`);
