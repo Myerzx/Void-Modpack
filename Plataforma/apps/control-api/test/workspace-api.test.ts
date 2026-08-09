@@ -519,6 +519,7 @@ describe('importing a workspace', () => {
       url: `/api/v1/workspaces/${workspaceId}/ecosystem/datapacks`,
       headers: { cookie },
     });
+    assert.equal(datapacks.json<{ conflictCount: number }>().conflictCount, 0);
     assert.deepEqual(
       datapacks.json<{ datapacks: { resourceCount: number; overrideCount: number }[] }>().datapacks[0],
       {

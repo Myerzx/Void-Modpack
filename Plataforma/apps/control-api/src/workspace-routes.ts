@@ -734,6 +734,7 @@ export function registerWorkspaceRoutes(
         dataQuality: 'stored',
         analysisId: analysis.analysisId,
         generatedAt: analysis.generatedAt,
+        conflictCount: analysis.datapackConflicts.length,
         datapacks: analysis.datapacks.map((datapack) => {
           const resources = analysis.datapackResources.filter(
             (resource) => resource.datapackId === datapack.datapackId,
@@ -1029,13 +1030,10 @@ export function registerWorkspaceRoutes(
    * A path that is not in the inventory is refused before anything opens it,
    * so traversal never becomes a question about string handling.
    */
-  const configurationPathOf = async (workspaceId: string, path: string): Promise<{
+  const knownConfigurationPathOf = async (workspaceId: string, path: string): Promise<{
     readonly path: string;
     readonly expectedSha256: string;
-    readonly reviewedDatapack: {
-      readonly schemaId: string;
-      readonly resourcePath: string;
-    } | null;
+    readonly role: string;
   }> => {
     const stored = await repositories.workspaces.latestInventory(workspaceId);
     if (stored === undefined) {
@@ -1051,8 +1049,20 @@ export function registerWorkspaceRoutes(
     if (!known || knownFile === undefined) {
       throw apiError(404, 'CONFIGURATION_NOT_IN_INVENTORY', 'Arquivo não está no inventário.');
     }
+    return { path, expectedSha256: knownFile.sha256, role: knownFile.role };
+  };
+
+  const configurationPathOf = async (workspaceId: string, path: string): Promise<{
+    readonly path: string;
+    readonly expectedSha256: string;
+    readonly reviewedDatapack: {
+      readonly schemaId: string;
+      readonly resourcePath: string;
+    } | null;
+  }> => {
+    const knownFile = await knownConfigurationPathOf(workspaceId, path);
     if (knownFile.role !== 'datapack') {
-      return { path, expectedSha256: knownFile.sha256, reviewedDatapack: null };
+      return { path, expectedSha256: knownFile.expectedSha256, reviewedDatapack: null };
     }
     const result = await currentAnalysis(workspaceId, false);
     if (result.status !== 'cached' && result.status !== 'generated') {
@@ -1231,7 +1241,10 @@ export function registerWorkspaceRoutes(
       if (path === undefined || path.length === 0) {
         throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
       }
-      await configurationPathOf(workspace.workspaceId, path);
+      // Reading or discarding our own staged copy must remain possible even
+      // if a later analysis removes a schema or discovers a conflict. The
+      // stricter semantic gate belongs only to validate/stage operations.
+      await knownConfigurationPathOf(workspace.workspaceId, path);
       const staged = await configuration.readStaged({
         workspaceId: workspace.workspaceId,
         workspaceRoot: workspace.rootPath,
@@ -1253,7 +1266,7 @@ export function registerWorkspaceRoutes(
       if (path === undefined || path.length === 0) {
         throw apiError(400, 'PATH_REQUIRED', 'Informe o arquivo de configuração.');
       }
-      await configurationPathOf(workspace.workspaceId, path);
+      await knownConfigurationPathOf(workspace.workspaceId, path);
       // Discarding before apply deletes a file this service wrote. Nothing in
       // the workspace is touched, because nothing in it ever was.
       await configuration.discard({
