@@ -144,6 +144,12 @@ export default function ModDetailPage() {
       entries.push(configuration);
       groups.set(configuration.systemId, entries);
     }
+    for (const entries of groups.values()) {
+      entries.sort((left, right) =>
+        left.source.file.localeCompare(right.source.file, 'en-US') ||
+        left.source.path.localeCompare(right.source.path, 'en-US'),
+      );
+    }
     return groups;
   }, [visibleConfigurations]);
   const sourceFiles = useMemo(() => [...new Set(detail?.configurations.map((entry) => entry.source.file) ?? [])].sort(), [detail]);
