@@ -93,7 +93,7 @@ function DetailView() {
 
   if (workspaceId === null) {
     return (
-      <PanelShell title="Inventário" steps={stepsFor(null, 'inventario')}>
+      <PanelShell title="Inventário" category="files" steps={stepsFor(null, 'inventario')}>
         <p className="muted">Nenhum workspace informado.</p>
       </PanelShell>
     );
@@ -101,7 +101,7 @@ function DetailView() {
 
   if (inventory === 'loading') {
     return (
-      <PanelShell title="Inventário" steps={stepsFor(workspaceId, 'inventario')}>
+      <PanelShell title="Inventário" category="files" steps={stepsFor(workspaceId, 'inventario')}>
         <p className="muted">Lendo inventário…</p>
       </PanelShell>
     );
@@ -118,6 +118,7 @@ function DetailView() {
 
   return (
     <PanelShell
+      category="files"
       title="Inventário"
       steps={stepsFor(workspaceId, 'inventario')}
       subtitle="O que a varredura leu, o que ela recusou de propósito, e cada mod com as configurações que ele provavelmente possui."

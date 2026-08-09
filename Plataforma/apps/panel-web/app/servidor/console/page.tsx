@@ -247,7 +247,7 @@ export default function ConsolePage() {
 
   if (signedOut) {
     return (
-      <PanelShell title="Console" steps={serverSteps('console')}>
+      <PanelShell title="Console" category="logs" steps={serverSteps('console')}>
         <p className="banner banner-warning">Sua sessão terminou. Entre novamente para continuar.</p>
       </PanelShell>
     );
@@ -255,6 +255,7 @@ export default function ConsolePage() {
 
   return (
     <PanelShell
+      category="logs"
       title="Console"
       subtitle={subtitle}
       steps={serverSteps('console')}

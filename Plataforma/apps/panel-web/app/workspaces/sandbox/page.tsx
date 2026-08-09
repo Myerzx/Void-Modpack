@@ -153,7 +153,7 @@ function SandboxView() {
 
   if (workspaceId === null) {
     return (
-      <PanelShell title="Sandbox" steps={stepsFor(null, 'sandbox')}>
+      <PanelShell title="Sandbox" category="files" steps={stepsFor(null, 'sandbox')}>
         <p className="muted">Nenhum workspace informado.</p>
       </PanelShell>
     );
@@ -163,6 +163,7 @@ function SandboxView() {
 
   return (
     <PanelShell
+      category="files"
       title="Sandbox"
       steps={stepsFor(workspaceId, 'sandbox')}
       subtitle="Um boot numa cópia descartável, montada a partir dos arquivos mínimos. O mundo original nunca é copiado nem tocado."

@@ -1,10 +1,7 @@
 import {
-  Activity,
   Archive,
   Bell,
   Blocks,
-  BookOpen,
-  Box,
   ChevronDown,
   CircleGauge,
   Clock3,
@@ -17,25 +14,21 @@ import {
   ScrollText,
   Server,
   ShieldCheck,
-  TerminalSquare,
   Users,
   type LucideIcon,
 } from 'lucide-react';
 import { dashboardFixture } from '../lib/dashboard-fixture';
 
 const navigation: readonly { readonly label: string; readonly icon: LucideIcon; readonly href?: string; readonly active?: boolean }[] = [
-  { label: 'Visão geral', icon: LayoutDashboard, active: true },
+  { label: 'Visão geral', icon: LayoutDashboard, href: '/', active: true },
   { label: 'Servidor', icon: Server, href: '/servidor' },
-  { label: 'Console', icon: TerminalSquare, href: '/servidor/console' },
-  { label: 'Jogadores', icon: Users },
   { label: 'Mods', icon: Blocks, href: '/mods' },
-  { label: 'Modpack', icon: Box },
+  { label: 'Datapacks', icon: Archive, href: '/datapacks' },
+  { label: 'Jogadores', icon: Users },
+  { label: 'Arquivos', icon: HardDrive, href: '/workspaces' },
   { label: 'Backups', icon: DatabaseBackup },
-  { label: 'Desempenho', icon: Activity },
-  { label: 'Logs', icon: ScrollText },
-  { label: 'Segurança', icon: ShieldCheck },
+  { label: 'Logs', icon: ScrollText, href: '/servidor/console' },
   { label: 'Auditoria', icon: FileText, href: '/auditoria' },
-  { label: 'Documentação', icon: BookOpen },
 ];
 
 const metricIcons = [Users, HardDrive, CircleGauge, Archive] as const;

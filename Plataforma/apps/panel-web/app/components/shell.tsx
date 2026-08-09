@@ -23,6 +23,29 @@ export interface ShellStep {
   readonly pending?: boolean;
 }
 
+export type ShellCategory =
+  | 'overview'
+  | 'server'
+  | 'mods'
+  | 'datapacks'
+  | 'players'
+  | 'files'
+  | 'backups'
+  | 'logs'
+  | 'audit';
+
+const CATEGORIES: readonly (ShellStep & { readonly id: ShellCategory })[] = [
+  { id: 'overview', label: 'Visão geral', href: '/' },
+  { id: 'server', label: 'Servidor', href: '/servidor' },
+  { id: 'mods', label: 'Mods', href: '/mods' },
+  { id: 'datapacks', label: 'Datapacks', href: '/datapacks' },
+  { id: 'players', label: 'Jogadores', href: null, pending: true },
+  { id: 'files', label: 'Arquivos', href: '/workspaces' },
+  { id: 'backups', label: 'Backups', href: null, pending: true },
+  { id: 'logs', label: 'Logs', href: '/servidor/console' },
+  { id: 'audit', label: 'Auditoria', href: '/auditoria' },
+];
+
 export function stepsFor(workspaceId: string | null, active: string): readonly ShellStep[] {
   const suffix = workspaceId === null ? null : `?id=${workspaceId}`;
   return [
@@ -54,12 +77,45 @@ export function stepsFor(workspaceId: string | null, active: string): readonly S
 }
 
 /** Operational navigation only exposes screens backed by the control plane. */
-export function serverSteps(active: 'server' | 'console' | 'backups'): readonly ShellStep[] {
+export function serverSteps(
+  active: 'server' | 'settings' | 'console' | 'events' | 'players' | 'access' | 'files' | 'worlds' | 'backups',
+): readonly ShellStep[] {
   return [
-    { label: 'Servidor', href: '/servidor', active: active === 'server' },
+    { label: 'Visão geral', href: '/servidor', active: active === 'server' },
+    { label: 'Configurações', href: '/configuracoes', active: active === 'settings' },
     { label: 'Console', href: '/servidor/console', active: active === 'console' },
+    { label: 'Eventos', href: null, active: active === 'events', pending: true },
+    { label: 'Jogadores', href: null, active: active === 'players', pending: true },
+    { label: 'Acesso', href: null, active: active === 'access', pending: true },
+    { label: 'Arquivos', href: '/workspaces', active: active === 'files' },
+    { label: 'Mundos', href: null, active: active === 'worlds', pending: true },
     { label: 'Backups', href: null, active: active === 'backups', pending: true },
-    { label: 'Workspaces', href: '/workspaces' },
+  ];
+}
+
+export function modsSteps(active: string, workspaceId?: string): readonly ShellStep[] {
+  const suffix = workspaceId === undefined ? '' : `?workspace=${encodeURIComponent(workspaceId)}`;
+  return [
+    { label: 'Todos', href: `/mods${suffix}`, active: active === 'all' },
+    { label: 'Configurações', href: `/mods${suffix}#configuracoes`, active: active === 'configurations' },
+    { label: 'Dependências', href: `/mods${suffix}#dependencias`, active: active === 'dependencies' },
+    { label: 'Compatibilidade', href: '/mods/compatibilidade', active: active === 'compatibility' },
+    { label: 'Datapacks', href: '/datapacks', active: active === 'datapacks' },
+    { label: 'Recursos', href: `/mods${suffix}#recursos`, active: active === 'resources' },
+    { label: 'Grafo', href: `/mods${suffix}#grafo`, active: active === 'graph' },
+  ];
+}
+
+export function modSteps(workspaceId: string, modId: string, active: string): readonly ShellStep[] {
+  const base = `/mods/detalhe?workspace=${encodeURIComponent(workspaceId)}&mod=${encodeURIComponent(modId)}&tab=`;
+  return [
+    { label: 'Geral', href: `${base}geral`, active: active === 'geral' },
+    { label: 'Configurações', href: `${base}configuracoes`, active: active === 'configuracoes' },
+    { label: 'Sistemas', href: `${base}sistemas`, active: active === 'sistemas' },
+    { label: 'Integrações', href: `${base}integracoes`, active: active === 'integracoes' },
+    { label: 'Datapacks', href: `${base}datapacks`, active: active === 'datapacks' },
+    { label: 'Arquivos', href: `${base}arquivos`, active: active === 'arquivos' },
+    { label: 'Grafo', href: `${base}grafo`, active: active === 'grafo' },
   ];
 }
 
@@ -67,6 +123,7 @@ export function PanelShell(props: {
   readonly title: string;
   readonly subtitle?: ReactNode;
   readonly steps: readonly ShellStep[];
+  readonly category?: ShellCategory;
   readonly actions?: ReactNode;
   readonly children: ReactNode;
 }) {
@@ -78,11 +135,11 @@ export function PanelShell(props: {
           <span>VoidFall</span>
         </div>
 
-        <nav className="shell-nav">
-          {props.steps.map((step) => {
+        <nav className="shell-nav" aria-label="Navegação principal">
+          {CATEGORIES.map((step) => {
             const className = `shell-link${step.active === true ? ' is-active' : ''}${
               step.href === null ? ' is-disabled' : ''
-            }`;
+            }${step.id === props.category ? ' is-active' : ''}`;
             return step.href === null ? (
               <span key={step.label} className={className}>
                 {step.label}
@@ -114,6 +171,20 @@ export function PanelShell(props: {
           </div>
           {props.actions === undefined ? null : <div className="shell-actions">{props.actions}</div>}
         </header>
+        {props.steps.length === 0 ? null : (
+          <nav className="shell-secondary" aria-label="Navegação da área">
+            {props.steps.map((step) => {
+              const className = `shell-tab${step.active === true ? ' is-active' : ''}${step.href === null ? ' is-disabled' : ''}`;
+              return step.href === null ? (
+                <span key={step.label} className={className} title={step.pending === true ? 'Ainda não implementado' : undefined}>
+                  {step.label}
+                </span>
+              ) : (
+                <a key={step.label} className={className} href={step.href}>{step.label}</a>
+              );
+            })}
+          </nav>
+        )}
         <div className="shell-body">{props.children}</div>
       </div>
     </div>

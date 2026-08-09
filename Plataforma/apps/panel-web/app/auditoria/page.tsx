@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { PanelShell } from '../components/shell';
 
 import { PanelSessionClient, type PanelFetch } from '../../lib/panel-session';
 import type { PanelSession } from '../../lib/panel-shell';
@@ -86,15 +87,18 @@ export default function AuditPage() {
 
   if (signedOut) {
     return (
-      <main className="panel">
+      <PanelShell title="Auditoria" category="audit" steps={[]}>
+      <main className="card">
         <p>Sua sessão terminou. Entre novamente para continuar.</p>
       </main>
+      </PanelShell>
     );
   }
-  if (view === undefined) return <main className="panel"><p>Carregando…</p></main>;
+  if (view === undefined) return <PanelShell title="Auditoria" category="audit" steps={[]}><main className="card"><p>Carregando…</p></main></PanelShell>;
 
   return (
-    <main className="panel">
+    <PanelShell title="Auditoria" category="audit" steps={[]} subtitle="Histórico rastreável das ações executadas pelo painel e pelos agentes.">
+    <main className="card audit-page">
       <h1>Auditoria</h1>
 
       <section aria-label="Filtros">
@@ -157,5 +161,6 @@ export default function AuditPage() {
         </p>
       )}
     </main>
+    </PanelShell>
   );
 }

@@ -168,7 +168,7 @@ function ConfigurationView() {
 
   if (target === null) {
     return (
-      <PanelShell title="Configuração" steps={stepsFor(null, 'configuracao')}>
+      <PanelShell title="Configuração" category="files" steps={stepsFor(null, 'configuracao')}>
         <p className="muted">Nenhum arquivo informado.</p>
       </PanelShell>
     );
@@ -176,7 +176,7 @@ function ConfigurationView() {
 
   if (form === 'loading') {
     return (
-      <PanelShell title="Configuração" steps={stepsFor(target.id, 'configuracao')}>
+      <PanelShell title="Configuração" category="files" steps={stepsFor(target.id, 'configuracao')}>
         <p className="muted">Lendo o arquivo…</p>
       </PanelShell>
     );
@@ -195,6 +195,7 @@ function ConfigurationView() {
 
   return (
     <PanelShell
+      category="files"
       title="Configuração"
       steps={stepsFor(target.id, 'configuracao')}
       subtitle={

@@ -107,7 +107,7 @@ export default function WorkspacesPage() {
 
   if (session === 'loading') {
     return (
-      <PanelShell title="Workspaces" steps={stepsFor(null, 'workspaces')}>
+      <PanelShell title="Workspaces" category="files" steps={stepsFor(null, 'workspaces')}>
         <p className="muted">Carregando…</p>
       </PanelShell>
     );
@@ -118,6 +118,7 @@ export default function WorkspacesPage() {
 
   return (
     <PanelShell
+      category="files"
       title="Workspaces"
       steps={stepsFor(null, 'workspaces')}
       subtitle="Um servidor ou perfil de cliente importado. A leitura é somente leitura: nada é escrito dentro do diretório registrado."

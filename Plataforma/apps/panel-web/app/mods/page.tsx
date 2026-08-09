@@ -1,287 +1,194 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { PanelShell, modsSteps } from '../components/shell';
 import {
-  buildArtifactListView,
-  buildDependencyGraphView,
-  buildIncompatibilityDrawerView,
-  buildInstallActionView,
-  buildUploadProgressView,
-  type ArtifactSubmissionDetail,
-  type ArtifactSubmissionPage,
-  type IssueSeverityFilter,
-  type UploadPhase,
-} from '../../lib/artifact-view';
+  listEcosystemMods,
+  runEcosystemAnalysis,
+  type EcosystemModSummary,
+} from '../../lib/ecosystem-client';
+import {
+  listWorkspaces,
+  readSession,
+  type PanelSession,
+  type WorkspaceSummary,
+} from '../../lib/workspace-client';
 
-/**
- * The mod review screen.
- *
- * It is backed by the real Control API: the list, the incompatibility drawer
- * and the dependency graph all come from stored reports, never from a fixture.
- * When a report does not exist yet the screen says so instead of inventing one.
- *
- * There is deliberately no install control. Approving an artifact changes its
- * review state and nothing else.
- */
+type ViewState = 'loading' | 'ready' | 'not-analyzed' | 'never-scanned' | 'empty' | 'error';
 
-interface PanelSession {
-  readonly serverId: string;
-  readonly csrfToken: string;
-  readonly permissions: readonly string[];
-}
-
-const install = buildInstallActionView();
+const STATUS_LABEL: Readonly<Record<string, string>> = {
+  complete: 'Completa',
+  partial: 'Parcial',
+  unavailable: 'Indisponível',
+};
 
 export default function ModsPage() {
-  const [session, setSession] = useState<PanelSession | undefined>(undefined);
-  const [page, setPage] = useState<ArtifactSubmissionPage | undefined>(undefined);
-  const [detail, setDetail] = useState<ArtifactSubmissionDetail | undefined>(undefined);
+  const [session, setSession] = useState<PanelSession | null>(null);
+  const [workspaces, setWorkspaces] = useState<readonly WorkspaceSummary[]>([]);
+  const [workspaceId, setWorkspaceId] = useState('');
+  const [mods, setMods] = useState<readonly EcosystemModSummary[]>([]);
+  const [generatedAt, setGeneratedAt] = useState<string | undefined>();
+  const [state, setState] = useState<ViewState>('loading');
+  const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
-  const [severity, setSeverity] = useState<IssueSeverityFilter>('all');
-  const [graphOpen, setGraphOpen] = useState(false);
-  const [uploadPhase, setUploadPhase] = useState<UploadPhase>('idle');
-  const [uploadSent, setUploadSent] = useState(0);
-  const [uploadTotal, setUploadTotal] = useState(0);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [side, setSide] = useState('all');
+  const [status, setStatus] = useState('all');
+  const [analyzing, setAnalyzing] = useState(false);
 
-  const refresh = useCallback(async (current: PanelSession) => {
-    const response = await fetch(`/api/v1/servers/${current.serverId}/artifacts`, {
-      credentials: 'include',
-    });
-    if (!response.ok) {
-      setError('Não foi possível carregar os artefatos.');
-      return;
+  const loadMods = useCallback(async (target: string) => {
+    setState('loading');
+    setMessage('');
+    try {
+      const result = await listEcosystemMods(target);
+      setMods(result.mods);
+      setGeneratedAt(result.generatedAt);
+      if (result.dataQuality === 'stored') setState(result.mods.length === 0 ? 'empty' : 'ready');
+      else if (result.dataQuality === 'never-scanned') setState('never-scanned');
+      else setState('not-analyzed');
+    } catch (error) {
+      setState('error');
+      setMessage(error instanceof Error ? error.message : 'Não foi possível carregar os mods.');
     }
-    setPage((await response.json()) as ArtifactSubmissionPage);
   }, []);
 
   useEffect(() => {
-    const stored = globalThis.sessionStorage?.getItem('voidfall.session');
-    if (stored === null || stored === undefined) return;
-    const parsed = JSON.parse(stored) as PanelSession;
-    setSession(parsed);
-    void refresh(parsed);
-  }, [refresh]);
-
-  const list = useMemo(
-    () => (page === undefined ? undefined : buildArtifactListView({ page, search })),
-    [page, search],
-  );
-  const drawer = useMemo(
-    () => (detail === undefined ? undefined : buildIncompatibilityDrawerView(detail, severity)),
-    [detail, severity],
-  );
-  const graph = useMemo(
-    () => (detail === undefined || !graphOpen ? undefined : buildDependencyGraphView(detail)),
-    [detail, graphOpen],
-  );
-  const progress = buildUploadProgressView({
-    phase: uploadPhase,
-    sentBytes: uploadSent,
-    totalBytes: uploadTotal,
-  });
-
-  const openDetail = useCallback(
-    async (submissionId: string) => {
-      if (session === undefined) return;
-      setGraphOpen(false);
-      const response = await fetch(
-        `/api/v1/servers/${session.serverId}/artifacts/${submissionId}`,
-        { credentials: 'include' },
-      );
-      if (!response.ok) {
-        setError('Não foi possível carregar a análise deste artefato.');
-        return;
+    void (async () => {
+      try {
+        const [current, listing] = await Promise.all([readSession(), listWorkspaces()]);
+        setSession(current);
+        if (current === null) {
+          setState('error');
+          setMessage('Entre no painel para gerenciar os mods instalados.');
+          return;
+        }
+        const servers = listing.workspaces.filter((workspace) => workspace.kind === 'server');
+        setWorkspaces(servers);
+        const requested = new URL(globalThis.location.href).searchParams.get('workspace');
+        const selected = servers.find((workspace) => workspace.workspaceId === requested) ?? servers[0];
+        if (selected === undefined) {
+          setState('empty');
+          return;
+        }
+        setWorkspaceId(selected.workspaceId);
+        await loadMods(selected.workspaceId);
+      } catch (error) {
+        setState('error');
+        setMessage(error instanceof Error ? error.message : 'Não foi possível abrir a área de mods.');
       }
-      setDetail((await response.json()) as ArtifactSubmissionDetail);
-    },
-    [session],
-  );
+    })();
+  }, [loadMods]);
 
-  const upload = useCallback(
-    async (file: File) => {
-      if (session === undefined) return;
-      setError(undefined);
-      setUploadPhase('hashing');
-      setUploadTotal(file.size);
-      setUploadSent(0);
+  const filtered = useMemo(() => {
+    const query = search.trim().toLocaleLowerCase('pt-BR');
+    return mods.filter((mod) => {
+      if (side !== 'all' && mod.side !== side) return false;
+      if (status !== 'all' && mod.analysisStatus !== status) return false;
+      return query.length === 0 || `${mod.displayName ?? ''} ${mod.modId} ${mod.version ?? ''}`.toLocaleLowerCase('pt-BR').includes(query);
+    });
+  }, [mods, search, side, status]);
 
-      const bytes = new Uint8Array(await file.arrayBuffer());
-      const digest = await globalThis.crypto.subtle.digest('SHA-256', bytes);
-      const sha256 = [...new Uint8Array(digest)]
-        .map((byte) => byte.toString(16).padStart(2, '0'))
-        .join('');
+  const totals = useMemo(() => mods.reduce(
+    (sum, mod) => ({
+      configurations: sum.configurations + mod.configurationCount,
+      datapacks: sum.datapacks + mod.datapackCount,
+      relations: sum.relations + mod.dependencyCount + mod.integrationCount,
+      problems: sum.problems + mod.problemCount,
+    }),
+    { configurations: 0, datapacks: 0, relations: 0, problems: 0 },
+  ), [mods]);
 
-      setUploadPhase('uploading');
-      const response = await fetch(`/api/v1/servers/${session.serverId}/artifacts`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/octet-stream',
-          'x-csrf-token': session.csrfToken,
-          'x-artifact-filename': file.name,
-          'x-artifact-sha256': sha256,
-        },
-        body: bytes,
-      });
-      setUploadSent(file.size);
+  const analyze = useCallback(async () => {
+    if (session?.csrfToken === null || session?.csrfToken === undefined || workspaceId.length === 0) return;
+    setAnalyzing(true);
+    setMessage('');
+    try {
+      await runEcosystemAnalysis(workspaceId, session.csrfToken);
+      await loadMods(workspaceId);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'A análise não pôde ser concluída.');
+    } finally {
+      setAnalyzing(false);
+    }
+  }, [loadMods, session, workspaceId]);
 
-      if (!response.ok) {
-        setUploadPhase('failed');
-        setError('O envio foi recusado.');
-        return;
-      }
-      // Quarantine and analysis are separate durable steps.
-      setUploadPhase('quarantined');
-      await refresh(session);
-      setUploadPhase('analyzing');
-    },
-    [refresh, session],
-  );
-
-  if (session === undefined) {
-    return <main className="panel"><p>Entre no painel para revisar artefatos.</p></main>;
-  }
-  if (!session.permissions.includes('mods.view')) {
-    return <main className="panel"><p>Sua sessão não tem permissão para ver artefatos.</p></main>;
-  }
+  const selectedWorkspace = workspaces.find((workspace) => workspace.workspaceId === workspaceId);
 
   return (
-    <main className="panel">
-      <h1>Mods em revisão</h1>
-      {error !== undefined ? <p role="alert">{error}</p> : null}
-
-      {session.permissions.includes('mods.manage') ? (
-        <section aria-label="Envio de artefato">
-          <input
-            type="file"
-            accept=".jar,.zip"
-            disabled={progress.busy}
+    <PanelShell
+      title="Mods"
+      category="mods"
+      steps={modsSteps('all', workspaceId || undefined)}
+      subtitle={generatedAt === undefined
+        ? 'Inventário semântico dos mods instalados, suas configurações e relações comprovadas.'
+        : `Análise persistida em ${new Date(generatedAt).toLocaleString('pt-BR')}.`}
+      actions={workspaces.length === 0 ? undefined : (
+        <label className="compact-select">
+          <span>Servidor</span>
+          <select
+            value={workspaceId}
             onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file !== undefined) void upload(file);
+              const target = event.target.value;
+              setWorkspaceId(target);
+              globalThis.history.replaceState(null, '', `/mods?workspace=${encodeURIComponent(target)}`);
+              void loadMods(target);
             }}
-          />
-          <p>{progress.label}</p>
-          <progress max={100} value={progress.percent} />
+          >
+            {workspaces.map((workspace) => <option key={workspace.workspaceId} value={workspace.workspaceId}>{workspace.displayName}</option>)}
+          </select>
+        </label>
+      )}
+    >
+      {message.length > 0 ? <p className="banner banner-danger" role="alert">{message}</p> : null}
+
+      {state === 'loading' ? <section className="card"><h2>Analisando contexto</h2><p className="muted">Carregando o último snapshot persistido.</p></section> : null}
+      {state === 'empty' && workspaces.length === 0 ? (
+        <section className="card empty-state"><h2>Nenhum servidor importado</h2><p className="muted">Importe um workspace de servidor para inventariar os mods reais.</p><a className="secondary" href="/workspaces">Abrir Arquivos</a></section>
+      ) : null}
+      {state === 'never-scanned' ? (
+        <section className="card empty-state"><h2>Inventário necessário</h2><p className="muted">Este servidor ainda não foi varrido. O painel não vai presumir o que existe no diretório.</p><a className="secondary" href={`/workspaces/detalhe?id=${encodeURIComponent(workspaceId)}`}>Abrir inventário</a></section>
+      ) : null}
+      {state === 'not-analyzed' ? (
+        <section className="card analysis-callout">
+          <div><span className="eyebrow">Snapshot ausente ou desatualizado</span><h2>Executar análise profunda</h2><p className="muted">A operação lê o inventário atual, normaliza configurações, datapacks e evidências e guarda o resultado pelo hash.</p></div>
+          {session?.permissions.includes('workspace.manage') === true ? <button className="primary" type="button" disabled={analyzing} onClick={() => void analyze()}>{analyzing ? 'Analisando…' : 'Analisar agora'}</button> : null}
         </section>
       ) : null}
 
-      <section aria-label="Lista de mods">
-        <input
-          type="search"
-          placeholder="Buscar por arquivo, mod id ou hash"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
-        {list === undefined ? (
-          <p>Carregando…</p>
-        ) : list.items.length === 0 ? (
-          <p>
-            {list.emptyReason === 'no-submissions'
-              ? 'Nenhum artefato foi enviado ainda.'
-              : 'Nenhum artefato corresponde à busca.'}
-          </p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Arquivo</th>
-                <th>Lado</th>
-                <th>Versão</th>
-                <th>Estado</th>
-                <th>Problemas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.items.map((item) => (
-                <tr key={item.submissionId}>
-                  <td>
-                    <button type="button" onClick={() => void openDetail(item.submissionId)}>
-                      {item.filename}
-                    </button>
-                    <span>{item.shortSha256}</span>
-                  </td>
-                  <td>{item.sideLabel}</td>
-                  <td>{item.versionLabel}</td>
-                  <td>
-                    {item.stateLabel}
-                    {item.unverified ? ' (não comprovado)' : ''}
-                  </td>
-                  <td>
-                    {item.blockerCount} / {item.warningCount} / {item.informationCount}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
+      {state === 'ready' || (state === 'empty' && workspaces.length > 0) ? (
+        <>
+          <section className="stat-strip" aria-label="Resumo da análise">
+            <div><strong className="stat-value">{mods.length}</strong><span className="stat-label">mods identificados</span></div>
+            <div><strong className="stat-value">{totals.configurations}</strong><span className="stat-label">configurações reais</span></div>
+            <div><strong className="stat-value">{totals.datapacks}</strong><span className="stat-label">datapacks relacionados</span></div>
+            <div><strong className="stat-value">{totals.relations}</strong><span className="stat-label">relações rastreáveis</span></div>
+            <div><strong className={`stat-value${totals.problems > 0 ? ' text-warning' : ''}`}>{totals.problems}</strong><span className="stat-label">problemas</span></div>
+          </section>
 
-      {detail !== undefined && drawer !== undefined ? (
-        <aside aria-label="Incompatibilidades">
-          <h2>{detail.submission.filename}</h2>
-          <div role="group" aria-label="Filtro por severidade">
-            {(['all', 'blocker', 'warning', 'information'] as const).map((option) => (
-              <button
-                key={option}
-                type="button"
-                aria-pressed={severity === option}
-                onClick={() => setSeverity(option)}
-              >
-                {option === 'all'
-                  ? `Todas (${drawer.counts.blocker + drawer.counts.warning + drawer.counts.information})`
-                  : option === 'blocker'
-                    ? `Bloqueios (${drawer.counts.blocker})`
-                    : option === 'warning'
-                      ? `Avisos (${drawer.counts.warning})`
-                      : `Informações (${drawer.counts.information})`}
-              </button>
-            ))}
-          </div>
+          <section className="card mods-toolbar" aria-label="Filtros de mods">
+            <label className="field field-wide"><span>Pesquisar</span><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Nome, mod id ou versão" /></label>
+            <label className="field"><span>Lado</span><select value={side} onChange={(event) => setSide(event.target.value)}><option value="all">Todos</option><option value="server">Servidor</option><option value="client">Cliente</option><option value="both">Ambos</option><option value="unknown">Desconhecido</option></select></label>
+            <label className="field"><span>Análise</span><select value={status} onChange={(event) => setStatus(event.target.value)}><option value="all">Todos</option><option value="complete">Completa</option><option value="partial">Parcial</option><option value="unavailable">Indisponível</option></select></label>
+          </section>
 
-          {drawer.rows.length === 0 ? (
-            <p>{drawer.emptyLabel}</p>
-          ) : (
-            <ul>
-              {drawer.rows.map((row) => (
-                <li key={`${row.code}:${row.reason}:${row.detail ?? ''}`}>
-                  <strong>
-                    {row.severityLabel} · {row.determinacyLabel}
-                  </strong>
-                  <code>{row.code}</code>
-                  <p>{row.explanation}</p>
-                  {row.detail !== null ? <p>{row.detail}</p> : null}
-                  {row.evidence.length > 0 ? <p>Evidência: {row.evidence.join(', ')}</p> : null}
-                  <p>Ação recomendada: {row.recommendedAction}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <button type="button" onClick={() => setGraphOpen((open) => !open)}>
-            {graphOpen ? 'Ocultar dependências' : 'Ver dependências'}
-          </button>
-          {graph !== undefined ? (
-            graph.available ? (
-              <ul aria-label="Grafo de dependências">
-                {graph.edges.map((edge) => (
-                  <li key={`${edge.from}->${edge.to}`}>
-                    {edge.from} → {edge.to}
-                    {edge.mandatory ? ' (obrigatória)' : ' (opcional)'}
-                    {edge.versionRange === null ? '' : ` ${edge.versionRange}`}
-                  </li>
+          <section className="card mods-table-card">
+            <div className="card-head"><div><h2>Mods instalados</h2><p className="subtle">{filtered.length} de {mods.length} itens</p></div><span className="tag">{selectedWorkspace?.displayName ?? 'Servidor'}</span></div>
+            {filtered.length === 0 ? <p className="muted">Nenhum mod corresponde aos filtros.</p> : (
+              <div className="table-scroll"><table className="table ecosystem-table"><thead><tr><th>Mod</th><th>Lado</th><th>Config.</th><th>Sistemas</th><th>Datapacks</th><th>Relações</th><th>Análise</th></tr></thead><tbody>
+                {filtered.map((mod) => (
+                  <tr key={mod.modId}>
+                    <td><a className="mod-link" href={`/mods/detalhe?workspace=${encodeURIComponent(workspaceId)}&mod=${encodeURIComponent(mod.modId)}&tab=geral`}><strong>{mod.displayName ?? mod.modId}</strong><span>{mod.modId} · {mod.version ?? 'versão desconhecida'}</span></a></td>
+                    <td><span className="tag">{mod.side}</span></td>
+                    <td>{mod.configurationCount}</td><td>{mod.systemCount}</td><td>{mod.datapackCount}</td>
+                    <td>{mod.dependencyCount + mod.integrationCount}</td>
+                    <td><span className={`analysis-status is-${mod.analysisStatus}`}>{STATUS_LABEL[mod.analysisStatus] ?? mod.analysisStatus}</span>{mod.problemCount > 0 ? <small className="problem-count">{mod.problemCount} problema(s)</small> : null}</td>
+                  </tr>
                 ))}
-              </ul>
-            ) : (
-              <p>O artefato ainda não foi inspecionado.</p>
-            )
-          ) : null}
-
-          {/* The install action is absent by construction in this phase. */}
-          {install.present ? null : <p>{install.reason}</p>}
-        </aside>
+              </tbody></table></div>
+            )}
+          </section>
+        </>
       ) : null}
-    </main>
+    </PanelShell>
   );
 }

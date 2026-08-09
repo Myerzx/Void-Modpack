@@ -137,7 +137,7 @@ function ReleaseView_() {
 
   if (workspaceId === null) {
     return (
-      <PanelShell title="Release" steps={stepsFor(null, 'release')}>
+      <PanelShell title="Release" category="files" steps={stepsFor(null, 'release')}>
         <p className="muted">Nenhum workspace informado.</p>
       </PanelShell>
     );
@@ -147,6 +147,7 @@ function ReleaseView_() {
 
   return (
     <PanelShell
+      category="files"
       title="Release"
       steps={stepsFor(workspaceId, 'release')}
       subtitle="Pacote de servidor, pacote de cliente, manifesto com digests e changelog, a partir do último inventário."

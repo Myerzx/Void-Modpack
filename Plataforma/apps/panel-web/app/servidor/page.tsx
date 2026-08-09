@@ -181,14 +181,14 @@ export default function ServerPage() {
 
   if (signedOut) {
     return (
-      <PanelShell title="Servidor" steps={serverSteps('server')}>
+      <PanelShell title="Servidor" category="server" steps={serverSteps('server')}>
         <p className="banner banner-warning">Sua sessão terminou. Entre novamente para continuar.</p>
       </PanelShell>
     );
   }
   if (session === undefined || selector === undefined) {
     return (
-      <PanelShell title="Servidor" steps={serverSteps('server')}>
+      <PanelShell title="Servidor" category="server" steps={serverSteps('server')}>
         <p>Carregando…</p>
       </PanelShell>
     );
@@ -196,6 +196,7 @@ export default function ServerPage() {
 
   return (
     <PanelShell
+      category="server"
       title="Servidor"
       subtitle="Estado observado, operações duráveis e controles auditados."
       steps={serverSteps('server')}

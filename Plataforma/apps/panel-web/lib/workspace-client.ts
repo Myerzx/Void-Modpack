@@ -123,6 +123,9 @@ async function request<T>(
   return (await response.json()) as T;
 }
 
+/** Shared transport for typed panel clients; business interpretation stays server-side. */
+export { request as panelRequest };
+
 export interface PanelSession {
   readonly user: { readonly id: string; readonly displayName: string };
   readonly permissions: readonly string[];
