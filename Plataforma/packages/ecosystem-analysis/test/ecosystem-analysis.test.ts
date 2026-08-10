@@ -10,6 +10,8 @@ import { WorkspaceInventoryService } from '@voidfall/workspace-inventory';
 import { forgeConfigFixtureClass } from '../../artifact-inspection/test/class-fixture.js';
 import {
   EcosystemAnalysisService,
+  parseDatapackLoadOrderObservation,
+  projectObservedDatapackLoadOrder,
   traverseEcosystemGraph,
   VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY,
   type EcosystemGraphEntity,
@@ -477,6 +479,136 @@ enabled = true
       configuration.source.path === 'weight');
     assert.equal(conflictedWeight?.editable, false);
     assert.ok(analysis.issues.some((issue) => issue.code === 'datapack-resource-conflict'));
+
+    const mnsPack = analysis.datapacks.find((datapack) => datapack.rootPath.endsWith('/cte_mns'));
+    const overlayPack = analysis.datapacks.find((datapack) => datapack.rootPath.endsWith('/cte_overlay'));
+    assert.notEqual(mnsPack, undefined);
+    assert.notEqual(overlayPack, undefined);
+    if (mnsPack === undefined || overlayPack === undefined) return;
+    const observation = parseDatapackLoadOrderObservation({
+      schemaVersion: 1,
+      source: 'minecraft-world-metadata-v1',
+      inventorySha256: analysis.inventorySha256,
+      observedAt: '2026-08-10T12:00:00.000Z',
+      evidenceSha256: 'e'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: [
+        { rootPath: mnsPack.rootPath, sha256: mnsPack.sha256 },
+        { rootPath: overlayPack.rootPath, sha256: overlayPack.sha256 },
+      ],
+    });
+    const projection = projectObservedDatapackLoadOrder({ analysis, observation });
+    assert.equal(projection.authorizesSemanticEditing, false);
+    assert.equal(projection.resolutions[0]?.status, 'resolved');
+    assert.equal(projection.resolutions[0]?.reason, 'observed-winner');
+    assert.equal(projection.resolutions[0]?.winningDatapackId, overlayPack.datapackId);
+    assert.equal(
+      projection.resolutions[0]?.winningResourceId,
+      analysis.datapackResources.find((resource) =>
+        resource.datapackId === overlayPack.datapackId && resource.sourceFile.endsWith('/common.json'))
+        ?.resourceId,
+    );
+    assert.equal(analysis.datapackConflicts[0]?.resolution, 'unknown-load-order');
+    assert.equal(conflictedWeight?.editable, false);
+
+    const reversedObservation = parseDatapackLoadOrderObservation({
+      schemaVersion: 1,
+      source: 'minecraft-world-metadata-v1',
+      inventorySha256: analysis.inventorySha256,
+      observedAt: '2026-08-10T12:01:00.000Z',
+      evidenceSha256: 'd'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: [...observation.datapacks].reverse(),
+    });
+    assert.equal(
+      projectObservedDatapackLoadOrder({ analysis, observation: reversedObservation })
+        .resolutions[0]?.winningDatapackId,
+      mnsPack.datapackId,
+    );
+
+    const incompleteObservation = parseDatapackLoadOrderObservation({
+      schemaVersion: 1,
+      source: 'minecraft-world-metadata-v1',
+      inventorySha256: analysis.inventorySha256,
+      observedAt: '2026-08-10T12:02:00.000Z',
+      evidenceSha256: 'c'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: [observation.datapacks[0]],
+    });
+    assert.equal(
+      projectObservedDatapackLoadOrder({ analysis, observation: incompleteObservation })
+        .resolutions[0]?.reason,
+      'participant-not-observed',
+    );
+
+    const changedPackObservation = parseDatapackLoadOrderObservation({
+      schemaVersion: 1,
+      source: 'minecraft-world-metadata-v1',
+      inventorySha256: analysis.inventorySha256,
+      observedAt: '2026-08-10T12:03:00.000Z',
+      evidenceSha256: 'b'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: observation.datapacks.map((datapack) => datapack.rootPath === overlayPack.rootPath
+        ? { ...datapack, sha256: 'a'.repeat(64) }
+        : datapack),
+    });
+    assert.equal(
+      projectObservedDatapackLoadOrder({ analysis, observation: changedPackObservation })
+        .resolutions[0]?.reason,
+      'participant-hash-mismatch',
+    );
+
+    const staleObservation = parseDatapackLoadOrderObservation({
+      schemaVersion: 1,
+      source: 'minecraft-world-metadata-v1',
+      inventorySha256: 'f'.repeat(64),
+      observedAt: '2026-08-10T12:00:00.000Z',
+      evidenceSha256: 'e'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: observation.datapacks,
+    });
+    assert.equal(
+      projectObservedDatapackLoadOrder({ analysis, observation: staleObservation }).resolutions[0]?.reason,
+      'inventory-mismatch',
+    );
+  });
+
+  it('rejects unsafe, ambiguous or extensible datapack load-order observations', () => {
+    const valid = {
+      schemaVersion: 1,
+      source: 'minecraft-runtime-report-v1',
+      inventorySha256: 'a'.repeat(64),
+      observedAt: '2026-08-10T12:00:00.000Z',
+      evidenceSha256: 'b'.repeat(64),
+      order: 'lowest-priority-first',
+      datapacks: [{ rootPath: 'config/openloader/data/cte_mns', sha256: 'c'.repeat(64) }],
+    } as const;
+    const observation = parseDatapackLoadOrderObservation(valid);
+    assert.equal(observation.observationId.length, 64);
+    assert.equal(Object.isFrozen(observation), true);
+    assert.equal(Object.isFrozen(observation.datapacks), true);
+
+    assert.throws(
+      () => parseDatapackLoadOrderObservation({ ...valid, extra: true }),
+      /ecosystem-analysis:invalid-datapack-load-order-observation/u,
+    );
+    assert.throws(
+      () => parseDatapackLoadOrderObservation({
+        ...valid,
+        datapacks: [{ rootPath: 'C:/private/world/datapacks/cte_mns', sha256: 'c'.repeat(64) }],
+      }),
+      /ecosystem-analysis:invalid-datapack-load-order-observation/u,
+    );
+    assert.throws(
+      () => parseDatapackLoadOrderObservation({
+        ...valid,
+        datapacks: [
+          ...valid.datapacks,
+          { rootPath: 'CONFIG/OPENLOADER/DATA/CTE_MNS', sha256: 'd'.repeat(64) },
+        ],
+      }),
+      /ecosystem-analysis:invalid-datapack-load-order-observation/u,
+    );
   });
 
   it('validates only mutable fields and preserves reviewed range ordering', () => {
