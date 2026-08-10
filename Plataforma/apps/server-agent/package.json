@@ -22,6 +22,7 @@
     "@voidfall/authorized-files": "0.1.0",
     "@voidfall/contracts": "0.1.0",
     "@voidfall/database": "0.1.0",
+    "@voidfall/ecosystem-analysis": "0.1.0",
     "@voidfall/minecraft-process": "0.1.0",
     "@voidfall/server-backup": "0.1.0",
     "@voidfall/server-configuration": "0.1.0",

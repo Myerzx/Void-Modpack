@@ -14,6 +14,7 @@ import {
   OfflineGuardError,
   createOfflineExclusiveBackupGuard,
   createOfflineExclusiveConfigurationGuard,
+  createOfflineExclusiveDatapackLoadOrderGuard,
 } from '../src/offline-guards.js';
 
 /**
@@ -244,5 +245,50 @@ describe('the offline-exclusive guard', () => {
       (error: unknown) =>
         error instanceof OfflineGuardError && error.reason === 'exclusive-lock-not-held',
     );
+  });
+
+  it('opens a datapack observation window only for its exact durable operation', async () => {
+    const context = await fixture();
+    await holdLock(context, { operation: 'datapack-load-order.observe' });
+    const adapter = new ScriptedAdapter(['offline']);
+    const guard = createOfflineExclusiveDatapackLoadOrderGuard({
+      repositories: context.repositories,
+      adapter,
+      serverInstanceId: context.serverId,
+      ownsLock: (lease) => lease.ownerId === context.agentId &&
+        lease.operation === 'datapack-load-order.observe',
+      clock: () => NOW,
+    });
+
+    const leases: unknown[] = [];
+    const value = await guard.runWithExclusiveOfflineAccess(async (lease) => {
+      leases.push(lease);
+      return 'observed';
+    });
+
+    assert.equal(value, 'observed');
+    assert.deepEqual(leases, [{ method: 'offline-exclusive-v1', acquiredAt: NOW.toISOString() }]);
+    assert.equal(adapter.inspections, 2);
+  });
+
+  it('does not let another operation impersonate datapack observation', async () => {
+    const context = await fixture();
+    await holdLock(context, { operation: 'backup.create' });
+    const adapter = new ScriptedAdapter(['offline']);
+    const guard = createOfflineExclusiveDatapackLoadOrderGuard({
+      repositories: context.repositories,
+      adapter,
+      serverInstanceId: context.serverId,
+      ownsLock: (lease) => lease.ownerId === context.agentId &&
+        lease.operation === 'datapack-load-order.observe',
+      clock: () => NOW,
+    });
+
+    await assert.rejects(
+      guard.runWithExclusiveOfflineAccess(async () => 'observed'),
+      (error: unknown) => error instanceof OfflineGuardError &&
+        error.reason === 'exclusive-lock-not-held',
+    );
+    assert.equal(adapter.inspections, 0);
   });
 });

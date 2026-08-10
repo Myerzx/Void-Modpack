@@ -1,4 +1,8 @@
 import type { OperationalLockLease, Repositories } from '@voidfall/database';
+import type {
+  DatapackLoadOrderConsistencyLease,
+  OfflineExclusiveDatapackLoadOrderGuard,
+} from '@voidfall/ecosystem-analysis';
 import type { MinecraftProcessAdapter } from '@voidfall/minecraft-process';
 import type {
   BackupConsistencyLease,
@@ -137,6 +141,24 @@ export function createOfflineExclusiveConfigurationGuard(
       // not have.
       const acquiredAt = await requireOfflineAndExclusive(options);
       const result = await operation({ method: 'offline-exclusive-v1', acquiredAt });
+      await requireStillOffline(options);
+      return result;
+    },
+  };
+}
+
+export function createOfflineExclusiveDatapackLoadOrderGuard(
+  options: OfflineGuardOptions,
+): OfflineExclusiveDatapackLoadOrderGuard {
+  return {
+    async runWithExclusiveOfflineAccess<T>(
+      operation: (lease: DatapackLoadOrderConsistencyLease) => Promise<T>,
+    ): Promise<T> {
+      const acquiredAt = await requireOfflineAndExclusive(options);
+      const result = await operation({
+        method: 'offline-exclusive-v1',
+        acquiredAt: acquiredAt.toISOString(),
+      });
       await requireStillOffline(options);
       return result;
     },
