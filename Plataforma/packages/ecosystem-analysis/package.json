@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "node ../../tools/clean-workspace.mjs && tsc -p tsconfig.build.json",
-    "test": "tsx --test test/ecosystem-analysis.test.ts",
+    "test": "tsx --test test/*.test.ts",
     "typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {

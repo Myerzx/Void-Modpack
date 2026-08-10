@@ -190,6 +190,39 @@ export function parseDatapackLoadOrderObservation(input: unknown): DatapackLoadO
   });
 }
 
+/** Revalidates a stored observation, including its content-derived identity. */
+export function validateDatapackLoadOrderObservation(input: unknown): DatapackLoadOrderObservation {
+  if (
+    !isRecord(input) ||
+    !hasExactKeys(input, [
+      'schemaVersion',
+      'observationId',
+      'source',
+      'inventorySha256',
+      'observedAt',
+      'evidenceSha256',
+      'order',
+      'datapacks',
+    ]) ||
+    !isSha256(input.observationId)
+  ) {
+    throw new DatapackLoadOrderObservationError();
+  }
+  const parsed = parseDatapackLoadOrderObservation({
+    schemaVersion: input.schemaVersion,
+    source: input.source,
+    inventorySha256: input.inventorySha256,
+    observedAt: input.observedAt,
+    evidenceSha256: input.evidenceSha256,
+    order: input.order,
+    datapacks: input.datapacks,
+  });
+  if (parsed.observationId !== input.observationId) {
+    throw new DatapackLoadOrderObservationError();
+  }
+  return parsed;
+}
+
 function unresolved(
   conflict: AnalyzedDatapackConflict,
   reason: Exclude<DatapackLoadOrderResolutionReason, 'observed-winner'>,
@@ -276,6 +309,111 @@ export function projectObservedDatapackLoadOrder(input: {
     observationSource: input.observation.source,
     observedAt: input.observation.observedAt,
     evidenceSha256: input.observation.evidenceSha256,
+    authorizesSemanticEditing: false,
+    resolutions,
+  });
+}
+
+/** Validates a persisted read-only projection at the database trust boundary. */
+export function validateDatapackLoadOrderProjection(input: unknown): DatapackLoadOrderProjection {
+  if (
+    !isRecord(input) ||
+    !hasExactKeys(input, [
+      'schemaVersion',
+      'analysisId',
+      'inventorySha256',
+      'observationId',
+      'observationSource',
+      'observedAt',
+      'evidenceSha256',
+      'authorizesSemanticEditing',
+      'resolutions',
+    ]) ||
+    input.schemaVersion !== DATAPACK_LOAD_ORDER_PROJECTION_SCHEMA_VERSION ||
+    !isSha256(input.analysisId) ||
+    !isSha256(input.inventorySha256) ||
+    !isSha256(input.observationId) ||
+    (input.observationSource !== 'minecraft-world-metadata-v1' &&
+      input.observationSource !== 'minecraft-runtime-report-v1') ||
+    !isCanonicalTimestamp(input.observedAt) ||
+    !isSha256(input.evidenceSha256) ||
+    input.authorizesSemanticEditing !== false ||
+    !Array.isArray(input.resolutions) ||
+    input.resolutions.length > 100_000
+  ) {
+    throw new DatapackLoadOrderObservationError();
+  }
+
+  const resolutions: ObservedDatapackConflictResolution[] = [];
+  const conflictIds = new Set<string>();
+  const unresolvedReasons = new Set<DatapackLoadOrderResolutionReason>([
+    'inventory-mismatch',
+    'analysis-participant-missing',
+    'participant-not-observed',
+    'participant-hash-mismatch',
+    'participant-resource-ambiguous',
+  ]);
+  for (const resolution of input.resolutions) {
+    if (
+      !isRecord(resolution) ||
+      !hasExactKeys(resolution, [
+        'conflictId',
+        'status',
+        'reason',
+        'participantDatapackIdsByPriority',
+        'winningDatapackId',
+        'winningResourceId',
+      ]) ||
+      typeof resolution.conflictId !== 'string' ||
+      resolution.conflictId.length === 0 ||
+      resolution.conflictId.length > 128 ||
+      /[\u0000-\u001f\u007f]/u.test(resolution.conflictId) ||
+      conflictIds.has(resolution.conflictId) ||
+      !Array.isArray(resolution.participantDatapackIdsByPriority) ||
+      resolution.participantDatapackIdsByPriority.length > MAXIMUM_OBSERVED_DATAPACKS ||
+      resolution.participantDatapackIdsByPriority.some((datapackId) =>
+        typeof datapackId !== 'string' || datapackId.length === 0 || datapackId.length > 128)
+    ) {
+      throw new DatapackLoadOrderObservationError();
+    }
+    const participantIds = resolution.participantDatapackIdsByPriority as string[];
+    if (new Set(participantIds).size !== participantIds.length) {
+      throw new DatapackLoadOrderObservationError();
+    }
+    const resolved = resolution.status === 'resolved' &&
+      resolution.reason === 'observed-winner' &&
+      participantIds.length > 0 &&
+      typeof resolution.winningDatapackId === 'string' &&
+      participantIds.at(-1) === resolution.winningDatapackId &&
+      typeof resolution.winningResourceId === 'string' &&
+      resolution.winningResourceId.length > 0 &&
+      resolution.winningResourceId.length <= 128;
+    const unresolvedResult = resolution.status === 'unresolved' &&
+      typeof resolution.reason === 'string' &&
+      unresolvedReasons.has(resolution.reason as DatapackLoadOrderResolutionReason) &&
+      participantIds.length === 0 &&
+      resolution.winningDatapackId === null &&
+      resolution.winningResourceId === null;
+    if (!resolved && !unresolvedResult) throw new DatapackLoadOrderObservationError();
+    conflictIds.add(resolution.conflictId);
+    resolutions.push({
+      conflictId: resolution.conflictId,
+      status: resolution.status as 'resolved' | 'unresolved',
+      reason: resolution.reason as DatapackLoadOrderResolutionReason,
+      participantDatapackIdsByPriority: [...participantIds],
+      winningDatapackId: resolution.winningDatapackId as string | null,
+      winningResourceId: resolution.winningResourceId as string | null,
+    });
+  }
+
+  return freezeDeep({
+    schemaVersion: DATAPACK_LOAD_ORDER_PROJECTION_SCHEMA_VERSION,
+    analysisId: input.analysisId,
+    inventorySha256: input.inventorySha256,
+    observationId: input.observationId,
+    observationSource: input.observationSource,
+    observedAt: input.observedAt,
+    evidenceSha256: input.evidenceSha256,
     authorizesSemanticEditing: false,
     resolutions,
   });
