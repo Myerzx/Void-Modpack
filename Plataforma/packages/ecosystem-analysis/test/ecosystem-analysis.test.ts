@@ -10,7 +10,10 @@ import { WorkspaceInventoryService } from '@voidfall/workspace-inventory';
 import { forgeConfigFixtureClass } from '../../artifact-inspection/test/class-fixture.js';
 import {
   EcosystemAnalysisService,
+  traverseEcosystemGraph,
   VOIDFALL_TRUSTED_DATAPACK_SCHEMA_REGISTRY,
+  type EcosystemGraphEntity,
+  type EcosystemRelationship,
 } from '../src/index.js';
 
 const roots: string[] = [];
@@ -20,6 +23,94 @@ afterEach(async () => {
     const root = roots.pop();
     if (root !== undefined) await rm(root, { recursive: true, force: true });
   }
+});
+
+describe('bounded ecosystem graph traversal', () => {
+  const entities: readonly EcosystemGraphEntity[] = [
+    { id: 'alpha', type: 'Mod', label: 'Alpha', modId: 'alpha', evidenceIds: ['evidence-alpha'] },
+    { id: 'beta', type: 'Mod', label: 'Beta', modId: 'beta', evidenceIds: [] },
+    { id: 'system-alpha', type: 'System', label: 'Alpha combat', modId: 'alpha', evidenceIds: [] },
+    { id: 'evidence-alpha', type: 'Evidence', label: 'Declared metadata', modId: null, evidenceIds: ['evidence-alpha'] },
+  ];
+  const relationships: readonly EcosystemRelationship[] = [
+    {
+      relationshipId: '01-alpha-requires-beta', from: { type: 'Mod', id: 'alpha' },
+      to: { type: 'Mod', id: 'beta' }, type: 'REQUIRES', systemId: null,
+      reason: 'Declared dependency.', status: 'detected', confidence: 'high', evidenceIds: ['evidence-alpha'],
+    },
+    {
+      relationshipId: '02-alpha-owns-system', from: { type: 'Mod', id: 'alpha' },
+      to: { type: 'System', id: 'system-alpha' }, type: 'OWNS', systemId: 'system-alpha',
+      reason: 'Normalized ownership.', status: 'interpreted', confidence: 'high', evidenceIds: ['evidence-alpha'],
+    },
+    {
+      relationshipId: '03-system-proven-by-evidence', from: { type: 'System', id: 'system-alpha' },
+      to: { type: 'Evidence', id: 'evidence-alpha' }, type: 'PROVEN_BY', systemId: 'system-alpha',
+      reason: 'Evidence provenance.', status: 'detected', confidence: 'high', evidenceIds: ['evidence-alpha'],
+    },
+    {
+      relationshipId: '04-beta-requires-missing', from: { type: 'Mod', id: 'beta' },
+      to: { type: 'Mod', id: 'missing' }, type: 'REQUIRES', systemId: null,
+      reason: 'Dependency is declared but absent.', status: 'detected', confidence: 'high', evidenceIds: [],
+    },
+  ];
+  const analysis = {
+    graph: { entities, relationshipIds: relationships.map((relationship) => relationship.relationshipId) },
+    relationships,
+  };
+
+  it('excludes structural edges by default and reports absent endpoints without placeholders', () => {
+    const traversal = traverseEcosystemGraph(analysis, {
+      root: { type: 'Mod', id: 'alpha' },
+      direction: 'outgoing',
+      maxDepth: 2,
+    });
+    assert.notEqual(traversal, null);
+    assert.deepEqual(traversal?.entities.map((entity) => [entity.id, entity.depth]), [
+      ['alpha', 0],
+      ['beta', 1],
+    ]);
+    assert.deepEqual(traversal?.relationships.map((relationship) => relationship.relationshipId), [
+      '01-alpha-requires-beta',
+      '04-beta-requires-missing',
+    ]);
+    assert.deepEqual(traversal?.unresolvedReferences, [{
+      type: 'Mod', id: 'missing', relationshipIds: ['04-beta-requires-missing'],
+    }]);
+  });
+
+  it('lets an explicit type select a structural path and enforces entity bounds', () => {
+    const structural = traverseEcosystemGraph(analysis, {
+      root: { type: 'Mod', id: 'alpha' },
+      direction: 'outgoing',
+      maxDepth: 3,
+      relationshipType: 'OWNS',
+    });
+    assert.deepEqual(structural?.entities.map((entity) => entity.id), ['alpha', 'system-alpha']);
+    assert.deepEqual(structural?.relationships.map((relationship) => relationship.type), ['OWNS']);
+
+    const bounded = traverseEcosystemGraph(analysis, {
+      root: { type: 'Mod', id: 'alpha' },
+      direction: 'outgoing',
+      maxEntities: 1,
+    });
+    assert.deepEqual(bounded?.entities.map((entity) => entity.id), ['alpha']);
+    assert.deepEqual(bounded?.relationships, []);
+    assert.equal(bounded?.truncated.entities, true);
+  });
+
+  it('respects direction and returns null for a root absent from the persisted graph', () => {
+    assert.deepEqual(
+      traverseEcosystemGraph(analysis, {
+        root: { type: 'Mod', id: 'alpha' }, direction: 'incoming', maxDepth: 2,
+      })?.relationships,
+      [],
+    );
+    assert.equal(
+      traverseEcosystemGraph(analysis, { root: { type: 'Mod', id: 'unknown' } }),
+      null,
+    );
+  });
 });
 
 async function workspace(): Promise<string> {

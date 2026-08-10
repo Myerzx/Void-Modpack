@@ -166,38 +166,44 @@ export interface AnalyzedDatapackConflict {
   readonly evidenceIds: readonly string[];
 }
 
-export type EcosystemRelationshipType =
-  | 'OWNS'
-  | 'DEFINED_IN'
-  | 'USES'
-  | 'PROVEN_BY'
-  | 'REQUIRES'
-  | 'OPTIONAL_DEPENDENCY'
-  | 'LOADS_AFTER'
-  | 'CONFIGURES'
-  | 'INTEGRATES_WITH'
-  | 'COMPATIBILITY'
-  | 'READS_REGISTRY_FROM'
-  | 'EXTENDS'
-  | 'OVERRIDES'
-  | 'DATAPACK_EXTENDS'
-  | 'MODIFIES_GAMEPLAY_OF'
-  | 'CONFLICTS_WITH'
-  | 'PARTICIPATES_IN';
+export const ECOSYSTEM_RELATIONSHIP_TYPES = [
+  'OWNS',
+  'DEFINED_IN',
+  'USES',
+  'PROVEN_BY',
+  'REQUIRES',
+  'OPTIONAL_DEPENDENCY',
+  'LOADS_AFTER',
+  'CONFIGURES',
+  'INTEGRATES_WITH',
+  'COMPATIBILITY',
+  'READS_REGISTRY_FROM',
+  'EXTENDS',
+  'OVERRIDES',
+  'DATAPACK_EXTENDS',
+  'MODIFIES_GAMEPLAY_OF',
+  'CONFLICTS_WITH',
+  'PARTICIPATES_IN',
+] as const;
 
-export type EcosystemEntityType =
-  | 'Server'
-  | 'Mod'
-  | 'ModVersion'
-  | 'System'
-  | 'Configuration'
-  | 'ConfigFile'
-  | 'Datapack'
-  | 'DatapackResource'
-  | 'Registry'
-  | 'Resource'
-  | 'Conflict'
-  | 'Evidence';
+export type EcosystemRelationshipType = (typeof ECOSYSTEM_RELATIONSHIP_TYPES)[number];
+
+export const ECOSYSTEM_ENTITY_TYPES = [
+  'Server',
+  'Mod',
+  'ModVersion',
+  'System',
+  'Configuration',
+  'ConfigFile',
+  'Datapack',
+  'DatapackResource',
+  'Registry',
+  'Resource',
+  'Conflict',
+  'Evidence',
+] as const;
+
+export type EcosystemEntityType = (typeof ECOSYSTEM_ENTITY_TYPES)[number];
 
 export interface EcosystemRelationship {
   readonly relationshipId: string;
