@@ -275,8 +275,8 @@
     "semantic_hash": "ef95d8b56b359a35abcb081c2f7da523"
   },
   "docs/plataforma/DECISIONS/README.md": {
-    "mtime": 1786300448.9690568,
-    "ast_hash": "b0b1b16c8e4b51922a01f5b84717f840",
+    "mtime": 1786403059.3970091,
+    "ast_hash": "6911db5a5e52c38312603ba33febf701",
     "semantic_hash": ""
   },
   "docs/plataforma/DEPLOYMENT.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786400567.2461834,
-    "ast_hash": "4b3051ff11b83a83e976285b01e102c2",
+    "mtime": 1786403247.3632884,
+    "ast_hash": "f001a5bf5531e96e996d2756152185de",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -4835,8 +4835,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786399653.135017,
-    "ast_hash": "4ab0a779da7dd90226dceb633004e6a9",
+    "mtime": 1786402922.198524,
+    "ast_hash": "f3c10bec13b1ce6d304d263f48afea85",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
@@ -4855,8 +4855,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/test/ecosystem-analysis.test.ts": {
-    "mtime": 1786399682.5339322,
-    "ast_hash": "431ebd444a8fcc71d6290e465514a1dc",
+    "mtime": 1786402961.590603,
+    "ast_hash": "790df3b9b556336ece7de3bed1fcc398",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/tsconfig.build.json": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786400567.2461834,
-    "ast_hash": "195e044832f36d398db4be9d9ff4847e",
+    "mtime": 1786403059.3985152,
+    "ast_hash": "45d0ddb33968fc7e436094317e2adea6",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -4927,6 +4927,21 @@
   "graphify-out/memory/query_20260810_221610_what_is_the_next_safe_phase_19_20_slice_after_revi.md": {
     "mtime": 1786400170.3204834,
     "ast_hash": "e5dfe5ef5793e45834f3bb4f6e1ab966",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/datapack-load-order.ts": {
+    "mtime": 1786402922.1970146,
+    "ast_hash": "4074d2f5ad22f9142dbf97edade4ceba",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/DECISIONS/ADR-018-evidencia-de-ordem-efetiva-de-datapacks.md": {
+    "mtime": 1786403059.3970091,
+    "ast_hash": "ea8eb1662808aa74621d0fc8b9e6cc42",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260810_230555_qual_e_a_proxima_fase_segura_para_resolver_conflit.md": {
+    "mtime": 1786403155.810923,
+    "ast_hash": "ccbc80e00cd9d95202ef4b7c6c71aafb",
     "semantic_hash": ""
   }
 }
