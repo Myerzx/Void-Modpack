@@ -1,6 +1,6 @@
 # Fases 19–20 — ecossistema de mods e análise estática
 
-Status: quatro fatias verticais funcionais, mais a primeira fronteira de evidência para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
+Status: quatro fatias verticais funcionais, mais contrato, captura guardada e persistência isolada para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
 
 ## Objetivo entregue
 
@@ -81,9 +81,11 @@ Recursos com a mesma coordenada são persistidos como `DatapackConflict`. O snap
 
 O ADR-018 introduz um contrato estrito e uma projeção somente leitura, sem alterar o analyzer 1.3.0 nem sua chave de cache. Uma observação declara fonte versionada, hash exato do inventário, horário, hash da evidência e a pilha normalizada de baixa para alta prioridade. Cada item usa apenas `rootPath` relativo e SHA-256 do pack.
 
-A projeção só identifica o recurso vencedor quando todos os participantes e hashes correspondem ao mesmo snapshot. Inventário antigo, participante ausente, pack alterado ou recurso ambíguo falha fechado. O resultado fixa `authorizesSemanticEditing: false`: `DatapackConflict.resolution` continua `unknown-load-order`, os controles continuam bloqueados e nenhuma API, persistência, operação de agente ou leitura do runtime privado foi adicionada.
+A projeção só identifica o recurso vencedor quando todos os participantes e hashes correspondem ao mesmo snapshot. Inventário antigo, participante ausente, pack alterado ou recurso ambíguo falha fechado. O resultado fixa `authorizesSemanticEditing: false`: `DatapackConflict.resolution` continua `unknown-load-order` e os controles continuam bloqueados.
 
-Essa separação é necessária porque a observação pode mudar sem mudar o inventário. Incorporá-la ao snapshot atual criaria replay incorreto no cache `workspaceId + inventorySha256 + analyzerVersion`. Uma integração futura deverá persistir a observação e sua projeção com identidade própria.
+O passo seguinte implementa `GuardedDatapackLoadOrderObserver`. Ele aceita somente um reader confiável injetado, chama esse reader dentro de uma janela `offline-exclusive-v1`, fixa a fonte `minecraft-world-metadata-v1`, cria o timestamp no host e deriva a projeção do `EcosystemAnalysis` exato. A fixture pública contém apenas root paths relativos e hashes fictícios. Não existe reader nativo de NBT, path fornecido por usuário, bytes de `level.dat`, capability, handler ou readiness operacional.
+
+No Server Agent, `createOfflineExclusiveDatapackLoadOrderGuard` reutiliza o lock durável `minecraft-exclusive` e verifica o processo antes e depois da captura. A janela só é reconhecida quando o proprietário e a operação literal `datapack-load-order.observe` correspondem. A função existe para composição futura, mas nenhuma capability adquire esse lock nesta entrega.
 
 ## Configurações
 
@@ -104,6 +106,8 @@ workspaceId + inventorySha256 + analyzerVersion
 ```
 
 Abrir uma página apenas lê o snapshot. Uma análise é executada depois de um novo scan ou por ação explícita. Arquivo, mod, versão, configuração ou datapack alterado muda o hash do inventário; evolução das regras muda `analyzerVersion`. Ambos invalidam o cache sem sobrescrever o histórico anterior.
+
+A migration `0027_datapack_load_order_observations.sql` cria `workspace_datapack_load_order_observations` fora desse cache. A chave imutável é `workspaceId + analysisId + observationId`; uma FK também exige o mesmo `inventorySha256` da análise. O repositório revalida a identidade content-addressed, carrega a análise persistida e recalcula a projeção no servidor antes do insert. Replay idêntico retorna o registro original; inventário obsoleto, análise ausente, documento inválido ou replay divergente falham fechados. Checks JSONB mantêm `authorizesSemanticEditing` no literal `false`.
 
 ## API e painel
 
@@ -195,13 +199,13 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
-A fronteira de ordem efetiva elevou o pacote de ecossistema para 8 testes. A regressão cobre vencedor nas duas direções, inventário antigo, participante ausente, SHA-256 divergente, payload extensível, path absoluto e duplicidade por case fold. Typecheck, teste e build direcionados passaram sem ler o runtime privado.
+A fronteira de ordem efetiva agora soma 11 testes no pacote de ecossistema. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, fixture sanitizada, payload extensível, relógio anterior ao lease e revalidação de documentos persistidos. A suíte do Server Agent passou com 108 testes e a do banco com 60, incluindo migration `0027`, replay idempotente, FK de inventário e recusa de snapshot obsoleto. Typecheck e builds direcionados passaram sem ler o runtime privado.
 
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental deste recorte, o grafo portátil contém 6.658 nós e 11.639 arestas; a visão agregada também foi regenerada. A consulta focada reencontrou o registry revisado, o parser exato, o staging, as rotas/clientes e as páginas de datapack sem depender do relatório completo.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.749 nós, 11.795 arestas e 427 comunidades; a visão agregada também foi regenerada. A consulta focada reencontrou o contrato, o observer guardado, a guarda do agente, a migration e o repositório sem depender do relatório completo.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -214,7 +218,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- implementar uma fonte confiável e sanitizada para a observação de ordem efetiva; o contrato/projetor existem, mas a ordem do servidor privado continua não observada;
+- implementar um reader nativo e limitado para uma fonte revisada; a porta, a guarda e a persistência existem, mas nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 
