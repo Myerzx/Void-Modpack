@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/API.md": {
-    "mtime": 1785883467.59553,
-    "ast_hash": "46357ca1e37d41fb9f37209441954d55",
+    "mtime": 1786400070.4425118,
+    "ast_hash": "125ada1c16eaac3c0a1e9590b71d12e0",
     "semantic_hash": ""
   },
   "docs/plataforma/ARCHITECTURE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786300720.9780266,
-    "ast_hash": "eb3a3423bb19737f91e00241c49c0bff",
+    "mtime": 1786400567.2461834,
+    "ast_hash": "4b3051ff11b83a83e976285b01e102c2",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786288990.9988103,
-    "ast_hash": "7e05917e6e261ad16dfa8d9b7adf39e8",
+    "mtime": 1786400070.441003,
+    "ast_hash": "2347120cdd0be0346f7bda3eb34a8e62",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -4455,8 +4455,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-routes.ts": {
-    "mtime": 1786298665.5693562,
-    "ast_hash": "13aef9a990cbdf3637852d09e75f1844",
+    "mtime": 1786399791.3566246,
+    "ast_hash": "c336d829ec00712b9b08ee80a488304e",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/workspace-scanner.ts": {
@@ -4465,8 +4465,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/workspace-api.test.ts": {
-    "mtime": 1786298709.888206,
-    "ast_hash": "3f94361819b0f4730c004945879a4912",
+    "mtime": 1786399810.2342107,
+    "ast_hash": "8e8c9de9dc788c9a6010a755ba7874b6",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/entrar/page.tsx": {
@@ -4805,13 +4805,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/mods/detalhe/page.tsx": {
-    "mtime": 1786299205.6986845,
-    "ast_hash": "2f6c9a23db73d2320a207e3cd1123c71",
+    "mtime": 1786399962.7856112,
+    "ast_hash": "7f3262c3ce8357b793924879a9a7dcf3",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/ecosystem-client.ts": {
-    "mtime": 1786298665.5708756,
-    "ast_hash": "191fde7870fc5d99469ccf0cb953a37e",
+    "mtime": 1786399962.7841043,
+    "ast_hash": "e6b4c93ecb2be98b86d28dd401d3004c",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0026_ecosystem_analysis.sql": {
@@ -4835,8 +4835,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786296499.8666346,
-    "ast_hash": "c38e00390164d74de4c035fc0d466b78",
+    "mtime": 1786399653.135017,
+    "ast_hash": "4ab0a779da7dd90226dceb633004e6a9",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
@@ -4850,13 +4850,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/types.ts": {
-    "mtime": 1786297655.270526,
-    "ast_hash": "aeb86bec580943795c40119b577c335a",
+    "mtime": 1786399746.0787663,
+    "ast_hash": "8985b334709152c718cb4ff5fd16944f",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/test/ecosystem-analysis.test.ts": {
-    "mtime": 1786298566.3773124,
-    "ast_hash": "7f439ac19fcdbc6709f6a8fafc6b38e4",
+    "mtime": 1786399682.5339322,
+    "ast_hash": "431ebd444a8fcc71d6290e465514a1dc",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/tsconfig.build.json": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786300720.976521,
-    "ast_hash": "3d4eeaa9707464568f101307b439ddfd",
+    "mtime": 1786400567.2461834,
+    "ast_hash": "195e044832f36d398db4be9d9ff4847e",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -4907,6 +4907,26 @@
   "docs/plataforma/DECISIONS/ADR-017-schemas-revisados-de-recursos-datapack.md": {
     "mtime": 1786300448.967545,
     "ast_hash": "51c0184ca351b3ea972cf4fb36d2ae1f",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/mods/detalhe/graph-explorer.tsx": {
+    "mtime": 1786400312.0159101,
+    "ast_hash": "3ea777881ad66809e176ed0daf7f1147",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/graph-traversal.ts": {
+    "mtime": 1786399653.135017,
+    "ast_hash": "03c53acf46a2689b476cd7cb1610ef6b",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260810_215815_quero_que_continue_de_onde_paramos_vc_se_lembra_pr.md": {
+    "mtime": 1786399095.1363454,
+    "ast_hash": "40f31dba9c2644b4501228b9d95dde9c",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260810_221610_what_is_the_next_safe_phase_19_20_slice_after_revi.md": {
+    "mtime": 1786400170.3204834,
+    "ast_hash": "e5dfe5ef5793e45834f3bb4f6e1ab966",
     "semantic_hash": ""
   }
 }
