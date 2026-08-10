@@ -3,7 +3,18 @@ import { createReadStream } from 'node:fs';
 import { Type, type Static } from '@sinclair/typebox';
 import type { ActorRef } from '@voidfall/contracts';
 import { ReleaseError, WorkspaceError, type Repositories } from '@voidfall/database';
-import type { EcosystemAnalysis } from '@voidfall/ecosystem-analysis';
+import {
+  ECOSYSTEM_ENTITY_TYPES,
+  ECOSYSTEM_GRAPH_MAX_DEPTH,
+  ECOSYSTEM_GRAPH_MAX_ENTITIES,
+  ECOSYSTEM_GRAPH_MAX_RELATIONSHIPS,
+  ECOSYSTEM_RELATIONSHIP_TYPES,
+  traverseEcosystemGraph,
+  type EcosystemAnalysis,
+  type EcosystemEntityType,
+  type EcosystemGraphDirection,
+  type EcosystemRelationshipType,
+} from '@voidfall/ecosystem-analysis';
 import type { WorkspaceInventory } from '@voidfall/workspace-inventory';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 
@@ -366,6 +377,20 @@ function boundedOffset(value: string | undefined): number {
 function boundedLimit(value: string | undefined): number {
   if (value === undefined || !/^\d+$/u.test(value)) return 100;
   return Math.min(Math.max(Number(value), 1), 500);
+}
+
+const ECOSYSTEM_GRAPH_DIRECTIONS = new Set<string>(['incoming', 'outgoing', 'both']);
+const ECOSYSTEM_GRAPH_ENTITY_TYPES = new Set<string>(ECOSYSTEM_ENTITY_TYPES);
+const ECOSYSTEM_GRAPH_RELATIONSHIP_TYPES = new Set<string>(ECOSYSTEM_RELATIONSHIP_TYPES);
+
+function strictGraphBound(
+  value: string | undefined,
+  maximum: number,
+): number | undefined | null {
+  if (value === undefined) return undefined;
+  if (!/^\d+$/u.test(value)) return null;
+  const parsed = Number(value);
+  return parsed >= 1 && parsed <= maximum ? parsed : null;
 }
 
 export function registerWorkspaceRoutes(
@@ -850,6 +875,88 @@ export function registerWorkspaceRoutes(
         relationships,
         evidence: analysis.evidence.filter((entry) => evidenceIds.has(entry.evidenceId)),
         issues: analysis.issues.filter((issue) => mod.issueIds.includes(issue.issueId)),
+      };
+    },
+  );
+
+  app.get<{
+    Params: { workspaceId: string; modId: string };
+    Querystring: {
+      direction?: string;
+      depth?: string;
+      entityLimit?: string;
+      relationshipLimit?: string;
+      includeStructural?: string;
+      relationshipType?: string;
+      entityType?: string;
+    };
+  }>(
+    '/api/v1/workspaces/:workspaceId/ecosystem/mods/:modId/graph',
+    { preHandler: [authenticate, requirePermission('workspace.view')] },
+    async (request) => {
+      const result = await currentAnalysis(request.params.workspaceId, false);
+      if (result.status !== 'cached' && result.status !== 'generated') {
+        throw apiError(409, 'ANALYSIS_REQUIRED', 'Analise o workspace antes de abrir o grafo.');
+      }
+      const analysis = result.stored.document;
+      const mod = analysis.mods.find((entry) => entry.modId === request.params.modId);
+      if (mod === undefined) throw apiError(404, 'MOD_NOT_FOUND', 'Mod nao encontrado na analise.');
+
+      const depth = strictGraphBound(request.query.depth, ECOSYSTEM_GRAPH_MAX_DEPTH);
+      const entityLimit = strictGraphBound(request.query.entityLimit, ECOSYSTEM_GRAPH_MAX_ENTITIES);
+      const relationshipLimit = strictGraphBound(
+        request.query.relationshipLimit,
+        ECOSYSTEM_GRAPH_MAX_RELATIONSHIPS,
+      );
+      const direction = request.query.direction;
+      const includeStructural = request.query.includeStructural;
+      const relationshipType = request.query.relationshipType;
+      const entityType = request.query.entityType;
+      if (
+        depth === null ||
+        entityLimit === null ||
+        relationshipLimit === null ||
+        (direction !== undefined && !ECOSYSTEM_GRAPH_DIRECTIONS.has(direction)) ||
+        (includeStructural !== undefined && includeStructural !== 'true' && includeStructural !== 'false') ||
+        (relationshipType !== undefined && !ECOSYSTEM_GRAPH_RELATIONSHIP_TYPES.has(relationshipType)) ||
+        (entityType !== undefined && !ECOSYSTEM_GRAPH_ENTITY_TYPES.has(entityType))
+      ) {
+        throw apiError(400, 'GRAPH_QUERY_INVALID', 'Os filtros do grafo sao invalidos ou excedem os limites.');
+      }
+
+      const traversal = traverseEcosystemGraph(analysis, {
+        root: { type: 'Mod', id: mod.modId },
+        ...(direction === undefined ? {} : { direction: direction as EcosystemGraphDirection }),
+        ...(depth === undefined ? {} : { maxDepth: depth }),
+        ...(entityLimit === undefined ? {} : { maxEntities: entityLimit }),
+        ...(relationshipLimit === undefined ? {} : { maxRelationships: relationshipLimit }),
+        includeStructural: includeStructural === 'true',
+        ...(relationshipType === undefined
+          ? {}
+          : { relationshipType: relationshipType as EcosystemRelationshipType }),
+        ...(entityType === undefined ? {} : { entityType: entityType as EcosystemEntityType }),
+      });
+      if (traversal === null) {
+        throw apiError(409, 'GRAPH_ROOT_UNAVAILABLE', 'O snapshot nao contem a entidade raiz do mod.');
+      }
+
+      const graphRelationshipIds = new Set(analysis.graph.relationshipIds);
+      const evidenceIds = new Set([
+        ...traversal.entities.flatMap((entity) => entity.evidenceIds),
+        ...traversal.relationships.flatMap((relationship) => relationship.evidenceIds),
+      ]);
+      return {
+        dataQuality: 'stored',
+        analysisId: analysis.analysisId,
+        ...traversal,
+        availableEntityTypes: [...new Set(analysis.graph.entities.map((entity) => entity.type))]
+          .sort((left, right) => left.localeCompare(right, 'en-US')),
+        availableRelationshipTypes: [...new Set(
+          analysis.relationships
+            .filter((relationship) => graphRelationshipIds.has(relationship.relationshipId))
+            .map((relationship) => relationship.type),
+        )].sort((left, right) => left.localeCompare(right, 'en-US')),
+        evidence: analysis.evidence.filter((entry) => evidenceIds.has(entry.evidenceId)),
       };
     },
   );

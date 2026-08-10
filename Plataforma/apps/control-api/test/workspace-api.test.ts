@@ -206,7 +206,16 @@ function ecosystemAnalyzer(): WorkspaceEcosystemService & { readonly seen: { ana
           },
         ],
         issues: [],
-        graph: { entities: [], relationshipIds: ['relationship-alpha-requires', 'relationship-alpha-overrides'] },
+        graph: {
+          entities: [
+            { id: 'alpha', type: 'Mod', label: 'Alpha', modId: 'alpha', evidenceIds: ['evidence-config'] },
+            {
+              id: 'datapack-alpha', type: 'Datapack', label: 'alpha-pack', modId: 'alpha',
+              evidenceIds: ['evidence-resource'],
+            },
+          ],
+          relationshipIds: ['relationship-alpha-requires', 'relationship-alpha-overrides'],
+        },
         summary: {
           mods: 1, systems: 1, configurations: 1, datapacks: 1, datapackResources: 1,
           datapackConflicts: 0, relationships: 2, issues: 0,
@@ -513,6 +522,54 @@ describe('importing a workspace', () => {
       headers: { cookie },
     });
     assert.equal(reviewedResources.json<{ total: number }>().total, 0);
+
+    const graphResponse = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/graph?depth=2&direction=both`,
+      headers: { cookie },
+    });
+    assert.equal(graphResponse.statusCode, 200);
+    const graph = graphResponse.json<{
+      entities: { id: string; depth: number }[];
+      relationships: { relationshipId: string }[];
+      unresolvedReferences: { type: string; id: string; relationshipIds: string[] }[];
+      availableRelationshipTypes: string[];
+      evidence: { evidenceId: string }[];
+    }>();
+    assert.deepEqual(graph.entities.map((entity) => [entity.id, entity.depth]), [
+      ['alpha', 0],
+      ['datapack-alpha', 1],
+    ]);
+    assert.deepEqual(graph.relationships.map((relationship) => relationship.relationshipId), [
+      'relationship-alpha-overrides',
+      'relationship-alpha-requires',
+    ]);
+    assert.deepEqual(graph.unresolvedReferences, [{
+      type: 'Mod', id: 'library', relationshipIds: ['relationship-alpha-requires'],
+    }]);
+    assert.deepEqual(graph.availableRelationshipTypes, ['OVERRIDES', 'REQUIRES']);
+    assert.deepEqual(graph.evidence.map((entry) => entry.evidenceId), [
+      'evidence-config',
+      'evidence-resource',
+    ]);
+
+    const filteredGraph = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/graph?direction=outgoing&relationshipType=REQUIRES&entityType=Mod`,
+      headers: { cookie },
+    });
+    assert.deepEqual(filteredGraph.json<{ entities: { id: string }[] }>().entities, [{
+      id: 'alpha', type: 'Mod', label: 'Alpha', modId: 'alpha', evidenceIds: ['evidence-config'], depth: 0,
+    }]);
+    assert.equal(filteredGraph.json<{ relationships: unknown[] }>().relationships.length, 1);
+
+    const invalidGraph = await app.inject({
+      method: 'GET',
+      url: `/api/v1/workspaces/${workspaceId}/ecosystem/mods/alpha/graph?depth=4`,
+      headers: { cookie },
+    });
+    assert.equal(invalidGraph.statusCode, 400);
+    assert.equal(invalidGraph.json().error.code, 'GRAPH_QUERY_INVALID');
 
     const datapacks = await app.inject({
       method: 'GET',
