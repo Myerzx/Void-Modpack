@@ -39,6 +39,20 @@ Regras destas rotas:
 
 Detalhes em [API, agente e painel da Fase 7.3](PHASE_7_CONFIGURATION_API.md).
 
+## Implementado nas Fases 19–20 — leitura do ecossistema
+
+| Método | Rota | Estado |
+| --- | --- | --- |
+| `GET` | `/api/v1/workspaces/{workspaceId}/analysis` | resumo do snapshot atual ou estado explícito de ausência/staleness |
+| `POST` | `/api/v1/workspaces/{workspaceId}/analysis` | `workspace.manage`, gera ou reutiliza snapshot imutável |
+| `GET` | `/api/v1/workspaces/{workspaceId}/ecosystem/mods` | `workspace.view`, resumo dos mods analisados |
+| `GET` | `/api/v1/workspaces/{workspaceId}/ecosystem/mods/{modId}` | `workspace.view`, detalhe sem as milhares de relações estruturais |
+| `GET` | `/api/v1/workspaces/{workspaceId}/ecosystem/mods/{modId}/datapack-resources` | `workspace.view`, busca e filtros paginados |
+| `GET` | `/api/v1/workspaces/{workspaceId}/ecosystem/mods/{modId}/graph` | `workspace.view`, subgrafo limitado sob demanda |
+| `GET` | `/api/v1/workspaces/{workspaceId}/ecosystem/datapacks` | `workspace.view`, inventário agregado de datapacks e conflitos |
+
+A consulta de grafo aceita direção, profundidade de 1 a 3, tipos exatos de relação/entidade e inclusão explícita de estrutura. O padrão exclui `OWNS`, `DEFINED_IN`, `USES`, `PROVEN_BY` e `PARTICIPATES_IN`; o teto absoluto é 250 nós e 500 arestas. A resposta inclui os limites aplicados, sinalizadores de truncamento, referências a endpoints ausentes e somente as evidências alcançadas. Filtros inválidos ou acima do teto retornam `GRAPH_QUERY_INVALID`, sem redução silenciosa.
+
 As demais rotas administrativas deste documento continuam planejadas. Nenhuma rota operacional de start/stop/restart ou mutação de release foi criada.
 
 ## Implementado na Fase 5 — Launcher API pública

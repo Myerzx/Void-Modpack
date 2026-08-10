@@ -2,9 +2,9 @@
 
 ## Estado atual
 
-- Data: 2026-08-09
+- Data: 2026-08-10
 - Responsáveis: Claude e Codex
-- Fase: três fatias verticais das Fases 19–20 entregues sobre a base operacional da Fase 17. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → API → painel funciona com dados reais; o Mine and Slash expõe 451 configurações rastreáveis, 437 defaults comprovados, 392 controles semânticos, 15 sistemas, dois datapacks e 35 relações funcionais. As fases amplas continuam parciais
+- Fase: quatro fatias verticais das Fases 19–20 entregues sobre a base operacional da Fase 17. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; o Mine and Slash expõe 451 configurações rastreáveis, 437 defaults comprovados, 392 controles semânticos, 15 sistemas, dois datapacks e 35 relações funcionais. As fases amplas continuam parciais
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -22,6 +22,7 @@
 - conflitos persistidos por coordenada/hash, evidências rastreáveis e bloqueio do editor quando a ordem efetiva de carregamento permanece desconhecida;
 - TOML Forge com segmentos de tabela/chave entre aspas e edição cirúrgica segura pelo staging existente;
 - endpoints de análise, lista/detalhe de mods, recursos paginados e datapacks;
+- travessia BFS determinística do subgrafo por mod, com direção, profundidade máxima 3, filtros de relação/entidade, relações estruturais opt-in, tetos de 250 nós/500 arestas e referências ausentes explícitas;
 - sidebar consolidada nas nove categorias, header secundário por área e páginas reais de Mods, Mine and Slash e Datapacks;
 - prova no servidor real sem escrita no runtime: 7.928 arquivos, 175 mods normalizados, 4.367 configurações, 5.445 recursos de datapack, 8 resources revisados, 368 campos semânticos, 6 conflitos, 20.824 relações e 123 lacunas explícitas;
 
@@ -268,6 +269,15 @@
 - smokes determinísticos cobrem queda durante boot, online e no intervalo de restart, PID reutilizado e limpeza de owner morto, sempre sem adoção por PID e com no máximo um spawn;
 - o servidor real já online permaneceu intocado durante este recorte; a primeira implantação da migration exige rollout controlado: parar o JVM pelo agente antigo, reiniciar o ambiente local para migrar e então iniciar novamente sob a nova cerca.
 
+## Arquivos centrais do recorte atual
+
+- domínio e testes: `Plataforma/packages/ecosystem-analysis/src/graph-traversal.ts`, `types.ts`, `index.ts` e `test/ecosystem-analysis.test.ts`;
+- API e regressão end-to-end: `Plataforma/apps/control-api/src/workspace-routes.ts` e `test/workspace-api.test.ts`;
+- cliente e interface: `Plataforma/apps/panel-web/lib/ecosystem-client.ts`, `app/mods/detalhe/graph-explorer.tsx`, `page.tsx` e `app/globals.css`;
+- contratos e continuidade: `docs/plataforma/API.md`, `PHASE_19_ECOSYSTEM_ANALYSIS.md`, `ROADMAP.md` e este handoff.
+
+A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, spells ou stats sem corpus revisável versionado. A capacidade independente autorizada foi a projeção limitada de um grafo já persistido; ela não altera o snapshot, não acessa o workspace privado e não cria uma linguagem de consulta arbitrária.
+
 ## Limites obrigatórios
 
 1. Não modificar `Launcher/`, `Servidor/workspace/`, mundos ou configs privadas por descoberta implícita; operar processo real somente após vínculo explícito de workspace/runtime à instância.
@@ -290,12 +300,13 @@
 
 ## Validação
 
+- quarta fatia das Fases 19–20 validada localmente em 2026-08-10: 7 testes de `@voidfall/ecosystem-analysis`, 17 da Workspace API e 60 do painel passaram; builds da Control API e das 17 páginas estáticas do painel concluíram, o typecheck do painel passou e `git diff --check` ficou limpo. Não houve leitura do runtime privado nem smoke real de navegador neste recorte;
 - terceira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 820,1 segundos, incluindo packages, typecheck global, testes Node, Forge Bridge, integrações, cinco apps e 17 páginas exportadas; fluxo real e navegador também validados sem alterar o runtime;
 - segunda fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 397,1 segundos, 947 casos descobertos, 945 executados no Windows, dois sockets Unix ignorados e zero falhas; builds de pacotes, Forge Bridge, integrações, apps e export estático do painel concluídos;
 - primeira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 438 segundos, cobrindo builds, typecheck global, testes, Forge Bridge, integrações e export estático do painel; Chrome validado em desktop e 390 × 844 sem overflow horizontal;
 - análise do workspace real persistida pelo analyzer 1.3.0: 175 mods normalizados, 705 sistemas, 4.367 configurações, 6 datapacks, 5.445 recursos, 6 conflitos e 20.824 relações; Mine and Slash com 451 configurações, 437 defaults comprovados, 15 sistemas, 2 datapacks, 35 relações e zero issue direta;
 - ciclo real do recurso `uncommon.json`: `weight` 225 → 226 validado pelo schema, duas linhas de diff em staging, `appliedToWorkspace: false`, descarte concluído, zero estágios remanescentes e SHA-256 original preservado;
-- Graphify atualizado para 6.617 nós, 11.567 arestas e 415 comunidades, com a visão agregada regenerada e sem copiar dados privados do runtime;
+- Graphify atualizado para 6.658 nós e 11.639 arestas, com a visão agregada regenerada e sem copiar dados privados do runtime;
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
 - smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
@@ -395,6 +406,8 @@
 
 ## Riscos não resolvidos
 
+- a nova rota é uma projeção por mod, limitada a 3 saltos, 250 nós e 500 arestas; não oferece consulta arbitrária, travessia global nem GraphQL, e filtros de tipo podem cortar caminhos intermediários por definição;
+- referências declaradas a entidades ausentes permanecem explícitas, mas não são resolvidas contra repositórios externos; presença fora do inventário atual continua desconhecida;
 - o handle e os pipes do processo continuam pertencendo à memória do adaptador; após reinício do agente uma JVM órfã viva é reconhecida e bloqueia duplicação, mas ainda não existe reanexação segura para voltar a controlá-la;
 - operação, job e idempotência pública são duráveis, mas o replay interno do controlador continua local ao seu runtime;
 - a cerca persistente distingue geração/agente/boot de PID, mas o observador portátil só prova ausência por `ESRCH`; PID vivo ou reutilizado permanece intencionalmente incerto e exige aguardar a saída ou intervenção operacional verificada, ainda sem endpoint de resolução manual;
@@ -462,12 +475,15 @@
 
 ## Próximo recorte recomendado
 
-Expandir o registry revisado para as famílias de maior impacto (`mmorpg_value_calc`, spells e stats), cada uma com corpus, limites e defaults próprios; provar a ordem efetiva de carregamento antes de oferecer resolução de colisões; e adicionar travessia/filtros do grafo sem enviar milhares de arestas estruturais a uma página.
+Expandir o registry revisado para as famílias de maior impacto (`mmorpg_value_calc`, spells e stats), cada uma com corpus, limites e defaults próprios; e provar a ordem efetiva de carregamento antes de oferecer resolução de colisões. Nenhum desses schemas deve ser criado sem um corpus revisável versionado.
 
 Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam fora deste recorte. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
 
 ## Commits relevantes
 
+- `15724c6` — travessia BFS determinística e limitada no domínio do ecossistema;
+- `98f1c9a` — rota REST de subgrafo com filtros estritos, evidência escopada e referências ausentes explícitas;
+- `02f0990` — explorador compacto e responsivo do grafo na aba de detalhe do mod;
 - `90992c0` — schemas revisados, campos semânticos, defaults e conflitos de datapack no snapshot;
 - `1eb5622` — validação/staging de datapack resolvidos pelo inventário e snapshot, com hash e conflito como gates;
 - `a79cb58` — navegação, filtros, drawer técnico e configuração de resources revisados no painel;

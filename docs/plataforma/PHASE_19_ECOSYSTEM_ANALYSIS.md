@@ -160,6 +160,20 @@ As relações incluem oito dependências declaradas, extensões direcionais vind
 
 Os seis conflitos globais pertencem a resources de outros namespaces carregados pelos mesmos packs; por isso a aba do Mine and Slash mostra zero conflito diretamente ligado ao mod, enquanto a página global e os cards dos packs mostram as seis colisões sem contá-las duas vezes.
 
+## Travessia limitada do grafo
+
+O snapshot persistido agora possui uma projeção de leitura sob demanda em `GET /api/v1/workspaces/{workspaceId}/ecosystem/mods/{modId}/graph`. A raiz é sempre o `Mod` indicado pela rota e a consulta permite:
+
+- direção `incoming`, `outgoing` ou `both`;
+- profundidade de 1 a 3 saltos;
+- filtro exato por tipo de relação e por tipo de entidade adjacente;
+- inclusão explícita de relações estruturais, que ficam ocultas por padrão;
+- limites configuráveis até o teto de 250 entidades e 500 relações.
+
+A travessia é BFS, determinística e usa somente os IDs registrados no grafo do snapshot. Um tipo de relação exato pode selecionar uma relação estrutural mesmo quando a inclusão ampla de estrutura está desligada. Se uma aresta declarar um endpoint ausente do inventário, a API conserva a referência em `unresolvedReferences` e não fabrica um nó. Se um teto for alcançado, `truncated.entities` ou `truncated.relationships` torna a perda de cobertura explícita.
+
+A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros compactos, tabela de nós, arestas com proveniência expansível e avisos de truncamento ou referências ausentes; não reutiliza mais a lista funcional do detalhe nem envia as milhares de arestas `OWNS`, `DEFINED_IN`, `USES`, `PROVEN_BY` e `PARTICIPATES_IN` sem solicitação do operador.
+
 ## Validação técnica
 
 - `npm run check` concluiu com código 0 em 820,1 segundos, cobrindo builds de packages, typecheck de todos os workspaces, testes Node, Forge Bridge, integrações e os cinco apps; o painel exportou 17 páginas;
@@ -171,11 +185,13 @@ Os seis conflitos globais pertencem a resources de outros namespaces carregados 
 - a viewport móvel de 390 × 844 foi validada sem overflow horizontal depois do ajuste responsivo;
 - `git diff --check` não encontrou erro.
 
+O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
+
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental, o grafo portátil contém 6.617 nós, 11.567 arestas e 415 comunidades; a visão agregada também foi regenerada. A consulta focada reencontrou o registry revisado, o parser exato, o staging, as rotas/clientes e as páginas de datapack sem depender do relatório completo.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.658 nós e 11.639 arestas; a visão agregada também foi regenerada. A consulta focada reencontrou o registry revisado, o parser exato, o staging, as rotas/clientes e as páginas de datapack sem depender do relatório completo.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -189,7 +205,6 @@ Essa separação preserva as duas responsabilidades:
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
 - provar ordem efetiva de carregamento antes de oferecer resolução de conflitos, sem escolher vencedor por nome ou ordenação lexical;
-- expor travessia e filtros completos do grafo sem enviar milhares de arestas estruturais a uma página;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 
