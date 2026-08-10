@@ -142,6 +142,45 @@ export interface EcosystemRelationship {
   readonly evidenceIds: readonly string[];
 }
 
+export type EcosystemGraphDirection = 'incoming' | 'outgoing' | 'both';
+
+export interface EcosystemGraphEntity {
+  readonly id: string;
+  readonly type: string;
+  readonly label: string;
+  readonly modId: string | null;
+  readonly evidenceIds: readonly string[];
+  readonly depth: number;
+}
+
+export interface EcosystemGraphTraversal {
+  readonly dataQuality: 'stored';
+  readonly analysisId: string;
+  readonly root: EcosystemGraphEntity;
+  readonly direction: EcosystemGraphDirection;
+  readonly maxDepth: number;
+  readonly maxEntities: number;
+  readonly maxRelationships: number;
+  readonly includeStructural: boolean;
+  readonly relationshipType: string | null;
+  readonly entityType: string | null;
+  readonly depthReached: number;
+  readonly entities: readonly EcosystemGraphEntity[];
+  readonly relationships: readonly EcosystemRelationship[];
+  readonly unresolvedReferences: readonly {
+    readonly type: string;
+    readonly id: string;
+    readonly relationshipIds: readonly string[];
+  }[];
+  readonly truncated: {
+    readonly entities: boolean;
+    readonly relationships: boolean;
+  };
+  readonly availableEntityTypes: readonly string[];
+  readonly availableRelationshipTypes: readonly string[];
+  readonly evidence: readonly EcosystemEvidence[];
+}
+
 export interface EcosystemEvidence {
   readonly evidenceId: string;
   readonly source: string;
@@ -230,6 +269,39 @@ export async function listEcosystemDatapacks(workspaceId: string): Promise<{
 export async function readEcosystemMod(workspaceId: string, modId: string): Promise<EcosystemModDetail> {
   return panelRequest(
     `/api/v1/workspaces/${encodeURIComponent(workspaceId)}/ecosystem/mods/${encodeURIComponent(modId)}`,
+  );
+}
+
+export async function readEcosystemGraph(input: {
+  readonly workspaceId: string;
+  readonly modId: string;
+  readonly direction?: EcosystemGraphDirection;
+  readonly depth?: number;
+  readonly entityLimit?: number;
+  readonly relationshipLimit?: number;
+  readonly includeStructural?: boolean;
+  readonly relationshipType?: string;
+  readonly entityType?: string;
+}): Promise<EcosystemGraphTraversal> {
+  const parameters = new URLSearchParams();
+  if (input.direction !== undefined) parameters.set('direction', input.direction);
+  if (input.depth !== undefined) parameters.set('depth', String(input.depth));
+  if (input.entityLimit !== undefined) parameters.set('entityLimit', String(input.entityLimit));
+  if (input.relationshipLimit !== undefined) {
+    parameters.set('relationshipLimit', String(input.relationshipLimit));
+  }
+  if (input.includeStructural !== undefined) {
+    parameters.set('includeStructural', String(input.includeStructural));
+  }
+  if (input.relationshipType !== undefined && input.relationshipType.length > 0) {
+    parameters.set('relationshipType', input.relationshipType);
+  }
+  if (input.entityType !== undefined && input.entityType.length > 0) {
+    parameters.set('entityType', input.entityType);
+  }
+  const query = parameters.size === 0 ? '' : `?${parameters.toString()}`;
+  return panelRequest(
+    `/api/v1/workspaces/${encodeURIComponent(input.workspaceId)}/ecosystem/mods/${encodeURIComponent(input.modId)}/graph${query}`,
   );
 }
 
