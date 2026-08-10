@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786403247.3632884,
-    "ast_hash": "f001a5bf5531e96e996d2756152185de",
+    "mtime": 1786404514.9578793,
+    "ast_hash": "2d199c9c89ec3a92a89605db51f3fba5",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/index.ts": {
-    "mtime": 1786261827.1134653,
-    "ast_hash": "0595bdf53e244f6bd661b30fcaeb4317",
+    "mtime": 1786404127.8227024,
+    "ast_hash": "01ca17041c32d6fddf2fbe57ed766e25",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/migrations.ts": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/repositories.ts": {
-    "mtime": 1786261827.1134653,
-    "ast_hash": "f37c0643b22f30d206c1a7913457d26c",
+    "mtime": 1786404127.8242111,
+    "ast_hash": "b6373924a9147c4a30f249e2c61ecab8",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/src/testing.ts": {
@@ -610,8 +610,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/package.json": {
-    "mtime": 1786239118.847901,
-    "ast_hash": "3cc1033c8777f10a05888f61ad7c12c5",
+    "mtime": 1786403905.3555846,
+    "ast_hash": "574553744931180eeab6d9fa9916f9af",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/agent-client.ts": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786261827.116482,
-    "ast_hash": "7d0072a6078c313f279c5c297acd5c00",
+    "mtime": 1786404250.7055075,
+    "ast_hash": "288184d6d79fdd1604f0607107f9576a",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -3980,13 +3980,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/offline-guards.ts": {
-    "mtime": 1785994988.6269011,
-    "ast_hash": "141c4697b17a072b6013d9c802dd7a25",
+    "mtime": 1786403914.3593726,
+    "ast_hash": "07ded2a74bfdcfde0e9277dc33f33531",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/offline-guards.test.ts": {
-    "mtime": 1785995339.7366343,
-    "ast_hash": "fef17afe0af64573a9639b906608f10e",
+    "mtime": 1786403905.357153,
+    "ast_hash": "b5bce823c7eb22f3e39e80b161f76fbc",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0014_agent_readiness.sql": {
@@ -4825,18 +4825,18 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-ecosystem-analysis.test.ts": {
-    "mtime": 1786299550.931874,
-    "ast_hash": "fc874c8e1d7af9fbc6ecde616611cbf9",
+    "mtime": 1786404127.8242111,
+    "ast_hash": "a89c3d3d4e0c4e2abbbaacc94533bf89",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/package.json": {
-    "mtime": 1786261361.044043,
-    "ast_hash": "db6078db8e26c9d1238e31a3af8b0b8f",
+    "mtime": 1786403845.7498152,
+    "ast_hash": "cfc8d05b4da59332369af3018cdfe194",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786402922.198524,
-    "ast_hash": "f3c10bec13b1ce6d304d263f48afea85",
+    "mtime": 1786403845.7498152,
+    "ast_hash": "330cbe5450bfdb7501b5478039ca3f4a",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786403059.3985152,
-    "ast_hash": "45d0ddb33968fc7e436094317e2adea6",
+    "mtime": 1786404514.9578793,
+    "ast_hash": "2e93279fe66ec2d9cfd2bfedb0794695",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -4930,8 +4930,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/datapack-load-order.ts": {
-    "mtime": 1786402922.1970146,
-    "ast_hash": "4074d2f5ad22f9142dbf97edade4ceba",
+    "mtime": 1786403845.748309,
+    "ast_hash": "bf7aec9346757055f935c846ffa161b9",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-018-evidencia-de-ordem-efetiva-de-datapacks.md": {
@@ -4942,6 +4942,36 @@
   "graphify-out/memory/query_20260810_230555_qual_e_a_proxima_fase_segura_para_resolver_conflit.md": {
     "mtime": 1786403155.810923,
     "ast_hash": "ccbc80e00cd9d95202ef4b7c6c71aafb",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/datapack-load-order-observer.ts": {
+    "mtime": 1786403845.748309,
+    "ast_hash": "af1d02dce8ae78a967cd8deb8168e31b",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/test/datapack-load-order-observer.test.ts": {
+    "mtime": 1786403866.9055555,
+    "ast_hash": "b1eb2e0a1f7e82bfe3216aeb8ae09e2f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/test/fixtures/world-metadata-datapack-order-v1.json": {
+    "mtime": 1786403845.7518933,
+    "ast_hash": "5e5ab3257f7216f5d7af6384d9bbe417",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0027_datapack_load_order_observations.sql": {
+    "mtime": 1786404127.8222003,
+    "ast_hash": "09e057e35b46b75b3db958379f5f8958",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/src/datapack-load-order-repositories.ts": {
+    "mtime": 1786404170.3041053,
+    "ast_hash": "3480157af38523d30e5451177f350762",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260810_232721_pode_continuar.md": {
+    "mtime": 1786404441.9879816,
+    "ast_hash": "65afc8a9670a675c5e6f289a89fe33e6",
     "semantic_hash": ""
   }
 }
