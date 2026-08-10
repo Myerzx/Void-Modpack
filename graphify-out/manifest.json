@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786404514.9578793,
-    "ast_hash": "2d199c9c89ec3a92a89605db51f3fba5",
+    "mtime": 1786406135.1104314,
+    "ast_hash": "d0fe109640a39314f019f6e52576a9fa",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786400070.441003,
-    "ast_hash": "2347120cdd0be0346f7bda3eb34a8e62",
+    "mtime": 1786405945.5790567,
+    "ast_hash": "ef1ea89198fda7f213c7e278e9f11dd7",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -4835,8 +4835,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/index.ts": {
-    "mtime": 1786403845.7498152,
-    "ast_hash": "330cbe5450bfdb7501b5478039ca3f4a",
+    "mtime": 1786405622.2260206,
+    "ast_hash": "613ba22388439f6c086746b8e504373b",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/service.ts": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786404514.9578793,
-    "ast_hash": "2e93279fe66ec2d9cfd2bfedb0794695",
+    "mtime": 1786406111.4372785,
+    "ast_hash": "f891c9ab6f8ed151f9b4f874b35120a0",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -4945,8 +4945,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/src/datapack-load-order-observer.ts": {
-    "mtime": 1786403845.748309,
-    "ast_hash": "af1d02dce8ae78a967cd8deb8168e31b",
+    "mtime": 1786405622.2260206,
+    "ast_hash": "5aa94b5f837ebe84a06846cf7f90f622",
     "semantic_hash": ""
   },
   "Plataforma/packages/ecosystem-analysis/test/datapack-load-order-observer.test.ts": {
@@ -4972,6 +4972,31 @@
   "graphify-out/memory/query_20260810_232721_pode_continuar.md": {
     "mtime": 1786404441.9879816,
     "ast_hash": "65afc8a9670a675c5e6f289a89fe33e6",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/src/world-metadata-nbt.ts": {
+    "mtime": 1786405763.2945764,
+    "ast_hash": "0b4bad4e7eeb09a94b27ba420fce03ed",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/test/fixtures/world-metadata-nbt-v1/corpus.ts": {
+    "mtime": 1786405712.4706635,
+    "ast_hash": "731e22a98e1c6cdd6fdb01153b8aed7f",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/test/world-metadata-nbt.test.ts": {
+    "mtime": 1786405874.8291686,
+    "ast_hash": "23761fab3dd9f216f668aa98337b83b9",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/ecosystem-analysis/test/fixtures/world-metadata-nbt-v1/README.md": {
+    "mtime": 1786405712.4721694,
+    "ast_hash": "1e008c4fa7e1f10e854eeb8ac16a2758",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260810_235244_go.md": {
+    "mtime": 1786405964.941862,
+    "ast_hash": "820b6bdce0220e09dde7fdd147c0a931",
     "semantic_hash": ""
   }
 }
