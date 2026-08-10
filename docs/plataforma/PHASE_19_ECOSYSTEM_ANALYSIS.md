@@ -1,6 +1,6 @@
 # Fases 19–20 — ecossistema de mods e análise estática
 
-Status: três fatias verticais funcionais e validadas no servidor real em 2026-08-09. As Fases 19 e 20 **não estão concluídas**.
+Status: quatro fatias verticais funcionais, mais a primeira fronteira de evidência para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
 
 ## Objetivo entregue
 
@@ -76,6 +76,14 @@ O analyzer `1.3.0` preserva o pipeline e acrescenta um registry fechado de schem
 O parser recusa chave duplicada, campo ausente ou extra, objeto vazio desconhecido, array, tipo divergente, número não finito, identidade diferente do filename, range atual invertido e mudança duplicada. Identidades, referências e enums cujo domínio não foi provado permanecem somente leitura. Número sem limite declarado continua dizendo que não há limite de domínio comprovado.
 
 Recursos com a mesma coordenada são persistidos como `DatapackConflict`. O snapshot real contém seis colisões e todas possuem conteúdo divergente: cinco no namespace `library_of_exile` e uma tabela de loot de `ancient_obelisks`, sempre entre `cte_mns` e `cte_configuration`. Como a ordem efetiva não foi provada, a resolução é `unknown-load-order` e a edição semântica é bloqueada para os participantes.
+
+### Fronteira seguinte: evidência de ordem efetiva
+
+O ADR-018 introduz um contrato estrito e uma projeção somente leitura, sem alterar o analyzer 1.3.0 nem sua chave de cache. Uma observação declara fonte versionada, hash exato do inventário, horário, hash da evidência e a pilha normalizada de baixa para alta prioridade. Cada item usa apenas `rootPath` relativo e SHA-256 do pack.
+
+A projeção só identifica o recurso vencedor quando todos os participantes e hashes correspondem ao mesmo snapshot. Inventário antigo, participante ausente, pack alterado ou recurso ambíguo falha fechado. O resultado fixa `authorizesSemanticEditing: false`: `DatapackConflict.resolution` continua `unknown-load-order`, os controles continuam bloqueados e nenhuma API, persistência, operação de agente ou leitura do runtime privado foi adicionada.
+
+Essa separação é necessária porque a observação pode mudar sem mudar o inventário. Incorporá-la ao snapshot atual criaria replay incorreto no cache `workspaceId + inventorySha256 + analyzerVersion`. Uma integração futura deverá persistir a observação e sua projeção com identidade própria.
 
 ## Configurações
 
@@ -187,6 +195,8 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
+A fronteira de ordem efetiva elevou o pacote de ecossistema para 8 testes. A regressão cobre vencedor nas duas direções, inventário antigo, participante ausente, SHA-256 divergente, payload extensível, path absoluto e duplicidade por case fold. Typecheck, teste e build direcionados passaram sem ler o runtime privado.
+
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
@@ -204,7 +214,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- provar ordem efetiva de carregamento antes de oferecer resolução de conflitos, sem escolher vencedor por nome ou ordenação lexical;
+- implementar uma fonte confiável e sanitizada para a observação de ordem efetiva; o contrato/projetor existem, mas a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 

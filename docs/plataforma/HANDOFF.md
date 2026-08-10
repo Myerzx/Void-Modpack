@@ -4,7 +4,7 @@
 
 - Data: 2026-08-10
 - Responsáveis: Claude e Codex
-- Fase: quatro fatias verticais das Fases 19–20 entregues sobre a base operacional da Fase 17. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; o Mine and Slash expõe 451 configurações rastreáveis, 437 defaults comprovados, 392 controles semânticos, 15 sistemas, dois datapacks e 35 relações funcionais. As fases amplas continuam parciais
+- Fase: quatro fatias verticais das Fases 19–20 entregues, com a fronteira de evidência da próxima fatia iniciada. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; o contrato v1 de ordem observada agora prova precedência em projeção separada e nunca libera edição. As fases amplas continuam parciais
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -20,6 +20,7 @@
 - parser limitado de class files Java e análise seletiva de `ForgeConfigSpec`, registries, chamadas entre mods e alvos de mixin, sem executar JARs;
 - registry fechado de schemas de datapack, com `mmorpg-gear-rarity@1.0.0` como primeiro adapter revisado, forma exata, defaults do JAR, campos read-only e nove pares ordenados;
 - conflitos persistidos por coordenada/hash, evidências rastreáveis e bloqueio do editor quando a ordem efetiva de carregamento permanece desconhecida;
+- contrato estrito `DatapackLoadOrderObservation` v1 e projeção determinística separados do cache do analyzer, vinculados ao hash exato do inventário e dos packs, sem paths absolutos e com `authorizesSemanticEditing: false`;
 - TOML Forge com segmentos de tabela/chave entre aspas e edição cirúrgica segura pelo staging existente;
 - endpoints de análise, lista/detalhe de mods, recursos paginados e datapacks;
 - travessia BFS determinística do subgrafo por mod, com direção, profundidade máxima 3, filtros de relação/entidade, relações estruturais opt-in, tetos de 250 nós/500 arestas e referências ausentes explícitas;
@@ -300,13 +301,14 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Validação
 
+- fronteira de evidência de ordem efetiva validada localmente em 2026-08-10: 8 testes de `@voidfall/ecosystem-analysis`, typecheck e build direcionados passaram; as regressões cobrem ordem nas duas direções, inventário antigo, participante ausente, hash divergente, payload extensível e paths inseguros. O runtime privado não foi lido e a ordem das seis colisões reais continua não observada;
 - quarta fatia das Fases 19–20 validada localmente em 2026-08-10: 7 testes de `@voidfall/ecosystem-analysis`, 17 da Workspace API e 60 do painel passaram; builds da Control API e das 17 páginas estáticas do painel concluíram, o typecheck do painel passou e `git diff --check` ficou limpo. Não houve leitura do runtime privado nem smoke real de navegador neste recorte;
 - terceira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 820,1 segundos, incluindo packages, typecheck global, testes Node, Forge Bridge, integrações, cinco apps e 17 páginas exportadas; fluxo real e navegador também validados sem alterar o runtime;
 - segunda fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 397,1 segundos, 947 casos descobertos, 945 executados no Windows, dois sockets Unix ignorados e zero falhas; builds de pacotes, Forge Bridge, integrações, apps e export estático do painel concluídos;
 - primeira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 438 segundos, cobrindo builds, typecheck global, testes, Forge Bridge, integrações e export estático do painel; Chrome validado em desktop e 390 × 844 sem overflow horizontal;
 - análise do workspace real persistida pelo analyzer 1.3.0: 175 mods normalizados, 705 sistemas, 4.367 configurações, 6 datapacks, 5.445 recursos, 6 conflitos e 20.824 relações; Mine and Slash com 451 configurações, 437 defaults comprovados, 15 sistemas, 2 datapacks, 35 relações e zero issue direta;
 - ciclo real do recurso `uncommon.json`: `weight` 225 → 226 validado pelo schema, duas linhas de diff em staging, `appliedToWorkspace: false`, descarte concluído, zero estágios remanescentes e SHA-256 original preservado;
-- Graphify atualizado para 6.658 nós e 11.639 arestas, com a visão agregada regenerada e sem copiar dados privados do runtime;
+- Graphify atualizado para 6.697 nós, 11.695 arestas e 423 comunidades, reencontrando o contrato, parser e projetor de ordem efetiva sem copiar dados privados do runtime;
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
 - smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
@@ -406,6 +408,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Riscos não resolvidos
 
+- o contrato e a projeção de ordem efetiva não possuem adaptador confiável, persistência, API, RBAC, auditoria, operação de agente ou painel; uma fixture sanitizada prova o algoritmo, não a prioridade do mundo privado atual, e todos os conflitos continuam bloqueados para edição;
 - a nova rota é uma projeção por mod, limitada a 3 saltos, 250 nós e 500 arestas; não oferece consulta arbitrária, travessia global nem GraphQL, e filtros de tipo podem cortar caminhos intermediários por definição;
 - referências declaradas a entidades ausentes permanecem explícitas, mas não são resolvidas contra repositórios externos; presença fora do inventário atual continua desconhecida;
 - o handle e os pipes do processo continuam pertencendo à memória do adaptador; após reinício do agente uma JVM órfã viva é reconhecida e bloqueia duplicação, mas ainda não existe reanexação segura para voltar a controlá-la;
@@ -475,12 +478,15 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Próximo recorte recomendado
 
-Expandir o registry revisado para as famílias de maior impacto (`mmorpg_value_calc`, spells e stats), cada uma com corpus, limites e defaults próprios; e provar a ordem efetiva de carregamento antes de oferecer resolução de colisões. Nenhum desses schemas deve ser criado sem um corpus revisável versionado.
+Implementar um único adaptador confiável de observação de ordem sobre fixtures sanitizadas, definir a guarda operacional e persistir observação/projeção com identidade própria (`analysisId + observationId`) antes de qualquer API ou UI. O runtime privado deve permanecer desconectado até um smoke explicitamente autorizado; bytes de mundo e paths absolutos nunca atravessam a fronteira.
+
+Em paralelo futuro, expandir o registry revisado para `mmorpg_value_calc`, spells e stats somente quando existir corpus revisável versionado, limites e defaults próprios.
 
 Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam fora deste recorte. Readiness, timeout, invalidação transitória, ownership e o console incremental não devem ser reabertos sem regressão concreta.
 
 ## Commits relevantes
 
+- `96b16bd` — contrato estrito e projeção fail-closed de precedência observada de datapacks, sem liberar edição;
 - `15724c6` — travessia BFS determinística e limitada no domínio do ecossistema;
 - `98f1c9a` — rota REST de subgrafo com filtros estritos, evidência escopada e referências ausentes explícitas;
 - `02f0990` — explorador compacto e responsivo do grafo na aba de detalhe do mod;
