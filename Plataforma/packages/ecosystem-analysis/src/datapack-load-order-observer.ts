@@ -24,7 +24,7 @@ export interface OfflineExclusiveDatapackLoadOrderGuard {
  * callers cannot provide a path, source name, timestamp or arbitrary bytes.
  */
 export interface TrustedWorldMetadataDatapackLoadOrderReader {
-  readNormalizedEvidence(): Promise<unknown>;
+  readNormalizedEvidence(analysis: EcosystemAnalysis): Promise<unknown>;
 }
 
 export interface CapturedDatapackLoadOrder {
@@ -78,7 +78,7 @@ export class GuardedDatapackLoadOrderObserver {
 
   public capture(analysis: EcosystemAnalysis): Promise<CapturedDatapackLoadOrder> {
     return this.#guard.runWithExclusiveOfflineAccess(async (lease) => {
-      const evidence = await this.#reader.readNormalizedEvidence();
+      const evidence = await this.#reader.readNormalizedEvidence(analysis);
       if (
         !isRecord(evidence) ||
         !hasExactKeys(evidence, ['schemaVersion', 'evidenceSha256', 'order', 'datapacks']) ||
