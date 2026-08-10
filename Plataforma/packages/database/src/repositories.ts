@@ -25,6 +25,7 @@ import { TelemetryRepository } from './telemetry-repositories.js';
 import { WorkspaceReleaseRepository } from './workspace-release-repositories.js';
 import { WorkspaceRepository } from './workspace-repositories.js';
 import { EcosystemAnalysisRepository } from './ecosystem-analysis-repositories.js';
+import { DatapackLoadOrderRepository } from './datapack-load-order-repositories.js';
 import {
   SandboxRunRepository,
   WorkspaceStagingRepository,
@@ -1151,6 +1152,7 @@ export interface Repositories {
   readonly sandboxRuns: SandboxRunRepository;
   readonly releases: WorkspaceReleaseRepository;
   readonly ecosystemAnalysis: EcosystemAnalysisRepository;
+  readonly datapackLoadOrder: DatapackLoadOrderRepository;
 }
 
 export function createRepositories(database: Database): Repositories {
@@ -1182,5 +1184,6 @@ export function createRepositories(database: Database): Repositories {
     sandboxRuns: new SandboxRunRepository(database),
     releases: new WorkspaceReleaseRepository(database),
     ecosystemAnalysis: new EcosystemAnalysisRepository(database),
+    datapackLoadOrder: new DatapackLoadOrderRepository(database),
   };
 }

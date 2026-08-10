@@ -66,6 +66,7 @@ describe('PostgreSQL foundation', () => {
         '0024_process_state_invalidation.sql',
         '0025_minecraft_process_ownership.sql',
         '0026_ecosystem_analysis.sql',
+        '0027_datapack_load_order_observations.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
