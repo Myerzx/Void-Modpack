@@ -1,6 +1,6 @@
 # Fases 19–20 — ecossistema de mods e análise estática
 
-Status: quatro fatias verticais funcionais, mais contrato, captura guardada e persistência isolada para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
+Status: quatro fatias verticais funcionais, mais contrato, captura guardada, reader NBT limitado e persistência isolada para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
 
 ## Objetivo entregue
 
@@ -83,9 +83,26 @@ O ADR-018 introduz um contrato estrito e uma projeção somente leitura, sem alt
 
 A projeção só identifica o recurso vencedor quando todos os participantes e hashes correspondem ao mesmo snapshot. Inventário antigo, participante ausente, pack alterado ou recurso ambíguo falha fechado. O resultado fixa `authorizesSemanticEditing: false`: `DatapackConflict.resolution` continua `unknown-load-order` e os controles continuam bloqueados.
 
-O passo seguinte implementa `GuardedDatapackLoadOrderObserver`. Ele aceita somente um reader confiável injetado, chama esse reader dentro de uma janela `offline-exclusive-v1`, fixa a fonte `minecraft-world-metadata-v1`, cria o timestamp no host e deriva a projeção do `EcosystemAnalysis` exato. A fixture pública contém apenas root paths relativos e hashes fictícios. Não existe reader nativo de NBT, path fornecido por usuário, bytes de `level.dat`, capability, handler ou readiness operacional.
+O passo seguinte implementa `GuardedDatapackLoadOrderObserver`. Ele aceita somente um reader confiável injetado, chama esse reader dentro de uma janela `offline-exclusive-v1`, fixa a fonte `minecraft-world-metadata-v1`, cria o timestamp no host e deriva a projeção do `EcosystemAnalysis` exato. A fixture pública contém apenas root paths relativos e hashes fictícios. O reader NBT limitado descrito abaixo implementa essa porta sem path fornecido pelo usuário; capability, handler e readiness operacional continuam ausentes.
 
 No Server Agent, `createOfflineExclusiveDatapackLoadOrderGuard` reutiliza o lock durável `minecraft-exclusive` e verifica o processo antes e depois da captura. A janela só é reconhecida quando o proprietário e a operação literal `datapack-load-order.observe` correspondem. A função existe para composição futura, mas nenhuma capability adquire esse lock nesta entrega.
+
+### Reader NBT limitado e prova da prioridade nativa
+
+O adaptador `BoundedNbtWorldMetadataDatapackLoadOrderReader` implementa a primeira fonte reservada pelo ADR-018 sem receber path. Uma porta de construção confiável entrega somente os bytes gzip; o parser calcula o SHA-256 da evidência comprimida e extrai exclusivamente `Data.DataPacks.Enabled` e `Disabled`. Os bytes, o nome do mundo e qualquer estado vizinho não atravessam a fronteira normalizada.
+
+Os limites são fixos e não podem ser ampliados pelo chamador: 8 MiB comprimidos, 32 MiB descomprimidos, profundidade 64, 100.000 tags, 4.096 itens por lista, 1.048.576 itens por array e 16 KiB por string NBT. O parser suporta os 12 tipos NBT conhecidos apenas para saltar com segurança até o alvo; tipo desconhecido, truncamento, tamanho negativo, chave duplicada, UTF modificado inválido, campo alvo com tipo divergente ou bytes finais extras falham fechados.
+
+A direção `lowest-priority-first` foi comprovada sobre os artefatos públicos exatos, não deduzida pelo nome dos packs:
+
+1. o [servidor oficial Minecraft 1.20.1](https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar), SHA-1 `84194a2f286ef7c14ed7ce0090dba59902951553`, e os [mapeamentos oficiais](https://piston-data.mojang.com/v1/objects/0b4dba049482496c507b2387a73a913230ebbd76/server.txt), SHA-1 `0b4dba049482496c507b2387a73a913230ebbd76`, fixam `Data` → `DataPacks` → listas `Enabled`/`Disabled` e a leitura gzip;
+2. `MinecraftServer.configurePackRepository` copia `Enabled` para um `LinkedHashSet`; `PackRepository.setSelected`, `getSelectedIds` e `openAllSelected` conservam essa ordem;
+3. `MultiPackResourceManager` empilha os packs nessa mesma ordem e `FallbackResourceManager.getResource` procura do último índice para o primeiro. Logo, o último ID persistido é o de maior prioridade. Isso também é consistente com a [documentação oficial do Forge](https://docs.minecraftforge.net/en/1.20.1/concepts/resources/), segundo a qual o pack no topo sobrescreve os inferiores;
+4. o [OpenLoader 1.20.1 no commit `1a09605`](https://github.com/Darkhax-Minecraft/Open-Loader/blob/1a09605218a69808509680ad43cd3ff4a476c05a/common/src/main/java/net/darkhax/openloader/packs/OpenLoaderRepositorySource.java#L77-L80) registra cada candidato com ID `data/<nome do arquivo>` e posição `TOP`; o tipo `DATA` fixa o diretório `data` no [mesmo commit](https://github.com/Darkhax-Minecraft/Open-Loader/blob/1a09605218a69808509680ad43cd3ff4a476c05a/common/src/main/java/net/darkhax/openloader/packs/RepoType.java#L10).
+
+O [source artifact público do Forge 1.20.1-47.4.4](https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.4/forge-1.20.1-47.4.4-sources.jar), SHA-256 `0979dda2dad68f66a63608942aebc3fcb3e643dcc0ead5f6c3cf211c7d03c83d`, foi conferido para a variante do servidor documentada. Seus patches adicionam fontes e packs de mods, mas não invertem a lista persistida. O reader mapeia somente IDs ativos `data/<nome>` para datapacks OpenLoader do mesmo `EcosystemAnalysis`; ID ativo fora do inventário, duplicidade ou ausência total de packs reconhecidos é recusado. Packs vanilla/mod permanecem fora do documento normalizado e sua remoção não altera a ordem relativa entre os packs analisados.
+
+O corpus v1 é inteiramente sintético e gerado em memória. Ele cobre todos os tipos NBT padrão, gzip/hash, UTF modificado, listas vazias, budgets, profundidade, tipo desconhecido, chaves e IDs duplicados e pack ativo não inventariado. Nenhum `level.dat`, mundo, jogador, path local ou conteúdo de terceiros foi versionado. A capability, o handler, a readiness e o filesystem real continuam ausentes; portanto a prioridade do mundo privado atual ainda não foi observada.
 
 ## Configurações
 
@@ -199,13 +216,13 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
-A fronteira de ordem efetiva agora soma 11 testes no pacote de ecossistema. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, fixture sanitizada, payload extensível, relógio anterior ao lease e revalidação de documentos persistidos. A suíte do Server Agent passou com 108 testes e a do banco com 60, incluindo migration `0027`, replay idempotente, FK de inventário e recusa de snapshot obsoleto. Typecheck e builds direcionados passaram sem ler o runtime privado.
+A fronteira de ordem efetiva agora soma 16 testes no pacote de ecossistema. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, payload extensível, relógio anterior ao lease e revalidação de documentos persistidos. A suíte do Server Agent passou com 108 testes e a do banco com 60 no recorte anterior, incluindo migration `0027`, replay idempotente, FK de inventário e recusa de snapshot obsoleto. Typecheck e build direcionados do pacote passaram sem ler o runtime privado.
 
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental deste recorte, o grafo portátil contém 6.749 nós, 11.795 arestas e 427 comunidades; a visão agregada também foi regenerada. A consulta focada reencontrou o contrato, o observer guardado, a guarda do agente, a migration e o repositório sem depender do relatório completo.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.811 nós, 11.932 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada reencontrou `BoundedNbtWorldMetadataDatapackLoadOrderReader`, `NbtCursor`, seus limites, o observer guardado e o contrato normalizado sem depender do relatório completo. O diagnóstico encontrou zero endpoint ausente e manteve somente as duas autociclagens SQL `references` já documentadas.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -218,7 +235,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- implementar um reader nativo e limitado para uma fonte revisada; a porta, a guarda e a persistência existem, mas nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
+- compor o reader NBT com uma raiz confiável no Server Agent somente após capability, handler, auditoria e readiness próprios; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 
