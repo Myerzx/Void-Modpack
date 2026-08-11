@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -13,6 +14,13 @@ import {
 
 import type { ConfigurationValueReader } from './configuration-routes.js';
 
+type ScopedConfigurationReader = {
+  readConfiguration(resourceId: string): Promise<{
+    readonly currentSha256: string;
+    readonly values: Readonly<Record<string, boolean | number | string>>;
+  }>;
+};
+
 /**
  * Readers currently owned by the in-process local agents.
  *
@@ -21,9 +29,9 @@ import type { ConfigurationValueReader } from './configuration-routes.js';
  * server id only; neither a panel request nor a lease can provide a root.
  */
 export class LocalConfigurationReaders implements ConfigurationValueReader {
-  readonly #readers = new Map<string, FilesystemConfigurationService>();
+  readonly #readers = new Map<string, ScopedConfigurationReader>();
 
-  public register(serverInstanceId: string, reader: FilesystemConfigurationService): void {
+  public register(serverInstanceId: string, reader: ScopedConfigurationReader): void {
     this.#readers.set(serverInstanceId, reader);
   }
 
@@ -46,7 +54,7 @@ export interface LocalConfigurationRuntime {
     readonly revisionRoot: string;
   };
   readonly guard: OfflineExclusiveConfigurationGuard;
-  readonly reader: FilesystemConfigurationService;
+  readonly reader: ScopedConfigurationReader;
   readonly resourceIds: readonly string[];
 }
 
@@ -87,6 +95,37 @@ export async function provisionLocalConfiguration(input: {
     resources,
     guard: input.guard,
   });
+  // Reads use the same guard as writes, and that guard correctly refuses to
+  // make an "offline" claim without the shared durable lock. The local API is
+  // therefore given a tiny wrapper that owns a read-only exclusive window;
+  // neither bootstrap nor a GET bypasses the lock just because it does not
+  // mutate the file.
+  const exclusiveReader: ScopedConfigurationReader = {
+    async readConfiguration(resourceId) {
+      const ownerId = randomUUID();
+      const acquiredAt = new Date();
+      await input.repositories.operationalLocks.acquire({
+        serverInstanceId: input.instance.id,
+        lockName: 'minecraft-exclusive',
+        ownerId,
+        operation: 'configuration.read',
+        acquiredAt: acquiredAt.toISOString(),
+        leaseExpiresAt: new Date(acquiredAt.getTime() + 30_000).toISOString(),
+      });
+      try {
+        const observed = await reader.readConfiguration(resourceId);
+        return { currentSha256: observed.currentSha256, values: observed.values };
+      } finally {
+        await input.repositories.operationalLocks
+          .release({
+            serverInstanceId: input.instance.id,
+            lockName: 'minecraft-exclusive',
+            ownerId,
+          })
+          .catch(() => undefined);
+      }
+    },
+  };
   const createdAt = (input.now ?? new Date()).toISOString();
   const registered: string[] = [];
 
@@ -118,7 +157,9 @@ export async function provisionLocalConfiguration(input: {
 
     // Missing, linked or malformed files remain unregistered. The catalog
     // will state that fact without disclosing the path or parser detail.
-    const observed = await reader.readConfiguration(codec.schema.resourceId).catch(() => null);
+    const observed = await exclusiveReader
+      .readConfiguration(codec.schema.resourceId)
+      .catch(() => null);
     if (observed === null) continue;
     await input.repositories.configuration.registerResource({
       serverInstanceId: input.instance.id,
@@ -138,7 +179,7 @@ export async function provisionLocalConfiguration(input: {
       revisionRoot,
     },
     guard: input.guard,
-    reader,
+    reader: exclusiveReader,
     resourceIds: Object.freeze(registered.sort()),
   };
 }

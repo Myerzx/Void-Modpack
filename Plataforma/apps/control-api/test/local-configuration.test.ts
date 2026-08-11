@@ -8,7 +8,8 @@ import { afterEach, describe, it } from 'node:test';
 import { hashPassword } from '@voidfall/authentication';
 import { createRepositories, runMigrations, type Database } from '@voidfall/database';
 import { createPGliteTestDatabase } from '@voidfall/database/testing';
-import type { OfflineExclusiveConfigurationGuard } from '@voidfall/server-configuration';
+import type { MinecraftProcessAdapter } from '@voidfall/minecraft-process';
+import { createOfflineExclusiveConfigurationGuard } from '@voidfall/server-agent';
 
 import {
   LocalConfigurationReaders,
@@ -25,12 +26,6 @@ afterEach(async () => {
   }
 });
 
-const guard: OfflineExclusiveConfigurationGuard = {
-  async runWithExclusiveOfflineAccess(_resourceId, operation) {
-    return operation({ method: 'offline-exclusive-v1', acquiredAt: new Date() });
-  },
-};
-
 function document(dataPacks = true, resourcePacks = true): string {
   return `${JSON.stringify(
     {
@@ -40,6 +35,22 @@ function document(dataPacks = true, resourcePacks = true): string {
     null,
     2,
   )}\n`;
+}
+
+function guardFor(context: Awaited<ReturnType<typeof fixture>>) {
+  const adapter = {
+    inspect: async () => ({
+      state: 'offline',
+      observedAt: new Date().toISOString(),
+      source: 'process-adapter',
+    }),
+  } as unknown as MinecraftProcessAdapter;
+  return createOfflineExclusiveConfigurationGuard({
+    repositories: context.repositories,
+    adapter,
+    serverInstanceId: context.instance.id,
+    ownsLock: (lease) => lease.operation.startsWith('configuration.'),
+  });
 }
 
 async function fixture(withConfiguration: boolean) {
@@ -99,7 +110,7 @@ describe('local reviewed configuration bootstrap', () => {
       repositories: context.repositories,
       stateDirectory: join(context.root, 'state'),
       actorId: context.actor.id,
-      guard,
+      guard: guardFor(context),
     });
     assert.ok(runtime !== null);
     assert.deepEqual(runtime.resourceIds, ['openloader-advanced-options']);
@@ -123,7 +134,7 @@ describe('local reviewed configuration bootstrap', () => {
       repositories: context.repositories,
       stateDirectory: join(context.root, 'state'),
       actorId: context.actor.id,
-      guard,
+      guard: guardFor(context),
     });
     assert.deepEqual(replay?.resourceIds, ['openloader-advanced-options']);
   });
@@ -135,7 +146,7 @@ describe('local reviewed configuration bootstrap', () => {
       repositories: context.repositories,
       stateDirectory: join(context.root, 'state'),
       actorId: context.actor.id,
-      guard,
+      guard: guardFor(context),
     });
     assert.equal(runtime, null);
     assert.equal(
