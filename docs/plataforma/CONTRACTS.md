@@ -27,6 +27,7 @@ Os contratos iniciais não acessam rede, banco, filesystem operacional nem proce
 | --- | --- | --- | --- |
 | `Job` | Control API e scheduler | Server Agent ou Build Worker | idempotência, correlação, lease, tentativas e payload versionado |
 | `AgentEnvelope` | Server Agent | Control API | identidade de agente/instância, nonce, validade, hash e metadados de assinatura |
+| `DatapackLoadOrderObservationCommand/Result` | job persistido / Server Agent | capability `datapack-load-order.observe` | somente IDs/hashes/contagem, campos exatos, sem root, path, filename ou bytes |
 | `ModCatalogEntry` | inventário revisado e catálogo | Build Worker e painel | path relativo, hash, lado, proveniência, licença, revisão e dependências |
 | `InventorySnapshot` | exportador autorizado de cliente/servidor | reconciliador de catálogo | fonte/escopo explícitos, runtime, paths canônicos, estado, tamanho e hash sem dados privados |
 | `CatalogReconciliationReport` | reconciliador determinístico | revisão futura, worker e painel | identidade de conteúdo, ocorrências, sugestão de lado, conflitos e bloqueios ordenados |

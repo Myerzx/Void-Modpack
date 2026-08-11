@@ -7,6 +7,9 @@ Status: fundação da Fase 2 e encadeamento de auditoria da Fase 6 implementados
 - `0001_foundation.sql`: `panel_users`, `roles`, `permissions`, `user_roles`, `role_permissions`, `sessions`, `server_instances`, `agent_provision_tokens`, `agents`, `agent_nonces`, `jobs`, `job_events` e `audit_events`;
 - `0002_rbac_seed.sql`: cinco papéis e permissões granulares com política deny-by-default;
 - `0003_audit_chain.sql`: cabeças por partição, sequência e integridade da auditoria administrativa;
+- `0026_ecosystem_analysis.sql`: snapshots imutáveis de análise por workspace, inventário e versão do analyzer;
+- `0027_datapack_load_order_observations.sql`: observação/projeção imutáveis da ordem efetiva com FK do inventário e gate de edição fixado em `false`;
+- `0028_datapack_load_order_agent_operation.sql`: allowlists do transporte e vínculo idempotente `job_id` para a captura operacional auditada;
 - repositórios de usuários, sessões, permissões, servidores, auditoria, agentes e jobs;
 - testes em PostgreSQL embarcado PGlite para migração, RBAC, idempotência, lease, conclusão `noop`, append concorrente, verificação e export de auditoria.
 

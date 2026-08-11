@@ -4,7 +4,7 @@
 
 - Data: 2026-08-10
 - Responsáveis: Claude e Codex
-- Fase: quatro fatias verticais das Fases 19–20 entregues, com contrato, captura guardada e persistência isolada da próxima fatia. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; a ordem observada usa projeção separada, lock offline exclusivo e identidade própria, mas ainda não possui reader nativo nem libera edição. As fases amplas continuam parciais
+- Fase: quatro fatias verticais das Fases 19–20 entregues e a fronteira de ordem efetiva composta no Server Agent. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; a ordem observada usa projeção separada, reader gzip/NBT e filesystem limitados, lock offline exclusivo, capability/handler, idempotência, auditoria e readiness, mas ainda não possui produtor na Control API nem libera edição. As fases amplas continuam parciais
 - Fase 2: concluída e validada
 - Runtime Minecraft privado: operado somente por vínculo explícito de um workspace/`runDirectory` a uma `ServerInstance`; o runtime é detectado no host e o caminho absoluto nunca é devolvido ao navegador. O runtime continua sendo evidência, não fonte canônica de release
 - Compatibilidade contextual: regenerada em `docs/modpack/` somente com fixtures sanitizadas; a Fase 7.1 não repetiu a análise de compatibilidade nem abriu JARs
@@ -22,8 +22,10 @@
 - conflitos persistidos por coordenada/hash, evidências rastreáveis e bloqueio do editor quando a ordem efetiva de carregamento permanece desconhecida;
 - contrato estrito `DatapackLoadOrderObservation` v1 e projeção determinística separados do cache do analyzer, vinculados ao hash exato do inventário e dos packs, sem paths absolutos e com `authorizesSemanticEditing: false`;
 - `GuardedDatapackLoadOrderObserver` com reader confiável injetado, fixture sanitizada, fonte fixa, timestamp do host e captura somente dentro de `offline-exclusive-v1`;
-- guarda concreta do Server Agent reconhecendo somente o lock `minecraft-exclusive` da operação literal `datapack-load-order.observe` e rechecando o processo antes/depois, sem registrar capability;
+- reader do Server Agent construído exclusivamente da raiz da workspace `server` vinculada e do literal `world/level.dat`, com contenção, recusa de links e leitura máxima de 8 MiB;
+- capability/handler `datapack-load-order.observe` allowlisted, comando somente com IDs/hashes, lock `minecraft-exclusive`, rechecagem offline, replay por job e readiness com razões explícitas;
 - migration `0027_datapack_load_order_observations.sql` e repositório imutável por workspace/análise/observação, com FK do inventário, projeção recalculada no servidor, replay idempotente e `authorizesSemanticEditing: false` protegido em JSONB;
+- migration `0028_datapack_load_order_agent_operation.sql`, `job_id` único e persistência da observação com auditoria sanitizada na mesma transação;
 - TOML Forge com segmentos de tabela/chave entre aspas e edição cirúrgica segura pelo staging existente;
 - endpoints de análise, lista/detalhe de mods, recursos paginados e datapacks;
 - travessia BFS determinística do subgrafo por mod, com direção, profundidade máxima 3, filtros de relação/entidade, relações estruturais opt-in, tetos de 250 nós/500 arestas e referências ausentes explícitas;
@@ -304,7 +306,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Validação
 
-- captura/persistência de ordem efetiva validada localmente em 2026-08-10: 16 testes de `@voidfall/ecosystem-analysis`, 108 do Server Agent e 60 do banco passaram nos respectivos recortes; typecheck e build direcionados concluíram. O corpus NBT sintético cobre os 12 tipos padrão, gzip/hash, modified UTF-8, budgets, tipos/chaves/IDs inválidos e mapeamento OpenLoader fail-closed; a direção de prioridade foi reproduzida contra os artefatos públicos Minecraft/Forge/OpenLoader 1.20.1. A primeira execução do banco teve somente a expectativa histórica de migrations desatualizada para `0026`; após incluir `0027`, o gate completo passou. Nenhum runtime privado, JAR privado ou `level.dat` real foi lido;
+- composição operacional da ordem efetiva validada localmente em 2026-08-10: 16 testes de `@voidfall/ecosystem-analysis`, 108 de contratos, 61 do banco e 115 do Server Agent passaram; typecheck e build direcionados concluíram. O corpus NBT sintético cobre os 12 tipos padrão, gzip/hash, modified UTF-8, budgets, tipos/chaves/IDs inválidos, path literal, recusa de link e mapeamento OpenLoader fail-closed. O handler comprova lock offline, persistência/auditoria atômicas e replay sem nova leitura. Nenhum runtime privado, JAR privado ou `level.dat` real foi lido;
 - fronteira de evidência de ordem efetiva validada localmente em 2026-08-10: 8 testes de `@voidfall/ecosystem-analysis`, typecheck e build direcionados passaram; as regressões cobrem ordem nas duas direções, inventário antigo, participante ausente, hash divergente, payload extensível e paths inseguros. O runtime privado não foi lido e a ordem das seis colisões reais continua não observada;
 - quarta fatia das Fases 19–20 validada localmente em 2026-08-10: 7 testes de `@voidfall/ecosystem-analysis`, 17 da Workspace API e 60 do painel passaram; builds da Control API e das 17 páginas estáticas do painel concluíram, o typecheck do painel passou e `git diff --check` ficou limpo. Não houve leitura do runtime privado nem smoke real de navegador neste recorte;
 - terceira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 820,1 segundos, incluindo packages, typecheck global, testes Node, Forge Bridge, integrações, cinco apps e 17 páginas exportadas; fluxo real e navegador também validados sem alterar o runtime;
@@ -312,7 +314,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 - primeira fatia das Fases 19–20 aprovada em 2026-08-09: `npm run check` com código 0 em 438 segundos, cobrindo builds, typecheck global, testes, Forge Bridge, integrações e export estático do painel; Chrome validado em desktop e 390 × 844 sem overflow horizontal;
 - análise do workspace real persistida pelo analyzer 1.3.0: 175 mods normalizados, 705 sistemas, 4.367 configurações, 6 datapacks, 5.445 recursos, 6 conflitos e 20.824 relações; Mine and Slash com 451 configurações, 437 defaults comprovados, 15 sistemas, 2 datapacks, 35 relações e zero issue direta;
 - ciclo real do recurso `uncommon.json`: `weight` 225 → 226 validado pelo schema, duas linhas de diff em staging, `appliedToWorkspace: false`, descarte concluído, zero estágios remanescentes e SHA-256 original preservado;
-- Graphify atualizado para 6.811 nós, 11.932 arestas e 431 comunidades, reencontrando reader NBT, cursor, limites, observer e contrato; zero endpoint ausente e somente as duas autociclagens SQL já conhecidas, sem copiar dados privados do runtime;
+- Graphify atualizado para 6.868 nós, 12.052 arestas e 431 comunidades, conectando runtime, capability/handler, reader literal, persistência e readiness; zero endpoint ausente, zero duplicata e somente as duas autociclagens SQL já conhecidas, sem copiar dados privados do runtime;
 - gate completo do ownership aprovado com código 0 em 2026-08-08: 935 casos descobertos, 933 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 475,2 segundos;
 - gate completo do console ao vivo e da observação contínua aprovado com código 0 em 2026-08-09: 945 casos descobertos, 943 executados no Windows, dois sockets Unix ignorados e zero falhas; build de todos os pacotes/apps, typecheck global, Forge Bridge e export estático do painel concluídos em 492,8 segundos;
 - smoke real do rollout: stop do JVM legado liquidado, `dist/local.js` reiniciado como processo único na porta 3100, start sob ownership novo, readiness inicial em `Done (241.830s)!`; no rollout final do hardening, readiness em `Done (250.030s)!`, operação/lease `succeeded`, supervisor novamente `idle` e lifecycle ainda `online`/atual com o mesmo PID mais de 120 segundos depois;
@@ -412,8 +414,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Riscos não resolvidos
 
-- a captura guardada e a persistência da ordem efetiva agora possuem reader NBT limitado, mas ainda não têm reader de filesystem confiável, capability, handler, readiness, API, RBAC, auditoria ou painel; o corpus sintético e a prova de semântica não observam a prioridade do mundo privado atual, e todos os conflitos continuam bloqueados para edição;
-- a guarda de observação reconhece um lease já adquirido, mas nenhuma operação pública adquire `datapack-load-order.observe`; isso impede uso operacional acidental e deixa a integração intencionalmente incompleta;
+- a captura operacional possui reader de filesystem, capability, handler, readiness, idempotência e auditoria, mas ainda não há produtor na Control API, permissão/RBAC ou painel que crie o job `datapack-load-order.observe`; o corpus sintético não observa a prioridade do mundo privado atual, e todos os conflitos continuam bloqueados para edição;
 - a nova rota é uma projeção por mod, limitada a 3 saltos, 250 nós e 500 arestas; não oferece consulta arbitrária, travessia global nem GraphQL, e filtros de tipo podem cortar caminhos intermediários por definição;
 - referências declaradas a entidades ausentes permanecem explícitas, mas não são resolvidas contra repositórios externos; presença fora do inventário atual continua desconhecida;
 - o handle e os pipes do processo continuam pertencendo à memória do adaptador; após reinício do agente uma JVM órfã viva é reconhecida e bloqueia duplicação, mas ainda não existe reanexação segura para voltar a controlá-la;
@@ -483,7 +484,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Próximo recorte recomendado
 
-Implementar a composição operacional estritamente tipada de `datapack-load-order.observe`: reader de filesystem construído somente com a raiz registrada e o path literal do mundo, capability/handler allowlisted, idempotência, auditoria sem bytes/paths e readiness explícita. Os testes devem usar apenas diretórios temporários e o corpus sintético; o runtime privado permanece desconectado até um smoke separado e explicitamente autorizado. API, painel e qualquer mudança no gate de edição continuam fora desse recorte.
+Implementar o produtor mínimo e estritamente tipado de `datapack-load-order.observe` no Control API: permissão/RBAC próprios, resolução server → workspace vinculada → análise exata, idempotência pública derivada do request, job sem path/bytes e auditoria da aceitação/recusa. Uma primeira tela pode permanecer fora do recorte; se incluída depois, deve ser somente leitura/status e não alterar o gate de edição. O runtime privado continua desconectado até um smoke separado e explicitamente autorizado.
 
 Em paralelo futuro, expandir o registry revisado para `mmorpg_value_calc`, spells e stats somente quando existir corpus revisável versionado, limites e defaults próprios.
 
@@ -492,6 +493,9 @@ Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam f
 ## Commits relevantes
 
 - `4312739` — reader gzip/NBT limitado, mapeamento OpenLoader fail-closed e corpus sintético versionado;
+- `d6ad0e8` — contratos fechados de comando/resultado e allowlist do job/capability de observação;
+- `ea3b3ea` — migration `0028`, idempotência por job e observação/auditoria atômicas;
+- `1988262` — reader de filesystem literal, capability/handler e readiness no Server Agent;
 - `5bacd22` — captura guardada, validação de documentos persistidos e fixture sanitizada de ordem de datapacks;
 - `c312b91` — janela offline exclusiva do agente para a operação literal de observação, sem capability;
 - `de18334` — migration `0027` e repositório imutável de observação/projeção com FK do inventário;

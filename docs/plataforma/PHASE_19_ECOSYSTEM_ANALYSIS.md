@@ -83,9 +83,11 @@ O ADR-018 introduz um contrato estrito e uma projeção somente leitura, sem alt
 
 A projeção só identifica o recurso vencedor quando todos os participantes e hashes correspondem ao mesmo snapshot. Inventário antigo, participante ausente, pack alterado ou recurso ambíguo falha fechado. O resultado fixa `authorizesSemanticEditing: false`: `DatapackConflict.resolution` continua `unknown-load-order` e os controles continuam bloqueados.
 
-O passo seguinte implementa `GuardedDatapackLoadOrderObserver`. Ele aceita somente um reader confiável injetado, chama esse reader dentro de uma janela `offline-exclusive-v1`, fixa a fonte `minecraft-world-metadata-v1`, cria o timestamp no host e deriva a projeção do `EcosystemAnalysis` exato. A fixture pública contém apenas root paths relativos e hashes fictícios. O reader NBT limitado descrito abaixo implementa essa porta sem path fornecido pelo usuário; capability, handler e readiness operacional continuam ausentes.
+O passo seguinte implementa `GuardedDatapackLoadOrderObserver`. Ele aceita somente um reader confiável injetado, chama esse reader dentro de uma janela `offline-exclusive-v1`, fixa a fonte `minecraft-world-metadata-v1`, cria o timestamp no host e deriva a projeção do `EcosystemAnalysis` exato. A fixture pública contém apenas root paths relativos e hashes fictícios. O reader NBT limitado descrito abaixo implementa essa porta sem path fornecido pelo usuário.
 
-No Server Agent, `createOfflineExclusiveDatapackLoadOrderGuard` reutiliza o lock durável `minecraft-exclusive` e verifica o processo antes e depois da captura. A janela só é reconhecida quando o proprietário e a operação literal `datapack-load-order.observe` correspondem. A função existe para composição futura, mas nenhuma capability adquire esse lock nesta entrega.
+No Server Agent, `datapack-load-order.observe` é uma capability e um job type fechados. O handler relê o job persistido, exige instância/workspace/análise/inventário exatos e recusa parâmetros adicionais. A raiz vem exclusivamente da única workspace `server` ligada à `ServerInstance`; `RegisteredWorldMetadataFileReader` aceita somente essa raiz e abre o literal `world/level.dat`, com contenção por `realpath`, recusa de links, identidade entre entry e file handle e leitura limitada a 8 MiB. O lease não carrega root, mundo, filename ou bytes.
+
+Durante a execução, a capability adquire `minecraft-exclusive` com a operação literal, e `createOfflineExclusiveDatapackLoadOrderGuard` verifica o processo antes e depois da captura. A migration `0028_datapack_load_order_agent_operation.sql` vincula o efeito ao `job_id` único: um replay retorna a observação já gravada sem reler o filesystem. O primeiro insert e o evento de auditoria sanitizado são uma única transação; a auditoria registra somente IDs, hashes e contagem, nunca bytes ou paths. Readiness só anuncia a capability quando workspace registrada, process adapter/guard e reader construído estão presentes.
 
 ### Reader NBT limitado e prova da prioridade nativa
 
@@ -102,7 +104,7 @@ A direção `lowest-priority-first` foi comprovada sobre os artefatos públicos 
 
 O [source artifact público do Forge 1.20.1-47.4.4](https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.4/forge-1.20.1-47.4.4-sources.jar), SHA-256 `0979dda2dad68f66a63608942aebc3fcb3e643dcc0ead5f6c3cf211c7d03c83d`, foi conferido para a variante do servidor documentada. Seus patches adicionam fontes e packs de mods, mas não invertem a lista persistida. O reader mapeia somente IDs ativos `data/<nome>` para datapacks OpenLoader do mesmo `EcosystemAnalysis`; ID ativo fora do inventário, duplicidade ou ausência total de packs reconhecidos é recusado. Packs vanilla/mod permanecem fora do documento normalizado e sua remoção não altera a ordem relativa entre os packs analisados.
 
-O corpus v1 é inteiramente sintético e gerado em memória. Ele cobre todos os tipos NBT padrão, gzip/hash, UTF modificado, listas vazias, budgets, profundidade, tipo desconhecido, chaves e IDs duplicados e pack ativo não inventariado. Nenhum `level.dat`, mundo, jogador, path local ou conteúdo de terceiros foi versionado. A capability, o handler, a readiness e o filesystem real continuam ausentes; portanto a prioridade do mundo privado atual ainda não foi observada.
+O corpus v1 é inteiramente sintético e gerado em memória. Ele cobre todos os tipos NBT padrão, gzip/hash, UTF modificado, listas vazias, budgets, profundidade, tipo desconhecido, chaves e IDs duplicados e pack ativo não inventariado. Os testes operacionais materializam esses bytes somente em diretórios temporários e comprovam path literal, limite, recusa de link, janela offline, auditoria sanitizada e replay sem nova leitura. Nenhum `level.dat`, mundo, jogador, path local ou conteúdo de terceiros foi versionado ou lido; portanto a prioridade do mundo privado atual ainda não foi observada.
 
 ## Configurações
 
@@ -125,6 +127,8 @@ workspaceId + inventorySha256 + analyzerVersion
 Abrir uma página apenas lê o snapshot. Uma análise é executada depois de um novo scan ou por ação explícita. Arquivo, mod, versão, configuração ou datapack alterado muda o hash do inventário; evolução das regras muda `analyzerVersion`. Ambos invalidam o cache sem sobrescrever o histórico anterior.
 
 A migration `0027_datapack_load_order_observations.sql` cria `workspace_datapack_load_order_observations` fora desse cache. A chave imutável é `workspaceId + analysisId + observationId`; uma FK também exige o mesmo `inventorySha256` da análise. O repositório revalida a identidade content-addressed, carrega a análise persistida e recalcula a projeção no servidor antes do insert. Replay idêntico retorna o registro original; inventário obsoleto, análise ausente, documento inválido ou replay divergente falham fechados. Checks JSONB mantêm `authorizesSemanticEditing` no literal `false`.
+
+A migration `0028_datapack_load_order_agent_operation.sql` acrescenta `job_id` opcional às observações históricas e único quando presente, além de alinhar as allowlists de grants e leases ao nome `datapack-load-order.observe`. `saveOperational` grava observação, projeção e sucesso auditado na mesma transação. O replay pelo mesmo job devolve o registro original e não duplica a auditoria.
 
 ## API e painel
 
@@ -216,13 +220,13 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
-A fronteira de ordem efetiva agora soma 16 testes no pacote de ecossistema. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, payload extensível, relógio anterior ao lease e revalidação de documentos persistidos. A suíte do Server Agent passou com 108 testes e a do banco com 60 no recorte anterior, incluindo migration `0027`, replay idempotente, FK de inventário e recusa de snapshot obsoleto. Typecheck e build direcionados do pacote passaram sem ler o runtime privado.
+A fronteira de ordem efetiva mantém 16 testes no pacote de ecossistema e acrescenta seis casos operacionais no Server Agent. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, path literal, link, payload extensível, relógio anterior ao lease, replay por job e auditoria sem paths. Passaram 108 testes de contratos, 61 do banco e 115 do Server Agent, além de typecheck/build direcionados, sem ler o runtime privado.
 
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental deste recorte, o grafo portátil contém 6.811 nós, 11.932 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada reencontrou `BoundedNbtWorldMetadataDatapackLoadOrderReader`, `NbtCursor`, seus limites, o observer guardado e o contrato normalizado sem depender do relatório completo. O diagnóstico encontrou zero endpoint ausente e manteve somente as duas autociclagens SQL `references` já documentadas.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.868 nós, 12.052 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada conectou `AgentRuntime`, `DatapackLoadOrderObservationCapability`, `createDatapackLoadOrderObservationHandler`, `RegisteredWorldMetadataFileReader` e `DatapackLoadOrderRepository` sem depender do relatório completo. O diagnóstico encontrou zero endpoint ausente, zero duplicata e manteve somente as duas autociclagens SQL `references` já documentadas.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -235,7 +239,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- compor o reader NBT com uma raiz confiável no Server Agent somente após capability, handler, auditoria e readiness próprios; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
+- criar um produtor autorizado no Control API para o job tipado, com permissão própria e idempotência pública, antes de expor qualquer ação no painel; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 
