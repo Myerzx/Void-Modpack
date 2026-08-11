@@ -89,7 +89,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 13 — produção e certificação | 0% | planejada; deploy e aceite ainda não iniciados |
 | 19 — grafo de conhecimento | 65% | modelo, proveniência, persistência, configs, OpenLoader, evidências Java e travessia REST/painel limitada ligados; cobertura universal de entidades ainda pendente |
 | 20 — análise automática | 50% | pipeline genérico e bytecode estático limitado validados no Mine and Slash real; novos formatos, defaults dinâmicos e revisão universal ainda pendentes |
-| desktop Windows | 25% | spike Electron executável no checkout; empacotamento, assinatura, atualização e smoke em máquina limpa pendentes |
+| desktop Windows | 60% | ZIP portátil de QA executado fora do checkout e painel desktop responsivo; instalador assinado, update, rollback e certificação em máquina limpa separada pendentes |
 
 ## Fase 4 — mods, arquivos e schemas
 
@@ -171,9 +171,9 @@ Em paralelo às fases acima, e sem interrompê-las, corre a **frente de integra�
 
 ### Frente desktop Windows
 
-O [ADR-019](DECISIONS/ADR-019-aplicativo-desktop-electron.md) escolhe Electron para a primeira aplicação desktop e preserva a Control API como única fronteira privilegiada. O [primeiro spike](PHASE_DESKTOP_SHELL.md) já abre o painel, compõe PGlite/agente em utility process, usa estado no AppData e encerra sem órfãos. Mobile permanece fora do escopo.
+O [ADR-019](DECISIONS/ADR-019-aplicativo-desktop-electron.md) escolhe Electron para a primeira aplicação desktop e preserva a Control API como única fronteira privilegiada. O [recorte desktop](PHASE_DESKTOP_SHELL.md) abre o painel, compõe PGlite/agente em utility process, usa estado no AppData, encerra sem órfãos e agora produz um ZIP portátil de QA com dependências e licenças inventariadas. Mobile permanece fora do escopo.
 
-O próximo gate é empacotamento de QA fora do checkout: recursos compilados explícitos, PGlite/WASM, painel, migrations e dependências devem funcionar em uma máquina Windows limpa. Instalador assinado, auto-update e distribuição continuam bloqueados até esse smoke.
+O smoke de empacotamento fora do checkout passou em 2026-08-11: primeira abertura, sessão, health, PGlite/migrations, segunda instância, encerramento e persistência após reabrir foram aprovados. O próximo gate exige formato de instalador, identidade visual/metadados, certificado de assinatura e validação em uma máquina Windows limpa separada. Auto-update e distribuição continuam bloqueados. Consulte a [análise de lacunas do produto final](FINAL_PRODUCT_GAP_ANALYSIS.md).
 
 O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
 

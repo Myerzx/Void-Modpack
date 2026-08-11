@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-- Data: 2026-08-10
+- Data: 2026-08-11
 - Responsáveis: Claude e Codex
 - Fase: quatro fatias verticais das Fases 19–20 entregues e a fronteira de ordem efetiva composta do Control API ao Server Agent. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; a ordem observada usa projeção separada, contratos públicos, RBAC, produtor idempotente, transporte/lease E2E, reader gzip/NBT e filesystem limitados, lock offline exclusivo, capability/handler, auditoria e readiness, mas ainda não possui tela, grant automático, smoke privado nem libera edição. As fases amplas continuam parciais
 - Fase 2: concluída e validada
@@ -11,12 +11,15 @@
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 - Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.3.0 para o inventário atual, sem copiar conteúdo privado para o repositório
-- Desktop Windows: ADR-019 aceito e primeiro spike Electron executável; janela e backend local funcionam no checkout, mas instalador, assinatura e distribuição ainda não existem
+- Desktop Windows: ADR-019 aceito; ZIP portátil x64 de QA executado fora do checkout com PGlite/migrations, painel, sessão, lock de instância e persistência aprovados; instalador, assinatura, atualização e distribuição pública ainda não existem
 
 ## Implementado
 
 - `@voidfall/desktop` com renderer sandboxed, sem Node/preload, popups recusados e navegação restrita à origem loopback exata;
 - bootstrap desktop da Control API com estado absoluto no AppData, porta efêmera e sessão protegida por token aleatório por processo;
+- empacotamento de QA com fechamento físico de 20 pacotes internos, 105 dependências de terceiros, migrations, painel exportado e inventário `THIRD_PARTY_NOTICES.json`;
+- smoke reexecutável do ZIP fora do checkout, cobrindo primeira abertura, health, PGlite, sessão, segunda instância, encerramento gracioso e persistência após reabrir;
+- painel desktop consolidado no `PanelShell`, com navegação compacta por ícones, grids adaptativos e tabelas com rolagem, validado visualmente em 1440×900 e 900×650;
 - utility process separado para PGlite, migrations, API e `LocalAgentFleet`, com readiness validada e encerramento sem órfãos;
 - Next.js 16.3.0 e auditoria npm sem vulnerabilidades conhecidas no momento da validação;
 
@@ -314,6 +317,9 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Validação
 
+- pacote desktop de QA validado em 2026-08-11: `VoidFall-win32-x64-0.1.0.zip` com 159.124.321 bytes e SHA-256 `1196d03614a85bb14b36d092b6ae12f30ab506b94811ee6637d4a674ea410ae2`; o executável foi extraído em diretório temporário fora do checkout e aprovou PGlite/migrations, sessão do painel, health HTTP 200, lock de segunda instância, encerramento gracioso e persistência após reabrir; `npm audit` e `npm audit --omit=dev` ficaram em zero;
+- gate completo de 2026-08-11: `npm run check` concluiu com código 0 em 394,7 segundos, incluindo typecheck global, testes, Forge Bridge, seis apps, 17 páginas estáticas e o desktop;
+- responsividade desktop validada em 2026-08-11: painel aprovado visualmente em 1440×900 e 900×650 sem overflow horizontal; shell compacto, servidor e configurações foram inspecionados no navegador; typecheck, 62 testes e build das 17 páginas estáticas do painel passaram;
 - spike desktop validado em 2026-08-10: `npm run check` passou com código 0 em 394,7 segundos no estado final; typecheck/build do desktop, 2 testes do protocolo e 5 testes da sessão passaram; Electron abriu uma janela responsiva, utility process e renderer reais, health respondeu HTTP 200, token incorreto respondeu 403 e fechar a janela removeu todos os processos, a porta e o lock. `npm audit` ficou em zero após Next.js 16.3.0. O controle visual automatizado do Windows estava indisponível, então a janela foi comprovada por título/processos/runtime; o painel já possuía inspeção visual desktop separada;
 - composição operacional da ordem efetiva validada localmente em 2026-08-10: 16 testes de `@voidfall/ecosystem-analysis`, 109 de contratos, 6 de permissões, 62 do banco, 181 da Control API e 115 do Server Agent passaram; typecheck e build direcionados concluíram. A prova E2E atravessa `POST`, job, transporte assinado, lease, supervisor e handler reais até a observação/auditoria persistidas e comprova replay sem segunda leitura. O corpus NBT sintético cobre os 12 tipos padrão, gzip/hash, modified UTF-8, budgets, tipos/chaves/IDs inválidos, path literal, recusa de link e mapeamento OpenLoader fail-closed. Nenhum runtime privado, JAR privado ou `level.dat` real foi lido;
 - fronteira de evidência de ordem efetiva validada localmente em 2026-08-10: 8 testes de `@voidfall/ecosystem-analysis`, typecheck e build direcionados passaram; as regressões cobrem ordem nas duas direções, inventário antigo, participante ausente, hash divergente, payload extensível e paths inseguros. O runtime privado não foi lido e a ordem das seis colisões reais continua não observada;
@@ -423,7 +429,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Riscos não resolvidos
 
-- o desktop ainda roda a partir do checkout: não há bundle de recursos, instalador, assinatura, atualização, rollback, teste em Windows limpo nem prova de que PGlite/WASM e migrations funcionam fora do monorepo;
+- o desktop possui bundle portátil de QA comprovado fora do checkout, mas ainda não há instalador final, ícone/metadados aprovados, assinatura, atualização, rollback nem certificação em uma máquina Windows limpa separada; o artefato atual não pode ser tratado como distribuição pública;
 - a captura operacional possui produtor tipado, RBAC, reader de filesystem, capability, handler, readiness, idempotência e auditoria, mas ainda não há tela/status no painel nem grant automático da capability; o corpus sintético não observa a prioridade do mundo privado atual, e todos os conflitos continuam bloqueados para edição;
 - a nova rota é uma projeção por mod, limitada a 3 saltos, 250 nós e 500 arestas; não oferece consulta arbitrária, travessia global nem GraphQL, e filtros de tipo podem cortar caminhos intermediários por definição;
 - referências declaradas a entidades ausentes permanecem explícitas, mas não são resolvidas contra repositórios externos; presença fora do inventário atual continua desconhecida;
@@ -494,9 +500,9 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Próximo recorte recomendado
 
-Criar um pacote Windows não assinado somente para QA e executá-lo fora do checkout, com layout explícito da Control API compilada, painel exportado, migrations, PGlite/WASM e dependências. O smoke deve cobrir primeira abertura, segunda instância, sessão, encerramento e persistência após reabrir. Não habilitar auto-update, assinatura ou distribuição pública nessa fatia.
+Expor apenas status/leitura da última observação de datapacks no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
 
-Depois, expor apenas status/leitura da última observação de datapacks no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
+Em paralelo, fechar as decisões externas do desktop — instalador, ícone/metadados/licença e identidade de assinatura — e então validar o instalador assinado em uma máquina Windows limpa. Não habilitar auto-update ou distribuição pública antes desse gate. A sequência completa está na [análise de lacunas do produto final](FINAL_PRODUCT_GAP_ANALYSIS.md).
 
 Em paralelo futuro, expandir o registry revisado para `mmorpg_value_calc`, spells e stats somente quando existir corpus revisável versionado, limites e defaults próprios.
 
@@ -504,6 +510,8 @@ Backup/restore, `artifact.install`, console livre e `process.force-kill` ficam f
 
 ## Commits relevantes
 
+- `4d6a31e` — shell desktop responsivo consolidado no painel, com validação estática de layout;
+- `cd349ab` — pacote Windows portátil de QA e smoke do executável fora do checkout;
 - `4312739` — reader gzip/NBT limitado, mapeamento OpenLoader fail-closed e corpus sintético versionado;
 - `d6ad0e8` — contratos fechados de comando/resultado e allowlist do job/capability de observação;
 - `ea3b3ea` — migration `0028`, idempotência por job e observação/auditoria atômicas;
