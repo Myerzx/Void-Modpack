@@ -12,6 +12,7 @@
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 - Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.3.0 para o inventário atual, sem copiar conteúdo privado para o repositório
 - Desktop Windows: ADR-019 aceito; ZIP portátil x64 de QA executado fora do checkout com PGlite/migrations, painel, sessão, lock de instância e persistência aprovados; instalador, assinatura, atualização e distribuição pública ainda não existem
+- Configuração do servidor: primeira fatia da Fase 18 implementada com `minecraft-server-properties-v1`; somente autenticação, whitelist e RCON são tipados, todo o restante é preservado opaco. O runtime atual continua sem alteração automática porque migrar autenticação pode trocar UUIDs e inventários
 
 ## Implementado
 
@@ -22,6 +23,7 @@
 - painel desktop consolidado no `PanelShell`, com navegação compacta por ícones, grids adaptativos e tabelas com rolagem, validado visualmente em 1440×900 e 900×650;
 - utility process separado para PGlite, migrations, API e `LocalAgentFleet`, com readiness validada e encerramento sem órfãos;
 - Next.js 16.3.0 e auditoria npm sem vulnerabilidades conhecidas no momento da validação;
+- registro fechado, parser preservador, bootstrap local e seletor no painel para os seis campos de segurança revisados de `server.properties`, documentados em `PHASE_18_SERVER_PROPERTIES_SECURITY.md`;
 
 - `@voidfall/ecosystem-analysis` com modelo genérico de mods, versões, sistemas, configurações, datapacks, recursos, registries, relações e evidências;
 - migration `0026_ecosystem_analysis.sql` e repositório de snapshots imutáveis por workspace, hash do inventário e versão do analisador;

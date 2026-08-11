@@ -2,6 +2,26 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-11 — segurança do servidor, mods e desktop operacional
+
+### Adicionado
+
+- instalação offline e atômica de artefatos aprovados pelo gerenciador de mods;
+- schema fechado `minecraft-server-properties-v1` para autenticação, whitelist e RCON;
+- preservação opaca dos demais campos de `server.properties`, sem publicar senha, seed, endereço ou valores não revisados;
+- seletor de recursos revisados na tela de configurações;
+- bootstrap local com agente, configuração, processo e console conectados à instância Forge detectada.
+
+### Validado
+
+- pacote Windows reaberto com migrações, agente sem falha, configuração OpenLoader legível e gerenciador de mods disponível;
+- boot real do Forge 1.20.1/47.4.4, comando `list-players` e desligamento gracioso concluídos pelo fluxo operacional;
+- parser/aplicador de `server.properties` comprovado apenas em diretório temporário, preservando propriedades opacas e revisão anterior.
+
+### Bloqueio operacional encontrado
+
+O runtime atual anunciou `online-mode=false` e RCON habilitado. Nenhum desses valores foi alterado automaticamente: a migração de identidade e whitelist exige decisão, backup e plano para não trocar UUIDs ou bloquear jogadores.
+
 ## 2026-08-10 — primeiro shell desktop Windows
 
 ### Adicionado
