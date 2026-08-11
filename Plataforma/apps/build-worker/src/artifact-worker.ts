@@ -32,6 +32,7 @@ export interface QuarantinedArtifactReader {
 export interface CompatibilityPlanFactory {
   build(input: {
     readonly submissionId: string;
+    readonly serverInstanceId: string;
     readonly filename: string;
     readonly inspection: ArtifactInspectionReportContract;
   }): Promise<ArtifactCompatibilityPlan>;
@@ -141,6 +142,12 @@ export async function runArtifactWorkerOnce(input: {
 
   const submission = await repositories.artifactReview.findById(parameters.submissionId);
   if (submission === undefined) return failJob('ARTIFACT_SUBMISSION_NOT_FOUND', parameters.submissionId);
+  const serverInstanceId = await repositories.artifactReview.serverInstanceIdFor(
+    parameters.submissionId,
+  );
+  if (serverInstanceId === undefined) {
+    return failJob('ARTIFACT_SUBMISSION_NOT_FOUND', parameters.submissionId);
+  }
 
   /** Records a refusal on the submission before the job is failed. */
   const blockSubmission = async (
@@ -262,6 +269,7 @@ export async function runArtifactWorkerOnce(input: {
   try {
     plan = await input.planFactory.build({
       submissionId: parameters.submissionId,
+      serverInstanceId,
       filename: submission.filename,
       inspection,
     });

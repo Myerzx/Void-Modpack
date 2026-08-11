@@ -251,6 +251,15 @@ export class ArtifactReviewRepository {
     return row === undefined ? undefined : mapSubmission(row);
   }
 
+  /** Resolves review ownership without adding a host or storage detail to the public contract. */
+  async serverInstanceIdFor(submissionId: string): Promise<string | undefined> {
+    const result = await this.database.query<{ readonly server_instance_id: string }>(
+      'SELECT server_instance_id FROM artifact_submissions WHERE submission_id = $1',
+      [submissionId],
+    );
+    return result.rows[0]?.server_instance_id;
+  }
+
   async list(input: ListSubmissionsInput): Promise<ArtifactSubmissionPage> {
     const states = input.states ?? [];
     const filtered = states.length > 0;

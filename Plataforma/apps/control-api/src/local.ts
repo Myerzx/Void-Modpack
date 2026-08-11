@@ -35,6 +35,11 @@ import {
   LocalConfigurationReaders,
   provisionLocalConfiguration,
 } from './local-configuration.js';
+import {
+  LocalArtifactCompatibilityPlanFactory,
+  LocalArtifactStore,
+  runLocalArtifactWorker,
+} from './local-artifacts.js';
 import { detectServerRuntimeAt } from './server-runtime.js';
 import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
@@ -238,11 +243,15 @@ export async function main(
   let app: Awaited<ReturnType<typeof buildControlApi>> | undefined;
   let agentAbort: AbortController | undefined;
   let agentTask: Promise<void> | undefined;
+  let artifactAbort: AbortController | undefined;
+  let artifactTask: Promise<void> | undefined;
   let shutdownTask: Promise<void> | undefined;
   const shutdown = (): Promise<void> => {
     shutdownTask ??= (async () => {
       agentAbort?.abort();
+      artifactAbort?.abort();
       if (agentTask !== undefined) await agentTask.catch(() => undefined);
+      if (artifactTask !== undefined) await artifactTask.catch(() => undefined);
       if (app !== undefined) await app.close().catch(() => undefined);
       if (database !== undefined) await database.close().catch(() => undefined);
       await processLock.release();
@@ -280,6 +289,15 @@ export async function main(
   say(`            ${join(stateDirectory, 'database')}`);
 
   const owner = await provisionOwner(database, stateDirectory);
+  const localDatabase = database;
+  await provisionLocalInstance(localDatabase);
+  const repositories = createRepositories(localDatabase);
+  const java = await discoverJavaRuntime().catch(() => null);
+  const artifactStore = new LocalArtifactStore(stateDirectory);
+  const artifactPlanFactory = new LocalArtifactCompatibilityPlanFactory(
+    repositories,
+    java === null ? null : String(java.major),
+  );
 
   const hasPanel = await panelExportExists(panelRoot);
   if (!hasPanel) {
@@ -320,6 +338,7 @@ export async function main(
     // workspace itself.
     workspaceConfiguration: createWorkspaceConfigurationService(join(stateDirectory, 'staging')),
     configurationReader: configurationReaders,
+    artifactQuarantineStore: artifactStore,
     // A boot composes a disposable copy from the minimum files and deletes it
     // afterwards. The original world is never copied and never touched, which
     // is the only reason pointing this at a real server is acceptable.
@@ -369,10 +388,6 @@ export async function main(
   // not a shortcut — the authority over the Minecraft process stays in the
   // agent, reached by a durable operation it claims over loopback HTTP.
   const baseUrl = `http://${HOST}:${String(port)}`;
-  const localDatabase = database;
-  await provisionLocalInstance(localDatabase);
-  const repositories = createRepositories(localDatabase);
-  const java = await discoverJavaRuntime().catch(() => null);
   const workTransport = new AgentWorkTransport({
     baseUrl,
     fetch: async (url, init) => {
@@ -508,6 +523,14 @@ export async function main(
   agentAbort = new AbortController();
   await fleet.synchronize();
   agentTask = fleet.start(agentAbort.signal);
+  artifactAbort = new AbortController();
+  artifactTask = runLocalArtifactWorker({
+    database: localDatabase,
+    reader: artifactStore,
+    planFactory: artifactPlanFactory,
+    signal: artifactAbort.signal,
+    onFailure: (reason) => say(`  artefatos falhou: ${reason}`),
+  });
 
   const launchUrl =
     desktopLaunchToken === undefined
