@@ -37,7 +37,9 @@ import {
 import { AuditEventSchema } from './audit-event.js';
 import { CatalogReconciliationReportSchema } from './catalog-reconciliation.js';
 import {
+  DatapackLoadOrderObservationAcceptanceSchema,
   DatapackLoadOrderObservationCommandSchema,
+  DatapackLoadOrderObservationRequestSchema,
   DatapackLoadOrderObservationResultSchema,
 } from './datapack-load-order-operation.js';
 import {
@@ -138,6 +140,8 @@ const schemas = [
   ['configuration-validation-request.schema.json', ConfigurationValidationRequestSchema],
   ['configuration-validation-result.schema.json', ConfigurationValidationResultSchema],
   ['datapack-load-order-observation-command.schema.json', DatapackLoadOrderObservationCommandSchema],
+  ['datapack-load-order-observation-request.schema.json', DatapackLoadOrderObservationRequestSchema],
+  ['datapack-load-order-observation-acceptance.schema.json', DatapackLoadOrderObservationAcceptanceSchema],
   ['datapack-load-order-observation-result.schema.json', DatapackLoadOrderObservationResultSchema],
   ['forge-build-request.schema.json', ForgeBuildRequestSchema],
   ['inventory-snapshot.schema.json', InventorySnapshotSchema],

@@ -40,7 +40,9 @@ import {
   validateConfigurationSchemaCatalog,
   validateConfigurationValidationRequest,
   validateConfigurationValidationResult,
+  validateDatapackLoadOrderObservationAcceptance,
   validateDatapackLoadOrderObservationCommand,
+  validateDatapackLoadOrderObservationRequest,
   validateDatapackLoadOrderObservationResult,
   validateForgeBuildRequest,
   validateInventorySnapshot,
@@ -1186,6 +1188,41 @@ describe('DatapackLoadOrderObservation operation', () => {
     analysisId: hashA,
     inventorySha256: hashB,
   };
+
+  it('validates the public request and durable queue receipt without filesystem fields', () => {
+    const request = {
+      schemaVersion: 1,
+      analysisId: hashA,
+      expectedInventorySha256: hashB,
+      idempotencyKey: 'datapack-observe-request-0001',
+      reasonCode: 'operator-request',
+    };
+    assert.equal(validateDatapackLoadOrderObservationRequest(request).success, true);
+    assert.equal(
+      validateDatapackLoadOrderObservationRequest({ ...request, worldPath: 'world/level.dat' })
+        .success,
+      false,
+    );
+
+    const acceptance = {
+      schemaVersion: 1,
+      jobId: uuid,
+      serverInstanceId: otherUuid,
+      workspaceId: uuid,
+      analysisId: hashA,
+      inventorySha256: hashB,
+      status: 'queued',
+      idempotencyKey: request.idempotencyKey,
+      replayed: false,
+      correlationId: otherUuid,
+      acceptedAt: '2026-08-10T18:00:00.000Z',
+    };
+    assert.equal(validateDatapackLoadOrderObservationAcceptance(acceptance).success, true);
+    assert.equal(
+      validateDatapackLoadOrderObservationAcceptance({ ...acceptance, rootPath: 'world' }).success,
+      false,
+    );
+  });
 
   it('accepts identities only and rejects any path-bearing extension', () => {
     assert.equal(validateDatapackLoadOrderObservationCommand(command).success, true);
