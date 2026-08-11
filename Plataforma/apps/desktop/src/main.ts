@@ -1,5 +1,5 @@
-import { mkdirSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { app, BrowserWindow, dialog, utilityProcess, type UtilityProcess } from 'electron';
@@ -18,14 +18,65 @@ let backend: UtilityProcess | null = null;
 let quitting = false;
 let backendStopped = false;
 let backendStopTask: Promise<void> | null = null;
+let qaSmokeDirectory: string | null = null;
+let qaStopWatcher: NodeJS.Timeout | null = null;
 
 function configureUserData(): void {
-  if (process.platform !== 'win32') return;
-  const localAppData = process.env['LOCALAPPDATA'];
-  if (localAppData === undefined) return;
-  const userData = resolve(localAppData, 'VoidFall');
-  mkdirSync(userData, { recursive: true });
-  app.setPath('userData', userData);
+  const override = process.env['VOIDFALL_DESKTOP_USER_DATA'];
+  const userData =
+    override === undefined
+      ? process.platform === 'win32' && process.env['LOCALAPPDATA'] !== undefined
+        ? resolve(process.env['LOCALAPPDATA'], 'VoidFall')
+        : null
+      : isAbsolute(override)
+        ? resolve(override)
+        : null;
+  if (override !== undefined && userData === null) {
+    throw new Error('VOIDFALL_DESKTOP_USER_DATA deve ser um caminho absoluto.');
+  }
+  if (userData !== null) {
+    mkdirSync(userData, { recursive: true });
+    app.setPath('userData', userData);
+  }
+
+  const reportDirectory = process.env['VOIDFALL_DESKTOP_QA_SMOKE_DIRECTORY'];
+  if (reportDirectory === undefined) return;
+  if (!isAbsolute(reportDirectory)) {
+    throw new Error('VOIDFALL_DESKTOP_QA_SMOKE_DIRECTORY deve ser um caminho absoluto.');
+  }
+  qaSmokeDirectory = resolve(reportDirectory);
+  mkdirSync(qaSmokeDirectory, { recursive: true });
+}
+
+function writeQaStatus(filename: string, value: Readonly<Record<string, unknown>>): void {
+  if (qaSmokeDirectory === null) return;
+  writeFileSync(join(qaSmokeDirectory, filename), `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+function reportQaReady(runtime: DesktopBackendReady, target: BrowserWindow): void {
+  if (qaSmokeDirectory === null) return;
+  writeQaStatus('ready.json', {
+    schemaVersion: 1,
+    packaged: app.isPackaged,
+    baseUrl: runtime.baseUrl,
+    currentUrl: target.webContents.getURL(),
+    title: target.getTitle(),
+  });
+  const stopFile = join(qaSmokeDirectory, 'stop');
+  qaStopWatcher = setInterval(() => {
+    if (existsSync(stopFile)) app.quit();
+  }, 100);
+}
+
+function reportQaStopped(): void {
+  if (qaStopWatcher !== null) {
+    clearInterval(qaStopWatcher);
+    qaStopWatcher = null;
+  }
+  writeQaStatus('stopped.json', {
+    schemaVersion: 1,
+    backendStopped,
+  });
 }
 
 function runtimePaths(): {
@@ -37,7 +88,7 @@ function runtimePaths(): {
   const here = dirname(fileURLToPath(import.meta.url));
   if (app.isPackaged) {
     return {
-      backendEntry: join(here, 'backend.js'),
+      backendEntry: join(process.resourcesPath, 'voidfall', 'desktop', 'backend.js'),
       controlApiEntry: join(process.resourcesPath, 'voidfall', 'control-api', 'local.js'),
       panelRoot: join(process.resourcesPath, 'voidfall', 'panel'),
       stateDirectory: join(app.getPath('userData'), 'runtime'),
@@ -128,8 +179,8 @@ async function createWindow(runtime: DesktopBackendReady): Promise<BrowserWindow
     title: 'VoidFall',
     width: 1440,
     height: 900,
-    minWidth: 1100,
-    minHeight: 700,
+    minWidth: 900,
+    minHeight: 620,
     show: false,
     autoHideMenuBar: true,
     backgroundColor: WINDOW_BACKGROUND,
@@ -196,6 +247,7 @@ async function boot(): Promise<void> {
   });
   const runtime = await waitForBackend(backend);
   window = await createWindow(runtime);
+  reportQaReady(runtime, window);
 }
 
 configureUserData();
@@ -221,6 +273,7 @@ if (!app.requestSingleInstanceLock()) {
     });
   });
   app.on('window-all-closed', () => app.quit());
+  app.on('will-quit', reportQaStopped);
   app.whenReady().then(boot).catch((error: unknown) => {
     const reason = error instanceof Error ? error.message : 'Falha desconhecida ao abrir o aplicativo.';
     dialog.showErrorBox('VoidFall não iniciou', reason);

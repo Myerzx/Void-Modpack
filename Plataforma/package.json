@@ -28,7 +28,10 @@
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "panel": "npm run build && npm run local --workspace @voidfall/control-api",
-    "desktop": "npm run build:packages && npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/panel-web && npm run build --workspace @voidfall/desktop && npm run start --workspace @voidfall/desktop"
+    "desktop": "npm run build:packages && npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/panel-web && npm run build --workspace @voidfall/desktop && npm run start --workspace @voidfall/desktop",
+    "desktop:package": "npm run build:packages && npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/panel-web && npm run build --workspace @voidfall/desktop && npm run package:qa --workspace @voidfall/desktop",
+    "desktop:smoke": "npm run smoke:qa --workspace @voidfall/desktop",
+    "desktop:qa": "npm run desktop:package && npm run desktop:smoke"
   },
   "devDependencies": {
     "@types/node": "24.13.3",

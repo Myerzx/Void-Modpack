@@ -76,3 +76,4 @@ __pycache__/
 # credential. Provisioned by `npm run panel`, never committed.
 /Plataforma/.voidfall/
 /Plataforma/.voidfall.lock/
+/Plataforma/apps/desktop/.package-runtime/
