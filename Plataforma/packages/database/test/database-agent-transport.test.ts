@@ -279,6 +279,48 @@ describe('agent transport persistence', () => {
     }
   });
 
+  it('grants and leases the reviewed artifact installation capability', async () => {
+    const { database, repositories, agentId, serverInstanceId } = await transportFixture({
+      capabilities: ['artifact.install'],
+    });
+    try {
+      const job: Job = {
+        schemaVersion: 1,
+        id: randomUUID(),
+        type: 'artifact.install',
+        resource: { type: 'server-instance', id: serverInstanceId },
+        status: 'queued',
+        stage: 'queued',
+        priority: 65,
+        payload: {
+          schemaVersion: 1,
+          parameters: { serverInstanceId, expectedVersion: 1 },
+        },
+        idempotencyKey: `artifact-install:${randomUUID()}`,
+        requestedBy: { type: 'system', id: 'transport-test' },
+        correlationId: randomUUID(),
+        availableAt: '2026-08-05T12:00:00Z',
+        attempt: 0,
+        maxAttempts: 1,
+      };
+      await repositories.jobs.enqueue(job);
+      const claimed = await repositories.agentTransport.claimWork({
+        agentId,
+        capabilities: ['artifact.install'],
+        bootId: randomUUID(),
+        maximumLeases: 1,
+        leaseMs: 60_000,
+        now: new Date('2026-08-05T12:00:00Z'),
+        newLeaseId: () => randomUUID(),
+      });
+      assert.equal(claimed.length, 1);
+      assert.equal(claimed[0]?.capability, 'artifact.install');
+      assert.equal(claimed[0]?.jobType, 'artifact.install');
+    } finally {
+      await database.close();
+    }
+  });
+
   it('reserves the job and records the lease in one transaction', async () => {
     const { database, repositories, agentId } = await transportFixture();
     try {
