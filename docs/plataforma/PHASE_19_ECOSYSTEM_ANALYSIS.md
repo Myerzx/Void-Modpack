@@ -225,13 +225,13 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
-A fronteira de ordem efetiva mantém 16 testes no pacote de ecossistema e seis casos operacionais no Server Agent. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, path literal, link, payload extensível, relógio anterior ao lease, replay por job e auditoria sem paths. Passaram 109 testes de contratos, 6 de permissões, 62 do banco, 180 da Control API e 115 do Server Agent, além de typecheck/build direcionados, sem ler o runtime privado.
+A fronteira de ordem efetiva mantém 16 testes no pacote de ecossistema e seis casos operacionais no Server Agent. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, path literal, link, payload extensível, relógio anterior ao lease, replay por job e auditoria sem paths. A prova E2E sintética percorre `POST` autenticado, job durável, claim/lease assinado, supervisor e handler reais até observação/auditoria persistidas em diretório temporário. Passaram 109 testes de contratos, 6 de permissões, 62 do banco, 181 da Control API e 115 do Server Agent, além de typecheck/build direcionados, sem ler o runtime privado.
 
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental deste recorte, o grafo portátil contém 6.897 nós, 12.094 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada encontrou `DatapackLoadOrderObservationAcceptance`, `registerDatapackLoadOrderRoutes`, `DatapackLoadOrderObservationCapability`, `createDatapackLoadOrderObservationHandler` e `DatapackLoadOrderRepository`; o caminho estrutural liga o produtor ao handler via composição da app e transporte do agente. O diagnóstico encontrou zero endpoint ausente, zero duplicata e manteve somente as duas autociclagens SQL `references` já documentadas.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.915 nós, 12.128 arestas e 432 comunidades; a visão agregada também foi regenerada. A consulta focada encontrou `DatapackLoadOrderObservationAcceptance`, `registerDatapackLoadOrderRoutes`, `DatapackLoadOrderObservationCapability`, `createDatapackLoadOrderObservationHandler`, `DatapackLoadOrderRepository` e a prova E2E que os conecta pelo transporte do agente. O diagnóstico encontrou zero endpoint ausente, zero duplicata e manteve somente as duas autociclagens SQL `references` já documentadas.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -244,7 +244,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- fechar um ensaio E2E sintético do produtor ao handler e, depois, expor somente status/leitura no painel; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
+- expor somente status/leitura da observação no painel, mantendo separado o grant operacional explícito; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 

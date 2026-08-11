@@ -11,11 +11,12 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - reader de filesystem construído da workspace `server` registrada e limitado ao literal `world/level.dat`, com recusa de links e orçamento de 8 MiB;
 - handler offline exclusivo, persistência e auditoria atômicas, replay sem nova leitura e readiness com razões explícitas;
 - contratos públicos fechados de request/acceptance, permissão `datapacks.observe` e migration `0029` com grants somente para owner/administrator;
-- produtor `POST /api/v1/servers/:serverId/datapack-load-order/observations`, com resolução server → workspace vinculada → análise exata, idempotência derivada e auditoria de aceite/replay/recusa.
+- produtor `POST /api/v1/servers/:serverId/datapack-load-order/observations`, com resolução server → workspace vinculada → análise exata, idempotência derivada e auditoria de aceite/replay/recusa;
+- prova E2E sintética do `POST` ao handler real via job, transporte assinado, lease e supervisor, com observação e auditoria persistidas a partir de `level.dat` gerado somente em diretório temporário.
 
 ### Validado
 
-- 109 testes de contratos, 6 de permissões, 62 do banco, 180 da Control API e 115 do Server Agent;
+- 109 testes de contratos, 6 de permissões, 62 do banco, 181 da Control API e 115 do Server Agent;
 - corpus NBT sintético materializado somente em diretórios temporários, sem ler ou copiar o runtime privado.
 
 ### Não habilitado
