@@ -15,6 +15,10 @@ import {
 } from '@voidfall/server-configuration';
 
 import type { AgentIdentity } from './agent-client.js';
+import {
+  createArtifactInstallHandler,
+  type ApprovedArtifactPayloadReader,
+} from './artifact-install-operation.js';
 import { createBackupHandler, createRestoreHandler } from './backup-operation.js';
 import { collectReadings } from './collectors.js';
 import {
@@ -103,6 +107,11 @@ export interface AgentRuntimeDependencies {
    * work. A different live or uncertain owner is never adopted by PID.
    */
   readonly processOwnership?: ProcessOwnershipReconciler;
+  /** Trusted local source and destination for approved artifact installation. */
+  readonly artifactInstaller?: {
+    readonly reader: ApprovedArtifactPayloadReader;
+    readonly serverRoot: string;
+  };
   /**
    * Guards the exclusive offline window a backup needs. Built from the adapter
    * when absent; injectable so a test can hold a window open deliberately.
@@ -243,6 +252,8 @@ export class AgentRuntime {
       hasAuthorizedFiles: this.#authorizedFiles !== null,
       hasConfigurationGuard: this.#configurationGuard !== undefined,
       hasConfigurationCapability: this.#configurationCapability !== null,
+      hasArtifactInstaller:
+        dependencies.artifactInstaller !== undefined && dependencies.processAdapter !== undefined,
       hasRegisteredServerWorkspace: dependencies.datapackLoadOrderRuntime !== undefined,
       hasDatapackLoadOrderGuard: dependencies.processAdapter !== undefined,
       hasDatapackLoadOrderCapability: this.#datapackLoadOrderCapability !== null,
@@ -369,6 +380,21 @@ export class AgentRuntime {
         repositories,
         capability: this.#configurationCapability,
         serverInstanceId: configuration.serverInstanceId,
+      });
+    }
+
+    if (
+      available.has('artifact.install') &&
+      this.#dependencies.artifactInstaller !== undefined &&
+      this.#dependencies.processAdapter !== undefined
+    ) {
+      handlers['artifact.install'] = createArtifactInstallHandler({
+        repositories,
+        reader: this.#dependencies.artifactInstaller.reader,
+        processAdapter: this.#dependencies.processAdapter,
+        serverInstanceId: configuration.serverInstanceId,
+        serverRoot: this.#dependencies.artifactInstaller.serverRoot,
+        ...(this.#dependencies.clock === undefined ? {} : { clock: this.#dependencies.clock }),
       });
     }
 

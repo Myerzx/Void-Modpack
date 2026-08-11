@@ -22,6 +22,7 @@ export type CapabilityUnavailableReason =
   | 'no-authorized-root-configured'
   | 'no-configuration-guard-configured'
   | 'no-reviewed-resource-authorized'
+  | 'no-artifact-installer-configured'
   | 'no-backup-repository-configured'
   | 'no-process-controller-configured'
   | 'no-console-adapter-configured'
@@ -59,6 +60,7 @@ export interface RuntimeDependencies {
   readonly hasConfigurationGuard: boolean;
   /** The typed capability was constructed, not merely asked for. */
   readonly hasConfigurationCapability: boolean;
+  readonly hasArtifactInstaller: boolean;
   readonly hasRegisteredServerWorkspace: boolean;
   readonly hasDatapackLoadOrderGuard: boolean;
   readonly hasDatapackLoadOrderCapability: boolean;
@@ -98,6 +100,7 @@ const ALL_CAPABILITIES: readonly AgentCapability[] = Object.freeze([
   'configuration.apply',
   'artifact.inspect',
   'artifact.analyze',
+  'artifact.install',
   'process.observe',
   'process.control',
   'process.force-kill',
@@ -128,6 +131,8 @@ function missingDependency(
       if (!dependencies.hasAuthorizedFiles) return 'no-authorized-root-configured';
       if (!dependencies.hasConfigurationGuard) return 'no-configuration-guard-configured';
       return dependencies.hasConfigurationCapability ? null : 'no-reviewed-resource-authorized';
+    case 'artifact.install':
+      return dependencies.hasArtifactInstaller ? null : 'no-artifact-installer-configured';
     case 'process.control':
       return dependencies.hasProcessController ? null : 'no-process-controller-configured';
     case 'console.command':

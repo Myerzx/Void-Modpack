@@ -482,6 +482,14 @@ export async function main(
               processController: processRuntime.controller,
               consoleAdapter: processRuntime.adapter,
               processAdapter: processRuntime.adapter,
+              ...(instance.runDirectory === null
+                ? {}
+                : {
+                    artifactInstaller: {
+                      reader: artifactStore,
+                      serverRoot: instance.runDirectory,
+                    },
+                  }),
             }),
         onEvent: (event) => {
           const prefix = `  agente    ${instance.displayName}`;

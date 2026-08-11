@@ -66,6 +66,7 @@ interface OperationRow {
   readonly reason_code: string;
   readonly console_command: 'list-players' | 'save-all' | null;
   readonly backup_id: string | null;
+  readonly artifact_submission_id: string | null;
   readonly receipt_outcome: 'succeeded' | 'failed' | null;
   readonly receipt_failure_code: ServerOperationFailureCode | null;
   readonly receipt_lifecycle: ObservedProcessLifecycle | null;
@@ -79,6 +80,7 @@ interface OperationRow {
 
 const OPERATION_COLUMNS = `operation_id, server_instance_id, kind, status, idempotency_key,
   request_fingerprint, correlation_id, job_id, requested_by, reason_code, console_command, backup_id,
+  artifact_submission_id,
   receipt_outcome, receipt_failure_code, receipt_lifecycle, receipt_pid, receipt_boot_id,
   completed_at, version, accepted_at, updated_at`;
 
@@ -101,6 +103,7 @@ function mapOperation(row: OperationRow): ServerOperation {
     reasonCode: row.reason_code,
     consoleCommand: row.console_command,
     backupId: row.backup_id,
+    artifactSubmissionId: row.artifact_submission_id,
     receipt:
       row.receipt_outcome === null || row.receipt_lifecycle === null || row.completed_at === null
         ? null
@@ -137,6 +140,7 @@ export function operationRequestFingerprint(input: {
   readonly kind: ServerOperationKind;
   readonly requestedBy: ActorRef;
   readonly reasonCode: string;
+  readonly artifactSubmissionId?: string;
 }): string {
   return sha256Hex(
     canonicalJson({
@@ -144,6 +148,9 @@ export function operationRequestFingerprint(input: {
       kind: input.kind,
       requestedBy: input.requestedBy,
       reasonCode: input.reasonCode,
+      ...(input.artifactSubmissionId === undefined
+        ? {}
+        : { artifactSubmissionId: input.artifactSubmissionId }),
     }),
   );
 }
@@ -161,6 +168,8 @@ export interface AcceptOperationInput {
   readonly consoleCommand?: 'list-players' | 'save-all';
   /** Required for a backup operation, refused for every other kind. */
   readonly backupId?: string;
+  /** Required for artifact.install, refused for every other kind. */
+  readonly artifactSubmissionId?: string;
   readonly now: Date;
 }
 
@@ -323,8 +332,9 @@ export class OperationRepository {
           `INSERT INTO server_operations (
              operation_id, server_instance_id, kind, status, idempotency_key, request_fingerprint,
              correlation_id, job_id, requested_by, reason_code, console_command, backup_id,
+             artifact_submission_id,
              accepted_at, updated_at
-           ) VALUES ($1,$2,$3,'accepted',$4,$5,$6,$7,$8::jsonb,$9,$10,$11,$12,$12)
+           ) VALUES ($1,$2,$3,'accepted',$4,$5,$6,$7,$8::jsonb,$9,$10,$11,$12,$13,$13)
            RETURNING ${OPERATION_COLUMNS}`,
           [
             input.operationId,
@@ -338,6 +348,7 @@ export class OperationRepository {
             input.reasonCode,
             input.consoleCommand ?? null,
             input.backupId ?? null,
+            input.artifactSubmissionId ?? null,
             input.now,
           ],
         );

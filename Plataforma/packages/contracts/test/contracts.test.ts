@@ -1984,6 +1984,7 @@ describe('ServerOperation', () => {
     reasonCode: 'operator-request',
     consoleCommand: null,
     backupId: null,
+    artifactSubmissionId: null,
     receipt: null,
     version: 1,
     acceptedAt: '2026-08-05T12:00:00Z',

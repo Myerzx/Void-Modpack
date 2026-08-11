@@ -24,6 +24,10 @@ async function fixture() {
 const bytes = Buffer.from('504b0304140000000000000000000000000000000000000000000000000000', 'hex');
 const sha256 = createHash('sha256').update(bytes).digest('hex');
 
+async function* stream(content: Uint8Array): AsyncIterable<Uint8Array> {
+  yield content;
+}
+
 describe('local artifact quarantine', () => {
   it('stores, replays and reads content by its complete digest', async () => {
     const context = await fixture();
@@ -31,10 +35,10 @@ describe('local artifact quarantine', () => {
       filename: 'reviewed-probe.jar',
       declaredSizeBytes: bytes.byteLength,
       expectedSha256: sha256,
-      content: [bytes],
+      content: stream(bytes),
       receivedAt: new Date('2026-08-11T20:00:00.000Z'),
     };
-    assert.deepEqual(await context.store.quarantineStream(input), {
+    assert.deepEqual(await context.store.quarantineStream({ ...input, content: stream(bytes) }), {
       sha256,
       sizeBytes: bytes.byteLength,
     });
@@ -51,7 +55,7 @@ describe('local artifact quarantine', () => {
       filename: 'reviewed-probe.jar',
       declaredSizeBytes: bytes.byteLength,
       expectedSha256: sha256,
-      content: [bytes],
+      content: stream(bytes),
       receivedAt: new Date('2026-08-11T20:00:00.000Z'),
     });
     const artifacts = join(context.state, 'artifact-quarantine', 'artifacts');

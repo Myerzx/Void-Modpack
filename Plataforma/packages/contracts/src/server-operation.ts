@@ -44,6 +44,7 @@ export const ServerOperationKindSchema = Type.Union([
   Type.Literal('backup.create'),
   Type.Literal('configuration.apply'),
   Type.Literal('configuration.rollback'),
+  Type.Literal('artifact.install'),
 ]);
 
 /**
@@ -153,6 +154,8 @@ export const ServerOperationSchema = Type.Object(
       Type.String({ minLength: 1, maxLength: 64, pattern: '^[a-z][a-z0-9._-]{0,63}$' }),
       Type.Null(),
     ]),
+    /** The approved quarantine submission installed by this operation. */
+    artifactSubmissionId: Type.Union([UuidSchema, Type.Null()]),
     receipt: Type.Union([ServerOperationReceiptSchema, Type.Null()]),
     version: Type.Integer({ minimum: 1, maximum: 9_007_199_254_740_991 }),
     acceptedAt: IsoDateTimeSchema,
@@ -335,6 +338,14 @@ export function validateServerOperation(
   if ((operation.kind === 'server.command') !== (operation.consoleCommand !== null)) {
     issues.push(
       semanticIssue('/consoleCommand', 'only a console operation carries a console command'),
+    );
+  }
+  if ((operation.kind === 'artifact.install') !== (operation.artifactSubmissionId !== null)) {
+    issues.push(
+      semanticIssue(
+        '/artifactSubmissionId',
+        'only an artifact installation names an artifact submission',
+      ),
     );
   }
   if (Date.parse(operation.updatedAt) < Date.parse(operation.acceptedAt)) {

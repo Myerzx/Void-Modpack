@@ -10,8 +10,13 @@ import {
   type ArtifactSubmissionState,
   type ArtifactUploadAcceptance,
   type Job,
+  type ServerOperation,
 } from '@voidfall/contracts';
-import { ArtifactReviewError, type Repositories } from '@voidfall/database';
+import {
+  ArtifactReviewError,
+  OperationalPersistenceError,
+  type Repositories,
+} from '@voidfall/database';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 
 /**
@@ -21,8 +26,8 @@ import type { FastifyInstance, FastifyRequest } from 'fastify';
  * resolves a root, never writes a file and never holds a whole artifact in
  * memory. Nothing it returns carries a path, a quarantine location or bytes.
  *
- * Approval changes a review state. No route here installs, copies or promotes
- * an artifact, and none of them can reach a Minecraft runtime.
+ * Installation is a separate durable operation after approval. This route
+ * queues it but never receives a destination path or reaches the runtime.
  */
 
 /** Streams bytes into quarantine and reports what was actually stored. */
@@ -113,10 +118,26 @@ const DecisionBodySchema = Type.Object(
   { additionalProperties: false },
 );
 
+const InstallBodySchema = Type.Object(
+  {
+    schemaVersion: Type.Literal(1),
+    analyzedSha256: Type.String({ pattern: '^[a-f0-9]{64}$' }),
+    expectedVersion: Type.Integer({ minimum: 1, maximum: 9_007_199_254_740_991 }),
+    idempotencyKey: Type.String({
+      minLength: 16,
+      maxLength: 128,
+      pattern: '^[A-Za-z0-9._:-]+$',
+    }),
+    reasonCode: Type.String({ minLength: 1, maxLength: 64, pattern: '^[a-z][a-z0-9._-]{0,63}$' }),
+  },
+  { additionalProperties: false },
+);
+
 type ServerParams = Static<typeof ServerParamsSchema>;
 type SubmissionParams = Static<typeof SubmissionParamsSchema>;
 type ListQuery = Static<typeof ListQuerySchema>;
 type DecisionBody = Static<typeof DecisionBodySchema>;
+type InstallBody = Static<typeof InstallBodySchema>;
 
 const SHA256 = /^[a-f0-9]{64}$/u;
 /**
@@ -193,7 +214,8 @@ export function registerArtifactRoutes(
   ): Promise<ArtifactSubmission> {
     await requireServer(serverId);
     const submission = await repositories.artifactReview.findById(submissionId);
-    if (submission === undefined) {
+    const owner = await repositories.artifactReview.serverInstanceIdFor(submissionId);
+    if (submission === undefined || owner !== serverId) {
       throw apiError(404, 'ARTIFACT_NOT_FOUND', 'Artefato não encontrado.');
     }
     return submission;
@@ -453,6 +475,133 @@ export function registerArtifactRoutes(
         }
         throw apiError(404, 'ARTIFACT_NOT_FOUND', 'Artefato não encontrado.');
       }
+    },
+  );
+
+  /** Queues installation of exactly the approved quarantine bytes. */
+  app.post<{ Params: SubmissionParams; Body: InstallBody }>(
+    '/api/v1/servers/:serverId/artifacts/:submissionId/install',
+    {
+      schema: { params: SubmissionParamsSchema, body: InstallBodySchema },
+      preHandler: [authenticate, requireCsrf, requirePermission('mods.manage')],
+      config: { rateLimit: { max: 10, timeWindow: '1 minute' } },
+    },
+    async (request, reply): Promise<ServerOperation> => {
+      const { serverId, submissionId } = request.params;
+      const submission = await requireSubmission(serverId, submissionId);
+      const body = request.body;
+
+      if (
+        submission.state !== 'approved' ||
+        submission.decision?.decision !== 'approved' ||
+        submission.decision.analyzedSha256 !== body.analyzedSha256 ||
+        submission.sha256 !== body.analyzedSha256 ||
+        submission.version !== body.expectedVersion
+      ) {
+        throw apiError(
+          409,
+          'ARTIFACT_INSTALL_STALE',
+          'A aprovação mudou desde a leitura; recarregue antes de instalar.',
+        );
+      }
+      if (
+        !submission.filename.toLowerCase().endsWith('.jar') ||
+        (submission.reviewedSide !== 'server' && submission.reviewedSide !== 'both') ||
+        !submission.analysis.inspected ||
+        !submission.analysis.analyzed ||
+        submission.analysis.provenBlockerCount !== 0
+      ) {
+        throw apiError(
+          422,
+          'ARTIFACT_INSTALL_NOT_ELIGIBLE',
+          'O artefato aprovado não está elegível para instalação no servidor.',
+        );
+      }
+
+      const observed = await repositories.processStates.find(serverId);
+      if (observed === undefined || observed.stale || observed.lifecycle !== 'offline') {
+        throw apiError(
+          409,
+          'ARTIFACT_INSTALL_REQUIRES_OFFLINE',
+          'Confirme que o servidor está offline antes de instalar o mod.',
+        );
+      }
+
+      const actor = panelActor(request);
+      const now = clock();
+      let accepted;
+      try {
+        accepted = await repositories.operations.accept({
+          operationId: randomUUID(),
+          serverInstanceId: serverId,
+          kind: 'artifact.install',
+          idempotencyKey: body.idempotencyKey,
+          correlationId: request.correlationId,
+          requestedBy: actor,
+          reasonCode: body.reasonCode,
+          artifactSubmissionId: submissionId,
+          now,
+        });
+      } catch (error) {
+        if (!(error instanceof OperationalPersistenceError)) throw error;
+        await audit({
+          request,
+          actor,
+          action: 'artifact.install',
+          submissionId,
+          outcome: 'failed',
+          reason: error.code,
+        });
+        if (error.code === 'operation-in-flight') {
+          throw apiError(409, 'ARTIFACT_OPERATION_IN_FLIGHT', 'Já existe uma operação em andamento.');
+        }
+        throw apiError(
+          409,
+          'ARTIFACT_IDEMPOTENCY_CONFLICT',
+          'A chave de idempotência já foi usada para outra solicitação.',
+        );
+      }
+
+      if (accepted.replayed) return reply.code(200).send(accepted.operation);
+
+      const job: Job = {
+        schemaVersion: 1,
+        id: randomUUID(),
+        type: 'artifact.install',
+        resource: { type: 'server-instance', id: serverId },
+        status: 'queued',
+        stage: 'queued',
+        priority: 65,
+        payload: {
+          schemaVersion: 1,
+          parameters: {
+            serverInstanceId: serverId,
+            expectedVersion: accepted.operation.version,
+          },
+        },
+        idempotencyKey: `${body.idempotencyKey}:job`,
+        requestedBy: actor,
+        correlationId: request.correlationId,
+        availableAt: now.toISOString(),
+        attempt: 0,
+        maxAttempts: 1,
+      };
+      const enqueued = await repositories.jobs.enqueue(job);
+      const running = await repositories.operations.markRunning({
+        operationId: accepted.operation.operationId,
+        expectedVersion: accepted.operation.version,
+        jobId: enqueued.id,
+        now,
+      });
+      await audit({
+        request,
+        actor,
+        action: 'artifact.install',
+        submissionId,
+        outcome: 'succeeded',
+        reason: body.reasonCode,
+      });
+      return reply.code(202).send(running);
     },
   );
 }

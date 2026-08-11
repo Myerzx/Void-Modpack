@@ -35,6 +35,7 @@ export const AgentCapabilitySchema = Type.Union([
   Type.Literal('configuration.apply'),
   Type.Literal('artifact.inspect'),
   Type.Literal('artifact.analyze'),
+  Type.Literal('artifact.install'),
   Type.Literal('process.observe'),
   Type.Literal('process.control'),
   Type.Literal('process.force-kill'),
@@ -206,6 +207,7 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   'configuration.apply': ['configuration.apply', 'configuration.rollback'],
   'artifact.inspect': ['artifact.inspect'],
   'artifact.analyze': ['artifact.analyze'],
+  'artifact.install': ['artifact.install'],
   'process.observe': [],
   'process.control': ['server.start', 'server.stop', 'server.restart'],
   // Deliberately separate: granting ordinary control must never imply the

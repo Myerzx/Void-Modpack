@@ -470,6 +470,81 @@ describe('artifact review endpoints', () => {
     assert.equal(response.json().error.code, 'ARTIFACT_DECISION_NOT_ALLOWED');
   });
 
+  it('queues an approved server mod as a durable offline installation', async () => {
+    const context = await fixture({ store: quarantineStore() });
+    const submissionId = await submitted(context);
+    await context.database.query(
+      `UPDATE artifact_submissions
+       SET state = 'approved', reviewed_side = 'server', inspected = TRUE, analyzed = TRUE,
+           verdict = 'compatible', blocker_count = 0, proven_blocker_count = 0,
+           decision = 'approved', decision_actor = $2::jsonb,
+           decision_reason_code = 'operator-approved', decision_analyzed_sha256 = sha256,
+           decided_at = $3, updated_at = $3, version = version + 1
+       WHERE submission_id = $1`,
+      [submissionId, JSON.stringify({ type: 'panel-user', id: context.user.id }), NOW],
+    );
+
+    const agentId = randomUUID();
+    await context.repositories.agents.createProvisioningToken({
+      serverInstanceId: context.server.id,
+      tokenHash: 'd'.repeat(64),
+      expiresAt: new Date(NOW.getTime() + 60_000),
+      createdAt: NOW,
+    });
+    await context.repositories.agents.register({
+      agentId,
+      serverInstanceId: context.server.id,
+      tokenHash: 'd'.repeat(64),
+      publicKeyPem: '-----BEGIN PUBLIC KEY-----\ntest\n-----END PUBLIC KEY-----',
+      certificateFingerprint: 'e'.repeat(64),
+      softwareVersion: '0.1.0-test',
+      capabilities: ['artifact.install'],
+      now: NOW,
+    });
+    await context.repositories.processStates.observe({
+      serverInstanceId: context.server.id,
+      eventId: randomUUID(),
+      lifecycle: 'offline',
+      observedBy: agentId,
+      correlationId: randomUUID(),
+      now: NOW,
+    });
+    const approved = await context.repositories.artifactReview.findById(submissionId);
+    assert.ok(approved);
+
+    const payload = {
+      schemaVersion: 1,
+      analyzedSha256: approved.sha256,
+      expectedVersion: approved.version,
+      idempotencyKey: 'artifact-install-api-0001',
+      reasonCode: 'operator-install-approved',
+    };
+    const response = await context.app.inject({
+      method: 'POST',
+      url: `${BASE}/${context.server.id}/artifacts/${submissionId}/install`,
+      headers: { cookie: context.cookie, 'x-csrf-token': context.csrfToken },
+      payload,
+    });
+    assert.equal(response.statusCode, 202);
+    assert.equal(response.json().kind, 'artifact.install');
+    assert.equal(response.json().artifactSubmissionId, submissionId);
+    assert.equal(response.json().status, 'running');
+
+    const job = await context.repositories.jobs.findById(response.json().jobId as string);
+    assert.equal(job?.type, 'artifact.install');
+    assert.deepEqual(job?.resource, { type: 'server-instance', id: context.server.id });
+    assert.equal(JSON.stringify(job?.payload).includes(submissionId), false);
+
+    const replay = await context.app.inject({
+      method: 'POST',
+      url: `${BASE}/${context.server.id}/artifacts/${submissionId}/install`,
+      headers: { cookie: context.cookie, 'x-csrf-token': context.csrfToken },
+      payload,
+    });
+    assert.equal(replay.statusCode, 200);
+    assert.equal(replay.json().operationId, response.json().operationId);
+  });
+
   it('keeps reading and deciding behind their own permissions', async () => {
     const context = await fixture({ store: quarantineStore() });
     const submissionId = await submitted(context);

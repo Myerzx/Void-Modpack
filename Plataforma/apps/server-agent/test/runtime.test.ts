@@ -1170,6 +1170,10 @@ describe('readiness published where the control plane can read it', () => {
       processController: new MinecraftProcessController({ adapter, launchPlan }),
       consoleAdapter: adapter,
       processAdapter: adapter,
+      artifactInstaller: {
+        reader: { read: async () => new Uint8Array() },
+        serverRoot: context.directory,
+      },
       datapackLoadOrderRuntime: {
         workspaceId: randomUUID(),
         workspaceRoot: context.directory,

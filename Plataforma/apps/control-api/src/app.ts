@@ -369,9 +369,10 @@ const AgentRegistrationBodySchema = Type.Object(
       Type.Union([
         Type.Literal('heartbeat'),
         Type.Literal('configuration.apply'),
+        Type.Literal('artifact.install'),
         Type.Literal('datapack-load-order.observe'),
       ]),
-      { minItems: 1, maxItems: 3, uniqueItems: true },
+      { minItems: 1, maxItems: 4, uniqueItems: true },
     ),
   },
   { additionalProperties: false },

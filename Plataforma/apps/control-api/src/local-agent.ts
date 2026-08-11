@@ -195,7 +195,7 @@ export async function registerLocalAgent(input: {
         // rather than pretending a certificate was presented.
         certificateFingerprint: sha256Hex(input.identity.publicKeyPem),
         softwareVersion: input.softwareVersion,
-        capabilities: ['heartbeat', 'configuration.apply'],
+        capabilities: ['heartbeat', 'configuration.apply', 'artifact.install'],
       }),
     });
     if (!response.ok) {
@@ -236,6 +236,7 @@ export async function registerLocalAgent(input: {
   // lose everything since the last save.
   for (const capability of [
     'configuration.apply',
+    'artifact.install',
     'process.control',
     'console.command',
   ] as const) {

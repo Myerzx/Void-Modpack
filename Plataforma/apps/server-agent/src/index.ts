@@ -1,4 +1,5 @@
 export * from './agent-client.js';
+export * from './artifact-install-operation.js';
 export * from './backup-operation.js';
 export * from './collectors.js';
 export * from './configuration-operation.js';

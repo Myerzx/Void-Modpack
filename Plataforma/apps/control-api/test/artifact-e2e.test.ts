@@ -340,8 +340,10 @@ describe('Phase 8 end-to-end artifact review', () => {
       ['artifact.upload'],
     );
 
-    // 7. Nothing installed the artifact, and the panel offers no way to.
-    assert.equal(buildInstallActionView().present, false);
+    // 7. A proven blocker keeps installation disabled and no install job exists.
+    const install = buildInstallActionView(detail, true);
+    assert.equal(install.present, true);
+    assert.equal(install.enabled, false);
     const jobTypes = await context.database.query<{ readonly type: string }>(
       'SELECT DISTINCT type FROM jobs ORDER BY type',
     );
