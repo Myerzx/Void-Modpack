@@ -73,6 +73,7 @@ function validateManifestObject(value: unknown): ConfigurationRevisionManifest {
     value.format !== VOIDFALL_CONFIGURATION_REVISION_FORMAT ||
     value.manifestSchemaVersion !== VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION ||
     (value.configurationFormat !== 'java-properties-v1' &&
+      value.configurationFormat !== 'minecraft-server-properties-v1' &&
       value.configurationFormat !== 'openloader-advanced-options-v1') ||
     (value.operation !== 'update' && value.operation !== 'rollback') ||
     !Number.isSafeInteger(value.previousSizeBytes) ||

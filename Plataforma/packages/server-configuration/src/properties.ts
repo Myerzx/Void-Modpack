@@ -7,7 +7,7 @@ import { ConfigurationOperationError } from './types.js';
 import { validateFieldName } from './validation.js';
 
 interface RawLine {
-  readonly kind: 'blank' | 'comment';
+  readonly kind: 'blank' | 'comment' | 'opaque-property';
   readonly raw: string;
 }
 
@@ -26,7 +26,13 @@ export interface ParsedPropertiesDocument {
   readonly values: Readonly<Record<string, ConfigurationValue>>;
 }
 
+export interface PropertiesParsingPolicy {
+  /** Keep unreviewed properties verbatim while exposing only reviewed fields. */
+  readonly preserveUnreviewedProperties?: boolean;
+}
+
 const INVALID_VALUE = /[\\\u0000-\u001f\u007f]/u;
+const INVALID_OPAQUE_PROPERTY = /[\u0000-\u001f\u007f]/u;
 
 function invalidContent(): never {
   throw new ConfigurationOperationError('invalid-content', 'preflight');
@@ -100,6 +106,7 @@ function serializeTypedValue(value: ConfigurationValue, field: BasicConfiguratio
 export function parsePropertiesDocument(
   content: Uint8Array,
   resource: ConfigurationResourceDefinition,
+  policy: PropertiesParsingPolicy = {},
 ): ParsedPropertiesDocument {
   const text = decodeContent(content);
   const hasCrLf = text.includes('\r\n');
@@ -125,14 +132,16 @@ export function parsePropertiesDocument(
     if (separator <= 0) invalidContent();
     const key = raw.slice(0, separator);
     const value = raw.slice(separator + 1);
-    validateFieldName(key);
-    if (
-      rawValues.has(key) ||
-      !Object.hasOwn(resource.fields, key) ||
-      INVALID_VALUE.test(value)
-    ) {
+    if (INVALID_OPAQUE_PROPERTY.test(key) || INVALID_OPAQUE_PROPERTY.test(value)) {
       invalidContent();
     }
+    if (!Object.hasOwn(resource.fields, key)) {
+      if (policy.preserveUnreviewedProperties !== true) invalidContent();
+      lines.push(Object.freeze({ kind: 'opaque-property', raw }));
+      continue;
+    }
+    validateFieldName(key);
+    if (rawValues.has(key) || INVALID_VALUE.test(value)) invalidContent();
     rawValues.set(key, value);
     lines.push(Object.freeze({ kind: 'property', key, value }));
   }

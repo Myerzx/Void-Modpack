@@ -894,6 +894,15 @@ describe('ServerConfiguration boundary contracts', () => {
   it('accepts a reviewed catalog and rejects an unreviewed codec or a public path', () => {
     assert.equal(validateConfigurationSchemaCatalog(validCatalog()).success, true);
 
+    const serverProperties = validCatalog();
+    serverProperties.schemas[0] = {
+      ...serverProperties.schemas[0],
+      schemaId: 'minecraft-server-properties',
+      resourceId: 'minecraft-server-properties',
+      codecId: 'minecraft-server-properties-v1',
+    } as never;
+    assert.equal(validateConfigurationSchemaCatalog(serverProperties).success, true);
+
     const unreviewed = validCatalog();
     unreviewed.schemas[0] = { ...unreviewed.schemas[0], codecId: 'generic-json-v1' } as never;
     assert.equal(validateConfigurationSchemaCatalog(unreviewed).success, false);

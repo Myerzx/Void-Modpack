@@ -5,6 +5,9 @@ import { describe, it } from 'node:test';
 import {
   ConfigurationSchemaOperationError,
   ConfigurationSchemaRegistry,
+  MINECRAFT_SERVER_PROPERTIES_FILE_PATH,
+  MINECRAFT_SERVER_PROPERTIES_POLICY_V1,
+  MINECRAFT_SERVER_PROPERTIES_V1,
   OPENLOADER_ADVANCED_OPTIONS_FILE_PATH,
   OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES,
   OPENLOADER_ADVANCED_OPTIONS_POLICY_V1,
@@ -309,7 +312,7 @@ describe('OpenLoader advanced options v1', () => {
 
   it('exposes the codec only through the closed reviewed registry', async () => {
     const entries = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.list();
-    assert.equal(entries.length, 1);
+    assert.equal(entries.length, 2);
     const entry = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(
       'openloader-advanced-options',
     );
@@ -318,7 +321,7 @@ describe('OpenLoader advanced options v1', () => {
       entry.schemaSha256,
       '25c2d9d41af6fb0ead2ecc25dd5b9eda130ab60353b37b1b707b6da7b9291ce0',
     );
-    assert.deepEqual(entry.parse(await openLoaderFixture('default.json')), {
+    assert.deepEqual(entry.parse?.(await openLoaderFixture('default.json')), {
       'dataPacks.enabled': true,
       'resourcePacks.enabled': true,
     });
@@ -328,5 +331,45 @@ describe('OpenLoader advanced options v1', () => {
         error instanceof TrustedConfigurationRegistryError &&
         error.code === 'resource-not-reviewed',
     );
+  });
+});
+
+describe('Minecraft server properties security v1', () => {
+  it('freezes the reviewed security subset and preserving path policy', () => {
+    assert.equal(MINECRAFT_SERVER_PROPERTIES_V1.schemaId, 'minecraft-server-properties');
+    assert.equal(MINECRAFT_SERVER_PROPERTIES_V1.schemaVersion, '1.0.0');
+    assert.equal(
+      MINECRAFT_SERVER_PROPERTIES_V1.filePath,
+      MINECRAFT_SERVER_PROPERTIES_FILE_PATH,
+    );
+    assert.deepEqual(Object.keys(MINECRAFT_SERVER_PROPERTIES_V1.fields), [
+      'broadcast-rcon-to-ops',
+      'enable-rcon',
+      'enforce-secure-profile',
+      'enforce-whitelist',
+      'online-mode',
+      'white-list',
+    ]);
+    assert.equal(MINECRAFT_SERVER_PROPERTIES_POLICY_V1.maximumBytes, 65_536);
+    assert.equal(MINECRAFT_SERVER_PROPERTIES_POLICY_V1.userSuppliedPaths, false);
+    assert.equal(
+      MINECRAFT_SERVER_PROPERTIES_POLICY_V1.preserveUnreviewedProperties,
+      true,
+    );
+    assert.deepEqual(MINECRAFT_SERVER_PROPERTIES_POLICY_V1.secretFields, []);
+    assert.equal(
+      hashConfigurationSchema(MINECRAFT_SERVER_PROPERTIES_V1),
+      '9caee4090f1da989ea9d20910cbe39765efb2d9d0b6e4ead62ba42b7baf19588',
+    );
+  });
+
+  it('publishes only metadata through the closed registry', () => {
+    const entry = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(
+      'minecraft-server-properties',
+    );
+    assert.equal(entry.codecId, 'minecraft-server-properties-v1');
+    assert.equal(entry.preserveUnreviewedProperties, true);
+    assert.equal(entry.parse, undefined);
+    assert.equal(entry.serialize, undefined);
   });
 });

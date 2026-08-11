@@ -72,7 +72,10 @@ export const ConfigurationStateVersionSchema = Type.Integer({
 });
 
 /** Only reviewed codecs may be named at the boundary. */
-export const ConfigurationCodecIdSchema = Type.Literal('openloader-advanced-options-v1');
+export const ConfigurationCodecIdSchema = Type.Union([
+  Type.Literal('minecraft-server-properties-v1'),
+  Type.Literal('openloader-advanced-options-v1'),
+]);
 
 export const ConfigurationApplyModeSchema = Type.Literal('offline-only');
 

@@ -1,4 +1,9 @@
 import {
+  MINECRAFT_SERVER_PROPERTIES_MAXIMUM_BYTES,
+  MINECRAFT_SERVER_PROPERTIES_POLICY_V1,
+  MINECRAFT_SERVER_PROPERTIES_V1,
+} from './minecraft-server-properties.js';
+import {
   OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES,
   OPENLOADER_ADVANCED_OPTIONS_POLICY_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1,
@@ -11,7 +16,9 @@ import type {
   GenericConfigurationValue,
 } from './types.js';
 
-export type TrustedConfigurationCodecId = 'openloader-advanced-options-v1';
+export type TrustedConfigurationCodecId =
+  | 'minecraft-server-properties-v1'
+  | 'openloader-advanced-options-v1';
 
 export interface TrustedConfigurationCodec {
   readonly codecId: TrustedConfigurationCodecId;
@@ -19,14 +26,16 @@ export interface TrustedConfigurationCodec {
   readonly schemaSha256: string;
   readonly maximumBytes: number;
   readonly applyMode: 'offline-only';
+  /** Preserve fields outside the reviewed schema without parsing or publishing them. */
+  readonly preserveUnreviewedProperties: boolean;
   /**
    * Reviewed field names whose value must never leave the trust boundary.
    * The list comes from the accepted policy, not from caller input, so a
    * reader cannot widen what it is allowed to publish.
    */
   readonly secretFields: readonly string[];
-  readonly parse: (input: string) => Readonly<Record<string, GenericConfigurationValue>>;
-  readonly serialize: (values: unknown) => string;
+  readonly parse?: (input: string) => Readonly<Record<string, GenericConfigurationValue>>;
+  readonly serialize?: (values: unknown) => string;
 }
 
 export type TrustedConfigurationRegistryErrorCode = 'resource-not-reviewed';
@@ -51,9 +60,21 @@ const OPENLOADER_ADVANCED_OPTIONS_CODEC_V1 = freezeCodec({
   schemaSha256: hashConfigurationSchema(OPENLOADER_ADVANCED_OPTIONS_V1),
   maximumBytes: OPENLOADER_ADVANCED_OPTIONS_MAXIMUM_BYTES,
   applyMode: OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.applyMode,
+  preserveUnreviewedProperties: false,
   secretFields: OPENLOADER_ADVANCED_OPTIONS_POLICY_V1.secretFields,
   parse: (input) => Object.freeze({ ...parseOpenLoaderAdvancedOptions(input) }),
   serialize: serializeOpenLoaderAdvancedOptions,
+});
+
+const MINECRAFT_SERVER_PROPERTIES_CODEC_V1 = freezeCodec({
+  codecId: 'minecraft-server-properties-v1',
+  schema: MINECRAFT_SERVER_PROPERTIES_V1,
+  schemaSha256: hashConfigurationSchema(MINECRAFT_SERVER_PROPERTIES_V1),
+  maximumBytes: MINECRAFT_SERVER_PROPERTIES_MAXIMUM_BYTES,
+  applyMode: MINECRAFT_SERVER_PROPERTIES_POLICY_V1.applyMode,
+  preserveUnreviewedProperties:
+    MINECRAFT_SERVER_PROPERTIES_POLICY_V1.preserveUnreviewedProperties,
+  secretFields: MINECRAFT_SERVER_PROPERTIES_POLICY_V1.secretFields,
 });
 
 /**
@@ -68,7 +89,10 @@ export class TrustedConfigurationRegistry {
   }
 
   public static voidFall(): TrustedConfigurationRegistry {
-    return new TrustedConfigurationRegistry([OPENLOADER_ADVANCED_OPTIONS_CODEC_V1]);
+    return new TrustedConfigurationRegistry([
+      MINECRAFT_SERVER_PROPERTIES_CODEC_V1,
+      OPENLOADER_ADVANCED_OPTIONS_CODEC_V1,
+    ]);
   }
 
   public require(resourceId: string): TrustedConfigurationCodec {

@@ -11,7 +11,6 @@ import type {
 
 import {
   ConfigurationOperationError,
-  OPENLOADER_ADVANCED_OPTIONS_V1,
   type ConfigurationValue,
 } from './types.js';
 
@@ -95,11 +94,6 @@ function reviewedCodec(resourceId: string) {
   } catch {
     throw new ConfigurationOperationError('resource-not-found', 'plan');
   }
-  if (codec.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1) {
-    // Registered but not an approved operational codec: refuse rather than
-    // guess a presentation for an unreviewed format.
-    throw new ConfigurationOperationError('invalid-definition', 'definition');
-  }
   return codec;
 }
 
@@ -133,7 +127,7 @@ export function describeReviewedConfiguration(
     resourceId: codec.schema.resourceId,
     definitionVersion: codec.schema.schemaVersion,
     definitionSha256: codec.schemaSha256,
-    codecId: OPENLOADER_ADVANCED_OPTIONS_V1,
+    codecId: codec.codecId,
     applyMode: 'offline-only' as const,
     maximumBytes: codec.maximumBytes,
     restartRequired: fields.some((field) => field.restartRequired),

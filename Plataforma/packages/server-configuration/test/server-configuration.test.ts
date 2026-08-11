@@ -17,6 +17,7 @@ import { tmpdir } from 'node:os';
 import { describe, it } from 'node:test';
 
 import {
+  MINECRAFT_SERVER_PROPERTIES_V1 as MINECRAFT_SERVER_SCHEMA_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1 as OPENLOADER_SCHEMA_V1,
   hashConfigurationSchema,
 } from '@voidfall/configuration-schemas';
@@ -983,6 +984,84 @@ describe('typed configuration reads and redaction policy', () => {
     }
   });
 
+  it('updates reviewed server security fields while preserving every opaque property', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'voidfall-server-properties-'));
+    try {
+      const configurationRoot = join(root, 'instance');
+      const repositoryRoot = join(root, 'revision-repository');
+      const filePath = join(configurationRoot, 'server.properties');
+      const original = [
+        '# Sanitized fixture',
+        'online-mode=false',
+        'white-list=false',
+        'enforce-whitelist=false',
+        'enforce-secure-profile=true',
+        'enable-rcon=true',
+        'broadcast-rcon-to-ops=true',
+        'motd=Opaque and preserved',
+        'rcon.password=fixture-redacted',
+        '\uFEFF\\#Minecraft=server properties',
+        '',
+      ].join('\r\n');
+      await mkdir(configurationRoot, { recursive: true });
+      await mkdir(repositoryRoot);
+      await writeFile(filePath, original, 'utf8');
+      const resource = createReviewedConfigurationResource(
+        configurationRoot,
+        'minecraft-server-properties',
+      );
+      const configuration = new FilesystemConfigurationService({
+        repositoryRoot,
+        resources: [resource],
+        guard: new TrackingGuard(),
+        clock: () => NOW,
+      });
+
+      const read = await configuration.readConfiguration(resource.resourceId);
+      assert.deepEqual({ ...read.values }, {
+        'broadcast-rcon-to-ops': true,
+        'enable-rcon': true,
+        'enforce-secure-profile': true,
+        'enforce-whitelist': false,
+        'online-mode': false,
+        'white-list': false,
+      });
+      assert.equal(JSON.stringify(read).includes('fixture-redacted'), false);
+
+      const update = await configuration.applyConfiguration({
+        resourceId: resource.resourceId,
+        revisionId: 'server-security-update',
+        expectedCurrentSha256: digest(original),
+        reasonCode: 'security-review',
+        changes: { 'enable-rcon': false, 'online-mode': true },
+      });
+      const updated = await readFile(filePath, 'utf8');
+      assert.deepEqual(update.changedFields, ['enable-rcon', 'online-mode']);
+      assert.equal(update.restartRequired, true);
+      assert.equal(updated.includes('enable-rcon=false'), true);
+      assert.equal(updated.includes('online-mode=true'), true);
+      assert.equal(updated.includes('motd=Opaque and preserved'), true);
+      assert.equal(updated.includes('rcon.password=fixture-redacted'), true);
+      assert.equal(updated.includes('\uFEFF\\#Minecraft=server properties'), true);
+      assert.equal(updated.replaceAll('\r\n', '').includes('\n'), false);
+      assert.equal(
+        await readFile(
+          join(
+            repositoryRoot,
+            'revisions',
+            resource.resourceId,
+            'server-security-update',
+            'previous.properties',
+          ),
+          'utf8',
+        ),
+        original,
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
   it('refuses to read an unregistered resource', async () => {
     const root = await mkdtemp(join(tmpdir(), 'voidfall-configuration-read-denied-'));
     try {
@@ -1025,7 +1104,10 @@ describe('typed configuration reads and redaction policy', () => {
   });
 
   it('describes only the reviewed resource, without any path', () => {
-    assert.deepEqual(listReviewedConfigurationIds(), ['openloader-advanced-options']);
+    assert.deepEqual(listReviewedConfigurationIds(), [
+      'minecraft-server-properties',
+      'openloader-advanced-options',
+    ]);
 
     const descriptor = describeReviewedConfiguration('openloader-advanced-options', true);
     assert.equal(descriptor.codecId, 'openloader-advanced-options-v1');
@@ -1044,6 +1126,14 @@ describe('typed configuration reads and redaction policy', () => {
     assert.equal(serialized.includes('config/openloader'), false);
     assert.equal(serialized.includes('advanced_options.json'), false);
     assert.equal(serialized.includes('filePath'), false);
+
+    const security = describeReviewedConfiguration('minecraft-server-properties', true);
+    assert.equal(security.codecId, 'minecraft-server-properties-v1');
+    assert.deepEqual(
+      security.fields.map((field) => field.name),
+      Object.keys(MINECRAFT_SERVER_SCHEMA_V1.fields),
+    );
+    assert.equal(JSON.stringify(security).includes('server.properties'), false);
 
     assert.throws(() => describeReviewedConfiguration('server-basic', true));
   });

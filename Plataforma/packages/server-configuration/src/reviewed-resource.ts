@@ -6,6 +6,7 @@ import {
 } from '@voidfall/configuration-schemas';
 
 import {
+  MINECRAFT_SERVER_PROPERTIES_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1,
   ConfigurationOperationError,
   type BasicConfigurationField,
@@ -59,7 +60,10 @@ export function createReviewedConfigurationResource(
   } catch {
     throw new ConfigurationOperationError('invalid-definition', 'definition');
   }
-  if (reviewed.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1) {
+  if (
+    reviewed.codecId !== MINECRAFT_SERVER_PROPERTIES_V1 &&
+    reviewed.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1
+  ) {
     throw new ConfigurationOperationError('invalid-definition', 'definition');
   }
   const fields: Record<string, BasicConfigurationField> = {};

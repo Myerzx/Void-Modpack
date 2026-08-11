@@ -37,6 +37,20 @@ function document(dataPacks = true, resourcePacks = true): string {
   )}\n`;
 }
 
+function serverProperties(): string {
+  return [
+    '# Sanitized server properties',
+    'online-mode=false',
+    'white-list=false',
+    'enforce-whitelist=false',
+    'enforce-secure-profile=true',
+    'enable-rcon=true',
+    'broadcast-rcon-to-ops=true',
+    'rcon.password=fixture-redacted',
+    '',
+  ].join('\n');
+}
+
 function guardFor(context: Awaited<ReturnType<typeof fixture>>) {
   const adapter = {
     inspect: async () => ({
@@ -59,6 +73,7 @@ async function fixture(withConfiguration: boolean) {
   const serverRoot = join(root, 'server');
   await mkdir(join(serverRoot, 'config', 'openloader'), { recursive: true });
   if (withConfiguration) {
+    await writeFile(join(serverRoot, 'server.properties'), serverProperties(), 'utf8');
     await writeFile(
       join(serverRoot, 'config', 'openloader', 'advanced_options.json'),
       document(),
@@ -113,7 +128,10 @@ describe('local reviewed configuration bootstrap', () => {
       guard: guardFor(context),
     });
     assert.ok(runtime !== null);
-    assert.deepEqual(runtime.resourceIds, ['openloader-advanced-options']);
+    assert.deepEqual(runtime.resourceIds, [
+      'minecraft-server-properties',
+      'openloader-advanced-options',
+    ]);
     assert.equal(runtime.authorizedFiles.rootPath, context.instance.runDirectory);
     assert.ok(!runtime.authorizedFiles.revisionRoot.startsWith(context.instance.runDirectory!));
 
@@ -129,6 +147,20 @@ describe('local reviewed configuration bootstrap', () => {
     });
     assert.match(observed.currentSha256, /^[a-f0-9]{64}$/u);
 
+    const security = await readers.readConfiguration(
+      context.instance.id,
+      'minecraft-server-properties',
+    );
+    assert.deepEqual(security.values, {
+      'broadcast-rcon-to-ops': true,
+      'enable-rcon': true,
+      'enforce-secure-profile': true,
+      'enforce-whitelist': false,
+      'online-mode': false,
+      'white-list': false,
+    });
+    assert.equal(JSON.stringify(security).includes('fixture-redacted'), false);
+
     const replay = await provisionLocalConfiguration({
       instance: context.instance,
       repositories: context.repositories,
@@ -136,7 +168,10 @@ describe('local reviewed configuration bootstrap', () => {
       actorId: context.actor.id,
       guard: guardFor(context),
     });
-    assert.deepEqual(replay?.resourceIds, ['openloader-advanced-options']);
+    assert.deepEqual(replay?.resourceIds, [
+      'minecraft-server-properties',
+      'openloader-advanced-options',
+    ]);
   });
 
   it('keeps a missing reviewed file unregistered', async () => {

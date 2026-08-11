@@ -139,7 +139,7 @@ async function fixture(options: {
 }
 
 describe('configuration read endpoints', () => {
-  it('lists only the reviewed schema and never a filesystem path', async () => {
+  it('lists only reviewed schemas and never a filesystem path', async () => {
     const context = await fixture();
     const response = await context.app.inject({
       method: 'GET',
@@ -150,10 +150,17 @@ describe('configuration read endpoints', () => {
     assert.equal(response.statusCode, 200);
     const catalog = response.json();
     assert.equal(validateConfigurationSchemaCatalog(catalog).success, true);
-    assert.equal(catalog.schemas.length, 1);
-    assert.equal(catalog.schemas[0].resourceId, RESOURCE_ID);
-    assert.equal(catalog.schemas[0].registered, true);
-    assert.equal(catalog.schemas[0].codecId, 'openloader-advanced-options-v1');
+    assert.equal(catalog.schemas.length, 2);
+    const openLoader = catalog.schemas.find(
+      (schema: { resourceId: string }) => schema.resourceId === RESOURCE_ID,
+    );
+    const security = catalog.schemas.find(
+      (schema: { resourceId: string }) => schema.resourceId === 'minecraft-server-properties',
+    );
+    assert.equal(openLoader?.registered, true);
+    assert.equal(openLoader?.codecId, 'openloader-advanced-options-v1');
+    assert.equal(security?.registered, false);
+    assert.equal(security?.codecId, 'minecraft-server-properties-v1');
     assert.equal(response.body.includes('config/openloader'), false);
     assert.equal(response.body.includes('advanced_options.json'), false);
   });

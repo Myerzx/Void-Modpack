@@ -11,6 +11,7 @@ import {
 } from './properties.js';
 import {
   JAVA_PROPERTIES_V1,
+  MINECRAFT_SERVER_PROPERTIES_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1,
   ConfigurationOperationError,
   type ConfigurationResourceDefinition,
@@ -23,7 +24,7 @@ interface ParsedOpenLoaderDocument {
 }
 
 interface ParsedJavaPropertiesDocument {
-  readonly format: typeof JAVA_PROPERTIES_V1;
+  readonly format: typeof JAVA_PROPERTIES_V1 | typeof MINECRAFT_SERVER_PROPERTIES_V1;
   readonly document: ParsedPropertiesDocument;
   readonly values: Readonly<Record<string, ConfigurationValue>>;
 }
@@ -53,15 +54,19 @@ function codecFailure(error: unknown): never {
 function openLoaderCodec(resource: ConfigurationResourceDefinition) {
   try {
     const codec = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(resource.resourceId);
+    const parse = codec.parse;
+    const serialize = codec.serialize;
     if (
       codec.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1 ||
       codec.schema.schemaId !== resource.schemaId ||
       codec.schema.schemaVersion !== resource.schemaVersion ||
-      codec.schemaSha256 !== resource.schemaSha256
+      codec.schemaSha256 !== resource.schemaSha256 ||
+      parse === undefined ||
+      serialize === undefined
     ) {
       throw new Error('reviewed codec mismatch');
     }
-    return codec;
+    return { parse, serialize };
   } catch {
     throw new ConfigurationOperationError('schema-mismatch', 'preflight');
   }
@@ -71,9 +76,15 @@ export function parseConfigurationDocument(
   content: Uint8Array,
   resource: ConfigurationResourceDefinition,
 ): ParsedConfigurationDocument {
-  if (resource.format === JAVA_PROPERTIES_V1) {
-    const document = parsePropertiesDocument(content, resource);
-    return Object.freeze({ format: JAVA_PROPERTIES_V1, document, values: document.values });
+  if (
+    resource.format === JAVA_PROPERTIES_V1 ||
+    resource.format === MINECRAFT_SERVER_PROPERTIES_V1
+  ) {
+    const document = parsePropertiesDocument(content, resource, {
+      preserveUnreviewedProperties:
+        resource.format === MINECRAFT_SERVER_PROPERTIES_V1,
+    });
+    return Object.freeze({ format: resource.format, document, values: document.values });
   }
   const codec = openLoaderCodec(resource);
   let serialized: string;
@@ -97,8 +108,11 @@ export function mutateConfigurationDocument(
   resource: ConfigurationResourceDefinition,
   changes: Readonly<Record<string, ConfigurationValue>>,
 ): ConfigurationDocumentMutation {
-  if (document.format === JAVA_PROPERTIES_V1) {
-    if (resource.format !== JAVA_PROPERTIES_V1) {
+  if (
+    document.format === JAVA_PROPERTIES_V1 ||
+    document.format === MINECRAFT_SERVER_PROPERTIES_V1
+  ) {
+    if (resource.format !== document.format) {
       throw new ConfigurationOperationError('schema-mismatch', 'preflight');
     }
     return mutatePropertiesDocument(document.document, resource, changes);
@@ -140,7 +154,11 @@ export function diffConfigurationDocuments(
   if (current.format !== restored.format || current.format !== resource.format) {
     throw new ConfigurationOperationError('schema-mismatch', 'preflight');
   }
-  if (current.format === JAVA_PROPERTIES_V1 && restored.format === JAVA_PROPERTIES_V1) {
+  if (
+    (current.format === JAVA_PROPERTIES_V1 ||
+      current.format === MINECRAFT_SERVER_PROPERTIES_V1) &&
+    restored.format === current.format
+  ) {
     return diffPropertiesDocuments(current.document, restored.document, resource);
   }
   const changed = Object.keys(resource.fields)
@@ -153,5 +171,7 @@ export function diffConfigurationDocuments(
 }
 
 export function revisionPayloadFileName(resource: ConfigurationResourceDefinition): string {
-  return resource.format === JAVA_PROPERTIES_V1 ? 'previous.properties' : 'previous.json';
+  return resource.format === OPENLOADER_ADVANCED_OPTIONS_V1
+    ? 'previous.json'
+    : 'previous.properties';
 }

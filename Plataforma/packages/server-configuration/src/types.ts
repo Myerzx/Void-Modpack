@@ -2,11 +2,14 @@ export const VOIDFALL_CONFIGURATION_REVISION_FORMAT =
   'voidfall-configuration-revision' as const;
 export const VOIDFALL_CONFIGURATION_REVISION_SCHEMA_VERSION = 2 as const;
 export const JAVA_PROPERTIES_V1 = 'java-properties-v1' as const;
+export const MINECRAFT_SERVER_PROPERTIES_V1 =
+  'minecraft-server-properties-v1' as const;
 export const OPENLOADER_ADVANCED_OPTIONS_V1 =
   'openloader-advanced-options-v1' as const;
 
 export type ConfigurationFormat =
   | typeof JAVA_PROPERTIES_V1
+  | typeof MINECRAFT_SERVER_PROPERTIES_V1
   | typeof OPENLOADER_ADVANCED_OPTIONS_V1;
 
 export type ConfigurationValue = string | number | boolean;

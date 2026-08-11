@@ -4,6 +4,7 @@ import { VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY } from '@voidfall/configuration
 
 import {
   JAVA_PROPERTIES_V1,
+  MINECRAFT_SERVER_PROPERTIES_V1,
   OPENLOADER_ADVANCED_OPTIONS_V1,
   type ApplyConfigurationPlan,
   type BasicConfigurationField,
@@ -204,8 +205,11 @@ export function freezeResourceDefinition(
     !isAbsolute(input.filePath) ||
     input.filePath.includes('\u0000') ||
     (input.format !== JAVA_PROPERTIES_V1 &&
+      input.format !== MINECRAFT_SERVER_PROPERTIES_V1 &&
       input.format !== OPENLOADER_ADVANCED_OPTIONS_V1) ||
     (input.format === JAVA_PROPERTIES_V1 &&
+      !input.filePath.toLowerCase().endsWith('.properties')) ||
+    (input.format === MINECRAFT_SERVER_PROPERTIES_V1 &&
       !input.filePath.toLowerCase().endsWith('.properties')) ||
     (input.format === OPENLOADER_ADVANCED_OPTIONS_V1 &&
       !input.filePath.toLowerCase().endsWith('.json')) ||
@@ -231,7 +235,7 @@ export function freezeResourceDefinition(
     caseFolded.add(folded);
     fields[name] = freezeField(field as unknown as BasicConfigurationField);
   }
-  if (input.format === OPENLOADER_ADVANCED_OPTIONS_V1) {
+  if (input.format !== JAVA_PROPERTIES_V1) {
     let reviewed;
     try {
       reviewed = VOIDFALL_TRUSTED_CONFIGURATION_REGISTRY.require(input.resourceId);
@@ -244,7 +248,7 @@ export function freezeResourceDefinition(
     const reviewedFields = Object.keys(reviewed.schema.fields).sort();
     const actualFields = Object.keys(fields).sort();
     if (
-      reviewed.codecId !== OPENLOADER_ADVANCED_OPTIONS_V1 ||
+      reviewed.codecId !== input.format ||
       input.schemaId !== reviewed.schema.schemaId ||
       input.schemaVersion !== reviewed.schema.schemaVersion ||
       input.schemaSha256 !== reviewed.schemaSha256 ||
