@@ -11,8 +11,14 @@
 - Primeiro schema específico: `openloader_advanced_options_v1`, aceito no ADR-008 e restrito a `config/openloader/advanced_options.json`
 - Planejamento das fases finais: consolidado em `FINAL_IMPLEMENTATION_PLAN.md`, com Fases 7–13, gates, fatias verticais, arquivos-alvo, comandos de validação e critérios de conclusão
 - Ecossistema de mods: documentado em `PHASE_19_ECOSYSTEM_ANALYSIS.md`; snapshot real persistido pelo analyzer 1.3.0 para o inventário atual, sem copiar conteúdo privado para o repositório
+- Desktop Windows: ADR-019 aceito e primeiro spike Electron executável; janela e backend local funcionam no checkout, mas instalador, assinatura e distribuição ainda não existem
 
 ## Implementado
+
+- `@voidfall/desktop` com renderer sandboxed, sem Node/preload, popups recusados e navegação restrita à origem loopback exata;
+- bootstrap desktop da Control API com estado absoluto no AppData, porta efêmera e sessão protegida por token aleatório por processo;
+- utility process separado para PGlite, migrations, API e `LocalAgentFleet`, com readiness validada e encerramento sem órfãos;
+- Next.js 16.3.0 e auditoria npm sem vulnerabilidades conhecidas no momento da validação;
 
 - `@voidfall/ecosystem-analysis` com modelo genérico de mods, versões, sistemas, configurações, datapacks, recursos, registries, relações e evidências;
 - migration `0026_ecosystem_analysis.sql` e repositório de snapshots imutáveis por workspace, hash do inventário e versão do analisador;
@@ -308,6 +314,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Validação
 
+- spike desktop validado em 2026-08-10: `npm run check` passou com código 0 em 394,7 segundos no estado final; typecheck/build do desktop, 2 testes do protocolo e 5 testes da sessão passaram; Electron abriu uma janela responsiva, utility process e renderer reais, health respondeu HTTP 200, token incorreto respondeu 403 e fechar a janela removeu todos os processos, a porta e o lock. `npm audit` ficou em zero após Next.js 16.3.0. O controle visual automatizado do Windows estava indisponível, então a janela foi comprovada por título/processos/runtime; o painel já possuía inspeção visual desktop separada;
 - composição operacional da ordem efetiva validada localmente em 2026-08-10: 16 testes de `@voidfall/ecosystem-analysis`, 109 de contratos, 6 de permissões, 62 do banco, 181 da Control API e 115 do Server Agent passaram; typecheck e build direcionados concluíram. A prova E2E atravessa `POST`, job, transporte assinado, lease, supervisor e handler reais até a observação/auditoria persistidas e comprova replay sem segunda leitura. O corpus NBT sintético cobre os 12 tipos padrão, gzip/hash, modified UTF-8, budgets, tipos/chaves/IDs inválidos, path literal, recusa de link e mapeamento OpenLoader fail-closed. Nenhum runtime privado, JAR privado ou `level.dat` real foi lido;
 - fronteira de evidência de ordem efetiva validada localmente em 2026-08-10: 8 testes de `@voidfall/ecosystem-analysis`, typecheck e build direcionados passaram; as regressões cobrem ordem nas duas direções, inventário antigo, participante ausente, hash divergente, payload extensível e paths inseguros. O runtime privado não foi lido e a ordem das seis colisões reais continua não observada;
 - quarta fatia das Fases 19–20 validada localmente em 2026-08-10: 7 testes de `@voidfall/ecosystem-analysis`, 17 da Workspace API e 60 do painel passaram; builds da Control API e das 17 páginas estáticas do painel concluíram, o typecheck do painel passou e `git diff --check` ficou limpo. Não houve leitura do runtime privado nem smoke real de navegador neste recorte;
@@ -416,6 +423,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Riscos não resolvidos
 
+- o desktop ainda roda a partir do checkout: não há bundle de recursos, instalador, assinatura, atualização, rollback, teste em Windows limpo nem prova de que PGlite/WASM e migrations funcionam fora do monorepo;
 - a captura operacional possui produtor tipado, RBAC, reader de filesystem, capability, handler, readiness, idempotência e auditoria, mas ainda não há tela/status no painel nem grant automático da capability; o corpus sintético não observa a prioridade do mundo privado atual, e todos os conflitos continuam bloqueados para edição;
 - a nova rota é uma projeção por mod, limitada a 3 saltos, 250 nós e 500 arestas; não oferece consulta arbitrária, travessia global nem GraphQL, e filtros de tipo podem cortar caminhos intermediários por definição;
 - referências declaradas a entidades ausentes permanecem explícitas, mas não são resolvidas contra repositórios externos; presença fora do inventário atual continua desconhecida;
@@ -486,7 +494,9 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Próximo recorte recomendado
 
-Fechar um ensaio end-to-end inteiramente sintético do `POST` autenticado → job → lease outbound → handler do Server Agent → observação/projeção/auditoria persistidas, usando somente diretório temporário e o corpus NBT versionado. Depois, expor apenas status/leitura da última observação no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
+Criar um pacote Windows não assinado somente para QA e executá-lo fora do checkout, com layout explícito da Control API compilada, painel exportado, migrations, PGlite/WASM e dependências. O smoke deve cobrir primeira abertura, segunda instância, sessão, encerramento e persistência após reabrir. Não habilitar auto-update, assinatura ou distribuição pública nessa fatia.
+
+Depois, expor apenas status/leitura da última observação de datapacks no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
 
 Em paralelo futuro, expandir o registry revisado para `mmorpg_value_calc`, spells e stats somente quando existir corpus revisável versionado, limites e defaults próprios.
 

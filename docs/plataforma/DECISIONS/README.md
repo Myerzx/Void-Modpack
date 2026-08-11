@@ -21,3 +21,4 @@ ADRs aceitos não são editados para trocar silenciosamente uma decisão. Corre�
 - [ADR-016 — O painel é o gerenciador completo do servidor](ADR-016-painel-como-gerenciador-completo.md)
 - [ADR-017 — Schemas revisados para recursos de datapack](ADR-017-schemas-revisados-de-recursos-datapack.md)
 - [ADR-018 — Evidência de ordem efetiva de datapacks](ADR-018-evidencia-de-ordem-efetiva-de-datapacks.md)
+- [ADR-019 — Aplicativo desktop Windows com Electron](ADR-019-aplicativo-desktop-electron.md)

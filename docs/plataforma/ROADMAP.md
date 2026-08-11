@@ -89,6 +89,7 @@ Percentuais calculados pelos itens explícitos de cada fase; não representam es
 | 13 — produção e certificação | 0% | planejada; deploy e aceite ainda não iniciados |
 | 19 — grafo de conhecimento | 65% | modelo, proveniência, persistência, configs, OpenLoader, evidências Java e travessia REST/painel limitada ligados; cobertura universal de entidades ainda pendente |
 | 20 — análise automática | 50% | pipeline genérico e bytecode estático limitado validados no Mine and Slash real; novos formatos, defaults dinâmicos e revisão universal ainda pendentes |
+| desktop Windows | 25% | spike Electron executável no checkout; empacotamento, assinatura, atualização e smoke em máquina limpa pendentes |
 
 ## Fase 4 — mods, arquivos e schemas
 
@@ -167,6 +168,12 @@ A fronteira de ordem efetiva agora inclui contrato, captura offline guardada, pe
 O [ADR-016](DECISIONS/ADR-016-painel-como-gerenciador-completo.md) registra que o painel é o **gerenciador completo do servidor**, e que o ADR-014 descrevia ordem de construção e não fronteira do produto. O release encerra a frente do ADR-015, não o painel.
 
 Em paralelo às fases acima, e sem interrompê-las, corre a **frente de integração do painel** ([ADR-015](DECISIONS/ADR-015-frente-de-integracao-do-painel.md)): cada capacidade madura é exposta na interface quando houver tela útil para ela, em vez de acumular integração para o final. Ela também serve de validação — uma capacidade tecnicamente correta que fique impraticável pelo painel muda de contrato antes de a decisão endurecer. Como subir o painel está em [PAINEL_LOCAL.md](PAINEL_LOCAL.md).
+
+### Frente desktop Windows
+
+O [ADR-019](DECISIONS/ADR-019-aplicativo-desktop-electron.md) escolhe Electron para a primeira aplicação desktop e preserva a Control API como única fronteira privilegiada. O [primeiro spike](PHASE_DESKTOP_SHELL.md) já abre o painel, compõe PGlite/agente em utility process, usa estado no AppData e encerra sem órfãos. Mobile permanece fora do escopo.
+
+O próximo gate é empacotamento de QA fora do checkout: recursos compilados explícitos, PGlite/WASM, painel, migrations e dependências devem funcionar em uma máquina Windows limpa. Instalador assinado, auto-update e distribuição continuam bloqueados até esse smoke.
 
 O escopo executável, dependências e definição de pronto de cada uma estão no [plano final](FINAL_IMPLEMENTATION_PLAN.md). Nenhuma fase nova reabre ou reduz os gates P0/P1 existentes.
 

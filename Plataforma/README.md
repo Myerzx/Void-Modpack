@@ -20,6 +20,7 @@ Esta pasta é a raiz implementada do painel, das APIs, do agente, do worker, do 
 - `apps/launcher-api`: leitura pública de canais, manifestos e artifacts assinados;
 - `apps/server-agent`: cliente outbound-only de registro e heartbeat Ed25519;
 - `apps/panel-web`: dashboard responsivo somente leitura, exportado como site estático;
+- `apps/desktop`: shell Electron desktop-only, com renderer isolado e Control API/PGlite/agente em utility process;
 - `packages/contracts`, `authentication`, `permissions` e `database`: fundação compartilhada;
 - `packages/mod-catalog`: reconciliação determinística de snapshots sanitizados com o catálogo revisado, sem filesystem ou rede;
 - `packages/modpack-release`: build reproduzível, sanitização, Ed25519, artifacts imutáveis, promoção CAS e rollback;
@@ -52,3 +53,14 @@ npm audit --omit=dev
 O relatório da Fase 2 está em [`docs/plataforma/PHASE_2_VALIDATION.md`](../docs/plataforma/PHASE_2_VALIDATION.md). Detalhes de integração, confiança e evolução estão em [`docs/plataforma/CONTRACTS.md`](../docs/plataforma/CONTRACTS.md).
 
 Comece pela [documentação da plataforma](../docs/plataforma/README.md). Para continuar a implementação pelo terminal, siga o [plano das fases finais](../docs/plataforma/FINAL_IMPLEMENTATION_PLAN.md).
+
+## Aplicativo desktop em desenvolvimento
+
+O primeiro spike Windows pode ser aberto diretamente a partir do monorepo:
+
+```powershell
+cd Plataforma
+npm run desktop
+```
+
+O comando compila a stack necessária e abre o painel em uma janela nativa. O estado fica fora do Git em `%LOCALAPPDATA%\VoidFall\runtime-development`. Ainda não existe instalador distribuível; consulte [Aplicativo desktop — primeiro spike executável](../docs/plataforma/PHASE_DESKTOP_SHELL.md).

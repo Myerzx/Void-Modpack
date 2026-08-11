@@ -2,6 +2,28 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-10 — primeiro shell desktop Windows
+
+### Adicionado
+
+- `@voidfall/desktop` com Electron 43, janela de 1440 × 900 e mínimo de 1100 × 700;
+- Control API/PGlite/agente em utility process separado, porta efêmera e estado em `%LOCALAPPDATA%\VoidFall`;
+- renderer sandboxed sem Node/preload/IPC privilegiado e navegação limitada à origem loopback exata;
+- sessão desktop com token forte por processo, sem expor a credencial pelo redirect raiz;
+- lock de instância, readiness tipada e encerramento conjunto da janela e backend;
+- ADR-019 e runbook do spike desktop-only.
+
+### Validado
+
+- janela Electron real, health HTTP 200, token incorreto HTTP 403 e encerramento sem processos/porta órfãos;
+- testes e builds específicos do desktop e da sessão;
+- `npm run check` integral com código 0 em 394,7 segundos no estado final;
+- Next.js atualizado para 16.3.0, encerrando os três alertas altos reportados pelo `npm audit`.
+
+### Não habilitado
+
+Instalador, assinatura, auto-update, mobile, serviço do Windows, tray persistente ou distribuição pública.
+
 ## 2026-08-10 — ordem efetiva de datapacks no Server Agent e Control API
 
 ### Adicionado
