@@ -200,72 +200,87 @@ export default function ServerPage() {
       title="Servidor"
       subtitle="Estado observado, operações duráveis e controles auditados."
       steps={serverSteps('server')}
+      actions={
+        selector.screen.showsContent ? (
+          <label className="compact-select server-instance-select">
+            <span>Instância ativa</span>
+            <select value={selector.selectedId ?? ''} onChange={(event) => select(event.target.value)}>
+              {selector.options.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label} — {option.environment} — {option.runtimeLabel}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : undefined
+      }
     >
-
-      <section aria-label="Instância">
-        {selector.screen.showsContent ? (
-          <select value={selector.selectedId ?? ''} onChange={(event) => select(event.target.value)}>
-            {selector.options.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.label} — {option.environment} — {option.runtimeLabel}
-              </option>
-            ))}
-          </select>
-        ) : (
+      {selector.screen.showsContent ? (
+        <p className="subtle server-provenance">{selector.provenance.label}</p>
+      ) : (
+        <section className="card" aria-label="Instância">
           <p>
             <strong>{selector.screen.title}</strong> {selector.screen.detail}
           </p>
-        )}
-        <small>{selector.provenance.label}</small>
-      </section>
+        </section>
+      )}
 
-      <section aria-label="Painel da instância">
+      <section className="server-dashboard" aria-label="Painel da instância">
         {dashboard?.screen.showsContent === true ? (
           <>
-            <ul>
+            <div className="stat-strip server-stat-strip">
               {dashboard.tiles.map((tile) => (
-                <li key={tile.id}>
-                  <strong>{tile.label}:</strong> {tile.value}
+                <article key={tile.id}>
+                  <span className="stat-label">{tile.label}</span>
+                  <strong className="stat-value">{tile.value}</strong>
                   <small>
                     {tile.provenance.label}
                     {tile.provenance.observedAt === null ? '' : ` · ${tile.provenance.observedAt}`}
                   </small>
-                </li>
+                </article>
               ))}
-            </ul>
-            <p>
+            </div>
+            <p className="banner banner-neutral">
               Ainda como fixture de demonstração: {dashboard.fixtureAreas.join(', ')}.
             </p>
           </>
         ) : (
-          <p>
+          <p className="card">
             <strong>{dashboard?.screen.title}</strong> {dashboard?.screen.detail}
           </p>
         )}
       </section>
 
-      <section aria-label="Operações">
+      <section className="card server-operations" aria-label="Operações">
+        <header className="card-head">
+          <div>
+            <h2>Operações recentes</h2>
+            <p className="subtle">Recibos e correlações persistidos pela Control API.</p>
+          </div>
+        </header>
         {operationsView?.screen.showsContent === true ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Estado</th>
-                <th>Recibo</th>
-                <th>Correlação</th>
-              </tr>
-            </thead>
-            <tbody>
-              {operationsView.rows.map((row) => (
-                <tr key={row.operationId}>
-                  <td>{row.kind}</td>
-                  <td>{row.status}</td>
-                  <td>{row.receiptOutcome ?? '—'}</td>
-                  <td>{row.correlationId.slice(0, 8)}</td>
+          <div className="table-scroll">
+            <table className="table operational-table">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Estado</th>
+                  <th>Recibo</th>
+                  <th>Correlação</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {operationsView.rows.map((row) => (
+                  <tr key={row.operationId}>
+                    <td><strong>{row.kind}</strong></td>
+                    <td><span className="tag">{row.status}</span></td>
+                    <td>{row.receiptOutcome ?? '—'}</td>
+                    <td><code>{row.correlationId.slice(0, 8)}</code></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p>
             <strong>{operationsView?.screen.title}</strong> {operationsView?.screen.detail}
@@ -275,24 +290,32 @@ export default function ServerPage() {
 
       {/* Rendered from the shared policy: an action without permission is not
           rendered at all, and one whose phase has not landed stays disabled. */}
-      <section aria-label="Ações de processo">
+      <section className="card server-controls" aria-label="Ações de processo">
+        <header className="card-head">
+          <div>
+            <h2>Controle do processo</h2>
+            <p className="subtle">Cada ação cria uma operação idempotente, autorizada e auditada.</p>
+          </div>
+        </header>
         {controlFailure === null ? null : <p className="banner banner-danger">{controlFailure}</p>}
-        {DANGEROUS.map((id) => actionView(session, id))
-          .filter((action) => action.visible)
-          .map((action) => (
-            <button
-              key={action.id}
-              className="primary"
-              type="button"
-              disabled={!action.enabled || controlBusy !== null || activeId === null}
-              title={action.reason}
-              onClick={() => void control(action.id)}
-            >
-              {controlBusy === action.id
-                ? 'Enviando…'
-                : (CONTROL_LABELS[action.id]?.label ?? action.id)}
-            </button>
-          ))}
+        <div className="inline-actions">
+          {DANGEROUS.map((id) => actionView(session, id))
+            .filter((action) => action.visible)
+            .map((action, index) => (
+              <button
+                key={action.id}
+                className={index === 0 ? 'primary' : 'secondary'}
+                type="button"
+                disabled={!action.enabled || controlBusy !== null || activeId === null}
+                title={action.reason}
+                onClick={() => void control(action.id)}
+              >
+                {controlBusy === action.id
+                  ? 'Enviando…'
+                  : (CONTROL_LABELS[action.id]?.label ?? action.id)}
+              </button>
+            ))}
+        </div>
       </section>
     </PanelShell>
   );

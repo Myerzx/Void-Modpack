@@ -88,21 +88,26 @@ export default function AuditPage() {
   if (signedOut) {
     return (
       <PanelShell title="Auditoria" category="audit" steps={[]}>
-      <main className="card">
-        <p>Sua sessão terminou. Entre novamente para continuar.</p>
-      </main>
+        <section className="card">
+          <p>Sua sessão terminou. Entre novamente para continuar.</p>
+        </section>
       </PanelShell>
     );
   }
-  if (view === undefined) return <PanelShell title="Auditoria" category="audit" steps={[]}><main className="card"><p>Carregando…</p></main></PanelShell>;
+  if (view === undefined) return <PanelShell title="Auditoria" category="audit" steps={[]}><section className="card"><p>Carregando…</p></section></PanelShell>;
 
   return (
     <PanelShell title="Auditoria" category="audit" steps={[]} subtitle="Histórico rastreável das ações executadas pelo painel e pelos agentes.">
-    <main className="card audit-page">
-      <h1>Auditoria</h1>
-
-      <section aria-label="Filtros">
-        <input
+    <section className="card audit-page">
+      <header className="card-head audit-head">
+        <div>
+          <h2>Eventos auditados</h2>
+          <p className="subtle">Filtre pela correlação para acompanhar uma operação ponta a ponta.</p>
+        </div>
+        <label className="field audit-filter" aria-label="Filtros">
+          <span>Correlação</span>
+          <input
+            className="filter"
           type="search"
           placeholder="Filtrar por correlação"
           value={correlationId}
@@ -111,56 +116,63 @@ export default function AuditPage() {
             setCorrelationId(event.target.value);
           }}
         />
-      </section>
+        </label>
+      </header>
 
       {view.screen.showsContent ? (
         <>
-          <table>
-            <thead>
-              <tr>
-                <th>Quando</th>
-                <th>Ação</th>
-                <th>Resultado</th>
-                <th>Ator</th>
-                <th>Correlação</th>
-              </tr>
-            </thead>
-            <tbody>
-              {view.rows.map((row) => (
-                <tr key={row.id}>
-                  <td>{row.occurredAt}</td>
-                  <td>{row.action}</td>
-                  <td>{row.outcome}</td>
-                  <td>{row.actorLabel}</td>
-                  <td>{row.correlationId.slice(0, 8)}</td>
+          <div className="table-scroll">
+            <table className="table audit-table">
+              <thead>
+                <tr>
+                  <th>Quando</th>
+                  <th>Ação</th>
+                  <th>Resultado</th>
+                  <th>Ator</th>
+                  <th>Correlação</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <p>
-            {view.offset + view.rows.length} de {view.total}
-          </p>
-          <button
-            type="button"
-            disabled={view.offset === 0}
-            onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
-          >
-            Anterior
-          </button>
-          <button
-            type="button"
-            disabled={view.offset + view.rows.length >= view.total}
-            onClick={() => setOffset(offset + PAGE_SIZE)}
-          >
-            Próxima
-          </button>
+              </thead>
+              <tbody>
+                {view.rows.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.occurredAt}</td>
+                    <td><strong>{row.action}</strong></td>
+                    <td><span className="tag">{row.outcome}</span></td>
+                    <td>{row.actorLabel}</td>
+                    <td><code>{row.correlationId.slice(0, 8)}</code></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <footer className="pagination-bar">
+            <span>{view.offset + view.rows.length} de {view.total}</span>
+            <div className="inline-actions">
+              <button
+                className="secondary"
+                type="button"
+                disabled={view.offset === 0}
+                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
+              >
+                Anterior
+              </button>
+              <button
+                className="secondary"
+                type="button"
+                disabled={view.offset + view.rows.length >= view.total}
+                onClick={() => setOffset(offset + PAGE_SIZE)}
+              >
+                Próxima
+              </button>
+            </div>
+          </footer>
         </>
       ) : (
         <p>
           <strong>{view.screen.title}</strong> {view.screen.detail}
         </p>
       )}
-    </main>
+    </section>
     </PanelShell>
   );
 }

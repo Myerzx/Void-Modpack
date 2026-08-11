@@ -1,6 +1,19 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import {
+  Archive,
+  Blocks,
+  ClipboardList,
+  DatabaseBackup,
+  FolderTree,
+  LayoutDashboard,
+  ScrollText,
+  Server,
+  ShieldCheck,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 
 /**
  * The frame every workspace screen sits in.
@@ -34,16 +47,19 @@ export type ShellCategory =
   | 'logs'
   | 'audit';
 
-const CATEGORIES: readonly (ShellStep & { readonly id: ShellCategory })[] = [
-  { id: 'overview', label: 'Visão geral', href: '/' },
-  { id: 'server', label: 'Servidor', href: '/servidor' },
-  { id: 'mods', label: 'Mods', href: '/mods' },
-  { id: 'datapacks', label: 'Datapacks', href: '/datapacks' },
-  { id: 'players', label: 'Jogadores', href: null, pending: true },
-  { id: 'files', label: 'Arquivos', href: '/workspaces' },
-  { id: 'backups', label: 'Backups', href: null, pending: true },
-  { id: 'logs', label: 'Logs', href: '/servidor/console' },
-  { id: 'audit', label: 'Auditoria', href: '/auditoria' },
+const CATEGORIES: readonly (ShellStep & {
+  readonly id: ShellCategory;
+  readonly icon: LucideIcon;
+})[] = [
+  { id: 'overview', label: 'Visão geral', href: '/', icon: LayoutDashboard },
+  { id: 'server', label: 'Servidor', href: '/servidor', icon: Server },
+  { id: 'mods', label: 'Mods', href: '/mods', icon: Blocks },
+  { id: 'datapacks', label: 'Datapacks', href: '/datapacks', icon: Archive },
+  { id: 'players', label: 'Jogadores', href: null, pending: true, icon: Users },
+  { id: 'files', label: 'Arquivos', href: '/workspaces', icon: FolderTree },
+  { id: 'backups', label: 'Backups', href: null, pending: true, icon: DatabaseBackup },
+  { id: 'logs', label: 'Logs', href: '/servidor/console', icon: ScrollText },
+  { id: 'audit', label: 'Auditoria', href: '/auditoria', icon: ClipboardList },
 ];
 
 export function stepsFor(workspaceId: string | null, active: string): readonly ShellStep[] {
@@ -137,24 +153,33 @@ export function PanelShell(props: {
 
         <nav className="shell-nav" aria-label="Navegação principal">
           {CATEGORIES.map((step) => {
+            const Icon = step.icon;
             const className = `shell-link${step.active === true ? ' is-active' : ''}${
               step.href === null ? ' is-disabled' : ''
             }${step.id === props.category ? ' is-active' : ''}`;
             return step.href === null ? (
-              <span key={step.label} className={className}>
-                {step.label}
+              <span key={step.label} className={className} title={step.label}>
+                <Icon className="shell-link-icon" aria-hidden="true" size={16} />
+                <span className="shell-link-copy">{step.label}</span>
                 {step.pending === true ? <em>em breve</em> : null}
               </span>
             ) : (
-              <a key={step.label} className={className} href={step.href}>
-                {step.label}
+              <a
+                key={step.label}
+                className={className}
+                href={step.href}
+                title={step.label}
+                aria-current={step.id === props.category ? 'page' : undefined}
+              >
+                <Icon className="shell-link-icon" aria-hidden="true" size={16} />
+                <span className="shell-link-copy">{step.label}</span>
               </a>
             );
           })}
         </nav>
 
         <footer className="shell-foot">
-          <p>Ambiente local</p>
+          <p><ShieldCheck aria-hidden="true" size={14} /> Ambiente local</p>
           <p className="subtle">
             Operações autorizadas passam pela Control API e ficam auditadas.
           </p>

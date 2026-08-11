@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { PanelShell, serverSteps } from '../components/shell';
 import {
   createConfigurationClient,
   ConfigurationApiError,
@@ -228,66 +229,56 @@ export default function ConfigurationPage() {
 
   if (screen.kind === 'loading') {
     return (
-      <main className="content" aria-busy="true">
-        <p>Carregando configurações autorizadas…</p>
-      </main>
+      <PanelShell title="Configurações" category="server" steps={serverSteps('settings')}>
+        <section className="card" aria-busy="true">
+          <p className="muted">Carregando configurações autorizadas…</p>
+        </section>
+      </PanelShell>
     );
   }
 
   if (screen.kind !== 'ready') {
     return (
-      <main className="content">
-        <section className="panel" role={screen.kind === 'error' ? 'alert' : undefined}>
-          <h1>Configurações</h1>
+      <PanelShell title="Configurações" category="server" steps={serverSteps('settings')}>
+        <section className="card" role={screen.kind === 'error' ? 'alert' : undefined}>
+          <h2>Configuração indisponível</h2>
           <p>{screen.message}</p>
           {screen.kind === 'conflict' ? (
-            <button type="button" onClick={() => void refresh()}>
+            <button className="secondary" type="button" onClick={() => void refresh()}>
               Recarregar
             </button>
           ) : null}
         </section>
-      </main>
+      </PanelShell>
     );
   }
 
   const readOnly = !screen.capabilities.canApply || screen.busyNotice !== null;
 
   return (
-    <main className="content">
-      <div className="page-heading">
-        <div>
-          <span className="eyebrow">Operação / Configurações</span>
-          <h1>OpenLoader — opções avançadas</h1>
-          <p>
-            Schema revisado {screen.schema.definitionVersion} · modo {screen.schema.applyMode}
-          </p>
-        </div>
-      </div>
+    <PanelShell
+      title="Configurações"
+      category="server"
+      steps={serverSteps('settings')}
+      subtitle={<>OpenLoader — opções avançadas · schema {screen.schema.definitionVersion} · modo {screen.schema.applyMode}</>}
+    >
 
       {screen.restartNotice === null ? null : (
-        <section className="panel-note">
-          <p>{screen.restartNotice}</p>
-        </section>
+        <p className="banner banner-warning">{screen.restartNotice}</p>
       )}
       {screen.valuesNotice === null ? null : (
-        <section className="panel-note">
-          <p>{screen.valuesNotice}</p>
-        </section>
+        <p className="banner banner-neutral">{screen.valuesNotice}</p>
       )}
       {screen.busyNotice === null ? null : (
-        <section className="panel-note" role="status">
-          <p>{screen.busyNotice}</p>
-        </section>
+        <p className="banner banner-warning" role="status">{screen.busyNotice}</p>
       )}
       {notice === null ? null : (
-        <section className="panel-note" role="status">
-          <p>{notice}</p>
-        </section>
+        <p className="banner banner-neutral" role="status">{notice}</p>
       )}
 
-      <section className="panel" aria-label="Valores atuais">
+      <section className="card" aria-label="Valores atuais">
         <h2>Valores atuais</h2>
-        <dl className="server-facts">
+        <dl className="server-facts configuration-facts">
           {screen.state.values.map((value) => (
             <div key={value.name}>
               <dt>{value.name}</dt>
@@ -295,40 +286,42 @@ export default function ConfigurationPage() {
             </div>
           ))}
         </dl>
-        <p>
+        <p className="subtle">
           Revisão aplicada: {screen.state.lastAppliedRevisionId ?? 'nenhuma'} · estado{' '}
           {screen.state.status}
         </p>
       </section>
 
       {screen.editableFields.length === 0 ? null : (
-        <section className="panel" aria-label="Editar configuração">
+        <section className="card" aria-label="Editar configuração">
           <h2>Alterar</h2>
-          {screen.editableFields.map((field) =>
-            field.type === 'boolean' ? (
-              <label key={field.name}>
-                <input
-                  type="checkbox"
-                  checked={draft[field.name] === true}
-                  disabled={readOnly || pending}
-                  onChange={(event) =>
-                    setDraft((current) => ({ ...current, [field.name]: event.target.checked }))
-                  }
-                />
-                <span>
-                  {field.name}
-                  {field.restartRequired ? ' · exige reinício' : ''}
-                </span>
-              </label>
-            ) : null,
-          )}
+          <div className="configuration-toggle-list">
+            {screen.editableFields.map((field) =>
+              field.type === 'boolean' ? (
+                <label className="configuration-toggle" key={field.name}>
+                  <span>
+                    <strong>{field.name}</strong>
+                    <small>{field.restartRequired ? 'Exige reinício' : 'Aplicação sem reinício'}</small>
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={draft[field.name] === true}
+                    disabled={readOnly || pending}
+                    onChange={(event) =>
+                      setDraft((current) => ({ ...current, [field.name]: event.target.checked }))
+                    }
+                  />
+                </label>
+              ) : null,
+            )}
+          </div>
         </section>
       )}
 
       {diff === undefined || !diff.hasChanges ? null : (
-        <section className="panel" aria-label="Alterações pendentes">
+        <section className="card" aria-label="Alterações pendentes">
           <h2>Diferenças</h2>
-          <ul>
+          <ul className="plain-list">
             {diff.entries.map((entry) => (
               <li key={entry.name}>
                 {entry.name}: {String(entry.from)} → {String(entry.to)}
@@ -342,14 +335,14 @@ export default function ConfigurationPage() {
               serão enviados.
             </p>
           )}
-          <div>
+          <div className="inline-actions">
             {screen.capabilities.canValidate ? (
-              <button type="button" disabled={pending} onClick={() => void runValidation()}>
+              <button className="secondary" type="button" disabled={pending} onClick={() => void runValidation()}>
                 Validar sem aplicar
               </button>
             ) : null}
             {screen.capabilities.canApply ? (
-              <button type="button" disabled={readOnly || pending} onClick={() => void runApply()}>
+              <button className="primary" type="button" disabled={readOnly || pending} onClick={() => void runApply()}>
                 Aplicar
               </button>
             ) : null}
@@ -357,18 +350,19 @@ export default function ConfigurationPage() {
         </section>
       )}
 
-      <section className="panel" aria-label="Histórico de revisões">
+      <section className="card" aria-label="Histórico de revisões">
         <h2>Revisões</h2>
         {screen.revisions.length === 0 ? (
           <p>Nenhuma revisão registrada para esta configuração.</p>
         ) : (
-          <ol>
+          <ol className="revision-list">
             {screen.revisions.map((entry) => (
               <li key={entry.revisionId}>
                 <strong>{entry.revisionId}</strong> · {entry.operation} · {entry.status}
                 {entry.failureCode === null ? '' : ` · ${entry.failureCode}`}
                 {screen.capabilities.canRollback && entry.rollbackEligible ? (
                   <button
+                    className="secondary"
                     type="button"
                     disabled={pending || screen.busyNotice !== null}
                     onClick={() => void runRollback(entry.revisionId)}
@@ -381,6 +375,6 @@ export default function ConfigurationPage() {
           </ol>
         )}
       </section>
-    </main>
+    </PanelShell>
   );
 }
