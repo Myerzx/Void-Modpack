@@ -240,13 +240,13 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1786408044.8371928,
-    "ast_hash": "4a969cb1d3341c345fdaeffe9496d053",
+    "mtime": 1786409460.5588222,
+    "ast_hash": "0e26d7cc2dfa2844e3657e8ecb9d9bc5",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
-    "mtime": 1786408053.334483,
-    "ast_hash": "2cdcc4918e47300a3b591d9143540b5f",
+    "mtime": 1786409460.5588222,
+    "ast_hash": "266d5ed87c03f6cc39db1eceb81edcb7",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-001-linguagens-e-limites.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786408326.986297,
-    "ast_hash": "cf653eeec583d02ee4035bcb77b4b75e",
+    "mtime": 1786409609.530565,
+    "ast_hash": "ef3ba71686b7fe76e049e19b0701975d",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786408034.5988724,
-    "ast_hash": "5fb6cfba987582ce8293278526a957cf",
+    "mtime": 1786409460.561838,
+    "ast_hash": "e245a486ffdbf3e40848c23ac82a5f28",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/export-schemas.ts": {
-    "mtime": 1786406872.1752605,
-    "ast_hash": "704ddccd4a23e318fd656951403eb893",
+    "mtime": 1786408809.1222498,
+    "ast_hash": "05b04ae8da6430885dc107da9756467b",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/index.ts": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/test/contracts.test.ts": {
-    "mtime": 1786407417.9989097,
-    "ast_hash": "75374ca7360e291d323251ee4486a91a",
+    "mtime": 1786408809.123262,
+    "ast_hash": "79cdc12e9bf1b71a0dac0cffe9bf5942",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/tsconfig.build.json": {
@@ -430,8 +430,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CONTRACTS.md": {
-    "mtime": 1786408053.334483,
-    "ast_hash": "5ae9df90554b50a875377c048297fd56",
+    "mtime": 1786409460.5603309,
+    "ast_hash": "b9e7e7b59b3a04442b00342243801f24",
     "semantic_hash": ""
   },
   "Plataforma/packages/authentication/package.json": {
@@ -515,13 +515,13 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/permissions/src/index.ts": {
-    "mtime": 1786145104.711419,
-    "ast_hash": "e9b7d4c4eda8dc512d910db468cc662b",
+    "mtime": 1786408861.5378392,
+    "ast_hash": "cfa4f0b6deab9b9322f77eeb3eaf15b8",
     "semantic_hash": ""
   },
   "Plataforma/packages/permissions/test/permissions.test.ts": {
-    "mtime": 1785881867.004875,
-    "ast_hash": "76a7846395afe061f45f81cca96a670e",
+    "mtime": 1786408861.5378392,
+    "ast_hash": "ca35d2fdd8a0bda3f819683ced7115d2",
     "semantic_hash": ""
   },
   "Plataforma/packages/permissions/tsconfig.build.json": {
@@ -540,13 +540,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786261993.4433217,
-    "ast_hash": "3ee8f7b7369b261abb6c10cc28e00ad4",
+    "mtime": 1786408992.0243244,
+    "ast_hash": "068a789bfb0146ba5591ee3a0b53158c",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
-    "mtime": 1786262251.7735279,
-    "ast_hash": "10b7e5af7117acbe892886c88eedb01a",
+    "mtime": 1786409291.2924838,
+    "ast_hash": "5cd9f05cd991526532b16d5f4b1a154e",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/bootstrap-owner.ts": {
@@ -565,8 +565,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/test/control-api.test.ts": {
-    "mtime": 1785766572.1573105,
-    "ast_hash": "5b4364208a3cf170a91d84b0c2a0fd70",
+    "mtime": 1786408992.0243244,
+    "ast_hash": "1879b3834f19c9f39ed99dbf7787bc52",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/tsconfig.build.json": {
@@ -3910,8 +3910,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-foundation.test.ts": {
-    "mtime": 1786406885.4330008,
-    "ast_hash": "80d532bccdc78e53e0a975c101be6d8c",
+    "mtime": 1786408861.5393577,
+    "ast_hash": "cfb344594353e1129ef2c690b86a721b",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/test/database-mod-catalog.test.ts": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786408326.986297,
-    "ast_hash": "976574dc8b1ff764acf85cecbd4fea95",
+    "mtime": 1786409609.5320733,
+    "ast_hash": "2e5744bbe97042a742ecb202f6fe71f8",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -5015,8 +5015,8 @@
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/src/datapack-load-order-operation.ts": {
-    "mtime": 1786406872.1727378,
-    "ast_hash": "94b3e585d2fc1b85028a05423d918773",
+    "mtime": 1786408809.1207428,
+    "ast_hash": "843f017ab324d3341126e83f9855f74a",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0028_datapack_load_order_agent_operation.sql": {
@@ -5027,6 +5027,26 @@
   "graphify-out/memory/query_20260811_003226_validar_a_composi\u00e7\u00e3o_operacional_de_datapack_load.md": {
     "mtime": 1786408346.3807068,
     "ast_hash": "7724b024d806ca406001bd4f947ce515",
+    "semantic_hash": ""
+  },
+  "Plataforma/packages/database/migrations/0029_datapack_load_order_control_api.sql": {
+    "mtime": 1786408861.5393577,
+    "ast_hash": "cef36d7ee3e25ee0da876df42e449c45",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/datapack-load-order-routes.ts": {
+    "mtime": 1786408992.021748,
+    "ast_hash": "15b44e242a93fff578b3b932da944d52",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/datapack-load-order-api.test.ts": {
+    "mtime": 1786409085.7699504,
+    "ast_hash": "4911f923090027a80d235e32234a309c",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260811_005312_valida_se_estiver_tudo_cewrto_pode_come\u00e7ar_pela_a.md": {
+    "mtime": 1786409592.402201,
+    "ast_hash": "f17dd13cd6e0b52d573fdd6cfead7c1c",
     "semantic_hash": ""
   }
 }
