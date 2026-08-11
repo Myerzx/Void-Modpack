@@ -401,6 +401,8 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .operational-table { min-width: 660px; }
 .server-controls .inline-actions { justify-content: flex-start; }
 .configuration-facts { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.configuration-resource-picker { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
+.configuration-resource-picker .subtle { max-width: 680px; margin: 0; }
 .configuration-toggle-list { display: grid; gap: 8px; }
 .configuration-toggle { display: flex; align-items: center; justify-content: space-between; gap: 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-soft); padding: 11px 12px; cursor: pointer; }
 .configuration-toggle > span { min-width: 0; display: grid; gap: 3px; }
@@ -694,6 +696,7 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
   .console-badge { grid-column: 3; width: max-content; }
   .console-command { grid-template-columns: 1fr; }
   .analysis-callout, .mods-toolbar { grid-template-columns: 1fr; }
+  .configuration-resource-picker { align-items: stretch; flex-direction: column; }
   .configuration-toolbar, .resource-toolbar, .graph-toolbar { grid-template-columns: 1fr; }
   .configuration-toolbar button, .resource-toolbar button, .graph-toolbar button { width: 100%; }
   .semantic-config { grid-template-columns: 1fr; }

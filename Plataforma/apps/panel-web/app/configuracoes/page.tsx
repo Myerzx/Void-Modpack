@@ -34,8 +34,16 @@ import {
  * starts, stops or restarts Minecraft.
  */
 
-const RESOURCE_ID = 'openloader-advanced-options';
+const DEFAULT_RESOURCE_ID = 'minecraft-server-properties';
 const REASON_CODE = 'operator-request';
+
+function resourceLabel(resourceId: string): string {
+  return resourceId === 'minecraft-server-properties'
+    ? 'Segurança do servidor'
+    : resourceId === 'openloader-advanced-options'
+      ? 'OpenLoader — opções avançadas'
+      : resourceId;
+}
 
 function idempotencyKey(prefix: string): string {
   return `${prefix}-${globalThis.crypto.randomUUID()}`;
@@ -50,6 +58,8 @@ interface PanelSession {
 export default function ConfigurationPage() {
   const [session, setSession] = useState<PanelSession | undefined>(undefined);
   const [servers, setServers] = useState<readonly ServerInstance[]>([]);
+  const [resourceId, setResourceId] = useState(DEFAULT_RESOURCE_ID);
+  const [availableSchemas, setAvailableSchemas] = useState<readonly ConfigurationSchemaView[]>([]);
   const [schema, setSchema] = useState<ConfigurationSchemaView | undefined>(undefined);
   const [state, setState] = useState<ConfigurationResourceStateView | undefined>(undefined);
   const [revisions, setRevisions] = useState<readonly ConfigurationRevisionView[]>([]);
@@ -73,7 +83,13 @@ export default function ConfigurationPage() {
   const load = useCallback(
     async (activeClient: ConfigurationClient, activeSession: PanelSession) => {
       const schemas = await activeClient.listSchemas();
-      const selected = schemas.find((candidate) => candidate.resourceId === RESOURCE_ID);
+      setAvailableSchemas(schemas);
+      const selected = schemas.find((candidate) => candidate.resourceId === resourceId);
+      const fallback = schemas.find((candidate) => candidate.registered);
+      if ((selected === undefined || !selected.registered) && fallback !== undefined) {
+        if (fallback.resourceId !== resourceId) setResourceId(fallback.resourceId);
+        return;
+      }
       if (selected === undefined || !selected.registered) {
         setSchema(selected);
         setState(undefined);
@@ -88,8 +104,8 @@ export default function ConfigurationPage() {
         return;
       }
       const [resourceState, revisionPage] = await Promise.all([
-        activeClient.readResource(RESOURCE_ID),
-        activeClient.listRevisions(RESOURCE_ID),
+        activeClient.readResource(resourceId),
+        activeClient.listRevisions(resourceId),
       ]);
       setSchema(selected);
       setState(resourceState);
@@ -110,7 +126,7 @@ export default function ConfigurationPage() {
         }),
       );
     },
-    [],
+    [resourceId],
   );
 
   const refresh = useCallback(async () => {
@@ -166,6 +182,16 @@ export default function ConfigurationPage() {
     setSession((current) => (current === undefined ? current : { ...current, serverId }));
   }, []);
 
+  const selectResource = useCallback((nextResourceId: string) => {
+    setSchema(undefined);
+    setState(undefined);
+    setRevisions([]);
+    setDraft({});
+    setNotice(null);
+    setScreen({ kind: 'loading' });
+    setResourceId(nextResourceId);
+  }, []);
+
   useEffect(() => {
     void refresh();
   }, [refresh]);
@@ -180,7 +206,7 @@ export default function ConfigurationPage() {
     setPending(true);
     setNotice(null);
     try {
-      const result = await client.validate(RESOURCE_ID, changeEntriesFor(diff));
+      const result = await client.validate(resourceId, changeEntriesFor(diff));
       setNotice(
         result.valid
           ? `Validação concluída sem aplicar. ${result.restartRequired ? 'Exigirá reinício.' : ''}`
@@ -199,7 +225,7 @@ export default function ConfigurationPage() {
     setNotice(null);
     try {
       const acceptance = await client.apply({
-        resourceId: RESOURCE_ID,
+        resourceId,
         expectedCurrentSha256: state.currentSha256,
         expectedStateVersion: state.stateVersion,
         idempotencyKey: idempotencyKey('configuration-apply'),
@@ -223,7 +249,7 @@ export default function ConfigurationPage() {
     setNotice(null);
     try {
       const acceptance = await client.rollback({
-        resourceId: RESOURCE_ID,
+        resourceId,
         targetRevisionId,
         expectedCurrentSha256: state.currentSha256,
         expectedStateVersion: state.stateVersion,
@@ -272,7 +298,7 @@ export default function ConfigurationPage() {
       title="Configurações"
       category="server"
       steps={serverSteps('settings')}
-      subtitle={<>OpenLoader — opções avançadas · schema {screen.schema.definitionVersion} · modo {screen.schema.applyMode}</>}
+      subtitle={<>{resourceLabel(resourceId)} · schema {screen.schema.definitionVersion} · modo {screen.schema.applyMode}</>}
       actions={
         servers.length > 0 && session !== undefined ? (
           <label className="compact-select server-instance-select">
@@ -286,6 +312,26 @@ export default function ConfigurationPage() {
         ) : undefined
       }
     >
+
+      {availableSchemas.filter((candidate) => candidate.registered).length > 1 ? (
+        <section className="card configuration-resource-picker" aria-label="Configuração ativa">
+          <label className="compact-select">
+            <span>Arquivo gerenciado</span>
+            <select value={resourceId} onChange={(event) => selectResource(event.target.value)}>
+              {availableSchemas.filter((candidate) => candidate.registered).map((candidate) => (
+                <option key={candidate.resourceId} value={candidate.resourceId}>
+                  {resourceLabel(candidate.resourceId)}
+                </option>
+              ))}
+            </select>
+          </label>
+          {resourceId === 'minecraft-server-properties' ? (
+            <p className="subtle">
+              Somente autenticação, whitelist e RCON são expostos. Senha, seed, endereço e demais campos permanecem opacos.
+            </p>
+          ) : null}
+        </section>
+      ) : null}
 
       {screen.restartNotice === null ? null : (
         <p className="banner banner-warning">{screen.restartNotice}</p>
