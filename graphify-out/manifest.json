@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786415493.3521528,
-    "ast_hash": "46623da0e7031a9980f615ac289dcd45",
+    "mtime": 1786423956.725948,
+    "ast_hash": "628672d8923217e8b335e2dda1d573ed",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786414166.6535065,
-    "ast_hash": "ea097a57f5b769d708692013867c3fe1",
+    "mtime": 1786423210.2889946,
+    "ast_hash": "ef788d9fbbe1ed581ea69d541d654e59",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "Plataforma/package.json": {
-    "mtime": 1786413763.6123247,
-    "ast_hash": "19426439cdfe151f1ae4045f08d27a8c",
+    "mtime": 1786422268.7520313,
+    "ast_hash": "7c1feca495c30016d1d235d9eda4bbf7",
     "semantic_hash": ""
   },
   "Plataforma/packages/contracts/package.json": {
@@ -645,8 +645,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/page.tsx": {
-    "mtime": 1786262983.1553454,
-    "ast_hash": "66ecc0dc131c655df40afe222118b4a4",
+    "mtime": 1786422525.2125435,
+    "ast_hash": "de7b0f6a2162ff9ae21920988e3f8958",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/dashboard-fixture.ts": {
@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/package.json": {
-    "mtime": 1786414032.0806215,
-    "ast_hash": "8096fe6e2b8300d04e44983273e597eb",
+    "mtime": 1786422696.7710872,
+    "ast_hash": "34513811612330026acf9813462935d7",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/test/dashboard-fixture.test.ts": {
@@ -3320,8 +3320,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/configuracoes/page.tsx": {
-    "mtime": 1785883100.786099,
-    "ast_hash": "ac28ebd8de1ffe50768c9729465b926d",
+    "mtime": 1786422561.523805,
+    "ast_hash": "3b5b337167614b9eedeb0a1dc99f3f4b",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/configuration-client.ts": {
@@ -3595,13 +3595,13 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/auditoria/page.tsx": {
-    "mtime": 1786262893.905519,
-    "ast_hash": "1d6fca08e57fd91ed2583395ab114c4e",
+    "mtime": 1786422633.9856477,
+    "ast_hash": "b7e9c9a711d6aacf566526ff79925dc9",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/servidor/page.tsx": {
-    "mtime": 1786262555.5433648,
-    "ast_hash": "a19a72cd25d4eca30d4162065f09fafc",
+    "mtime": 1786422606.066076,
+    "ast_hash": "92d83906e656d5c863ed02746b863ee2",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/panel-session.ts": {
@@ -4585,8 +4585,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/components/shell.tsx": {
-    "mtime": 1786262519.5236294,
-    "ast_hash": "a0dd168d1a99181b661881a47e57ffc2",
+    "mtime": 1786422493.1171596,
+    "ast_hash": "c231958f00e1d32e0fb96cc7bfbdd34b",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-016-painel-como-gerenciador-completo.md": {
@@ -5055,8 +5055,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/desktop/package.json": {
-    "mtime": 1786413749.629328,
-    "ast_hash": "9c86a450a49de9b4a356f1084e205a4a",
+    "mtime": 1786422268.7535512,
+    "ast_hash": "d95905e3850c6b9c7a8b60a521a1f7e2",
     "semantic_hash": ""
   },
   "Plataforma/apps/desktop/src/backend-protocol.ts": {
@@ -5070,8 +5070,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/desktop/src/main.ts": {
-    "mtime": 1786414408.2794416,
-    "ast_hash": "4f53499a36a0cb81be60626c70b02ddd",
+    "mtime": 1786422416.3339474,
+    "ast_hash": "73ba122b3b107c27bb3f49470c3d71be",
     "semantic_hash": ""
   },
   "Plataforma/apps/desktop/test/backend-protocol.test.ts": {
@@ -5095,8 +5095,33 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_DESKTOP_SHELL.md": {
-    "mtime": 1786415493.3506484,
-    "ast_hash": "ee5afb3bb1d133556f5d15efe6ef4b07",
+    "mtime": 1786423814.101837,
+    "ast_hash": "27c8a6c2f11bc622a93a6d96e20d9dbd",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/desktop/scripts/package-qa.mjs": {
+    "mtime": 1786422741.5473194,
+    "ast_hash": "587089364135737a4b5f62b2627c9c26",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/desktop/scripts/smoke-package.mjs": {
+    "mtime": 1786422383.5895348,
+    "ast_hash": "90954059778efa6f1653aa1dbc5908a5",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/test/responsive-layout.test.ts": {
+    "mtime": 1786422696.7710872,
+    "ast_hash": "06431a0f6527f2f229f17738f847d93e",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/FINAL_PRODUCT_GAP_ANALYSIS.md": {
+    "mtime": 1786423177.3539019,
+    "ast_hash": "4c375b89165008eaef7d4c97126a83af",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260811_045036_ok_agora_preciso_que_termine_o_programa__deixa_ele.md": {
+    "mtime": 1786423836.167739,
+    "ast_hash": "55ad9b26d15071639a0ab1701f18c77b",
     "semantic_hash": ""
   }
 }
