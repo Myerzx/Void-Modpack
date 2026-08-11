@@ -268,6 +268,43 @@ describe('readiness never announces a capability it cannot serve', () => {
     assert.equal(runtime.handlers['backup.restore'], undefined);
   });
 
+  it('announces datapack observation only with both a registered root and offline guard', async () => {
+    const context = await fixture();
+    const adapter: MinecraftProcessAdapter = {
+      async inspect() {
+        return { state: 'offline', observedAt: NOW.toISOString(), source: 'process-adapter' };
+      },
+      async start() { throw new Error('unused'); },
+      async requestGracefulStop() { throw new Error('unused'); },
+      readOutput() { throw new Error('unused'); },
+    };
+    const withoutRoot = runtimeFor(context, { processAdapter: adapter }).runtime;
+    assert.equal(
+      withoutRoot.readiness.capabilities.find(
+        (entry) => entry.capability === 'datapack-load-order.observe',
+      )?.reason,
+      'no-server-workspace-registered',
+    );
+
+    const withoutGuard = runtimeFor(context, {
+      datapackLoadOrderRuntime: { workspaceId: randomUUID(), workspaceRoot: context.directory },
+    }).runtime;
+    assert.equal(
+      withoutGuard.readiness.capabilities.find(
+        (entry) => entry.capability === 'datapack-load-order.observe',
+      )?.reason,
+      'no-datapack-load-order-guard-configured',
+    );
+
+    const ready = runtimeFor(context, {
+      processAdapter: adapter,
+      datapackLoadOrderRuntime: { workspaceId: randomUUID(), workspaceRoot: context.directory },
+    }).runtime;
+    assert.ok(ready.readiness.announced.includes('datapack-load-order.observe'));
+    assert.ok(ready.handlers['datapack-load-order.observe'] !== undefined);
+    assert.ok(ready.datapackLoadOrderCapability !== null);
+  });
+
   it('keeps force kill deliberately disabled rather than merely unconfigured', async () => {
     const context = await fixture({ withBackups: true, withFiles: true });
     const { runtime } = runtimeFor(context);
@@ -1133,6 +1170,10 @@ describe('readiness published where the control plane can read it', () => {
       processController: new MinecraftProcessController({ adapter, launchPlan }),
       consoleAdapter: adapter,
       processAdapter: adapter,
+      datapackLoadOrderRuntime: {
+        workspaceId: randomUUID(),
+        workspaceRoot: context.directory,
+      },
       backupGuard: undefined as never,
       configurationGuard: undefined as never,
     });

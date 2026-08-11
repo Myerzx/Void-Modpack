@@ -188,6 +188,11 @@ export async function main(): Promise<number> {
   });
 
   const repositories = createRepositories(database);
+  // This is the sole filesystem-root source for datapack observation. The
+  // lease carries only identifiers; it cannot select a directory or filename.
+  const serverWorkspace = await repositories.workspaces.findServerByInstanceId(
+    configuration.serverInstanceId,
+  );
   const bootId = randomUUID();
   const processOwnership = new DurableProcessOwnershipCoordinator({
     repository: repositories.processOwnership,
@@ -205,6 +210,14 @@ export async function main(): Promise<number> {
     processOwnership,
     identity,
     workTransport,
+    ...(serverWorkspace === undefined
+      ? {}
+      : {
+          datapackLoadOrderRuntime: {
+            workspaceId: serverWorkspace.workspaceId,
+            workspaceRoot: serverWorkspace.rootPath,
+          },
+        }),
     ...(minecraft === null
       ? {}
       : {

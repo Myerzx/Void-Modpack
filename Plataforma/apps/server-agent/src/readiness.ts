@@ -25,6 +25,9 @@ export type CapabilityUnavailableReason =
   | 'no-backup-repository-configured'
   | 'no-process-controller-configured'
   | 'no-console-adapter-configured'
+  | 'no-server-workspace-registered'
+  | 'no-datapack-load-order-guard-configured'
+  | 'no-datapack-load-order-reader-configured'
   | 'deliberately-disabled';
 
 export interface CapabilityReadiness {
@@ -56,6 +59,9 @@ export interface RuntimeDependencies {
   readonly hasConfigurationGuard: boolean;
   /** The typed capability was constructed, not merely asked for. */
   readonly hasConfigurationCapability: boolean;
+  readonly hasRegisteredServerWorkspace: boolean;
+  readonly hasDatapackLoadOrderGuard: boolean;
+  readonly hasDatapackLoadOrderCapability: boolean;
   readonly hasBackupService: boolean;
   readonly hasProcessController: boolean;
   readonly hasConsoleAdapter: boolean;
@@ -98,6 +104,7 @@ const ALL_CAPABILITIES: readonly AgentCapability[] = Object.freeze([
   'console.command',
   'backup.create',
   'backup.restore',
+  'datapack-load-order.observe',
 ]);
 
 /**
@@ -137,6 +144,14 @@ function missingDependency(
       // rather than being announced in a form that always ends "unverified".
       if (!dependencies.hasBackupService) return 'no-backup-repository-configured';
       return dependencies.hasProcessController ? null : 'no-process-controller-configured';
+    case 'datapack-load-order.observe':
+      if (!dependencies.hasRegisteredServerWorkspace) return 'no-server-workspace-registered';
+      if (!dependencies.hasDatapackLoadOrderGuard) {
+        return 'no-datapack-load-order-guard-configured';
+      }
+      return dependencies.hasDatapackLoadOrderCapability
+        ? null
+        : 'no-datapack-load-order-reader-configured';
     default:
       return null;
   }

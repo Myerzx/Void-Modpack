@@ -23,6 +23,11 @@ import {
 } from './configuration-operation.js';
 import { createConsoleCommandHandler } from './console-operation.js';
 import {
+  DatapackLoadOrderObservationCapability,
+  createDatapackLoadOrderObservationHandler,
+  type TrustedDatapackLoadOrderRuntime,
+} from './datapack-load-order-operation.js';
+import {
   createOfflineExclusiveBackupGuard,
   createOfflineExclusiveConfigurationGuard,
 } from './offline-guards.js';
@@ -109,6 +114,8 @@ export interface AgentRuntimeDependencies {
    * has open is how a world comes back with half a config.
    */
   readonly configurationGuard?: OfflineExclusiveConfigurationGuard;
+  /** Registered server workspace resolved locally, never from a lease. */
+  readonly datapackLoadOrderRuntime?: TrustedDatapackLoadOrderRuntime;
   readonly scheduleExecutor?: ScheduleStepExecutor;
   /**
    * The signing identity and the outbound transport. Both or neither: an
@@ -157,6 +164,7 @@ export class AgentRuntime {
   readonly #configurationGuard: OfflineExclusiveConfigurationGuard | undefined;
   readonly #backupService: FilesystemBackupService | null;
   readonly #configurationCapability: ConfigurationOperationCapability | null;
+  readonly #datapackLoadOrderCapability: DatapackLoadOrderObservationCapability | null;
   readonly #readiness: AgentReadiness;
   readonly #handlers: Readonly<Partial<Record<AgentCapability, LeaseHandler>>>;
   readonly #scheduler: SchedulerLoop | null;
@@ -228,12 +236,16 @@ export class AgentRuntime {
           });
 
     this.#configurationCapability = this.#buildConfigurationCapability();
+    this.#datapackLoadOrderCapability = this.#buildDatapackLoadOrderCapability();
 
     // --- Readiness from what exists, not from what was asked for. -----------
     const runtimeDependencies: RuntimeDependencies = {
       hasAuthorizedFiles: this.#authorizedFiles !== null,
       hasConfigurationGuard: this.#configurationGuard !== undefined,
       hasConfigurationCapability: this.#configurationCapability !== null,
+      hasRegisteredServerWorkspace: dependencies.datapackLoadOrderRuntime !== undefined,
+      hasDatapackLoadOrderGuard: dependencies.processAdapter !== undefined,
+      hasDatapackLoadOrderCapability: this.#datapackLoadOrderCapability !== null,
       hasBackupService: this.#backupService !== null,
       hasProcessController: dependencies.processController !== undefined,
       hasConsoleAdapter: dependencies.consoleAdapter !== undefined,
@@ -321,6 +333,24 @@ export class AgentRuntime {
     }
   }
 
+  #buildDatapackLoadOrderCapability(): DatapackLoadOrderObservationCapability | null {
+    const runtime = this.#dependencies.datapackLoadOrderRuntime;
+    const adapter = this.#dependencies.processAdapter;
+    if (runtime === undefined || adapter === undefined) return null;
+    try {
+      return new DatapackLoadOrderObservationCapability({
+        repositories: this.#dependencies.repositories,
+        processAdapter: adapter,
+        serverInstanceId: this.#dependencies.configuration.serverInstanceId,
+        agentId: this.#dependencies.configuration.agentId,
+        runtime,
+        ...(this.#dependencies.clock === undefined ? {} : { clock: this.#dependencies.clock }),
+      });
+    } catch {
+      return null;
+    }
+  }
+
   /**
    * Builds the handler map from readiness.
    *
@@ -339,6 +369,18 @@ export class AgentRuntime {
         repositories,
         capability: this.#configurationCapability,
         serverInstanceId: configuration.serverInstanceId,
+      });
+    }
+
+    if (
+      available.has('datapack-load-order.observe') &&
+      this.#datapackLoadOrderCapability !== null
+    ) {
+      handlers['datapack-load-order.observe'] = createDatapackLoadOrderObservationHandler({
+        repositories,
+        capability: this.#datapackLoadOrderCapability,
+        serverInstanceId: configuration.serverInstanceId,
+        ...(this.#dependencies.clock === undefined ? {} : { clock: this.#dependencies.clock }),
       });
     }
 
@@ -412,6 +454,10 @@ export class AgentRuntime {
 
   public get configurationCapability(): ConfigurationOperationCapability | null {
     return this.#configurationCapability;
+  }
+
+  public get datapackLoadOrderCapability(): DatapackLoadOrderObservationCapability | null {
+    return this.#datapackLoadOrderCapability;
   }
 
   /** `null` when this agent is not claiming work, for whatever reason. */
