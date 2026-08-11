@@ -68,6 +68,7 @@ describe('PostgreSQL foundation', () => {
         '0026_ecosystem_analysis.sql',
         '0027_datapack_load_order_observations.sql',
         '0028_datapack_load_order_agent_operation.sql',
+        '0029_datapack_load_order_control_api.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);
@@ -117,6 +118,31 @@ describe('PostgreSQL foundation', () => {
             `${role} must agree with the policy for ${permission}`,
           );
         }
+      }
+    } finally {
+      await database.close();
+    }
+  });
+
+  it('seeds datapack observation only for the operational panel roles', async () => {
+    const database = await createPGliteTestDatabase();
+    try {
+      await runMigrations(database);
+      const repositories = createRepositories(database);
+
+      for (const role of ['owner', 'administrator', 'moderator', 'support', 'read-only'] as const) {
+        const user = await repositories.users.create({
+          email: `${role}-datapack-observation@voidfall.invalid`,
+          displayName: `${role} datapack observation fixture`,
+          passwordHash: await hashPassword('database-test-password'),
+          roles: [role],
+        });
+        const granted = await repositories.permissions.forUser(user.id);
+        assert.equal(
+          granted.includes('datapacks.observe'),
+          permissionsForRoles([role]).includes('datapacks.observe'),
+          `${role} must agree with the policy for datapacks.observe`,
+        );
       }
     } finally {
       await database.close();

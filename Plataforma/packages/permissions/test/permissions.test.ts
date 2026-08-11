@@ -53,4 +53,14 @@ describe('panel RBAC policy', () => {
     assert.equal(hasPermission(granted, 'console.command.dangerous'), false);
     assert.equal(hasPermission(granted, 'server.control.force'), false);
   });
+
+  it('keeps datapack observation separate and limited to operational roles', () => {
+    assert.equal(hasPermission(permissionsForRoles(['owner']), 'datapacks.observe'), true);
+    assert.equal(hasPermission(permissionsForRoles(['administrator']), 'datapacks.observe'), true);
+    for (const role of ['moderator', 'support', 'read-only'] as const) {
+      assert.equal(hasPermission(permissionsForRoles([role]), 'datapacks.observe'), false);
+    }
+    assert.equal(isPanelPermission('datapacks.observe'), true);
+    assert.equal(isPanelPermission('minecraft.datapacks.observe'), false);
+  });
 });

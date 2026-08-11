@@ -32,6 +32,8 @@ export const PANEL_PERMISSIONS = [
   'workspace.view',
   /** Register or re-scan a workspace. Never writes inside the workspace. */
   'workspace.manage',
+  /** Queue a bounded offline observation of the registered world's datapack order. */
+  'datapacks.observe',
   'files.view',
   'files.edit',
   'files.upload',
