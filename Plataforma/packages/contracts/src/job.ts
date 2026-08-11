@@ -33,6 +33,7 @@ export const JobSchema = Type.Object(
       Type.Literal('configuration.rollback'),
       Type.Literal('artifact.inspect'),
       Type.Literal('artifact.analyze'),
+      Type.Literal('datapack-load-order.observe'),
       Type.Literal('system.noop'),
     ]),
     resource: ResourceRefSchema,

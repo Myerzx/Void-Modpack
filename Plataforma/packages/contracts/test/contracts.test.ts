@@ -40,6 +40,8 @@ import {
   validateConfigurationSchemaCatalog,
   validateConfigurationValidationRequest,
   validateConfigurationValidationResult,
+  validateDatapackLoadOrderObservationCommand,
+  validateDatapackLoadOrderObservationResult,
   validateForgeBuildRequest,
   validateInventorySnapshot,
   validateJob,
@@ -53,6 +55,7 @@ import {
   validatePlayerDataPolicy,
   validatePlayerProfile,
   validateReleaseManifest,
+  capabilityServesJobType,
 } from '../src/index.js';
 
 const uuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63701';
@@ -1172,6 +1175,59 @@ describe('ServerConfiguration boundary contracts', () => {
       assert.equal(validateJob({ ...validJob(), type }).success, true);
     }
     assert.equal(validateJob({ ...validJob(), type: 'configuration.write' }).success, false);
+  });
+});
+
+describe('DatapackLoadOrderObservation operation', () => {
+  const command = {
+    schemaVersion: 1,
+    serverInstanceId: uuid,
+    workspaceId: otherUuid,
+    analysisId: hashA,
+    inventorySha256: hashB,
+  };
+
+  it('accepts identities only and rejects any path-bearing extension', () => {
+    assert.equal(validateDatapackLoadOrderObservationCommand(command).success, true);
+    assert.equal(
+      validateDatapackLoadOrderObservationCommand({ ...command, worldPath: 'world/level.dat' })
+        .success,
+      false,
+    );
+    assert.equal(
+      capabilityServesJobType(
+        'datapack-load-order.observe',
+        'datapack-load-order.observe',
+      ),
+      true,
+    );
+    assert.equal(
+      validateJob({ ...validJob(), type: 'datapack-load-order.observe' }).success,
+      true,
+    );
+  });
+
+  it('validates a sanitized, bounded receipt', () => {
+    const result = {
+      schemaVersion: 1,
+      workspaceId: otherUuid,
+      analysisId: hashA,
+      inventorySha256: hashB,
+      observationId: hashA,
+      evidenceSha256: hashB,
+      datapackCount: 2,
+      outcome: 'observed',
+      completedAt: '2026-08-10T18:00:00.000Z',
+    };
+    assert.equal(validateDatapackLoadOrderObservationResult(result).success, true);
+    assert.equal(
+      validateDatapackLoadOrderObservationResult({ ...result, datapackCount: 4_097 }).success,
+      false,
+    );
+    assert.equal(
+      validateDatapackLoadOrderObservationResult({ ...result, rootPath: 'world' }).success,
+      false,
+    );
   });
 });
 

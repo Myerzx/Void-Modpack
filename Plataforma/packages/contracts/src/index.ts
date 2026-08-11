@@ -10,6 +10,7 @@ export * from './backup-operation.js';
 export * from './catalog-reconciliation.js';
 export * from './claim-evidence.js';
 export * from './common.js';
+export * from './datapack-load-order-operation.js';
 export * from './forge-build-request.js';
 export * from './inventory-snapshot.js';
 export * from './job.js';

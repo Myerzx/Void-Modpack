@@ -43,6 +43,7 @@ export const AgentCapabilitySchema = Type.Union([
   // world is not thereby trusted to overwrite one with an older copy.
   Type.Literal('backup.create'),
   Type.Literal('backup.restore'),
+  Type.Literal('datapack-load-order.observe'),
 ]);
 
 export const AgentCredentialStatusSchema = Type.Union([
@@ -217,6 +218,7 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   // Restoring replaces a live world with an older one. Taking a backup must
   // never imply the authority to undo one.
   'backup.restore': ['backup.restore'],
+  'datapack-load-order.observe': ['datapack-load-order.observe'],
 });
 
 export function jobTypesForCapability(capability: AgentCapability): readonly string[] {
