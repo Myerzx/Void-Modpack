@@ -11,6 +11,7 @@ import {
   AgentRuntime,
   AgentWorkTransport,
   DurableProcessOwnershipCoordinator,
+  createOfflineExclusiveConfigurationGuard,
   createAgentIdentity,
 } from '@voidfall/server-agent';
 
@@ -30,6 +31,10 @@ import {
   registerLocalAgent,
 } from './local-agent.js';
 import { LocalAgentFleet } from './local-agent-fleet.js';
+import {
+  LocalConfigurationReaders,
+  provisionLocalConfiguration,
+} from './local-configuration.js';
 import { detectServerRuntimeAt } from './server-runtime.js';
 import { createReleaseBuilder } from './workspace-release.js';
 import { createSandboxLauncher } from './workspace-sandbox.js';
@@ -289,6 +294,7 @@ export async function main(
   }
   say(`  painel    servido pela própria API (mesma origem, sem proxy)`);
 
+  const configurationReaders = new LocalConfigurationReaders();
   app = await buildControlApi({
     database,
     // Loopback without TLS: the secure flag would make the browser drop the
@@ -313,6 +319,7 @@ export async function main(
     // provisioned rather than configured. Nothing is ever written into the
     // workspace itself.
     workspaceConfiguration: createWorkspaceConfigurationService(join(stateDirectory, 'staging')),
+    configurationReader: configurationReaders,
     // A boot composes a disposable copy from the minimum files and deletes it
     // afterwards. The original world is never copied and never touched, which
     // is the only reason pointing this at a real server is acceptable.
@@ -406,6 +413,28 @@ export async function main(
         java === null
           ? null
           : buildLocalProcessRuntime(instance, java.executable, processOwnership);
+      const ownerUser = await repositories.users.findByEmail(LOCAL_OWNER_EMAIL);
+      const configurationGuard =
+        processRuntime === null
+          ? undefined
+          : createOfflineExclusiveConfigurationGuard({
+              repositories,
+              adapter: processRuntime.adapter,
+              serverInstanceId: instance.id,
+              ownsLock: (lease) => lease.operation.startsWith('configuration.'),
+            });
+      const localConfiguration =
+        configurationGuard === undefined || ownerUser === undefined
+          ? null
+          : await provisionLocalConfiguration({
+              instance,
+              repositories,
+              stateDirectory,
+              actorId: ownerUser.id,
+              guard: configurationGuard,
+            });
+      if (localConfiguration === null) configurationReaders.unregister(instance.id);
+      else configurationReaders.register(instance.id, localConfiguration.reader);
       const agent = new AgentRuntime({
         configuration: {
           agentId: agentIdentity.agentId,
@@ -415,7 +444,7 @@ export async function main(
           databaseUrl: 'embedded',
           serverRelease: '0.1.0',
           metricsDiskPath: instance.runDirectory,
-          authorizedFiles: null,
+          authorizedFiles: localConfiguration?.authorizedFiles ?? null,
           backups: null,
           process: null,
           schedulerEnabled: false,
@@ -423,6 +452,9 @@ export async function main(
         repositories,
         bootId,
         processOwnership,
+        ...(localConfiguration === null
+          ? {}
+          : { configurationGuard: localConfiguration.guard }),
         identity: createAgentIdentity({
           agentId: agentIdentity.agentId,
           serverInstanceId: instance.id,

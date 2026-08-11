@@ -234,7 +234,11 @@ export async function registerLocalAgent(input: {
   // made on their behalf and named as such. `process.force-kill` is
   // deliberately absent: it has no handler anywhere and killing a server can
   // lose everything since the last save.
-  for (const capability of ['process.control', 'console.command'] as const) {
+  for (const capability of [
+    'configuration.apply',
+    'process.control',
+    'console.command',
+  ] as const) {
     await repositories.agentTransport.grantCapability({
       agentId: input.identity.agentId,
       capability,
