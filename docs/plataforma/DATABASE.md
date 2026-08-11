@@ -10,6 +10,7 @@ Status: fundação da Fase 2 e encadeamento de auditoria da Fase 6 implementados
 - `0026_ecosystem_analysis.sql`: snapshots imutáveis de análise por workspace, inventário e versão do analyzer;
 - `0027_datapack_load_order_observations.sql`: observação/projeção imutáveis da ordem efetiva com FK do inventário e gate de edição fixado em `false`;
 - `0028_datapack_load_order_agent_operation.sql`: allowlists do transporte e vínculo idempotente `job_id` para a captura operacional auditada;
+- `0029_datapack_load_order_control_api.sql`: permissão `datapacks.observe` concedida somente a owner/administrator, separada dos grants do Server Agent e das permissões Minecraft;
 - repositórios de usuários, sessões, permissões, servidores, auditoria, agentes e jobs;
 - testes em PostgreSQL embarcado PGlite para migração, RBAC, idempotência, lease, conclusão `noop`, append concorrente, verificação e export de auditoria.
 

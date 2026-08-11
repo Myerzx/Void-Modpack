@@ -2,23 +2,25 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
-## 2026-08-10 — ordem efetiva de datapacks no Server Agent
+## 2026-08-10 — ordem efetiva de datapacks no Server Agent e Control API
 
 ### Adicionado
 
 - contratos fechados de comando/resultado e capability/job type `datapack-load-order.observe`, sem path ou payload operacional extensível;
 - migration `0028` com allowlists de grant/lease e idempotência operacional por `job_id` único;
 - reader de filesystem construído da workspace `server` registrada e limitado ao literal `world/level.dat`, com recusa de links e orçamento de 8 MiB;
-- handler offline exclusivo, persistência e auditoria atômicas, replay sem nova leitura e readiness com razões explícitas.
+- handler offline exclusivo, persistência e auditoria atômicas, replay sem nova leitura e readiness com razões explícitas;
+- contratos públicos fechados de request/acceptance, permissão `datapacks.observe` e migration `0029` com grants somente para owner/administrator;
+- produtor `POST /api/v1/servers/:serverId/datapack-load-order/observations`, com resolução server → workspace vinculada → análise exata, idempotência derivada e auditoria de aceite/replay/recusa.
 
 ### Validado
 
-- 108 testes de contratos, 61 do banco e 115 do Server Agent;
+- 109 testes de contratos, 6 de permissões, 62 do banco, 180 da Control API e 115 do Server Agent;
 - corpus NBT sintético materializado somente em diretórios temporários, sem ler ou copiar o runtime privado.
 
 ### Não habilitado
 
-Control API, nova permissão/RBAC, painel, smoke do mundo privado e mudança no gate de edição semântica.
+Painel, grant automático da capability, smoke do mundo privado e mudança no gate de edição semântica.
 
 ## 2026-08-09 — Fases 19–20: recursos de datapack revisados
 

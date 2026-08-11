@@ -1,6 +1,6 @@
 # Fases 19–20 — ecossistema de mods e análise estática
 
-Status: quatro fatias verticais funcionais, mais contrato, captura guardada, reader NBT limitado e persistência isolada para ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
+Status: quatro fatias verticais funcionais, mais contratos públicos, RBAC, produtor na Control API, captura guardada, reader NBT limitado e composição operacional no Server Agent para a ordem efetiva de datapacks. A prova real anterior permanece válida; as Fases 19 e 20 **não estão concluídas**.
 
 ## Objetivo entregue
 
@@ -89,6 +89,8 @@ No Server Agent, `datapack-load-order.observe` é uma capability e um job type f
 
 Durante a execução, a capability adquire `minecraft-exclusive` com a operação literal, e `createOfflineExclusiveDatapackLoadOrderGuard` verifica o processo antes e depois da captura. A migration `0028_datapack_load_order_agent_operation.sql` vincula o efeito ao `job_id` único: um replay retorna a observação já gravada sem reler o filesystem. O primeiro insert e o evento de auditoria sanitizado são uma única transação; a auditoria registra somente IDs, hashes e contagem, nunca bytes ou paths. Readiness só anuncia a capability quando workspace registrada, process adapter/guard e reader construído estão presentes.
 
+Na Control API, `POST /api/v1/servers/:serverId/datapack-load-order/observations` exige CSRF e a permissão exclusiva `datapacks.observe`. O request público fixa `analysisId`, `expectedInventorySha256`, motivo e chave de idempotência; a API resolve a única workspace `server` vinculada, relê a análise imutável e deriva o identificador durável antes de enfileirar somente o comando fechado. Aceite, replay, vínculo ausente, análise ausente e inventário divergente são auditados sem paths. A migration `0029_datapack_load_order_control_api.sql` concede a permissão somente a owner/administrator e não concede a capability do agente.
+
 ### Reader NBT limitado e prova da prioridade nativa
 
 O adaptador `BoundedNbtWorldMetadataDatapackLoadOrderReader` implementa a primeira fonte reservada pelo ADR-018 sem receber path. Uma porta de construção confiável entrega somente os bytes gzip; o parser calcula o SHA-256 da evidência comprimida e extrai exclusivamente `Data.DataPacks.Enabled` e `Disabled`. Os bytes, o nome do mundo e qualquer estado vizinho não atravessam a fronteira normalizada.
@@ -130,10 +132,13 @@ A migration `0027_datapack_load_order_observations.sql` cria `workspace_datapack
 
 A migration `0028_datapack_load_order_agent_operation.sql` acrescenta `job_id` opcional às observações históricas e único quando presente, além de alinhar as allowlists de grants e leases ao nome `datapack-load-order.observe`. `saveOperational` grava observação, projeção e sucesso auditado na mesma transação. O replay pelo mesmo job devolve o registro original e não duplica a auditoria.
 
+A migration `0029_datapack_load_order_control_api.sql` adiciona somente a autoridade do painel `datapacks.observe`, com grants para owner/administrator. Permissões Minecraft e grants de capability permanecem domínios independentes.
+
 ## API e painel
 
 Rotas adicionadas:
 
+- `POST /api/v1/servers/:serverId/datapack-load-order/observations`;
 - `GET|POST /api/v1/workspaces/:workspaceId/analysis`;
 - `GET /api/v1/workspaces/:workspaceId/ecosystem/mods`;
 - `GET /api/v1/workspaces/:workspaceId/ecosystem/mods/:modId`;
@@ -220,13 +225,13 @@ A aba **Grafo** consome apenas essa projeção limitada. Ela oferece filtros com
 
 O recorte de travessia acrescentou três casos no pacote de ecossistema e cobertura end-to-end na Workspace API para direção, profundidade, filtro de tipos, referência ausente e recusa de limite inválido. O pacote passou com 7 testes, a Workspace API direcionada com 17 e o typecheck do painel concluiu sem erro.
 
-A fronteira de ordem efetiva mantém 16 testes no pacote de ecossistema e acrescenta seis casos operacionais no Server Agent. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, path literal, link, payload extensível, relógio anterior ao lease, replay por job e auditoria sem paths. Passaram 108 testes de contratos, 61 do banco e 115 do Server Agent, além de typecheck/build direcionados, sem ler o runtime privado.
+A fronteira de ordem efetiva mantém 16 testes no pacote de ecossistema e seis casos operacionais no Server Agent. Além da projeção original, a regressão cobre reader chamado somente dentro da guarda, fonte/timestamp resolvidos pelo host, corpus NBT sintético, todos os tipos padrão, gzip/hash, modified UTF-8, budgets, profundidade, listas, tipos/chaves/IDs inválidos, mapeamento OpenLoader estrito, path literal, link, payload extensível, relógio anterior ao lease, replay por job e auditoria sem paths. Passaram 109 testes de contratos, 6 de permissões, 62 do banco, 180 da Control API e 115 do Server Agent, além de typecheck/build direcionados, sem ler o runtime privado.
 
 ## Relação com o Graphify
 
 O snapshot normalizado é o grafo operacional persistido. `graphify-out/` continua sendo o grafo portátil do código e da documentação e passa a indexar este modelo, a migration, as rotas e esta prova. Dados privados do runtime não são copiados para `graphify-out/`.
 
-Depois da atualização incremental deste recorte, o grafo portátil contém 6.868 nós, 12.052 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada conectou `AgentRuntime`, `DatapackLoadOrderObservationCapability`, `createDatapackLoadOrderObservationHandler`, `RegisteredWorldMetadataFileReader` e `DatapackLoadOrderRepository` sem depender do relatório completo. O diagnóstico encontrou zero endpoint ausente, zero duplicata e manteve somente as duas autociclagens SQL `references` já documentadas.
+Depois da atualização incremental deste recorte, o grafo portátil contém 6.897 nós, 12.094 arestas e 431 comunidades; a visão agregada também foi regenerada. A consulta focada encontrou `DatapackLoadOrderObservationAcceptance`, `registerDatapackLoadOrderRoutes`, `DatapackLoadOrderObservationCapability`, `createDatapackLoadOrderObservationHandler` e `DatapackLoadOrderRepository`; o caminho estrutural liga o produtor ao handler via composição da app e transporte do agente. O diagnóstico encontrou zero endpoint ausente, zero duplicata e manteve somente as duas autociclagens SQL `references` já documentadas.
 
 Essa separação preserva as duas responsabilidades:
 
@@ -239,7 +244,7 @@ Essa separação preserva as duas responsabilidades:
 - ampliar a interpretação conservadora de defaults dinâmicos e listas sem executar bytecode;
 - extrair política de restart somente quando schema, documentação ou outra fonte concreta a comprovar;
 - cobrir classes fora dos caminhos de alto sinal apenas por novas seleções revisadas, sem busca irrestrita;
-- criar um produtor autorizado no Control API para o job tipado, com permissão própria e idempotência pública, antes de expor qualquer ação no painel; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
+- fechar um ensaio E2E sintético do produtor ao handler e, depois, expor somente status/leitura no painel; nenhum byte real de mundo foi lido e a ordem do servidor privado continua não observada;
 - ampliar o registry revisado para `value_calc`, spells, stats e outras famílias somente depois de corpus, limites e defaults próprios;
 - resolver as lacunas explícitas restantes do ecossistema completo e ampliar a validação para outros mods.
 
