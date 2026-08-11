@@ -110,10 +110,10 @@ describe('action policy', () => {
     // worked would have given the panel a start button and no stop button.
   });
 
-  it('never offers installing an artifact in this phase', () => {
+  it('offers artifact installation to a session with the management permission', () => {
     const install = actionView(owner, 'artifact.install');
-    assert.equal(install.enabled, false);
-    assert.match(install.reason, /instalar/u);
+    assert.equal(install.enabled, true);
+    assert.equal(install.reason, '');
   });
 
   it('enables the actions whose phases already landed', () => {
@@ -122,6 +122,7 @@ describe('action policy', () => {
       'artifact.decide',
       'configuration.apply',
       'configuration.rollback',
+      'artifact.install',
     ]) {
       const view = actionView(owner, ready);
       assert.equal(view.visible, true);

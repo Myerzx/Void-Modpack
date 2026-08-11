@@ -144,8 +144,8 @@ const ACTIONS: Readonly<Record<string, ActionPolicy>> = Object.freeze({
   },
   'artifact.install': {
     permission: 'mods.manage',
-    available: false,
-    unavailableReason: 'Aprovar altera o estado de revisão; instalar não pertence a esta fase.',
+    available: true,
+    unavailableReason: '',
   },
 });
 

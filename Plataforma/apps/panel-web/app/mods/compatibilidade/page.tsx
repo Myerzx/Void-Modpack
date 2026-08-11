@@ -26,8 +26,8 @@ import {
  * and the dependency graph all come from stored reports, never from a fixture.
  * When a report does not exist yet the screen says so instead of inventing one.
  *
- * There is deliberately no install control. Approving an artifact changes its
- * review state and nothing else.
+ * Approval and installation stay separate: only the durable offline agent
+ * operation promotes the reviewed bytes into the server.
  */
 
 interface PanelSession {
@@ -35,8 +35,6 @@ interface PanelSession {
   readonly csrfToken: string;
   readonly permissions: readonly string[];
 }
-
-const install = buildInstallActionView();
 
 export default function ModsPage() {
   const [session, setSession] = useState<PanelSession | undefined>(undefined);
@@ -51,6 +49,9 @@ export default function ModsPage() {
   const [uploadSent, setUploadSent] = useState(0);
   const [uploadTotal, setUploadTotal] = useState(0);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [notice, setNotice] = useState<string | undefined>(undefined);
+  const [reviewSide, setReviewSide] = useState<'server' | 'both'>('server');
+  const [actionBusy, setActionBusy] = useState<'approve' | 'reject' | 'install' | undefined>();
 
   const refresh = useCallback(async (current: PanelSession) => {
     const response = await fetch(`/api/v1/servers/${current.serverId}/artifacts`, {
@@ -128,7 +129,9 @@ export default function ModsPage() {
         setError('Não foi possível carregar a análise deste artefato.');
         return;
       }
-      setDetail((await response.json()) as ArtifactSubmissionDetail);
+      const selected = (await response.json()) as ArtifactSubmissionDetail;
+      setDetail(selected);
+      setReviewSide(selected.submission.reviewedSide === 'both' ? 'both' : 'server');
     },
     [session],
   );
@@ -174,6 +177,85 @@ export default function ModsPage() {
     [refresh, session],
   );
 
+  const decide = useCallback(
+    async (decision: 'approve' | 'reject') => {
+      if (session === undefined || detail === undefined) return;
+      setActionBusy(decision);
+      setError(undefined);
+      setNotice(undefined);
+      try {
+        const response = await fetch(
+          `/api/v1/servers/${session.serverId}/artifacts/${detail.submission.submissionId}/decision`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'content-type': 'application/json', 'x-csrf-token': session.csrfToken },
+            body: JSON.stringify({
+              schemaVersion: 1,
+              decision,
+              reasonCode: decision === 'approve' ? 'operator-approved' : 'operator-rejected',
+              analyzedSha256: detail.submission.sha256,
+              expectedVersion: detail.submission.version,
+              ...(decision === 'approve' ? { reviewedSide: reviewSide } : {}),
+            }),
+          },
+        );
+        if (!response.ok) throw new Error('A decisão foi recusada; recarregue a análise.');
+        setNotice(decision === 'approve' ? 'Artefato aprovado para instalação.' : 'Artefato rejeitado.');
+        await Promise.all([refresh(session), openDetail(detail.submission.submissionId)]);
+      } catch (caught) {
+        setError(caught instanceof Error ? caught.message : 'Não foi possível registrar a decisão.');
+      } finally {
+        setActionBusy(undefined);
+      }
+    },
+    [detail, openDetail, refresh, reviewSide, session],
+  );
+
+  const installAction = useMemo(
+    () =>
+      detail === undefined
+        ? undefined
+        : buildInstallActionView(detail, session?.permissions.includes('mods.manage') === true),
+    [detail, session],
+  );
+
+  const installArtifact = useCallback(async () => {
+    if (session === undefined || detail === undefined || installAction?.enabled !== true) return;
+    setActionBusy('install');
+    setError(undefined);
+    setNotice(undefined);
+    try {
+      const response = await fetch(
+        `/api/v1/servers/${session.serverId}/artifacts/${detail.submission.submissionId}/install`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'content-type': 'application/json', 'x-csrf-token': session.csrfToken },
+          body: JSON.stringify({
+            schemaVersion: 1,
+            analyzedSha256: detail.submission.sha256,
+            expectedVersion: detail.submission.version,
+            idempotencyKey: `panel-artifact-install-${detail.submission.submissionId}-${String(detail.submission.version)}`,
+            reasonCode: 'operator-install-approved',
+          }),
+        },
+      );
+      if (!response.ok) {
+        throw new Error(
+          response.status === 409
+            ? 'A instalação exige o servidor offline e sem outra operação em andamento.'
+            : 'A instalação foi recusada pelo servidor.',
+        );
+      }
+      setNotice('Instalação aceita. O agente está promovendo o mod aprovado para o servidor.');
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Não foi possível instalar o artefato.');
+    } finally {
+      setActionBusy(undefined);
+    }
+  }, [detail, installAction, session]);
+
   if (sessionState === 'loading') {
     return <PanelShell title="Compatibilidade" category="mods" steps={modsSteps('compatibility')}><section className="card"><p>Carregando artefatos…</p></section></PanelShell>;
   }
@@ -205,7 +287,8 @@ export default function ModsPage() {
     >
       <main className="card artifact-review">
       <h1>Mods em revisão</h1>
-      {error !== undefined ? <p role="alert">{error}</p> : null}
+      {error !== undefined ? <p className="banner banner-danger" role="alert">{error}</p> : null}
+      {notice !== undefined ? <p className="banner banner-neutral" role="status">{notice}</p> : null}
 
       {session.permissions.includes('mods.manage') ? (
         <section aria-label="Envio de artefato">
@@ -334,8 +417,39 @@ export default function ModsPage() {
             )
           ) : null}
 
-          {/* The install action is absent by construction in this phase. */}
-          {install.present ? null : <p>{install.reason}</p>}
+          <section className="artifact-actions" aria-label="Decisão e instalação">
+            {detail.submission.state === 'reviewable' && session.permissions.includes('mods.classify') ? (
+              <>
+                <label className="compact-select">
+                  <span>Aprovar para</span>
+                  <select value={reviewSide} onChange={(event) => setReviewSide(event.target.value as 'server' | 'both')}>
+                    <option value="server">Servidor</option>
+                    <option value="both">Cliente e servidor</option>
+                  </select>
+                </label>
+                <button className="primary" type="button" disabled={actionBusy !== undefined} onClick={() => void decide('approve')}>
+                  {actionBusy === 'approve' ? 'Aprovando…' : 'Aprovar artefato'}
+                </button>
+              </>
+            ) : null}
+            {(detail.submission.state === 'reviewable' || detail.submission.state === 'blocked') && session.permissions.includes('mods.classify') ? (
+              <button className="secondary" type="button" disabled={actionBusy !== undefined} onClick={() => void decide('reject')}>
+                {actionBusy === 'reject' ? 'Rejeitando…' : 'Rejeitar'}
+              </button>
+            ) : null}
+            {installAction?.present === true ? (
+              <button
+                className="primary"
+                type="button"
+                disabled={!installAction.enabled || actionBusy !== undefined}
+                title={installAction.reason}
+                onClick={() => void installArtifact()}
+              >
+                {actionBusy === 'install' ? 'Instalando…' : 'Instalar no servidor'}
+              </button>
+            ) : null}
+            {installAction !== undefined && !installAction.enabled ? <p className="muted">{installAction.reason}</p> : null}
+          </section>
         </aside>
       ) : null}
       </main>

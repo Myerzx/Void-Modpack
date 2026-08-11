@@ -417,13 +417,36 @@ export interface InstallActionView {
 }
 
 /**
- * Phase 8 reviews artifacts; it never installs one. The action is reported as
- * absent so no screen can render an enabled button by accident.
+ * Installation remains disabled until the exact approved server-side bytes
+ * satisfy every precondition the agent rechecks before promotion.
  */
-export function buildInstallActionView(): InstallActionView {
+export function buildInstallActionView(
+  detail: ArtifactSubmissionDetail,
+  hasPermission: boolean,
+): InstallActionView {
+  const submission = detail.submission;
+  if (!hasPermission) return { present: false, enabled: false, reason: 'Permissão insuficiente.' };
+  if (submission.state !== 'approved' || submission.decision?.decision !== 'approved') {
+    return { present: true, enabled: false, reason: 'Aprove o artefato antes de instalar.' };
+  }
+  if (submission.reviewedSide !== 'server' && submission.reviewedSide !== 'both') {
+    return { present: true, enabled: false, reason: 'O artefato não foi aprovado para o servidor.' };
+  }
+  if (!submission.filename.toLocaleLowerCase('en-US').endsWith('.jar')) {
+    return { present: true, enabled: false, reason: 'Somente mods JAR podem ser instalados.' };
+  }
+  if (!submission.analysis.inspected || !submission.analysis.analyzed) {
+    return { present: true, enabled: false, reason: 'A análise ainda não terminou.' };
+  }
+  if (submission.analysis.provenBlockerCount > 0) {
+    return { present: true, enabled: false, reason: 'A análise contém bloqueios comprovados.' };
+  }
+  if (submission.decision.analyzedSha256 !== submission.sha256) {
+    return { present: true, enabled: false, reason: 'A aprovação não corresponde aos bytes atuais.' };
+  }
   return {
-    present: false,
-    enabled: false,
-    reason: 'A instalação não pertence a esta fase; aprovar altera somente o estado de revisão.',
+    present: true,
+    enabled: true,
+    reason: 'A instalação exige que o servidor esteja offline.',
   };
 }

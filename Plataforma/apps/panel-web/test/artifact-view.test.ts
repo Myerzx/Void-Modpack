@@ -292,10 +292,32 @@ describe('dependency graph', () => {
 });
 
 describe('install action', () => {
-  it('is absent in this phase', () => {
-    const view = buildInstallActionView();
-    assert.equal(view.present, false);
-    assert.equal(view.enabled, false);
-    assert.ok(view.reason.length > 0);
+  it('enables only exact approved server-side bytes', () => {
+    const approved = submission({
+      state: 'approved',
+      decision: {
+        decision: 'approved',
+        reasonCode: 'operator-approved',
+        analyzedSha256: hash('a'),
+        decidedAt: '2026-08-05T12:02:00Z',
+      },
+    });
+    const ready = buildInstallActionView(detail({ submission: approved }), true);
+    assert.equal(ready.present, true);
+    assert.equal(ready.enabled, true);
+    assert.match(ready.reason, /offline/u);
+
+    const pending = buildInstallActionView(detail(), true);
+    assert.equal(pending.enabled, false);
+    assert.match(pending.reason, /Aprove/u);
+
+    const clientOnly = buildInstallActionView(
+      detail({ submission: { ...approved, reviewedSide: 'client' } }),
+      true,
+    );
+    assert.equal(clientOnly.enabled, false);
+
+    const denied = buildInstallActionView(detail({ submission: approved }), false);
+    assert.equal(denied.present, false);
   });
 });
