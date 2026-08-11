@@ -40,6 +40,9 @@
     },
     {
       "path": "./apps/server-agent/tsconfig.build.json"
+    },
+    {
+      "path": "./apps/desktop/tsconfig.build.json"
     }
   ]
 }

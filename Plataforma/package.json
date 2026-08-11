@@ -21,13 +21,14 @@
   ],
   "scripts": {
     "build": "npm run build:packages && npm run build:integrations && npm run build:apps",
-    "build:apps": "npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/launcher-api && npm run build --workspace @voidfall/build-worker && npm run build --workspace @voidfall/panel-web",
+    "build:apps": "npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/launcher-api && npm run build --workspace @voidfall/build-worker && npm run build --workspace @voidfall/panel-web && npm run build --workspace @voidfall/desktop",
     "build:integrations": "npm run build --workspace @voidfall/forge-bridge",
     "build:packages": "npm run build --workspace @voidfall/contracts && npm run build --workspace @voidfall/mod-catalog && npm run build --workspace @voidfall/artifact-quarantine && npm run build --workspace @voidfall/artifact-inspection && npm run build --workspace @voidfall/workspace-inventory && npm run build --workspace @voidfall/configuration-inference && npm run build --workspace @voidfall/ecosystem-analysis && npm run build --workspace @voidfall/configuration-staging && npm run build --workspace @voidfall/mod-adapters && npm run build --workspace @voidfall/release-planner && npm run build --workspace @voidfall/artifact-compatibility && npm run build --workspace @voidfall/authorized-files && npm run build --workspace @voidfall/configuration-schemas && npm run build --workspace @voidfall/modpack-release && npm run build --workspace @voidfall/launcher-protocol && npm run build --workspace @voidfall/permissions && npm run build --workspace @voidfall/player-governance && npm run build --workspace @voidfall/audit-chain && npm run build --workspace @voidfall/authentication && npm run build --workspace @voidfall/database && npm run build --workspace @voidfall/minecraft-process && npm run build --workspace @voidfall/sandbox-runner && npm run build --workspace @voidfall/server-backup && npm run build --workspace @voidfall/server-configuration && npm run build --workspace @voidfall/server-schedule && npm run build --workspace @voidfall/server-telemetry",
     "check": "npm run build:packages && npm run typecheck && npm run test && npm run build:integrations && npm run build:apps",
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "panel": "npm run build && npm run local --workspace @voidfall/control-api"
+    "panel": "npm run build && npm run local --workspace @voidfall/control-api",
+    "desktop": "npm run build:packages && npm run build --workspace @voidfall/server-agent && npm run build --workspace @voidfall/control-api && npm run build --workspace @voidfall/panel-web && npm run build --workspace @voidfall/desktop && npm run start --workspace @voidfall/desktop"
   },
   "devDependencies": {
     "@types/node": "24.13.3",

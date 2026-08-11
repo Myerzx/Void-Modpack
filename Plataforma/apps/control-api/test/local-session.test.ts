@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { tmpdir } from 'node:os';
 import { afterEach, describe, it } from 'node:test';
 
 import { hashPassword } from '@voidfall/authentication';
@@ -43,7 +44,14 @@ async function fixture(options: { readonly local?: boolean } = {}) {
   const app = await buildControlApi({
     database,
     cookieSecure: false,
-    ...(options.local === false ? {} : { localOperatorEmail: 'owner@voidfall.local' }),
+    ...(options.local === false
+      ? {}
+      : {
+          localOperator: {
+            mode: 'development' as const,
+            email: 'owner@voidfall.local',
+          },
+        }),
   });
   resources.push({ app, database });
   return { app };
@@ -117,5 +125,59 @@ describe('the local operator session', () => {
     // The login screen already exists; deferring authentication removed the
     // friction, not the route.
     assert.equal(login.statusCode, 200);
+  });
+
+  it('requires the ephemeral launch credential in desktop mode', async () => {
+    const database = await createPGliteTestDatabase();
+    await runMigrations(database);
+    const repositories = createRepositories(database);
+    await repositories.users.create({
+      email: 'owner@voidfall.local',
+      displayName: 'VoidFall Owner',
+      passwordHash: await hashPassword('desktop-session-test-password'),
+      roles: ['owner'],
+    });
+    const app = await buildControlApi({
+      database,
+      cookieSecure: false,
+      panelExportRoot: tmpdir(),
+      localOperator: {
+        mode: 'desktop',
+        email: 'owner@voidfall.local',
+        launchToken: 'desktop-launch-token-with-enough-entropy-for-the-test',
+      },
+    });
+    resources.push({ app, database });
+
+    const root = await app.inject({
+      method: 'GET',
+      url: '/',
+      remoteAddress: '127.0.0.1',
+    });
+    assert.equal(root.statusCode, 302);
+    assert.equal(root.headers['location'], '/entrar');
+    assert.equal(String(root.headers['location']).includes('token='), false);
+
+    for (const url of ['/local/session', '/local/session?token=wrong']) {
+      const refused = await app.inject({
+        method: 'GET',
+        url,
+        remoteAddress: '127.0.0.1',
+      });
+      assert.equal(refused.statusCode, 403);
+      assert.equal(
+        refused.json<{ error: { code: string } }>().error.code,
+        'LOCAL_LAUNCH_TOKEN_INVALID',
+      );
+      assert.equal(refused.headers['set-cookie'], undefined);
+    }
+
+    const granted = await app.inject({
+      method: 'GET',
+      url: '/local/session?token=desktop-launch-token-with-enough-entropy-for-the-test',
+      remoteAddress: '127.0.0.1',
+    });
+    assert.equal(granted.statusCode, 302);
+    assert.match(String(granted.headers['set-cookie']), /HttpOnly/iu);
   });
 });

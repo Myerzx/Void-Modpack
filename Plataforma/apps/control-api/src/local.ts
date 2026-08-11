@@ -1,7 +1,7 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { hashPassword } from '@voidfall/authentication';
@@ -64,15 +64,39 @@ const DEFAULT_PORT = 3100;
 const LOCAL_OWNER_EMAIL = 'owner@voidfall.local';
 const HOST = '127.0.0.1';
 
+export interface LocalRuntimeReady {
+  readonly baseUrl: string;
+  readonly launchUrl: string;
+  readonly port: number;
+  readonly stateDirectory: string;
+}
+
+export interface LocalMainOptions {
+  /** Development is the terminal command; desktop is the loopback Electron host. */
+  readonly runtime?: 'development' | 'desktop';
+  /** Desktop callers must provide an absolute per-user application data path. */
+  readonly stateDirectory?: string;
+  /** Desktop callers must provide the absolute packaged/static panel export. */
+  readonly panelExportRoot?: string;
+  /** Zero asks the operating system for an ephemeral loopback port. */
+  readonly preferredPort?: number;
+  readonly onReady?: (runtime: LocalRuntimeReady) => void;
+  /** Programmatic shutdown channel used by the desktop utility process. */
+  readonly shutdownSignal?: AbortSignal;
+  readonly onStopped?: () => void;
+}
+
 /** Where the local environment keeps everything it provisions. */
-function localStateDirectory(): string {
+function localStateDirectory(override?: string): string {
+  if (override !== undefined) return resolve(override);
   // Anchored to the repository rather than to a working directory, so the
   // command behaves the same wherever it is run from.
   const here = dirname(fileURLToPath(import.meta.url));
   return resolve(here, '..', '..', '..', '.voidfall');
 }
 
-function panelExportDirectory(): string {
+function panelExportDirectory(override?: string): string {
+  if (override !== undefined) return resolve(override);
   const here = dirname(fileURLToPath(import.meta.url));
   return resolve(here, '..', '..', 'panel-web', 'out');
 }
@@ -129,34 +153,60 @@ async function provisionOwner(
  * and move over rather than to make the operator hunt a process id.
  */
 async function freePortFrom(preferred: number): Promise<{ port: number; moved: boolean }> {
-  for (let candidate = preferred; candidate < preferred + 10; candidate += 1) {
-    const free = await new Promise<boolean>((resolve) => {
-      const probe = createServer();
-      probe.once('error', () => {
-        resolve(false);
+  const probe = async (candidate: number): Promise<number | null> =>
+    new Promise<number | null>((resolvePort) => {
+      const server = createServer();
+      server.once('error', () => {
+        resolvePort(null);
       });
-      probe.once('listening', () => {
-        probe.close(() => {
-          resolve(true);
+      server.once('listening', () => {
+        const address = server.address();
+        const port = typeof address === 'object' && address !== null ? address.port : null;
+        server.close(() => {
+          resolvePort(port);
         });
       });
-      probe.listen(candidate, HOST);
+      server.listen(candidate, HOST);
     });
-    if (free) return { port: candidate, moved: candidate !== preferred };
+
+  if (preferred === 0) {
+    const port = await probe(0);
+    if (port === null) throw new Error('O sistema não conseguiu reservar uma porta local.');
+    return { port, moved: false };
   }
-  return { port: preferred, moved: false };
+
+  for (let candidate = preferred; candidate < preferred + 10; candidate += 1) {
+    const port = await probe(candidate);
+    if (port !== null) return { port, moved: candidate !== preferred };
+  }
+  throw new Error('Nenhuma das portas locais reservadas está disponível.');
 }
 
-export async function main(argv: readonly string[] = []): Promise<number> {
-  if (process.env['NODE_ENV'] === 'production') {
+export async function main(
+  argv: readonly string[] = [],
+  options: LocalMainOptions = {},
+): Promise<number> {
+  const runtime = options.runtime ?? 'development';
+  if (runtime === 'development' && process.env['NODE_ENV'] === 'production') {
     process.stderr.write(
       'O ambiente local não roda com NODE_ENV=production. Use `npm run start` com DATABASE_URL.\n',
     );
     return 64;
   }
 
-  const stateDirectory = localStateDirectory();
-  const panelRoot = panelExportDirectory();
+  if (runtime === 'desktop') {
+    if (options.stateDirectory === undefined || !isAbsolute(options.stateDirectory)) {
+      throw new Error('O aplicativo desktop exige um diretório de estado absoluto.');
+    }
+    if (options.panelExportRoot === undefined || !isAbsolute(options.panelExportRoot)) {
+      throw new Error('O aplicativo desktop exige um diretório de painel absoluto.');
+    }
+  }
+
+  const stateDirectory = localStateDirectory(options.stateDirectory);
+  const panelRoot = panelExportDirectory(options.panelExportRoot);
+  const desktopLaunchToken =
+    runtime === 'desktop' ? randomBytes(32).toString('base64url') : undefined;
 
   const say = (message: string): void => {
     process.stdout.write(`${message}\n`);
@@ -191,6 +241,10 @@ export async function main(argv: readonly string[] = []): Promise<number> {
       if (app !== undefined) await app.close().catch(() => undefined);
       if (database !== undefined) await database.close().catch(() => undefined);
       await processLock.release();
+      process.off('SIGINT', onSignal);
+      process.off('SIGTERM', onSignal);
+      options.shutdownSignal?.removeEventListener('abort', onShutdownRequest);
+      options.onStopped?.();
     })();
     return shutdownTask;
   };
@@ -203,6 +257,7 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   };
   process.once('SIGINT', onSignal);
   process.once('SIGTERM', onSignal);
+  const onShutdownRequest = (): void => onSignal();
 
   try {
 
@@ -230,8 +285,6 @@ export async function main(argv: readonly string[] = []): Promise<number> {
       'O painel ainda não foi exportado. Rode `npm run build` na pasta Plataforma e tente de novo.\n',
     );
     await shutdown();
-    process.off('SIGINT', onSignal);
-    process.off('SIGTERM', onSignal);
     return 2;
   }
   say(`  painel    servido pela própria API (mesma origem, sem proxy)`);
@@ -274,11 +327,26 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     // CSRF token and every permission check are the ones the real login
     // produces. What is missing is the step where somebody proves they are the
     // person sitting at their own machine, on loopback, alone.
-    localOperatorEmail: LOCAL_OWNER_EMAIL,
+    localOperator:
+      runtime === 'desktop'
+        ? {
+            mode: 'desktop',
+            email: LOCAL_OWNER_EMAIL,
+            launchToken: desktopLaunchToken!,
+          }
+        : { mode: 'development', email: LOCAL_OWNER_EMAIL },
     panelEntryPath: '/workspaces',
   });
 
-  const preferred = Number(process.env['VOIDFALL_CONTROL_API_PORT'] ?? String(DEFAULT_PORT));
+  const preferred =
+    options.preferredPort ??
+    Number(
+      process.env['VOIDFALL_CONTROL_API_PORT'] ??
+        (runtime === 'desktop' ? '0' : String(DEFAULT_PORT)),
+    );
+  if (!Number.isInteger(preferred) || preferred < 0 || preferred > 65_535) {
+    throw new Error('A porta local deve ser um inteiro entre 0 e 65535.');
+  }
   const { port, moved } = await freePortFrom(preferred);
   if (moved) {
     say(`  porta     ${String(preferred)} ocupada — usando ${String(port)}`);
@@ -409,7 +477,22 @@ export async function main(argv: readonly string[] = []): Promise<number> {
   await fleet.synchronize();
   agentTask = fleet.start(agentAbort.signal);
 
-  say('  sessão    operador local entra sem senha (só em loopback)');
+  const launchUrl =
+    desktopLaunchToken === undefined
+      ? `${baseUrl}/`
+      : `${baseUrl}/local/session?token=${encodeURIComponent(desktopLaunchToken)}`;
+  options.shutdownSignal?.addEventListener('abort', onShutdownRequest, { once: true });
+  if (options.shutdownSignal?.aborted === true) {
+    await shutdown();
+    return 0;
+  }
+  options.onReady?.({ baseUrl, launchUrl, port, stateDirectory });
+
+  say(
+    runtime === 'desktop'
+      ? '  sessão    operador desktop protegido por credencial efêmera'
+      : '  sessão    operador local entra sem senha (só em loopback)',
+  );
   say('');
   if (owner !== null) {
     // Still written, because the login screen exists and will be the way in
@@ -417,15 +500,17 @@ export async function main(argv: readonly string[] = []): Promise<number> {
     say(`  Credencial guardada em ${join(stateDirectory, 'first-owner.txt')}`);
     say('');
   }
-  say(`  Abra  http://${HOST}:${String(port)}/`);
+  if (runtime === 'development') say(`  Abra  http://${HOST}:${String(port)}/`);
   say('');
-  say('  Ctrl+C encerra. `npm run panel -- --reset` recomeça do zero.');
+  say(
+    runtime === 'desktop'
+      ? '  Fechar a janela encerra o aplicativo e o serviço local.'
+      : '  Ctrl+C encerra. `npm run panel -- --reset` recomeça do zero.',
+  );
   say('');
   return 0;
   } catch (error) {
     await shutdown();
-    process.off('SIGINT', onSignal);
-    process.off('SIGTERM', onSignal);
     throw error;
   }
 }
