@@ -6,6 +6,10 @@ import { PanelShell, serverSteps } from '../components/shell';
 import { PanelSessionClient, type PanelFetch } from '../../lib/panel-session';
 import { actionView, type PanelSession } from '../../lib/panel-shell';
 import {
+  chooseActiveServerId,
+  rememberActiveServerId,
+} from '../../lib/active-server';
+import {
   buildDashboardView,
   buildInstanceSelectorView,
   buildOperationsView,
@@ -71,6 +75,7 @@ export default function ServerPage() {
       }
       const body = (await response.json()) as { readonly servers: readonly ServerInstance[] };
       setInstances(body.servers);
+      setSelectedId((current) => chooseActiveServerId(body.servers, current));
     })();
   }, [session]);
 
@@ -177,7 +182,10 @@ export default function ServerPage() {
     [session, operations, operationStatus],
   );
 
-  const select = useCallback((id: string) => setSelectedId(id), []);
+  const select = useCallback((id: string) => {
+    rememberActiveServerId(id);
+    setSelectedId(id);
+  }, []);
 
   if (signedOut) {
     return (

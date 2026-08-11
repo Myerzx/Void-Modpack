@@ -3,6 +3,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { modsSteps, PanelShell } from '../../components/shell';
 import {
+  readOperationalContext,
+  rememberActiveServerId,
+} from '../../../lib/active-server';
+import type { ServerInstance } from '../../../lib/panel-views';
+import {
   buildArtifactListView,
   buildDependencyGraphView,
   buildIncompatibilityDrawerView,
@@ -35,6 +40,8 @@ const install = buildInstallActionView();
 
 export default function ModsPage() {
   const [session, setSession] = useState<PanelSession | undefined>(undefined);
+  const [servers, setServers] = useState<readonly ServerInstance[]>([]);
+  const [sessionState, setSessionState] = useState<'loading' | 'ready' | 'unavailable'>('loading');
   const [page, setPage] = useState<ArtifactSubmissionPage | undefined>(undefined);
   const [detail, setDetail] = useState<ArtifactSubmissionDetail | undefined>(undefined);
   const [search, setSearch] = useState('');
@@ -57,12 +64,39 @@ export default function ModsPage() {
   }, []);
 
   useEffect(() => {
-    const stored = globalThis.sessionStorage?.getItem('voidfall.session');
-    if (stored === null || stored === undefined) return;
-    const parsed = JSON.parse(stored) as PanelSession;
-    setSession(parsed);
-    void refresh(parsed);
+    let cancelled = false;
+    void readOperationalContext()
+      .then((context) => {
+        if (cancelled) return;
+        if (context.kind !== 'ready') {
+          setSessionState('unavailable');
+          return;
+        }
+        setServers(context.servers);
+        setSession(context.session);
+        setSessionState('ready');
+        void refresh(context.session);
+      })
+      .catch(() => {
+        if (!cancelled) setSessionState('unavailable');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [refresh]);
+
+  const selectServer = useCallback(
+    (serverId: string) => {
+      if (session === undefined) return;
+      rememberActiveServerId(serverId);
+      const selected = { ...session, serverId };
+      setSession(selected);
+      setDetail(undefined);
+      setPage(undefined);
+      void refresh(selected);
+    },
+    [refresh, session],
+  );
 
   const list = useMemo(
     () => (page === undefined ? undefined : buildArtifactListView({ page, search })),
@@ -140,6 +174,9 @@ export default function ModsPage() {
     [refresh, session],
   );
 
+  if (sessionState === 'loading') {
+    return <PanelShell title="Compatibilidade" category="mods" steps={modsSteps('compatibility')}><section className="card"><p>Carregando artefatos…</p></section></PanelShell>;
+  }
   if (session === undefined) {
     return <PanelShell title="Compatibilidade" category="mods" steps={modsSteps('compatibility')}><section className="card"><p>Entre no painel para revisar artefatos.</p></section></PanelShell>;
   }
@@ -148,7 +185,24 @@ export default function ModsPage() {
   }
 
   return (
-    <PanelShell title="Compatibilidade" category="mods" steps={modsSteps('compatibility')} subtitle="Quarentena, inspeção e revisão de artefatos antes da instalação.">
+    <PanelShell
+      title="Compatibilidade"
+      category="mods"
+      steps={modsSteps('compatibility')}
+      subtitle="Quarentena, inspeção e revisão de artefatos antes da instalação."
+      actions={
+        servers.length > 0 ? (
+          <label className="compact-select server-instance-select">
+            <span>Instância ativa</span>
+            <select value={session.serverId} onChange={(event) => selectServer(event.target.value)}>
+              {servers.map((server) => (
+                <option key={server.id} value={server.id}>{server.displayName}</option>
+              ))}
+            </select>
+          </label>
+        ) : undefined
+      }
+    >
       <main className="card artifact-review">
       <h1>Mods em revisão</h1>
       {error !== undefined ? <p role="alert">{error}</p> : null}

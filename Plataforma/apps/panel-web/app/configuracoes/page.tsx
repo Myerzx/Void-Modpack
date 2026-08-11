@@ -3,6 +3,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PanelShell, serverSteps } from '../components/shell';
 import {
+  readOperationalContext,
+  rememberActiveServerId,
+} from '../../lib/active-server';
+import type { ServerInstance } from '../../lib/panel-views';
+import {
   createConfigurationClient,
   ConfigurationApiError,
   type ConfigurationClient,
@@ -44,6 +49,7 @@ interface PanelSession {
 
 export default function ConfigurationPage() {
   const [session, setSession] = useState<PanelSession | undefined>(undefined);
+  const [servers, setServers] = useState<readonly ServerInstance[]>([]);
   const [schema, setSchema] = useState<ConfigurationSchemaView | undefined>(undefined);
   const [state, setState] = useState<ConfigurationResourceStateView | undefined>(undefined);
   const [revisions, setRevisions] = useState<readonly ConfigurationRevisionView[]>([]);
@@ -124,27 +130,22 @@ export default function ConfigurationPage() {
     let cancelled = false;
     void (async () => {
       try {
-        const response = await fetch('/api/v1/auth/session', { credentials: 'include' });
-        if (!response.ok) {
-          if (!cancelled) setScreen(screenStateForError(response.status));
-          return;
-        }
-        const body = (await response.json()) as {
-          permissions?: readonly string[];
-          serverId?: string;
-          csrfToken?: string;
-        };
+        const context = await readOperationalContext();
         if (cancelled) return;
-        if (typeof body.serverId !== 'string' || typeof body.csrfToken !== 'string') {
-          // Without an instance and a CSRF token there is nothing safe to show.
-          setScreen(screenStateForError(403));
+        if (context.kind !== 'ready') {
+          setScreen(
+            screenStateForError(
+              context.kind === 'signed-out'
+                ? 401
+                : context.kind === 'no-server'
+                  ? 404
+                  : 403,
+            ),
+          );
           return;
         }
-        setSession({
-          serverId: body.serverId,
-          csrfToken: body.csrfToken,
-          permissions: body.permissions ?? [],
-        });
+        setServers(context.servers);
+        setSession(context.session);
       } catch {
         if (!cancelled) setScreen(screenStateForError(0));
       }
@@ -152,6 +153,17 @@ export default function ConfigurationPage() {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  const selectServer = useCallback((serverId: string) => {
+    rememberActiveServerId(serverId);
+    setSchema(undefined);
+    setState(undefined);
+    setRevisions([]);
+    setDraft({});
+    setNotice(null);
+    setScreen({ kind: 'loading' });
+    setSession((current) => (current === undefined ? current : { ...current, serverId }));
   }, []);
 
   useEffect(() => {
@@ -261,6 +273,18 @@ export default function ConfigurationPage() {
       category="server"
       steps={serverSteps('settings')}
       subtitle={<>OpenLoader — opções avançadas · schema {screen.schema.definitionVersion} · modo {screen.schema.applyMode}</>}
+      actions={
+        servers.length > 0 && session !== undefined ? (
+          <label className="compact-select server-instance-select">
+            <span>Instância ativa</span>
+            <select value={session.serverId} onChange={(event) => selectServer(event.target.value)}>
+              {servers.map((server) => (
+                <option key={server.id} value={server.id}>{server.displayName}</option>
+              ))}
+            </select>
+          </label>
+        ) : undefined
+      }
     >
 
       {screen.restartNotice === null ? null : (
