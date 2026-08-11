@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1786409460.5588222,
-    "ast_hash": "0e26d7cc2dfa2844e3657e8ecb9d9bc5",
+    "mtime": 1786411906.412312,
+    "ast_hash": "43fbc56261f73008e9c23baf6d1e9535",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/HANDOFF.md": {
-    "mtime": 1786409609.530565,
-    "ast_hash": "ef3ba71686b7fe76e049e19b0701975d",
+    "mtime": 1786412205.28298,
+    "ast_hash": "0a5f77bc80a1eac5aca7d4b470076f36",
     "semantic_hash": ""
   },
   "docs/plataforma/LAUNCHER_PROTOCOL.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786409460.561838,
-    "ast_hash": "e245a486ffdbf3e40848c23ac82a5f28",
+    "mtime": 1786411906.4153252,
+    "ast_hash": "d3e1176e472729876136b4a0e2af9950",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786408992.0243244,
-    "ast_hash": "068a789bfb0146ba5591ee3a0b53158c",
+    "mtime": 1786411825.4577906,
+    "ast_hash": "e39e398be1d18c9d7222c3c611e300a3",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
@@ -4870,8 +4870,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_19_ECOSYSTEM_ANALYSIS.md": {
-    "mtime": 1786409609.5320733,
-    "ast_hash": "2e5744bbe97042a742ecb202f6fe71f8",
+    "mtime": 1786412205.28298,
+    "ast_hash": "6256d1a9f223208b256acde194bfface",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260809_082159_como_o_invent\u00e1rio_do_workspace_chega_\u00e0_an\u00e1lise_de.md": {
@@ -5047,6 +5047,11 @@
   "graphify-out/memory/query_20260811_005312_valida_se_estiver_tudo_cewrto_pode_come\u00e7ar_pela_a.md": {
     "mtime": 1786409592.402201,
     "ast_hash": "f17dd13cd6e0b52d573fdd6cfead7c1c",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/datapack-load-order-e2e.test.ts": {
+    "mtime": 1786411849.1743877,
+    "ast_hash": "5567bbad8499ee210466753a9b03c62d",
     "semantic_hash": ""
   }
 }
