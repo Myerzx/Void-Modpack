@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 
+import type { AuditEvent } from '@voidfall/contracts';
 import {
   projectObservedDatapackLoadOrder,
   validateDatapackLoadOrderObservation,
@@ -10,7 +11,8 @@ import {
   type EcosystemAnalysis,
 } from '@voidfall/ecosystem-analysis';
 
-import type { Database } from './database.js';
+import { appendAuditRecord } from './audit-persistence.js';
+import type { Database, SqlClient } from './database.js';
 
 export type DatapackLoadOrderPersistenceErrorCode =
   | 'analysis-not-found'
@@ -30,6 +32,8 @@ export class DatapackLoadOrderPersistenceError extends Error {
 
 export interface StoredDatapackLoadOrderObservation {
   readonly recordId: string;
+  /** Durable job identity for operational captures; null for isolated evidence. */
+  readonly jobId: string | null;
   readonly workspaceId: string;
   readonly analysisId: string;
   readonly inventorySha256: string;
@@ -44,6 +48,7 @@ export interface StoredDatapackLoadOrderObservation {
 
 interface DatapackLoadOrderRow {
   readonly record_id: string;
+  readonly job_id: string | null;
   readonly workspace_id: string;
   readonly analysis_id: string;
   readonly inventory_sha256: string;
@@ -93,6 +98,7 @@ function mapRow(row: DatapackLoadOrderRow): StoredDatapackLoadOrderObservation {
     }
     return Object.freeze({
       recordId: row.record_id,
+      jobId: row.job_id,
       workspaceId: row.workspace_id,
       analysisId: row.analysis_id,
       inventorySha256: row.inventory_sha256,
@@ -110,7 +116,7 @@ function mapRow(row: DatapackLoadOrderRow): StoredDatapackLoadOrderObservation {
   }
 }
 
-const COLUMNS = `record_id, workspace_id, analysis_id, inventory_sha256,
+const COLUMNS = `record_id, job_id, workspace_id, analysis_id, inventory_sha256,
   observation_id, source, observed_at, evidence_sha256,
   observation_document, projection_document, created_at`;
 
@@ -127,6 +133,16 @@ export class DatapackLoadOrderRepository {
       `SELECT ${COLUMNS} FROM workspace_datapack_load_order_observations
        WHERE workspace_id = $1 AND analysis_id = $2 AND observation_id = $3`,
       [input.workspaceId, input.analysisId, input.observationId],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapRow(row);
+  }
+
+  public async findByJobId(jobId: string): Promise<StoredDatapackLoadOrderObservation | undefined> {
+    const result = await this.database.query<DatapackLoadOrderRow>(
+      `SELECT ${COLUMNS} FROM workspace_datapack_load_order_observations
+       WHERE job_id = $1`,
+      [jobId],
     );
     const row = result.rows[0];
     return row === undefined ? undefined : mapRow(row);
@@ -151,8 +167,50 @@ export class DatapackLoadOrderRepository {
     readonly analysisId: string;
     readonly observation: DatapackLoadOrderObservation;
   }): Promise<StoredDatapackLoadOrderObservation> {
+    const saved = await this.#save(this.database, { ...input, jobId: null });
+    return saved.record;
+  }
+
+  /**
+   * Persists the one effect of an agent job together with its sanitized audit.
+   *
+   * `job_id` is the idempotency boundary. If the agent lost its result response
+   * after commit, the next lease returns the original record without reading
+   * the world again or appending a second success event.
+   */
+  public async saveOperational(input: {
+    readonly jobId: string;
+    readonly workspaceId: string;
+    readonly analysisId: string;
+    readonly observation: DatapackLoadOrderObservation;
+    readonly auditEvent: AuditEvent;
+  }): Promise<{
+    readonly record: StoredDatapackLoadOrderObservation;
+    readonly replayed: boolean;
+  }> {
+    return this.database.transaction(async (client) => {
+      const saved = await this.#save(client, input);
+      if (!saved.replayed) {
+        await appendAuditRecord(client, input.auditEvent, 'datapack-load-order');
+      }
+      return saved;
+    });
+  }
+
+  async #save(
+    client: SqlClient,
+    input: {
+      readonly jobId: string | null;
+      readonly workspaceId: string;
+      readonly analysisId: string;
+      readonly observation: DatapackLoadOrderObservation;
+    },
+  ): Promise<{
+    readonly record: StoredDatapackLoadOrderObservation;
+    readonly replayed: boolean;
+  }> {
     const observation = validateDatapackLoadOrderObservation(input.observation);
-    const analysisResult = await this.database.query<AnalysisRow>(
+    const analysisResult = await client.query<AnalysisRow>(
       `SELECT analysis_id, inventory_sha256, document
        FROM workspace_ecosystem_analyses
        WHERE workspace_id = $1 AND analysis_id = $2
@@ -181,16 +239,17 @@ export class DatapackLoadOrderRepository {
     }
     const projection = projectObservedDatapackLoadOrder({ analysis, observation });
 
-    const inserted = await this.database.query<DatapackLoadOrderRow>(
+    const inserted = await client.query<DatapackLoadOrderRow>(
       `INSERT INTO workspace_datapack_load_order_observations (
-         record_id, workspace_id, analysis_id, inventory_sha256,
+         record_id, job_id, workspace_id, analysis_id, inventory_sha256,
          observation_id, source, observed_at, evidence_sha256,
          observation_document, projection_document
-       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-       ON CONFLICT (workspace_id, analysis_id, observation_id) DO NOTHING
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+       ON CONFLICT DO NOTHING
        RETURNING ${COLUMNS}`,
       [
         randomUUID(),
+        input.jobId,
         input.workspaceId,
         input.analysisId,
         observation.inventorySha256,
@@ -203,22 +262,36 @@ export class DatapackLoadOrderRepository {
       ],
     );
     const insertedRow = inserted.rows[0];
-    if (insertedRow !== undefined) return mapRow(insertedRow);
+    if (insertedRow !== undefined) {
+      return { record: mapRow(insertedRow), replayed: false };
+    }
 
-    const existing = await this.find({
-      workspaceId: input.workspaceId,
-      analysisId: input.analysisId,
-      observationId: observation.observationId,
-    });
+    const existingResult =
+      input.jobId === null
+        ? await client.query<DatapackLoadOrderRow>(
+            `SELECT ${COLUMNS} FROM workspace_datapack_load_order_observations
+             WHERE workspace_id = $1 AND analysis_id = $2 AND observation_id = $3`,
+            [input.workspaceId, input.analysisId, observation.observationId],
+          )
+        : await client.query<DatapackLoadOrderRow>(
+            `SELECT ${COLUMNS} FROM workspace_datapack_load_order_observations
+             WHERE job_id = $1`,
+            [input.jobId],
+          );
+    const existingRow = existingResult.rows[0];
+    const existing = existingRow === undefined ? undefined : mapRow(existingRow);
     if (existing === undefined) {
       throw new DatapackLoadOrderPersistenceError('immutable-replay-mismatch');
     }
     if (
+      existing.workspaceId !== input.workspaceId ||
+      existing.analysisId !== input.analysisId ||
+      existing.jobId !== input.jobId ||
       !isDeepStrictEqual(existing.observation, observation) ||
       !isDeepStrictEqual(existing.projection, projection)
     ) {
       throw new DatapackLoadOrderPersistenceError('immutable-replay-mismatch');
     }
-    return existing;
+    return { record: existing, replayed: true };
   }
 }

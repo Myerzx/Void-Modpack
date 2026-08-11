@@ -183,6 +183,26 @@ export class WorkspaceRepository {
     return row === undefined ? undefined : mapWorkspace(row);
   }
 
+  /**
+   * Resolves the single registered server workspace for an instance.
+   *
+   * The unique database index is the authority on singularity. Agent callers
+   * receive the trusted root from this record and never from a job or lease.
+   */
+  public async findServerByInstanceId(
+    serverInstanceId: string,
+  ): Promise<PanelWorkspace | undefined> {
+    const result = await this.database.query<WorkspaceRow>(
+      `SELECT workspace_id, slug, display_name, root_path, kind, server_instance_id,
+              created_at, updated_at
+       FROM panel_workspaces
+       WHERE server_instance_id = $1 AND kind = 'server'`,
+      [serverInstanceId],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapWorkspace(row);
+  }
+
   /** Everything a screen may see, each with the last scan if there is one. */
   public async listPublic(): Promise<readonly PublicWorkspace[]> {
     const result = await this.database.query<

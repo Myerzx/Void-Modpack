@@ -240,6 +240,45 @@ describe('agent transport persistence', () => {
     }
   });
 
+  it('grants and leases the reviewed datapack observation capability', async () => {
+    const { database, repositories, agentId, serverInstanceId } = await transportFixture({
+      capabilities: ['datapack-load-order.observe'],
+    });
+    try {
+      const job: Job = {
+        schemaVersion: 1,
+        id: randomUUID(),
+        type: 'datapack-load-order.observe',
+        resource: { type: 'server-instance', id: serverInstanceId },
+        status: 'queued',
+        stage: 'awaiting-agent',
+        priority: 50,
+        payload: { schemaVersion: 1, parameters: { command: {} } },
+        idempotencyKey: `datapack-order:${randomUUID()}`,
+        requestedBy: { type: 'system', id: 'transport-test' },
+        correlationId: randomUUID(),
+        availableAt: '2026-08-05T12:00:00Z',
+        attempt: 0,
+        maxAttempts: 3,
+      };
+      await repositories.jobs.enqueue(job);
+      const claimed = await repositories.agentTransport.claimWork({
+        agentId,
+        capabilities: ['datapack-load-order.observe'],
+        bootId: randomUUID(),
+        maximumLeases: 1,
+        leaseMs: 60_000,
+        now: new Date('2026-08-05T12:00:00Z'),
+        newLeaseId: () => randomUUID(),
+      });
+      assert.equal(claimed.length, 1);
+      assert.equal(claimed[0]?.capability, 'datapack-load-order.observe');
+      assert.equal(claimed[0]?.jobType, 'datapack-load-order.observe');
+    } finally {
+      await database.close();
+    }
+  });
+
   it('reserves the job and records the lease in one transaction', async () => {
     const { database, repositories, agentId } = await transportFixture();
     try {

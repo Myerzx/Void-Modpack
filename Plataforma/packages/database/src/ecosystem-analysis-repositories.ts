@@ -76,6 +76,19 @@ export class EcosystemAnalysisRepository {
     return row === undefined ? undefined : mapRow(row);
   }
 
+  public async findByAnalysisId(input: {
+    readonly workspaceId: string;
+    readonly analysisId: string;
+  }): Promise<StoredEcosystemAnalysis | undefined> {
+    const result = await this.database.query<EcosystemAnalysisRow>(
+      `SELECT ${COLUMNS} FROM workspace_ecosystem_analyses
+       WHERE workspace_id = $1 AND analysis_id = $2`,
+      [input.workspaceId, input.analysisId],
+    );
+    const row = result.rows[0];
+    return row === undefined ? undefined : mapRow(row);
+  }
+
   public async save(input: {
     readonly workspaceId: string;
     readonly inventoryId: string;
