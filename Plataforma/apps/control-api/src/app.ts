@@ -75,6 +75,10 @@ import { registerTelemetryRoutes, type TelemetryPermission } from './telemetry-r
 import { registerScheduleRoutes, type SchedulePermission } from './schedule-routes.js';
 import { registerLocalSession } from './local-session.js';
 import { registerStaticPanel } from './static-panel.js';
+import {
+  registerDatapackLoadOrderRoutes,
+  type DatapackLoadOrderPermission,
+} from './datapack-load-order-routes.js';
 
 const SESSION_COOKIE = 'voidfall_session';
 const ABSOLUTE_SESSION_MS = 12 * 60 * 60_000;
@@ -349,8 +353,12 @@ const AgentRegistrationBodySchema = Type.Object(
     // Closed capability list. A capability is a named, reviewed operation; it
     // never authorizes a generic executor.
     capabilities: Type.Array(
-      Type.Union([Type.Literal('heartbeat'), Type.Literal('configuration.apply')]),
-      { minItems: 1, maxItems: 2, uniqueItems: true },
+      Type.Union([
+        Type.Literal('heartbeat'),
+        Type.Literal('configuration.apply'),
+        Type.Literal('datapack-load-order.observe'),
+      ]),
+      { minItems: 1, maxItems: 3, uniqueItems: true },
     ),
   },
   { additionalProperties: false },
@@ -916,6 +924,28 @@ export async function buildControlApi(options: BuildControlApiOptions): Promise<
     ...(options.configurationReader === undefined
       ? {}
       : { configurationReader: options.configurationReader }),
+  });
+
+  registerDatapackLoadOrderRoutes(app, {
+    repositories,
+    clock,
+    authenticate,
+    requirePermission: (permission: DatapackLoadOrderPermission) => requirePermission(permission),
+    requireCsrf,
+    apiError: (statusCode, code, message) => new ApiError(statusCode, code, message),
+    audit: async (input) => {
+      await repositories.audit.append(
+        auditEvent({
+          request: input.request,
+          now: clock(),
+          actor: input.actor,
+          action: input.action,
+          resource: { type: 'ecosystem-analysis', id: input.analysisId },
+          outcome: input.outcome,
+          ...(input.reason === undefined ? {} : { reason: input.reason }),
+        }),
+      );
+    },
   });
 
   registerAgentWorkRoutes(app, {

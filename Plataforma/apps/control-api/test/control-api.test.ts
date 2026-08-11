@@ -168,7 +168,7 @@ describe('agent registration and heartbeat identity', () => {
       publicKeyPem: publicKey.export({ type: 'spki', format: 'pem' }).toString(),
       certificateFingerprint,
       softwareVersion: '0.1.0',
-      capabilities: ['heartbeat'],
+      capabilities: ['heartbeat', 'datapack-load-order.observe'],
     };
     const registration = await context.app.inject({
       method: 'POST',
