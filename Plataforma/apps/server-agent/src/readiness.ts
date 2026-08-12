@@ -24,6 +24,7 @@ export type CapabilityUnavailableReason =
   | 'no-reviewed-resource-authorized'
   | 'no-artifact-installer-configured'
   | 'no-backup-repository-configured'
+  | 'no-restore-verifier-configured'
   | 'no-process-controller-configured'
   | 'no-console-adapter-configured'
   | 'no-server-workspace-registered'
@@ -67,6 +68,8 @@ export interface RuntimeDependencies {
   readonly hasBackupService: boolean;
   /** A trusted deployment explicitly enabled destructive restore. */
   readonly backupRestoreEnabled: boolean;
+  readonly backupRestoreVerificationEnabled: boolean;
+  readonly hasRestoreVerifier: boolean;
   readonly hasProcessController: boolean;
   readonly hasConsoleAdapter: boolean;
 }
@@ -108,6 +111,7 @@ const ALL_CAPABILITIES: readonly AgentCapability[] = Object.freeze([
   'process.force-kill',
   'console.command',
   'backup.create',
+  'backup.verify-restore',
   'backup.restore',
   'datapack-load-order.observe',
 ]);
@@ -144,6 +148,10 @@ function missingDependency(
       return dependencies.hasProcessController ? null : 'no-process-controller-configured';
     case 'backup.create':
       return dependencies.hasBackupService ? null : 'no-backup-repository-configured';
+    case 'backup.verify-restore':
+      if (!dependencies.backupRestoreVerificationEnabled) return 'deliberately-disabled';
+      if (!dependencies.hasBackupService) return 'no-backup-repository-configured';
+      return dependencies.hasRestoreVerifier ? null : 'no-restore-verifier-configured';
     case 'backup.restore':
       if (!dependencies.backupRestoreEnabled) return 'deliberately-disabled';
       // Restoring materialises a world and then boots it to verify. Without a

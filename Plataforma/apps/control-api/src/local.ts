@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import { hashPassword } from '@voidfall/authentication';
 import { createEmbeddedDatabase, createRepositories, runMigrations } from '@voidfall/database';
-import { discoverJavaRuntime } from '@voidfall/sandbox-runner';
+import { discoverJavaRuntime, runRestoredWorldBoot } from '@voidfall/sandbox-runner';
 import {
   AgentRuntime,
   AgentWorkTransport,
@@ -487,6 +487,26 @@ export async function main(
               processController: processRuntime.controller,
               consoleAdapter: processRuntime.adapter,
               processAdapter: processRuntime.adapter,
+              ...(localBackup?.restoreVerificationEnabled === true &&
+              instance.runDirectory !== null &&
+              java !== null
+                ? {
+                    restoreVerifier: {
+                      verify: async (restore: {
+                        readonly backupId: string;
+                        readonly restoredRoot: string;
+                      }) => {
+                        const evidence = await runRestoredWorldBoot({
+                          workspaceRoot: instance.runDirectory as string,
+                          activeWorldRoot: localBackup.worldSourcePath,
+                          restoredRoot: restore.restoredRoot,
+                          java,
+                        });
+                        return { outcome: evidence.report.outcome };
+                      },
+                    },
+                  }
+                : {}),
               ...(instance.runDirectory === null
                 ? {}
                 : {

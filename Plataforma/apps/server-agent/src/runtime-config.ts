@@ -100,6 +100,8 @@ export interface BackupConfiguration {
    * directory itself rather than the active world.
    */
   readonly restoreEnabled?: boolean;
+  /** Enables only the non-destructive isolated restore rehearsal. */
+  readonly restoreVerificationEnabled?: boolean;
   /** Optional local safety bounds; absent keeps the service defaults. */
   readonly limits?: Partial<BackupLimits>;
   readonly quota?: BackupQuota;

@@ -2,6 +2,7 @@ import { Type, type Static } from '@sinclair/typebox';
 import {
   validateCreateBackupRequest,
   validateRestoreBackupRequest,
+  validateVerifyBackupRestoreRequest,
   type ActorRef,
   type BackupPageContract,
   type BackupRecordContract,
@@ -95,9 +96,20 @@ const RestoreBodySchema = Type.Object(
   { additionalProperties: false },
 );
 
+const VerifyRestoreBodySchema = Type.Object(
+  {
+    schemaVersion: Type.Literal(1),
+    backupId: BackupId,
+    idempotencyKey: IdempotencyKey,
+    reasonCode: ReasonCode,
+  },
+  { additionalProperties: false },
+);
+
 type ServerParams = Static<typeof ServerParamsSchema>;
 type CreateBody = Static<typeof CreateBodySchema>;
 type RestoreBody = Static<typeof RestoreBodySchema>;
+type VerifyRestoreBody = Static<typeof VerifyRestoreBodySchema>;
 
 export function registerBackupRoutes(
   app: FastifyInstance,
@@ -332,6 +344,55 @@ export function registerBackupRoutes(
         idempotencyKey: body.idempotencyKey,
         reasonCode: body.reasonCode,
         actionName: 'backup.restore.requested',
+        backupId: body.backupId,
+      });
+      reply.code(202);
+      return accepted.operation;
+    },
+  );
+
+  app.post<{ Params: ServerParams; Body: VerifyRestoreBody }>(
+    '/api/v1/servers/:serverId/backups/verify-restore',
+    {
+      schema: { params: ServerParamsSchema, body: VerifyRestoreBodySchema },
+      preHandler: [authenticate, requireCsrf, requirePermission('backups.restore')],
+      config: { rateLimit: { max: 5, timeWindow: '1 minute' } },
+    },
+    async (request, reply): Promise<ServerOperation> => {
+      if (!validateVerifyBackupRestoreRequest(request.body).success) {
+        throw apiError(400, 'BACKUP_REQUEST_INVALID', 'SolicitaÃ§Ã£o invÃ¡lida.');
+      }
+      const { serverId } = request.params;
+      await requireServer(serverId);
+      const body = request.body;
+      const backup = await repositories.backups.findById(body.backupId);
+      if (backup === undefined || backup.serverInstanceId !== serverId) {
+        throw apiError(404, 'BACKUP_NOT_FOUND', 'Backup nÃ£o encontrado.');
+      }
+      if (backup.status !== 'available') {
+        throw apiError(
+          409,
+          'BACKUP_NOT_RESTORABLE',
+          'O backup nÃ£o estÃ¡ disponÃ­vel para verificaÃ§Ã£o.',
+        );
+      }
+      const observed = await repositories.processStates.find(serverId);
+      if (observed === undefined || observed.stale || observed.lifecycle !== 'offline') {
+        throw apiError(
+          409,
+          'BACKUP_OFFLINE_WINDOW_REQUIRED',
+          'Desligue o servidor e aguarde uma observaÃ§Ã£o atual antes do teste.',
+        );
+      }
+
+      const accepted = await acceptAndQueue({
+        request,
+        serverId,
+        kind: 'backup.verify-restore',
+        jobType: 'backup.verify-restore',
+        idempotencyKey: body.idempotencyKey,
+        reasonCode: body.reasonCode,
+        actionName: 'backup.restore-verification.requested',
         backupId: body.backupId,
       });
       reply.code(202);

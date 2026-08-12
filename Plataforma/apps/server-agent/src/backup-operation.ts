@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+
 import type { AgentWorkLease } from '@voidfall/contracts';
 import { ConfigurationPersistenceError, type Repositories } from '@voidfall/database';
 import type { MinecraftProcessController } from '@voidfall/minecraft-process';
@@ -56,6 +58,26 @@ export interface RestoreCapabilityOptions extends BackupCapabilityOptions {
    * complete but unverified rather than claiming a boot that never happened.
    */
   readonly controller?: MinecraftProcessController;
+}
+
+export type RestoreVerificationOutcome =
+  | 'booted'
+  | 'timed-out'
+  | 'exited-early'
+  | 'failed-to-start';
+
+/** Trusted local adapter that boots the newly restored directory itself. */
+export interface IsolatedRestoreVerifier {
+  verify(input: {
+    readonly backupId: string;
+    readonly restoredRoot: string;
+  }): Promise<{ readonly outcome: RestoreVerificationOutcome }>;
+}
+
+export interface RestoreVerificationCapabilityOptions extends BackupCapabilityOptions {
+  /** Private parent for new restore targets. It is never supplied by a lease. */
+  readonly isolatedParentRoot: string;
+  readonly verifier: IsolatedRestoreVerifier;
 }
 
 /**
@@ -249,6 +271,76 @@ export function createRestoreHandler(
         };
       } catch {
         return { outcome: 'failed' as const, failureCode: 'operation-failed' as const };
+      }
+    });
+
+    if ('locked' in result) return { outcome: 'failed', failureCode: 'precondition-not-met' };
+    return result;
+  };
+}
+
+/**
+ * Materialises and boots an isolated copy without replacing the active world.
+ *
+ * This capability is intentionally distinct from `backup.restore`: granting a
+ * recovery rehearsal must not silently grant authority to swap live data.
+ */
+export function createRestoreVerificationHandler(
+  options: RestoreVerificationCapabilityOptions,
+): (lease: AgentWorkLease) => Promise<LeaseHandlerResult> {
+  const clock = options.clock ?? (() => new Date());
+
+  return async (lease: AgentWorkLease): Promise<LeaseHandlerResult> => {
+    if (!leaseIsOurs(lease, options.serverInstanceId, 'backup.verify-restore')) {
+      return { outcome: 'failed', failureCode: 'unsupported-parameters' };
+    }
+    const operation = await options.repositories.operations.findByJobId(lease.jobId);
+    if (
+      operation === undefined ||
+      operation.kind !== 'backup.verify-restore' ||
+      operation.backupId === null
+    ) {
+      return { outcome: 'failed', failureCode: 'unsupported-parameters' };
+    }
+    const target = await options.repositories.backups.findById(operation.backupId);
+    if (
+      target === undefined ||
+      target.serverInstanceId !== options.serverInstanceId ||
+      target.status !== 'available'
+    ) {
+      return { outcome: 'failed', failureCode: 'unsupported-parameters' };
+    }
+
+    const now = clock();
+    const result = await withExclusiveLock(options, 'backup.verify-restore', now, async () => {
+      // Logical names are capped at 32 characters. The operation id supplies a
+      // stable, retry-safe target without putting a path or random name on the wire.
+      const targetName = `verify-${operation.operationId.replaceAll('-', '').slice(0, 24)}`;
+      const restoredRoot = resolve(options.isolatedParentRoot, targetName);
+      try {
+        await options.backupService.restoreBackup({
+          backupId: target.backupId,
+          isolatedParentRoot: options.isolatedParentRoot,
+          targetName,
+        });
+        const verification = await options.verifier.verify({
+          backupId: target.backupId,
+          restoredRoot,
+        });
+        if (verification.outcome !== 'booted') {
+          return {
+            outcome: 'failed' as const,
+            failureCode: 'operation-failed' as const,
+            observedLifecycle: 'offline' as const,
+          };
+        }
+        return { outcome: 'succeeded' as const, observedLifecycle: 'offline' as const };
+      } catch {
+        return {
+          outcome: 'failed' as const,
+          failureCode: 'operation-failed' as const,
+          observedLifecycle: 'offline' as const,
+        };
       }
     });
 

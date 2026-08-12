@@ -55,7 +55,9 @@ export interface AgentWorkRouteDependencies {
   readonly maximumLeaseSeconds?: number;
 }
 
-const DEFAULT_MAXIMUM_LEASE_SECONDS = 300;
+// A real Forge boot and a multi-gigabyte encrypted restore both exceed five
+// minutes on ordinary disks. The contract caps this at fifteen minutes.
+const DEFAULT_MAXIMUM_LEASE_SECONDS = 900;
 const IDLE_RETRY_SECONDS = 15;
 
 function operationFailureCodeFor(code: AgentWorkFailureCode): ServerOperationFailureCode {

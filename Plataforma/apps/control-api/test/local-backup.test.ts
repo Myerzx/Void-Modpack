@@ -53,6 +53,7 @@ describe('local backup provisioning', () => {
     assert.notEqual(first, null);
     assert.equal(first?.worldSourcePath, join(context.server, 'world'));
     assert.equal(first?.restoreEnabled, false);
+    assert.equal(first?.restoreVerificationEnabled, false);
     assert.equal(first?.sealKey.secret.byteLength, 32);
     assert.equal(first?.encryptionKey?.secret.byteLength, 32);
 
@@ -67,6 +68,25 @@ describe('local backup provisioning', () => {
       await readFile(join(context.state, 'backups', instance(null).id, 'keys.json'), 'utf8'),
     ) as Record<string, unknown>;
     assert.equal(keyDocument['schemaVersion'], 1);
+  });
+
+  it('enables only isolated verification when a private external root is configured', async () => {
+    const context = await fixture();
+    const external = join(context.root, 'private-restores');
+    await mkdir(context.state, { recursive: true });
+    await writeFile(
+      join(context.state, 'restore-settings.json'),
+      `${JSON.stringify({ schemaVersion: 1, root: external })}\n`,
+      'utf8',
+    );
+
+    const configured = await provisionLocalBackup({
+      instance: instance(context.server),
+      stateDirectory: context.state,
+    });
+    assert.equal(configured?.restoreEnabled, false);
+    assert.equal(configured?.restoreVerificationEnabled, true);
+    assert.equal(configured?.isolatedRestoreRoot, join(external, instance(null).id));
   });
 
   it('supports a contained custom level name', async () => {

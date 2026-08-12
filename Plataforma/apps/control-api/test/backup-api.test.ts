@@ -162,6 +162,35 @@ async function availableBackup(context: Context, backupId = 'backup-0001') {
   });
 }
 
+async function observeOffline(context: Context): Promise<void> {
+  const agentId = randomUUID();
+  const tokenHash = 'f'.repeat(64);
+  await context.repositories.agents.createProvisioningToken({
+    serverInstanceId: context.server.id,
+    tokenHash,
+    expiresAt: new Date(NOW.getTime() + 60_000),
+    createdAt: NOW,
+  });
+  await context.repositories.agents.register({
+    agentId,
+    serverInstanceId: context.server.id,
+    tokenHash,
+    publicKeyPem: '-----BEGIN PUBLIC KEY-----\ntest\n-----END PUBLIC KEY-----',
+    certificateFingerprint: 'e'.repeat(64),
+    softwareVersion: '0.1.0-test',
+    capabilities: ['backup.verify-restore'],
+    now: NOW,
+  });
+  await context.repositories.processStates.observe({
+    serverInstanceId: context.server.id,
+    eventId: randomUUID(),
+    lifecycle: 'offline',
+    observedBy: agentId,
+    correlationId: randomUUID(),
+    now: NOW,
+  });
+}
+
 describe('backup creation', () => {
   it('accepts a durable operation, queues one job and catalogues the backup', async () => {
     const context = await fixture();
@@ -360,6 +389,50 @@ describe('restore preconditions', () => {
       restoreBody({ afterStopOperationId: stopped.operationId }),
     );
     assert.equal(response.statusCode, 404);
+  });
+});
+
+describe('isolated restore verification', () => {
+  const body = {
+    schemaVersion: 1,
+    backupId: 'backup-0001',
+    idempotencyKey: 'backup-verify-restore-0001',
+    reasonCode: 'operator-rehearsal',
+  };
+
+  it('queues a non-destructive operation only in a current offline window', async () => {
+    const context = await fixture();
+    await availableBackup(context);
+    const url = `/api/v1/servers/${context.server.id}/backups/verify-restore`;
+    assert.equal((await post(context, url, body)).statusCode, 409);
+
+    await observeOffline(context);
+    const accepted = await post(context, url, body);
+    assert.equal(accepted.statusCode, 202);
+    assert.equal(accepted.json().kind, 'backup.verify-restore');
+    assert.equal(accepted.json().backupId, 'backup-0001');
+
+    const jobs = await context.database.query<{ readonly type: string; readonly payload: unknown }>(
+      'SELECT type, payload FROM jobs WHERE type = $1',
+      ['backup.verify-restore'],
+    );
+    assert.equal(jobs.rowCount, 1);
+    const serialized = JSON.stringify(jobs.rows[0]);
+    for (const forbidden of ['path', 'directory', 'repository', 'restoreRoot']) {
+      assert.equal(serialized.includes(forbidden), false, forbidden);
+    }
+  });
+
+  it('does not accept destructive or path-bearing fields', async () => {
+    const context = await fixture();
+    await availableBackup(context);
+    await observeOffline(context);
+    const response = await post(
+      context,
+      `/api/v1/servers/${context.server.id}/backups/verify-restore`,
+      { ...body, acknowledgesDataLoss: true, restoredRoot: 'H:/private' },
+    );
+    assert.equal(response.statusCode, 400);
   });
 });
 

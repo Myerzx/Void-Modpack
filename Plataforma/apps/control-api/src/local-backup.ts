@@ -9,6 +9,7 @@ const KEY_BYTES = 32;
 const MAXIMUM_PROPERTIES_BYTES = 1_048_576;
 const LOCAL_BACKUP_MAXIMUM_BYTES = 64 * 1_024 ** 3;
 const LOCAL_BACKUP_MINIMUM_FREE_BYTES = 8 * 1_024 ** 3;
+const RESTORE_SETTINGS_MAXIMUM_BYTES = 4_096;
 
 interface StoredBackupKeys {
   readonly schemaVersion: 1;
@@ -17,6 +18,11 @@ interface StoredBackupKeys {
     readonly keyId: 'local-encryption-v1';
     readonly secretBase64: string;
   };
+}
+
+interface StoredRestoreSettings {
+  readonly schemaVersion: 1;
+  readonly root: string;
 }
 
 function decodeStoredSecret(value: unknown): Uint8Array {
@@ -112,6 +118,34 @@ function isContained(parent: string, candidate: string): boolean {
   );
 }
 
+async function readRestoreSettings(stateDirectory: string): Promise<StoredRestoreSettings | null> {
+  const path = join(stateDirectory, 'restore-settings.json');
+  const entry = await lstat(path).catch(() => null);
+  if (entry === null) return null;
+  if (!entry.isFile() || entry.isSymbolicLink() || entry.size > RESTORE_SETTINGS_MAXIMUM_BYTES) {
+    throw new Error('local-restore-settings-invalid');
+  }
+  let value: unknown;
+  try {
+    value = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readFile(path)));
+  } catch {
+    throw new Error('local-restore-settings-invalid');
+  }
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('local-restore-settings-invalid');
+  }
+  const document = value as Record<string, unknown>;
+  if (
+    document['schemaVersion'] !== 1 ||
+    typeof document['root'] !== 'string' ||
+    !isAbsolute(document['root']) ||
+    Object.keys(document).sort().join(',') !== 'root,schemaVersion'
+  ) {
+    throw new Error('local-restore-settings-invalid');
+  }
+  return { schemaVersion: 1, root: resolve(document['root']) };
+}
+
 /** Resolve Minecraft's active world without allowing `level-name` to escape the server root. */
 export async function resolveLocalWorldDirectory(serverRoot: string): Promise<string | null> {
   const propertiesPath = join(serverRoot, 'server.properties');
@@ -152,8 +186,9 @@ export async function resolveLocalWorldDirectory(serverRoot: string): Promise<st
  * Creates the private, per-instance backup configuration used by the desktop.
  *
  * The repository and both keys stay under the application's state directory;
- * only the world is read from the linked runtime. Restore remains disabled
- * until its verification can boot the isolated copy itself.
+ * only the world is read from the linked runtime. A private settings document
+ * may place non-destructive restore rehearsals on another volume. Destructive
+ * restore remains disabled independently.
  */
 export async function provisionLocalBackup(input: {
   readonly instance: ServerInstance;
@@ -165,18 +200,37 @@ export async function provisionLocalBackup(input: {
 
   const instanceRoot = join(input.stateDirectory, 'backups', input.instance.id);
   const repositoryRoot = join(instanceRoot, 'repository');
-  const isolatedRestoreRoot = join(instanceRoot, 'isolated-restores');
+  const restoreSettings = await readRestoreSettings(input.stateDirectory);
+  const configuredRestoreRoot = restoreSettings?.root;
+  const isolatedRestoreRoot =
+    configuredRestoreRoot === undefined
+      ? join(instanceRoot, 'isolated-restores')
+      : join(configuredRestoreRoot, input.instance.id);
+  const serverRoot = resolve(input.instance.runDirectory);
+  const normalizedRestoreRoot = resolve(isolatedRestoreRoot);
+  if (
+    normalizedRestoreRoot === serverRoot ||
+    isContained(serverRoot, normalizedRestoreRoot) ||
+    isContained(normalizedRestoreRoot, serverRoot)
+  ) {
+    throw new Error('local-restore-root-overlaps-server');
+  }
   await mkdir(repositoryRoot, { recursive: true });
-  await mkdir(isolatedRestoreRoot, { recursive: true });
+  await mkdir(normalizedRestoreRoot, { recursive: true });
+  const restoreRootEntry = await lstat(normalizedRestoreRoot);
+  if (!restoreRootEntry.isDirectory() || restoreRootEntry.isSymbolicLink()) {
+    throw new Error('local-restore-root-unsafe');
+  }
   const keys = await provisionKeys(join(instanceRoot, 'keys.json'));
 
   return {
     repositoryRoot,
-    isolatedRestoreRoot,
+    isolatedRestoreRoot: normalizedRestoreRoot,
     worldSourcePath,
     sealKey: keys.sealKey,
     encryptionKey: keys.encryptionKey,
     restoreEnabled: false,
+    restoreVerificationEnabled: restoreSettings !== null,
     limits: { minimumFreeBytesAfterCopy: LOCAL_BACKUP_MINIMUM_FREE_BYTES },
     quota: { maximumBackups: 7, maximumTotalBytes: LOCAL_BACKUP_MAXIMUM_BYTES },
     retentionPolicy: { policyId: 'local-default', keepLatest: 2, maximumAgeDays: 30 },

@@ -1014,6 +1014,36 @@ describe('a host that actually launches a server', () => {
     );
   });
 
+  it('announces isolated restore verification without granting active restore', async () => {
+    const context = await fixture({ withBackups: true });
+    const loaded = loadAgentConfiguration(context.environment);
+    assert.notEqual(loaded.backups, null);
+    const { runtime } = runtimeFor(context, {
+      configuration: {
+        ...loaded,
+        backups:
+          loaded.backups === null
+            ? null
+            : {
+                ...loaded.backups,
+                restoreEnabled: false,
+                restoreVerificationEnabled: true,
+              },
+      },
+      restoreVerifier: {
+        async verify() {
+          return { outcome: 'booted' };
+        },
+      },
+    });
+
+    assert.ok(runtime.readiness.announced.includes('backup.create'));
+    assert.ok(runtime.readiness.announced.includes('backup.verify-restore'));
+    assert.ok(runtime.handlers['backup.verify-restore'] !== undefined);
+    assert.equal(runtime.readiness.announced.includes('backup.restore'), false);
+    assert.equal(runtime.handlers['backup.restore'], undefined);
+  });
+
   it('builds the real guards from the adapter rather than announcing without one', async () => {
     const bare = await fixture({ withFiles: true });
     // No adapter: nothing can prove the server is offline, so nothing is built.

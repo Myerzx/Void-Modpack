@@ -19,7 +19,12 @@ import {
   createArtifactInstallHandler,
   type ApprovedArtifactPayloadReader,
 } from './artifact-install-operation.js';
-import { createBackupHandler, createRestoreHandler } from './backup-operation.js';
+import {
+  createBackupHandler,
+  createRestoreHandler,
+  createRestoreVerificationHandler,
+  type IsolatedRestoreVerifier,
+} from './backup-operation.js';
 import { collectReadings } from './collectors.js';
 import {
   ConfigurationOperationCapability,
@@ -67,6 +72,8 @@ const DEFAULT_METRICS_INTERVAL_MS = 60_000;
 const DEFAULT_METRICS_BUCKET_SECONDS = 60;
 const DEFAULT_CONSOLE_CAPTURE_INTERVAL_MS = 500;
 const DEFAULT_CONSOLE_RETAIN_LINES = 5_000;
+/** Backup copies and real Forge boots can legitimately take several minutes. */
+const OPERATION_LEASE_SECONDS = 900;
 /** Retention runs far less often than it changes anything. */
 const DEFAULT_RETENTION_INTERVAL_MS = 3_600_000;
 const METRICS_RETENTION_DAYS = 30;
@@ -117,6 +124,8 @@ export interface AgentRuntimeDependencies {
    * when absent; injectable so a test can hold a window open deliberately.
    */
   readonly backupGuard?: OfflineExclusiveBackupGuard;
+  /** Boots only the newly materialised restore target, never the active root. */
+  readonly restoreVerifier?: IsolatedRestoreVerifier;
   /**
    * Guards the exclusive offline window a configuration write needs. Its
    * absence disables `configuration.apply`: rewriting a file a running server
@@ -268,6 +277,9 @@ export class AgentRuntime {
       hasDatapackLoadOrderCapability: this.#datapackLoadOrderCapability !== null,
       hasBackupService: this.#backupService !== null,
       backupRestoreEnabled: configuration.backups?.restoreEnabled !== false,
+      backupRestoreVerificationEnabled:
+        configuration.backups?.restoreVerificationEnabled === true,
+      hasRestoreVerifier: dependencies.restoreVerifier !== undefined,
       hasProcessController: dependencies.processController !== undefined,
       hasConsoleAdapter: dependencies.consoleAdapter !== undefined,
     };
@@ -314,6 +326,7 @@ export class AgentRuntime {
             transport: dependencies.workTransport,
             handlers: this.#handlers,
             bootId: dependencies.bootId,
+            leaseSeconds: OPERATION_LEASE_SECONDS,
             ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
             onEvent: (event) => dependencies.onEvent?.({ kind: 'supervisor', event }),
           });
@@ -463,6 +476,17 @@ export class AgentRuntime {
         ...(this.#dependencies.clock === undefined ? {} : { clock: this.#dependencies.clock }),
       };
       handlers['backup.create'] = createBackupHandler(shared);
+
+      if (
+        available.has('backup.verify-restore') &&
+        this.#dependencies.restoreVerifier !== undefined
+      ) {
+        handlers['backup.verify-restore'] = createRestoreVerificationHandler({
+          ...shared,
+          isolatedParentRoot: configuration.backups.isolatedRestoreRoot,
+          verifier: this.#dependencies.restoreVerifier,
+        });
+      }
 
       if (available.has('backup.restore') && this.#dependencies.processController !== undefined) {
         handlers['backup.restore'] = createRestoreHandler({
