@@ -168,6 +168,32 @@ export function registerAgentWorkRoutes(
         throw apiError(400, 'AGENT_CLAIM_INVALID', 'Pedido de trabalho inválido.');
       }
 
+      const now = clock();
+      // Recovery belongs on the path every live agent already calls. Without
+      // this, the repository knew how to reclaim an expired lease but nobody
+      // invoked it, leaving both the job and its one-in-flight operation stuck
+      // forever after a long copy or a process crash.
+      const reclaimed = await repositories.agentTransport.reclaimExpiredLeases({ now });
+      for (const stranded of reclaimed) {
+        if (stranded.requeued) continue;
+        const operation = await repositories.operations.findByJobId(stranded.jobId);
+        if (
+          operation === undefined ||
+          (operation.status !== 'accepted' && operation.status !== 'running')
+        ) {
+          continue;
+        }
+        await repositories.operations.settle({
+          operationId: operation.operationId,
+          eventId: newId(),
+          expectedVersion: operation.version,
+          outcome: 'failed',
+          failureCode: 'lease-expired',
+          observedLifecycle: 'unknown',
+          now,
+        });
+      }
+
       const leaseSeconds = Math.min(payload.value.leaseSeconds, maximumLeaseSeconds);
       let claimed;
       try {
@@ -177,7 +203,7 @@ export function registerAgentWorkRoutes(
           bootId: payload.value.bootId,
           maximumLeases: 4,
           leaseMs: leaseSeconds * 1_000,
-          now: clock(),
+          now,
           newLeaseId: newId,
         });
       } catch (error) {

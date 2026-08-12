@@ -431,17 +431,9 @@ describe('Phase 9.2 end-to-end agent work', () => {
     assert.equal(claimed.length, 1);
     assert.equal((await context.repositories.jobs.findById(job.id))?.status, 'running');
 
-    // The lease expires and the control plane returns the work to the queue.
+    // The lease expires. A fresh agent claim invokes recovery before it looks
+    // for work, then picks the same job up and finishes it.
     context.clock.advance(120_000);
-    const reclaimed = await context.repositories.agentTransport.reclaimExpiredLeases({
-      now: context.clock.now(),
-    });
-    assert.equal(reclaimed.length, 1);
-    assert.equal(reclaimed[0]?.requeued, true);
-    assert.equal((await context.repositories.jobs.findById(job.id))?.status, 'queued');
-
-    // A fresh agent run — a new boot id — picks the same work up and finishes
-    // it. The job ran once to completion, never twice concurrently.
     const restarted = new AgentSupervisor({
       identity: context.identity,
       transport: context.transport,
@@ -461,6 +453,77 @@ describe('Phase 9.2 end-to-end agent work', () => {
       leases.rows.map((row) => row.outcome),
       ['failed', 'succeeded'],
     );
+  });
+
+  it('settles an exhausted operation when its expired lease cannot be retried', async () => {
+    const context = await fixture();
+    await context.repositories.agentTransport.grantCapability({
+      agentId: context.agentId,
+      capability: 'backup.create',
+      grantedBy: { type: 'system', id: 'fixture' },
+      reasonCode: 'fixture-grant',
+      now: NOW,
+    });
+    const job: Job = {
+      schemaVersion: 1,
+      id: randomUUID(),
+      type: 'backup.create',
+      resource: { type: 'server-instance', id: context.server.id },
+      status: 'queued',
+      stage: 'queued',
+      priority: 60,
+      payload: {
+        schemaVersion: 1,
+        parameters: { serverInstanceId: context.server.id, expectedVersion: 1 },
+      },
+      idempotencyKey: 'agent-e2e-expired-backup-0001',
+      requestedBy: { type: 'system', id: 'agent-e2e' },
+      correlationId: randomUUID(),
+      availableAt: NOW.toISOString(),
+      attempt: 0,
+      maxAttempts: 1,
+    };
+    await context.repositories.jobs.enqueue(job);
+    const accepted = await context.repositories.operations.accept({
+      operationId: randomUUID(),
+      serverInstanceId: context.server.id,
+      kind: 'backup.create',
+      idempotencyKey: 'agent-e2e-expired-operation-0001',
+      correlationId: job.correlationId,
+      requestedBy: job.requestedBy,
+      reasonCode: 'fixture-expiration',
+      backupId: 'backup-0001',
+      jobId: job.id,
+      now: NOW,
+    });
+    const claimed = await context.repositories.agentTransport.claimWork({
+      agentId: context.agentId,
+      capabilities: ['backup.create'],
+      bootId: randomUUID(),
+      maximumLeases: 1,
+      leaseMs: 30_000,
+      now: NOW,
+      newLeaseId: () => randomUUID(),
+    });
+    assert.equal(claimed.length, 1);
+
+    context.clock.advance(120_000);
+    const { createWorkClaimEnvelope } = await import('../../server-agent/src/work-transport.js');
+    const response = await context.transport.claim(
+      createWorkClaimEnvelope(context.identity, {
+        capabilities: ['artifact.inspect'],
+        leaseSeconds: 60,
+        bootId: randomUUID(),
+        issuedAt: context.clock.now(),
+      }),
+    );
+    assert.equal(response.leases.length, 0);
+    assert.equal((await context.repositories.jobs.findById(job.id))?.status, 'failed');
+    const operation = await context.repositories.operations.findById(
+      accepted.operation.operationId,
+    );
+    assert.equal(operation?.status, 'failed');
+    assert.equal(operation?.receipt?.failureCode, 'lease-expired');
   });
 
   it('survives the control plane going away and coming back', async () => {
