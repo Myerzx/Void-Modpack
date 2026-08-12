@@ -360,20 +360,20 @@ export function registerBackupRoutes(
     },
     async (request, reply): Promise<ServerOperation> => {
       if (!validateVerifyBackupRestoreRequest(request.body).success) {
-        throw apiError(400, 'BACKUP_REQUEST_INVALID', 'SolicitaÃ§Ã£o invÃ¡lida.');
+        throw apiError(400, 'BACKUP_REQUEST_INVALID', 'Solicitação inválida.');
       }
       const { serverId } = request.params;
       await requireServer(serverId);
       const body = request.body;
       const backup = await repositories.backups.findById(body.backupId);
       if (backup === undefined || backup.serverInstanceId !== serverId) {
-        throw apiError(404, 'BACKUP_NOT_FOUND', 'Backup nÃ£o encontrado.');
+        throw apiError(404, 'BACKUP_NOT_FOUND', 'Backup não encontrado.');
       }
       if (backup.status !== 'available') {
         throw apiError(
           409,
           'BACKUP_NOT_RESTORABLE',
-          'O backup nÃ£o estÃ¡ disponÃ­vel para verificaÃ§Ã£o.',
+          'O backup não está disponível para verificação.',
         );
       }
       const observed = await repositories.processStates.find(serverId);
@@ -381,7 +381,7 @@ export function registerBackupRoutes(
         throw apiError(
           409,
           'BACKUP_OFFLINE_WINDOW_REQUIRED',
-          'Desligue o servidor e aguarde uma observaÃ§Ã£o atual antes do teste.',
+          'Desligue o servidor e aguarde uma observação atual antes do teste.',
         );
       }
 
