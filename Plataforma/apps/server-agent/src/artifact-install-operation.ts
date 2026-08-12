@@ -141,7 +141,18 @@ export function createArtifactInstallHandler(
       const serverRoot = resolve(options.serverRoot);
       const rootEntry = await lstat(serverRoot);
       const canonicalRoot = await realpath(serverRoot);
-      if (!rootEntry.isDirectory() || rootEntry.isSymbolicLink() || canonicalRoot !== serverRoot) {
+      // Compare the entry, not the spelling. Windows hands out short 8.3
+      // aliases for the same directory, so `realpath` legitimately returns a
+      // different string for the identical inode and a spelling comparison
+      // refuses a perfectly safe root. A symlink or junction still fails,
+      // because it canonicalises to a different entry.
+      const canonicalEntry = await lstat(canonicalRoot);
+      if (
+        !rootEntry.isDirectory() ||
+        rootEntry.isSymbolicLink() ||
+        canonicalEntry.dev !== rootEntry.dev ||
+        canonicalEntry.ino !== rootEntry.ino
+      ) {
         return { outcome: 'failed', failureCode: 'precondition-not-met' };
       }
 

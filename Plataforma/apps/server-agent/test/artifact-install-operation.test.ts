@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { afterEach, describe, it } from 'node:test';
 
 import type { AgentWorkLease, ArtifactSubmission, ServerOperation } from '@voidfall/contracts';
@@ -97,9 +97,9 @@ function lease(): AgentWorkLease {
   };
 }
 
-async function fixture(lifecycle: 'offline' | 'online') {
-  const root = await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-'));
-  directories.push(root);
+async function fixture(lifecycle: 'offline' | 'online', rootOverride?: string) {
+  const root = rootOverride ?? (await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-')));
+  if (rootOverride === undefined) directories.push(root);
   let acquired = 0;
   let released = 0;
   const repositories = {
@@ -158,5 +158,59 @@ describe('artifact installation capability', () => {
     });
     await assert.rejects(readFile(join(context.root, 'mods', 'reviewed-mod.jar')));
     assert.deepEqual(context.counts(), { acquired: 1, released: 1 });
+  });
+
+  it('installs into a root whose spelling differs from its canonical path', async (context) => {
+    // Windows hands out short 8.3 aliases for the temporary directory, so the
+    // root the agent is configured with and the root `realpath` reports name
+    // the same entry through different strings. Comparing the two spellings
+    // refused a healthy server, which is how this passed on a developer
+    // machine and failed on the Windows runner. A linked parent reproduces the
+    // same shape on either platform.
+    const real = await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-real-'));
+    const aliasParent = join(await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-alias-')), 'link');
+    directories.push(real, dirname(aliasParent));
+    const serverRoot = join(real, 'server');
+    await mkdir(serverRoot);
+    try {
+      await symlink(real, aliasParent, process.platform === 'win32' ? 'junction' : 'dir');
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code === 'EPERM' || code === 'EACCES') {
+        context.skip('symlink creation is unavailable in this environment');
+        return;
+      }
+      throw error;
+    }
+
+    const aliased = await fixture('offline', join(aliasParent, 'server'));
+    assert.deepEqual(await aliased.handler(lease()), {
+      outcome: 'succeeded',
+      observedLifecycle: 'offline',
+    });
+    assert.deepEqual(await readFile(join(serverRoot, 'mods', 'reviewed-mod.jar')), bytes);
+  });
+
+  it('still refuses a root that is itself a link', async (context) => {
+    const real = await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-target-'));
+    const linked = join(await mkdtemp(join(tmpdir(), 'voidfall-artifact-install-linked-')), 'root');
+    directories.push(real, dirname(linked));
+    try {
+      await symlink(real, linked, process.platform === 'win32' ? 'junction' : 'dir');
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code === 'EPERM' || code === 'EACCES') {
+        context.skip('symlink creation is unavailable in this environment');
+        return;
+      }
+      throw error;
+    }
+
+    const context2 = await fixture('offline', linked);
+    assert.deepEqual(await context2.handler(lease()), {
+      outcome: 'failed',
+      failureCode: 'precondition-not-met',
+    });
+    await assert.rejects(readFile(join(real, 'mods', 'reviewed-mod.jar')));
   });
 });
