@@ -452,6 +452,20 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
 .text-warning { color: var(--warning); }
 .banner-positive { background: rgba(88, 201, 145, .09); border: 1px solid rgba(88, 201, 145, .35); color: var(--positive); }
 
+.backup-create-card { display: grid; gap: 14px; }
+.backup-create-card .card-head { align-items: center; }
+.backup-create-card .tag { max-width: 360px; white-space: normal; text-align: right; }
+.backup-create-card .tag.is-positive { color: var(--positive); border-color: rgba(88, 201, 145, .35); background: rgba(88, 201, 145, .08); }
+.backup-create-card .inline-actions { align-items: center; }
+.backup-table { min-width: 880px; }
+.backup-table td { vertical-align: middle; }
+.backup-table td:first-child, .backup-table td:nth-child(2), .backup-table td:last-child { display: grid; gap: 4px; }
+.backup-table small { color: var(--subtle); font-size: 10px; }
+.analysis-status.is-creating { color: var(--warning); }
+.analysis-status.is-available { color: var(--positive); }
+.analysis-status.is-failed { color: var(--danger); }
+.analysis-status.is-pruned { color: var(--subtle); }
+
 .artifact-review { gap: 18px; }
 .artifact-review > section { display: grid; gap: 10px; }
 .artifact-review > section > input[type="search"] { max-width: 520px; }
@@ -704,6 +718,8 @@ code { background: var(--surface-soft); border-radius: 4px; padding: 1px 5px; fo
   .config-meta, .semantic-config > p { grid-column: 1; }
   .staging-row { align-items: stretch; flex-direction: column; }
   .detail-grid { grid-template-columns: 1fr; }
+  .backup-create-card .card-head { align-items: stretch; }
+  .backup-create-card .tag { max-width: none; text-align: left; }
   .relation-flow { grid-template-columns: 1fr; }
   .relation-flow code:last-child { text-align: left; }
   .graph-endpoint.is-target { text-align: left; }

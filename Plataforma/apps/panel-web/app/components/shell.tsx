@@ -57,7 +57,7 @@ const CATEGORIES: readonly (ShellStep & {
   { id: 'datapacks', label: 'Datapacks', href: '/datapacks', icon: Archive },
   { id: 'players', label: 'Jogadores', href: null, pending: true, icon: Users },
   { id: 'files', label: 'Arquivos', href: '/workspaces', icon: FolderTree },
-  { id: 'backups', label: 'Backups', href: null, pending: true, icon: DatabaseBackup },
+  { id: 'backups', label: 'Backups', href: '/backups', icon: DatabaseBackup },
   { id: 'logs', label: 'Logs', href: '/servidor/console', icon: ScrollText },
   { id: 'audit', label: 'Auditoria', href: '/auditoria', icon: ClipboardList },
 ];
@@ -105,7 +105,7 @@ export function serverSteps(
     { label: 'Acesso', href: null, active: active === 'access', pending: true },
     { label: 'Arquivos', href: '/workspaces', active: active === 'files' },
     { label: 'Mundos', href: null, active: active === 'worlds', pending: true },
-    { label: 'Backups', href: null, active: active === 'backups', pending: true },
+    { label: 'Backups', href: '/backups', active: active === 'backups' },
   ];
 }
 

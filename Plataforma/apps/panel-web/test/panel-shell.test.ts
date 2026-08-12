@@ -84,14 +84,11 @@ describe('action policy', () => {
     assert.equal(upload.enabled, false);
   });
 
-  it('keeps a dangerous mutation visible but disabled until its phase lands', () => {
-    for (const dangerous of ['backup.create']) {
-      const view = actionView(owner, dangerous);
-      assert.equal(view.visible, true, `${dangerous} should be visible to an owner`);
-      // Permission alone is not enough: the capability does not exist yet.
-      assert.equal(view.enabled, false, `${dangerous} must stay disabled`);
-      assert.ok(view.reason.length > 0);
-    }
+  it('enables world backup now that the local agent serves it', () => {
+    const view = actionView(owner, 'backup.create');
+    assert.equal(view.visible, true);
+    assert.equal(view.enabled, true);
+    assert.equal(view.reason, '');
   });
 
   it('enables process control and the console now that the agent serves them', () => {

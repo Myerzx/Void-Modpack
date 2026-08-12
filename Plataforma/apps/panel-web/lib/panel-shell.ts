@@ -74,7 +74,7 @@ export interface PanelSession {
   readonly csrfToken: string;
 }
 
-export function hasPermission(session: PanelSession, permission: string): boolean {
+export function hasPermission(session: Pick<PanelSession, 'permissions'>, permission: string): boolean {
   return session.permissions.includes(permission);
 }
 
@@ -139,8 +139,8 @@ const ACTIONS: Readonly<Record<string, ActionPolicy>> = Object.freeze({
   },
   'backup.create': {
     permission: 'backups.create',
-    available: false,
-    unavailableReason: 'Backups operacionais pertencem à Fase 10.',
+    available: true,
+    unavailableReason: '',
   },
   'artifact.install': {
     permission: 'mods.manage',
@@ -164,7 +164,7 @@ export interface ActionView {
  * greyed-out control still tells the user the capability exists and that they
  * were refused, which is information they have no need for.
  */
-export function actionView(session: PanelSession, actionId: string): ActionView {
+export function actionView(session: Pick<PanelSession, 'permissions'>, actionId: string): ActionView {
   const policy = ACTIONS[actionId];
   if (policy === undefined) {
     return { id: actionId, visible: false, enabled: false, reason: 'Ação desconhecida.' };
