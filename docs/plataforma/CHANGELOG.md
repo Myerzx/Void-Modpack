@@ -2,6 +2,29 @@
 
 Todas as mudanças relevantes de planejamento e, futuramente, implementação serão registradas aqui.
 
+## 2026-08-12 — ensaio de recuperação e reparo do gate
+
+### Adicionado
+
+- ensaio não destrutivo `backup.verify-restore`, que restaura para uma raiz privada, monta o runtime Forge em volta da cópia e a inicia na loopback sem tocar no mundo ativo;
+- `server.properties` gerado para o ensaio com `max-players=0`, whitelist obrigatória e RCON/query desligados, em vez de copiar o arquivo do servidor real;
+- migration `0032_backup_restore_verification.sql` com tipo de operação e capability próprios, separados de `backup.restore`;
+- reconciliação de leases expiradas no caminho de claim do agente.
+
+### Corrigido
+
+- ordem do gate: `npm run check` passou a construir tudo antes de conferir tipos. A ordem anterior conferia tipos antes de construir os apps, então `apps/*/dist` não existia em checkout limpo e a CI falhava com `TS2307` onde o local passava;
+- quatro mensagens de erro da rota de verificação de restore gravadas em UTF-8 duplo, que chegavam ao painel com todos os acentos corrompidos.
+
+### Validado
+
+- gate completo executado depois de apagar os 31 diretórios `dist` de pacotes e apps, reproduzindo a condição de checkout limpo da CI: 1.027 casos descobertos, 1.025 executados no Windows, dois sockets Unix ignorados, zero falhas, zero erros de tipo e código de saída 0;
+- `control-api` passou o `typecheck` nessa condição, que era exatamente o passo em que a CI falhava.
+
+### Bloqueio encontrado
+
+O transporte limita qualquer lease a 930 s e não possui renovação. Uma cópia multi-GB somada a um boot do Forge já observado em 723 s não cabe nesse teto, então nenhum ensaio de recuperação real chegou ao fim. O `minecraft-exclusive` da mesma operação reserva 3.600 s: lock e lease discordam sobre a duração admissível, e a lease vence. Resolver isso exige decisão explícita, porque muda o contrato de recuperação do transporte.
+
 ## 2026-08-11 — segurança do servidor, mods e desktop operacional
 
 ### Adicionado

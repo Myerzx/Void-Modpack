@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-- Data: 2026-08-11
+- Data: 2026-08-12
 - Responsáveis: Claude e Codex
 - Fase: quatro fatias verticais das Fases 19–20 entregues e a fronteira de ordem efetiva composta do Control API ao Server Agent. Inventário → análise semântica → bytecode estático limitado → schemas revisados/conflitos de datapack → snapshot por hash → grafo/evidência → travessia limitada → API → painel funciona com dados reais; a ordem observada usa projeção separada, contratos públicos, RBAC, produtor idempotente, transporte/lease E2E, reader gzip/NBT e filesystem limitados, lock offline exclusivo, capability/handler, auditoria e readiness, mas ainda não possui tela, grant automático, smoke privado nem libera edição. As fases amplas continuam parciais
 - Fase 2: concluída e validada
@@ -16,6 +16,11 @@
 
 ## Implementado
 
+- ensaio de recuperação `backup.verify-restore` com operação, permissão, capability e handler próprios, separados de `backup.restore` para que autorizar um ensaio não conceda poder de trocar dados vivos;
+- `runRestoredWorldBoot` compondo o runtime Forge em volta de uma cópia restaurada, com a workspace vinculada apenas lida, o mundo ativo excluído por caminho, `server.properties` gerado em loopback com `max-players=0`, whitelist obrigatória e RCON/query desligados;
+- recusa de symlink, junction, traversal, colisão de destino e sobreposição entre raiz restaurada e workspace, com verificação de espaço livre antes da cópia;
+- migration `0032_backup_restore_verification.sql` acrescentando o tipo de operação e a capability, preservando a regra de que toda operação de backup nomeia seu snapshot;
+- reconciliação de leases expiradas no caminho de claim, liquidando como `lease-expired` a operação cujo job não pôde ser reenfileirado;
 - `@voidfall/desktop` com renderer sandboxed, sem Node/preload, popups recusados e navegação restrita à origem loopback exata;
 - bootstrap desktop da Control API com estado absoluto no AppData, porta efêmera e sessão protegida por token aleatório por processo;
 - empacotamento de QA com fechamento físico de 20 pacotes internos, 105 dependências de terceiros, migrations, painel exportado e inventário `THIRD_PARTY_NOTICES.json`;
@@ -319,6 +324,7 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Validação
 
+- gate completo de 2026-08-12 aprovado com código de saída 0 depois de apagar os 31 diretórios `dist` de pacotes e apps: 1.027 casos descobertos, 1.025 executados no Windows, dois sockets Unix ignorados, zero falhas e zero erros de tipo. Apagar os `dist` é a parte que importa: a ordem anterior de `npm run check` conferia tipos antes de construir os apps, então `@voidfall/server-agent` não tinha `dist` para resolver e a CI falhava com `TS2307` em `control-api/src/local.ts` enquanto o local passava por já ter os artefatos de builds anteriores. A CI ficou vermelha por esse motivo desde 2026-08-05, e o último commit enviado, `89bc624`, falhou nos dois sistemas;
 - pacote desktop de QA validado em 2026-08-11: `VoidFall-win32-x64-0.1.0.zip` com 159.124.321 bytes e SHA-256 `1196d03614a85bb14b36d092b6ae12f30ab506b94811ee6637d4a674ea410ae2`; o executável foi extraído em diretório temporário fora do checkout e aprovou PGlite/migrations, sessão do painel, health HTTP 200, lock de segunda instância, encerramento gracioso e persistência após reabrir; `npm audit` e `npm audit --omit=dev` ficaram em zero;
 - gate completo de 2026-08-11: `npm run check` concluiu com código 0 em 394,7 segundos, incluindo typecheck global, testes, Forge Bridge, seis apps, 17 páginas estáticas e o desktop;
 - responsividade desktop validada em 2026-08-11: painel aprovado visualmente em 1440×900 e 900×650 sem overflow horizontal; shell compacto, servidor e configurações foram inspecionados no navegador; typecheck, 62 testes e build das 17 páginas estáticas do painel passaram;
@@ -447,7 +453,8 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 - o fluxo online `save-off`/`save-all flush`/`save-on` continua desabilitado porque o console ainda não confirma processamento;
 - o filesystem local ainda não é o backend P1 de storage; retenção destrutiva, assinatura, criptografia e imutabilidade externa não estão implementadas;
 - SHA-256 detecta corrupção, mas não autentica a origem do snapshot;
-- restore isolado não troca o mundo ativo, não inicia Minecraft e não certifica boot, dimensões, inventários ou dados de mods;
+- restore isolado não troca o mundo ativo; o ensaio `backup.verify-restore` inicia a cópia restaurada, mas não certifica dimensões, inventários ou dados de mods, e nenhuma execução real chegou ao fim;
+- o transporte limita qualquer lease a 930 s e não possui renovação: o supervisor reivindica e aguarda o handler inteiro. Uma cópia multi-GB somada a um boot do Forge já observado em 723 s não cabe nesse teto, então o ensaio de recuperação termina como `lease-expired`. O `minecraft-exclusive` da mesma operação reserva 3.600 s, ou seja, lock e lease discordam sobre a duração admissível e a lease vence. O timeout padrão de boot de 600 s pertence a esse mesmo problema e não deve ser alterado isoladamente;
 - a guarda offline de configuração continua um trust boundary injetado; processo já consome o lock PostgreSQL `minecraft-exclusive`, enquanto backup e file manager ainda não estão ligados ao runtime real;
 - o lock PostgreSQL possui lease limitado, porém não há heartbeat nem reconciliação automática de lock expirado ou operação `prepared` após crash;
 - os codecs implementam somente o subconjunto estrito de Java Properties e o JSON OpenLoader aprovado; JSON genérico, TOML, YAML e outros mods continuam negados;
@@ -502,7 +509,9 @@ A decisão deste recorte foi não inventar adapters para `mmorpg_value_calc`, sp
 
 ## Próximo recorte recomendado
 
-Expor apenas status/leitura da última observação de datapacks no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
+Antes de qualquer coisa nova, decidir como uma operação longa mantém sua lease. O ensaio de recuperação está implementado e testado, mas não pode terminar enquanto o teto for 930 s sem renovação. As alternativas são um teto por classe de operação, mantendo 900 s para processo e console; renovação periódica pelo agente enquanto o handler trabalha; ou elevar o teto global, que é o mais simples e o que mais enfraquece a recuperação, porque um agente morto passa a reter trabalho por todo esse tempo. Nenhuma delas deve ser escolhida sem decisão explícita, porque todas mexem no contrato de recuperação do transporte. Só depois disso faz sentido autorizar um ensaio real e registrar a prova de recuperação.
+
+Em seguida, expor apenas status/leitura da última observação de datapacks no painel, sem alterar o gate de edição. O grant da capability deve continuar explícito e separado; o runtime privado permanece desconectado até um smoke posterior e explicitamente autorizado.
 
 Em paralelo, fechar as decisões externas do desktop — instalador, ícone/metadados/licença e identidade de assinatura — e então validar o instalador assinado em uma máquina Windows limpa. Não habilitar auto-update ou distribuição pública antes desse gate. A sequência completa está na [análise de lacunas do produto final](FINAL_PRODUCT_GAP_ANALYSIS.md).
 
