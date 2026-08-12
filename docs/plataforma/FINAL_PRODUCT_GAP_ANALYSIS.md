@@ -44,8 +44,8 @@ Isso ainda não equivale a um produto público final. Assinatura, instalador, ca
 ### Funcionalidade ainda parcial do gerenciador
 
 1. Expor no painel somente leitura/status da última observação de datapacks; manter edição e grant da capability separados.
-2. Ligar backup e restore ao fluxo operacional com lock durável e prova de restauração, sem trocar silenciosamente o mundo ativo.
-3. Implementar o caminho aprovado de `artifact.install`, com staging, integridade, operação durável e rollback.
+2. Concluir restore com boot da cópia isolada e prova de restauração antes de qualquer troca do mundo ativo; criação de backup cifrado já usa lock durável e passou smoke real.
+3. Completar rollback operacional de `artifact.install`; o caminho aprovado de staging, integridade e operação durável já está ligado.
 4. Completar mundo, jogadores, permissões Minecraft e moderação apenas depois de providers, política e auditoria correspondentes.
 5. Definir reconciliação e reanexação segura quando uma JVM continua viva após reinício do agente.
 6. Converter estados indisponíveis do painel em capacidades reais somente quando os gates do backend estiverem aprovados.
@@ -70,7 +70,7 @@ Isso ainda não equivale a um produto público final. Assinatura, instalador, ca
 1. Implementar a tela somente leitura da observação de datapacks, pois o backend e os contratos já existem e o recorte não amplia poder destrutivo.
 2. Em paralelo de produto, obter as quatro decisões externas: instalador, identidade de assinatura, identidade visual/licença e cliente-base canônico.
 3. Com essas decisões, gerar o primeiro instalador assinado e validá-lo em Windows limpo.
-4. Depois, integrar backup/restore e `artifact.install` em fatias separadas, cada uma com operação durável, auditoria e smoke real.
+4. Depois, concluir restore isolado e rollback de `artifact.install` em fatias separadas, cada uma com operação durável, auditoria e smoke real.
 
 ## Definição objetiva de “final”
 

@@ -11,12 +11,15 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 - preservação opaca dos demais campos de `server.properties`, sem publicar senha, seed, endereço ou valores não revisados;
 - seletor de recursos revisados na tela de configurações;
 - bootstrap local com agente, configuração, processo e console conectados à instância Forge detectada.
+- backup cifrado do mundo pelo painel, com lock offline, HMAC, AES-256-GCM, quota e retenção locais;
+- catálogo de backups persistido e restauração mantida explicitamente desativada até existir boot isolado real.
 
 ### Validado
 
 - pacote Windows reaberto com migrações, agente sem falha, configuração OpenLoader legível e gerenciador de mods disponível;
 - boot real do Forge 1.20.1/47.4.4, comando `list-players` e desligamento gracioso concluídos pelo fluxo operacional;
 - parser/aplicador de `server.properties` comprovado apenas em diretório temporário, preservando propriedades opacas e revisão anterior.
+- backup real de 8,7 GiB e 7.642 arquivos promovido, verificado e reencontrado após reiniciar o aplicativo.
 
 ### Bloqueio operacional encontrado
 

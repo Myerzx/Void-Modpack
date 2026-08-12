@@ -66,7 +66,7 @@ Então, no ambiente local, o agente roda **no mesmo processo** da Control API, c
 
 ### 5. Console ao vivo — concluído em 2026-08-09
 
-stdout/stderr agora são capturados continuamente pelo runtime, persistidos pelo agente somente antes da confirmação do lote e lidos pelo painel com tail inicial, cursor, pausa e retenção. O único envio possível continua sendo o catálogo `list-players`/`save-all`. Backup e `artifact.install` continuam deliberadamente ausentes.
+stdout/stderr agora são capturados continuamente pelo runtime, persistidos pelo agente somente antes da confirmação do lote e lidos pelo painel com tail inicial, cursor, pausa e retenção. O único envio possível continua sendo o catálogo `list-players`/`save-all`. `artifact.install` e criação de backup cifrado do mundo foram ligados em recortes posteriores; restore continua deliberadamente ausente.
 
 ---
 
@@ -87,7 +87,7 @@ comando   java -Xms4096M -Xmx8192M -Dfile.encoding=UTF-8 @libraries/.../win_args
 
 ~~**Passo 4 — agente no ambiente local.**~~ **Feito e endurecido em 2026-08-08.** A frota local mantém identidade, claim de job e controlador isolados por `ServerInstance`, continua em loopback e recusa `NODE_ENV=production`.
 
-~~**Passo 5 — console ao vivo.**~~ **Feito em 2026-08-09.** O fluxo completo e o smoke real estão em [PHASE_17_LIVE_CONSOLE.md](PHASE_17_LIVE_CONSOLE.md). Backup e `artifact.install` permanecem em recortes separados.
+~~**Passo 5 — console ao vivo.**~~ **Feito em 2026-08-09.** O fluxo completo e o smoke real estão em [PHASE_17_LIVE_CONSOLE.md](PHASE_17_LIVE_CONSOLE.md). `artifact.install` e [backup local cifrado](PHASE_17_LOCAL_BACKUPS.md) também foram concluídos; restore permanece em recorte separado.
 
 ---
 
