@@ -68,6 +68,13 @@ export default function BackupsPage() {
     ]);
     setRecords(backupPage.backups);
     setProcessState(observed);
+    if (!backupPage.backups.some((record) => record.status === 'creating')) {
+      setNotice((current) =>
+        current?.startsWith('Backup aceito') === true
+          ? 'Backup concluído, cifrado e verificado com sucesso.'
+          : current,
+      );
+    }
     setScreen('ready');
   }, []);
 
@@ -191,7 +198,7 @@ export default function BackupsPage() {
               </span>
             </header>
             {notice === null ? null : (
-              <p className={`banner ${notice.startsWith('Backup aceito') ? 'banner-positive' : 'banner-danger'}`}>
+              <p className={`banner ${notice.startsWith('Backup ') ? 'banner-positive' : 'banner-danger'}`}>
                 {notice}
               </p>
             )}
