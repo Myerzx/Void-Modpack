@@ -152,6 +152,26 @@ describe('instance selector', () => {
     assert.equal(view.selectedId, instance.id);
   });
 
+  it('prefers the runtime detected from disk over unknown registration metadata', () => {
+    const view = buildInstanceSelectorView({
+      session: owner,
+      instances: [
+        {
+          id: instance.id,
+          slug: instance.slug,
+          displayName: instance.displayName,
+          environment: instance.environment,
+          desiredState: instance.desiredState,
+          observedState: instance.observedState,
+          minecraftVersion: 'desconhecida',
+          loader: 'desconhecido',
+          runtime: { family: 'forge' },
+        },
+      ],
+    });
+    assert.equal(view.options[0]?.runtimeLabel, 'forge · runtime detectado');
+  });
+
   it('reports each screen state from the API instead of guessing', () => {
     assert.equal(buildInstanceSelectorView({ session: owner }).screen.state, 'loading');
     assert.equal(

@@ -17,7 +17,7 @@ import {
 } from '../../lib/backup-client';
 import { actionView } from '../../lib/panel-shell';
 import { PanelApiError } from '../../lib/workspace-client';
-import type { ServerInstance } from '../../lib/panel-views';
+import { serverRuntimeLabel, type ServerInstance } from '../../lib/panel-views';
 
 const STATUS_LABEL: Readonly<Record<BackupRecord['status'], string>> = {
   creating: 'Criando',
@@ -165,7 +165,7 @@ export default function BackupsPage() {
             <select value={session.serverId} onChange={(event) => selectServer(event.target.value)}>
               {servers.map((server) => (
                 <option key={server.id} value={server.id}>
-                  {server.displayName} — {server.minecraftVersion} · {server.loader}
+                  {server.displayName} — {serverRuntimeLabel(server)}
                 </option>
               ))}
             </select>

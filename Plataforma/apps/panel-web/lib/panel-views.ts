@@ -27,6 +27,17 @@ export interface ServerInstance {
   readonly loaderVersion?: string;
   readonly desiredState: string;
   readonly observedState: string;
+  readonly runtime?: { readonly family: string } | null;
+}
+
+export function serverRuntimeLabel(instance: ServerInstance): string {
+  const detected = instance.runtime?.family;
+  if (detected !== undefined && instance.minecraftVersion === 'desconhecida') {
+    return `${detected} · runtime detectado`;
+  }
+  return instance.loaderVersion === undefined
+    ? `${instance.minecraftVersion} · ${detected ?? instance.loader}`
+    : `${instance.minecraftVersion} · ${detected ?? instance.loader} ${instance.loaderVersion}`;
 }
 
 export interface InstanceOption {
@@ -95,10 +106,7 @@ export function buildInstanceSelectorView(input: {
       id: instance.id,
       label: instance.displayName,
       environment: instance.environment,
-      runtimeLabel:
-        instance.loaderVersion === undefined
-          ? `${instance.minecraftVersion} · ${instance.loader}`
-          : `${instance.minecraftVersion} · ${instance.loader} ${instance.loaderVersion}`,
+      runtimeLabel: serverRuntimeLabel(instance),
       selected: instance.id === selectedId,
     })),
   };
