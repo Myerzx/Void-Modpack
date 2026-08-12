@@ -146,6 +146,10 @@ export type SandboxErrorCode =
   | 'forge-args-file-not-found'
   | 'sandbox-parent-unusable'
   | 'insufficient-space'
+  | 'restore-root-overlaps-workspace'
+  | 'restored-world-missing'
+  | 'destination-conflict'
+  | 'process-still-running'
   /** The imported server has not accepted the EULA, so neither has the sandbox. */
   | 'eula-not-accepted-in-workspace';
 

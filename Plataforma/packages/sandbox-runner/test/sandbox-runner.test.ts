@@ -15,6 +15,7 @@ import {
   Sandbox,
   SandboxError,
   createProcessSandboxBootRunner,
+  runRestoredWorldBoot,
   type SandboxBootRunner,
 } from '../src/index.js';
 
@@ -280,6 +281,93 @@ describe('disposal', () => {
   });
 });
 
+describe('booting an isolated restored world', () => {
+  it('builds the Forge runtime around the restored copy and never changes the active world', async () => {
+    const { base, workspaceRoot } = await fixture();
+    const restoredRoot = join(base, 'restored-server');
+    await mkdir(join(restoredRoot, 'world'), { recursive: true });
+    await writeFile(join(restoredRoot, 'world', 'level.dat'), 'restored-world');
+    await writeFile(join(workspaceRoot, 'eula.txt'), 'eula=true\n');
+    await writeFile(
+      join(workspaceRoot, 'server.properties'),
+      'server-ip=0.0.0.0\nserver-port=25565\nenable-rcon=true\nrcon.password=secret\n',
+    );
+
+    let bootRoot: string | undefined;
+    const runner: SandboxBootRunner = {
+      async boot({ sandboxRoot }) {
+        bootRoot = sandboxRoot;
+        return { outcome: 'booted', tail: ['Done (12.0s)!'] };
+      },
+    };
+    const evidence = await runRestoredWorldBoot({
+      workspaceRoot,
+      activeWorldRoot: join(workspaceRoot, 'world'),
+      restoredRoot,
+      java: {
+        executable: '/opt/java/bin/java',
+        major: 17,
+        version: '17.0.12',
+        source: 'PATH',
+      },
+      argsFile: 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt',
+      runner,
+    });
+
+    assert.equal(bootRoot, restoredRoot);
+    assert.equal(evidence.report.outcome, 'booted');
+    assert.equal(await readFile(join(restoredRoot, 'world', 'level.dat'), 'utf8'), 'restored-world');
+    assert.equal(await readFile(join(workspaceRoot, 'world', 'level.dat'), 'utf8'), 'precious');
+    assert.equal(await readFile(join(restoredRoot, 'config', 'alpha.toml'), 'utf8'), 'enabled = true\n');
+    assert.equal(await readFile(join(restoredRoot, 'mods', 'alpha.jar'), 'utf8'), 'not really a jar');
+    const properties = await readFile(join(restoredRoot, 'server.properties'), 'utf8');
+    assert.match(properties, /server-ip=127\.0\.0\.1/u);
+    assert.match(properties, /level-name=world/u);
+    assert.match(properties, /max-players=0/u);
+    assert.match(properties, /enable-rcon=false/u);
+    assert.doesNotMatch(properties, /rcon\.password/u);
+  });
+
+  it('refuses an overlapping root and any runtime collision', async () => {
+    const { base, workspaceRoot } = await fixture();
+    await writeFile(join(workspaceRoot, 'eula.txt'), 'eula=true\n');
+    await assert.rejects(
+      runRestoredWorldBoot({
+        workspaceRoot,
+        activeWorldRoot: join(workspaceRoot, 'world'),
+        restoredRoot: join(workspaceRoot, 'restore'),
+      }),
+      (error: unknown) =>
+        error instanceof SandboxError && error.code === 'restore-root-overlaps-workspace',
+    );
+
+    const restoredRoot = join(base, 'restored-conflict');
+    await mkdir(join(restoredRoot, 'world'), { recursive: true });
+    await mkdir(join(restoredRoot, 'config'), { recursive: true });
+    await writeFile(join(restoredRoot, 'world', 'level.dat'), 'restored-world');
+    await writeFile(join(restoredRoot, 'config', 'alpha.toml'), 'unexpected collision');
+    await assert.rejects(
+      runRestoredWorldBoot({
+        workspaceRoot,
+        activeWorldRoot: join(workspaceRoot, 'world'),
+        restoredRoot,
+        java: {
+          executable: '/opt/java/bin/java',
+          major: 17,
+          version: '17.0.12',
+          source: 'PATH',
+        },
+        argsFile: 'libraries/net/minecraftforge/forge/1.20.1-47.4.4/unix_args.txt',
+        runner: scriptedRunner('booted'),
+      }),
+      (error: unknown) =>
+        error instanceof SandboxError &&
+        error.code === 'destination-conflict' &&
+        error.path === 'config/alpha.toml',
+    );
+  });
+});
+
 describe('the runner that actually starts a JVM', () => {
   /** A process handle that behaves the way a spawned server does. */
   class ScriptedProcess implements SpawnedProcess {
@@ -294,6 +382,7 @@ describe('the runner that actually starts a JVM', () => {
         readonly stdoutAfterPolls?: ReadonlyMap<number, string>;
         readonly exitAfterPolls?: number;
         readonly ignoresGracefulStop?: boolean;
+        readonly ignoresForcedTermination?: boolean;
       } = {},
     ) {}
 
@@ -329,7 +418,9 @@ describe('the runner that actually starts a JVM', () => {
 
     async forceTerminate(): Promise<void> {
       this.forcedTerminations += 1;
-      this.#exit = { code: 137, signal: 'SIGKILL', exitedAt: '2026-08-07T12:00:02.000Z' };
+      if (this.script.ignoresForcedTermination !== true) {
+        this.#exit = { code: 137, signal: 'SIGKILL', exitedAt: '2026-08-07T12:00:02.000Z' };
+      }
     }
 
     async waitForExit(): Promise<ProcessExit | undefined> {
@@ -390,6 +481,20 @@ describe('the runner that actually starts a JVM', () => {
     assert.equal(handle.gracefulStops, 1);
     assert.equal(handle.forcedTerminations, 1);
     assert.notEqual(handle.getExit(), undefined);
+  });
+
+  it('surfaces a JVM that survives both stop attempts', async () => {
+    const handle = new ScriptedProcess({
+      ignoresGracefulStop: true,
+      ignoresForcedTermination: true,
+    });
+    await assert.rejects(
+      runnerFor(handle).boot({ sandboxRoot: '/tmp/sbx', timeoutMs: 1_000 }),
+      (error: unknown) =>
+        error instanceof SandboxError && error.code === 'process-still-running',
+    );
+    assert.equal(handle.gracefulStops, 1);
+    assert.equal(handle.forcedTerminations, 1);
   });
 
   it('tells an early exit apart from a slow start', async () => {

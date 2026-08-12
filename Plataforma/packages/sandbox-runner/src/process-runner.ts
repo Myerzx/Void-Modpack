@@ -139,6 +139,7 @@ export function createProcessSandboxBootRunner(
         };
       }
 
+      let result: { readonly outcome: SandboxBootOutcome; readonly tail: readonly string[] };
       try {
         const deadline = clock() + timeoutMs;
         for (;;) {
@@ -147,30 +148,37 @@ export function createProcessSandboxBootRunner(
           if (exit !== undefined) {
             // It ended before it finished loading. That is a distinct answer
             // from "still starting", and the tail is the only actionable part.
-            return {
+            result = {
               outcome: 'exited-early' as SandboxBootOutcome,
               tail: tailOf(output.stdout, output.stderr),
             };
+            break;
           }
           if (BOOT_COMPLETED_PATTERN.test(output.stdout)) {
-            return {
+            result = {
               outcome: 'booted' as SandboxBootOutcome,
               tail: tailOf(output.stdout, output.stderr),
             };
+            break;
           }
           if (clock() >= deadline) {
-            return {
+            result = {
               outcome: 'timed-out' as SandboxBootOutcome,
               tail: tailOf(output.stdout, output.stderr),
             };
+            break;
           }
           await sleep(pollIntervalMs);
         }
       } finally {
         // Every path out of the loop passes through here, including the throw
         // nobody expected. The directory is about to be deleted.
-        await ensureStopped(handle);
+        const disposition = await ensureStopped(handle);
+        if (disposition === 'still-running') {
+          throw new SandboxError('process-still-running');
+        }
       }
+      return result;
     },
   };
 }
