@@ -33,6 +33,16 @@ export interface BackupProcessState {
   readonly observed: boolean;
 }
 
+export interface BackupOperation {
+  readonly operationId: string;
+  readonly kind: 'backup.create' | 'backup.restore' | 'backup.verify-restore';
+  readonly status: 'accepted' | 'running' | 'succeeded' | 'failed' | 'rejected';
+  readonly receipt: null | {
+    readonly outcome: 'succeeded' | 'failed';
+    readonly failureCode: string | null;
+  };
+}
+
 export function listBackups(serverId: string): Promise<BackupPage> {
   return panelRequest(`/api/v1/servers/${encodeURIComponent(serverId)}/backups`);
 }
@@ -57,4 +67,33 @@ export function createWorldBackup(input: {
       reasonCode: 'panel-world-backup',
     },
   });
+}
+
+export function verifyBackupRestore(input: {
+  readonly serverId: string;
+  readonly csrfToken: string;
+  readonly backupId: string;
+}): Promise<BackupOperation> {
+  return panelRequest(
+    `/api/v1/servers/${encodeURIComponent(input.serverId)}/backups/verify-restore`,
+    {
+      method: 'POST',
+      csrfToken: input.csrfToken,
+      body: {
+        schemaVersion: 1,
+        backupId: input.backupId,
+        idempotencyKey: `panel-restore-verification-${globalThis.crypto.randomUUID()}`,
+        reasonCode: 'panel-restore-verification',
+      },
+    },
+  );
+}
+
+export function readBackupOperation(
+  serverId: string,
+  operationId: string,
+): Promise<BackupOperation> {
+  return panelRequest(
+    `/api/v1/servers/${encodeURIComponent(serverId)}/operations/${encodeURIComponent(operationId)}`,
+  );
 }

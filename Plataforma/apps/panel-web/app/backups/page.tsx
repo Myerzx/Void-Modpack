@@ -11,7 +11,9 @@ import {
 import {
   createWorldBackup,
   listBackups,
+  readBackupOperation,
   readBackupProcessState,
+  verifyBackupRestore,
   type BackupProcessState,
   type BackupRecord,
 } from '../../lib/backup-client';
@@ -60,6 +62,10 @@ export default function BackupsPage() {
   );
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [verification, setVerification] = useState<{
+    readonly backupId: string;
+    readonly operationId: string;
+  } | null>(null);
 
   const load = useCallback(async (serverId: string) => {
     const [backupPage, observed] = await Promise.all([
@@ -119,6 +125,10 @@ export default function BackupsPage() {
     () => actionView({ permissions: session?.permissions ?? [] }, 'backup.create'),
     [session],
   );
+  const verifyAction = useMemo(
+    () => actionView({ permissions: session?.permissions ?? [] }, 'backup.verify-restore'),
+    [session],
+  );
   const safeWindow =
     processState?.observed === true && processState.stale === false && processState.lifecycle === 'offline';
 
@@ -127,6 +137,7 @@ export default function BackupsPage() {
     setRecords([]);
     setProcessState(null);
     setNotice(null);
+    setVerification(null);
     setScreen('loading');
     setSession((current) => (current === null ? null : { ...current, serverId }));
   }, []);
@@ -149,6 +160,58 @@ export default function BackupsPage() {
       setPending(false);
     }
   }, [session]);
+
+  const verify = useCallback(
+    async (backupIdToVerify: string) => {
+      if (session === null) return;
+      setPending(true);
+      setNotice(null);
+      try {
+        const operation = await verifyBackupRestore({
+          serverId: session.serverId,
+          csrfToken: session.csrfToken,
+          backupId: backupIdToVerify,
+        });
+        setVerification({ backupId: backupIdToVerify, operationId: operation.operationId });
+        setNotice('Teste de restauração aceito. A cópia isolada está sendo verificada.');
+      } catch (error) {
+        setNotice(
+          error instanceof PanelApiError
+            ? error.message
+            : 'Não foi possível iniciar o teste de restauração.',
+        );
+      } finally {
+        setPending(false);
+      }
+    },
+    [session],
+  );
+
+  useEffect(() => {
+    if (session === null || verification === null) return;
+    let cancelled = false;
+    const observe = async () => {
+      try {
+        const operation = await readBackupOperation(session.serverId, verification.operationId);
+        if (cancelled || operation.status === 'accepted' || operation.status === 'running') return;
+        if (operation.status === 'succeeded') {
+          setNotice('Teste concluído: a cópia restaurada iniciou e foi encerrada com segurança.');
+        } else {
+          const failure = operation.receipt?.failureCode;
+          setNotice(`O teste de restauração falhou${failure === null || failure === undefined ? '.' : `: ${failure}.`}`);
+        }
+        setVerification(null);
+      } catch {
+        if (!cancelled) setNotice('Não foi possível acompanhar o teste de restauração.');
+      }
+    };
+    void observe();
+    const timer = setInterval(() => void observe(), 3_000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [session, verification]);
 
   const content =
     screen === 'signed-out'
@@ -198,7 +261,9 @@ export default function BackupsPage() {
               </span>
             </header>
             {notice === null ? null : (
-              <p className={`banner ${notice.startsWith('Backup ') ? 'banner-positive' : 'banner-danger'}`}>
+              <p
+                className={`banner ${notice.includes('aceito') || notice.includes('concluído') ? 'banner-positive' : 'banner-danger'}`}
+              >
                 {notice}
               </p>
             )}
@@ -207,7 +272,13 @@ export default function BackupsPage() {
                 <button
                   className="primary"
                   type="button"
-                  disabled={!createAction.enabled || !safeWindow || creating || pending}
+                  disabled={
+                    !createAction.enabled ||
+                    !safeWindow ||
+                    creating ||
+                    pending ||
+                    verification !== null
+                  }
                   title={createAction.reason || (!safeWindow ? 'Desligue o servidor e aguarde uma observação atual.' : '')}
                   onClick={() => void create()}
                 >
@@ -230,12 +301,40 @@ export default function BackupsPage() {
             ) : (
               <div className="table-scroll">
                 <table className="table backup-table">
-                  <thead><tr><th>Backup</th><th>Estado</th><th>Criado</th><th>Tamanho</th><th>Arquivos</th><th>Integridade</th></tr></thead>
+                  <thead><tr><th>Backup</th><th>Estado</th><th>Ação</th><th>Criado</th><th>Tamanho</th><th>Arquivos</th><th>Integridade</th></tr></thead>
                   <tbody>
                     {records.map((record) => (
                       <tr key={record.backupId}>
                         <td><strong>{record.backupId}</strong><small>Mundo</small></td>
                         <td><span className={`analysis-status is-${record.status}`}>{STATUS_LABEL[record.status]}</span>{record.failureCode === null ? null : <small>{record.failureCode}</small>}</td>
+                        <td>
+                          {verifyAction.visible && record.status === 'available' ? (
+                            <button
+                              className="secondary"
+                              type="button"
+                              disabled={
+                                !verifyAction.enabled ||
+                                !safeWindow ||
+                                creating ||
+                                pending ||
+                                verification !== null
+                              }
+                              title={
+                                verifyAction.reason ||
+                                (!safeWindow
+                                  ? 'Desligue o servidor e aguarde uma observação atual.'
+                                  : '')
+                              }
+                              onClick={() => void verify(record.backupId)}
+                            >
+                              {verification?.backupId === record.backupId
+                                ? 'Testando…'
+                                : 'Testar restauração'}
+                            </button>
+                          ) : (
+                            '—'
+                          )}
+                        </td>
                         <td>{new Date(record.createdAt).toLocaleString('pt-BR')}</td>
                         <td>{formatBytes(record.sizeBytes)}</td>
                         <td>{record.fileCount?.toLocaleString('pt-BR') ?? '—'}</td>
@@ -249,8 +348,8 @@ export default function BackupsPage() {
           </section>
 
           <p className="banner banner-neutral">
-            Restore continua bloqueado: o fluxo atual materializa uma cópia isolada, mas ainda não
-            inicia essa cópia para provar que ela abre antes de qualquer troca do mundo ativo.
+            O teste acima nunca substitui o mundo ativo. A restauração destrutiva continua bloqueada
+            até existir troca atômica com rollback do mundo substituído.
           </p>
         </>
       ) : null}

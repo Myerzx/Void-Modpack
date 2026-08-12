@@ -23,4 +23,10 @@ describe('desktop responsive shell', () => {
     assert.match(css, /\.table-scroll \{ min-width: 0; overflow-x: auto; \}/u);
     assert.match(css, /\.shell-body \{ width: min\(100%, 1460px\);/u);
   });
+
+  it('keeps the restore rehearsal action visible when backup details collapse', async () => {
+    const css = await readFile(new URL('globals.css', app), 'utf8');
+    assert.match(css, /\.backup-table th:nth-child\(n\+4\)/u);
+    assert.match(css, /\.backup-table td:nth-child\(3\) \{ white-space: nowrap; \}/u);
+  });
 });

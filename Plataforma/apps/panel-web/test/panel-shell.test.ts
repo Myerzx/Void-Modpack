@@ -42,6 +42,7 @@ const owner = session([
   'server.control.stop',
   'console.command',
   'backups.create',
+  'backups.restore',
 ]);
 
 const instance: ServerInstance = {
@@ -89,6 +90,13 @@ describe('action policy', () => {
     assert.equal(view.visible, true);
     assert.equal(view.enabled, true);
     assert.equal(view.reason, '');
+  });
+
+  it('offers only the non-destructive restore rehearsal through the backup screen', () => {
+    const view = actionView(owner, 'backup.verify-restore');
+    assert.equal(view.visible, true);
+    assert.equal(view.enabled, true);
+    assert.equal(actionView(owner, 'backup.restore').visible, false);
   });
 
   it('enables process control and the console now that the agent serves them', () => {

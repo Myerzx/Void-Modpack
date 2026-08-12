@@ -142,6 +142,11 @@ const ACTIONS: Readonly<Record<string, ActionPolicy>> = Object.freeze({
     available: true,
     unavailableReason: '',
   },
+  'backup.verify-restore': {
+    permission: 'backups.restore',
+    available: true,
+    unavailableReason: '',
+  },
   'artifact.install': {
     permission: 'mods.manage',
     available: true,
