@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/CHANGELOG.md": {
-    "mtime": 1786489690.2432773,
-    "ast_hash": "c8adfb86f4bc4a3839adfb7e4b62794d",
+    "mtime": 1786494625.8287082,
+    "ast_hash": "2e7d1cf0520e6c9eb9c248b5e77b7080",
     "semantic_hash": ""
   },
   "docs/plataforma/DATABASE.md": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/ROADMAP.md": {
-    "mtime": 1786489690.2432773,
-    "ast_hash": "cbd6d9efd5376e5829c23572be8f2583",
+    "mtime": 1786494710.926126,
+    "ast_hash": "ac641f82e79d234f56686cb4c0bf6068",
     "semantic_hash": ""
   },
   "docs/plataforma/SECURITY.md": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/package.json": {
-    "mtime": 1786486201.2449055,
-    "ast_hash": "dd0807005c3d1cc5055e5367ecb68472",
+    "mtime": 1786493225.5014462,
+    "ast_hash": "7c015cef1a2fd25e7f8379eb4a813073",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/app.ts": {
@@ -3610,18 +3610,18 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/panel-shell.ts": {
-    "mtime": 1786486823.3504636,
-    "ast_hash": "c0c0154ff2d0ec8affa4b5a041b663f0",
+    "mtime": 1786493623.3784025,
+    "ast_hash": "cf29d1b83f5a5baccb5a7663b804332b",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/lib/panel-views.ts": {
-    "mtime": 1786253976.2851195,
-    "ast_hash": "e78d69488b6ca47eeefcd4ad3e8d794a",
+    "mtime": 1786493980.9440818,
+    "ast_hash": "4250902e58efbb1d5477c48a4f3afdf8",
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/test/panel-shell.test.ts": {
-    "mtime": 1786486839.1426592,
-    "ast_hash": "3f1dcd5e395ba5c3ccd18e59596b1e04",
+    "mtime": 1786494000.342983,
+    "ast_hash": "c231b9c382de7a9555a09269b3c64454",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_9_DYNAMIC_PANEL.md": {
@@ -3935,18 +3935,18 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/readiness.ts": {
-    "mtime": 1786486602.4649472,
-    "ast_hash": "86244d27ea0801fb494d2cbbf85cee59",
+    "mtime": 1786493137.6617668,
+    "ast_hash": "73cb5325c21290c40ee74fa8375e6dff",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime-config.ts": {
-    "mtime": 1786173075.6001687,
-    "ast_hash": "1318edccfac812537d3676c8d528bc65",
+    "mtime": 1786493137.660748,
+    "ast_hash": "6e287cfb50c49c1a4e92ae8ec259010e",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/runtime.ts": {
-    "mtime": 1786486602.4649472,
-    "ast_hash": "99e569bfe1f71d02446b07f8572476a7",
+    "mtime": 1786493137.6617668,
+    "ast_hash": "11749f081bd45ba466673460baed7e8c",
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/src/scheduler-loop.ts": {
@@ -3960,8 +3960,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/server-agent/test/runtime.test.ts": {
-    "mtime": 1786487184.159266,
-    "ast_hash": "ef04f86c40e80cd82390989a2e50294a",
+    "mtime": 1786493275.4898264,
+    "ast_hash": "3f79d2d9fe2568ab258c7ebe2672556f",
     "semantic_hash": ""
   },
   "docs/plataforma/PHASE_11_OPERATIONAL_ENTRY_GATE.md": {
@@ -4510,8 +4510,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local.ts": {
-    "mtime": 1786486617.5300145,
-    "ast_hash": "34dc7f2a45b2cb3f8c2a93a5ff61bdca",
+    "mtime": 1786493225.5001056,
+    "ast_hash": "2ba0325dbe2961212b436516ef5294b0",
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/static-panel.ts": {
@@ -4585,8 +4585,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/panel-web/app/components/shell.tsx": {
-    "mtime": 1786422493.1171596,
-    "ast_hash": "c231958f00e1d32e0fb96cc7bfbdd34b",
+    "mtime": 1786493500.41584,
+    "ast_hash": "86c63494d7c697f7379136ab240c2897",
     "semantic_hash": ""
   },
   "docs/plataforma/DECISIONS/ADR-016-painel-como-gerenciador-completo.md": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/PLANO_INICIAR_SERVIDOR.md": {
-    "mtime": 1786256198.794153,
-    "ast_hash": "5ded7e020caf344098096e088e9d6489",
+    "mtime": 1786494625.827201,
+    "ast_hash": "bc49192a69b1d9eb72a331675dc49213",
     "semantic_hash": ""
   },
   ".vscode/launch.json": {
@@ -4655,8 +4655,8 @@
     "semantic_hash": ""
   },
   "Plataforma/apps/control-api/src/local-agent.ts": {
-    "mtime": 1786486617.5305734,
-    "ast_hash": "ee5604e891c4aa0e2ebe0d7e7a37bb0d",
+    "mtime": 1786493225.5001056,
+    "ast_hash": "7881904bf190397dbd83b6171ce038e2",
     "semantic_hash": ""
   },
   "Plataforma/packages/database/migrations/0021_capability_grants_catch_up.sql": {
@@ -5115,8 +5115,8 @@
     "semantic_hash": ""
   },
   "docs/plataforma/FINAL_PRODUCT_GAP_ANALYSIS.md": {
-    "mtime": 1786423177.3539019,
-    "ast_hash": "4c375b89165008eaef7d4c97126a83af",
+    "mtime": 1786494625.8287082,
+    "ast_hash": "cc49f9d2d9073568c0eaa0dd1102bdd1",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260811_045036_ok_agora_preciso_que_termine_o_programa__deixa_ele.md": {
@@ -5182,6 +5182,31 @@
   "docs/plataforma/PHASE_18_SERVER_PROPERTIES_SECURITY.md": {
     "mtime": 1786489690.2417698,
     "ast_hash": "544107fa4896b002301a7a90cff6c092",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/src/local-backup.ts": {
+    "mtime": 1786493583.6961603,
+    "ast_hash": "423cc39c727d355773a7211f4f953222",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/control-api/test/local-backup.test.ts": {
+    "mtime": 1786493225.4985986,
+    "ast_hash": "dae212588859c999fbb2235b02a2dc7f",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/app/backups/page.tsx": {
+    "mtime": 1786494301.6131456,
+    "ast_hash": "aba9843560802898a55008b0080b5c33",
+    "semantic_hash": ""
+  },
+  "Plataforma/apps/panel-web/lib/backup-client.ts": {
+    "mtime": 1786493493.7431746,
+    "ast_hash": "c4fb5b5864f8bee50638279381374606",
+    "semantic_hash": ""
+  },
+  "docs/plataforma/PHASE_17_LOCAL_BACKUPS.md": {
+    "mtime": 1786494625.825693,
+    "ast_hash": "6ab8f2d8878b0bf96b9bf87b0586cca0",
     "semantic_hash": ""
   }
 }
