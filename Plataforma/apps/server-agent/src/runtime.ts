@@ -241,6 +241,15 @@ export class AgentRuntime {
             ...(configuration.backups.encryptionKey === null
               ? {}
               : { encryptionKey: configuration.backups.encryptionKey }),
+            ...(configuration.backups.limits === undefined
+              ? {}
+              : { limits: configuration.backups.limits }),
+            ...(configuration.backups.quota === undefined
+              ? {}
+              : { quota: configuration.backups.quota }),
+            ...(configuration.backups.retentionPolicy === undefined
+              ? {}
+              : { retentionPolicy: configuration.backups.retentionPolicy }),
             ...(dependencies.clock === undefined ? {} : { clock: dependencies.clock }),
           });
 
@@ -258,6 +267,7 @@ export class AgentRuntime {
       hasDatapackLoadOrderGuard: dependencies.processAdapter !== undefined,
       hasDatapackLoadOrderCapability: this.#datapackLoadOrderCapability !== null,
       hasBackupService: this.#backupService !== null,
+      backupRestoreEnabled: configuration.backups?.restoreEnabled !== false,
       hasProcessController: dependencies.processController !== undefined,
       hasConsoleAdapter: dependencies.consoleAdapter !== undefined,
     };

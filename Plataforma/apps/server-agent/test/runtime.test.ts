@@ -943,8 +943,12 @@ describe('a host that actually launches a server', () => {
     }
   }
 
-  function withProcess(context: Awaited<ReturnType<typeof fixture>>) {
+  function withProcess(
+    context: Awaited<ReturnType<typeof fixture>>,
+    options: { readonly restoreEnabled?: boolean } = {},
+  ) {
     const adapter = new OfflineAdapter();
+    const loaded = loadAgentConfiguration(context.environment);
     const launchPlan = createMinecraftProcessPlan({
       platform: process.platform === 'win32' ? 'win32' : 'linux',
       // Built from the platform's own temp root, so the plan is absolute on the
@@ -956,6 +960,14 @@ describe('a host that actually launches a server', () => {
       maximumMemoryMiB: 2_048,
     });
     return runtimeFor(context, {
+      ...(options.restoreEnabled === undefined || loaded.backups === null
+        ? {}
+        : {
+            configuration: {
+              ...loaded,
+              backups: { ...loaded.backups, restoreEnabled: options.restoreEnabled },
+            },
+          }),
       processController: new MinecraftProcessController({ adapter, launchPlan }),
       consoleAdapter: adapter,
       processAdapter: adapter,
@@ -985,6 +997,19 @@ describe('a host that actually launches a server', () => {
     assert.equal(
       runtime.readiness.capabilities.find((entry) => entry.capability === 'process.force-kill')
         ?.reason,
+      'deliberately-disabled',
+    );
+  });
+
+  it('keeps restore disabled when the trusted deployment authorizes copies only', async () => {
+    const context = await fixture({ withBackups: true, withFiles: true });
+    const { runtime } = withProcess(context, { restoreEnabled: false });
+
+    assert.ok(runtime.readiness.announced.includes('backup.create'));
+    assert.equal(runtime.readiness.announced.includes('backup.restore'), false);
+    assert.equal(runtime.handlers['backup.restore'], undefined);
+    assert.equal(
+      runtime.readiness.capabilities.find((entry) => entry.capability === 'backup.restore')?.reason,
       'deliberately-disabled',
     );
   });

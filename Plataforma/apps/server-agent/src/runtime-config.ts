@@ -1,6 +1,8 @@
 import { createPrivateKey } from 'node:crypto';
 import { isAbsolute, resolve } from 'node:path';
 
+import type { BackupLimits, BackupQuota, RetentionPolicy } from '@voidfall/server-backup';
+
 /**
  * The agent's startup configuration.
  *
@@ -92,6 +94,16 @@ export interface BackupConfiguration {
   readonly worldSourcePath: string;
   readonly sealKey: { readonly keyId: string; readonly secret: Uint8Array };
   readonly encryptionKey: { readonly keyId: string; readonly secret: Uint8Array } | null;
+  /**
+   * Restore is a separate authority from taking a copy. Local deployments may
+   * keep it disabled until they have a controller that boots the restored
+   * directory itself rather than the active world.
+   */
+  readonly restoreEnabled?: boolean;
+  /** Optional local safety bounds; absent keeps the service defaults. */
+  readonly limits?: Partial<BackupLimits>;
+  readonly quota?: BackupQuota;
+  readonly retentionPolicy?: RetentionPolicy;
 }
 
 /**

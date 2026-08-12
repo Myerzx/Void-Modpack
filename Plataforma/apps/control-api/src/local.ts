@@ -31,6 +31,7 @@ import {
   registerLocalAgent,
 } from './local-agent.js';
 import { LocalAgentFleet } from './local-agent-fleet.js';
+import { provisionLocalBackup } from './local-backup.js';
 import {
   LocalConfigurationReaders,
   provisionLocalConfiguration,
@@ -448,6 +449,10 @@ export async function main(
               actorId: ownerUser.id,
               guard: configurationGuard,
             });
+      const localBackup =
+        processRuntime === null
+          ? null
+          : await provisionLocalBackup({ instance, stateDirectory });
       if (localConfiguration === null) configurationReaders.unregister(instance.id);
       else configurationReaders.register(instance.id, localConfiguration.reader);
       const agent = new AgentRuntime({
@@ -460,7 +465,7 @@ export async function main(
           serverRelease: '0.1.0',
           metricsDiskPath: instance.runDirectory,
           authorizedFiles: localConfiguration?.authorizedFiles ?? null,
-          backups: null,
+          backups: localBackup,
           process: null,
           schedulerEnabled: false,
         },

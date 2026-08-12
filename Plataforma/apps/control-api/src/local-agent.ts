@@ -195,7 +195,7 @@ export async function registerLocalAgent(input: {
         // rather than pretending a certificate was presented.
         certificateFingerprint: sha256Hex(input.identity.publicKeyPem),
         softwareVersion: input.softwareVersion,
-        capabilities: ['heartbeat', 'configuration.apply', 'artifact.install'],
+        capabilities: ['heartbeat', 'configuration.apply', 'artifact.install', 'backup.create'],
       }),
     });
     if (!response.ok) {
@@ -239,6 +239,7 @@ export async function registerLocalAgent(input: {
     'artifact.install',
     'process.control',
     'console.command',
+    'backup.create',
   ] as const) {
     await repositories.agentTransport.grantCapability({
       agentId: input.identity.agentId,

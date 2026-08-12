@@ -65,6 +65,8 @@ export interface RuntimeDependencies {
   readonly hasDatapackLoadOrderGuard: boolean;
   readonly hasDatapackLoadOrderCapability: boolean;
   readonly hasBackupService: boolean;
+  /** A trusted deployment explicitly enabled destructive restore. */
+  readonly backupRestoreEnabled: boolean;
   readonly hasProcessController: boolean;
   readonly hasConsoleAdapter: boolean;
 }
@@ -143,6 +145,7 @@ function missingDependency(
     case 'backup.create':
       return dependencies.hasBackupService ? null : 'no-backup-repository-configured';
     case 'backup.restore':
+      if (!dependencies.backupRestoreEnabled) return 'deliberately-disabled';
       // Restoring materialises a world and then boots it to verify. Without a
       // controller the verification cannot run, and an unverified restore is
       // one nobody knows the outcome of — so the capability stays unavailable
