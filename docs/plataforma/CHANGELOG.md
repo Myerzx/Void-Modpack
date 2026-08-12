@@ -14,12 +14,14 @@ Todas as mudanças relevantes de planejamento e, futuramente, implementação se
 ### Corrigido
 
 - ordem do gate: `npm run check` passou a construir tudo antes de conferir tipos. A ordem anterior conferia tipos antes de construir os apps, então `apps/*/dist` não existia em checkout limpo e a CI falhava com `TS2307` onde o local passava;
-- quatro mensagens de erro da rota de verificação de restore gravadas em UTF-8 duplo, que chegavam ao painel com todos os acentos corrompidos.
+- quatro mensagens de erro da rota de verificação de restore gravadas em UTF-8 duplo, que chegavam ao painel com todos os acentos corrompidos;
+- instalação de artefato que comparava a grafia da raiz do servidor com seu `realpath` e recusava uma raiz alcançada por alias canônico, como o caminho curto 8.3 que o Windows devolve; a comparação passou a ser por dispositivo e inode.
 
 ### Validado
 
 - gate completo executado depois de apagar os 31 diretórios `dist` de pacotes e apps, reproduzindo a condição de checkout limpo da CI: 1.027 casos descobertos, 1.025 executados no Windows, dois sockets Unix ignorados, zero falhas, zero erros de tipo e código de saída 0;
-- `control-api` passou o `typecheck` nessa condição, que era exatamente o passo em que a CI falhava.
+- `control-api` passou o `typecheck` nessa condição, que era exatamente o passo em que a CI falhava;
+- matriz CI aprovada em `ubuntu-latest` e `windows-latest` na [execução 31566010444](https://github.com/Myerzx/Void-Modpack/actions/runs/31566010444), a primeira verde desde 2026-08-05.
 
 ### Bloqueio encontrado
 
