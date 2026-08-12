@@ -43,6 +43,9 @@ export const AgentCapabilitySchema = Type.Union([
   // Backup and restore are separate capabilities. An agent trusted to copy a
   // world is not thereby trusted to overwrite one with an older copy.
   Type.Literal('backup.create'),
+  // A restore rehearsal may materialise and boot a private copy, but cannot
+  // replace the active world. It therefore carries less authority than restore.
+  Type.Literal('backup.verify-restore'),
   Type.Literal('backup.restore'),
   Type.Literal('datapack-load-order.observe'),
 ]);
@@ -217,6 +220,7 @@ const CAPABILITY_JOB_TYPES: Readonly<Record<AgentCapability, readonly string[]>>
   // access never rides along with process control.
   'console.command': ['server.command'],
   'backup.create': ['backup.create'],
+  'backup.verify-restore': ['backup.verify-restore'],
   // Restoring replaces a live world with an older one. Taking a backup must
   // never imply the authority to undo one.
   'backup.restore': ['backup.restore'],

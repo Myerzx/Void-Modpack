@@ -23,6 +23,7 @@ import {
   BackupRecordSchema,
   CreateBackupRequestSchema,
   RestoreBackupRequestSchema,
+  VerifyBackupRestoreRequestSchema,
 } from './backup-operation.js';
 import {
   AuthorizedFileDiffRequestSchema,
@@ -120,6 +121,7 @@ const schemas = [
   ['backup-record.schema.json', BackupRecordSchema],
   ['create-backup-request.schema.json', CreateBackupRequestSchema],
   ['restore-backup-request.schema.json', RestoreBackupRequestSchema],
+  ['verify-backup-restore-request.schema.json', VerifyBackupRestoreRequestSchema],
   ['authorized-file-diff-request.schema.json', AuthorizedFileDiffRequestSchema],
   ['authorized-file-diff-response.schema.json', AuthorizedFileDiffResponseSchema],
   ['authorized-file-mutation-receipt.schema.json', AuthorizedFileMutationReceiptSchema],

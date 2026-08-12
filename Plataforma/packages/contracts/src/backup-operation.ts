@@ -92,6 +92,26 @@ export const RestoreBackupRequestSchema = Type.Object(
   },
 );
 
+/**
+ * A non-destructive recovery rehearsal.
+ *
+ * It restores into a new private root, composes the Forge runtime around that
+ * copy, boots it on loopback and stops it. No acknowledgement of data loss is
+ * present because this request has no authority to replace the active world.
+ */
+export const VerifyBackupRestoreRequestSchema = Type.Object(
+  {
+    schemaVersion: ContractSchemaVersion,
+    backupId: BackupIdSchema,
+    idempotencyKey: BackupIdempotencyKeySchema,
+    reasonCode: BackupReasonCodeSchema,
+  },
+  {
+    $id: 'https://schemas.voidfall.invalid/v1/verify-backup-restore-request.schema.json',
+    additionalProperties: false,
+  },
+);
+
 /** What the control plane knows about a stored backup. */
 export const BackupRecordSchema = Type.Object(
   {
@@ -144,6 +164,7 @@ export const BackupPageSchema = Type.Object(
 export type BackupScopeContract = Static<typeof BackupScopeSchema>;
 export type CreateBackupRequestContract = Static<typeof CreateBackupRequestSchema>;
 export type RestoreBackupRequestContract = Static<typeof RestoreBackupRequestSchema>;
+export type VerifyBackupRestoreRequestContract = Static<typeof VerifyBackupRestoreRequestSchema>;
 export type BackupRecordContract = Static<typeof BackupRecordSchema>;
 export type BackupPageContract = Static<typeof BackupPageSchema>;
 
@@ -157,6 +178,12 @@ export function validateRestoreBackupRequest(
   value: unknown,
 ): ContractValidationResult<RestoreBackupRequestContract> {
   return validateContract(RestoreBackupRequestSchema, value);
+}
+
+export function validateVerifyBackupRestoreRequest(
+  value: unknown,
+): ContractValidationResult<VerifyBackupRestoreRequestContract> {
+  return validateContract(VerifyBackupRestoreRequestSchema, value);
 }
 
 export function validateBackupRecord(

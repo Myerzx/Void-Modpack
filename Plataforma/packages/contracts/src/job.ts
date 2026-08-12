@@ -24,6 +24,7 @@ export const JobSchema = Type.Object(
       Type.Literal('modpack.build'),
       Type.Literal('backup.create'),
       Type.Literal('backup.restore'),
+      Type.Literal('backup.verify-restore'),
       Type.Literal('server.start'),
       Type.Literal('server.stop'),
       Type.Literal('server.restart'),

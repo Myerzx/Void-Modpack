@@ -47,6 +47,7 @@ import {
   validateForgeBuildRequest,
   validateInventorySnapshot,
   validateJob,
+  validateVerifyBackupRestoreRequest,
   validateLauncherChannel,
   validateLauncherManagedState,
   validateMinecraftPermissionBinding,
@@ -65,6 +66,29 @@ const otherUuid = '018f6b8c-76a3-7d10-9f2e-1d9e52a63702';
 const hashA = 'a'.repeat(64);
 const hashB = 'b'.repeat(64);
 const signature = 'A'.repeat(86);
+
+describe('restore verification request', () => {
+  const request = {
+    schemaVersion: 1,
+    backupId: 'backup-0001',
+    idempotencyKey: 'restore-verification-0001',
+    reasonCode: 'operator-rehearsal',
+  };
+
+  it('carries only the backup identity and refuses destructive/path fields', () => {
+    assert.equal(validateVerifyBackupRestoreRequest(request).success, true);
+    assert.equal(
+      validateVerifyBackupRestoreRequest({ ...request, restoredRoot: 'H:/restore' }).success,
+      false,
+    );
+    assert.equal(
+      validateVerifyBackupRestoreRequest({ ...request, acknowledgesDataLoss: true }).success,
+      false,
+    );
+    assert.equal(capabilityServesJobType('backup.verify-restore', 'backup.verify-restore'), true);
+    assert.equal(validateJob({ ...validJob(), type: 'backup.verify-restore' }).success, true);
+  });
+});
 
 function validJob(): Record<string, unknown> {
   return {
@@ -2091,6 +2115,12 @@ describe('ServerOperation', () => {
     assert.equal(
       validateServerOperation(validOperation({ kind: 'backup.restore', backupId: 'backup-0001' }))
         .success,
+      true,
+    );
+    assert.equal(
+      validateServerOperation(
+        validOperation({ kind: 'backup.verify-restore', backupId: 'backup-0001' }),
+      ).success,
       true,
     );
   });

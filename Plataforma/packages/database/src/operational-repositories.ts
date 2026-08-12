@@ -140,6 +140,7 @@ export function operationRequestFingerprint(input: {
   readonly kind: ServerOperationKind;
   readonly requestedBy: ActorRef;
   readonly reasonCode: string;
+  readonly backupId?: string;
   readonly artifactSubmissionId?: string;
 }): string {
   return sha256Hex(
@@ -148,6 +149,7 @@ export function operationRequestFingerprint(input: {
       kind: input.kind,
       requestedBy: input.requestedBy,
       reasonCode: input.reasonCode,
+      ...(input.backupId === undefined ? {} : { backupId: input.backupId }),
       ...(input.artifactSubmissionId === undefined
         ? {}
         : { artifactSubmissionId: input.artifactSubmissionId }),

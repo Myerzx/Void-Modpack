@@ -71,6 +71,7 @@ describe('PostgreSQL foundation', () => {
         '0029_datapack_load_order_control_api.sql',
         '0030_artifact_installation.sql',
         '0031_artifact_install_capability.sql',
+        '0032_backup_restore_verification.sql',
       ]);
       assert.deepEqual(await runMigrations(database), []);
       const repositories = createRepositories(database);

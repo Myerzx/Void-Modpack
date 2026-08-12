@@ -41,6 +41,7 @@ export const ServerOperationKindSchema = Type.Union([
   // distinction that matters: taking a copy is safe, putting one back destroys
   // everything the world became since.
   Type.Literal('backup.restore'),
+  Type.Literal('backup.verify-restore'),
   Type.Literal('backup.create'),
   Type.Literal('configuration.apply'),
   Type.Literal('configuration.rollback'),
@@ -331,7 +332,10 @@ export function validateServerOperation(
     }
   }
   // A command belongs to a console operation and to nothing else.
-  const isBackupKind = operation.kind === 'backup.create' || operation.kind === 'backup.restore';
+  const isBackupKind =
+    operation.kind === 'backup.create' ||
+    operation.kind === 'backup.restore' ||
+    operation.kind === 'backup.verify-restore';
   if (isBackupKind !== (operation.backupId !== null)) {
     issues.push(semanticIssue('/backupId', 'only a backup operation names a backup'));
   }
